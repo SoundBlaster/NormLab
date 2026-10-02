@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { isCurrentAnalysis } from '../shared/current.js';
+import { Lab } from './lab/Lab.js';
 import type {
   Analysis,
   Bootstrap,
@@ -26,8 +27,9 @@ const time = (value: string) =>
     minute: '2-digit',
   });
 const initial: SnapshotInput = { narrative: '', finding: 'unreviewed', rationale: '' };
-type Tab = 'workspace' | 'bundles' | 'comparison' | 'history';
+type Tab = 'lab' | 'workspace' | 'bundles' | 'comparison' | 'history';
 const tabs: { id: Tab; label: string; symbol: string }[] = [
+  { id: 'lab', label: 'Реформа A/B/C', symbol: '⇄' },
   { id: 'workspace', label: 'Рабочая область', symbol: '◫' },
   { id: 'bundles', label: 'Пакеты норм', symbol: '▤' },
   { id: 'comparison', label: 'Сравнение редакций', symbol: '⇄' },
@@ -63,7 +65,7 @@ function Hash({ label, value }: { label: string; value: string | null }) {
 
 export function App() {
   const [data, setData] = useState<Bootstrap | null>(null);
-  const [tab, setTab] = useState<Tab>('workspace');
+  const [tab, setTab] = useState<Tab>('lab');
   const [selectedId, setSelectedId] = useState('');
   const [bundleId, setBundleId] = useState<Bundle['id']>('reduction-v1');
   const [form, setForm] = useState<SnapshotInput>(initial);
@@ -249,27 +251,33 @@ export function App() {
               <div className="page-heading">
                 <div>
                   <span className="eyebrow">
-                    {tab === 'workspace'
-                      ? 'ЭКСПЕРИМЕНТ 001 / УСЛОВНОЕ ПРЕОБРАЗОВАНИЕ'
-                      : 'ИССЛЕДОВАТЕЛЬСКАЯ ЛАБОРАТОРИЯ'}
+                    {tab === 'lab'
+                      ? 'ЭКСПЕРИМЕНТ 002 / ОБЩИЕ ПРАВИЛА СМЯГЧЕНИЯ'
+                      : tab === 'workspace'
+                        ? 'ЭКСПЕРИМЕНТ 001 / УСЛОВНОЕ ПРЕОБРАЗОВАНИЕ'
+                        : 'ИССЛЕДОВАТЕЛЬСКАЯ ЛАБОРАТОРИЯ'}
                   </span>
                   <h1>
-                    {tab === 'workspace'
-                      ? 'От обстоятельств к выводу.'
-                      : tab === 'bundles'
-                        ? 'Нормы с явной семантикой.'
-                        : tab === 'comparison'
-                          ? 'Что меняет новая редакция?'
-                          : 'Каждое изменение сохраняется.'}
+                    {tab === 'lab'
+                      ? 'Сравнивать правила. Проверять изменения.'
+                      : tab === 'workspace'
+                        ? 'От обстоятельств к выводу.'
+                        : tab === 'bundles'
+                          ? 'Нормы с явной семантикой.'
+                          : tab === 'comparison'
+                            ? 'Что меняет новая редакция?'
+                            : 'Каждое изменение сохраняется.'}
                   </h1>
                   <p>
-                    {tab === 'workspace'
-                      ? 'Установите условие, примените норму и проверьте результат.'
-                      : tab === 'bundles'
-                        ? 'Декларативные правила, точные версии и прослеживаемое происхождение.'
-                        : tab === 'comparison'
-                          ? 'Один домен случаев. Две модели. Наблюдаемые различия.'
-                          : 'Выберите снимок, чтобы открыть его входы, результат и квитанцию.'}
+                    {tab === 'lab'
+                      ? 'Один snapshot. Три модели. Явные последствия и границы проверки.'
+                      : tab === 'workspace'
+                        ? 'Установите условие, примените норму и проверьте результат.'
+                        : tab === 'bundles'
+                          ? 'Декларативные правила, точные версии и прослеживаемое происхождение.'
+                          : tab === 'comparison'
+                            ? 'Один домен случаев. Две модели. Наблюдаемые различия.'
+                            : 'Выберите снимок, чтобы открыть его входы, результат и квитанцию.'}
                   </p>
                 </div>
                 <div className="hero-symbol" aria-hidden="true">
@@ -283,6 +291,9 @@ export function App() {
               )}
               <div role="status" aria-live="polite">
                 {notice && <div className="message">{notice}</div>}
+              </div>
+              <div hidden={tab !== 'lab'}>
+                <Lab />
               </div>
               {tab === 'workspace' && (
                 <>

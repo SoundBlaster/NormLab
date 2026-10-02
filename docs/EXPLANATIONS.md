@@ -1,6 +1,6 @@
 # Deterministic explanations v1
 
-Дата: 2026-10-02. **NL-406 выполнен для core/CLI** профиля `demo.reform-mitigation/v1`. HTTP, SQLite и React UI сохраняют M0/v1; их интеграция остаётся NL-502.
+Дата: 2026-10-02. **NL-406 выполнен для core/CLI** профиля `demo.reform-mitigation/v1`. Последующий [NL-502](LABORATORY_UI.md) подключает explanations к локальным HTTP/SQLite/React UI рядом с M0/v1; свидетельства NL-406 ниже сохраняют исходную область.
 
 ## Что получает пользователь
 
@@ -51,7 +51,7 @@ Source sections извлекаются из точного locked text, от `##
 
 Sidecar **не подписан receipt** и не изменяет `normlab.reform-export/v1`. При импорте нельзя доверять его `current`/proof fields без повторной проверки. Точный исходный export и отдельно выбранный trusted public key остаются необходимыми входами. Markdown — представление данных; standalone Markdown не является переносимым proof artifact.
 
-Новые Zod schemas живут в explanation module; существующие десять generated JSON schemas v2 сохраняются. Report parsing ограничен 512 KiB. Общий CLI reader использует file descriptor, bounded buffer и strict UTF-8 decode; key limit — 16 KiB. Source excerpts выводятся как indented code, rationale/assumptions — как escaped literal text. Реальная browser/DOM проверка будущего UI относится к NL-502.
+Новые Zod schemas живут в explanation module; существующие десять generated JSON schemas v2 сохраняются. Report parsing ограничен 512 KiB. Общий CLI reader использует file descriptor, bounded buffer и strict UTF-8 decode; key limit — 16 KiB. Source excerpts выводятся как indented code, rationale/assumptions — как escaped literal text. Отдельные свидетельства browser/DOM проверки UI приведены в [NL-502](LABORATORY_UI.md).
 
 ## Команды
 
@@ -77,4 +77,4 @@ npm run reform:explain -- <run>/C-conditional-exclusion.json --issuer-key <run>/
 - Реальный CLI выпускает JSON/Markdown, проверяет sidecar, сохраняет output без перезаписи и отклоняет invalid trust/data. Все прежние M0/v2 Lean checks сохранены.
 - TypeScript strict, production build, schema freshness и formatting проходят. Demo предъявляет 12 локальных exports с explanations; отдельный CLI replay проверяет сохранённые sidecars.
 
-[NL-108](METRICS.md) реализует separate structure, decision и consequence-change metrics для core/CLI. Следующий этап — NL-502: v2 storage/HTTP/UI и полный пользовательский A/B/C flow.
+[NL-108](METRICS.md) реализует separate structure, decision и consequence-change metrics для core/CLI. [NL-502](LABORATORY_UI.md) предоставляет пользовательский A/B/C flow, branch selector, ledger, source sections и загрузку explanation после fresh replay. Этот локальный срез использует reviewed synthetic fixtures; импорт произвольных packages не добавлен.

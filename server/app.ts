@@ -15,6 +15,7 @@ import { ReceiptSigner, verifyReceipt } from './receipts.js';
 import { Conflict, Store } from './store.js';
 import { discoverLean, verifyCertificate } from './verifier.js';
 import { isCurrentAnalysis } from '../shared/current.js';
+import { LabHttpError, ReformLab } from './reform-lab.js';
 
 class HttpError extends Error {
   constructor(
@@ -24,7 +25,7 @@ class HttpError extends Error {
     super(message);
   }
 }
-async function readBody(req: IncomingMessage): Promise<unknown> {
+async function readBody(req: IncomingMessage, limit = 32768): Promise<unknown> {
   if (!req.headers['content-type']?.startsWith('application/json'))
     throw new HttpError(415, 'Ожидается application/json.');
   const chunks: Buffer[] = [];
@@ -32,11 +33,11 @@ async function readBody(req: IncomingMessage): Promise<unknown> {
   for await (const chunk of req) {
     const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
     bytes += buffer.length;
-    if (bytes > 32768) throw new HttpError(413, 'Слишком большой запрос.');
+    if (bytes > limit) throw new HttpError(413, 'Слишком большой запрос.');
     chunks.push(buffer);
   }
   try {
-    return JSON.parse(Buffer.concat(chunks).toString('utf8'));
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(Buffer.concat(chunks)));
   } catch {
     throw new HttpError(400, 'Некорректный JSON.');
   }
@@ -61,6 +62,7 @@ export async function createApp(options: { dataDir: string; production?: boolean
   const signer = new ReceiptSigner(options.dataDir);
   const csrfToken = randomBytes(32).toString('hex');
   const running = new Map<string, Promise<Analysis>>();
+  const lab = new ReformLab(options.dataDir, () => running.size);
   const vite =
     options.web !== false && !options.production
       ? await (
@@ -86,6 +88,19 @@ export async function createApp(options: { dataDir: string; production?: boolean
       if (path.startsWith('/api/')) {
         if (req.method === 'POST' && req.headers['x-normlab-token'] !== csrfToken)
           throw new HttpError(403, 'Обновите страницу: локальная сессия изменилась.');
+        if (path.startsWith('/api/reform/')) {
+          const result = await lab.handle(
+            req.method ?? 'GET',
+            path,
+            req.method === 'POST' ? await readBody(req, 65536) : undefined,
+            csrfToken,
+          );
+          if (!result) throw new HttpError(404, 'API route A/B/C не найден.');
+          if (result.filename)
+            res.setHeader('Content-Disposition', `attachment; filename="${result.filename}"`);
+          send(res, result.status, result.body);
+          return;
+        }
         if (req.method === 'GET' && path === '/api/bootstrap') {
           const lean = await discoverLean();
           const data: Bootstrap = {
@@ -129,7 +144,7 @@ export async function createApp(options: { dataDir: string; production?: boolean
           const key = `${snapshot.digest}:${bundle.semanticDigest}:${bundle.provenanceDigest}`;
           let job = running.get(key);
           if (!job) {
-            if (running.size >= 2)
+            if (running.size + lab.activeJobs >= 2)
               throw new HttpError(
                 429,
                 'Две проверки уже выполняются. Повторите через несколько секунд.',
@@ -232,7 +247,8 @@ export async function createApp(options: { dataDir: string; production?: boolean
       if (error instanceof z.ZodError)
         send(res, 400, { error: error.issues[0]?.message ?? 'Некорректные данные.' });
       else if (error instanceof Conflict) send(res, 409, { error: error.message });
-      else if (error instanceof HttpError) send(res, error.status, { error: error.message });
+      else if (error instanceof HttpError || error instanceof LabHttpError)
+        send(res, error.status, { error: error.message });
       else {
         console.error(error instanceof Error ? error.message : 'Server error');
         send(res, 500, {
@@ -245,8 +261,10 @@ export async function createApp(options: { dataDir: string; production?: boolean
   return {
     server,
     store,
+    lab,
     async close() {
       await Promise.allSettled([...running.values()]);
+      await lab.close();
       await vite?.close();
       if (server.listening)
         await new Promise<void>((resolveClose, reject) =>

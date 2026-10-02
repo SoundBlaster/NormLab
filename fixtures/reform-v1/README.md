@@ -1,6 +1,6 @@
 # Reform fixture v0.1.0
 
-Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; producer-tested; Lean-decision/comparison-verified; core/CLI-explanations-and-metrics; not-HTTP-integrated**.
+Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; producer-tested; Lean-decision/comparison-verified; core/CLI-explanations-and-metrics; local-HTTP/UI-integrated**. [Laboratory UI](../../docs/LABORATORY_UI.md) использует этот reviewed synthetic fixture; произвольный package import не поддерживается.
 
 - [source.md](source.md) — полный синтетический исходный текст A/B/C с устойчивыми ID положений.
 - [fixture.json](fixture.json) — машиночитаемый design artifact: domain, положения, source mappings, ожидаемые значения и queries.

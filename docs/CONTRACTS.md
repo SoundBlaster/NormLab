@@ -4,9 +4,9 @@
 
 ## Статус и совместимость
 
-V2 реализован как отдельное типизированное ядро и набор artifact contracts. HTTP API, SQLite и UI продолжают использовать M0/v1. Существующие данные не мигрируются автоматически. Сборка locked bundles A/B/C выполняется из [зафиксированного fixture](../fixtures/reform-v1/README.md).
+V2 реализован как отдельное типизированное ядро и набор artifact contracts; [Laboratory UI и HTTP API](LABORATORY_UI.md) используют отдельные immutable SQLite tables рядом с M0/v1. Существующие данные не мигрируются автоматически. Сборка locked bundles A/B/C выполняется из [зафиксированного fixture](../fixtures/reform-v1/README.md); локальный UI работает с reviewed synthetic fixtures и не принимает произвольные packages.
 
-Литерал `schema` выбирает точный поддержанный контракт. Старый certificate v1 не становится certificate v2 после изменения имени поля. Для нового профиля реализован отдельный [decision verifier/statement constructor](REFORM_VERIFICATION.md); HTTP verifier продолжает проверять M0. Неизвестная версия или профиль не дают статус `verified`.
+Литерал `schema` выбирает точный поддержанный контракт. Старый certificate v1 не становится certificate v2 после изменения имени поля. Для нового профиля реализован отдельный [decision verifier/statement constructor](REFORM_VERIFICATION.md); HTTP routes `/api/reform/*` вызывают v2 pipeline, а M0 сохраняет прежний verifier. Неизвестная версия или профиль не дают статус `verified`.
 
 Для producer сохраняется TypeScript. Независимое отношение допустимости и Lean decision verification нового профиля реализованы в NL-106. Основание выбора: сохраняется существующее разделение producer/checker, а ограниченный D16 позволяет проверять все комбинации без добавления нового compiled runtime. Возможный перенос producer в Lean должен сохранять эти контракты и независимость проверки.
 
@@ -88,10 +88,10 @@ Canonical encoding использует [server/hash.ts](../server/hash.ts): к�
 
 Предельные значения: 12 rules, 8 decision branches, 16 comparison rows, 8 unary pairs; срок 0–3600 месяцев, штраф 0–1 000 000 DEMO, множители 1–12 с numerator ≤ denominator. Narrative ограничен 6000 Unicode code points, rationale — 2000, source — 32768. Для чисел исключены NaN, Infinity и дробные wire values.
 
-`parseReformJson` ограничивает serialized envelope 512 KiB в UTF-8 до `JSON.parse`. Этот helper относится к новому artifact boundary; действующий HTTP API M0 сохраняет собственный лимит 32 KiB. Новый endpoint ещё не добавлен.
+`parseReformJson` ограничивает serialized envelope 512 KiB в UTF-8 до `JSON.parse`. Этот helper относится к artifact boundary; HTTP API M0 сохраняет собственный лимит 32 KiB, а `/api/reform/*` ограничивает request body 64 KiB и использует strict UTF-8 decode. Эти endpoints принимают findings и ID зарегистрированных queries, а не внешний artifact envelope.
 
-Ошибочная известная структура или нарушенный invariant отклоняются; неизвестный profile/Legal IR version и нецелочисленная стадия получают `ReformContractError` с `code = unsupported`. Ошибки формы возвращаются как Zod validation errors. Преобразование этих ошибок в HTTP responses относится к интеграции API.
+Ошибочная известная структура или нарушенный invariant отклоняются; неизвестный profile/Legal IR version и нецелочисленная стадия получают `ReformContractError` с `code = unsupported`. Ошибки формы возвращаются как Zod validation errors; HTTP API преобразует request validation errors в ответ 400. Общий HTTP import внешних packages и его error contract остаются вне этого среза.
 
-## Следующая интеграция
+## Текущая интеграция
 
-Decision relation, Lean statement constructor и kernel verification v2 реализованы; [свидетельства](REFORM_VERIFICATION.md) включают все 384 snapshots A/B/C. [NL-405](COMPARISON_VERIFICATION.md) добавляет comparison/property proofs, bound receipts и CLI export/replay; [NL-406](EXPLANATIONS.md) — отдельные explanation/report Zod contracts и проверяемые JSON sidecars; [NL-108](METRICS.md) — metrics/annotation/report contracts, fixed units и recount. Эти schemas не изменяют прежние десять generated JSON schemas и receipt bindings. Следующий срез — v2 snapshots, анализ и A/B/C HTTP/UI. Исторические receipts M0 сохраняют свои версии и toolchain identity; изменение dependency lock меняет identity нового запуска verifier.
+Decision relation, Lean statement constructor и kernel verification v2 реализованы; [свидетельства](REFORM_VERIFICATION.md) включают все 384 snapshots A/B/C. [NL-405](COMPARISON_VERIFICATION.md) добавляет comparison/property proofs, bound receipts и CLI export/replay; [NL-406](EXPLANATIONS.md) — отдельные explanation/report Zod contracts и проверяемые JSON sidecars; [NL-108](METRICS.md) — metrics/annotation/report contracts, fixed units и recount. Эти schemas не изменяют прежние десять generated JSON schemas и receipt bindings. [NL-502](LABORATORY_UI.md) подключает v2 snapshots, историю analyses, fresh replay и A/B/C HTTP/UI. Исторические receipts M0 сохраняют свои версии и toolchain identity; изменение dependency lock меняет identity нового запуска verifier.

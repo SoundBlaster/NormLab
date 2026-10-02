@@ -38,7 +38,7 @@
 
 Новый TypeScript producer согласован с finite fixture. Структурные и contextual contracts выполняют перечисленные checks. Отдельное изменение provenance при сохранении IR меняет provenance digest, сохраняя semantic digest.
 
-Этот contract/producer audit сам по себе не является proof soundness/completeness независимого нормативного отношения. Contextual helpers не подтверждают candidate arithmetic или signature/issuer trust. Отдельный [Lean decision verifier](REFORM_VERIFICATION.md) проверяет arithmetic, ledger и completion coverage v2. Structural test receipt содержит synthetic unsigned bytes и статус inconclusive. Последующий [NL-405](COMPARISON_VERIFICATION.md) добавляет реальный signer/replay v2 для локального core/CLI flow; HTTP/UI остаются M0.
+Этот contract/producer audit сам по себе не является proof soundness/completeness независимого нормативного отношения. Contextual helpers не подтверждают candidate arithmetic или signature/issuer trust. Отдельный [Lean decision verifier](REFORM_VERIFICATION.md) проверяет arithmetic, ledger и completion coverage v2. Structural test receipt содержит synthetic unsigned bytes и статус inconclusive. Последующий [NL-405](COMPARISON_VERIFICATION.md) добавляет реальный signer/replay v2 для локального core/CLI flow; [NL-502](LABORATORY_UI.md) подключает v2 к HTTP/UI рядом с M0.
 
 Исходные две Lean integration checks подтверждают M0. Новые пять проверяют A/B/C в отдельном Lean relation; их scope, axiom audit и границы описаны в [REFORM_VERIFICATION.md](REFORM_VERIFICATION.md).
 

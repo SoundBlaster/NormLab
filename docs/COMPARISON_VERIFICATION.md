@@ -1,6 +1,6 @@
 # Comparison proofs и signed receipts v2
 
-Дата: 2026-10-02. Статус: **NL-405 выполнен** для `demo.reform-mitigation/v1`. Реализован локальный core/CLI flow; HTTP, SQLite и React UI продолжают использовать M0/v1.
+Дата: 2026-10-02. Статус: **NL-405 выполнен** для `demo.reform-mitigation/v1`. Свидетельства ниже относятся к core/CLI flow этого среза. Последующий [NL-502](LABORATORY_UI.md) подключает comparisons, counterexamples и export/replay к локальным HTTP/SQLite/React UI рядом с M0/v1.
 
 ## Проверенные утверждения
 
@@ -83,4 +83,4 @@ Envelope `normlab.reform-export/v1` содержит strict query, один/дв
 - Сохранены прежние M0 checks и v2 decision checks: **384 results / 1296 branches**, девять общих relation theorems и 12 прямых негативных decision statements.
 - TypeScript strict и schema freshness проходят. Обычный `npm run build` сначала столкнулся с `ENOSPC` при записи временного Vite config; `npm run build -- --configLoader runner` выполнил typecheck и production build без этого временного файла. Финальный повтор обычного `npm run build` также прошёл. Восемь demo exports проходят replay в отдельных процессах verifier.
 
-Последующие [NL-406](EXPLANATIONS.md) и [NL-108](METRICS.md) реализуют deterministic explanations, separate metrics и sidecar replay. Следующий срез — NL-502: интеграция v2 pipeline в storage/HTTP/UI. M1 остаётся открытым до пользовательского A/B/C flow; totals выше сохраняют свидетельства NL-405.
+Последующие [NL-406](EXPLANATIONS.md) и [NL-108](METRICS.md) реализуют deterministic explanations, separate metrics и sidecar replay. [NL-502](LABORATORY_UI.md) интегрирует v2 pipeline в storage/HTTP/UI и пользовательский A/B/C flow для reviewed synthetic fixtures. Totals выше сохраняют свидетельства NL-405; browser checks и ограничения UI описаны отдельно. Импорт произвольных packages и установка replay-инструмента в чистой среде остаются NL-503/NL-504.

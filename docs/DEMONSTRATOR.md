@@ -1,6 +1,6 @@
 # Первый содержательный демонстратор A/B/C
 
-Статус: core/CLI часть A/B/C реализована; полный пользовательский HTTP/UI flow **ещё не завершён**. Основание — [замысел](VISION.md) и [переписка](DESIGN_NOTES.md). Задачи — M1 в [roadmap](../roadmap.md).
+Статус: core/CLI и локальный пользовательский A/B/C HTTP/UI flow реализованы для reviewed synthetic fixtures; область browser verification и ограничения описаны в [Laboratory UI](LABORATORY_UI.md). Основание — [замысел](VISION.md) и [переписка](DESIGN_NOTES.md). Задачи — M1 в [roadmap](../roadmap.md).
 
 ## Результат для пользователя
 
@@ -10,7 +10,7 @@
 
 ## Состав эксперимента
 
-| Артефакт       | Требование к следующему срезу                                                                       |
+| Артефакт       | Состав реализованного среза                                                                        |
 | -------------- | --------------------------------------------------------------------------------------------------- |
 | Исходный текст | Собственный синтетический фрагмент с устойчивыми ID положений                                       |
 | Модель A       | Формализация этого текста; source mappings и принятые трактовки                                     |
@@ -22,11 +22,11 @@
 
 Рекомендуемый минимальный объём — одно дело, один субъект, один эпизод и два-три взаимодействующих правила. Это ограничение объёма разработки, не утверждение о достаточности модели для реального уголовного права. Взаимодействия должны затрагивать как обязательное смягчение, так и явно заданное исключение или совместное применение.
 
-NL-107 выполнен как [reform fixture v0.1.0](../fixtures/reform-v1/README.md): две группы, три обстоятельства M/N/E, два обязательных уменьшения и исключение второго. A содержит семь именованных положений, B и C — по пять. Все 16 завершённых комбинаций перечислены и арифметически проверены. На его основе реализованы [contracts v2 и отдельный producer](CONTRACTS.md), [Lean decision verifier](REFORM_VERIFICATION.md), [comparison/property proofs и signed export/replay](COMPARISON_VERIFICATION.md). HTTP/UI v2 остаётся NL-502.
+NL-107 выполнен как [reform fixture v0.1.0](../fixtures/reform-v1/README.md): две группы, три обстоятельства M/N/E, два обязательных уменьшения и исключение второго. A содержит семь именованных положений, B и C — по пять. Все 16 завершённых комбинаций перечислены и арифметически проверены. На его основе реализованы [contracts v2 и отдельный producer](CONTRACTS.md), [Lean decision verifier](REFORM_VERIFICATION.md), [comparison/property proofs и signed export/replay](COMPARISON_VERIFICATION.md), а затем локальные [HTTP/UI v2](LABORATORY_UI.md).
 
 В выбранном C меняется только множитель M с `2/3` на `1/2`. Заявлены equivalence A/B, отсутствие увеличения срока A/C, строгое уменьшение при M и сохранение последствий вне M. Точные источники, mappings, queries и учебный counterexample находятся в fixture. Эти синтетические числа не являются предложением санкций для реального закона.
 
-Текущий fixture `120 → 80` и редакция `120 → 60` сохраняются как исходный сквозной пример. Они демонстрируют изменение одного множителя, но не содержат отдельную структурно упрощённую модель B и не подтверждают взаимодействие нескольких правил.
+Исходный M0 fixture `120 → 80` и редакция `120 → 60` сохраняются как прежний сквозной пример. Они демонстрируют изменение одного множителя, но не содержат отдельную структурно упрощённую модель B и не подтверждают взаимодействие нескольких правил.
 
 ## Пользовательский сценарий
 
@@ -38,7 +38,7 @@ NL-107 выполнен как [reform fixture v0.1.0](../fixtures/reform-v1/REA
 6. **Проверить свойство.** Открыть equivalence A/B или ограничение для A/C; увидеть domain, assumptions, proof status и coverage.
 7. **Разобрать counterexample.** Перейти к конкретному допустимому набору входов, нарушающему заявленное свойство, и повторить его проверку.
 
-[NL-406](EXPLANATIONS.md) реализует deterministic projector/renderer для core/CLI: decision steps/ledger, reconstructed comparison traces, source sections и отдельные evidence statuses. Подключение этих данных к пользовательскому HTTP/UI flow остаётся NL-502; внешний AI для этого среза не требуется.
+[NL-406](EXPLANATIONS.md) реализует deterministic projector/renderer для core/CLI: decision steps/ledger, reconstructed comparison traces, source sections и отдельные evidence statuses. [NL-502](LABORATORY_UI.md) показывает эти данные в UI, сохраняет revisions и исходные analyses в immutable SQLite tables и выполняет fresh replay при открытии сохранённых результатов. Внешний AI для этого среза не требуется.
 
 ## Контракт сравнения
 
@@ -95,7 +95,7 @@ NL-107 выполнен как [reform fixture v0.1.0](../fixtures/reform-v1/REA
 
 Для конечного D допускается исчерпывающий обход. Полнота генерации D и проверка результатов входят в обязательства, если заявляется гарантия для всего D. Совпадение на выбранном corpus получает отдельный статус и не обозначается общим доказательством.
 
-Receipt v2 сохраняет способ обоснования: `case-theorem` для corpus и `finite-domain-theorem` для полного finite scope. Coverage corpus остаётся `partial`, даже при совпадении cardinalities. [NL-405](COMPARISON_VERIFICATION.md) предъявляет scope/witness theorems и separate signature/bindings/current checks. HTTP API пока использует M0.
+Receipt v2 сохраняет способ обоснования: `case-theorem` для corpus и `finite-domain-theorem` для полного finite scope. Coverage corpus остаётся `partial`, даже при совпадении cardinalities. [NL-405](COMPARISON_VERIFICATION.md) предъявляет scope/witness theorems и separate signature/bindings/current checks. HTTP API `/api/reform/*` использует этот pipeline; UI различает candidate, исторический receipt и current evidence после fresh replay.
 
 ## Метрики демонстратора
 
@@ -111,19 +111,19 @@ Receipt v2 сохраняет способ обоснования: `case-theorem
 
 Целевые численные пороги исследования устанавливаются после выбора fixture и методики. Сокращение текста не засчитывается как сохранение смысла; понятность требует наблюдения за пользователями.
 
-Текущая методика разделяет named source sections, authored IR и group-expanded rules. Reviewed annotations фиксируют определения/нормативные текстовые отсылки; IR counts доступны отдельно. A/B имеют 7/5 положений и 2/0 repeated operations при одинаковых трёх human judgment points. На полном D16 A/C меняют срок в 8/16 случаев, сохраняя остальные components. Counts и human annotations не имеют отдельного formal proof. Подключение metrics к UI относится к NL-502.
+Текущая методика разделяет named source sections, authored IR и group-expanded rules. Reviewed annotations фиксируют определения/нормативные текстовые отсылки; IR counts доступны отдельно. A/B имеют 7/5 положений и 2/0 repeated operations при одинаковых трёх human judgment points. На полном D16 A/C меняют срок в 8/16 случаев, сохраняя остальные components. Counts и human annotations не имеют отдельного formal proof. [NL-502](LABORATORY_UI.md) показывает отдельные structure, decision и consequence metrics вместе с их scope и evidence.
 
 ## Критерии готовности M1
 
 - [x] Есть версии A/B/C с источниками, mappings, scope и описанием каждого намеренного изменения C.
-- [ ] Один snapshot анализируется во всех трёх моделях через общий pipeline в пользовательском HTTP/UI flow; core проверен на всех 384 snapshot/model combinations.
+- [x] Один snapshot анализируется во всех трёх моделях через общий pipeline в пользовательском HTTP/UI flow; историческая core verification охватывает все 384 snapshot/model combinations, browser verification — выбранные сценарии из [NL-502](LABORATORY_UI.md).
 - [x] A/B имеют проверенную equivalence для объявленного конечного D; для C проверено выбранное свойство и существование единственного результата на завершённых входах.
 - [x] Есть отдельный демонстрационный ошибочный вариант поправки: проверка находит и подтверждает counterexample к заявленному ограничению, сохраняя его как учебный artifact.
 - [x] Пропуск обязательного смягчения, потеря ветви, подмена роли baseline/candidate и повторный учёт запрещённого преобразования отклоняются.
 - [x] Core/CLI explanation связывает правило, finding/completion, source section и numeric step; импортированный JSON sidecar проверяется через fresh replay и повторную projection.
 - [x] Core/CLI metrics сохраняют единицы, exact scope/coverage и отдельные components; импортированный JSON sidecar проверяется через fresh replay и recount.
-- [ ] UI показывает составные последствия, полный ledger в scope, открытые условия и источник каждого изменения.
-- [x] CLI экспорт содержит сравниваемые bundles, query/domain/mapping, результаты и связанные receipts, достаточные для повторной проверки поддержанным инструментом.
+- [x] UI показывает составные последствия, полный ledger выбранной ветви, открытые условия и источник каждого изменения; branch selector сохраняет доступ ко всем completions в scope.
+- [x] CLI и UI экспортируют bundles, query/domain/mapping, результаты и связанные receipts, достаточные для повторной проверки поддержанным инструментом.
 - [x] [Отчёт](COMPARISON_VERIFICATION.md) перечисляет конкретные проверенные свойства, способ проверки и ограничения; текущий M0 сохранён как regression scenario.
 
-Полноценный импорт внешних artifacts и установка replay-инструмента в чистой среде относятся к NL-503/NL-504. Второй несвязанный предметный домен — NL-105 — проверяет переносимость после этого демонстратора.
+Эти критерии относятся к локальному демонстратору зафиксированных моделей. Понятность интерфейса для участников требует отдельного пилота; browser walkthrough не является полной accessibility certification. Полноценный импорт внешних artifacts и установка replay-инструмента в чистой среде относятся к NL-503/NL-504. Второй несвязанный предметный домен — NL-105 — проверяет переносимость после этого демонстратора.

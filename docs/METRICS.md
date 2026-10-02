@@ -1,6 +1,6 @@
 # Метрики структуры, решения и изменений v1
 
-Дата: 2026-10-02. **NL-108 реализован для core/CLI** профиля `demo.reform-mitigation/v1`. Методика: `reform-structure-decision-changes/v1`. HTTP/SQLite/UI интеграция остаётся NL-502.
+Дата: 2026-10-02. **NL-108 реализован для core/CLI** профиля `demo.reform-mitigation/v1`. Методика: `reform-structure-decision-changes/v1`. Последующий [NL-502](LABORATORY_UI.md) подключает metrics к локальным HTTP/SQLite/React UI; свидетельства NL-108 ниже сохраняют исходную область.
 
 ## Назначение и единицы
 
@@ -116,4 +116,4 @@ Demo создаёт новый каталог с 12 exports, 12 metrics reports 
 
 TypeScript strict, production build и freshness прежних десяти schemas проходят. Локальный run `.artifacts/reform-nl108-final/` сохранил все **12 metrics reports** с current receipts. Все 12 sidecars повторно импортированы через отдельные CLI processes с exact source annotations, trusted public key, fresh Lean replay и deterministic recount; получено `current=true`. Reports предъявляют exact counts, outcomes и evidence, включая bound counterexample и две равные conditional branches. Подсчёт не имеет нового formal theorem. Test suites этого этапа не добавлялись и не запускались; исторические проверки предыдущих этапов перечислены в их отчётах.
 
-Следующий этап — **NL-502:** v2 storage/HTTP и Laboratory UI, показывающий A/B/C, explanations, metrics, findings revisions и counterexample explorer.
+**[NL-502](LABORATORY_UI.md)** подключает v2 storage/HTTP и Laboratory UI: A/B/C, explanations, metrics, findings revisions и counterexample explorer. Structural counts показаны с отдельными единицами; current evidence для consequence reports требует fresh replay. Проверка понятности этих метрик участниками остаётся задачей пилота.

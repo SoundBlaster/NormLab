@@ -1,6 +1,6 @@
 # Независимая проверка decision certificates v2
 
-Дата: 2026-10-02. Область: NL-104/NL-106; `demo.reform-mitigation/v1`, D16 и locked models A/B/C. HTTP, SQLite и UI сохраняют M0/v1.
+Дата: 2026-10-02. Область свидетельств ниже: NL-104/NL-106; `demo.reform-mitigation/v1`, D16 и locked models A/B/C. Последующий [NL-502](LABORATORY_UI.md) подключает этот pipeline к локальным HTTP/SQLite/UI рядом с M0/v1.
 
 ## Реализация
 
@@ -59,6 +59,6 @@ npm run build
 
 Это проверка нормативного результата относительно locked synthetic IR и simulated findings. Она не проверяет истинность narrative, юридическую fidelity перевода source, выбор группы или реальный закон.
 
-Проверки и количества выше фиксируют срез NL-104/NL-106. Последующий **[NL-405](COMPARISON_VERIFICATION.md)** реализует comparison/property proofs, bound counterexamples, signed receipts v2 и CLI export/replay; **[NL-406](EXPLANATIONS.md)** — explanations и sidecar checks. Полный текущий набор содержит 35 unit/API tests и 14 Lean integration tests. Decision-only entry point по-прежнему отклоняет unary query; общий `verifyReformCertificate` поддерживает все три kinds. Storage/HTTP/UI v2 остаются впереди. Hardened OS sandbox и полная supply-chain identity относятся к M3; bounded subprocess не объявляется OS sandbox.
+Проверки и количества выше фиксируют срез NL-104/NL-106. Последующий **[NL-405](COMPARISON_VERIFICATION.md)** реализует comparison/property proofs, bound counterexamples, signed receipts v2 и CLI export/replay; **[NL-406](EXPLANATIONS.md)** — explanations и sidecar checks. Срез NL-406 содержит 35 unit/API tests и 14 Lean integration tests; эти количества не означают повторного запуска всего набора при NL-502. Decision-only entry point по-прежнему отклоняет unary query; общий `verifyReformCertificate` поддерживает все три kinds. **[NL-502](LABORATORY_UI.md)** добавляет v2 storage/HTTP/UI для зарегистрированных synthetic fixtures. Hardened OS sandbox и полная supply-chain identity относятся к M3; bounded subprocess не объявляется OS sandbox.
 
 Исторические [M0 report](VERIFICATION.md) и [contract/producer report](CONTRACT_VERIFICATION.md) сохраняют собственную область свидетельств.
