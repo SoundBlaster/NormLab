@@ -1,0 +1,592 @@
+{
+  "schema": "normlab.reform-fixture-plan/v1",
+  "id": "reform-mitigation-v1",
+  "version": "0.1.0",
+  "sourceKind": "synthetic",
+  "status": "specified-not-runtime-integrated",
+  "domain": {
+    "id": "D16",
+    "groups": ["K1", "K2"],
+    "predicates": ["M", "N", "E"],
+    "values": [false, true],
+    "cardinality": 16,
+    "restrictions": []
+  },
+  "profile": {
+    "units": {
+      "prisonMonths": "month",
+      "fineAmount": "DEMO"
+    },
+    "outcomeFields": ["qualification", "prisonMonths", "fineAmount", "currency"],
+    "mapping": "identity",
+    "evaluationOrder": ["baseline", "exclusions", "scale-M", "scale-N"],
+    "arithmetic": "exact-rational-reject-non-integral",
+    "applyCount": 1,
+    "findingStates": ["unreviewed", "established", "refuted", "not-established"],
+    "terminalFindings": ["established", "refuted"],
+    "completion": "all-findings-terminal",
+    "openFindingCompletions": ["established", "refuted"]
+  },
+  "models": [
+    {
+      "role": "A",
+      "provisions": [
+        {
+          "id": "A-BASE-K1",
+          "groups": ["K1"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "baseline",
+            "prisonMonths": 120,
+            "fineAmount": 200000
+          },
+          "sourceRef": "source.md#a-base-k1",
+          "originIds": []
+        },
+        {
+          "id": "A-BASE-K2",
+          "groups": ["K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "baseline",
+            "prisonMonths": 240,
+            "fineAmount": 400000
+          },
+          "sourceRef": "source.md#a-base-k2",
+          "originIds": []
+        },
+        {
+          "id": "A-M-K1",
+          "groups": ["K1"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "M",
+            "numerator": 2,
+            "denominator": 3,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#a-m-k1",
+          "originIds": []
+        },
+        {
+          "id": "A-M-K2",
+          "groups": ["K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "M",
+            "numerator": 2,
+            "denominator": 3,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#a-m-k2",
+          "originIds": []
+        },
+        {
+          "id": "A-N-K1",
+          "groups": ["K1"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "N",
+            "numerator": 3,
+            "denominator": 4,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#a-n-k1",
+          "originIds": []
+        },
+        {
+          "id": "A-N-K2",
+          "groups": ["K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "N",
+            "numerator": 3,
+            "denominator": 4,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#a-n-k2",
+          "originIds": []
+        },
+        {
+          "id": "A-X",
+          "groups": ["K1", "K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "exclude",
+            "trigger": "E",
+            "targetTrigger": "N"
+          },
+          "sourceRef": "source.md#a-x",
+          "originIds": []
+        }
+      ]
+    },
+    {
+      "role": "B",
+      "provisions": [
+        {
+          "id": "B-BASE-K1",
+          "groups": ["K1"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "baseline",
+            "prisonMonths": 120,
+            "fineAmount": 200000
+          },
+          "sourceRef": "source.md#b-base-k1",
+          "originIds": ["A-BASE-K1"]
+        },
+        {
+          "id": "B-BASE-K2",
+          "groups": ["K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "baseline",
+            "prisonMonths": 240,
+            "fineAmount": 400000
+          },
+          "sourceRef": "source.md#b-base-k2",
+          "originIds": ["A-BASE-K2"]
+        },
+        {
+          "id": "B-M",
+          "groups": ["K1", "K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "M",
+            "numerator": 2,
+            "denominator": 3,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#b-m",
+          "originIds": ["A-M-K1", "A-M-K2"]
+        },
+        {
+          "id": "B-N",
+          "groups": ["K1", "K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "N",
+            "numerator": 3,
+            "denominator": 4,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#b-n",
+          "originIds": ["A-N-K1", "A-N-K2"]
+        },
+        {
+          "id": "B-X",
+          "groups": ["K1", "K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "exclude",
+            "trigger": "E",
+            "targetTrigger": "N"
+          },
+          "sourceRef": "source.md#b-x",
+          "originIds": ["A-X"]
+        }
+      ]
+    },
+    {
+      "role": "C",
+      "provisions": [
+        {
+          "id": "C-BASE-K1",
+          "groups": ["K1"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "baseline",
+            "prisonMonths": 120,
+            "fineAmount": 200000
+          },
+          "sourceRef": "source.md#c-base-k1",
+          "originIds": ["B-BASE-K1"]
+        },
+        {
+          "id": "C-BASE-K2",
+          "groups": ["K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "baseline",
+            "prisonMonths": 240,
+            "fineAmount": 400000
+          },
+          "sourceRef": "source.md#c-base-k2",
+          "originIds": ["B-BASE-K2"]
+        },
+        {
+          "id": "C-M",
+          "groups": ["K1", "K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "M",
+            "numerator": 1,
+            "denominator": 2,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#c-m",
+          "originIds": ["B-M"]
+        },
+        {
+          "id": "C-N",
+          "groups": ["K1", "K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "scale",
+            "trigger": "N",
+            "numerator": 3,
+            "denominator": 4,
+            "preserveFine": true
+          },
+          "sourceRef": "source.md#c-n",
+          "originIds": ["B-N"]
+        },
+        {
+          "id": "C-X",
+          "groups": ["K1", "K2"],
+          "mandatory": true,
+          "applyCount": 1,
+          "operation": {
+            "kind": "exclude",
+            "trigger": "E",
+            "targetTrigger": "N"
+          },
+          "sourceRef": "source.md#c-x",
+          "originIds": ["B-X"]
+        }
+      ]
+    }
+  ],
+  "expected": [
+    {
+      "id": "K1-000",
+      "input": {
+        "group": "K1",
+        "M": false,
+        "N": false,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 120,
+        "B": 120,
+        "C": 120
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K1-001",
+      "input": {
+        "group": "K1",
+        "M": false,
+        "N": false,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 120,
+        "B": 120,
+        "C": 120
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K1-010",
+      "input": {
+        "group": "K1",
+        "M": false,
+        "N": true,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 90,
+        "B": 90,
+        "C": 90
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K1-011",
+      "input": {
+        "group": "K1",
+        "M": false,
+        "N": true,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 120,
+        "B": 120,
+        "C": 120
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K1-100",
+      "input": {
+        "group": "K1",
+        "M": true,
+        "N": false,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 80,
+        "B": 80,
+        "C": 60
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K1-101",
+      "input": {
+        "group": "K1",
+        "M": true,
+        "N": false,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 80,
+        "B": 80,
+        "C": 60
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K1-110",
+      "input": {
+        "group": "K1",
+        "M": true,
+        "N": true,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 60,
+        "B": 60,
+        "C": 45
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K1-111",
+      "input": {
+        "group": "K1",
+        "M": true,
+        "N": true,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 80,
+        "B": 80,
+        "C": 60
+      },
+      "fineAmount": 200000
+    },
+    {
+      "id": "K2-000",
+      "input": {
+        "group": "K2",
+        "M": false,
+        "N": false,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 240,
+        "B": 240,
+        "C": 240
+      },
+      "fineAmount": 400000
+    },
+    {
+      "id": "K2-001",
+      "input": {
+        "group": "K2",
+        "M": false,
+        "N": false,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 240,
+        "B": 240,
+        "C": 240
+      },
+      "fineAmount": 400000
+    },
+    {
+      "id": "K2-010",
+      "input": {
+        "group": "K2",
+        "M": false,
+        "N": true,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 180,
+        "B": 180,
+        "C": 180
+      },
+      "fineAmount": 400000
+    },
+    {
+      "id": "K2-011",
+      "input": {
+        "group": "K2",
+        "M": false,
+        "N": true,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 240,
+        "B": 240,
+        "C": 240
+      },
+      "fineAmount": 400000
+    },
+    {
+      "id": "K2-100",
+      "input": {
+        "group": "K2",
+        "M": true,
+        "N": false,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 160,
+        "B": 160,
+        "C": 120
+      },
+      "fineAmount": 400000
+    },
+    {
+      "id": "K2-101",
+      "input": {
+        "group": "K2",
+        "M": true,
+        "N": false,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 160,
+        "B": 160,
+        "C": 120
+      },
+      "fineAmount": 400000
+    },
+    {
+      "id": "K2-110",
+      "input": {
+        "group": "K2",
+        "M": true,
+        "N": true,
+        "E": false
+      },
+      "prisonMonths": {
+        "A": 120,
+        "B": 120,
+        "C": 90
+      },
+      "fineAmount": 400000
+    },
+    {
+      "id": "K2-111",
+      "input": {
+        "group": "K2",
+        "M": true,
+        "N": true,
+        "E": true
+      },
+      "prisonMonths": {
+        "A": 160,
+        "B": 160,
+        "C": 120
+      },
+      "fineAmount": 400000
+    }
+  ],
+  "queries": [
+    {
+      "id": "Q-AB-equivalence",
+      "kind": "equivalence",
+      "domain": "D16",
+      "baseline": "A",
+      "candidate": "B"
+    },
+    {
+      "id": "Q-AC-no-increase",
+      "kind": "component-no-increase",
+      "domain": "D16",
+      "baseline": "A",
+      "candidate": "C",
+      "target": "prisonMonths",
+      "preserve": ["qualification", "fineAmount", "currency"]
+    },
+    {
+      "id": "Q-AC-strict-M",
+      "kind": "strict-reduction",
+      "domain": "D16",
+      "baseline": "A",
+      "candidate": "C",
+      "condition": {
+        "M": true
+      },
+      "target": "prisonMonths"
+    },
+    {
+      "id": "Q-AC-outside-M",
+      "kind": "preserved-outside",
+      "domain": "D16",
+      "baseline": "A",
+      "candidate": "C",
+      "condition": {
+        "M": false
+      }
+    },
+    {
+      "id": "Q-M-monotonicity",
+      "kind": "monotonic-m",
+      "domain": "D16",
+      "models": ["A", "B", "C"],
+      "target": "prisonMonths",
+      "strict": true,
+      "preserve": ["qualification", "fineAmount", "currency"]
+    }
+  ],
+  "faultyVariant": {
+    "id": "C-missing-exclusion",
+    "baseModel": "C",
+    "omittedRule": "C-X",
+    "violatedQuery": "Q-AC-outside-M",
+    "expectedWitness": {
+      "rowId": "K1-011",
+      "baselinePrisonMonths": 120,
+      "candidatePrisonMonths": 90,
+      "fineAmount": 200000
+    }
+  },
+  "proofObligations": {
+    "independentPermissibility": "specified-not-proved",
+    "existenceUniqueness": "specified-not-proved",
+    "mandatoryRuleCompleteness": "specified-not-proved",
+    "comparisonReceipts": "not-implemented"
+  }
+}

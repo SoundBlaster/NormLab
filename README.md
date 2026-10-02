@@ -8,6 +8,7 @@
 
 - [Замысел и требования](docs/VISION.md): однозначность, обязательность смягчения, модели A/B/C и границы гарантий.
 - [Первый демонстратор](docs/DEMONSTRATOR.md): предлагаемый сценарий, свойства и критерии готовности следующего среза.
+- [Reform fixture v0.1.0](fixtures/reform-v1/README.md): конкретный синтетический текст A/B/C, все 16 завершённых случаев и арифметический аудит. Подключение к приложению ещё впереди.
 - [Основания проектирования](docs/DESIGN_NOTES.md): авторские цели из переписки, происхождение решений, роль Hypercode и предложение интеграции со SpecGraph.
 - [Roadmap](roadmap.md): этапы, зависимости и актуальные приоритеты.
 - [Текущий MVP](docs/MVP.md) и [отчёт его проверки](docs/VERIFICATION.md): реализованные возможности, API и конкретные свидетельства.
@@ -82,6 +83,7 @@ shared/       Typed contracts and schemas
 server/       Registry, interpreter, checker, receipts, SQLite and local HTTP API
 lean/         Independent formal relation and trusted proof template
 tests/        Domain, API and actual Lean integration checks
+fixtures/     Source scenarios, expected outcomes and bounded design audits
 docs/         Vision, design provenance, demonstrator, MVP and verification evidence
 prototype/    Original architecture archive, preserved as supplied
 ```
