@@ -267,6 +267,10 @@ export function Lab() {
       'Условия counterexample перенесены в draft. Сохраните новую ревизию и сравните A/B/C.',
     );
   }
+  function editForm(next: ReformSnapshotInput) {
+    setForm(next);
+    setNotice('');
+  }
   if (!data || !selected)
     return (
       <section className="lab-panel" role="status">
@@ -278,7 +282,7 @@ export function Lab() {
     predicate: 'M' | 'N' | 'E',
     patch: Partial<ReformSnapshotInput['findings']['M']>,
   ) =>
-    setForm({
+    editForm({
       ...form,
       findings: { ...form.findings, [predicate]: { ...form.findings[predicate], ...patch } },
     });
@@ -329,12 +333,54 @@ export function Lab() {
               </button>
             </div>
           )}
-          {dirty && (
-            <p className="message historical">
-              Есть несохранённый draft. Показанные результаты относятся к snapshot #
-              {selected.revision}.
-            </p>
-          )}
+          <section className="lab-panel lab-comparison" aria-labelledby="lab-comparison-title">
+            <div className="lab-panel-heading">
+              <div>
+                <h2 id="lab-comparison-title">Сравнение A/B/C</h2>
+                <p className="lab-saved-inputs">
+                  Snapshot #{selected.revision} · {selected.group} ·{' '}
+                  {(['M', 'N', 'E'] as const)
+                    .map((p) => `${p}: ${findingNames[selected.findings[p].state]}`)
+                    .join(' · ')}
+                </p>
+              </div>
+            </div>
+            <div
+              className={`lab-result-context ${dirty ? 'draft' : ''}`}
+              role="status"
+              aria-live="polite"
+            >
+              {dirty ? (
+                <>
+                  <strong>Изменения ещё не рассчитаны.</strong>
+                  <span>Ниже — результаты сохранённого snapshot #{selected.revision}.</span>
+                  <button
+                    className="primary"
+                    disabled={busy || historical}
+                    onClick={() => runCase(true)}
+                  >
+                    Сохранить и пересчитать A/B/C
+                  </button>
+                </>
+              ) : caseViews.length ? (
+                <span>
+                  Результаты snapshot #{selected.revision}. Проверка относится к сохранённым входам.
+                </span>
+              ) : (
+                <>
+                  <span>Для snapshot #{selected.revision} пока нет результатов.</span>
+                  <button
+                    className="primary"
+                    disabled={busy || historical}
+                    onClick={() => runCase(true)}
+                  >
+                    Сравнить A/B/C
+                  </button>
+                </>
+              )}
+            </div>
+            <ModelCards views={caseViews} active={activeRole} onSelect={setActiveRole} />
+          </section>
           <section className="lab-panel lab-editor">
             <div className="lab-panel-heading">
               <div>
@@ -357,7 +403,7 @@ export function Lab() {
                     maxLength={6000}
                     rows={3}
                     disabled={busy || historical}
-                    onChange={(e) => setForm({ ...form, narrative: e.target.value })}
+                    onChange={(e) => editForm({ ...form, narrative: e.target.value })}
                   />
                 </label>
                 <label>
@@ -365,7 +411,7 @@ export function Lab() {
                   <select
                     value={form.group}
                     disabled={busy || historical}
-                    onChange={(e) => setForm({ ...form, group: e.target.value as 'K1' | 'K2' })}
+                    onChange={(e) => editForm({ ...form, group: e.target.value as 'K1' | 'K2' })}
                   >
                     <option>K1</option>
                     <option>K2</option>
@@ -437,7 +483,6 @@ export function Lab() {
               </div>
             </form>
           </section>
-          <ModelCards views={caseViews} active={activeRole} onSelect={setActiveRole} />
           {activeView && (
             <>
               <ExplanationPanel view={activeView} />

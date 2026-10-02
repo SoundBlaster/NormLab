@@ -30,10 +30,10 @@ const initial: SnapshotInput = { narrative: '', finding: 'unreviewed', rationale
 type Tab = 'lab' | 'workspace' | 'bundles' | 'comparison' | 'history';
 const tabs: { id: Tab; label: string; symbol: string }[] = [
   { id: 'lab', label: 'Реформа A/B/C', symbol: '⇄' },
-  { id: 'workspace', label: 'Рабочая область', symbol: '◫' },
-  { id: 'bundles', label: 'Пакеты норм', symbol: '▤' },
-  { id: 'comparison', label: 'Сравнение редакций', symbol: '⇄' },
-  { id: 'history', label: 'История снимков', symbol: '◷' },
+  { id: 'workspace', label: 'M0 · Решение', symbol: '◫' },
+  { id: 'bundles', label: 'M0 · Пакеты норм', symbol: '▤' },
+  { id: 'comparison', label: 'M0 · Сравнение', symbol: '⇄' },
+  { id: 'history', label: 'M0 · История', symbol: '◷' },
 ];
 
 async function request<T>(path: string, token?: string, body?: unknown): Promise<T> {
@@ -197,19 +197,40 @@ export function App() {
         </a>
         <div className="sidebar-label">ИССЛЕДОВАНИЕ</div>
         <nav aria-label="Основная навигация">
-          {tabs.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={tab === item.id ? 'nav-item active' : 'nav-item'}
-              aria-current={tab === item.id ? 'page' : undefined}
-              onClick={() => setTab(item.id)}
-            >
-              <span aria-hidden="true">{item.symbol}</span>
-              {item.label}
-              {item.id === 'workspace' && <i />}
-            </button>
-          ))}
+          {tabs
+            .filter((item) => item.id === 'lab')
+            .map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={tab === item.id ? 'nav-item active' : 'nav-item'}
+                aria-current={tab === item.id ? 'page' : undefined}
+                onClick={() => setTab(item.id)}
+              >
+                <span aria-hidden="true">{item.symbol}</span>
+                {item.label}
+                {item.id === 'workspace' && <i />}
+              </button>
+            ))}
+          <details className="legacy-nav" open={tab !== 'lab'}>
+            <summary>Пример M0</summary>
+            <div>
+              {tabs
+                .filter((item) => item.id !== 'lab')
+                .map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={tab === item.id ? 'nav-item active' : 'nav-item'}
+                    aria-current={tab === item.id ? 'page' : undefined}
+                    onClick={() => setTab(item.id)}
+                  >
+                    <span aria-hidden="true">{item.symbol}</span>
+                    {item.label}
+                  </button>
+                ))}
+            </div>
+          </details>
         </nav>
         <div className="sidebar-note">
           <span className="mini-orbit" aria-hidden="true">
@@ -248,7 +269,7 @@ export function App() {
             </section>
           ) : (
             <>
-              <div className="page-heading">
+              <div className={`page-heading ${tab === 'lab' ? 'lab-page-heading' : ''}`}>
                 <div>
                   <span className="eyebrow">
                     {tab === 'lab'

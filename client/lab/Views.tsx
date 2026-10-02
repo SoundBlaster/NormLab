@@ -146,7 +146,7 @@ export function ExplanationPanel({ view }: { view: LabAnalysisView }) {
       </p>
       {e.findings && (
         <details className="lab-details">
-          <summary>Findings и assumptions</summary>
+          <summary>Основания и допущения</summary>
           {(['M', 'N', 'E'] as const).map((p) => (
             <p key={p}>
               <strong>
@@ -212,6 +212,7 @@ function Trace({
               <span>
                 <strong>{event.ruleId}</strong>
                 <small>{reasons[event.reason]}</small>
+                <small className="lab-details-hint">Источник и шаг вычисления</small>
               </span>
               <span className={`lab-status ${event.status}`}>{ledgerNames[event.status]}</span>
             </summary>
@@ -258,57 +259,61 @@ export function ModelCards({
   active: string;
   onSelect: (role: string) => void;
 }) {
+  const selected = views.find((view) => view.analysis.modelRole === active);
   return (
-    <div className="lab-model-grid">
-      {(['A', 'B', 'C'] as const).map((role) => {
-        const view = views.find((v) => v.analysis.modelRole === role);
-        const certificate = view?.analysis.certificate;
-        const branches = certificate?.kind === 'decision' ? certificate.result.branches : [];
-        const values = [...new Set(branches.map((b) => b.outcome.prisonMonths))];
-        return (
-          <section className={`lab-model-card ${active === role ? 'selected' : ''}`} key={role}>
-            <div className="lab-model-heading">
+    <>
+      <div className="lab-model-grid">
+        {(['A', 'B', 'C'] as const).map((role) => {
+          const view = views.find((v) => v.analysis.modelRole === role);
+          const certificate = view?.analysis.certificate;
+          const branches = certificate?.kind === 'decision' ? certificate.result.branches : [];
+          const values = [...new Set(branches.map((b) => b.outcome.prisonMonths))];
+          return (
+            <button
+              className={`lab-model-card ${active === role ? 'selected' : ''}`}
+              key={role}
+              aria-label={`Разобрать ${role}`}
+              aria-describedby={`lab-model-${role}-name lab-model-${role}-term lab-model-${role}-unit lab-model-${role}-fine lab-model-${role}-proof`}
+              aria-pressed={active === role}
+              onClick={() => onSelect(role)}
+            >
               <span className="lab-model-letter">{role}</span>
-              <h2>{{ A: 'Исходная', B: 'Упрощённая', C: 'Реформа' }[role]}</h2>
-            </div>
-            <p>
-              {
-                {
-                  A: '7 положений · отдельные M/N',
-                  B: '5 положений · общие M/N',
-                  C: '5 положений · M × 1/2',
-                }[role]
-              }
-            </p>
-            {view && branches.length ? (
-              <>
-                <div className="lab-term">
-                  {values.join(' / ')}
-                  <span>месяцев</span>
-                </div>
-                <p>{formatNumber(branches[0].outcome.fineAmount)} DEMO · штраф</p>
-                <p>
-                  {branches.length} {branches.length === 1 ? 'completion' : 'completions'} ·{' '}
-                  {certificate?.kind === 'decision' && certificate.result.status === 'conditional'
-                    ? 'условный результат'
-                    : 'завершённый результат'}
-                </p>
-                <Evidence view={view} />
-                <button
-                  className="secondary"
-                  aria-pressed={active === role}
-                  onClick={() => onSelect(role)}
-                >
-                  Разобрать {role}
-                </button>
-              </>
-            ) : (
-              <div className="lab-card-empty">Запустите общий анализ сохранённого snapshot.</div>
-            )}
-          </section>
-        );
-      })}
-    </div>
+              <span className="lab-model-name" id={`lab-model-${role}-name`}>
+                {{ A: 'Исходная', B: 'Упрощение', C: 'Реформа' }[role]}
+              </span>
+              <span className="lab-term" id={`lab-model-${role}-term`}>
+                {values.length ? values.join(' / ') : '—'}
+              </span>
+              <span className="lab-model-unit" id={`lab-model-${role}-unit`}>
+                месяцев
+              </span>
+              <span className="lab-model-fine" id={`lab-model-${role}-fine`}>
+                {branches.length
+                  ? `${formatNumber(branches[0].outcome.fineAmount)} DEMO`
+                  : 'Нет расчёта'}
+              </span>
+              <span className="lab-model-proof" id={`lab-model-${role}-proof`}>
+                {view?.metricsReport?.evidence.current
+                  ? 'Lean: проверено'
+                  : view
+                    ? 'Candidate'
+                    : 'Ожидает анализа'}
+              </span>
+              <span className="lab-model-action">Разобрать {role}</span>
+            </button>
+          );
+        })}
+      </div>
+      <p className="lab-comparison-help">
+        Штраф указан отдельно. Выберите модель, чтобы разобрать все ветви и основания.
+      </p>
+      {selected && (
+        <div className="lab-selected-evidence">
+          <strong>Проверка модели {active}</strong>
+          <Evidence view={selected} />
+        </div>
+      )}
+    </>
   );
 }
 export function StructureTable({ models }: { models: ReformMetrics['models'] }) {

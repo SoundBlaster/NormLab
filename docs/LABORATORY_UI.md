@@ -1,12 +1,12 @@
 # Laboratory UI — NL-502
 
-Дата: 2026-10-02. **Локальный срез M1 реализован** для reviewed synthetic fixture A/B/C и `demo.reform-mitigation/v1`. Исходный M0/v1 доступен в прежних разделах приложения. Запуск: [README](../README.md).
+Дата: 2026-10-02. **Локальный срез M1 реализован** для reviewed synthetic fixture A/B/C и `demo.reform-mitigation/v1`. Исходный M0/v1 доступен в меню «Пример M0». Запуск: [README](../README.md).
 
 ## Пользовательский flow
 
 По умолчанию открывается «Реформа A/B/C». Рабочая область содержит narrative, выбранную извне группу K1/K2 и мотивированные findings M/N/E. Четыре состояния сохраняют семантику профиля: `unreviewed` и `not-established` оставляют обе completion-возможности.
 
-«Сравнить A/B/C» проверяет один immutable snapshot во всех трёх моделях. Карточки показывают срок, штраф, число completions и proof/coverage status. Одинаковые outcomes могут отображаться одной суммой, но ветви сохраняются в explanation selector. Ledger показывает каждый rule в scope, основание применения или исключения, finding/completion origins, числовые шаги и exact source excerpts.
+«Сравнить A/B/C» проверяет один immutable snapshot во всех трёх моделях. Компактная сводка перед редактором показывает срок, штраф и proof status всех моделей одновременно. Выбор карточки открывает подробный evidence и explanation выбранной модели, включая completions и coverage. Одинаковые outcomes могут отображаться одной суммой, но ветви сохраняются в explanation selector. Ledger показывает каждый rule в scope, основание применения или исключения, finding/completion origins, числовые шаги и exact source excerpts.
 
 Изменённые findings сохраняются новой ревизией с `supersedes`. Сервер принимает запись только при совпадении `expectedSnapshotId` с последней ревизией; конфликт возвращает 409. Исторический snapshot доступен только для чтения. Открытие сохранённых результатов запускает fresh replay. Draft сохраняется при переключении разделов; переход к другой ревизии и перенос counterexample блокируются до сохранения либо явного сброса draft.
 
@@ -74,6 +74,20 @@ V2 анализ сохраняется по мере завершения каж
 Bounded browser audit: 17:19:33–17:25:43 UTC, 15/15 browser calls, 2/6 screenshots, один автоматически сохранённый initial snapshot, два focused source reads. Два locator timeout исправлены по наблюдённому DOM; они не сопровождались ошибками приложения. Использовался настроенный Playwright Chrome 154, отдельный data directory `.artifacts/reform-nl502-runtime`; создано два snapshots и семь analyses. Screenshots и download лежат в ignored `.artifacts/nl502-*` и не входят в Git.
 
 По результатам walkthrough добавлено название текущего analysis в metrics panel и уточнён заголовок неподтверждённого candidate witness. Финальный build включает эти текстовые изменения; дополнительный визуальный проход после них не выполнялся. Полный screen-reader/keyboard audit, полный browser обход восьми queries, перенос witness в draft и recovery после аварийного завершения не заявляются проверенными.
+
+## Улучшения UI после quality audit
+
+Все пять замечаний исправлены в следующем локальном проходе:
+
+- **Актуальность результатов:** у сводки указаны сохранённый snapshot и его findings. Изменение формы показывает «Изменения ещё не рассчитаны» непосредственно рядом с результатами и действие «Сохранить и пересчитать A/B/C». Proof status относится к сохранённым входам.
+- **Контраст:** затемнены активные secondary buttons, navigation и раскрывающиеся строки. В проверенном mobile DOM минимальный contrast ratio среди 25 активных buttons/summaries — 5,73:1; disabled controls в измерение не входят.
+- **Mobile comparison:** три карточки остаются в одном ряду и располагаются перед формой. При viewport 390 × 844 px высота сводки — 228 px вместо прежних примерно 1470 px; значения A/B/C одновременно видны на y=711 px. Document width — 390 px, горизонтального overflow страницы нет.
+- **Навигация:** исходные разделы собраны под «Пример M0» и имеют префикс M0. «Рабочая область» во вкладках Laboratory относится к A/B/C.
+- **Раскрытие объяснений:** строки имеют chevrons и подпись «Источник и шаг вычисления». Native `details` сохраняет keyboard interaction и видимый focus. Карточки A/B/C связаны через `aria-describedby` с отображаемыми названием, сроком, единицей, штрафом и proof status.
+
+Проверка 2026-10-02: финальный `npm run build` прошёл после добавления accessible descriptions. Bounded browser walkthrough выполнен в 18:10:57–18:17:57 UTC: 15/15 calls, 3/6 screenshots. Проверены desktop/mobile, изменение и сброс draft, переход в M0 и обратно с сохранением draft, выбор модели и раскрытие источника клавишей Space. Browser console: 0 warnings и 0 errors. Новые ревизии в этом проходе не сохранялись; при открытии существующих результатов выполнялся replay.
+
+Screenshots находятся в ignored `.artifacts/`: `ui-five-fixes-1812-desktop-draft.png`, `ui-five-fixes-1813-mobile.png`, `ui-five-fixes-1815-disclosure.png`. После добавления `aria-describedby` выполнена проверка DOM bindings; внешний вид не менялся. Domain/API suite повторно не запускался: 40/40 выше относится к первоначальному NL-502 срезу. VoiceOver и полный accessibility audit не выполнялись; измеренные contrast ratios и keyboard checks не означают полную проверку соответствия WCAG.
 
 ## Следующий срез
 
