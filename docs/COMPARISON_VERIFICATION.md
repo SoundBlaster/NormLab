@@ -61,7 +61,7 @@ Replay выполняет последовательно:
 npm run reform:demo
 ```
 
-Команда создаёт новый каталог `.artifacts/reform-demo-…`, восемь JSON exports, `manifest.json` и `issuer-public.pem`. Все восемь проходят issuance и отдельный fresh replay. Private key существует только в памяти demo. Артефакты не входят в Git. Для выбранного нового каталога можно передать `--out .artifacts/my-reform-run`; существующий каталог не перезаписывается.
+Команда создаёт новый каталог `.artifacts/reform-demo-…`, JSON exports, `manifest.json` и `issuer-public.pem`. Срез NL-405 предъявил восемь general exports с issuance и отдельным fresh replay. [NL-406](EXPLANATIONS.md) расширяет текущий demo до 12 exports, добавляя conditional decisions и JSON/Markdown explanations. Private key существует только в памяти demo. Артефакты не входят в Git. Для выбранного нового каталога можно передать `--out .artifacts/my-reform-run`; существующий каталог не перезаписывается.
 
 Используйте выведенный каталог как `<run>`:
 
@@ -83,4 +83,4 @@ Envelope `normlab.reform-export/v1` содержит strict query, один/дв
 - Сохранены прежние M0 checks и v2 decision checks: **384 results / 1296 branches**, девять общих relation theorems и 12 прямых негативных decision statements.
 - TypeScript strict и schema freshness проходят. Обычный `npm run build` сначала столкнулся с `ENOSPC` при записи временного Vite config; `npm run build -- --configLoader runner` выполнил typecheck и production build без этого временного файла. Финальный повтор обычного `npm run build` также прошёл. Восемь demo exports проходят replay в отдельных процессах verifier.
 
-Следующий срез — NL-406/NL-108/NL-502: детерминированные explanations и метрики, затем интеграция v2 pipeline в storage/HTTP/UI. M1 остаётся открытым до пользовательского A/B/C flow.
+Последующий [NL-406](EXPLANATIONS.md) реализует deterministic explanations и sidecar replay. Следующий срез — NL-108/NL-502: метрики и интеграция v2 pipeline в storage/HTTP/UI. M1 остаётся открытым до пользовательского A/B/C flow; totals выше сохраняют свидетельства NL-405.

@@ -4,7 +4,7 @@
 
 Цель — наглядная исследовательская лаборатория для обсуждения реформы УК: структурного упрощения, сокращения числа норм и гуманизации наказаний через явные обязательные правила. Завершённые входы экспериментального reform profile должны определять единственный составной результат в объявленном scope.
 
-Завершён **первый сквозной локальный срез M0**; contracts/producer v2, independent decision/comparison/property verification A/B/C, signed receipts и CLI export/replay реализованы. Следующий результат — explanations, метрики и содержательный демонстратор в HTTP/UI. Этот файл описывает текущий план; будущие пункты не считаются реализованными или доказанными.
+Завершён **первый сквозной локальный срез M0**; contracts/producer v2, independent decision/comparison/property verification A/B/C, signed receipts, deterministic explanations и CLI export/replay реализованы. Следующий результат — метрики и содержательный демонстратор в HTTP/UI. Этот файл описывает текущий план; будущие пункты не считаются реализованными или доказанными.
 
 ## Основания и правила ведения
 
@@ -52,7 +52,7 @@ Task IDs сохранены при изменении приоритетов: н
 - [x] **NL-106 — Formal properties.** Реализовано независимое [Lean relation](lean/Reform.lean): soundness, outcome/mandatory-rule completeness принятого result и existence/uniqueness любого WellFormed model на D16. [Проверены](docs/REFORM_VERIFICATION.md) все 384 A/B/C results и 1296 branches, девять общих теорем, binding attacks и unsupported/inconclusive statuses. Универсальная верификация TypeScript code не заявляется; comparison/property queries реализованы в NL-405.
 - [x] **NL-404 — Comparison contract.** Реализован [query/certificate/receipt contract](docs/CONTRACTS.md) с отдельными baseline/candidate, D16, identity mapping и точными scopes properties. Перестановка roles, скрытое сужение domain и ложный coverage отклоняются. Для иных mappings и диапазонов требуется отдельная поддержка; comparison proofs/receipts реализованы в NL-405.
 - [x] **NL-405 — Comparison proofs.** [Lean проверяет](docs/COMPARISON_VERIFICATION.md) equivalence A/B, три свойства A/C, unary M mitigation A/B/C и bound counterexample поддержанной ошибочной поправки. Четыре общие scope/witness theorem проходят axiom audit; corpus не получает universal coverage. Signer сам проверяет certificate; receipts связывают statement/query/models/assumptions/toolchain. Восемь demo exports проходят fresh replay с explicit trusted key; 13 новых ложных statements отклонены kernel. HTTP/UI v2 остаются NL-502.
-- [ ] **NL-406 — Объяснения.** Строить детерминированное explanation из derivation/ledger, показывать assumptions, источники, scope и независимые proof/coverage statuses. Переходить от изменённого последствия к конкретному правилу и finding; AI для этого среза не требуется.
+- [x] **NL-406 — Объяснения.** [Core/CLI projector и renderer](docs/EXPLANATIONS.md) показывают полный ledger, numeric steps, findings/completion assumptions, source sections, scope и отдельные signature/proof/coverage/current statuses. Decision читает certificate derivation; general queries восстанавливают trace из locked model и связывают его с certified outcome. Sidecar проверяется через fresh replay и deterministic reconstruction; он не подписан receipt и не является отдельным Lean proof. Проверены все 384 explanations / 1296 branches; demo сохраняет 12 exports с JSON/Markdown explanations. UI остаётся NL-502.
 - [ ] **NL-108 — Метрики упрощения и изменений.** Отдельно считать положения, повторы и отсылки; условия, исключения и точки human judgment; изменённые категории случаев и компоненты последствий. Зафиксировать единицы и представление подсчёта. Не сводить срок, штраф и запреты в общий «индекс гуманности».
 - [ ] **NL-502 — Laboratory UI.** Показать A/B/C для одного snapshot, составные последствия, rule ledger, источники и границы проверки. Добавить counterexample explorer, изменение findings с новой ревизией, accessibility и responsive checks основного сценария. Первый показ остаётся локальным.
 
@@ -124,13 +124,12 @@ Task IDs сохранены при изменении приоритетов: н
 
 ## Ближайший рабочий срез
 
-**NL-107 / NL-101 / NL-102 / NL-104 / NL-106 / NL-404 / NL-405 завершены в указанном объёме.** Следующий срез — **NL-406 / NL-108 / NL-502** на основе проверенного [core/CLI pipeline](docs/COMPARISON_VERIFICATION.md):
+**NL-107 / NL-101 / NL-102 / NL-104 / NL-106 / NL-404 / NL-405 / NL-406 завершены в указанном объёме.** Следующий срез — **NL-108 / NL-502** на основе проверенного [proof pipeline](docs/COMPARISON_VERIFICATION.md) и [explanations](docs/EXPLANATIONS.md):
 
-1. Строить deterministic explanations из decision steps/ledger и comparison witness: конкретное правило, finding, источник и изменение последствия.
-2. Зафиксировать единицы и подсчёт structure/decision/change metrics A/B/C; отображать их отдельно от semantic proof.
-3. Подключить v2 snapshots, locked bundles и signing/replay к storage/HTTP, сохранив версии и M0 regressions.
-4. Показать A/B/C, findings revisions, counterexample explorer, scope, proof/coverage/current statuses и export в локальном UI.
-5. Проверить пользовательский сценарий, accessibility/responsive layout и tampering; обновить evidence и критерии M1. Публичное размещение остаётся отдельным этапом.
+1. Зафиксировать единицы и подсчёт structure/decision/change metrics A/B/C; отображать их отдельно от semantic proof.
+2. Подключить v2 snapshots, locked bundles, signing/replay и explanation projection к storage/HTTP, сохранив версии и M0 regressions.
+3. Показать A/B/C, findings revisions, sources, ledger, counterexample explorer, scope и proof/coverage/current statuses в локальном UI.
+4. Проверить пользовательский сценарий, accessibility/responsive layout, export/replay и tampering; обновить evidence и критерии M1. Публичное размещение остаётся отдельным этапом.
 
 ## Условия завершения этапов
 

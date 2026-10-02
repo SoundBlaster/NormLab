@@ -15,6 +15,7 @@
     "test:lean": "tsx --test --test-concurrency=1 tests/*.integration.ts",
     "reform:demo": "tsx scripts/reform-demo.ts",
     "reform:verify": "tsx scripts/reform-verify.ts",
+    "reform:explain": "tsx scripts/reform-explain.ts",
     "schemas:write": "tsx scripts/export-contracts.ts",
     "schemas:check": "tsx scripts/export-contracts.ts --check"
   },

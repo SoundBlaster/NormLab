@@ -12,6 +12,7 @@
 - [Контракты v2](docs/CONTRACTS.md), [семантика нового профиля](docs/REFORM_SEMANTICS.md) и [отчёт проверки](docs/CONTRACT_VERIFICATION.md): отдельное ядро A/B/C, JSON schemas и bindings. HTTP/UI остаются на M0/v1.
 - [Независимая Lean verification v2](docs/REFORM_VERIFICATION.md): decision certificates A/B/C, общие теоремы и проверка всех 384 snapshots.
 - [Comparison proofs и signed receipts v2](docs/COMPARISON_VERIFICATION.md): equivalence A/B, свойства A/C, bound counterexample и CLI export/replay.
+- [Deterministic explanations](docs/EXPLANATIONS.md): полный ledger, finding/completion origins, source sections, числовые различия и проверка JSON sidecar.
 - [Основания проектирования](docs/DESIGN_NOTES.md): авторские цели из переписки, происхождение решений, роль Hypercode и предложение интеграции со SpecGraph.
 - [Roadmap](roadmap.md): этапы, зависимости и актуальные приоритеты.
 - [Текущий MVP](docs/MVP.md) и [отчёт его проверки](docs/VERIFICATION.md): реализованные возможности, API и конкретные свидетельства.
@@ -72,16 +73,17 @@ elan toolchain install leanprover/lean4:v4.30.0
 ```sh
 npm run reform:demo
 npm run reform:verify -- <run>/AB-equivalence.json --issuer-key <run>/issuer-public.pem
+npm run reform:explain -- <run>/C-conditional-decision.json --issuer-key <run>/issuer-public.pem
 ```
 
-Demo выводит путь `<run>` и сохраняет восемь exports с manifest и публичным ключом в `.artifacts/`. Подтверждены equivalence A/B, три свойства A/C, mandatory M mitigation каждой модели и counterexample ошибочной поправки. Replay требует явно выбранный trusted key и свежую Lean verification. [Scope, команды и свидетельства](docs/COMPARISON_VERIFICATION.md).
+Demo выводит путь `<run>` и сохраняет 12 exports, JSON/Markdown explanations, manifest и публичный ключ в `.artifacts/`. Подтверждены equivalence A/B, три свойства A/C, mandatory M mitigation каждой модели, counterexample и conditional decisions. Replay требует явно выбранный trusted key и свежую Lean verification. [Scope и proof evidence](docs/COMPARISON_VERIFICATION.md), [explanation/sidecar commands](docs/EXPLANATIONS.md).
 
 ## Проверки
 
 ```sh
 npm run check        # TypeScript strict
 npm test            # domain, tampering, persistence, signatures and HTTP workflow
-npm run test:lean    # 12 integration tests; requires exact Lean 4.30.0
+npm run test:lean    # 14 integration tests; requires exact Lean 4.30.0
 npm run schemas:check # generated v2 schema freshness
 npm run build       # typecheck + production bundle
 ```
@@ -98,7 +100,7 @@ lean/         Independent formal relation and trusted proof template
 tests/        Domain, API and actual Lean integration checks
 fixtures/     Source scenarios, expected outcomes and bounded design audits
 schemas/      Generated JSON Schema artifacts
-scripts/      Schema exporter, A/B/C proof demo and receipt replay CLI
+scripts/      Schema exporter, A/B/C demo, receipt replay and explanation CLI
 docs/         Vision, design provenance, demonstrator, MVP and verification evidence
 prototype/    Original architecture archive, preserved as supplied
 ```
@@ -113,4 +115,4 @@ prototype/    Original architecture archive, preserved as supplied
 
 Подпись подтверждает неизменность и происхождение квитанции. Lean подтверждает формальную допустимость результата относительно заданных входов и модели. Соответствие реальному праву и истинность описанных обстоятельств не проверяются. Подробнее: [границы проверки](docs/MVP.md).
 
-Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2, independent decision/comparison/property verification, signed receipts и CLI export/replay. Следующий срез — explanations, метрики и подключение v2 к HTTP/UI. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).
+Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2, independent decision/comparison/property verification, signed receipts, deterministic explanations и CLI export/replay. Следующий срез — метрики и подключение v2 к HTTP/UI. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).

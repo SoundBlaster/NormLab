@@ -46,7 +46,7 @@
 
 - NL-104/NL-106 завершены для decision certificates текущего профиля; интеграция нового ядра в пользовательский flow остаётся отдельной задачей.
 - NL-405 завершён в [отдельном отчёте](COMPARISON_VERIFICATION.md): property/comparison proofs, проверенный counterexample, signed receipts и CLI replay. Текущие totals: 28 unit/API tests и 12 Lean integration tests; таблица выше сохраняет свидетельства исходного contract/producer среза.
-- NL-406/NL-502: explanations, v2 HTTP/storage integration и пользовательский A/B/C flow.
+- NL-406 завершён в [отдельном отчёте](EXPLANATIONS.md): deterministic explanations и sidecar checks. Актуальный набор содержит 35 unit/API tests и 14 Lean integration tests. NL-502 сохраняет v2 HTTP/storage integration и пользовательский A/B/C flow.
 - M3: hardened sandbox и полная identity проверяющего toolchain.
 
 Исторический [M0 verification report](VERIFICATION.md) сохраняется отдельно.

@@ -109,7 +109,7 @@ SpecGraph остаётся опциональным потребителем/и�
 
 ## Открытые решения
 
-Первый набор правил A/B/C, domain D16 и ожидаемые различия зафиксированы в [reform fixture v0.1.0](../fixtures/reform-v1/README.md). [Contracts v2 и semantic profile](CONTRACTS.md) реализованы отдельным ядром. Для этого среза выбран TypeScript producer с отдельным [Lean decision checker](REFORM_VERIFICATION.md); decision obligations NL-106 подтверждены. [NL-405](COMPARISON_VERIFICATION.md) реализует comparison/property proofs, receipts и локальный replay; UI и explanations остаются следующими задачами.
+Первый набор правил A/B/C, domain D16 и ожидаемые различия зафиксированы в [reform fixture v0.1.0](../fixtures/reform-v1/README.md). [Contracts v2 и semantic profile](CONTRACTS.md) реализованы отдельным ядром. Для этого среза выбран TypeScript producer с отдельным [Lean decision checker](REFORM_VERIFICATION.md); decision obligations NL-106 подтверждены. [NL-405](COMPARISON_VERIFICATION.md) реализует comparison/property proofs, receipts и локальный replay; [NL-406](EXPLANATIONS.md) — deterministic explanations. Метрики и UI остаются следующими задачами.
 
 | Решение                                               | Когда требуется                                                        |
 | ----------------------------------------------------- | ---------------------------------------------------------------------- |
