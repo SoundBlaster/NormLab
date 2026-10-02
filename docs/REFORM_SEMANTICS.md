@@ -1,6 +1,6 @@
 # Semantic profile: demo.reform-mitigation/v1
 
-Статус: специфицирован и реализован как TypeScript producer; проверен на конечном fixture. Общие formal proofs и интеграция Lean для этого профиля остаются NL-106.
+Статус: TypeScript producer и независимый Lean decision verifier реализованы. Все 384 snapshot/model combinations проверены kernel; общие relation theorems описаны в [REFORM_VERIFICATION.md](REFORM_VERIFICATION.md). Comparison proofs остаются NL-405.
 
 Источники: [синтетический текст](../fixtures/reform-v1/source.md), [контракты](CONTRACTS.md), [shared/reform-semantics.ts](../shared/reform-semantics.ts).
 
@@ -38,7 +38,7 @@ Permissible_IR(x, y) требует:
     y.currency      = DEMO
 ```
 
-Дополнительно ledger и steps должны удовлетворять обязательствам ниже. Это спецификация отношения для будущего Lean определения. Наличие этого текста и работающей функции не являются доказательствами soundness или completeness.
+Дополнительно ledger и steps должны удовлетворять обязательствам ниже. Независимое [Lean определение](../lean/Reform.lean) проверяет exact equations и подтверждает soundness/completeness принятого certificate. Свидетельства запуска kernel сохранены отдельно от этого описания.
 
 В A/B multiplier M равен 2/3, в C — 1/2. Multiplier N равен 3/4 во всех моделях. Базы K1: 120 месяцев/200 000 DEMO; K2: 240 месяцев/400 000 DEMO. Изменение C ограничено M.
 
@@ -51,7 +51,7 @@ Permissible_IR(x, y) требует:
 
 Scale использует BigInt multiplication и exact division. Каждая применённая стадия обязана дать целое число месяцев; дробные промежуточные значения отклоняются как `unsupported`. Rounding отсутствует. При действии M и N множители применяются последовательно, их уменьшения не складываются относительно базы.
 
-Producer сохраняет step `{ruleId, beforeMonths, afterMonths}` каждого применённого scale. Штраф никогда не участвует в scale. Исключение E не отменяет M и не создаёт отдельного увеличения базы. Проверка исходной арифметики будущим verifier должна строиться независимо от этих producer steps.
+Producer сохраняет step `{ruleId, beforeMonths, afterMonths}` каждого применённого scale. Штраф никогда не участвует в scale. Исключение E не отменяет M и не создаёт отдельного увеличения базы. Lean verifier независимо проверяет арифметику последствия и точный required list steps.
 
 ## Полный ledger
 
@@ -81,4 +81,4 @@ Producer сохраняет step `{ruleId, beforeMonths, afterMonths}` кажд�
 - Comparison: equivalence A/B и конкретные ограничения A/C относятся к указанному D16 и mapping.
 - Binding: statement конструируется из доверенного query/snapshot/bundles; доказательство другого утверждения не принимается.
 
-TypeScript tests проверяют конкретный fixture и повреждения структуры. Lean integration M0 не подтверждает эти новые обязательства. Источник текущих свидетельств — [CONTRACT_VERIFICATION.md](CONTRACT_VERIFICATION.md).
+TypeScript tests проверяют конкретный fixture и повреждения структуры. Новые Lean integration checks подтверждают decision obligations профиля на A/B/C и общие теоремы relation; M0 проверяется отдельно. Источники свидетельств — [contract report](CONTRACT_VERIFICATION.md) и [Lean decision report](REFORM_VERIFICATION.md). Comparison и signed receipts ещё не реализованы.

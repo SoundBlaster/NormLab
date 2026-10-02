@@ -12,7 +12,7 @@
     "start": "tsx server/index.ts --production",
     "check": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
-    "test:lean": "tsx --test tests/lean.integration.ts",
+    "test:lean": "tsx --test tests/*.integration.ts",
     "schemas:write": "tsx scripts/export-contracts.ts",
     "schemas:check": "tsx scripts/export-contracts.ts --check"
   },

@@ -4,7 +4,7 @@
 
 Цель — наглядная исследовательская лаборатория для обсуждения реформы УК: структурного упрощения, сокращения числа норм и гуманизации наказаний через явные обязательные правила. Завершённые входы экспериментального reform profile должны определять единственный составной результат в объявленном scope.
 
-Завершён **первый сквозной локальный срез M0**, зафиксирован fixture A/B/C и реализовано отдельное ядро contracts/producer v2. Следующий результат — независимая проверка нового профиля и содержательный демонстратор в HTTP/UI. Этот файл описывает текущий план; будущие пункты не считаются реализованными или доказанными.
+Завершён **первый сквозной локальный срез M0**; ядро contracts/producer v2 и независимая Lean decision verification A/B/C реализованы. Следующий результат — comparison proofs/receipts и содержательный демонстратор в HTTP/UI. Этот файл описывает текущий план; будущие пункты не считаются реализованными или доказанными.
 
 ## Основания и правила ведения
 
@@ -12,6 +12,7 @@
 - [Первый демонстратор A/B/C](docs/DEMONSTRATOR.md) — сценарий и критерии следующего среза.
 - [Происхождение решений](docs/DESIGN_NOTES.md) — прямые авторские цели, инженерные предложения и открытые вопросы.
 - [Contracts v2](docs/CONTRACTS.md), [семантика](docs/REFORM_SEMANTICS.md) и [проверки](docs/CONTRACT_VERIFICATION.md) — реализованное отдельное ядро нового профиля.
+- [Lean decision verification v2](docs/REFORM_VERIFICATION.md) — независимое отношение, общие теоремы, kernel checks и границы гарантий.
 - [Исходная архитектура](prototype/normlab-architecture/README.ru.md) — целевое описание компонентов и ограничений.
 - [Решения и границы текущего MVP](docs/MVP.md) — фактически реализованный подход и trusted computing base.
 - [Отчёт локальной проверки](docs/VERIFICATION.md) — свидетельства для исходного среза.
@@ -44,11 +45,11 @@ Task IDs сохранены при изменении приоритетов: н
 
 **Зависимость:** M0. До готовности соответствующих механизмов M3 используются локальные reviewed fixtures. Это этап расширения поддержанной семантики под конкретный исследовательский сценарий.
 
-- [x] **NL-107 — Исследовательский fixture.** Зафиксированы [синтетический текст A/B/C, source mappings и D16](fixtures/reform-v1/README.md): две группы, три обстоятельства, два обязательных уменьшения и исключение. [Арифметический аудит](fixtures/reform-v1/VALIDATION.md) проверяет 48 вычислений, пять relations и учебный counterexample. Спецификация завершена; отдельный producer реализован в NL-102, end-to-end проверка ещё впереди.
-- [x] **NL-101 — Контракты.** Реализованы десять строгих [Zod/JSON schemas](docs/CONTRACTS.md) для Legal IR, NormPackage, SemanticProfile, NormBundle, snapshots, query, result, certificate и receipt. Зафиксированы совместимость v1/v2, encoding, units, bounds, unsupported cases и contextual bindings. [Проверка](docs/CONTRACT_VERIFICATION.md) включает Ajv Draft 2020-12, Unicode limits и schema freshness. Signer/verifier v2 и HTTP integration остаются отдельными задачами.
-- [x] **NL-102 — Семантика.** Реализован [profile demo.reform-mitigation/v1](docs/REFORM_SEMANTICS.md): typed scopes, completion, exact arithmetic, order M/N и exclusion E. Producer не выбирает behavior по fixture/rule ID. Проверены 384 snapshot/model combinations и 1296 branches. Существование/единственность относительно независимого отношения остаётся NL-106; unsupported baseline profiles с диапазонами не сводятся к выбранной точке.
-- [ ] **NL-104 — Взаимодействие правил.** Producer и полный ledger реализованы в NL-102: обязательные M/N, exclusion E, явный порядок и один applyCount. Завершить проверяемый end-to-end pipeline: независимое отклонение пропуска обязательного rule, неверного exclusion и двойного учёта при обработке v2 certificates.
-- [ ] **NL-106 — Formal properties.** Сформулировать независимое отношение допустимости. Проверить soundness, outcome completeness, mandatory-rule completeness и существование/единственность результата C для завершённых входов в domain. Проверять свойства композиции смягчающих правил, если они включены в query; отклонять повреждённые certificates.
+- [x] **NL-107 — Исследовательский fixture.** Зафиксированы [синтетический текст A/B/C, source mappings и D16](fixtures/reform-v1/README.md): две группы, три обстоятельства, два обязательных уменьшения и исключение. [Арифметический аудит](fixtures/reform-v1/VALIDATION.md) проверяет 48 вычислений, пять relations и учебный counterexample. Producer и decision verifier реализованы; comparison proofs и HTTP/UI integration ещё впереди.
+- [x] **NL-101 — Контракты.** Реализованы десять строгих [Zod/JSON schemas](docs/CONTRACTS.md) для Legal IR, NormPackage, SemanticProfile, NormBundle, snapshots, query, result, certificate и receipt. Зафиксированы совместимость v1/v2, encoding, units, bounds, unsupported cases и contextual bindings. [Проверка](docs/CONTRACT_VERIFICATION.md) включает Ajv Draft 2020-12, Unicode limits и schema freshness. Signed receipts, comparison verifier и HTTP integration остаются отдельными задачами.
+- [x] **NL-102 — Семантика.** Реализован [profile demo.reform-mitigation/v1](docs/REFORM_SEMANTICS.md): typed scopes, completion, exact arithmetic, order M/N и exclusion E. Producer не выбирает behavior по fixture/rule ID. Проверены 384 snapshot/model combinations и 1296 branches. Существование/единственность подтверждены в NL-106; unsupported baseline profiles с диапазонами не сводятся к выбранной точке.
+- [x] **NL-104 — Взаимодействие правил.** Реализованы producer/ledger и независимый [Lean decision verifier](docs/REFORM_VERIFICATION.md): обязательные M/N, exclusion E, порядок и один applyCount. Kernel отклоняет missing M/N, неверное exclusion, двойной учёт и повреждения ledger/steps с обходом TypeScript result guards. Pipeline пока вызывается как отдельное ядро; HTTP/UI integration остаётся NL-502.
+- [x] **NL-106 — Formal properties.** Реализовано независимое [Lean relation](lean/Reform.lean): soundness, outcome/mandatory-rule completeness принятого result и existence/uniqueness любого WellFormed model на D16. [Проверены](docs/REFORM_VERIFICATION.md) все 384 A/B/C results и 1296 branches, девять общих теорем, binding attacks и unsupported/inconclusive statuses. Универсальная верификация TypeScript code не заявляется; comparison/property queries относятся к NL-405.
 - [x] **NL-404 — Comparison contract.** Реализован [query/certificate/receipt contract](docs/CONTRACTS.md) с отдельными baseline/candidate, D16, identity mapping и точными scopes properties. Перестановка roles, скрытое сужение domain и ложный coverage отклоняются. Для иных mappings и диапазонов требуется отдельная поддержка; comparison proofs/receipts остаются NL-405.
 - [ ] **NL-405 — Comparison proofs.** Выпускать bound receipts для equivalence A/B и выбранных свойств A/C. Отделить corpus checks от проверенного exhaustive finite domain и общего доказательства. Предъявить независимо проверенный counterexample для отдельного ошибочного варианта поправки. Экспортировать достаточные входы сравнения для повторной проверки.
 - [ ] **NL-406 — Объяснения.** Строить детерминированное explanation из derivation/ledger, показывать assumptions, источники, scope и независимые proof/coverage statuses. Переходить от изменённого последствия к конкретному правилу и finding; AI для этого среза не требуется.
@@ -123,12 +124,12 @@ Task IDs сохранены при изменении приоритетов: н
 
 ## Ближайший рабочий срез
 
-**NL-107 / NL-101 / NL-102 / NL-404 завершены в указанном объёме.** Следующий срез — **NL-104 / NL-106**, затем **NL-405** на основе [reform fixture v0.1.0](fixtures/reform-v1/README.md):
+**NL-107 / NL-101 / NL-102 / NL-104 / NL-106 / NL-404 завершены в указанном объёме.** Следующий срез — **NL-405** на основе [reform fixture v0.1.0](fixtures/reform-v1/README.md):
 
-1. Определить в Lean независимое отношение допустимости v2: typed consequences, все rules/branches, exclusion и порядок transforms. Сохранить M0 regression checks.
-2. Реализовать отдельный statement constructor для authenticated query/snapshot/bundles и kernel verification decision certificates.
-3. Проверить soundness, outcome/mandatory-rule completeness и существование/единственность C; отклонять повреждённые данные независимо от producer.
-4. Добавить proofs/receipts для equivalence A/B и выбранных свойств A/C с bound counterexamples. Указанный ошибочный вариант поправки использовать как негативный сценарий.
+1. Расширить independent relation/statement constructor до authenticated comparison и unary property queries, сохранив decision и M0 regressions.
+2. Проверить equivalence A/B, component-no-increase, strict reduction при M и preservation вне M для A/C на заявленном D16/scope.
+3. Независимо проверить bound counterexample ошибочной поправки; не принимать ложное `holds`, подменённые roles или потерю finite coverage.
+4. Выпускать signed receipts v2 с exact statement/query/model bindings, отдельным coverage и явной issuer trust; реализовать повторную проверку export artifacts.
 5. Подключить проверенный pipeline к storage/HTTP/UI, explanations, metrics и export; предъявить локальный A/B/C flow с точной областью гарантии.
 
 ## Условия завершения этапов

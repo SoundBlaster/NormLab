@@ -1,6 +1,6 @@
 # Reform fixture v0.1.0
 
-Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; producer-tested; not-HTTP-integrated; not-Lean-verified**.
+Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; producer-tested; Lean-decision-verified; not-HTTP-integrated**. Comparison proofs остаются отдельным этапом.
 
 - [source.md](source.md) — полный синтетический исходный текст A/B/C с устойчивыми ID положений.
 - [fixture.json](fixture.json) — машиночитаемый design artifact: domain, положения, source mappings, ожидаемые значения и queries.
@@ -62,7 +62,7 @@ Mapping входов и последствий между A/B/C — identity. С
 4. **Q-AC-outside-M:** при опровергнутом M последствия C равны A — восемь случаев.
 5. **Q-M-monotonicity:** для каждой модели при неизменных группе/N/E установление M строго уменьшает срок и сохраняет остальные последствия — восемь пар на модель.
 
-Существование/единственность относительно независимого отношения допустимости, soundness/completeness и receipts этих queries ещё предстоит реализовать в NL-106/NL-405. Таблица задаёт expected outcomes для этой работы.
+Существование/единственность относительно независимого отношения допустимости и soundness/completeness decision results подтверждены в [NL-106](../../docs/REFORM_VERIFICATION.md). Таблица используется как независимый producer regression oracle. Comparison proofs и signed receipts этих queries ещё предстоит реализовать в NL-405.
 
 ## Воспроизведение аудита
 

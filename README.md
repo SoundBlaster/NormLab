@@ -10,6 +10,7 @@
 - [Первый демонстратор](docs/DEMONSTRATOR.md): предлагаемый сценарий, свойства и критерии готовности следующего среза.
 - [Reform fixture v0.1.0](fixtures/reform-v1/README.md): конкретный синтетический текст A/B/C, все 16 завершённых случаев и арифметический аудит. Подключение к приложению ещё впереди.
 - [Контракты v2](docs/CONTRACTS.md), [семантика нового профиля](docs/REFORM_SEMANTICS.md) и [отчёт проверки](docs/CONTRACT_VERIFICATION.md): отдельное ядро A/B/C, JSON schemas и bindings. HTTP/UI остаются на M0/v1.
+- [Независимая Lean verification v2](docs/REFORM_VERIFICATION.md): decision certificates A/B/C, общие теоремы и проверка всех 384 snapshots.
 - [Основания проектирования](docs/DESIGN_NOTES.md): авторские цели из переписки, происхождение решений, роль Hypercode и предложение интеграции со SpecGraph.
 - [Roadmap](roadmap.md): этапы, зависимости и актуальные приоритеты.
 - [Текущий MVP](docs/MVP.md) и [отчёт его проверки](docs/VERIFICATION.md): реализованные возможности, API и конкретные свидетельства.
@@ -101,4 +102,4 @@ prototype/    Original architecture archive, preserved as supplied
 
 Подпись подтверждает неизменность и происхождение квитанции. Lean подтверждает формальную допустимость результата относительно заданных входов и модели. Соответствие реальному праву и истинность описанных обстоятельств не проверяются. Подробнее: [границы проверки](docs/MVP.md).
 
-Для A/B/C уже реализовано отдельное ядро producer, locked bundles и contracts v2. Следующий срез — независимая допустимость в Lean и проверка v2 certificates/comparisons, затем подключение к HTTP/UI. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).
+Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2 и независимая Lean decision verification. Следующий срез — comparison/property proofs и signed receipts v2, затем подключение к HTTP/UI. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).

@@ -6,9 +6,9 @@
 
 V2 реализован как отдельное типизированное ядро и набор artifact contracts. HTTP API, SQLite и UI продолжают использовать M0/v1. Существующие данные не мигрируются автоматически. Сборка locked bundles A/B/C выполняется из [зафиксированного fixture](../fixtures/reform-v1/README.md).
 
-Литерал `schema` выбирает точный поддержанный контракт. Старый certificate v1 не становится certificate v2 после изменения имени поля. Новый профиль требует отдельного verifier/statement constructor; текущий Lean verifier проверяет M0. Неизвестная версия или профиль не дают статус `verified`.
+Литерал `schema` выбирает точный поддержанный контракт. Старый certificate v1 не становится certificate v2 после изменения имени поля. Для нового профиля реализован отдельный [decision verifier/statement constructor](REFORM_VERIFICATION.md); HTTP verifier продолжает проверять M0. Неизвестная версия или профиль не дают статус `verified`.
 
-Для producer сохраняется TypeScript. Независимое отношение допустимости и Lean verification нового профиля относятся к NL-106. Основание выбора: сохраняется существующее разделение producer/checker, а ограниченный D16 позволяет проверять все комбинации без добавления нового compiled runtime. Возможный перенос producer в Lean должен сохранять эти контракты и независимость проверки.
+Для producer сохраняется TypeScript. Независимое отношение допустимости и Lean decision verification нового профиля реализованы в NL-106. Основание выбора: сохраняется существующее разделение producer/checker, а ограниченный D16 позволяет проверять все комбинации без добавления нового compiled runtime. Возможный перенос producer в Lean должен сохранять эти контракты и независимость проверки.
 
 ## Источник schemas
 
@@ -51,7 +51,7 @@ JSON Schema/Zod проверяют форму, enum, пределы чисел �
 
 Эти helpers не проверяют истинность findings или fidelity естественного исходного текста. Source mapping подтверждает адрес и наличие именованного положения; нормативный смысл перевода требует review.
 
-`validateReformCertificateBindings` и `validateReformReceiptBindings` проверяют связи и структурную согласованность. Они не удостоверяют arithmetic candidate, signature, issuer trust, statement или факт запуска Lean. Полученный `verification.status` остаётся полем недоверенного artifact до этих отдельных проверок. В этом срезе signer/verifier v2 не выпускает квитанции.
+`validateReformCertificateBindings` и `validateReformReceiptBindings` проверяют связи и структурную согласованность. Они не удостоверяют arithmetic candidate, signature, issuer trust, statement или факт запуска Lean. Для decision используется отдельный `verifyReformDecision`; сравнения и signed receipts v2 пока не реализованы. Полученный из внешнего artifact `verification.status` остаётся недоверенным до самостоятельной проверки.
 
 ## Query и comparison contract
 
@@ -92,4 +92,4 @@ Canonical encoding использует [server/hash.ts](../server/hash.ts): к�
 
 ## Следующая интеграция
 
-Следующий срез — независимое отношение допустимости нового профиля, Lean statement constructor и проверка certificates/queries. После этого можно подключать v2 snapshots, анализ и A/B/C UI. Исторические receipts M0 сохраняют свои версии и toolchain identity; изменение dependency lock меняет identity нового запуска verifier.
+Decision relation, Lean statement constructor и kernel verification v2 реализованы; [свидетельства](REFORM_VERIFICATION.md) включают все 384 snapshots A/B/C. Следующий срез — comparison/property proofs и bound receipts, затем v2 snapshots, анализ и A/B/C UI. Исторические receipts M0 сохраняют свои версии и toolchain identity; изменение dependency lock меняет identity нового запуска verifier.
