@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "domain": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "assumptions": {
+          "$ref": "#/$defs/__schema3"
+        },
+        "kind": {
+          "type": "string",
+          "const": "decision"
+        },
+        "snapshotDigest": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "model": {
+          "$ref": "#/$defs/__schema6"
+        }
+      },
+      "required": [
+        "schema",
+        "domain",
+        "assumptions",
+        "kind",
+        "snapshotDigest",
+        "model"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "domain": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "assumptions": {
+          "$ref": "#/$defs/__schema3"
+        },
+        "kind": {
+          "type": "string",
+          "const": "comparison"
+        },
+        "baseline": {
+          "$ref": "#/$defs/__schema6"
+        },
+        "candidate": {
+          "$ref": "#/$defs/__schema6"
+        },
+        "mapping": {
+          "type": "string",
+          "const": "identity-typed-consequences/v1"
+        },
+        "property": {
+          "type": "string",
+          "enum": [
+            "equivalence",
+            "component-no-increase",
+            "strict-reduction",
+            "preserved-outside"
+          ]
+        },
+        "condition": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "M": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "M"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target": {
+          "type": "string",
+          "const": "prisonMonths"
+        },
+        "preserve": {
+          "$ref": "#/$defs/__schema7"
+        }
+      },
+      "required": [
+        "schema",
+        "domain",
+        "assumptions",
+        "kind",
+        "baseline",
+        "candidate",
+        "mapping",
+        "property",
+        "condition",
+        "target",
+        "preserve"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "domain": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "assumptions": {
+          "$ref": "#/$defs/__schema3"
+        },
+        "kind": {
+          "type": "string",
+          "const": "property"
+        },
+        "model": {
+          "$ref": "#/$defs/__schema6"
+        },
+        "property": {
+          "type": "string",
+          "const": "strict-M-mitigation"
+        },
+        "target": {
+          "type": "string",
+          "const": "prisonMonths"
+        },
+        "preserve": {
+          "$ref": "#/$defs/__schema7"
+        }
+      },
+      "required": [
+        "schema",
+        "domain",
+        "assumptions",
+        "kind",
+        "model",
+        "property",
+        "target",
+        "preserve"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "const": "normlab.query/v2"
+    },
+    "__schema1": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "const": "D16"
+        },
+        "profileId": {
+          "type": "string",
+          "const": "demo.reform-mitigation/v1"
+        },
+        "groups": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "K1"
+            },
+            {
+              "type": "string",
+              "const": "K2"
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "predicates": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "M"
+            },
+            {
+              "type": "string",
+              "const": "N"
+            },
+            {
+              "type": "string",
+              "const": "E"
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "cardinality": {
+          "type": "number",
+          "const": 16
+        },
+        "restrictions": {
+          "minItems": 0,
+          "maxItems": 0,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema2"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "profileId",
+        "groups",
+        "predicates",
+        "cardinality",
+        "restrictions"
+      ],
+      "additionalProperties": false
+    },
+    "__schema2": {
+      "type": "string"
+    },
+    "__schema3": {
+      "minItems": 1,
+      "maxItems": 16,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema4"
+      }
+    },
+    "__schema4": {
+      "type": "string",
+      "pattern": "^[\\s\\S]{1,1000}(?![\\s\\S])",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "__schema5": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "__schema6": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "semanticDigest": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "provenanceDigest": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "profileDigest": {
+          "$ref": "#/$defs/__schema5"
+        }
+      },
+      "required": [
+        "id",
+        "semanticDigest",
+        "provenanceDigest",
+        "profileDigest"
+      ],
+      "additionalProperties": false
+    },
+    "__schema7": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "string",
+          "const": "qualification"
+        },
+        {
+          "type": "string",
+          "const": "fineAmount"
+        },
+        {
+          "type": "string",
+          "const": "currency"
+        }
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    }
+  },
+  "$id": "urn:normlab:contract:v2:query"
+}

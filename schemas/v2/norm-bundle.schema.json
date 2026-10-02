@@ -1,0 +1,455 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "normlab.norm-bundle/v1"
+    },
+    "id": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "package": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "normlab.norm-package/v1"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "version": {
+          "type": "string",
+          "maxLength": 14,
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "author": {
+          "type": "string",
+          "pattern": "^[\\s\\S]{1,200}(?![\\s\\S])",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "review": {
+          "type": "string",
+          "const": "local-synthetic-fixture"
+        },
+        "sourceKind": {
+          "type": "string",
+          "const": "synthetic"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/__schema0"
+            },
+            "content": {
+              "type": "string",
+              "pattern": "^[\\s\\S]{1,32768}(?![\\s\\S])",
+              "minLength": 1,
+              "maxLength": 32768
+            },
+            "digest": {
+              "$ref": "#/$defs/__schema1"
+            }
+          },
+          "required": [
+            "id",
+            "content",
+            "digest"
+          ],
+          "additionalProperties": false
+        },
+        "sourceMappings": {
+          "minItems": 4,
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema2"
+          }
+        },
+        "ir": {
+          "type": "object",
+          "properties": {
+            "schema": {
+              "type": "string",
+              "const": "normlab.legal-ir/v2"
+            },
+            "profileId": {
+              "type": "string",
+              "const": "demo.reform-mitigation/v1"
+            },
+            "rules": {
+              "minItems": 4,
+              "maxItems": 12,
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/__schema3"
+              }
+            },
+            "scope": {
+              "type": "string",
+              "const": "synthetic-reform-D16"
+            }
+          },
+          "required": [
+            "schema",
+            "profileId",
+            "rules",
+            "scope"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "id",
+        "version",
+        "author",
+        "review",
+        "sourceKind",
+        "source",
+        "sourceMappings",
+        "ir"
+      ],
+      "additionalProperties": false
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "normlab.semantic-profile/v1"
+        },
+        "id": {
+          "type": "string",
+          "const": "demo.reform-mitigation/v1"
+        },
+        "version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "groups": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "K1"
+            },
+            {
+              "type": "string",
+              "const": "K2"
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "predicates": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "M"
+            },
+            {
+              "type": "string",
+              "const": "N"
+            },
+            {
+              "type": "string",
+              "const": "E"
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "completion": {
+          "type": "string",
+          "const": "all-findings-terminal"
+        },
+        "openFindings": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "unreviewed"
+            },
+            {
+              "type": "string",
+              "const": "not-established"
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "order": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "baseline"
+            },
+            {
+              "type": "string",
+              "const": "exclusions"
+            },
+            {
+              "type": "string",
+              "const": "M"
+            },
+            {
+              "type": "string",
+              "const": "N"
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "arithmetic": {
+          "type": "string",
+          "const": "exact-rational-reject-non-integral"
+        },
+        "currency": {
+          "type": "string",
+          "const": "DEMO"
+        },
+        "maxRules": {
+          "type": "number",
+          "const": 12
+        },
+        "maxBranches": {
+          "type": "number",
+          "const": 8
+        }
+      },
+      "required": [
+        "schema",
+        "id",
+        "version",
+        "groups",
+        "predicates",
+        "completion",
+        "openFindings",
+        "order",
+        "arithmetic",
+        "currency",
+        "maxRules",
+        "maxBranches"
+      ],
+      "additionalProperties": false
+    },
+    "locks": {
+      "type": "object",
+      "properties": {
+        "packageDigest": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "profileDigest": {
+          "$ref": "#/$defs/__schema1"
+        }
+      },
+      "required": [
+        "packageDigest",
+        "profileDigest"
+      ],
+      "additionalProperties": false
+    },
+    "semanticDigest": {
+      "$ref": "#/$defs/__schema1"
+    },
+    "provenanceDigest": {
+      "$ref": "#/$defs/__schema1"
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "package",
+    "profile",
+    "locks",
+    "semanticDigest",
+    "provenanceDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96,
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+    },
+    "__schema1": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "__schema2": {
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "sourceId": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "anchor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "originRuleIds": {
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema0"
+          }
+        }
+      },
+      "required": [
+        "ruleId",
+        "sourceId",
+        "anchor",
+        "originRuleIds"
+      ],
+      "additionalProperties": false
+    },
+    "__schema3": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "groups": {
+          "minItems": 1,
+          "maxItems": 2,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema4"
+          }
+        },
+        "mandatory": {
+          "type": "boolean",
+          "const": true
+        },
+        "applyCount": {
+          "type": "number",
+          "const": 1
+        },
+        "operation": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "baseline"
+                },
+                "prisonMonths": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 3600
+                },
+                "fineAmount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000
+                }
+              },
+              "required": [
+                "kind",
+                "prisonMonths",
+                "fineAmount"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "scale"
+                },
+                "trigger": {
+                  "type": "string",
+                  "enum": [
+                    "M",
+                    "N"
+                  ]
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 12
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 12
+                },
+                "preserveFine": {
+                  "type": "boolean",
+                  "const": true
+                }
+              },
+              "required": [
+                "kind",
+                "trigger",
+                "numerator",
+                "denominator",
+                "preserveFine"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "exclude"
+                },
+                "trigger": {
+                  "type": "string",
+                  "const": "E"
+                },
+                "targetTrigger": {
+                  "type": "string",
+                  "const": "N"
+                }
+              },
+              "required": [
+                "kind",
+                "trigger",
+                "targetTrigger"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "groups",
+        "mandatory",
+        "applyCount",
+        "operation"
+      ],
+      "additionalProperties": false
+    },
+    "__schema4": {
+      "type": "string",
+      "enum": [
+        "K1",
+        "K2"
+      ]
+    }
+  },
+  "$id": "urn:normlab:contract:v2:norm-bundle"
+}

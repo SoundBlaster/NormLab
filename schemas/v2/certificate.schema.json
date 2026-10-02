@@ -1,0 +1,440 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "queryDigest": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "kind": {
+          "type": "string",
+          "const": "decision"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "schema": {
+              "type": "string",
+              "const": "normlab.decision-result/v2"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "complete",
+                "conditional"
+              ]
+            },
+            "branches": {
+              "minItems": 1,
+              "maxItems": 8,
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/__schema2"
+              }
+            },
+            "ledger": {
+              "minItems": 4,
+              "maxItems": 12,
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/__schema10"
+              }
+            }
+          },
+          "required": [
+            "schema",
+            "status",
+            "branches",
+            "ledger"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "queryDigest",
+        "kind",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "queryDigest": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "kind": {
+          "type": "string",
+          "const": "comparison"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "holds",
+                "counterexample"
+              ]
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "corpus",
+                "exhaustive-finite-domain"
+              ]
+            },
+            "rows": {
+              "minItems": 1,
+              "maxItems": 16,
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/__schema11"
+              }
+            },
+            "counterexample": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/__schema11"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "verdict",
+            "method",
+            "rows",
+            "counterexample"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "queryDigest",
+        "kind",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "queryDigest": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "kind": {
+          "type": "string",
+          "const": "property"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "holds",
+                "counterexample"
+              ]
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "corpus",
+                "exhaustive-finite-domain"
+              ]
+            },
+            "pairs": {
+              "minItems": 1,
+              "maxItems": 8,
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/__schema12"
+              }
+            },
+            "counterexample": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/__schema12"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "verdict",
+            "method",
+            "pairs",
+            "counterexample"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "queryDigest",
+        "kind",
+        "result"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "const": "normlab.certificate/v2"
+    },
+    "__schema1": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "__schema2": {
+      "type": "object",
+      "properties": {
+        "when": {
+          "$ref": "#/$defs/__schema3"
+        },
+        "outcome": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "ledger": {
+          "minItems": 4,
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema7"
+          }
+        },
+        "steps": {
+          "maxItems": 2,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema9"
+          }
+        }
+      },
+      "required": [
+        "when",
+        "outcome",
+        "ledger",
+        "steps"
+      ],
+      "additionalProperties": false
+    },
+    "__schema3": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "$ref": "#/$defs/__schema4"
+        },
+        "M": {
+          "type": "boolean"
+        },
+        "N": {
+          "type": "boolean"
+        },
+        "E": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "group",
+        "M",
+        "N",
+        "E"
+      ],
+      "additionalProperties": false
+    },
+    "__schema4": {
+      "type": "string",
+      "enum": [
+        "K1",
+        "K2"
+      ]
+    },
+    "__schema5": {
+      "type": "object",
+      "properties": {
+        "qualification": {
+          "$ref": "#/$defs/__schema4"
+        },
+        "prisonMonths": {
+          "$ref": "#/$defs/__schema6"
+        },
+        "fineAmount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "currency": {
+          "type": "string",
+          "const": "DEMO"
+        }
+      },
+      "required": [
+        "qualification",
+        "prisonMonths",
+        "fineAmount",
+        "currency"
+      ],
+      "additionalProperties": false
+    },
+    "__schema6": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3600
+    },
+    "__schema7": {
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/__schema8"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "applied",
+            "inapplicable",
+            "excluded"
+          ]
+        },
+        "excludedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/__schema8"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ruleId",
+        "status",
+        "excludedBy"
+      ],
+      "additionalProperties": false
+    },
+    "__schema8": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96,
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+    },
+    "__schema9": {
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/__schema8"
+        },
+        "beforeMonths": {
+          "$ref": "#/$defs/__schema6"
+        },
+        "afterMonths": {
+          "$ref": "#/$defs/__schema6"
+        }
+      },
+      "required": [
+        "ruleId",
+        "beforeMonths",
+        "afterMonths"
+      ],
+      "additionalProperties": false
+    },
+    "__schema10": {
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/__schema8"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "applied",
+            "inapplicable",
+            "excluded",
+            "unresolved"
+          ]
+        },
+        "excludedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/__schema8"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ruleId",
+        "status",
+        "excludedBy"
+      ],
+      "additionalProperties": false
+    },
+    "__schema11": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "$ref": "#/$defs/__schema3"
+        },
+        "baseline": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "candidate": {
+          "$ref": "#/$defs/__schema5"
+        }
+      },
+      "required": [
+        "input",
+        "baseline",
+        "candidate"
+      ],
+      "additionalProperties": false
+    },
+    "__schema12": {
+      "type": "object",
+      "properties": {
+        "before": {
+          "$ref": "#/$defs/__schema3"
+        },
+        "after": {
+          "$ref": "#/$defs/__schema3"
+        },
+        "baseline": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "candidate": {
+          "$ref": "#/$defs/__schema5"
+        }
+      },
+      "required": [
+        "before",
+        "after",
+        "baseline",
+        "candidate"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$id": "urn:normlab:contract:v2:certificate"
+}

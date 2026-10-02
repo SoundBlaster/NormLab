@@ -1,13 +1,13 @@
 # Reform fixture v0.1.0
 
-Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; not-runtime-integrated; not-Lean-verified**.
+Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; producer-tested; not-HTTP-integrated; not-Lean-verified**.
 
 - [source.md](source.md) — полный синтетический исходный текст A/B/C с устойчивыми ID положений.
 - [fixture.json](fixture.json) — машиночитаемый design artifact: domain, положения, source mappings, ожидаемые значения и queries.
 - [VALIDATION.md](VALIDATION.md) — результаты ограниченной проверки fixture и оставшиеся обязательства.
 - [check_fixture.py](check_fixture.py) — воспроизводимая проверка полноты таблицы, арифметики, mappings и заявленных отношений на конечной области.
 
-Формат `normlab.reform-fixture-plan/v1` предназначен для этого source fixture. Он ещё не является Legal IR приложения, JSON Schema из NL-101 или входом существующего Lean verifier.
+Формат `normlab.reform-fixture-plan/v1` предназначен для этого source fixture. [server/reform-models.ts](../../server/reform-models.ts) собирает из него typed NormPackages/NormBundles нового [контракта v2](../../docs/CONTRACTS.md). Сам fixture plan сохраняет отдельный формат и не является входом существующего Lean verifier M0.
 
 ## Что меняется
 

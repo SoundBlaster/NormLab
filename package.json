@@ -12,7 +12,9 @@
     "start": "tsx server/index.ts --production",
     "check": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
-    "test:lean": "tsx --test tests/lean.integration.ts"
+    "test:lean": "tsx --test tests/lean.integration.ts",
+    "schemas:write": "tsx scripts/export-contracts.ts",
+    "schemas:check": "tsx scripts/export-contracts.ts --check"
   },
   "dependencies": {
     "react": "19.3.0",
@@ -23,6 +25,8 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
     "prettier": "3.9.9",
     "tsx": "^4.20.0",
     "typescript": "7.0.2",
