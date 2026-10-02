@@ -38,14 +38,14 @@
 
 Новый TypeScript producer согласован с finite fixture. Структурные и contextual contracts выполняют перечисленные checks. Отдельное изменение provenance при сохранении IR меняет provenance digest, сохраняя semantic digest.
 
-Этот contract/producer audit сам по себе не является proof soundness/completeness независимого нормативного отношения. Contextual helpers не подтверждают candidate arithmetic или signature/issuer trust. Отдельный [Lean decision verifier](REFORM_VERIFICATION.md) теперь проверяет arithmetic, ledger и completion coverage v2. Test receipt содержит synthetic unsigned bytes и статус inconclusive; production receipts v2 пока не выпускаются.
+Этот contract/producer audit сам по себе не является proof soundness/completeness независимого нормативного отношения. Contextual helpers не подтверждают candidate arithmetic или signature/issuer trust. Отдельный [Lean decision verifier](REFORM_VERIFICATION.md) проверяет arithmetic, ledger и completion coverage v2. Structural test receipt содержит synthetic unsigned bytes и статус inconclusive. Последующий [NL-405](COMPARISON_VERIFICATION.md) добавляет реальный signer/replay v2 для локального core/CLI flow; HTTP/UI остаются M0.
 
 Исходные две Lean integration checks подтверждают M0. Новые пять проверяют A/B/C в отдельном Lean relation; их scope, axiom audit и границы описаны в [REFORM_VERIFICATION.md](REFORM_VERIFICATION.md).
 
 ## Оставшиеся этапы
 
 - NL-104/NL-106 завершены для decision certificates текущего профиля; интеграция нового ядра в пользовательский flow остаётся отдельной задачей.
-- NL-405: property/comparison proofs, проверенные counterexamples и связанные receipts.
+- NL-405 завершён в [отдельном отчёте](COMPARISON_VERIFICATION.md): property/comparison proofs, проверенный counterexample, signed receipts и CLI replay. Текущие totals: 28 unit/API tests и 12 Lean integration tests; таблица выше сохраняет свидетельства исходного contract/producer среза.
 - NL-406/NL-502: explanations, v2 HTTP/storage integration и пользовательский A/B/C flow.
 - M3: hardened sandbox и полная identity проверяющего toolchain.
 

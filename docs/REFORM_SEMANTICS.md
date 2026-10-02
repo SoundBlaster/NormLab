@@ -1,6 +1,6 @@
 # Semantic profile: demo.reform-mitigation/v1
 
-Статус: TypeScript producer и независимый Lean decision verifier реализованы. Все 384 snapshot/model combinations проверены kernel; общие relation theorems описаны в [REFORM_VERIFICATION.md](REFORM_VERIFICATION.md). Comparison proofs остаются NL-405.
+Статус: TypeScript producer и независимый Lean decision/comparison/property verifier реализованы. Все 384 snapshot/model combinations проверены kernel; общие relation theorems описаны в [REFORM_VERIFICATION.md](REFORM_VERIFICATION.md). [NL-405](COMPARISON_VERIFICATION.md) подтверждает equivalence A/B, свойства A/C, bound counterexample и signed receipt replay.
 
 Источники: [синтетический текст](../fixtures/reform-v1/source.md), [контракты](CONTRACTS.md), [shared/reform-semantics.ts](../shared/reform-semantics.ts).
 
@@ -81,4 +81,4 @@ Producer сохраняет step `{ruleId, beforeMonths, afterMonths}` кажд�
 - Comparison: equivalence A/B и конкретные ограничения A/C относятся к указанному D16 и mapping.
 - Binding: statement конструируется из доверенного query/snapshot/bundles; доказательство другого утверждения не принимается.
 
-TypeScript tests проверяют конкретный fixture и повреждения структуры. Новые Lean integration checks подтверждают decision obligations профиля на A/B/C и общие теоремы relation; M0 проверяется отдельно. Источники свидетельств — [contract report](CONTRACT_VERIFICATION.md) и [Lean decision report](REFORM_VERIFICATION.md). Comparison и signed receipts ещё не реализованы.
+TypeScript tests проверяют конкретный fixture и повреждения структуры. Lean integration checks подтверждают decision obligations профиля на A/B/C и общие теоремы relation; M0 проверяется отдельно. Источники свидетельств — [contract report](CONTRACT_VERIFICATION.md), [Lean decision report](REFORM_VERIFICATION.md) и [comparison/receipt report](COMPARISON_VERIFICATION.md). HTTP/UI integration v2 остаётся NL-502.

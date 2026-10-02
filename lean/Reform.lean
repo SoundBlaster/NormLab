@@ -290,3 +290,169 @@ theorem mandatory_complete (rules : List Rule) (s : Snapshot) (r : Result)
   exact valid.2
 
 end NormLabReform
+
+namespace NormLabReform
+
+inductive ComparisonProperty where
+  | equivalence | noIncrease | strictReduction | preservedOutside
+  deriving DecidableEq
+structure ComparisonRow where
+  input : Input
+  baseline : Outcome
+  candidate : Outcome
+  deriving DecidableEq
+structure MitigationPair where
+  before : Input
+  after : Input
+  baseline : Outcome
+  candidate : Outcome
+  deriving DecidableEq
+
+def comparisonDomain (p : ComparisonProperty) : List Input :=
+  match p with
+  | .strictReduction => domain.filter (·.M)
+  | .preservedOutside => domain.filter fun x => !x.M
+  | .equivalence | .noIncrease => domain
+def mitigationDomain : List Input := domain.filter fun x => !x.M
+def withM (x : Input) : Input := { x with M := true }
+def Preserved (a b : Outcome) : Prop := a.qualification = b.qualification ∧ a.fine = b.fine
+instance (a b : Outcome) : Decidable (Preserved a b) := inferInstanceAs (Decidable (_ ∧ _))
+def ConsequenceRelation (p : ComparisonProperty) (a b : Outcome) : Prop :=
+  match p with
+  | .equivalence | .preservedOutside => a = b
+  | .noIncrease => Preserved a b ∧ b.months ≤ a.months
+  | .strictReduction => Preserved a b ∧ b.months < a.months
+instance (p : ComparisonProperty) (a b : Outcome) : Decidable (ConsequenceRelation p a b) := by
+  cases p <;> unfold ConsequenceRelation <;> infer_instance
+def StrictMitigation (pair : MitigationPair) : Prop :=
+  Preserved pair.baseline pair.candidate ∧ pair.candidate.months < pair.baseline.months
+instance (pair : MitigationPair) : Decidable (StrictMitigation pair) :=
+  inferInstanceAs (Decidable (_ ∧ _))
+
+-- A corpus claim concerns its supplied rows. Finite coverage is a separate obligation.
+def Claim {α : Type} (rows : List α) (property : α → Prop) (witness : Option α) : Prop :=
+  match witness with
+  | none => ∀ row ∈ rows, property row
+  | some row => row ∈ rows ∧ ¬ property row
+instance {α : Type} [DecidableEq α] (rows : List α) (property : α → Prop)
+    [DecidablePred property] (witness : Option α) : Decidable (Claim rows property witness) := by
+  unfold Claim
+  cases witness <;> infer_instance
+
+def ComparisonData (a b : List Rule) (p : ComparisonProperty) (full : Bool)
+    (rows : List ComparisonRow) (witness : Option ComparisonRow) : Prop :=
+  rows ≠ [] ∧ (rows.map ComparisonRow.input).Nodup ∧
+  (full = true → rows.map ComparisonRow.input = comparisonDomain p) ∧
+  (∀ row ∈ rows, row.input ∈ comparisonDomain p ∧
+    ModelPermissible a row.input row.baseline ∧ ModelPermissible b row.input row.candidate) ∧
+  Claim rows (fun row => ConsequenceRelation p row.baseline row.candidate) witness
+instance (a b : List Rule) (p : ComparisonProperty) (full : Bool)
+    (rows : List ComparisonRow) (witness : Option ComparisonRow) :
+    Decidable (ComparisonData a b p full rows witness) :=
+  inferInstanceAs (Decidable (_ ∧ _))
+def ValidComparison (a b : List Rule) (p : ComparisonProperty) (full : Bool)
+    (rows : List ComparisonRow) (witness : Option ComparisonRow) : Prop :=
+  WellFormed a ∧ WellFormed b ∧ ComparisonData a b p full rows witness
+instance (a b : List Rule) (p : ComparisonProperty) (full : Bool)
+    (rows : List ComparisonRow) (witness : Option ComparisonRow) :
+    Decidable (ValidComparison a b p full rows witness) :=
+  inferInstanceAs (Decidable (_ ∧ _))
+
+def PropertyData (model : List Rule) (full : Bool)
+    (pairs : List MitigationPair) (witness : Option MitigationPair) : Prop :=
+  pairs ≠ [] ∧ (pairs.map MitigationPair.before).Nodup ∧
+  (full = true → pairs.map MitigationPair.before = mitigationDomain) ∧
+  (∀ pair ∈ pairs, pair.before ∈ mitigationDomain ∧ pair.after = withM pair.before ∧
+    ModelPermissible model pair.before pair.baseline ∧ ModelPermissible model pair.after pair.candidate) ∧
+  Claim pairs StrictMitigation witness
+instance (model : List Rule) (full : Bool)
+    (pairs : List MitigationPair) (witness : Option MitigationPair) :
+    Decidable (PropertyData model full pairs witness) :=
+  inferInstanceAs (Decidable (_ ∧ _))
+def ValidProperty (model : List Rule) (full : Bool)
+    (pairs : List MitigationPair) (witness : Option MitigationPair) : Prop :=
+  WellFormed model ∧ PropertyData model full pairs witness
+instance (model : List Rule) (full : Bool)
+    (pairs : List MitigationPair) (witness : Option MitigationPair) :
+    Decidable (ValidProperty model full pairs witness) :=
+  inferInstanceAs (Decidable (_ ∧ _))
+
+private theorem mapped_member {α β : Type} (f : α → β) (values : List α) (x : β)
+    (h : x ∈ values.map f) : ∃ value ∈ values, f value = x := by
+  induction values with
+  | nil => cases h
+  | cons value rest ih =>
+    cases h with
+    | head => exact ⟨value, List.Mem.head rest, rfl⟩
+    | tail _ ht =>
+      obtain ⟨v, member, same⟩ := ih ht
+      exact ⟨v, List.Mem.tail value member, same⟩
+
+-- Universal claims follow from exact finite coverage and uniqueness of each model's outcome.
+theorem comparison_scope_sound (a b : List Rule) (p : ComparisonProperty)
+    (rows : List ComparisonRow) (h : ValidComparison a b p true rows none)
+    (x : Input) (hx : x ∈ comparisonDomain p) (ya yb : Outcome)
+    (ha : ModelPermissible a x ya) (hb : ModelPermissible b x yb) :
+    ConsequenceRelation p ya yb := by
+  have coverage := h.2.2.2.2.1 rfl
+  have represented : x ∈ rows.map ComparisonRow.input := by rw [coverage]; exact hx
+  obtain ⟨row, member, same⟩ := mapped_member ComparisonRow.input rows x represented
+  have valid := h.2.2.2.2.2.1 row member
+  have inDomain : x ∈ domain := by
+    cases p <;> simp only [comparisonDomain] at hx
+    · exact hx
+    · exact hx
+    · exact (List.mem_filter.mp hx).1
+    · exact (List.mem_filter.mp hx).1
+  obtain ⟨oa, _, uniqueA⟩ := model_exists_unique a h.1 x inDomain
+  obtain ⟨ob, _, uniqueB⟩ := model_exists_unique b h.2.1 x inDomain
+  have rowA := valid.2.1
+  have rowB := valid.2.2
+  rw [same] at rowA rowB
+  have sameA := (uniqueA row.baseline rowA).trans (uniqueA ya ha).symm
+  have sameB := (uniqueB row.candidate rowB).trans (uniqueB yb hb).symm
+  have holds := h.2.2.2.2.2.2 row member
+  simpa only [sameA, sameB] using holds
+
+theorem comparison_counterexample (a b : List Rule) (p : ComparisonProperty) (full : Bool)
+    (rows : List ComparisonRow) (witness : ComparisonRow)
+    (h : ValidComparison a b p full rows (some witness)) :
+    witness.input ∈ comparisonDomain p ∧ ModelPermissible a witness.input witness.baseline ∧
+    ModelPermissible b witness.input witness.candidate ∧
+    ¬ ConsequenceRelation p witness.baseline witness.candidate := by
+  have claim := h.2.2.2.2.2.2
+  have valid := h.2.2.2.2.2.1 witness claim.1
+  exact ⟨valid.1, valid.2.1, valid.2.2, claim.2⟩
+
+theorem property_scope_sound (model : List Rule) (pairs : List MitigationPair)
+    (h : ValidProperty model true pairs none) (x : Input) (hx : x ∈ mitigationDomain)
+    (ya yb : Outcome) (ha : ModelPermissible model x ya)
+    (hb : ModelPermissible model (withM x) yb) : Preserved ya yb ∧ yb.months < ya.months := by
+  have coverage := h.2.2.2.1 rfl
+  have represented : x ∈ pairs.map MitigationPair.before := by rw [coverage]; exact hx
+  obtain ⟨pair, member, same⟩ := mapped_member MitigationPair.before pairs x represented
+  have valid := h.2.2.2.2.1 pair member
+  have inDomain : x ∈ domain := (List.mem_filter.mp hx).1
+  obtain ⟨oa, _, uniqueA⟩ := model_exists_unique model h.1 x inDomain
+  obtain ⟨ob, _, uniqueB⟩ := model_exists_unique model h.1 (withM x) (domain_complete _)
+  have pairA := valid.2.2.1
+  have pairB := valid.2.2.2
+  have after := valid.2.1
+  rw [same] at pairA after
+  rw [after] at pairB
+  have sameA := (uniqueA pair.baseline pairA).trans (uniqueA ya ha).symm
+  have sameB := (uniqueB pair.candidate pairB).trans (uniqueB yb hb).symm
+  have holds := h.2.2.2.2.2 pair member
+  simpa only [StrictMitigation, sameA, sameB] using holds
+
+theorem property_counterexample (model : List Rule) (full : Bool)
+    (pairs : List MitigationPair) (witness : MitigationPair)
+    (h : ValidProperty model full pairs (some witness)) :
+    witness.before ∈ mitigationDomain ∧ witness.after = withM witness.before ∧
+    ModelPermissible model witness.before witness.baseline ∧
+    ModelPermissible model witness.after witness.candidate ∧ ¬ StrictMitigation witness := by
+  have claim := h.2.2.2.2.2
+  have valid := h.2.2.2.2.1 witness claim.1
+  exact ⟨valid.1, valid.2.1, valid.2.2.1, valid.2.2.2, claim.2⟩
+
+end NormLabReform

@@ -9,13 +9,19 @@ import {
   reformQuerySchema,
   type ReformBundle,
   type ReformCertificate,
+  type ReformCompletedInput,
+  type ReformOutcome,
   type ReformQuery,
   type ReformReceipt,
   type ReformResult,
   type ReformSnapshot,
 } from '../shared/reform-contracts.js';
 import { ReformContractError } from '../shared/reform-semantics.js';
-import { validateReformCertificateBindings, validateReformQuery } from './reform-bindings.js';
+import {
+  boundReformBundles,
+  validateReformCertificateBindings,
+  validateReformQuery,
+} from './reform-bindings.js';
 import { digest } from './hash.js';
 import { discoverLean } from './verifier.js';
 import { validateReformBundle } from './reform-models.js';
@@ -37,7 +43,6 @@ const findings = {
   refuted: 'refuted',
   'not-established': 'notEstablished',
 } as const;
-type DecisionCertificate = Extract<ReformCertificate, { kind: 'decision' }>;
 export type ReformVerification = ReformReceipt['payload']['verification'] & {
   queryDigest: string;
   certificateDigest: string | null;
@@ -113,11 +118,106 @@ end NormLabReform
 `;
 }
 
-export async function verifyReformDecision(
-  query: ReformQuery,
-  snapshot: ReformSnapshot,
-  bundle: ReformBundle,
+const comparisonProperties = {
+  equivalence: 'equivalence',
+  'component-no-increase': 'noIncrease',
+  'strict-reduction': 'strictReduction',
+  'preserved-outside': 'preservedOutside',
+} as const;
+function leanInput(x: ReformCompletedInput): string {
+  return `{ group := .${x.group}, M := ${x.M}, N := ${x.N}, E := ${x.E} }`;
+}
+function leanOutcome(y: ReformOutcome): string {
+  return `{ qualification := .${y.qualification}, months := ${y.prisonMonths}, fine := ${y.fineAmount} }`;
+}
+type ComparisonCertificate = Extract<ReformCertificate, { kind: 'comparison' }>;
+type PropertyCertificate = Extract<ReformCertificate, { kind: 'property' }>;
+function leanRow(row: ComparisonCertificate['result']['rows'][number]): string {
+  return `{ input := ${leanInput(row.input)}, baseline := ${leanOutcome(row.baseline)}, candidate := ${leanOutcome(row.candidate)} }`;
+}
+function leanPair(pair: PropertyCertificate['result']['pairs'][number]): string {
+  return `{ before := ${leanInput(pair.before)}, after := ${leanInput(pair.after)}, baseline := ${leanOutcome(pair.baseline)}, candidate := ${leanOutcome(pair.candidate)} }`;
+}
+
+// The query fixes models, direction, property and scope; the candidate supplies only evidence.
+export function constructReformStatement(
+  expectedQuery: ReformQuery,
+  bundles: ReformBundle[],
   input: unknown,
+  snapshot?: ReformSnapshot,
+): string {
+  const query = validateReformQuery(expectedQuery, bundles, snapshot);
+  const certificate = reformCertificateSchema.parse(input);
+  if (certificate.kind !== query.kind || certificate.queryDigest !== digest(query))
+    throw new ReformContractError('invalid', 'Statement query binding mismatch');
+  if (
+    certificate.kind !== 'decision' &&
+    (certificate.result.verdict === 'counterexample') !==
+      (certificate.result.counterexample !== null)
+  )
+    throw new ReformContractError('invalid', 'Verdict/witness mismatch');
+  const model = (id: string) => bundles.find((bundle) => bundle.id === id)!;
+  if (query.kind === 'decision')
+    return constructReformDecisionStatement(query, snapshot!, model(query.model.id), certificate);
+  if (query.kind === 'comparison' && certificate.kind === 'comparison') {
+    const r = certificate.result;
+    const witness = r.counterexample === null ? 'none' : 'some counterexample';
+    const witnessDeclaration =
+      r.counterexample === null
+        ? ''
+        : `def counterexample : ComparisonRow := ${leanRow(r.counterexample)}\n`;
+    const full = r.method === 'exhaustive-finite-domain';
+    const extra =
+      r.verdict === 'counterexample'
+        ? `theorem scopeRefuted : counterexample.input ∈ comparisonDomain boundProperty ∧ ModelPermissible boundBaseline counterexample.input counterexample.baseline ∧ ModelPermissible boundCandidate counterexample.input counterexample.candidate ∧ ¬ ConsequenceRelation boundProperty counterexample.baseline counterexample.candidate := comparison_counterexample boundBaseline boundCandidate boundProperty ${full} candidateRows counterexample checked\n#print axioms scopeRefuted\n`
+        : full
+          ? 'theorem scopeChecked : ∀ x, x ∈ comparisonDomain boundProperty → ∀ ya yb, ModelPermissible boundBaseline x ya → ModelPermissible boundCandidate x yb → ConsequenceRelation boundProperty ya yb := comparison_scope_sound boundBaseline boundCandidate boundProperty candidateRows checked\n#print axioms scopeChecked\n'
+          : '';
+    return `namespace NormLabReform
+def boundBaseline : List Rule := ${reformLeanModel(model(query.baseline.id))}
+def boundCandidate : List Rule := ${reformLeanModel(model(query.candidate.id))}
+def boundProperty : ComparisonProperty := .${comparisonProperties[query.property]}
+def candidateRows : List ComparisonRow := [${r.rows.map(leanRow).join(',\n')}]
+${witnessDeclaration}theorem baselineSupported : WellFormed boundBaseline := by decide +kernel
+theorem candidateSupported : WellFormed boundCandidate := by decide +kernel
+theorem checked : ValidComparison boundBaseline boundCandidate boundProperty ${full} candidateRows (${witness}) :=
+  ⟨baselineSupported, candidateSupported, by decide +kernel⟩
+#print axioms checked
+${extra}end NormLabReform
+`;
+  }
+  if (query.kind === 'property' && certificate.kind === 'property') {
+    const r = certificate.result;
+    const witness = r.counterexample === null ? 'none' : 'some counterexample';
+    const witnessDeclaration =
+      r.counterexample === null
+        ? ''
+        : `def counterexample : MitigationPair := ${leanPair(r.counterexample)}\n`;
+    const full = r.method === 'exhaustive-finite-domain';
+    const extra =
+      r.verdict === 'counterexample'
+        ? `theorem scopeRefuted : counterexample.before ∈ mitigationDomain ∧ counterexample.after = withM counterexample.before ∧ ModelPermissible boundModel counterexample.before counterexample.baseline ∧ ModelPermissible boundModel counterexample.after counterexample.candidate ∧ ¬ StrictMitigation counterexample := property_counterexample boundModel ${full} candidatePairs counterexample checked\n#print axioms scopeRefuted\n`
+        : full
+          ? 'theorem scopeChecked : ∀ x, x ∈ mitigationDomain → ∀ ya yb, ModelPermissible boundModel x ya → ModelPermissible boundModel (withM x) yb → Preserved ya yb ∧ yb.months < ya.months := property_scope_sound boundModel candidatePairs checked\n#print axioms scopeChecked\n'
+          : '';
+    return `namespace NormLabReform
+def boundModel : List Rule := ${reformLeanModel(model(query.model.id))}
+def candidatePairs : List MitigationPair := [${r.pairs.map(leanPair).join(',\n')}]
+${witnessDeclaration}theorem supported : WellFormed boundModel := by decide +kernel
+theorem checked : ValidProperty boundModel ${full} candidatePairs (${witness}) :=
+  ⟨supported, by decide +kernel⟩
+#print axioms checked
+${extra}end NormLabReform
+`;
+  }
+  throw new ReformContractError('unsupported', 'Unsupported query/certificate combination');
+}
+
+export async function verifyReformCertificate(
+  query: ReformQuery,
+  bundles: ReformBundle[],
+  input: unknown,
+  snapshot?: ReformSnapshot,
 ): Promise<ReformVerification> {
   const started = Date.now();
   const base: ReformVerification = {
@@ -130,27 +230,24 @@ export async function verifyReformDecision(
     reason: 'Certificate not checked',
     queryDigest: digest(query),
     certificateDigest: null,
-    statementDigest: digest({ core: reformLeanCore, query, snapshot, bundle }),
+    statementDigest: digest({ core: reformLeanCore, query, snapshot: snapshot ?? null, bundles }),
     durationMs: 0,
   };
-  let certificate: DecisionCertificate;
+  let certificate: ReformCertificate;
   let statement: string;
   try {
-    const parsedQuery = reformQuerySchema.parse(query);
-    if (parsedQuery.kind !== 'decision')
-      throw new ReformContractError('unsupported', 'Only decision verification is implemented');
-    const cert = validateReformCertificateBindings(input, query, [bundle], snapshot);
-    if (cert.kind !== 'decision')
-      throw new ReformContractError('unsupported', 'Only decision verification is implemented');
+    reformQuerySchema.parse(query);
+    bundles = boundReformBundles(query, bundles, snapshot);
+    const cert = validateReformCertificateBindings(input, query, bundles, snapshot);
     certificate = cert;
-    statement = constructReformDecisionStatement(query, snapshot, bundle, certificate);
+    statement = constructReformStatement(query, bundles, certificate, snapshot);
     base.certificateDigest = digest(certificate);
     base.statementDigest = digest({
       core: reformLeanCore,
       statement,
       query,
-      snapshot,
-      bundle,
+      snapshot: snapshot ?? null,
+      bundles,
       certificate,
     });
   } catch (error) {
@@ -160,7 +257,7 @@ export async function verifyReformDecision(
         error instanceof ReformContractError && error.code === 'unsupported'
           ? 'unsupported'
           : 'rejected',
-      reason: error instanceof Error ? error.message : 'Invalid decision certificate',
+      reason: error instanceof Error ? error.message : 'Invalid certificate',
       durationMs: Date.now() - started,
     };
   }
@@ -179,7 +276,10 @@ export async function verifyReformDecision(
     core: reformLeanCore,
     sources: checkerSources,
   });
-  base.method = 'case-theorem';
+  base.method =
+    certificate.kind !== 'decision' && certificate.result.method === 'exhaustive-finite-domain'
+      ? 'finite-domain-theorem'
+      : 'case-theorem';
   let directory: string | undefined;
   try {
     directory = await mkdtemp(join(tmpdir(), 'normlab-reform-proof-'));
@@ -191,16 +291,31 @@ export async function verifyReformDecision(
       maxBuffer: 128 * 1024,
       env: { PATH: '/usr/bin:/bin', TMPDIR: directory, LANG: 'en_US.UTF-8' },
     });
-    const report = /'NormLabReform\.checked' depends on axioms: \[([^\]]*)\]/.exec(stdout);
-    const free = stdout.includes("'NormLabReform.checked' does not depend on any axioms");
-    const axioms = report
-      ? report[1]
-          .split(',')
-          .map((x) => x.trim())
-          .filter(Boolean)
-      : [];
+    const expectedNames = ['NormLabReform.checked'];
+    if (certificate.kind !== 'decision') {
+      if (certificate.result.verdict === 'counterexample')
+        expectedNames.push('NormLabReform.scopeRefuted');
+      else if (certificate.result.method === 'exhaustive-finite-domain')
+        expectedNames.push('NormLabReform.scopeChecked');
+    }
+    const reports = [
+      ...stdout.matchAll(
+        /'([^']+)' (?:does not depend on any axioms|depends on axioms: \[([^\]]*)\])/g,
+      ),
+    ];
+    const axioms = [
+      ...new Set(
+        reports.flatMap(
+          (report) =>
+            report[2]
+              ?.split(',')
+              .map((x) => x.trim())
+              .filter(Boolean) ?? [],
+        ),
+      ),
+    ];
     if (
-      (!report && !free) ||
+      digest(reports.map((report) => report[1])) !== digest(expectedNames) ||
       axioms.some((x) => x !== 'propext') ||
       stderr.trim() ||
       stdout.includes('warning:')
@@ -216,7 +331,13 @@ export async function verifyReformDecision(
       status: 'verified',
       axioms,
       reason:
-        'Kernel checked exact consequences, mandatory ledger, ordered steps and every snapshot completion',
+        certificate.kind === 'decision'
+          ? 'Kernel checked exact consequences, mandatory ledger, ordered steps and every snapshot completion'
+          : certificate.result.verdict === 'counterexample'
+            ? 'Kernel checked admissible outcomes and a bound counterexample in the declared query scope'
+            : certificate.result.method === 'exhaustive-finite-domain'
+              ? 'Kernel checked all finite-domain outcomes and the universal property in the declared scope'
+              : 'Kernel checked supplied corpus outcomes and their property; no universal coverage claimed',
       durationMs: Date.now() - started,
     };
   } catch (error) {
@@ -234,4 +355,28 @@ export async function verifyReformDecision(
   } finally {
     if (directory) await rm(directory, { recursive: true, force: true });
   }
+}
+
+// Preserve the decision-only entry point. General queries use verifyReformCertificate.
+export async function verifyReformDecision(
+  query: ReformQuery,
+  snapshot: ReformSnapshot,
+  bundle: ReformBundle,
+  input: unknown,
+): Promise<ReformVerification> {
+  if (query.kind !== 'decision')
+    return {
+      status: 'unsupported',
+      engine: 'lean-kernel',
+      version: null,
+      method: null,
+      toolchainDigest: null,
+      axioms: [],
+      reason: 'Decision entry point only accepts decision queries',
+      queryDigest: digest(query),
+      certificateDigest: null,
+      statementDigest: digest({ query, snapshot, bundle }),
+      durationMs: 0,
+    };
+  return verifyReformCertificate(query, [bundle], input, snapshot);
 }

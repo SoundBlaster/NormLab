@@ -75,6 +75,8 @@ export function validateReformQuery(
   snapshot?: ReformSnapshot,
 ): ReformQuery {
   const query = reformQuerySchema.parse(value);
+  if (new Set(bundles.map((bundle) => bundle.id)).size !== bundles.length)
+    throw new ReformContractError('invalid', 'Ambiguous duplicate bundle IDs');
   const refs = query.kind === 'comparison' ? [query.baseline, query.candidate] : [query.model];
   for (const ref of refs) {
     const bundle = bundles.find((b) => b.id === ref.id);
@@ -104,6 +106,17 @@ export function validateReformQuery(
       );
   }
   return query;
+}
+
+export function boundReformBundles(
+  query: ReformQuery,
+  bundles: ReformBundle[],
+  snapshot?: ReformSnapshot,
+): ReformBundle[] {
+  const parsed = validateReformQuery(query, bundles, snapshot);
+  const refs = parsed.kind === 'comparison' ? [parsed.baseline, parsed.candidate] : [parsed.model];
+  const ids = [...new Set(refs.map((ref) => ref.id))];
+  return ids.map((id) => validateReformBundle(bundles.find((bundle) => bundle.id === id)!));
 }
 
 export function validateReformCertificateBindings(
@@ -237,11 +250,24 @@ export function validateReformReceiptBindings(
       'invalid',
       'Coverage does not match the authenticated query and certificate',
     );
+  const expectedStatus =
+    cert.kind === 'decision' || cert.result.method === 'exhaustive-finite-domain'
+      ? 'declared-complete'
+      : 'partial';
+  if (payload.coverage.status !== expectedStatus)
+    throw new ReformContractError(
+      'invalid',
+      'Corpus coverage cannot be promoted to a finite-domain claim',
+    );
   if (
     payload.verification.status === 'verified' &&
     (!payload.verification.version ||
       !payload.verification.toolchainDigest ||
       !payload.verification.method ||
+      payload.verification.method !==
+        (cert.kind !== 'decision' && cert.result.method === 'exhaustive-finite-domain'
+          ? 'finite-domain-theorem'
+          : 'case-theorem') ||
       payload.verification.axioms.some((axiom) => axiom !== 'propext'))
   )
     throw new ReformContractError('invalid', 'Verified receipt lacks supported proof metadata');

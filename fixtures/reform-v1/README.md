@@ -62,7 +62,7 @@ Mapping входов и последствий между A/B/C — identity. С
 4. **Q-AC-outside-M:** при опровергнутом M последствия C равны A — восемь случаев.
 5. **Q-M-monotonicity:** для каждой модели при неизменных группе/N/E установление M строго уменьшает срок и сохраняет остальные последствия — восемь пар на модель.
 
-Существование/единственность относительно независимого отношения допустимости и soundness/completeness decision results подтверждены в [NL-106](../../docs/REFORM_VERIFICATION.md). Таблица используется как независимый producer regression oracle. Comparison proofs и signed receipts этих queries ещё предстоит реализовать в NL-405.
+Существование/единственность относительно независимого отношения допустимости и soundness/completeness decision results подтверждены в [NL-106](../../docs/REFORM_VERIFICATION.md). Таблица используется как независимый producer regression oracle. [NL-405](../../docs/COMPARISON_VERIFICATION.md) подтверждает все перечисленные queries через Lean и выпускает signed receipts с export/replay. Отдельный [поддержанный erroneous amendment](../reform-counterexample/README.md) даёт verified counterexample; исходный design variant без exclusion сохраняется и отклоняется admission validation текущего profile.
 
 ## Воспроизведение аудита
 

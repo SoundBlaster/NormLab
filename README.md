@@ -11,6 +11,7 @@
 - [Reform fixture v0.1.0](fixtures/reform-v1/README.md): конкретный синтетический текст A/B/C, все 16 завершённых случаев и арифметический аудит. Подключение к приложению ещё впереди.
 - [Контракты v2](docs/CONTRACTS.md), [семантика нового профиля](docs/REFORM_SEMANTICS.md) и [отчёт проверки](docs/CONTRACT_VERIFICATION.md): отдельное ядро A/B/C, JSON schemas и bindings. HTTP/UI остаются на M0/v1.
 - [Независимая Lean verification v2](docs/REFORM_VERIFICATION.md): decision certificates A/B/C, общие теоремы и проверка всех 384 snapshots.
+- [Comparison proofs и signed receipts v2](docs/COMPARISON_VERIFICATION.md): equivalence A/B, свойства A/C, bound counterexample и CLI export/replay.
 - [Основания проектирования](docs/DESIGN_NOTES.md): авторские цели из переписки, происхождение решений, роль Hypercode и предложение интеграции со SpecGraph.
 - [Roadmap](roadmap.md): этапы, зависимости и актуальные приоритеты.
 - [Текущий MVP](docs/MVP.md) и [отчёт его проверки](docs/VERIFICATION.md): реализованные возможности, API и конкретные свидетельства.
@@ -64,14 +65,24 @@ elan toolchain install leanprover/lean4:v4.30.0
 - Ed25519 receipt: snapshot, semantic/provenance, query, result, certificate, statement, toolchain и assumptions digests. Экспорт содержит входы для воспроизведения.
 - Ограничение одновременно выполняемых проверок, дедупликация успешных заданий, timeout и Lean memory/heartbeat budgets.
 
-Сравнение редакций — исчерпывающий перебор двух завершённых состояний данного профиля. Оно показывает вычисленный свидетель различия; отдельная формальная квитанция сравнения ещё не реализована.
+Сравнение редакций в HTTP/UI M0 — исчерпывающий перебор двух завершённых состояний данного профиля. Отдельное ядро v2 выпускает formal comparison receipts A/B/C; его подключение к пользовательскому flow остаётся NL-502.
+
+## A/B/C: локальный proof/export flow
+
+```sh
+npm run reform:demo
+npm run reform:verify -- <run>/AB-equivalence.json --issuer-key <run>/issuer-public.pem
+```
+
+Demo выводит путь `<run>` и сохраняет восемь exports с manifest и публичным ключом в `.artifacts/`. Подтверждены equivalence A/B, три свойства A/C, mandatory M mitigation каждой модели и counterexample ошибочной поправки. Replay требует явно выбранный trusted key и свежую Lean verification. [Scope, команды и свидетельства](docs/COMPARISON_VERIFICATION.md).
 
 ## Проверки
 
 ```sh
 npm run check        # TypeScript strict
 npm test            # domain, tampering, persistence, signatures and HTTP workflow
-npm run test:lean    # requires exact Lean toolchain; 8 positive cases + negative proof
+npm run test:lean    # 12 integration tests; requires exact Lean 4.30.0
+npm run schemas:check # generated v2 schema freshness
 npm run build       # typecheck + production bundle
 ```
 
@@ -87,7 +98,7 @@ lean/         Independent formal relation and trusted proof template
 tests/        Domain, API and actual Lean integration checks
 fixtures/     Source scenarios, expected outcomes and bounded design audits
 schemas/      Generated JSON Schema artifacts
-scripts/      Deterministic schema exporter
+scripts/      Schema exporter, A/B/C proof demo and receipt replay CLI
 docs/         Vision, design provenance, demonstrator, MVP and verification evidence
 prototype/    Original architecture archive, preserved as supplied
 ```
@@ -102,4 +113,4 @@ prototype/    Original architecture archive, preserved as supplied
 
 Подпись подтверждает неизменность и происхождение квитанции. Lean подтверждает формальную допустимость результата относительно заданных входов и модели. Соответствие реальному праву и истинность описанных обстоятельств не проверяются. Подробнее: [границы проверки](docs/MVP.md).
 
-Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2 и независимая Lean decision verification. Следующий срез — comparison/property proofs и signed receipts v2, затем подключение к HTTP/UI. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).
+Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2, independent decision/comparison/property verification, signed receipts и CLI export/replay. Следующий срез — explanations, метрики и подключение v2 к HTTP/UI. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).

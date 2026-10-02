@@ -51,7 +51,7 @@ JSON Schema/Zod проверяют форму, enum, пределы чисел �
 
 Эти helpers не проверяют истинность findings или fidelity естественного исходного текста. Source mapping подтверждает адрес и наличие именованного положения; нормативный смысл перевода требует review.
 
-`validateReformCertificateBindings` и `validateReformReceiptBindings` проверяют связи и структурную согласованность. Они не удостоверяют arithmetic candidate, signature, issuer trust, statement или факт запуска Lean. Для decision используется отдельный `verifyReformDecision`; сравнения и signed receipts v2 пока не реализованы. Полученный из внешнего artifact `verification.status` остаётся недоверенным до самостоятельной проверки.
+`validateReformCertificateBindings` и `validateReformReceiptBindings` проверяют связи и структурную согласованность. Они не удостоверяют arithmetic candidate, signature, issuer trust, statement или факт запуска Lean. `verifyReformCertificate` независимо проверяет все три query kinds; `verifyReformDecision` сохраняет decision-only интерфейс. [Signer/replay v2](COMPARISON_VERIFICATION.md) проверяет signature trust и fresh proof отдельно. Полученный из внешнего artifact `verification.status` остаётся недоверенным до самостоятельной проверки.
 
 ## Query и comparison contract
 
@@ -69,7 +69,9 @@ Reference включает bundle ID, semantic/provenance и profile digests. Qu
 
 Comparison certificate содержит строки входов и обоих последствий. Property certificate содержит пары M=false/M=true при одинаковых группе/N/E. `exhaustive-finite-domain` требует всех строк объявленной области в canonical order; `corpus` допускает явно частичное покрытие. Повторы, чужие входы и witness вне представленных rows/pairs отклоняются.
 
-Receipt coverage хранит domain digest, kind, declared/covered cardinality и отдельный status. Для decision область — completions snapshot, для comparison — D16 либо зафиксированные восемь случаев, для unary property — восемь пар. Coverage должен совпадать с query и certificate, а не только быть арифметически правдоподобным числом.
+Receipt coverage хранит domain digest, kind, declared/covered cardinality и отдельный status. Для decision область — completions snapshot, для comparison — D16 либо зафиксированные восемь случаев, для unary property — восемь пар. Coverage должен совпадать с query и certificate, а не только быть арифметически правдоподобным числом. `corpus` всегда получает `partial` и `case-theorem`, даже при совпадении cardinalities. `exhaustive-finite-domain` требует `declared-complete` и `finite-domain-theorem`; actual theorem проверяется независимо.
+
+Strict envelope `normlab.reform-export/v1` содержит query, bound bundles, snapshot/null, certificate и receipt. Его Zod schema — [server/reform-receipts.ts](../server/reform-receipts.ts); он не добавляет одиннадцатую generated JSON schema. Import/replay ограничен 512 KiB и требует отдельно переданный trusted public key. Bindings helpers отклоняют duplicate bundle IDs; verifier нормализует bundle order по query roles.
 
 ## Encoding, digests и ограничения
 
@@ -92,4 +94,4 @@ Canonical encoding использует [server/hash.ts](../server/hash.ts): к�
 
 ## Следующая интеграция
 
-Decision relation, Lean statement constructor и kernel verification v2 реализованы; [свидетельства](REFORM_VERIFICATION.md) включают все 384 snapshots A/B/C. Следующий срез — comparison/property proofs и bound receipts, затем v2 snapshots, анализ и A/B/C UI. Исторические receipts M0 сохраняют свои версии и toolchain identity; изменение dependency lock меняет identity нового запуска verifier.
+Decision relation, Lean statement constructor и kernel verification v2 реализованы; [свидетельства](REFORM_VERIFICATION.md) включают все 384 snapshots A/B/C. [NL-405](COMPARISON_VERIFICATION.md) добавляет comparison/property proofs, bound receipts и CLI export/replay. Следующий срез — explanations, метрики, v2 snapshots, анализ и A/B/C UI. Исторические receipts M0 сохраняют свои версии и toolchain identity; изменение dependency lock меняет identity нового запуска verifier.

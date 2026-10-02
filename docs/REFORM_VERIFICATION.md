@@ -59,6 +59,6 @@ npm run build
 
 Это проверка нормативного результата относительно locked synthetic IR и simulated findings. Она не проверяет истинность narrative, юридическую fidelity перевода source, выбор группы или реальный закон.
 
-Decision verification metadata ещё не является signed receipt v2. Comparison/property proofs, bound counterexamples и подпись/issuer trust относятся к **NL-405**. Explanations, storage/HTTP/UI v2 и экспорт полного пользовательского сценария также остаются впереди. Hardened OS sandbox и полная supply-chain identity относятся к M3; bounded subprocess не объявляется OS sandbox.
+Проверки и количества выше фиксируют срез NL-104/NL-106. Последующий **[NL-405](COMPARISON_VERIFICATION.md)** реализует comparison/property proofs, bound counterexamples, signed receipts v2 и CLI export/replay. Полный текущий набор содержит 28 unit/API tests и 12 Lean integration tests. Decision-only entry point по-прежнему отклоняет unary query; общий `verifyReformCertificate` поддерживает все три kinds. Explanations и storage/HTTP/UI v2 остаются впереди. Hardened OS sandbox и полная supply-chain identity относятся к M3; bounded subprocess не объявляется OS sandbox.
 
 Исторические [M0 report](VERIFICATION.md) и [contract/producer report](CONTRACT_VERIFICATION.md) сохраняют собственную область свидетельств.

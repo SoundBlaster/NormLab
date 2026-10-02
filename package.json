@@ -12,7 +12,9 @@
     "start": "tsx server/index.ts --production",
     "check": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
-    "test:lean": "tsx --test tests/*.integration.ts",
+    "test:lean": "tsx --test --test-concurrency=1 tests/*.integration.ts",
+    "reform:demo": "tsx scripts/reform-demo.ts",
+    "reform:verify": "tsx scripts/reform-verify.ts",
     "schemas:write": "tsx scripts/export-contracts.ts",
     "schemas:check": "tsx scripts/export-contracts.ts --check"
   },
