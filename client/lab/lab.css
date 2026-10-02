@@ -651,3 +651,30 @@
   text-underline-offset: 3px;
   margin-top: 6px;
 }
+.lab-transfer-selection {
+  margin: 18px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.lab-transfer-selection label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  min-height: 44px;
+}
+.lab-transfer-selection input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.lab-transfer-selection small {
+  display: block;
+}
+.lab-import-findings {
+  overflow-wrap: anywhere;
+}

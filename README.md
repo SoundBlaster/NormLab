@@ -8,6 +8,7 @@
 
 - [Замысел и требования](docs/VISION.md): однозначность, обязательность смягчения, модели A/B/C и границы гарантий.
 - [Laboratory UI](docs/LABORATORY_UI.md): пользовательский flow, v2 HTTP API, хранение, проверенные сценарии и ограничения.
+- [Перенос эксперимента](docs/EXPERIMENT_TRANSFER.md): manifest/locks, explicit issuer trust, read-only import и CLI replay.
 - [Первый демонстратор](docs/DEMONSTRATOR.md): сценарий, свойства и критерии готовности M1.
 - [Reform fixture v0.1.0](fixtures/reform-v1/README.md): конкретный синтетический текст A/B/C, все 16 завершённых случаев и арифметический аудит.
 - [Контракты v2](docs/CONTRACTS.md), [семантика нового профиля](docs/REFORM_SEMANTICS.md) и [отчёт проверки](docs/CONTRACT_VERIFICATION.md): ядро A/B/C, JSON schemas и bindings; v2 flow работает рядом с исходным M0/v1.
@@ -55,7 +56,7 @@ elan toolchain install leanprover/lean4:v4.30.0
 5. Выбрать «A → D: исследовать ошибочную поправку»: появится counterexample вне M, 90→80 месяцев. В «Метрики» сравнить структуру A/B/C и компоненты последствий текущего query.
 6. Скачать «Export и receipt» и «Public key», затем выполнить `npm run reform:verify -- <export.json> --issuer-key <issuer-public.pem>`. Доверие ключу задаётся пользователем; подпись сама по себе не заменяет fresh Lean replay. В «История» доступны прежние snapshots и проверки свойств.
 
-Текст сценария вводится вручную и не преобразуется в факты автоматически. Используйте только вымышленные данные: это однопользовательское локальное демо с simulated reviewer. Исходный M0 остаётся доступен в отдельных пунктах главного меню.
+Текст сценария вводится вручную и не преобразуется в факты автоматически. Используйте только вымышленные данные: это однопользовательское локальное демо с simulated reviewer. Исходный M0 доступен в меню «Пример M0». В «Перенос эксперимента» можно объединить выбранные signed results в набор и импортировать его с отдельно выбранным trusted public key.
 
 ## Что реализовано
 
@@ -120,4 +121,4 @@ prototype/    Original architecture archive, preserved as supplied
 
 Подпись подтверждает неизменность и происхождение квитанции. Lean подтверждает формальную допустимость результата относительно заданных входов и модели. Соответствие реальному праву и истинность описанных обстоятельств не проверяются. Подробнее: [границы проверки](docs/MVP.md).
 
-Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2, independent decision/comparison/property verification, signed receipts, deterministic explanations, separate structure/decision/change metrics и CLI export/replay. Следующий срез — подключение v2 к HTTP/UI. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).
+Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2, independent decision/comparison/property verification, signed receipts, deterministic explanations, separate structure/decision/change metrics, HTTP/UI и перенос выбранных экспериментов с read-only replay. Ближайший gate — негативные проверки и UI walkthrough импорта NL-503; чистая установка и CI относятся к NL-504. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).

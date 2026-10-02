@@ -20,6 +20,12 @@ import {
 } from './reform-bindings.js';
 import { canonical, digest } from './hash.js';
 import { Conflict } from './store.js';
+import {
+  importedExperimentSchema,
+  validatePortableExperiment,
+  type ImportedExperiment,
+} from './reform-transfer.js';
+import type { ImportedExperimentSummary } from '../shared/reform-transfer.js';
 
 export const labSnapshotInputSchema = reformSnapshotInputSchema
   .transform((input) => ({
@@ -108,6 +114,11 @@ export class ReformStore {
         id TEXT PRIMARY KEY, snapshot_id TEXT REFERENCES reform_snapshots(id), body TEXT NOT NULL
       );
       CREATE INDEX IF NOT EXISTS reform_analysis_snapshot ON reform_analyses(snapshot_id);
+      CREATE TABLE IF NOT EXISTS reform_imports (
+        id TEXT PRIMARY KEY, body TEXT NOT NULL
+      );
+      CREATE TRIGGER IF NOT EXISTS reform_imports_no_update BEFORE UPDATE ON reform_imports BEGIN SELECT RAISE(ABORT, 'immutable reform import'); END;
+      CREATE TRIGGER IF NOT EXISTS reform_imports_no_delete BEFORE DELETE ON reform_imports BEGIN SELECT RAISE(ABORT, 'immutable reform import'); END;
       CREATE TRIGGER IF NOT EXISTS reform_snapshots_no_update BEFORE UPDATE ON reform_snapshots BEGIN SELECT RAISE(ABORT, 'immutable reform snapshot'); END;
       CREATE TRIGGER IF NOT EXISTS reform_snapshots_no_delete BEFORE DELETE ON reform_snapshots BEGIN SELECT RAISE(ABORT, 'immutable reform snapshot'); END;
       CREATE TRIGGER IF NOT EXISTS reform_analyses_no_update BEFORE UPDATE ON reform_analyses BEGIN SELECT RAISE(ABORT, 'immutable reform analysis'); END;
@@ -202,6 +213,38 @@ export class ReformStore {
   analysis(id: string): LabAnalysis | null {
     const row = this.db.prepare('SELECT body FROM reform_analyses WHERE id=?').get(id);
     return row ? parseAnalysis(JSON.parse(String(row.body))) : null;
+  }
+  imports(): ImportedExperimentSummary[] {
+    return this.db
+      .prepare('SELECT body FROM reform_imports ORDER BY rowid DESC')
+      .all()
+      .map((row) => {
+        const record = importedExperimentSchema.parse(JSON.parse(String(row.body)));
+        return {
+          id: record.id,
+          importedAt: record.importedAt,
+          exportedAt: record.experiment.createdAt,
+          issuer: record.experiment.issuer,
+          itemCount: record.experiment.items.length,
+        };
+      });
+  }
+  imported(id: string): ImportedExperiment | null {
+    const row = this.db.prepare('SELECT body FROM reform_imports WHERE id=?').get(id);
+    return row ? importedExperimentSchema.parse(JSON.parse(String(row.body))) : null;
+  }
+  saveImport(input: ImportedExperiment): ImportedExperiment {
+    const record = importedExperimentSchema.parse(input);
+    validatePortableExperiment(record.experiment, record.trustedPublicKey);
+    if (record.id !== digest(record.experiment)) throw new Error('Invalid import identity');
+    const prior = this.imported(record.id);
+    if (prior) {
+      if (prior.trustedPublicKey !== record.trustedPublicKey)
+        throw new Error('Stored import has a different trusted issuer');
+      return prior;
+    }
+    this.db.prepare('INSERT INTO reform_imports VALUES (?, ?)').run(record.id, canonical(record));
+    return record;
   }
   close(): void {
     this.db.close();

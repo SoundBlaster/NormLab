@@ -19,6 +19,7 @@
 | Метрики | Структура A/B/C и последствия текущего analysis с названием query и точным scope |
 | Источники | Synthetic source, typed rules, mappings и semantic/provenance digests |
 | История | Ревизии findings и сохранённые общие queries с повторной проверкой при открытии |
+| Перенос эксперимента | Выбор signed results, переносимый manifest/locks, explicit trusted key, immutable import и read-only replay |
 
 Общие queries используют объявленный D16 либо его явно заданный scope. Findings рабочего snapshot не сужают их domain. Counterexample explorer показывает вход и обе модели. Перенос его условий создаёт draft для сравнения A/B/C; ошибочная модель D остаётся частью отдельного query.
 
@@ -91,4 +92,4 @@ Screenshots находятся в ignored `.artifacts/`: `ui-five-fixes-1812-des
 
 ## Следующий срез
 
-NL-503: переносимый набор artifacts и явный import/read-only replay с проверкой trusted issuer, exact bindings, locks и tampering. Чистая установка, CI и recovery — NL-504; исследование понятности A/B/C с участниками — NL-505. Произвольный upload нормативных пакетов, multi-user authorization и публичное размещение в NL-502 не входят.
+NL-503: [переносимый набор и import/read-only replay реализованы](EXPERIMENT_TRANSFER.md); остаются негативные HTTP/tampering проверки и walkthrough новой вкладки. Чистая установка, CI и recovery — NL-504; исследование понятности A/B/C с участниками — NL-505. Произвольный upload нормативных пакетов, multi-user authorization и публичное размещение в NL-502 не входят.

@@ -16,6 +16,7 @@ import { Conflict, Store } from './store.js';
 import { discoverLean, verifyCertificate } from './verifier.js';
 import { isCurrentAnalysis } from '../shared/current.js';
 import { LabHttpError, ReformLab } from './reform-lab.js';
+import { MAX_EXPERIMENT_BYTES } from '../shared/reform-transfer.js';
 
 class HttpError extends Error {
   constructor(
@@ -92,7 +93,12 @@ export async function createApp(options: { dataDir: string; production?: boolean
           const result = await lab.handle(
             req.method ?? 'GET',
             path,
-            req.method === 'POST' ? await readBody(req, 65536) : undefined,
+            req.method === 'POST'
+              ? await readBody(
+                  req,
+                  path === '/api/reform/imports' ? MAX_EXPERIMENT_BYTES + 32768 : 65536,
+                )
+              : undefined,
             csrfToken,
           );
           if (!result) throw new HttpError(404, 'API route A/B/C не найден.');

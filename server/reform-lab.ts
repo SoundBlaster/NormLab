@@ -29,6 +29,15 @@ import { verifyReformCertificate } from './reform-verifier.js';
 import { ReformStore, labSnapshotInputSchema } from './reform-store.js';
 import { discoverLean } from './verifier.js';
 import { digest } from './hash.js';
+import {
+  describePortableArtifact,
+  packPortableExperiment,
+  portableExperimentSchema,
+  replayPortableExperiment,
+  type ImportedExperiment,
+} from './reform-transfer.js';
+import { MAX_EXPERIMENT_ITEMS, type ImportedExperimentView } from '../shared/reform-transfer.js';
+import type { ReformMetricsReport } from '../shared/reform-metrics.js';
 
 export class LabHttpError extends Error {
   constructor(
@@ -168,7 +177,11 @@ export class ReformLab {
     this.store.saveAnalysis(analysis);
     return this.view(analysis);
   }
-  private async view(analysis: LabAnalysis): Promise<LabAnalysisView> {
+  private async view(
+    analysis: LabAnalysis,
+    trustedPublicKey = this.signer.publicKey,
+    replayReport?: ReformMetricsReport,
+  ): Promise<LabAnalysisView> {
     const snapshot = analysis.snapshot ?? undefined;
     const explanation = projectReformExplanation(
       analysis.query,
@@ -184,7 +197,8 @@ export class ReformLab {
       analysis.annotations,
     );
     const metricsReport = analysis.receipt
-      ? await measureReformExport(
+      ? (replayReport ??
+        (await measureReformExport(
           exportReformArtifacts(
             analysis.query,
             analysis.bundles,
@@ -192,9 +206,9 @@ export class ReformLab {
             analysis.receipt,
             snapshot,
           ),
-          this.signer.publicKey,
+          trustedPublicKey,
           analysis.annotations,
-        )
+        )))
       : null;
     const explanationReport = metricsReport
       ? reformExplanationReportSchema.parse({
@@ -228,6 +242,45 @@ export class ReformLab {
             : 'preserved-outside';
     return { query: comparisonQuery(a, candidate, property), bundles: [a, candidate] };
   }
+  private async importedView(record: ImportedExperiment): Promise<ImportedExperimentView> {
+    const replay = await replayPortableExperiment(record.experiment, record.trustedPublicKey);
+    const views: LabAnalysisView[] = [];
+    for (const [index, item] of replay.experiment.items.entries()) {
+      const a = item.artifact;
+      const analysis: LabAnalysis = {
+        schema: 'normlab.lab-analysis/v1',
+        id: a.receipt.payload.id,
+        createdAt: a.receipt.payload.createdAt,
+        snapshotId: a.snapshot?.id ?? null,
+        snapshot: a.snapshot,
+        ...describePortableArtifact(a),
+        query: a.query,
+        bundles: a.bundles,
+        certificate: a.certificate,
+        receipt: a.receipt,
+        verification: {
+          ...a.receipt.payload.verification,
+          queryDigest: digest(a.query),
+          certificateDigest: digest(a.certificate),
+          statementDigest: a.receipt.payload.bindings.statementDigest,
+          durationMs: 0,
+        },
+        annotations: item.annotations,
+      };
+      views.push(await this.view(analysis, record.trustedPublicKey, replay.reports[index]));
+    }
+    return {
+      experiment: {
+        id: record.id,
+        importedAt: record.importedAt,
+        exportedAt: record.experiment.createdAt,
+        issuer: record.experiment.issuer,
+        itemCount: record.experiment.items.length,
+      },
+      trustedPublicKey: record.trustedPublicKey,
+      views,
+    };
+  }
   async handle(
     method: string,
     path: string,
@@ -236,6 +289,88 @@ export class ReformLab {
   ): Promise<Response | null> {
     if (method === 'GET' && path === '/api/reform/bootstrap')
       return { status: 200, body: await this.bootstrap(token) };
+    if (method === 'GET' && path === '/api/reform/imports')
+      return { status: 200, body: this.store.imports() };
+    if (method === 'POST' && path === '/api/reform/experiments/export') {
+      const request = z
+        .strictObject({ analysisIds: z.array(z.uuid()).min(1).max(MAX_EXPERIMENT_ITEMS) })
+        .parse(body);
+      if (new Set(request.analysisIds).size !== request.analysisIds.length)
+        throw new LabHttpError(400, 'Повторяющиеся результаты в наборе.');
+      const items = request.analysisIds.map((id) => {
+        const analysis = this.store.analysis(id);
+        if (!analysis) throw new LabHttpError(404, 'Результат не найден.');
+        if (!analysis.receipt)
+          throw new LabHttpError(409, 'Результат не имеет подписанного receipt.');
+        return {
+          artifact: exportReformArtifacts(
+            analysis.query,
+            analysis.bundles,
+            analysis.certificate,
+            analysis.receipt,
+            analysis.snapshot ?? undefined,
+          ),
+          annotations: analysis.annotations,
+        };
+      });
+      return { status: 200, body: packPortableExperiment(items, this.signer.publicKey) };
+    }
+    if (method === 'POST' && path === '/api/reform/imports') {
+      const request = z
+        .strictObject({
+          experiment: portableExperimentSchema,
+          trustedPublicKey: z.string().min(1).max(16384),
+        })
+        .parse(body);
+      return this.job(
+        `import:${digest(request.experiment)}:${digest(request.trustedPublicKey)}`,
+        async () => {
+          try {
+            const record: ImportedExperiment = {
+              id: digest(request.experiment),
+              importedAt: new Date().toISOString(),
+              trustedPublicKey: request.trustedPublicKey,
+              experiment: request.experiment,
+            };
+            const view = await this.importedView(record);
+            if (!view.views.every((v) => v.metricsReport?.evidence.current))
+              throw new LabHttpError(
+                409,
+                'Импорт не сохранён: fresh verification не подтверждает exact claim/toolchain.',
+              );
+            const saved = this.store.saveImport(record);
+            return {
+              status: 201,
+              body: { ...view, experiment: { ...view.experiment, importedAt: saved.importedAt } },
+            };
+          } catch (error) {
+            if (error instanceof LabHttpError) throw error;
+            throw new LabHttpError(
+              400,
+              error instanceof Error ? error.message : 'Некорректный experiment.',
+            );
+          }
+        },
+      );
+    }
+    const importedMatch = /^\/api\/reform\/imports\/([a-f0-9]{64})\/(replay|export)$/.exec(path);
+    if (importedMatch) {
+      const record = this.store.imported(importedMatch[1]);
+      if (!record) throw new LabHttpError(404, 'Импорт не найден.');
+      if (method === 'POST' && importedMatch[2] === 'replay') {
+        z.strictObject({}).parse(body);
+        return {
+          status: 200,
+          body: await this.job(`import-replay:${record.id}`, () => this.importedView(record)),
+        };
+      }
+      if (method === 'GET' && importedMatch[2] === 'export')
+        return {
+          status: 200,
+          body: record.experiment,
+          filename: `normlab-experiment-${record.id}.json`,
+        };
+    }
     if (method === 'POST' && path === '/api/reform/snapshots') {
       const request = snapshotRequest.parse(body);
       const snapshot = this.store.createSnapshot(request.input, request.expectedSnapshotId);

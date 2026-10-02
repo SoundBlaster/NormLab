@@ -1,0 +1,2688 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "normlab.experiment/v1"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}(?:Z))$"
+    },
+    "issuer": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "items": {
+      "minItems": 1,
+      "maxItems": 12,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artifact": {
+            "type": "object",
+            "properties": {
+              "schema": {
+                "type": "string",
+                "const": "normlab.reform-export/v1"
+              },
+              "query": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.query/v2"
+                      },
+                      "domain": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "const": "D16"
+                          },
+                          "profileId": {
+                            "type": "string",
+                            "const": "demo.reform-mitigation/v1"
+                          },
+                          "groups": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "K1"
+                              },
+                              {
+                                "type": "string",
+                                "const": "K2"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          },
+                          "predicates": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "M"
+                              },
+                              {
+                                "type": "string",
+                                "const": "N"
+                              },
+                              {
+                                "type": "string",
+                                "const": "E"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          "cardinality": {
+                            "type": "number",
+                            "const": 16
+                          },
+                          "restrictions": {
+                            "minItems": 0,
+                            "maxItems": 0,
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "profileId",
+                          "groups",
+                          "predicates",
+                          "cardinality",
+                          "restrictions"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "assumptions": {
+                        "minItems": 1,
+                        "maxItems": 16,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[\\s\\S]{1,1000}(?![\\s\\S])",
+                          "minLength": 1,
+                          "maxLength": 1000
+                        }
+                      },
+                      "kind": {
+                        "type": "string",
+                        "const": "decision"
+                      },
+                      "snapshotDigest": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "model": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 96,
+                            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                          },
+                          "semanticDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "provenanceDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "profileDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "semanticDigest",
+                          "provenanceDigest",
+                          "profileDigest"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "schema",
+                      "domain",
+                      "assumptions",
+                      "kind",
+                      "snapshotDigest",
+                      "model"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.query/v2"
+                      },
+                      "domain": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "const": "D16"
+                          },
+                          "profileId": {
+                            "type": "string",
+                            "const": "demo.reform-mitigation/v1"
+                          },
+                          "groups": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "K1"
+                              },
+                              {
+                                "type": "string",
+                                "const": "K2"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          },
+                          "predicates": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "M"
+                              },
+                              {
+                                "type": "string",
+                                "const": "N"
+                              },
+                              {
+                                "type": "string",
+                                "const": "E"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          "cardinality": {
+                            "type": "number",
+                            "const": 16
+                          },
+                          "restrictions": {
+                            "minItems": 0,
+                            "maxItems": 0,
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "profileId",
+                          "groups",
+                          "predicates",
+                          "cardinality",
+                          "restrictions"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "assumptions": {
+                        "minItems": 1,
+                        "maxItems": 16,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[\\s\\S]{1,1000}(?![\\s\\S])",
+                          "minLength": 1,
+                          "maxLength": 1000
+                        }
+                      },
+                      "kind": {
+                        "type": "string",
+                        "const": "comparison"
+                      },
+                      "baseline": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 96,
+                            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                          },
+                          "semanticDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "provenanceDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "profileDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "semanticDigest",
+                          "provenanceDigest",
+                          "profileDigest"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "candidate": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 96,
+                            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                          },
+                          "semanticDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "provenanceDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "profileDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "semanticDigest",
+                          "provenanceDigest",
+                          "profileDigest"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "mapping": {
+                        "type": "string",
+                        "const": "identity-typed-consequences/v1"
+                      },
+                      "property": {
+                        "type": "string",
+                        "enum": [
+                          "equivalence",
+                          "component-no-increase",
+                          "strict-reduction",
+                          "preserved-outside"
+                        ]
+                      },
+                      "condition": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "M": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "M"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "target": {
+                        "type": "string",
+                        "const": "prisonMonths"
+                      },
+                      "preserve": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "string",
+                            "const": "qualification"
+                          },
+                          {
+                            "type": "string",
+                            "const": "fineAmount"
+                          },
+                          {
+                            "type": "string",
+                            "const": "currency"
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3
+                      }
+                    },
+                    "required": [
+                      "schema",
+                      "domain",
+                      "assumptions",
+                      "kind",
+                      "baseline",
+                      "candidate",
+                      "mapping",
+                      "property",
+                      "condition",
+                      "target",
+                      "preserve"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.query/v2"
+                      },
+                      "domain": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "const": "D16"
+                          },
+                          "profileId": {
+                            "type": "string",
+                            "const": "demo.reform-mitigation/v1"
+                          },
+                          "groups": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "K1"
+                              },
+                              {
+                                "type": "string",
+                                "const": "K2"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          },
+                          "predicates": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "M"
+                              },
+                              {
+                                "type": "string",
+                                "const": "N"
+                              },
+                              {
+                                "type": "string",
+                                "const": "E"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          "cardinality": {
+                            "type": "number",
+                            "const": 16
+                          },
+                          "restrictions": {
+                            "minItems": 0,
+                            "maxItems": 0,
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "profileId",
+                          "groups",
+                          "predicates",
+                          "cardinality",
+                          "restrictions"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "assumptions": {
+                        "minItems": 1,
+                        "maxItems": 16,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[\\s\\S]{1,1000}(?![\\s\\S])",
+                          "minLength": 1,
+                          "maxLength": 1000
+                        }
+                      },
+                      "kind": {
+                        "type": "string",
+                        "const": "property"
+                      },
+                      "model": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 96,
+                            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                          },
+                          "semanticDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "provenanceDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "profileDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "semanticDigest",
+                          "provenanceDigest",
+                          "profileDigest"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "property": {
+                        "type": "string",
+                        "const": "strict-M-mitigation"
+                      },
+                      "target": {
+                        "type": "string",
+                        "const": "prisonMonths"
+                      },
+                      "preserve": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "string",
+                            "const": "qualification"
+                          },
+                          {
+                            "type": "string",
+                            "const": "fineAmount"
+                          },
+                          {
+                            "type": "string",
+                            "const": "currency"
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3
+                      }
+                    },
+                    "required": [
+                      "schema",
+                      "domain",
+                      "assumptions",
+                      "kind",
+                      "model",
+                      "property",
+                      "target",
+                      "preserve"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "bundles": {
+                "minItems": 1,
+                "maxItems": 2,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "schema": {
+                      "type": "string",
+                      "const": "normlab.norm-bundle/v1"
+                    },
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 96,
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                    },
+                    "package": {
+                      "type": "object",
+                      "properties": {
+                        "schema": {
+                          "type": "string",
+                          "const": "normlab.norm-package/v1"
+                        },
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "version": {
+                          "type": "string",
+                          "maxLength": 14,
+                          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+                        },
+                        "author": {
+                          "type": "string",
+                          "pattern": "^[\\s\\S]{1,200}(?![\\s\\S])",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "review": {
+                          "type": "string",
+                          "const": "local-synthetic-fixture"
+                        },
+                        "sourceKind": {
+                          "type": "string",
+                          "const": "synthetic"
+                        },
+                        "source": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 96,
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                            },
+                            "content": {
+                              "type": "string",
+                              "pattern": "^[\\s\\S]{1,32768}(?![\\s\\S])",
+                              "minLength": 1,
+                              "maxLength": 32768
+                            },
+                            "digest": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "content",
+                            "digest"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "sourceMappings": {
+                          "minItems": 4,
+                          "maxItems": 12,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ruleId": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 96,
+                                "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                              },
+                              "sourceId": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 96,
+                                "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                              },
+                              "anchor": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 96,
+                                "pattern": "^[a-z0-9-]+$"
+                              },
+                              "originRuleIds": {
+                                "maxItems": 12,
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 96,
+                                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                }
+                              }
+                            },
+                            "required": [
+                              "ruleId",
+                              "sourceId",
+                              "anchor",
+                              "originRuleIds"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "ir": {
+                          "type": "object",
+                          "properties": {
+                            "schema": {
+                              "type": "string",
+                              "const": "normlab.legal-ir/v2"
+                            },
+                            "profileId": {
+                              "type": "string",
+                              "const": "demo.reform-mitigation/v1"
+                            },
+                            "rules": {
+                              "minItems": 4,
+                              "maxItems": 12,
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 96,
+                                    "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                  },
+                                  "groups": {
+                                    "minItems": 1,
+                                    "maxItems": 2,
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    }
+                                  },
+                                  "mandatory": {
+                                    "type": "boolean",
+                                    "const": true
+                                  },
+                                  "applyCount": {
+                                    "type": "number",
+                                    "const": 1
+                                  },
+                                  "operation": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "const": "baseline"
+                                          },
+                                          "prisonMonths": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 3600
+                                          },
+                                          "fineAmount": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 1000000
+                                          }
+                                        },
+                                        "required": [
+                                          "kind",
+                                          "prisonMonths",
+                                          "fineAmount"
+                                        ],
+                                        "additionalProperties": false
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "const": "scale"
+                                          },
+                                          "trigger": {
+                                            "type": "string",
+                                            "enum": [
+                                              "M",
+                                              "N"
+                                            ]
+                                          },
+                                          "numerator": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "maximum": 12
+                                          },
+                                          "denominator": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "maximum": 12
+                                          },
+                                          "preserveFine": {
+                                            "type": "boolean",
+                                            "const": true
+                                          }
+                                        },
+                                        "required": [
+                                          "kind",
+                                          "trigger",
+                                          "numerator",
+                                          "denominator",
+                                          "preserveFine"
+                                        ],
+                                        "additionalProperties": false
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "const": "exclude"
+                                          },
+                                          "trigger": {
+                                            "type": "string",
+                                            "const": "E"
+                                          },
+                                          "targetTrigger": {
+                                            "type": "string",
+                                            "const": "N"
+                                          }
+                                        },
+                                        "required": [
+                                          "kind",
+                                          "trigger",
+                                          "targetTrigger"
+                                        ],
+                                        "additionalProperties": false
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "groups",
+                                  "mandatory",
+                                  "applyCount",
+                                  "operation"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "scope": {
+                              "type": "string",
+                              "const": "synthetic-reform-D16"
+                            }
+                          },
+                          "required": [
+                            "schema",
+                            "profileId",
+                            "rules",
+                            "scope"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "schema",
+                        "id",
+                        "version",
+                        "author",
+                        "review",
+                        "sourceKind",
+                        "source",
+                        "sourceMappings",
+                        "ir"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "profile": {
+                      "type": "object",
+                      "properties": {
+                        "schema": {
+                          "type": "string",
+                          "const": "normlab.semantic-profile/v1"
+                        },
+                        "id": {
+                          "type": "string",
+                          "const": "demo.reform-mitigation/v1"
+                        },
+                        "version": {
+                          "type": "string",
+                          "const": "1.0.0"
+                        },
+                        "groups": {
+                          "type": "array",
+                          "prefixItems": [
+                            {
+                              "type": "string",
+                              "const": "K1"
+                            },
+                            {
+                              "type": "string",
+                              "const": "K2"
+                            }
+                          ],
+                          "items": false,
+                          "minItems": 2,
+                          "maxItems": 2
+                        },
+                        "predicates": {
+                          "type": "array",
+                          "prefixItems": [
+                            {
+                              "type": "string",
+                              "const": "M"
+                            },
+                            {
+                              "type": "string",
+                              "const": "N"
+                            },
+                            {
+                              "type": "string",
+                              "const": "E"
+                            }
+                          ],
+                          "items": false,
+                          "minItems": 3,
+                          "maxItems": 3
+                        },
+                        "completion": {
+                          "type": "string",
+                          "const": "all-findings-terminal"
+                        },
+                        "openFindings": {
+                          "type": "array",
+                          "prefixItems": [
+                            {
+                              "type": "string",
+                              "const": "unreviewed"
+                            },
+                            {
+                              "type": "string",
+                              "const": "not-established"
+                            }
+                          ],
+                          "items": false,
+                          "minItems": 2,
+                          "maxItems": 2
+                        },
+                        "order": {
+                          "type": "array",
+                          "prefixItems": [
+                            {
+                              "type": "string",
+                              "const": "baseline"
+                            },
+                            {
+                              "type": "string",
+                              "const": "exclusions"
+                            },
+                            {
+                              "type": "string",
+                              "const": "M"
+                            },
+                            {
+                              "type": "string",
+                              "const": "N"
+                            }
+                          ],
+                          "items": false,
+                          "minItems": 4,
+                          "maxItems": 4
+                        },
+                        "arithmetic": {
+                          "type": "string",
+                          "const": "exact-rational-reject-non-integral"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "const": "DEMO"
+                        },
+                        "maxRules": {
+                          "type": "number",
+                          "const": 12
+                        },
+                        "maxBranches": {
+                          "type": "number",
+                          "const": 8
+                        }
+                      },
+                      "required": [
+                        "schema",
+                        "id",
+                        "version",
+                        "groups",
+                        "predicates",
+                        "completion",
+                        "openFindings",
+                        "order",
+                        "arithmetic",
+                        "currency",
+                        "maxRules",
+                        "maxBranches"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "locks": {
+                      "type": "object",
+                      "properties": {
+                        "packageDigest": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "profileDigest": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        }
+                      },
+                      "required": [
+                        "packageDigest",
+                        "profileDigest"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "semanticDigest": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "provenanceDigest": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "schema",
+                    "id",
+                    "package",
+                    "profile",
+                    "locks",
+                    "semanticDigest",
+                    "provenanceDigest"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "snapshot": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "narrative": {
+                        "type": "string",
+                        "pattern": "^[\\s\\S]{1,6000}(?![\\s\\S])",
+                        "minLength": 1,
+                        "maxLength": 6000
+                      },
+                      "group": {
+                        "type": "string",
+                        "enum": [
+                          "K1",
+                          "K2"
+                        ]
+                      },
+                      "findings": {
+                        "type": "object",
+                        "properties": {
+                          "M": {
+                            "type": "object",
+                            "properties": {
+                              "state": {
+                                "type": "string",
+                                "enum": [
+                                  "unreviewed",
+                                  "established",
+                                  "refuted",
+                                  "not-established"
+                                ]
+                              },
+                              "rationale": {
+                                "type": "string",
+                                "pattern": "^[\\s\\S]{0,2000}(?![\\s\\S])",
+                                "minLength": 0,
+                                "maxLength": 2000
+                              }
+                            },
+                            "required": [
+                              "state",
+                              "rationale"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "N": {
+                            "type": "object",
+                            "properties": {
+                              "state": {
+                                "type": "string",
+                                "enum": [
+                                  "unreviewed",
+                                  "established",
+                                  "refuted",
+                                  "not-established"
+                                ]
+                              },
+                              "rationale": {
+                                "type": "string",
+                                "pattern": "^[\\s\\S]{0,2000}(?![\\s\\S])",
+                                "minLength": 0,
+                                "maxLength": 2000
+                              }
+                            },
+                            "required": [
+                              "state",
+                              "rationale"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "E": {
+                            "type": "object",
+                            "properties": {
+                              "state": {
+                                "type": "string",
+                                "enum": [
+                                  "unreviewed",
+                                  "established",
+                                  "refuted",
+                                  "not-established"
+                                ]
+                              },
+                              "rationale": {
+                                "type": "string",
+                                "pattern": "^[\\s\\S]{0,2000}(?![\\s\\S])",
+                                "minLength": 0,
+                                "maxLength": 2000
+                              }
+                            },
+                            "required": [
+                              "state",
+                              "rationale"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "M",
+                          "N",
+                          "E"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.snapshot/v2"
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      "caseId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 96,
+                        "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                      },
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000000
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}(?:Z))$"
+                      },
+                      "supersedes": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "authority": {
+                        "type": "string",
+                        "const": "simulated-reviewer"
+                      },
+                      "digest": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      }
+                    },
+                    "required": [
+                      "narrative",
+                      "group",
+                      "findings",
+                      "schema",
+                      "id",
+                      "caseId",
+                      "revision",
+                      "createdAt",
+                      "supersedes",
+                      "authority",
+                      "digest"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "certificate": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.certificate/v2"
+                      },
+                      "queryDigest": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "const": "decision"
+                      },
+                      "result": {
+                        "type": "object",
+                        "properties": {
+                          "schema": {
+                            "type": "string",
+                            "const": "normlab.decision-result/v2"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "complete",
+                              "conditional"
+                            ]
+                          },
+                          "branches": {
+                            "minItems": 1,
+                            "maxItems": 8,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "when": {
+                                  "type": "object",
+                                  "properties": {
+                                    "group": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "M": {
+                                      "type": "boolean"
+                                    },
+                                    "N": {
+                                      "type": "boolean"
+                                    },
+                                    "E": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "group",
+                                    "M",
+                                    "N",
+                                    "E"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "outcome": {
+                                  "type": "object",
+                                  "properties": {
+                                    "qualification": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "prisonMonths": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 3600
+                                    },
+                                    "fineAmount": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 1000000
+                                    },
+                                    "currency": {
+                                      "type": "string",
+                                      "const": "DEMO"
+                                    }
+                                  },
+                                  "required": [
+                                    "qualification",
+                                    "prisonMonths",
+                                    "fineAmount",
+                                    "currency"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "ledger": {
+                                  "minItems": 4,
+                                  "maxItems": 12,
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ruleId": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 96,
+                                        "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                      },
+                                      "status": {
+                                        "type": "string",
+                                        "enum": [
+                                          "applied",
+                                          "inapplicable",
+                                          "excluded"
+                                        ]
+                                      },
+                                      "excludedBy": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string",
+                                            "minLength": 1,
+                                            "maxLength": 96,
+                                            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "ruleId",
+                                      "status",
+                                      "excludedBy"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "steps": {
+                                  "maxItems": 2,
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "ruleId": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 96,
+                                        "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                      },
+                                      "beforeMonths": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 3600
+                                      },
+                                      "afterMonths": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 3600
+                                      }
+                                    },
+                                    "required": [
+                                      "ruleId",
+                                      "beforeMonths",
+                                      "afterMonths"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                }
+                              },
+                              "required": [
+                                "when",
+                                "outcome",
+                                "ledger",
+                                "steps"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "ledger": {
+                            "minItems": 4,
+                            "maxItems": 12,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "ruleId": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 96,
+                                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "enum": [
+                                    "applied",
+                                    "inapplicable",
+                                    "excluded",
+                                    "unresolved"
+                                  ]
+                                },
+                                "excludedBy": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 96,
+                                      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "ruleId",
+                                "status",
+                                "excludedBy"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "schema",
+                          "status",
+                          "branches",
+                          "ledger"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "schema",
+                      "queryDigest",
+                      "kind",
+                      "result"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.certificate/v2"
+                      },
+                      "queryDigest": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "const": "comparison"
+                      },
+                      "result": {
+                        "type": "object",
+                        "properties": {
+                          "verdict": {
+                            "type": "string",
+                            "enum": [
+                              "holds",
+                              "counterexample"
+                            ]
+                          },
+                          "method": {
+                            "type": "string",
+                            "enum": [
+                              "corpus",
+                              "exhaustive-finite-domain"
+                            ]
+                          },
+                          "rows": {
+                            "minItems": 1,
+                            "maxItems": 16,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "input": {
+                                  "type": "object",
+                                  "properties": {
+                                    "group": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "M": {
+                                      "type": "boolean"
+                                    },
+                                    "N": {
+                                      "type": "boolean"
+                                    },
+                                    "E": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "group",
+                                    "M",
+                                    "N",
+                                    "E"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "baseline": {
+                                  "type": "object",
+                                  "properties": {
+                                    "qualification": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "prisonMonths": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 3600
+                                    },
+                                    "fineAmount": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 1000000
+                                    },
+                                    "currency": {
+                                      "type": "string",
+                                      "const": "DEMO"
+                                    }
+                                  },
+                                  "required": [
+                                    "qualification",
+                                    "prisonMonths",
+                                    "fineAmount",
+                                    "currency"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "candidate": {
+                                  "type": "object",
+                                  "properties": {
+                                    "qualification": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "prisonMonths": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 3600
+                                    },
+                                    "fineAmount": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 1000000
+                                    },
+                                    "currency": {
+                                      "type": "string",
+                                      "const": "DEMO"
+                                    }
+                                  },
+                                  "required": [
+                                    "qualification",
+                                    "prisonMonths",
+                                    "fineAmount",
+                                    "currency"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "required": [
+                                "input",
+                                "baseline",
+                                "candidate"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "counterexample": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "input": {
+                                    "type": "object",
+                                    "properties": {
+                                      "group": {
+                                        "type": "string",
+                                        "enum": [
+                                          "K1",
+                                          "K2"
+                                        ]
+                                      },
+                                      "M": {
+                                        "type": "boolean"
+                                      },
+                                      "N": {
+                                        "type": "boolean"
+                                      },
+                                      "E": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "group",
+                                      "M",
+                                      "N",
+                                      "E"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "baseline": {
+                                    "type": "object",
+                                    "properties": {
+                                      "qualification": {
+                                        "type": "string",
+                                        "enum": [
+                                          "K1",
+                                          "K2"
+                                        ]
+                                      },
+                                      "prisonMonths": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 3600
+                                      },
+                                      "fineAmount": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 1000000
+                                      },
+                                      "currency": {
+                                        "type": "string",
+                                        "const": "DEMO"
+                                      }
+                                    },
+                                    "required": [
+                                      "qualification",
+                                      "prisonMonths",
+                                      "fineAmount",
+                                      "currency"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "candidate": {
+                                    "type": "object",
+                                    "properties": {
+                                      "qualification": {
+                                        "type": "string",
+                                        "enum": [
+                                          "K1",
+                                          "K2"
+                                        ]
+                                      },
+                                      "prisonMonths": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 3600
+                                      },
+                                      "fineAmount": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 1000000
+                                      },
+                                      "currency": {
+                                        "type": "string",
+                                        "const": "DEMO"
+                                      }
+                                    },
+                                    "required": [
+                                      "qualification",
+                                      "prisonMonths",
+                                      "fineAmount",
+                                      "currency"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "required": [
+                                  "input",
+                                  "baseline",
+                                  "candidate"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "verdict",
+                          "method",
+                          "rows",
+                          "counterexample"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "schema",
+                      "queryDigest",
+                      "kind",
+                      "result"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.certificate/v2"
+                      },
+                      "queryDigest": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "const": "property"
+                      },
+                      "result": {
+                        "type": "object",
+                        "properties": {
+                          "verdict": {
+                            "type": "string",
+                            "enum": [
+                              "holds",
+                              "counterexample"
+                            ]
+                          },
+                          "method": {
+                            "type": "string",
+                            "enum": [
+                              "corpus",
+                              "exhaustive-finite-domain"
+                            ]
+                          },
+                          "pairs": {
+                            "minItems": 1,
+                            "maxItems": 8,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "before": {
+                                  "type": "object",
+                                  "properties": {
+                                    "group": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "M": {
+                                      "type": "boolean"
+                                    },
+                                    "N": {
+                                      "type": "boolean"
+                                    },
+                                    "E": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "group",
+                                    "M",
+                                    "N",
+                                    "E"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "after": {
+                                  "type": "object",
+                                  "properties": {
+                                    "group": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "M": {
+                                      "type": "boolean"
+                                    },
+                                    "N": {
+                                      "type": "boolean"
+                                    },
+                                    "E": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "group",
+                                    "M",
+                                    "N",
+                                    "E"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "baseline": {
+                                  "type": "object",
+                                  "properties": {
+                                    "qualification": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "prisonMonths": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 3600
+                                    },
+                                    "fineAmount": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 1000000
+                                    },
+                                    "currency": {
+                                      "type": "string",
+                                      "const": "DEMO"
+                                    }
+                                  },
+                                  "required": [
+                                    "qualification",
+                                    "prisonMonths",
+                                    "fineAmount",
+                                    "currency"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "candidate": {
+                                  "type": "object",
+                                  "properties": {
+                                    "qualification": {
+                                      "type": "string",
+                                      "enum": [
+                                        "K1",
+                                        "K2"
+                                      ]
+                                    },
+                                    "prisonMonths": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 3600
+                                    },
+                                    "fineAmount": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 1000000
+                                    },
+                                    "currency": {
+                                      "type": "string",
+                                      "const": "DEMO"
+                                    }
+                                  },
+                                  "required": [
+                                    "qualification",
+                                    "prisonMonths",
+                                    "fineAmount",
+                                    "currency"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "required": [
+                                "before",
+                                "after",
+                                "baseline",
+                                "candidate"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "counterexample": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "before": {
+                                    "type": "object",
+                                    "properties": {
+                                      "group": {
+                                        "type": "string",
+                                        "enum": [
+                                          "K1",
+                                          "K2"
+                                        ]
+                                      },
+                                      "M": {
+                                        "type": "boolean"
+                                      },
+                                      "N": {
+                                        "type": "boolean"
+                                      },
+                                      "E": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "group",
+                                      "M",
+                                      "N",
+                                      "E"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "after": {
+                                    "type": "object",
+                                    "properties": {
+                                      "group": {
+                                        "type": "string",
+                                        "enum": [
+                                          "K1",
+                                          "K2"
+                                        ]
+                                      },
+                                      "M": {
+                                        "type": "boolean"
+                                      },
+                                      "N": {
+                                        "type": "boolean"
+                                      },
+                                      "E": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "group",
+                                      "M",
+                                      "N",
+                                      "E"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "baseline": {
+                                    "type": "object",
+                                    "properties": {
+                                      "qualification": {
+                                        "type": "string",
+                                        "enum": [
+                                          "K1",
+                                          "K2"
+                                        ]
+                                      },
+                                      "prisonMonths": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 3600
+                                      },
+                                      "fineAmount": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 1000000
+                                      },
+                                      "currency": {
+                                        "type": "string",
+                                        "const": "DEMO"
+                                      }
+                                    },
+                                    "required": [
+                                      "qualification",
+                                      "prisonMonths",
+                                      "fineAmount",
+                                      "currency"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "candidate": {
+                                    "type": "object",
+                                    "properties": {
+                                      "qualification": {
+                                        "type": "string",
+                                        "enum": [
+                                          "K1",
+                                          "K2"
+                                        ]
+                                      },
+                                      "prisonMonths": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 3600
+                                      },
+                                      "fineAmount": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 1000000
+                                      },
+                                      "currency": {
+                                        "type": "string",
+                                        "const": "DEMO"
+                                      }
+                                    },
+                                    "required": [
+                                      "qualification",
+                                      "prisonMonths",
+                                      "fineAmount",
+                                      "currency"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "required": [
+                                  "before",
+                                  "after",
+                                  "baseline",
+                                  "candidate"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "verdict",
+                          "method",
+                          "pairs",
+                          "counterexample"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "schema",
+                      "queryDigest",
+                      "kind",
+                      "result"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "receipt": {
+                "type": "object",
+                "properties": {
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string",
+                        "const": "normlab.receipt/v2"
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}(?:Z))$"
+                      },
+                      "queryKind": {
+                        "type": "string",
+                        "enum": [
+                          "decision",
+                          "comparison",
+                          "property"
+                        ]
+                      },
+                      "bindings": {
+                        "type": "object",
+                        "properties": {
+                          "queryDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "certificateDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "resultDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "statementDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "assumptionsDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "models": {
+                            "minItems": 1,
+                            "maxItems": 2,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "role": {
+                                  "type": "string",
+                                  "enum": [
+                                    "model",
+                                    "baseline",
+                                    "candidate"
+                                  ]
+                                },
+                                "bundle": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 96,
+                                      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                                    },
+                                    "semanticDigest": {
+                                      "type": "string",
+                                      "pattern": "^[a-f0-9]{64}$"
+                                    },
+                                    "provenanceDigest": {
+                                      "type": "string",
+                                      "pattern": "^[a-f0-9]{64}$"
+                                    },
+                                    "profileDigest": {
+                                      "type": "string",
+                                      "pattern": "^[a-f0-9]{64}$"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "semanticDigest",
+                                    "provenanceDigest",
+                                    "profileDigest"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "required": [
+                                "role",
+                                "bundle"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "queryDigest",
+                          "certificateDigest",
+                          "resultDigest",
+                          "statementDigest",
+                          "assumptionsDigest",
+                          "models"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "coverage": {
+                        "type": "object",
+                        "properties": {
+                          "domainDigest": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "snapshot-completions",
+                              "finite-domain",
+                              "corpus"
+                            ]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "declared-complete",
+                              "partial"
+                            ]
+                          },
+                          "declaredCardinality": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 16
+                          },
+                          "coveredCardinality": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 16
+                          }
+                        },
+                        "required": [
+                          "domainDigest",
+                          "kind",
+                          "status",
+                          "declaredCardinality",
+                          "coveredCardinality"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "verification": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "verified",
+                              "inconclusive",
+                              "rejected",
+                              "unsupported"
+                            ]
+                          },
+                          "engine": {
+                            "type": "string",
+                            "const": "lean-kernel"
+                          },
+                          "version": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[\\s\\S]{1,200}(?![\\s\\S])",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "method": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "case-theorem",
+                                  "finite-domain-theorem"
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "toolchainDigest": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[a-f0-9]{64}$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "axioms": {
+                            "maxItems": 16,
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 96
+                            }
+                          },
+                          "reason": {
+                            "type": "string",
+                            "pattern": "^[\\s\\S]{1,2000}(?![\\s\\S])",
+                            "minLength": 1,
+                            "maxLength": 2000
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "engine",
+                          "version",
+                          "method",
+                          "toolchainDigest",
+                          "axioms",
+                          "reason"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "issuer": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      }
+                    },
+                    "required": [
+                      "schema",
+                      "id",
+                      "createdAt",
+                      "queryKind",
+                      "bindings",
+                      "coverage",
+                      "verification",
+                      "issuer"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "signature": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9+/]{86}==$"
+                  },
+                  "publicKey": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  }
+                },
+                "required": [
+                  "payload",
+                  "signature",
+                  "publicKey"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "schema",
+              "query",
+              "bundles",
+              "snapshot",
+              "certificate",
+              "receipt"
+            ],
+            "additionalProperties": false
+          },
+          "annotations": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "schema": {
+                    "type": "string",
+                    "const": "normlab.metrics-source-annotations/v1"
+                  },
+                  "models": {
+                    "minItems": 1,
+                    "maxItems": 4,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "bundle": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 96,
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                            },
+                            "semanticDigest": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "provenanceDigest": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "profileDigest": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "semanticDigest",
+                            "provenanceDigest",
+                            "profileDigest"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "sourceDigest": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "reviewer": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "review": {
+                          "type": "string",
+                          "const": "complete-for-mapped-provisions-and-shared-definitions"
+                        },
+                        "definitions": {
+                          "maxItems": 3,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "predicate": {
+                                "type": "string",
+                                "enum": [
+                                  "M",
+                                  "N",
+                                  "E"
+                                ]
+                              },
+                              "span": {
+                                "type": "object",
+                                "properties": {
+                                  "line": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 32768
+                                  },
+                                  "text": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 32768
+                                  }
+                                },
+                                "required": [
+                                  "line",
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "predicate",
+                              "span"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "references": {
+                          "maxItems": 24,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "fromRuleId": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 96,
+                                "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                              },
+                              "toRuleId": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 96,
+                                "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                              },
+                              "span": {
+                                "type": "object",
+                                "properties": {
+                                  "line": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 32768
+                                  },
+                                  "text": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 32768
+                                  }
+                                },
+                                "required": [
+                                  "line",
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "fromRuleId",
+                              "toRuleId",
+                              "span"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "bundle",
+                        "sourceDigest",
+                        "reviewer",
+                        "review",
+                        "definitions",
+                        "references"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "schema",
+                  "models"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "artifact",
+          "annotations"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "const": "synthetic-reviewed-reform/v1"
+        },
+        "runtime": {
+          "type": "object",
+          "properties": {
+            "leanToolchain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "nodeEngine": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "dependencyLockDigest": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "leanToolchain",
+            "nodeEngine",
+            "dependencyLockDigest"
+          ],
+          "additionalProperties": false
+        },
+        "locks": {
+          "minItems": 1,
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "artifactDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "annotationsDigest": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "bundleDigests": {
+                "minItems": 1,
+                "maxItems": 2,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              },
+              "queryDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "certificateDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "statementDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "verification": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "verified",
+                      "inconclusive",
+                      "rejected",
+                      "unsupported"
+                    ]
+                  },
+                  "engine": {
+                    "type": "string",
+                    "const": "lean-kernel"
+                  },
+                  "version": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[\\s\\S]{1,200}(?![\\s\\S])",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "method": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "case-theorem",
+                          "finite-domain-theorem"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "toolchainDigest": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "axioms": {
+                    "maxItems": 16,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 96
+                    }
+                  },
+                  "reason": {
+                    "type": "string",
+                    "pattern": "^[\\s\\S]{1,2000}(?![\\s\\S])",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "status",
+                  "engine",
+                  "version",
+                  "method",
+                  "toolchainDigest",
+                  "axioms",
+                  "reason"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "artifactDigest",
+              "annotationsDigest",
+              "bundleDigests",
+              "queryDigest",
+              "certificateDigest",
+              "statementDigest",
+              "verification"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "format",
+        "runtime",
+        "locks"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "createdAt",
+    "issuer",
+    "items",
+    "manifest"
+  ],
+  "additionalProperties": false
+}

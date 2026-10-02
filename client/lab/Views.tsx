@@ -28,9 +28,9 @@ const reasons = {
 };
 const inputLabel = (x: ReformExplanation['cases'][number]['traces'][number]['input']) =>
   `${x.group} · M=${x.M ? 'да' : 'нет'} · N=${x.N ? 'да' : 'нет'} · E=${x.E ? 'да' : 'нет'}`;
-export function downloadData(filename: string, value: unknown, text = false) {
+export function downloadData(filename: string, value: unknown, text = false, space = 2) {
   const url = URL.createObjectURL(
-    new Blob([text ? String(value) : `${JSON.stringify(value, null, 2)}\n`], {
+    new Blob([text ? String(value) : `${JSON.stringify(value, null, space)}\n`], {
       type: text ? 'text/plain;charset=utf-8' : 'application/json',
     }),
   );

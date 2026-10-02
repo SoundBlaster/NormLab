@@ -24,14 +24,16 @@ import {
   findingNames,
 } from './Views.js';
 import './lab.css';
+import { Transfer } from './Transfer.js';
 
-type Tab = 'experiment' | 'properties' | 'metrics' | 'sources' | 'history';
+type Tab = 'experiment' | 'properties' | 'metrics' | 'sources' | 'history' | 'transfer';
 const tabs: { id: Tab; label: string }[] = [
   { id: 'experiment', label: 'Рабочая область' },
   { id: 'properties', label: 'Свойства и counterexamples' },
   { id: 'metrics', label: 'Метрики' },
   { id: 'sources', label: 'Источники' },
   { id: 'history', label: 'История' },
+  { id: 'transfer', label: 'Перенос эксперимента' },
 ];
 const inputFrom = (s: ReformSnapshot): ReformSnapshotInput => ({
   narrative: s.narrative,
@@ -574,6 +576,7 @@ export function Lab() {
         </>
       )}
       {tab === 'sources' && <Sources data={data} />}
+      {tab === 'transfer' && <Transfer data={data} busy={busy} setBusy={setBusy} />}
       {tab === 'history' && (
         <>
           {dirty && (
