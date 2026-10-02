@@ -1,0 +1,130 @@
+NormPackage:
+  package_id: "demo.synthetic-reduction"
+  version: "0.1.0"
+  schema: "normlab.legal-ir/v1"
+  status: "proposed-fixture-not-executable-plugin"
+  jurisdiction: "synthetic"
+  official_law: false
+  source_ref: "#source"
+
+'#profile':
+  profile_id: "demo.conditional-transform"
+  profile_version: "0.1.0"
+  completion: "every-required-slot-has-profile-defined-resolution"
+  consequence_policy: "unique-composite-decision"
+  arithmetic: "exact-integer-and-rational"
+  component_matching: "stable-id"
+  unknown_as_false: false
+  unsupported_rule: "reject"
+
+'#scope':
+  purpose: "Только демонстрация преобразования уже заданного базового решения"
+  criminal_qualification_included: false
+  required_slot_ref: "#condition-a"
+  completed_domain: "established-or-refuted"
+  rounding: "reject-non-integral-result"
+  rule_inventory: "all-adjustment-rules-in-this-package"
+  assume_no_external_adjustments: true
+
+'#source':
+  source_kind: "author-defined-synthetic-example"
+  text: "Базовый срок 120 месяцев и штраф 200000 единиц DEMO. При установленном A срок уменьшается на треть; штраф не меняется. Иных поправок нет."
+
+'#condition-a':
+  proposition_id: "A"
+  question: "Установлено ли условие А в этом учебном сценарии?"
+  authority_role: "simulated-reviewer"
+  rationale_required: true
+  open_states: "unreviewed-not-established"
+  terminal_states: "established-refuted"
+  refutation_is_not_absence: true
+
+'#baseline':
+  result_kind: "composite"
+  candidate_input_not_legal_judgment: true
+
+'#prison-term':
+  kind: "imprisonment"
+  amount: 120
+  unit: "month"
+
+'#fine':
+  kind: "fine"
+  amount: 200000
+  unit: "DEMO-major-unit"
+  currency: "DEMO"
+
+'#reduce-prison-term':
+  source_ref: "#source"
+  baseline_ref: "#baseline"
+  application: "mandatory-on-established-trigger"
+  apply_count_per_decision: 1
+  application_stage: "post-baseline"
+  order_policy: "single-transform-only-in-this-fixture"
+  non_target_components: "preserve"
+
+'#trigger':
+  finding_ref: "#condition-a"
+  required_state: "established"
+
+'#scale':
+  target_ref: "#prison-term"
+  numerator: 2
+  denominator: 3
+  base: "baseline-component-amount"
+  rounding: "reject-non-integral-result"
+
+Scenario:
+  status: "specified-expected-output-not-tested-against-runtime"
+  slot_ref: "#condition-a"
+
+'#with-a':
+  finding_state: "established"
+  expected_status: "complete"
+  expected_prison_months: 80
+  expected_fine_amount: 200000
+  expected_adjustment_ledger: "applied"
+
+'#without-a':
+  finding_state: "refuted"
+  expected_status: "complete"
+  expected_prison_months: 120
+  expected_fine_amount: 200000
+  expected_adjustment_ledger: "inapplicable"
+
+'#unresolved-a':
+  finding_state: "unreviewed"
+  expected_status: "conditional"
+  expected_adjustment_ledger: "unresolved"
+  publish_unique_final_decision: false
+
+PropertyGoal:
+  status: "specified-not-proved"
+  verification_scope: "synthetic-fixture-only"
+
+'#mandatory-reduction':
+  statement: "При установленном A результат содержит 80 месяцев и учёт обязательного применения правила"
+
+'#fine-preserved':
+  statement: "Оба завершённых сценария сохраняют штраф 200000 единиц DEMO"
+
+'#unique-decision':
+  statement: "Для established и refuted существует ровно одно составное решение в пределах этого пакета"
+
+@contract:
+  NormPackage:
+    package_id: string
+    version: string
+    official_law: bool
+  Consequence:
+    kind: string
+    amount: int >= 0
+    unit: string
+  ScaleComponent:
+    target_ref: string
+    numerator: int >= 1
+    denominator: int >= 1
+  PropertyGoal:
+    status: string
+    statement: string
+    verification_scope: string

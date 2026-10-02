@@ -1,0 +1,278 @@
+@import "normlab.contracts.hcs"
+
+System:
+  specification_version: "0.1.0"
+  status: "proposed-architecture"
+  purpose: "Исполняемые нормы, разбор обстоятельств и сравнение редакций"
+  real_world_legal_authority: false
+  architecture_adapter: "normlab-architecture/v1"
+  legal_ir_schema: "normlab.legal-ir/v1"
+
+Backend:
+  implementation: "typescript-strict"
+  deployment: "modular-monolith"
+
+WebClient:
+  implementation: "typescript-react"
+  result_presentation: "conditional-and-proof-scoped"
+
+'#access':
+  authorization: "capability-and-case-scope"
+  authority_is_server_verified: true
+  demo_findings_are_simulated: true
+
+'#cases':
+  finding_updates: "append-only-supersession"
+  unresolved_is_false: false
+  assertions_are_findings: false
+  snapshot_policy: "immutable"
+  transaction_policy: "state-event-outbox-atomic"
+
+'#registry':
+  runtime_version_selection: "exact-digest-lock"
+  analysis_accepts_conflicting_drafts: true
+  verified_activation_requires_review: true
+  normative_cascade_after_publication: false
+
+'#analysis':
+  analyze_only_immutable_snapshots: true
+  require_locked_norm_bundle: true
+  universe: "declared-bundle-coverage"
+  candidate_retrieval_is_exhaustive: false
+  truth_completeness_required: false
+  legal_completion_defined_by_profile: true
+
+'#comparison':
+  comparison_basis: "explicit"
+  legal_semantic_diff: "query-over-two-locked-bundles"
+  corpus_is_population_sample: false
+  severity_aggregate: "none"
+  schema_alignment_required: true
+
+'#receipts':
+  signing_scope: "artifact-integrity-not-real-world-truth"
+  include_source_and_finding_provenance: true
+  include_declared_assumptions: true
+  reject_snapshot_mismatch: true
+  public_receipt_requires_disclosure_review: true
+
+'#publication':
+  public_input_policy: "synthetic-only"
+  automatic_private_case_publication: false
+  normative_preference_score: "none"
+  claim_scope_is_visible: true
+
+'#ai':
+  authority: "proposal-only"
+  accepted_fact_write: false
+  normative_rule_write: false
+  verified_result_write: false
+  legal_search_completeness_claim: false
+  external_provider: "explicit-opt-in"
+  inference_retention: "disabled-by-default"
+  input_policy: "untrusted-content-not-instructions"
+
+.sandboxed:
+  network: "deny"
+  filesystem: "ephemeral-and-allowlisted-inputs"
+  secrets: "none"
+  timeout_seconds: 120
+  memory_mb: 2048
+
+.isolated:
+  network: "deny"
+  filesystem: "ephemeral-and-allowlisted-inputs"
+  secrets: "none"
+  timeout_seconds: 120
+  memory_mb: 2048
+
+'#builder':
+  arbitrary_runtime_plugin_code: false
+  hcs_import_policy: "confined-to-package-root"
+  source_inputs: "untrusted"
+  semantic_profile_extensions: "separate-reviewed-release"
+
+'#analyzer':
+  runtime: "compiled-lean-interpreter"
+  semantics: "approved-profile-over-restricted-legal-ir"
+  arithmetic: "exact-integer-and-rational"
+  normative_priority: "explicit-rule-interactions"
+  hcs_specificity_is_legal_priority: false
+  certified_search_scope: "declared-and-checked"
+  missing_counterexample_is_proof: false
+  runtime_io_in_norms: false
+
+'#verifier':
+  runtime: "lean"
+  toolchain: "exact-version-and-artifact-digest-in-bundle"
+  statement_authority: "trusted-query-constructor"
+  untrusted_native_plugins: false
+  certificate_language: "restricted-data-not-arbitrary-lean-source"
+  accepted_axiom_policy: "reviewed-explicit-allowlist"
+  sorry_ax_allowed: false
+  native_evaluation_axioms_allowed: false
+  law_rules_are_axioms: false
+  findings_are_reality_proofs: false
+  timeout_status: "inconclusive"
+
+'#norm-package':
+  extension_kind: "typed-declarative-data"
+  cross_package_review: "required"
+  source_link_cardinality: "many-to-many"
+  unmapped_source_status: "coverage-gap"
+
+'#semantic-profile':
+  knowledge_states: "explicit-and-not-closed-world"
+  decision_policy: "profile-defined"
+  baseline_allows_ranges: true
+  experimental_profile_requires_unique_complete_decision: true
+  additional_axioms_from_packages: false
+
+'#norm-bundle':
+  semantic_digest_scope: "resolved-legal-content-and-semantic-profile"
+  provenance_digest_scope: "sources-interpretations-approvals-toolchain-and-locks"
+  change_policy: "new-immutable-bundle"
+
+'#case-snapshot':
+  finding_granularity: "case-actor-episode-proposition-time"
+  finding_states: "unreviewed-established-refuted-not-established"
+  unresolved_conflicts: "explicit-separate-records"
+  authority_in_demo: "simulated-and-labelled"
+  temporal_context: "event-time-procedure-time-finality-and-applicability-inputs"
+
+'#decision-candidate':
+  result_shape: "disposition-with-composite-typed-consequences"
+  range_selection: "profile-defined-never-implicit"
+  comparison_equality: "semantic-not-narrative"
+  rule_ledger: "applied-inapplicable-excluded-unresolved"
+  negated_finding_is_absence: false
+
+'#analysis-report':
+  proof_statuses: "verified-counterexample-inconclusive-unsupported"
+  coverage_statuses: "declared-complete-partial-unknown"
+  conflicts_are_data_not_logical_axioms: true
+  gap_requires_declared_coverage_expectation: true
+
+'#verification-receipt':
+  claim: "entailment-within-model-and-declared-scope"
+  official_judgment: false
+  signature_proves_correctness: false
+
+'#database':
+  source_of_truth: "case-history-registries-and-job-state"
+  sensitive_fields_encrypted: true
+  retention_policy: "per-data-class-with-explicit-deletion"
+
+'#objects':
+  encryption: "required"
+  access: "case-and-tenant-scoped"
+  immutable_content_addressing: true
+  personal_data_in_public_hashes: false
+
+'#jobs':
+  delivery: "at-least-once"
+  deduplication_key: "tenant-case-snapshot-bundle-query-toolchain"
+  concurrency_per_tenant: 2
+  max_attempts: 3
+
+PropertyGoal:
+  status: "specified-not-proved"
+  verification_scope: "explicit-query-domain"
+
+'#soundness':
+  statement: "Каждый проверенный вывод удовлетворяет независимой формальной спецификации"
+
+'#scope-completeness':
+  statement: "Все применимые нормы в объявленной области проверены; AI-поиск не ограничивает множество норм"
+
+'#unique-composite-decision':
+  profile: "experimental-deterministic"
+  statement: "Для завершённых входов в области профиля существует ровно одно семантическое решение, возможно составное"
+
+'#mandatory-rule-accounting':
+  statement: "Каждое обязательное применимое преобразование учтено либо имеет проверенное основание исключения"
+
+'#no-hidden-transform-order':
+  statement: "Порядок преобразований задан нормами либо доказана независимость результата от порядка"
+
+'#no-forbidden-double-counting':
+  statement: "Запрещённые выбранным профилем сочетания повторного учёта отсутствуют"
+
+'#no-implicit-facts':
+  statement: "Извлечённое утверждение и отсутствие установления не становятся автоматически установленным фактом или отрицанием"
+
+'#no-stale-verification':
+  statement: "Статус проверки связан с точным снимком, набором норм, запросом, результатом и предпосылками"
+
+Connection:
+  delivery: "at-least-once"
+  transport: "durable-job-or-transactional-outbox"
+
+'#extract-request':
+  from_ref: "#cases"
+  to_ref: "#ai"
+  message: "ExtractNarrative.v1"
+
+'#extract-response':
+  from_ref: "#ai"
+  to_ref: "#cases"
+  message: "ClaimProposals.v1"
+
+'#analyze-request':
+  from_ref: "#analysis"
+  to_ref: "#analyzer"
+  message: "AnalyzeSnapshot.v1"
+
+'#analyze-response':
+  from_ref: "#analyzer"
+  to_ref: "#analysis"
+  message: "AnalysisCandidate.v1"
+
+'#verify-decision':
+  from_ref: "#analysis"
+  to_ref: "#verifier"
+  message: "VerifyDecision.v1"
+
+'#verified-decision':
+  from_ref: "#verifier"
+  to_ref: "#receipts"
+  message: "VerificationResult.v1"
+
+'#build-request':
+  from_ref: "#registry"
+  to_ref: "#builder"
+  message: "BuildNormBundle.v1"
+
+'#verify-package':
+  from_ref: "#builder"
+  to_ref: "#verifier"
+  message: "VerifyBundleProperties.v1"
+
+'#verified-package':
+  from_ref: "#verifier"
+  to_ref: "#registry"
+  message: "BundleVerificationResult.v1"
+
+'#compare-request':
+  from_ref: "#comparison"
+  to_ref: "#analyzer"
+  message: "CompareBundles.v1"
+
+'#compare-response':
+  from_ref: "#analyzer"
+  to_ref: "#comparison"
+  message: "ComparisonCandidate.v1"
+
+'#verify-comparison':
+  from_ref: "#comparison"
+  to_ref: "#verifier"
+  message: "VerifyComparison.v1"
+
+'#public-receipt':
+  from_ref: "#receipts"
+  to_ref: "#publication"
+  message: "PublicationCandidate.v1"
+
+@env[demo]:
+  '#jobs':
+    concurrency_per_tenant: 1

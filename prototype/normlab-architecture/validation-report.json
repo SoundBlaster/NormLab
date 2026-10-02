@@ -1,0 +1,51 @@
+{
+  "status": "local-check-passed",
+  "checks": [
+    {
+      "hc": "normlab.architecture.hc",
+      "hcs": "normlab.architecture.hcs",
+      "context": {},
+      "nodes": 196,
+      "unique_ids": 51,
+      "contract_value_checks": 100,
+      "resolved_consumer_refs": 26,
+      "status": "local-check-passed"
+    },
+    {
+      "hc": "normlab.architecture.hc",
+      "hcs": "normlab.architecture.hcs",
+      "context": {
+        "env": "demo"
+      },
+      "nodes": 196,
+      "unique_ids": 51,
+      "contract_value_checks": 100,
+      "resolved_consumer_refs": 26,
+      "status": "local-check-passed"
+    },
+    {
+      "hc": "examples/reduction.hc",
+      "hcs": "examples/reduction.hcs",
+      "context": {},
+      "nodes": 17,
+      "unique_ids": 17,
+      "contract_value_checks": 21,
+      "resolved_consumer_refs": 9,
+      "status": "local-check-passed"
+    }
+  ],
+  "toy_arithmetic": {
+    "baseline_months": 120,
+    "adjusted_months": 80,
+    "fine_unchanged": true
+  },
+  "reference_hypercode_cli_executed": false,
+  "lean_executed": false,
+  "limitations": [
+    "Restricted independently implemented syntax lint, not reference-parser conformance.",
+    "No static cascade-contract narrowing proof; current files use no contract overrides.",
+    "Architecture adapter and Legal IR compiler are not implemented.",
+    "Policy values checked, not their runtime enforcement.",
+    "No Lean theorem proved; arithmetic fixture is not a runtime integration test."
+  ]
+}
