@@ -59,7 +59,7 @@ Sidecar **не подписан receipt** и не изменяет `normlab.refo
 npm run reform:demo
 ```
 
-Новый каталог `<run>` в `.artifacts/` содержит **12 exports**, manifest, public key и JSON/Markdown explanations: восемь general queries, общий conditional snapshot в A/B/C и C snapshot с установленным E. Private key demo существует только в памяти. Каталог и output files создаются без перезаписи.
+Новый каталог `<run>` в `.artifacts/` содержит **12 exports**, manifest, public key и JSON/Markdown explanations: восемь general queries, общий conditional snapshot в A/B/C и C snapshot с установленным E. NL-108 дополнительно сохраняет [metrics reports и source annotations](METRICS.md). Private key demo существует только в памяти. Каталог и output files создаются без перезаписи.
 
 ```sh
 npm run reform:explain -- <run>/C-conditional-decision.json --issuer-key <run>/issuer-public.pem
@@ -77,4 +77,4 @@ npm run reform:explain -- <run>/C-conditional-exclusion.json --issuer-key <run>/
 - Реальный CLI выпускает JSON/Markdown, проверяет sidecar, сохраняет output без перезаписи и отклоняет invalid trust/data. Все прежние M0/v2 Lean checks сохранены.
 - TypeScript strict, production build, schema freshness и formatting проходят. Demo предъявляет 12 локальных exports с explanations; отдельный CLI replay проверяет сохранённые sidecars.
 
-Следующий этап — NL-108: отдельно определить structure, decision и consequence-change metrics. Затем NL-502 подключает v2 storage/HTTP/UI и предъявляет полный пользовательский A/B/C flow.
+[NL-108](METRICS.md) реализует separate structure, decision и consequence-change metrics для core/CLI. Следующий этап — NL-502: v2 storage/HTTP/UI и полный пользовательский A/B/C flow.

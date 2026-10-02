@@ -1,13 +1,18 @@
 import { randomUUID } from 'node:crypto';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { parseArgs } from 'node:util';
 import type { ReformBundle, ReformQuery, ReformSnapshot } from '../shared/reform-contracts.js';
 import { renderReformExplanationMarkdown } from '../shared/reform-explanations.js';
+import {
+  reformMetricAnnotationsSchema,
+  renderReformMetricsMarkdown,
+} from '../shared/reform-metrics.js';
 import { decisionQuery } from '../server/reform-bindings.js';
 import { explainReformExport } from '../server/reform-explanations.js';
 import { digest } from '../server/hash.js';
 import { getReformBundle } from '../server/reform-models.js';
+import { measureReformExport } from '../server/reform-metrics.js';
 import {
   comparisonQuery,
   getReformCounterexampleBundle,
@@ -33,6 +38,16 @@ mkdirSync(dirname(output), { recursive: true });
 mkdirSync(output);
 const signer = new ReformReceiptSigner();
 writeFileSync(join(output, 'issuer-public.pem'), signer.publicKey, { flag: 'wx' });
+const sourceAnnotations = reformMetricAnnotationsSchema.parse(
+  JSON.parse(
+    readFileSync(new URL('../fixtures/reform-v1/metric-annotations.json', import.meta.url), 'utf8'),
+  ),
+);
+writeFileSync(
+  join(output, 'source-annotations.json'),
+  `${JSON.stringify(sourceAnnotations, null, 2)}\n`,
+  { flag: 'wx' },
+);
 const a = getReformBundle('A'),
   b = getReformBundle('B'),
   c = getReformBundle('C');
@@ -129,6 +144,14 @@ for (const item of cases) {
   writeFileSync(join(output, explanationMarkdown), renderReformExplanationMarkdown(explanation), {
     flag: 'wx',
   });
+  const metrics = await measureReformExport(artifact, signer.publicKey, sourceAnnotations);
+  if (!metrics.evidence.current) throw new Error(`${item.id}: metrics replay failed`);
+  const metricsJson = `${item.id}.metrics.json`,
+    metricsMarkdown = `${item.id}.metrics.md`;
+  writeFileSync(join(output, metricsJson), `${JSON.stringify(metrics, null, 2)}\n`, { flag: 'wx' });
+  writeFileSync(join(output, metricsMarkdown), renderReformMetricsMarkdown(metrics), {
+    flag: 'wx',
+  });
   const verdict =
     certificate.kind === 'decision' ? certificate.result.status : certificate.result.verdict;
   results.push({
@@ -146,9 +169,12 @@ for (const item of cases) {
     explanationJson,
     explanationMarkdown,
     explanationDigest: explanation.explanationDigest,
+    metricsJson,
+    metricsMarkdown,
+    metricsDigest: metrics.metricsDigest,
   });
   console.log(
-    `${item.id}: ${verdict}; ${receipt.payload.coverage.coveredCardinality}/${receipt.payload.coverage.declaredCardinality}; replay and explanation current`,
+    `${item.id}: ${verdict}; ${receipt.payload.coverage.coveredCardinality}/${receipt.payload.coverage.declaredCardinality}; replay, explanation and metrics current`,
   );
 }
 writeFileSync(
@@ -159,6 +185,7 @@ writeFileSync(
       createdAt: new Date().toISOString(),
       issuer: digest(signer.publicKey),
       issuerKeyFile: 'issuer-public.pem',
+      sourceAnnotationsFile: 'source-annotations.json',
       results,
     },
     null,

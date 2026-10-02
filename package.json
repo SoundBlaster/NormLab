@@ -16,6 +16,7 @@
     "reform:demo": "tsx scripts/reform-demo.ts",
     "reform:verify": "tsx scripts/reform-verify.ts",
     "reform:explain": "tsx scripts/reform-explain.ts",
+    "reform:metrics": "tsx scripts/reform-metrics.ts",
     "schemas:write": "tsx scripts/export-contracts.ts",
     "schemas:check": "tsx scripts/export-contracts.ts --check"
   },

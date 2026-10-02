@@ -83,4 +83,4 @@ Envelope `normlab.reform-export/v1` содержит strict query, один/дв
 - Сохранены прежние M0 checks и v2 decision checks: **384 results / 1296 branches**, девять общих relation theorems и 12 прямых негативных decision statements.
 - TypeScript strict и schema freshness проходят. Обычный `npm run build` сначала столкнулся с `ENOSPC` при записи временного Vite config; `npm run build -- --configLoader runner` выполнил typecheck и production build без этого временного файла. Финальный повтор обычного `npm run build` также прошёл. Восемь demo exports проходят replay в отдельных процессах verifier.
 
-Последующий [NL-406](EXPLANATIONS.md) реализует deterministic explanations и sidecar replay. Следующий срез — NL-108/NL-502: метрики и интеграция v2 pipeline в storage/HTTP/UI. M1 остаётся открытым до пользовательского A/B/C flow; totals выше сохраняют свидетельства NL-405.
+Последующие [NL-406](EXPLANATIONS.md) и [NL-108](METRICS.md) реализуют deterministic explanations, separate metrics и sidecar replay. Следующий срез — NL-502: интеграция v2 pipeline в storage/HTTP/UI. M1 остаётся открытым до пользовательского A/B/C flow; totals выше сохраняют свидетельства NL-405.

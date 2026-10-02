@@ -1,11 +1,12 @@
 # Reform fixture v0.1.0
 
-Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; producer-tested; Lean-decision-verified; not-HTTP-integrated**. Comparison proofs остаются отдельным этапом.
+Конкретизация NL-107 для [демонстратора A/B/C](../../docs/DEMONSTRATOR.md). Статус: **specified; arithmetic-audited; producer-tested; Lean-decision/comparison-verified; core/CLI-explanations-and-metrics; not-HTTP-integrated**.
 
 - [source.md](source.md) — полный синтетический исходный текст A/B/C с устойчивыми ID положений.
 - [fixture.json](fixture.json) — машиночитаемый design artifact: domain, положения, source mappings, ожидаемые значения и queries.
 - [VALIDATION.md](VALIDATION.md) — результаты ограниченной проверки fixture и оставшиеся обязательства.
 - [check_fixture.py](check_fixture.py) — воспроизводимая проверка полноты таблицы, арифметики, mappings и заявленных отношений на конечной области.
+- [metric-annotations.json](metric-annotations.json) — reviewed source definitions и нормативные отсылки с точными model/source bindings для NL-108.
 
 Формат `normlab.reform-fixture-plan/v1` предназначен для этого source fixture. [server/reform-models.ts](../../server/reform-models.ts) собирает из него typed NormPackages/NormBundles нового [контракта v2](../../docs/CONTRACTS.md). Сам fixture plan сохраняет отдельный формат и не является входом существующего Lean verifier M0.
 
@@ -17,7 +18,7 @@
 | A → C                 | Множитель M меняется с `2/3` на `1/2`                      | При M срок строго уменьшается; вне M последствия сохраняются |
 | C → ошибочный вариант | Теряется исключение E для правила N                        | Возникает изменение вне заявленной категории M               |
 
-В A семь нормативных положений, в B и C — по пять. Здесь единица подсчёта — отдельный именованный нормативный абзац в source.md; определения и заголовки не включаются. Независимых обстоятельств M/N/E остаётся три. Эти числа иллюстрируют разницу между структурным сокращением и сложностью установлений; полная методика метрик остаётся NL-108.
+В A семь нормативных положений, в B и C — по пять. Здесь единица подсчёта — отдельный именованный нормативный section в source.md; определения и заголовки моделей не включаются. Независимых обстоятельств M/N/E остаётся три. [Методика NL-108](../../docs/METRICS.md) реализует separate structure/decision/change counts, reviewed source annotations и CLI replay. Group-expanded rules остаются восемью во всех трёх моделях.
 
 ## Domain и последствия
 
