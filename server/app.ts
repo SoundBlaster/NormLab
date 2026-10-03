@@ -282,7 +282,7 @@ export async function createApp(options: { dataDir: string; production?: boolean
     store,
     lab,
     async close() {
-      await Promise.allSettled([...running.values()]);
+      await Promise.allSettled(running.values());
       await lab.close();
       await vite?.close();
       if (server.listening)

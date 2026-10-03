@@ -47,7 +47,10 @@ export const labSnapshotInputSchema = reformSnapshotInputSchema
         message: 'Добавьте описание учебного сценария.',
       });
     for (const p of ['M', 'N', 'E'] as const)
-      if (input.findings[p].state !== 'unreviewed' && [...input.findings[p].rationale].length < 3)
+      if (
+        input.findings[p].state !== 'unreviewed' &&
+        Array.from(input.findings[p].rationale).length < 3
+      )
         ctx.addIssue({
           code: 'custom',
           path: ['findings', p, 'rationale'],

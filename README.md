@@ -25,6 +25,7 @@ Norms for People
 - [Основания проектирования](docs/DESIGN_NOTES.md): авторские цели из переписки, происхождение решений, роль Hypercode и предложение интеграции со SpecGraph.
 - [Roadmap](roadmap.md): этапы, зависимости и актуальные приоритеты.
 - [Текущий MVP](docs/MVP.md) и [отчёт его проверки](docs/VERIFICATION.md): реализованные возможности, API и конкретные свидетельства.
+- [Проверки качества кода](docs/QUALITY.md): линтер, форматтер, CI и документированные исключения.
 - [Исходная архитектура v0.1.0](prototype/normlab-architecture/README.ru.md): сохранённый проект из архива.
 
 ## Запуск
@@ -104,11 +105,14 @@ Demo выводит путь `<run>` и сохраняет 12 exports, JSON/Mark
 ## Проверки
 
 ```sh
+npm run lint
+npm run format:check
 npm run check        # TypeScript strict
 npm test            # domain, tampering, persistence, signatures and HTTP workflow
 npm run test:lean    # 14 integration tests; requires exact Lean 4.30.0
 npm run schemas:check # generated v2 schema freshness
 npm run build       # typecheck + production bundle
+docker compose config --quiet
 ```
 
 Отрицательные проверки включают пропуск обязательной нормы, изменение штрафа, потерю/дублирование ветви, замену снимка/модели, подмену issuer, конфликт одновременных записей и запросы с чужим Origin/Host. Lean отдельно получает заведомо неверный результат в обход TypeScript guard и обязан отклонить доказательство.

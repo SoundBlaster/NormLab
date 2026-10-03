@@ -446,7 +446,7 @@ export class ReformLab {
     return null;
   }
   async close(): Promise<void> {
-    await Promise.allSettled([...this.running.values()]);
+    await Promise.allSettled(this.running.values());
     this.store.close();
   }
 }

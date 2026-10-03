@@ -238,7 +238,7 @@ function literal(value: string): string {
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
-    .replace(/[\\`*_{}\[\]()#+.!|]/g, '\\$&')
+    .replace(/[\\`*_{}[\]()#+.!|]/g, '\\$&')
     .replace(/[\r\n]/g, ' ');
 }
 const inputText = (x: ReformExplanation['cases'][number]['traces'][number]['input']) =>
