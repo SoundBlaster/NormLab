@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
 import type { Analysis, Snapshot, SnapshotInput, Workspace } from '../shared/domain.js';
+import { applyDatabaseMigrations } from './database-migrations.js';
 import { canonical, digest } from './hash.js';
 
 export class Conflict extends Error {}
@@ -8,9 +9,12 @@ export class Store {
   private db: DatabaseSync;
   constructor(path: string) {
     this.db = new DatabaseSync(path);
-    this.db.exec(`
-      PRAGMA journal_mode=WAL;
-      PRAGMA foreign_keys=ON;
+    this.db.exec('PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;');
+    applyDatabaseMigrations(this.db, 'legacy', [
+      {
+        version: 1,
+        name: 'initial-schema',
+        sql: `
       CREATE TABLE IF NOT EXISTS cases (id TEXT PRIMARY KEY, title TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS snapshots (
         id TEXT PRIMARY KEY, case_id TEXT NOT NULL REFERENCES cases(id),
@@ -22,7 +26,9 @@ export class Store {
       );
       CREATE TRIGGER IF NOT EXISTS snapshots_immutable_update BEFORE UPDATE ON snapshots BEGIN SELECT RAISE(ABORT, 'immutable snapshot'); END;
       CREATE TRIGGER IF NOT EXISTS snapshots_immutable_delete BEFORE DELETE ON snapshots BEGIN SELECT RAISE(ABORT, 'immutable snapshot'); END;
-    `);
+    `,
+      },
+    ]);
     this.db
       .prepare('INSERT OR IGNORE INTO cases VALUES (?, ?)')
       .run('synthetic-case', 'Условие A · учебный сценарий');

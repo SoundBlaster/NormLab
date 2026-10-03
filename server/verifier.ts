@@ -27,6 +27,13 @@ type Toolchain = {
 };
 let discovery: Promise<Toolchain> | undefined;
 
+function leanMemoryLimit(): number {
+  const configured = process.env.NORMLAB_LEAN_MEMORY_MB;
+  if (configured === undefined) return 512;
+  const value = Number(configured);
+  return Number.isInteger(value) && value >= 512 && value <= 4096 ? value : 512;
+}
+
 export function discoverLean(): Promise<Toolchain> {
   discovery ??= (async () => {
     const launcher =
@@ -185,12 +192,16 @@ export async function verifyCertificate(
   try {
     const file = join(temporary, 'Certificate.lean');
     await writeFile(file, `${core}\n${statement}`, { mode: 0o600 });
-    const { stdout, stderr } = await execute(toolchain.binary, ['-M512', '-T200000', file], {
-      cwd: root,
-      timeout: 20000,
-      maxBuffer: 128 * 1024,
-      env: { PATH: '/usr/bin:/bin', TMPDIR: temporary, LANG: 'en_US.UTF-8' },
-    });
+    const { stdout, stderr } = await execute(
+      toolchain.binary,
+      [`-M${leanMemoryLimit()}`, '-T200000', file],
+      {
+        cwd: root,
+        timeout: 20000,
+        maxBuffer: 128 * 1024,
+        env: { PATH: '/usr/bin:/bin', TMPDIR: temporary, LANG: 'en_US.UTF-8' },
+      },
+    );
     const axiomReport = /'NormLab\.checked' depends on axioms: \[([^\]]*)\]/.exec(stdout);
     const axiomFree = stdout.includes("'NormLab.checked' does not depend on any axioms");
     const axioms = axiomReport

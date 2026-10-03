@@ -30,6 +30,12 @@ const execute = promisify(execFile);
 const coreUrl = new URL('../lean/Reform.lean', import.meta.url);
 export const reformLeanCore = readFileSync(coreUrl, 'utf8');
 const root = new URL('../', import.meta.url);
+function leanMemoryLimit(): number {
+  const configured = process.env.NORMLAB_LEAN_MEMORY_MB;
+  if (configured === undefined) return 512;
+  const value = Number(configured);
+  return Number.isInteger(value) && value >= 512 && value <= 4096 ? value : 512;
+}
 const checkerSources = [
   'server/reform-verifier.ts',
   'server/reform-bindings.ts',
@@ -285,12 +291,16 @@ export async function verifyReformCertificate(
     directory = await mkdtemp(join(tmpdir(), 'normlab-reform-proof-'));
     const path = join(directory, 'Decision.lean');
     await writeFile(path, `${reformLeanCore}\n${statement}`, { mode: 0o600 });
-    const { stdout, stderr } = await execute(lean.binary, ['-M512', '-T200000', path], {
-      cwd: root,
-      timeout: 30000,
-      maxBuffer: 128 * 1024,
-      env: { PATH: '/usr/bin:/bin', TMPDIR: directory, LANG: 'en_US.UTF-8' },
-    });
+    const { stdout, stderr } = await execute(
+      lean.binary,
+      [`-M${leanMemoryLimit()}`, '-T200000', path],
+      {
+        cwd: root,
+        timeout: 30000,
+        maxBuffer: 128 * 1024,
+        env: { PATH: '/usr/bin:/bin', TMPDIR: directory, LANG: 'en_US.UTF-8' },
+      },
+    );
     const expectedNames = ['NormLabReform.checked'];
     if (certificate.kind !== 'decision') {
       if (certificate.result.verdict === 'counterexample')

@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
+import { applyDatabaseMigrations } from './database-migrations.js';
 import { z } from 'zod';
 import { labQueries, type LabAnalysis, type LabWorkspace } from '../shared/reform-lab.js';
 import {
@@ -104,9 +105,12 @@ export class ReformStore {
   private readonly db: DatabaseSync;
   constructor(path: string) {
     this.db = new DatabaseSync(path);
-    this.db.exec(`
-      PRAGMA journal_mode=WAL;
-      PRAGMA foreign_keys=ON;
+    this.db.exec('PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;');
+    applyDatabaseMigrations(this.db, 'reform', [
+      {
+        version: 1,
+        name: 'initial-schema',
+        sql: `
       CREATE TABLE IF NOT EXISTS reform_snapshots (
         id TEXT PRIMARY KEY, revision INTEGER NOT NULL UNIQUE, body TEXT NOT NULL
       );
@@ -123,7 +127,9 @@ export class ReformStore {
       CREATE TRIGGER IF NOT EXISTS reform_snapshots_no_delete BEFORE DELETE ON reform_snapshots BEGIN SELECT RAISE(ABORT, 'immutable reform snapshot'); END;
       CREATE TRIGGER IF NOT EXISTS reform_analyses_no_update BEFORE UPDATE ON reform_analyses BEGIN SELECT RAISE(ABORT, 'immutable reform analysis'); END;
       CREATE TRIGGER IF NOT EXISTS reform_analyses_no_delete BEFORE DELETE ON reform_analyses BEGIN SELECT RAISE(ABORT, 'immutable reform analysis'); END;
-    `);
+    `,
+      },
+    ]);
     if (!this.db.prepare('SELECT id FROM reform_snapshots LIMIT 1').get())
       this.createSnapshot(
         {

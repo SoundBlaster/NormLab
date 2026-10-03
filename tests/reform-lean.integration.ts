@@ -15,6 +15,7 @@ import { decisionQuery, reformBundleRef } from '../server/reform-bindings.js';
 import { getReformBundle, lockReformPackage } from '../server/reform-models.js';
 import { digest } from '../server/hash.js';
 import { discoverLean } from '../server/verifier.js';
+import { leanMemoryArgument } from './lean-resources.js';
 import {
   constructReformDecisionStatement,
   reformLeanCore,
@@ -71,7 +72,7 @@ async function checkLean(source: string) {
   try {
     const path = join(directory, 'Check.lean');
     await writeFile(path, `${reformLeanCore}\n${source}`, { mode: 0o600 });
-    return await execute(lean.binary, ['-M512', '-T1000000', path], {
+    return await execute(lean.binary, [leanMemoryArgument, '-T1000000', path], {
       timeout: 60000,
       maxBuffer: 1024 * 1024,
     });

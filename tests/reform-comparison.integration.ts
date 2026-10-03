@@ -35,6 +35,7 @@ import {
   verifyReformReceiptSignature,
 } from '../server/reform-receipts.js';
 import { decisionQuery } from '../server/reform-bindings.js';
+import { leanMemoryArgument } from './lean-resources.js';
 
 const a = getReformBundle('A'),
   b = getReformBundle('B'),
@@ -75,7 +76,9 @@ test('Lean proves equivalence A/B, all A/C properties, all unary properties and 
           .map((name) => `#print axioms NormLabReform.${name}`)
           .join('\n'),
     );
-    const { stdout, stderr } = await execute(lean.binary, ['-M512', path], { timeout: 20000 });
+    const { stdout, stderr } = await execute(lean.binary, [leanMemoryArgument, path], {
+      timeout: 20000,
+    });
     assert.equal(stderr, '');
     const reports = [...stdout.matchAll(/depends on axioms: \[([^\]]*)\]/g)];
     assert.equal(reports.length, 4, stdout);
@@ -123,7 +126,7 @@ async function expectKernelRejection(
       reformLeanCore + '\n' + constructReformStatement(query, bundles, certificate),
     );
     await assert.rejects(
-      execute(lean.binary, ['-M512', '-T200000', path], { timeout: 30000 }),
+      execute(lean.binary, [leanMemoryArgument, '-T200000', path], { timeout: 30000 }),
       (error) =>
         /proved that the proposition[\s\S]*is false/.test(
           (error as { stdout?: string }).stdout ?? '',
