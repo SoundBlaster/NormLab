@@ -6,8 +6,7 @@ import { join } from 'node:path';
 import type { AddressInfo } from 'node:net';
 import { test } from 'node:test';
 import { createApp } from '../server/app.js';
-import { exportReformArtifacts } from '../server/reform-receipts.js';
-import { portableExperimentLocks, packPortableExperiment } from '../server/reform-transfer.js';
+import { portableExperimentLocks } from '../server/reform-transfer.js';
 import type { LabAnalysisView, LabBootstrap } from '../shared/reform-lab.js';
 import type { PortableExperiment } from '../server/reform-transfer.js';
 
@@ -30,17 +29,15 @@ test('portable import rejects untrusted and tampered sets without partial writes
     });
     assert.equal(response.status, 200);
     const { view } = (await response.json()) as { view: LabAnalysisView };
-    const artifact = exportReformArtifacts(
-      view.analysis.query,
-      view.analysis.bundles,
-      view.analysis.certificate,
-      view.analysis.receipt,
-      view.analysis.snapshot ?? undefined,
-    );
-    const experiment = packPortableExperiment(
-      [{ artifact, annotations: null }],
-      bootstrap.issuerPublicKey,
-    );
+    const beforeImport = structuredClone(app.lab.store.workspace());
+    const exported = await fetch(`${base}/api/reform/experiments/export`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ analysisIds: [view.analysis.id] }),
+    });
+    assert.equal(exported.status, 200);
+    const experiment = (await exported.json()) as PortableExperiment;
+    assert.equal(experiment.schema, 'normlab.experiment/v1');
     const postImport = (value: unknown, key = bootstrap.issuerPublicKey) =>
       fetch(`${base}/api/reform/imports`, {
         method: 'POST',
@@ -73,8 +70,7 @@ test('portable import rejects untrusted and tampered sets without partial writes
     };
     assert.equal(result.views.length, 1);
     assert.equal(result.views[0].metricsReport?.evidence.current, true);
-    assert.equal(app.lab.store.workspace().snapshots.length, 1);
-    assert.equal(app.lab.store.workspace().analyses.length, 1);
+    assert.deepEqual(app.lab.store.workspace(), beforeImport);
 
     const reopened = await fetch(`${base}/api/reform/imports/${result.experiment.id}/replay`, {
       method: 'POST',
