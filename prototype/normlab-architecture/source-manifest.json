@@ -1,0 +1,37 @@
+{
+  "architecture_version": "0.1.0",
+  "review_date": "2026-09-29",
+  "notation": {
+    "repository": "0al-spec/Hypercode",
+    "read_ref": "default branch (main in returned display URLs)",
+    "whole_repository_commit": "not pinned; individual reviewed document blobs recorded"
+  },
+  "documents": [
+    {
+      "path": "README.md",
+      "blob_sha": "ec7dabc84b3ba4bca376ab011fcb2d1a783e18b8"
+    },
+    {
+      "path": "EBNF/Hypercode_Syntax.md",
+      "blob_sha": "5717452103d20237bd2c2a86b6074ec8eca43720"
+    },
+    {
+      "path": "DOCS/Dialects.md",
+      "blob_sha": "8e6d36f4c4910ee65492df8bc6561fa4a6cffc99"
+    },
+    {
+      "path": "DOCS/Usage.md",
+      "blob_sha": "fe10a36d915c0d05ecb4cfd9e3e1369b5e3ec9d6"
+    },
+    {
+      "path": "DOCS/Backends.md",
+      "blob_sha": "d54a9a013a454aaf3c0f96125293ee53c1432f59"
+    }
+  ],
+  "lean_reference": [
+    "https://lean-lang.org/doc/reference/latest/ValidatingProofs/",
+    "https://lean-lang.org/doc/reference/latest/Axioms/",
+    "https://lean-lang.org/doc/reference/latest/IO/"
+  ],
+  "implementation_status": "Architecture and synthetic fixture only; no backend, domain adapter or Lean proofs implemented."
+}

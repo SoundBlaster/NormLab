@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "narrative": {
+      "type": "string",
+      "pattern": "^[\\s\\S]{1,6000}(?![\\s\\S])",
+      "minLength": 1,
+      "maxLength": 6000
+    },
+    "group": {
+      "type": "string",
+      "enum": [
+        "K1",
+        "K2"
+      ]
+    },
+    "findings": {
+      "type": "object",
+      "properties": {
+        "M": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "N": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "E": {
+          "$ref": "#/$defs/__schema0"
+        }
+      },
+      "required": [
+        "M",
+        "N",
+        "E"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "narrative",
+    "group",
+    "findings"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "unreviewed",
+            "established",
+            "refuted",
+            "not-established"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "pattern": "^[\\s\\S]{0,2000}(?![\\s\\S])",
+          "minLength": 0,
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "state",
+        "rationale"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$id": "urn:normlab:contract:v2:snapshot-input"
+}

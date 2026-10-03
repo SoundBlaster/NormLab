@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "normlab.semantic-profile/v1"
+    },
+    "id": {
+      "type": "string",
+      "const": "demo.reform-mitigation/v1"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "groups": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "string",
+          "const": "K1"
+        },
+        {
+          "type": "string",
+          "const": "K2"
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "predicates": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "string",
+          "const": "M"
+        },
+        {
+          "type": "string",
+          "const": "N"
+        },
+        {
+          "type": "string",
+          "const": "E"
+        }
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "completion": {
+      "type": "string",
+      "const": "all-findings-terminal"
+    },
+    "openFindings": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "string",
+          "const": "unreviewed"
+        },
+        {
+          "type": "string",
+          "const": "not-established"
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "order": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "string",
+          "const": "baseline"
+        },
+        {
+          "type": "string",
+          "const": "exclusions"
+        },
+        {
+          "type": "string",
+          "const": "M"
+        },
+        {
+          "type": "string",
+          "const": "N"
+        }
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "arithmetic": {
+      "type": "string",
+      "const": "exact-rational-reject-non-integral"
+    },
+    "currency": {
+      "type": "string",
+      "const": "DEMO"
+    },
+    "maxRules": {
+      "type": "number",
+      "const": 12
+    },
+    "maxBranches": {
+      "type": "number",
+      "const": 8
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "version",
+    "groups",
+    "predicates",
+    "completion",
+    "openFindings",
+    "order",
+    "arithmetic",
+    "currency",
+    "maxRules",
+    "maxBranches"
+  ],
+  "additionalProperties": false,
+  "$id": "urn:normlab:contract:v2:semantic-profile"
+}

@@ -1,0 +1,31 @@
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { exportedReformSchemas } from '../shared/reform-contracts.js';
+import { z } from 'zod';
+import { portableExperimentSchema } from '../server/reform-transfer.js';
+
+const output = new URL('../schemas/v2/', import.meta.url);
+const check = process.argv.includes('--check');
+if (!check) mkdirSync(output, { recursive: true });
+for (const [name, schema] of Object.entries(exportedReformSchemas())) {
+  const file = new URL(`${name}.schema.json`, output);
+  const content = `${JSON.stringify(schema, null, 2)}\n`;
+  if (check) {
+    if (readFileSync(file, 'utf8') !== content) throw new Error(`Stale schema: ${name}`);
+  } else {
+    writeFileSync(file, content);
+  }
+}
+const transferOutput = new URL('../schemas/transfer/', import.meta.url);
+const transferFile = new URL('experiment.schema.json', transferOutput);
+const transferContent = `${JSON.stringify(z.toJSONSchema(portableExperimentSchema, { target: 'draft-2020-12' }), null, 2)}\n`;
+if (check) {
+  if (readFileSync(transferFile, 'utf8') !== transferContent)
+    throw new Error('Stale experiment schema');
+} else {
+  mkdirSync(transferOutput, { recursive: true });
+  writeFileSync(transferFile, transferContent);
+}
+console.log(
+  `${check ? 'Checked' : 'Exported'} 10 v2 schemas and experiment schema in ${fileURLToPath(output)}`,
+);

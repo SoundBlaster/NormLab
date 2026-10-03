@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "normlab.legal-ir/v2"
+    },
+    "profileId": {
+      "type": "string",
+      "const": "demo.reform-mitigation/v1"
+    },
+    "rules": {
+      "minItems": 4,
+      "maxItems": 12,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema0"
+      }
+    },
+    "scope": {
+      "type": "string",
+      "const": "synthetic-reform-D16"
+    }
+  },
+  "required": [
+    "schema",
+    "profileId",
+    "rules",
+    "scope"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "groups": {
+          "minItems": 1,
+          "maxItems": 2,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema1"
+          }
+        },
+        "mandatory": {
+          "type": "boolean",
+          "const": true
+        },
+        "applyCount": {
+          "type": "number",
+          "const": 1
+        },
+        "operation": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "baseline"
+                },
+                "prisonMonths": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 3600
+                },
+                "fineAmount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000
+                }
+              },
+              "required": [
+                "kind",
+                "prisonMonths",
+                "fineAmount"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "scale"
+                },
+                "trigger": {
+                  "type": "string",
+                  "enum": [
+                    "M",
+                    "N"
+                  ]
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 12
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 12
+                },
+                "preserveFine": {
+                  "type": "boolean",
+                  "const": true
+                }
+              },
+              "required": [
+                "kind",
+                "trigger",
+                "numerator",
+                "denominator",
+                "preserveFine"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "exclude"
+                },
+                "trigger": {
+                  "type": "string",
+                  "const": "E"
+                },
+                "targetTrigger": {
+                  "type": "string",
+                  "const": "N"
+                }
+              },
+              "required": [
+                "kind",
+                "trigger",
+                "targetTrigger"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "groups",
+        "mandatory",
+        "applyCount",
+        "operation"
+      ],
+      "additionalProperties": false
+    },
+    "__schema1": {
+      "type": "string",
+      "enum": [
+        "K1",
+        "K2"
+      ]
+    }
+  },
+  "$id": "urn:normlab:contract:v2:legal-ir"
+}

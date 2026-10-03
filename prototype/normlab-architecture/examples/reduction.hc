@@ -1,0 +1,17 @@
+NormPackage.synthetic#reduction-demo
+  ProfileBinding#profile
+  CoverageScope#scope
+  Source.synthetic#source
+  DecisionSlot.authoritative#condition-a
+  BaselineDecision#baseline
+    Consequence.imprisonment#prison-term
+    Consequence.fine#fine
+  AdjustmentRule.mandatory#reduce-prison-term
+    WhenEstablished#trigger
+    ScaleComponent#scale
+  Scenario#with-a
+  Scenario#without-a
+  Scenario#unresolved-a
+  PropertyGoal#mandatory-reduction
+  PropertyGoal#fine-preserved
+  PropertyGoal#unique-decision

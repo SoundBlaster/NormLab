@@ -1,0 +1,145 @@
+{
+  "schema": "normlab.metrics-source-annotations/v1",
+  "models": [
+    {
+      "bundle": {
+        "id": "reform-A-0_1_0",
+        "semanticDigest": "fc302951cdad25332bbcf71bd9092f5ee98efbae9ae1e22756555dffe1d4adf5",
+        "provenanceDigest": "14d4648f71c89ec0acb9375878ac21bff49ddadf08aef320285ae3f2a0b9d2ee",
+        "profileDigest": "0e14b41562a849e38280aa6b66cb17a20a7a25702841bdf9831c7c2ae90689b1"
+      },
+      "sourceDigest": "f67c192e58836126a2a31d2ae5ad2d2c1740e16933a8ce81f94fcd09eec2618b",
+      "reviewer": "NormLab local synthetic review",
+      "review": "complete-for-mapped-provisions-and-shared-definitions",
+      "definitions": [
+        {
+          "predicate": "M",
+          "span": {
+            "line": 11,
+            "text": "- **M — возмещение:** полностью возмещён синтетический имущественный ущерб."
+          }
+        },
+        {
+          "predicate": "N",
+          "span": {
+            "line": 12,
+            "text": "- **N — самостоятельное сообщение:** субъект сам сообщил о синтетическом нарушении."
+          }
+        },
+        {
+          "predicate": "E",
+          "span": {
+            "line": 13,
+            "text": "- **E — повторность:** установлена повторность синтетического нарушения. Это контекст текущего эпизода; история предыдущих эпизодов здесь не моделируется."
+          }
+        }
+      ],
+      "references": [
+        {
+          "fromRuleId": "A-N-K1",
+          "toRuleId": "A-X",
+          "span": {
+            "line": 50,
+            "text": "Для группы K1 при установленном N срок обязательно сокращается на четверть: текущий срок умножается на `3/4`. Штраф не изменяется. Исключение A-X имеет приоритет перед этим уменьшением."
+          }
+        },
+        {
+          "fromRuleId": "A-N-K2",
+          "toRuleId": "A-X",
+          "span": {
+            "line": 54,
+            "text": "Для группы K2 при установленном N срок обязательно сокращается на четверть: текущий срок умножается на `3/4`. Штраф не изменяется. Исключение A-X имеет приоритет перед этим уменьшением."
+          }
+        }
+      ]
+    },
+    {
+      "bundle": {
+        "id": "reform-B-0_1_0",
+        "semanticDigest": "defe1e7e6f665e69215cd0c4c92d2c4a2f7e0c3d650f1052dea0d5bfa6f0383f",
+        "provenanceDigest": "f97e5876c99a5a2f0db457d556258db2e3055bcb15d4a4ade9181d8c98fba7c3",
+        "profileDigest": "0e14b41562a849e38280aa6b66cb17a20a7a25702841bdf9831c7c2ae90689b1"
+      },
+      "sourceDigest": "f67c192e58836126a2a31d2ae5ad2d2c1740e16933a8ce81f94fcd09eec2618b",
+      "reviewer": "NormLab local synthetic review",
+      "review": "complete-for-mapped-provisions-and-shared-definitions",
+      "definitions": [
+        {
+          "predicate": "M",
+          "span": {
+            "line": 11,
+            "text": "- **M — возмещение:** полностью возмещён синтетический имущественный ущерб."
+          }
+        },
+        {
+          "predicate": "N",
+          "span": {
+            "line": 12,
+            "text": "- **N — самостоятельное сообщение:** субъект сам сообщил о синтетическом нарушении."
+          }
+        },
+        {
+          "predicate": "E",
+          "span": {
+            "line": 13,
+            "text": "- **E — повторность:** установлена повторность синтетического нарушения. Это контекст текущего эпизода; история предыдущих эпизодов здесь не моделируется."
+          }
+        }
+      ],
+      "references": [
+        {
+          "fromRuleId": "B-N",
+          "toRuleId": "B-X",
+          "span": {
+            "line": 76,
+            "text": "Для обеих групп при установленном N текущий срок обязательно умножается на `3/4`. Штраф не изменяется. Исключение B-X имеет приоритет. Это общее правило заменяет A-N-K1 и A-N-K2."
+          }
+        }
+      ]
+    },
+    {
+      "bundle": {
+        "id": "reform-C-0_1_0",
+        "semanticDigest": "1fc6eeb3527b00931a0078ee91cc4eeab52c57bf72ba4b65cd3cb246352662fd",
+        "provenanceDigest": "a110c319fd2f8ed47699fb6b531e243d7851a681fbb8d56e5b2836ac65ee966a",
+        "profileDigest": "0e14b41562a849e38280aa6b66cb17a20a7a25702841bdf9831c7c2ae90689b1"
+      },
+      "sourceDigest": "f67c192e58836126a2a31d2ae5ad2d2c1740e16933a8ce81f94fcd09eec2618b",
+      "reviewer": "NormLab local synthetic review",
+      "review": "complete-for-mapped-provisions-and-shared-definitions",
+      "definitions": [
+        {
+          "predicate": "M",
+          "span": {
+            "line": 11,
+            "text": "- **M — возмещение:** полностью возмещён синтетический имущественный ущерб."
+          }
+        },
+        {
+          "predicate": "N",
+          "span": {
+            "line": 12,
+            "text": "- **N — самостоятельное сообщение:** субъект сам сообщил о синтетическом нарушении."
+          }
+        },
+        {
+          "predicate": "E",
+          "span": {
+            "line": 13,
+            "text": "- **E — повторность:** установлена повторность синтетического нарушения. Это контекст текущего эпизода; история предыдущих эпизодов здесь не моделируется."
+          }
+        }
+      ],
+      "references": [
+        {
+          "fromRuleId": "C-N",
+          "toRuleId": "C-X",
+          "span": {
+            "line": 98,
+            "text": "Для обеих групп при установленном N текущий срок обязательно умножается на `3/4`. Штраф не изменяется. Исключение C-X имеет приоритет. Смысл B-N сохранён."
+          }
+        }
+      ]
+    }
+  ]
+}

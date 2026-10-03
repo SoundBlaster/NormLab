@@ -1,0 +1,37 @@
+@contract:
+  System:
+    specification_version: string
+    status: string
+    real_world_legal_authority: bool
+  Backend:
+    implementation: string
+    deployment: string
+  Connection:
+    from_ref: string
+    to_ref: string
+    message: string
+    delivery: string
+  PropertyGoal:
+    status: string
+    statement: string
+    verification_scope: string
+  .sandboxed:
+    network: string
+    filesystem: string
+    timeout_seconds: int >= 1 <= 600
+    memory_mb: int >= 128 <= 8192
+  .isolated:
+    network: string
+    filesystem: string
+    timeout_seconds: int >= 1 <= 600
+    memory_mb: int >= 128 <= 8192
+  '#jobs':
+    concurrency_per_tenant: int >= 1 <= 16
+    max_attempts: int >= 1 <= 5
+  '#ai':
+    accepted_fact_write: bool
+    normative_rule_write: bool
+    verified_result_write: bool
+  '#verifier':
+    sorry_ax_allowed: bool
+    native_evaluation_axioms_allowed: bool

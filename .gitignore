@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.data/
+.tools/
+.artifacts/
+*.olean
+*.ilean
+.DS_Store
+*.log

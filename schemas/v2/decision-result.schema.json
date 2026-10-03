@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "normlab.decision-result/v2"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "conditional"
+      ]
+    },
+    "branches": {
+      "minItems": 1,
+      "maxItems": 8,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema0"
+      }
+    },
+    "ledger": {
+      "minItems": 4,
+      "maxItems": 12,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema6"
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "status",
+    "branches",
+    "ledger"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "object",
+      "properties": {
+        "when": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "$ref": "#/$defs/__schema1"
+            },
+            "M": {
+              "type": "boolean"
+            },
+            "N": {
+              "type": "boolean"
+            },
+            "E": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "group",
+            "M",
+            "N",
+            "E"
+          ],
+          "additionalProperties": false
+        },
+        "outcome": {
+          "type": "object",
+          "properties": {
+            "qualification": {
+              "$ref": "#/$defs/__schema1"
+            },
+            "prisonMonths": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "fineAmount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "currency": {
+              "type": "string",
+              "const": "DEMO"
+            }
+          },
+          "required": [
+            "qualification",
+            "prisonMonths",
+            "fineAmount",
+            "currency"
+          ],
+          "additionalProperties": false
+        },
+        "ledger": {
+          "minItems": 4,
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema3"
+          }
+        },
+        "steps": {
+          "maxItems": 2,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema5"
+          }
+        }
+      },
+      "required": [
+        "when",
+        "outcome",
+        "ledger",
+        "steps"
+      ],
+      "additionalProperties": false
+    },
+    "__schema1": {
+      "type": "string",
+      "enum": [
+        "K1",
+        "K2"
+      ]
+    },
+    "__schema2": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3600
+    },
+    "__schema3": {
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/__schema4"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "applied",
+            "inapplicable",
+            "excluded"
+          ]
+        },
+        "excludedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/__schema4"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ruleId",
+        "status",
+        "excludedBy"
+      ],
+      "additionalProperties": false
+    },
+    "__schema4": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96,
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+    },
+    "__schema5": {
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/__schema4"
+        },
+        "beforeMonths": {
+          "$ref": "#/$defs/__schema2"
+        },
+        "afterMonths": {
+          "$ref": "#/$defs/__schema2"
+        }
+      },
+      "required": [
+        "ruleId",
+        "beforeMonths",
+        "afterMonths"
+      ],
+      "additionalProperties": false
+    },
+    "__schema6": {
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/__schema4"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "applied",
+            "inapplicable",
+            "excluded",
+            "unresolved"
+          ]
+        },
+        "excludedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/__schema4"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ruleId",
+        "status",
+        "excludedBy"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$id": "urn:normlab:contract:v2:decision-result"
+}
