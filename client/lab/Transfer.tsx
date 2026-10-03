@@ -51,6 +51,9 @@ export function Transfer({
   const [itemIndex, setItemIndex] = useState(0);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const downloadHref = `/api/reform/experiments/download?${selected
+    .map((id) => `analysisId=${encodeURIComponent(id)}`)
+    .join('&')}`;
   useEffect(() => {
     let active = true;
     call<ImportedExperimentSummary[]>('/api/reform/imports')
@@ -139,19 +142,13 @@ export function Transfer({
           <button
             className="primary"
             disabled={busy || !selected.length}
-            onClick={() =>
-              perform(async () => {
-                const experiment = await call<unknown>(
-                  '/api/reform/experiments/export',
-                  data.csrfToken,
-                  { analysisIds: selected },
-                );
-                downloadData('normlab-experiment.json', experiment, false, 0);
-                setNotice(
-                  `Экспортировано результатов: ${selected.length}. Передайте public key по доверенному каналу.`,
-                );
-              })
-            }
+            onClick={() => {
+              setError('');
+              setNotice(
+                `Запрошено скачивание результатов: ${selected.length}. Передайте public key по доверенному каналу.`,
+              );
+              window.location.assign(downloadHref);
+            }}
           >
             Скачать набор ({selected.length})
           </button>

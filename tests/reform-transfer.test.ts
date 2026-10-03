@@ -38,6 +38,15 @@ test('portable import rejects untrusted and tampered sets without partial writes
     assert.equal(exported.status, 200);
     const experiment = (await exported.json()) as PortableExperiment;
     assert.equal(experiment.schema, 'normlab.experiment/v1');
+    const download = await fetch(
+      `${base}/api/reform/experiments/download?analysisId=${encodeURIComponent(view.analysis.id)}`,
+    );
+    assert.equal(download.status, 200);
+    assert.match(
+      download.headers.get('content-disposition') ?? '',
+      /attachment; filename="normlab-experiment\.json"/,
+    );
+    assert.equal(((await download.json()) as PortableExperiment).schema, 'normlab.experiment/v1');
     const postImport = (value: unknown, key = bootstrap.issuerPublicKey) =>
       fetch(`${base}/api/reform/imports`, {
         method: 'POST',

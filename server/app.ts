@@ -90,6 +90,19 @@ export async function createApp(options: { dataDir: string; production?: boolean
         if (req.method === 'POST' && req.headers['x-normlab-token'] !== csrfToken)
           throw new HttpError(403, 'Обновите страницу: локальная сессия изменилась.');
         if (path.startsWith('/api/reform/')) {
+          if (req.method === 'GET' && path === '/api/reform/experiments/download') {
+            const result = await lab.handle(
+              'POST',
+              '/api/reform/experiments/export',
+              { analysisIds: url.searchParams.getAll('analysisId') },
+              csrfToken,
+            );
+            if (!result) throw new HttpError(404, 'Экспорт не найден.');
+            if (result.filename)
+              res.setHeader('Content-Disposition', `attachment; filename="${result.filename}"`);
+            send(res, result.status, result.body);
+            return;
+          }
           const result = await lab.handle(
             req.method ?? 'GET',
             path,

@@ -313,7 +313,11 @@ export class ReformLab {
           annotations: analysis.annotations,
         };
       });
-      return { status: 200, body: packPortableExperiment(items, this.signer.publicKey) };
+      return {
+        status: 200,
+        filename: 'normlab-experiment.json',
+        body: packPortableExperiment(items, this.signer.publicKey),
+      };
     }
     if (method === 'POST' && path === '/api/reform/imports') {
       const request = z
