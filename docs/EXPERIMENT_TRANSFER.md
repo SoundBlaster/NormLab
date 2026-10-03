@@ -52,13 +52,13 @@ CLI выводит отдельные signature/bindings/current/proof statuses.
 
 ## HTTP и storage
 
-| Method / path | Назначение |
-| --- | --- |
-| `POST /api/reform/experiments/export` | `{analysisIds}` → переносимый набор из 1–12 локальных signed analyses |
-| `GET /api/reform/imports` | Краткая история импортов, без утверждения о текущем proof status |
-| `POST /api/reform/imports` | `{experiment, trustedPublicKey}` → fresh replay, затем immutable запись |
-| `POST /api/reform/imports/:digest/replay` | `{}` → read-only view с fresh evidence |
-| `GET /api/reform/imports/:digest/export` | Исходный переносимый набор |
+| Method / path                             | Назначение                                                              |
+| ----------------------------------------- | ----------------------------------------------------------------------- |
+| `POST /api/reform/experiments/export`     | `{analysisIds}` → переносимый набор из 1–12 локальных signed analyses   |
+| `GET /api/reform/imports`                 | Краткая история импортов, без утверждения о текущем proof status        |
+| `POST /api/reform/imports`                | `{experiment, trustedPublicKey}` → fresh replay, затем immutable запись |
+| `POST /api/reform/imports/:digest/replay` | `{}` → read-only view с fresh evidence                                  |
+| `GET /api/reform/imports/:digest/export`  | Исходный переносимый набор                                              |
 
 Все POST используют существующие session token/Origin/Host checks. Import request ограничен 2 MiB + 32 KiB для wrapper/key; сам набор — 2 MiB, public key — 16 KiB. File reads используют strict UTF-8. Нет архивов, filesystem paths из набора или распаковки.
 
@@ -70,4 +70,6 @@ Production build и TypeScript strict прошли. CLI упаковал ран�
 
 Финальный набор с runtime locks находится в ignored `.artifacts/nl503-final-experiment.json`, принимающее хранилище — `.artifacts/reform-nl503-final`. Эти локальные данные не входят в Git. Это перенос между data directories на одной машине, а не доказательство установки на чистой машине.
 
-Негативные HTTP/tampering regression tests и browser walkthrough новой вкладки в этом срезе не выполнялись. Пока эти gates открыты, NL-503 остаётся незавершённым в roadmap. Полный domain/Lean integration suite не запускался; имеющиеся результаты предыдущих этапов не считаются новым regression evidence.
+Focused HTTP regression 2026-10-03: неверный trusted key, dependency lock drift, query/certificate binding mismatch и tampered signature отклоняются; после всех отказов импорт не создаёт частичных записей. Затем валидный набор сохраняется, fresh replay подтверждает `current`, повторное открытие не создаёт duplicate import, а исходные workspace snapshots и analyses остаются без изменений. Результат: 1/1 focused test passed.
+
+Bounded browser walkthrough остановлен после лимита 15 browser/computer-use вызовов. Подтверждены загрузка приложения, рабочая область и успешное сравнение A/B/C на synthetic snapshot. Вкладка переноса найдена и открыта; осмотрен screenshot верхней части формы с тремя сохранёнными моделями и checkbox selection. Экспорт из UI, файловый import, повторное открытие из UI и полный визуальный осмотр страницы не пройдены. API/CLI proof не выдаётся за UI E2E. Временный локальный сервер проверки остановлен после walkthrough. Полный domain suite прошёл 41/41; полный Lean integration suite не запускался и остаётся отдельным evidence gate.

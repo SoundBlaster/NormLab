@@ -118,7 +118,7 @@ export function describePortableArtifact(artifact: ReformExport): {
   fail('Unsupported query, scope or model roles');
 }
 
-function locks(items: PortableExperiment['items']) {
+export function portableExperimentLocks(items: PortableExperiment['items']) {
   return items.map(({ artifact, annotations }) => ({
     artifactDigest: digest(artifact),
     annotationsDigest: annotations ? digest(annotations) : null,
@@ -142,7 +142,7 @@ export function validatePortableExperiment(value: unknown, trustedPublicKey: str
   if (parsed.issuer !== digest(trustedPublicKey)) fail('Trusted issuer does not match experiment');
   if (digest(parsed.manifest.runtime) !== digest(runtimeLocks))
     fail('Experiment runtime/dependency locks differ from this release');
-  if (digest(parsed.manifest.locks) !== digest(locks(parsed.items)))
+  if (digest(parsed.manifest.locks) !== digest(portableExperimentLocks(parsed.items)))
     fail('Experiment manifest does not match artifacts, annotations or toolchain locks');
   const registry = [
     ...(['A', 'B', 'C'] as const).map(getReformBundle),
@@ -204,7 +204,7 @@ export function packPortableExperiment(
       manifest: {
         format: 'synthetic-reviewed-reform/v1',
         runtime: runtimeLocks,
-        locks: locks(items),
+        locks: portableExperimentLocks(items),
       },
     },
     trustedPublicKey,
