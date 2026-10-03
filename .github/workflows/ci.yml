@@ -43,12 +43,6 @@ jobs:
       - name: Check TypeScript types
         run: npm run check
 
-      - name: Run domain and API tests
-        run: npm test
-
-      - name: Check generated schemas
-        run: npm run schemas:check
-
       - name: Install pinned Lean toolchain
         uses: leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865 # v1.6.1
         with:
@@ -60,6 +54,12 @@ jobs:
 
       - name: Verify Lean toolchain
         run: lean --version
+
+      - name: Run domain and API tests
+        run: npm test
+
+      - name: Check generated schemas
+        run: npm run schemas:check
 
       - name: Run Lean proof integration tests
         run: npm run test:lean
