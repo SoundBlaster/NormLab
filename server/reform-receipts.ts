@@ -88,8 +88,10 @@ function coverage(
 
 export class ReformReceiptSigner {
   private readonly key: KeyObject;
+  private readonly verify: typeof verifyReformCertificate;
   readonly publicKey: string;
-  constructor(directory?: string) {
+  constructor(directory?: string, verify = verifyReformCertificate) {
+    this.verify = verify;
     const path = directory === undefined ? null : join(directory, 'reform-issuer-private.pem');
     if (path && existsSync(path)) this.key = createPrivateKey(readFileSync(path));
     else {
@@ -110,15 +112,50 @@ export class ReformReceiptSigner {
     certificate: unknown,
     snapshot?: ReformSnapshot,
   ): Promise<ReformReceipt> {
+    const { proof, receipt } = await this.verifyAndIssue(query, bundles, certificate, snapshot);
+    if (!receipt) throw new Error(`Verified receipt unavailable: ${proof.status}: ${proof.reason}`);
+    return receipt;
+  }
+  async verifyAndIssue(
+    query: ReformQuery,
+    bundles: ReformBundle[],
+    certificate: unknown,
+    snapshot?: ReformSnapshot,
+  ): Promise<{ proof: ReformVerification; receipt: ReformReceipt | null }> {
     const context = inputContext(query, bundles, certificate, snapshot);
-    const proof = await verifyReformCertificate(
+    const proof = await this.verify(
       context.query,
       context.bundles,
       context.certificate,
       context.snapshot,
     );
+    if (proof.status !== 'verified') return { proof, receipt: null };
+    return {
+      proof,
+      receipt: this.issueVerified(
+        context.query,
+        context.bundles,
+        context.certificate,
+        snapshot,
+        proof,
+      ),
+    };
+  }
+  private issueVerified(
+    query: ReformQuery,
+    bundles: ReformBundle[],
+    certificate: unknown,
+    snapshot: ReformSnapshot | undefined,
+    proof: ReformVerification,
+  ): ReformReceipt {
+    const context = inputContext(query, bundles, certificate, snapshot);
     if (proof.status !== 'verified')
       throw new Error(`Verified receipt unavailable: ${proof.status}: ${proof.reason}`);
+    if (
+      proof.queryDigest !== digest(context.query) ||
+      proof.certificateDigest !== digest(context.certificate)
+    )
+      throw new Error('Verified receipt proof is bound to different inputs');
     const q = context.query;
     const payload: ReformReceipt['payload'] = {
       schema: 'normlab.receipt/v2',

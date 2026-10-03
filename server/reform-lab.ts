@@ -79,9 +79,10 @@ export class ReformLab {
   constructor(
     dataDir: string,
     private readonly otherJobs: () => number,
+    verify: typeof verifyReformCertificate = verifyReformCertificate,
   ) {
     this.store = new ReformStore(join(dataDir, 'normlab.sqlite'));
-    this.signer = new ReformReceiptSigner(dataDir);
+    this.signer = new ReformReceiptSigner(dataDir, verify);
   }
   get activeJobs(): number {
     return this.running.size;
@@ -138,26 +139,12 @@ export class ReformLab {
     queryId: LabQueryId | null,
   ): Promise<LabAnalysisView> {
     const certificate = proposeReformQuery(query, bundles, {}, snapshot ?? undefined);
-    const started = Date.now();
-    let receipt = null;
-    let verification;
-    try {
-      receipt = await this.signer.issue(query, bundles, certificate, snapshot ?? undefined);
-      verification = {
-        ...receipt.payload.verification,
-        queryDigest: digest(query),
-        certificateDigest: digest(certificate),
-        statementDigest: receipt.payload.bindings.statementDigest,
-        durationMs: Date.now() - started,
-      };
-    } catch {
-      verification = await verifyReformCertificate(
-        query,
-        bundles,
-        certificate,
-        snapshot ?? undefined,
-      );
-    }
+    const { proof: verification, receipt } = await this.signer.verifyAndIssue(
+      query,
+      bundles,
+      certificate,
+      snapshot ?? undefined,
+    );
     const analysis: LabAnalysis = {
       schema: 'normlab.lab-analysis/v1',
       id: randomUUID(),

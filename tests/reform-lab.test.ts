@@ -4,16 +4,21 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { get } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, win32 } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { test } from 'node:test';
 import { z } from 'zod';
 import { createApp } from '../server/app.js';
 import { validateReformSnapshot } from '../server/reform-bindings.js';
+import { isWithinDirectory } from '../server/path-containment.js';
+import { ReformLab } from '../server/reform-lab.js';
+import type { ReformVerification } from '../server/reform-verifier.js';
 import { ReformStore } from '../server/reform-store.js';
 import { Conflict } from '../server/store.js';
+import { digest } from '../server/hash.js';
 import type { ReformSnapshot, ReformSnapshotInput } from '../shared/reform-contracts.js';
 import type { LabBootstrap, LabWorkspace } from '../shared/reform-lab.js';
+import type { LabAnalysisView } from '../shared/reform-lab.js';
 
 function input(): ReformSnapshotInput {
   return {
@@ -62,6 +67,70 @@ function post(base: string, path: string, body: unknown, token: string, headers 
     body: JSON.stringify(body),
   });
 }
+
+test('failed signing verification is reused and remains inconclusive in the workspace', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'normlab-reform-verification-'));
+  let verificationCalls = 0;
+  const verify = async (
+    query: Parameters<typeof import('../server/reform-verifier.js').verifyReformCertificate>[0],
+    bundles: Parameters<typeof import('../server/reform-verifier.js').verifyReformCertificate>[1],
+    certificate: unknown,
+    snapshot?: Parameters<typeof import('../server/reform-verifier.js').verifyReformCertificate>[3],
+  ): Promise<ReformVerification> => {
+    verificationCalls += 1;
+    return {
+      status: 'inconclusive',
+      engine: 'lean-kernel',
+      version: null,
+      method: null,
+      toolchainDigest: null,
+      axioms: [],
+      reason: 'Simulated transient Lean failure',
+      queryDigest: digest(query),
+      certificateDigest: digest(certificate),
+      statementDigest: digest({ query, bundles, snapshot: snapshot ?? null }),
+      durationMs: 25,
+    };
+  };
+  const lab = new ReformLab(directory, () => 0, verify);
+  try {
+    const response = await lab.handle(
+      'POST',
+      '/api/reform/queries',
+      { queryId: 'AB-equivalence' },
+      'test-token',
+    );
+    assert.ok(response);
+    const { view } = response.body as { view: LabAnalysisView };
+    assert.equal(verificationCalls, 1);
+    assert.equal(view.analysis.receipt, null);
+    assert.equal(view.analysis.verification.status, 'inconclusive');
+    assert.equal(lab.store.workspace().analyses[0]?.proofStatus, 'inconclusive');
+  } finally {
+    await lab.close();
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('production asset containment accepts Windows paths and rejects sibling traversal', () => {
+  const directory = win32.resolve('C:\\', 'repo', 'dist');
+  assert.equal(
+    isWithinDirectory(directory, win32.resolve(directory, 'index.html'), win32.sep),
+    true,
+  );
+  assert.equal(
+    isWithinDirectory(directory, win32.resolve(directory, '..', 'outside.html'), win32.sep),
+    false,
+  );
+  assert.equal(
+    isWithinDirectory(
+      directory,
+      win32.resolve('C:\\', 'repo', 'dist-other', 'index.html'),
+      win32.sep,
+    ),
+    false,
+  );
+});
 
 test('reform store normalizes findings once and preserves exact revision history on reopen', async () => {
   await withStore((store, path) => {

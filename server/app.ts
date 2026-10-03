@@ -16,6 +16,7 @@ import { Conflict, Store } from './store.js';
 import { discoverLean, verifyCertificate } from './verifier.js';
 import { isCurrentAnalysis } from '../shared/current.js';
 import { LabHttpError, ReformLab } from './reform-lab.js';
+import { isWithinDirectory } from './path-containment.js';
 import { MAX_EXPERIMENT_BYTES } from '../shared/reform-transfer.js';
 
 class HttpError extends Error {
@@ -236,7 +237,7 @@ export async function createApp(options: { dataDir: string; production?: boolean
       const directory = resolve('dist');
       const relative = decodeURIComponent(path).replace(/^\/+/, '');
       let file = resolve(directory, relative || 'index.html');
-      if (!file.startsWith(`${directory}/`)) throw new HttpError(404, 'Файл не найден.');
+      if (!isWithinDirectory(directory, file)) throw new HttpError(404, 'Файл не найден.');
       if (!existsSync(file) || !statSync(file).isFile()) {
         if (extname(file)) throw new HttpError(404, 'Файл не найден.');
         file = join(directory, 'index.html');
