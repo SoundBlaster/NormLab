@@ -105,9 +105,101 @@ test('failed migration rolls back schema changes and can be retried', async () =
   }
 });
 
+test('versioned upgrades preserve data and failed future migrations roll back atomically', () => {
+  const db = new DatabaseSync(':memory:');
+  const versionOne = [
+    {
+      version: 1,
+      name: 'initial',
+      sql: "CREATE TABLE records (id TEXT PRIMARY KEY, value TEXT NOT NULL); INSERT INTO records VALUES ('kept', 'original');",
+    },
+  ];
+  const versionTwo = [
+    ...versionOne,
+    {
+      version: 2,
+      name: 'add-status',
+      sql: "ALTER TABLE records ADD COLUMN status TEXT NOT NULL DEFAULT 'active';",
+    },
+  ];
+  const failedVersionThree = [
+    ...versionTwo,
+    {
+      version: 3,
+      name: 'broken-index',
+      sql: 'CREATE TABLE transient_upgrade (id TEXT); INVALID SQL;',
+    },
+  ];
+  const versionThree = [
+    ...versionTwo,
+    {
+      version: 3,
+      name: 'record-index',
+      sql: 'CREATE INDEX records_status_idx ON records(status);',
+    },
+  ];
+
+  try {
+    applyTestMigration(db, versionOne);
+    applyTestMigration(db, versionTwo);
+
+    assertPreservedRecord(db);
+    assert.throws(() => applyTestMigration(db, failedVersionThree), /syntax error/i);
+    assert.equal(
+      db
+        .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='transient_upgrade'")
+        .get(),
+      undefined,
+    );
+    assert.deepEqual(
+      db
+        .prepare('SELECT version FROM normlab_schema_migrations WHERE component=? ORDER BY version')
+        .all('legacy')
+        .map((row) => Number((row as { version: number }).version)),
+      [1, 2],
+    );
+
+    applyTestMigration(db, versionThree);
+    applyTestMigration(db, versionThree);
+
+    assert.deepEqual(
+      db
+        .prepare(
+          'SELECT version, name FROM normlab_schema_migrations WHERE component=? ORDER BY version',
+        )
+        .all('legacy')
+        .map((row) => ({
+          version: Number((row as { version: number }).version),
+          name: String((row as { name: string }).name),
+        })),
+      [
+        { version: 1, name: 'initial' },
+        { version: 2, name: 'add-status' },
+        { version: 3, name: 'record-index' },
+      ],
+    );
+    assertPreservedRecord(db);
+    assert.ok(
+      db
+        .prepare("SELECT name FROM sqlite_master WHERE type='index' AND name='records_status_idx'")
+        .get(),
+    );
+    assert.equal(String(db.prepare('PRAGMA integrity_check').get()?.integrity_check), 'ok');
+  } finally {
+    db.close();
+  }
+});
+
 function applyTestMigration(
   db: DatabaseSync,
   migrations: { version: number; name: string; sql: string }[],
 ): void {
   applyDatabaseMigrations(db, 'legacy', migrations);
+}
+
+function assertPreservedRecord(db: DatabaseSync): void {
+  const record = db.prepare('SELECT id, value, status FROM records').get();
+  assert.equal(record?.id, 'kept');
+  assert.equal(record?.value, 'original');
+  assert.equal(record?.status, 'active');
 }
