@@ -1,0 +1,533 @@
+{
+  "classes" : [
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Application command assessing the reviewed bounded inputs.",
+      "extends" : "sg:Command",
+      "fqid" : "nlpark:AssessScope",
+      "id" : "AssessScope",
+      "implements" : [
+
+      ],
+      "kind" : "Command",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/AssessScope"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Physical parking place, not automatically a legal city parking classification.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:ParkingPlace",
+      "id" : "ParkingPlace",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/ParkingPlace"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Physical placement, distinct from an app session; all properties are asserted through statements.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:ParkingPlacement",
+      "id" : "ParkingPlacement",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/ParkingPlacement"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Recorded payment-system session, not physical placement.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:ParkingSession",
+      "id" : "ParkingSession",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/ParkingSession"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Mentioned zone identity, distinct from a place and from the applicable paid regime.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:ParkingZone",
+      "id" : "ParkingZone",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/ParkingZone"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Claimed successful payment, subject to review; app debit messages alone do not establish coverage.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:Payment",
+      "id" : "Payment",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/Payment"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Attempt at payment; it does not imply a successful payment.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:PaymentAttempt",
+      "id" : "PaymentAttempt",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/PaymentAttempt"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Source-stated permit or exemption claim; applicability unsupported in the first pilot.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:PermitClaim",
+      "id" : "PermitClaim",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/PermitClaim"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Source-stated punishment, distinct from engine output.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Source-stated legal provision; no automatic authority validation.",
+          "id" : "normReferenceText",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlpark:SanctionClaim",
+      "id" : "SanctionClaim",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/SanctionClaim"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Application-owned assessment of basic-scenario applicability.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Traceable reason, not a model-issued legal verdict.",
+          "id" : "reason",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Candidate enum: needs_review, needs_clarification, unsupported, basic_candidate.",
+          "id" : "status",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlpark:ScopeAssessment",
+      "id" : "ScopeAssessment",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "lifecycle" : "ScopeAssessmentState",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/ScopeAssessment"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Source-stated correction of a session; legality is not modeled.",
+      "extends" : "sg:DomainEntity",
+      "fqid" : "nlpark:SessionCorrectionClaim",
+      "id" : "SessionCorrectionClaim",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.parking/0.1.0/classes/SessionCorrectionClaim"
+    }
+  ],
+  "diagnostics" : [
+
+  ],
+  "id" : "normlab.parking",
+  "imports" : [
+    {
+      "id" : "normlab.case-core",
+      "namespace" : "nlcase",
+      "version" : "0.1.0"
+    },
+    {
+      "id" : "specgraph.foundation",
+      "namespace" : "sg",
+      "version" : "0.1.0"
+    }
+  ],
+  "namespace" : "nlpark",
+  "policies" : [
+    {
+      "appliesTo" : [
+        "nlpark:ParkingPlace",
+        "nlpark:ParkingPlacement",
+        "nlpark:ParkingSession",
+        "nlpark:ParkingZone",
+        "nlpark:Payment",
+        "nlpark:PaymentAttempt",
+        "nlpark:PermitClaim",
+        "nlpark:SanctionClaim",
+        "nlpark:SessionCorrectionClaim"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlpark:AssertedRelationsOnly",
+      "id" : "AssertedRelationsOnly",
+      "text" : "Candidate domain relations are predicate definitions, not trusted instance edges. Record each proposed link as an nlcase:Assertion with subject/object/predicate, source and independent review."
+    },
+    {
+      "appliesTo" : [
+        "nlpark:ScopeAssessment"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlpark:BasicScope",
+      "id" : "BasicScope",
+      "text" : "Only ordinary Moscow city parking, personal vehicles of individuals, confirmed paid period and simple unpaid or timely correctly paid full-interval cases are basic candidates; normative lock and responsibility checks remain required."
+    },
+    {
+      "appliesTo" : [
+        "nlpark:Payment",
+        "nlpark:PaymentAttempt",
+        "nlpark:SessionCorrectionClaim"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlpark:ComplexPaymentBoundary",
+      "id" : "ComplexPaymentBoundary",
+      "text" : "Corrections, wrong identifiers, late payment and disputed extension are unsupported. Unknown complexity needs clarification; absence of mention does not mean no complexity."
+    },
+    {
+      "appliesTo" : [
+        "nlpark:ParkingPlace",
+        "nlpark:ParkingPlacement",
+        "nlpark:ParkingSession",
+        "nlpark:ParkingZone",
+        "nlpark:Payment",
+        "nlpark:PaymentAttempt",
+        "nlpark:PermitClaim",
+        "nlpark:SanctionClaim",
+        "nlpark:SessionCorrectionClaim"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlpark:NoLegalTruthFromVocabulary",
+      "id" : "NoLegalTruthFromVocabulary",
+      "text" : "Vocabulary classification and schema validation do not prove legal applicability, factual truth, guilt or a sanction. NormPackage owns legal rules."
+    }
+  ],
+  "protocols" : [
+
+  ],
+  "relations" : [
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate correction target; instantiate through an Assertion.",
+      "domain" : "nlpark:SessionCorrectionClaim",
+      "fqid" : "nlpark:correctionAboutSession",
+      "id" : "correctionAboutSession",
+      "range" : "nlpark:ParkingSession",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/correctionAboutSession"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Claimed covered interval, not a computed coverage result; instantiate through an Assertion.",
+      "domain" : "nlpark:Payment",
+      "fqid" : "nlpark:coversInterval",
+      "id" : "coversInterval",
+      "range" : "nlcase:TimeInterval",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/coversInterval"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate placement vehicle predicate; instantiate through an Assertion.",
+      "domain" : "nlpark:ParkingPlacement",
+      "fqid" : "nlpark:involvesVehicle",
+      "id" : "involvesVehicle",
+      "range" : "nlcase:Vehicle",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/involvesVehicle"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 0
+      },
+      "description" : "Additional allowed entity objects in parking statements.",
+      "domain" : "nlcase:Assertion",
+      "fqid" : "nlpark:parkingAssertionObject",
+      "id" : "parkingAssertionObject",
+      "range" : {
+        "oneOf" : [
+          "nlpark:ParkingPlace",
+          "nlpark:ParkingPlacement",
+          "nlpark:ParkingSession",
+          "nlpark:ParkingZone",
+          "nlpark:Payment",
+          "nlpark:PaymentAttempt",
+          "nlpark:PermitClaim",
+          "nlpark:SanctionClaim",
+          "nlpark:SessionCorrectionClaim"
+        ]
+      },
+      "uri" : "ontology://normlab.parking/0.1.0/relations/parkingAssertionObject"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 0
+      },
+      "description" : "Additional allowed subjects for statements in the parking extension.",
+      "domain" : "nlcase:Assertion",
+      "fqid" : "nlpark:parkingAssertionSubject",
+      "id" : "parkingAssertionSubject",
+      "range" : {
+        "oneOf" : [
+          "nlpark:ParkingPlace",
+          "nlpark:ParkingPlacement",
+          "nlpark:ParkingSession",
+          "nlpark:ParkingZone",
+          "nlpark:Payment",
+          "nlpark:PaymentAttempt",
+          "nlpark:PermitClaim",
+          "nlpark:SanctionClaim",
+          "nlpark:SessionCorrectionClaim"
+        ]
+      },
+      "uri" : "ontology://normlab.parking/0.1.0/relations/parkingAssertionSubject"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate session target; instantiate through an Assertion.",
+      "domain" : "nlpark:Payment",
+      "fqid" : "nlpark:paymentForSession",
+      "id" : "paymentForSession",
+      "range" : "nlpark:ParkingSession",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/paymentForSession"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate vehicle target; instantiate through an Assertion.",
+      "domain" : "nlpark:Payment",
+      "fqid" : "nlpark:paymentTargetsVehicle",
+      "id" : "paymentTargetsVehicle",
+      "range" : "nlcase:Vehicle",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/paymentTargetsVehicle"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate zone target; instantiate through an Assertion.",
+      "domain" : "nlpark:Payment",
+      "fqid" : "nlpark:paymentTargetsZone",
+      "id" : "paymentTargetsZone",
+      "range" : "nlpark:ParkingZone",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/paymentTargetsZone"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate permit vehicle; instantiate through an Assertion.",
+      "domain" : "nlpark:PermitClaim",
+      "fqid" : "nlpark:permitAboutVehicle",
+      "id" : "permitAboutVehicle",
+      "range" : "nlcase:Vehicle",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/permitAboutVehicle"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate spatial predicate; instantiate through an Assertion.",
+      "domain" : "nlpark:ParkingPlace",
+      "fqid" : "nlpark:placeInZone",
+      "id" : "placeInZone",
+      "range" : "nlpark:ParkingZone",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/placeInZone"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate predicate only; instantiate through an Assertion.",
+      "domain" : "nlpark:ParkingPlacement",
+      "fqid" : "nlpark:placedAt",
+      "id" : "placedAt",
+      "range" : "nlpark:ParkingPlace",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/placedAt"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate event binding; instantiate through an Assertion.",
+      "domain" : "nlpark:ParkingPlacement",
+      "fqid" : "nlpark:placementInEpisode",
+      "id" : "placementInEpisode",
+      "range" : "nlcase:Episode",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/placementInEpisode"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate physical interval; instantiate through an Assertion.",
+      "domain" : "nlpark:ParkingPlacement",
+      "fqid" : "nlpark:placementInterval",
+      "id" : "placementInterval",
+      "range" : "nlcase:TimeInterval",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/placementInterval"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate source sanction target; instantiate through an Assertion.",
+      "domain" : "nlpark:SanctionClaim",
+      "fqid" : "nlpark:sanctionAboutEpisode",
+      "id" : "sanctionAboutEpisode",
+      "range" : "nlcase:Episode",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/sanctionAboutEpisode"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate source amount; instantiate through an Assertion.",
+      "domain" : "nlpark:SanctionClaim",
+      "fqid" : "nlpark:sanctionAmount",
+      "id" : "sanctionAmount",
+      "range" : "nlcase:MoneyAmount",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/sanctionAmount"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Application-owned scope context.",
+      "domain" : "nlpark:ScopeAssessment",
+      "fqid" : "nlpark:scopeAboutEpisode",
+      "id" : "scopeAboutEpisode",
+      "range" : "nlcase:Episode",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/scopeAboutEpisode"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Candidate event binding; instantiate through an Assertion.",
+      "domain" : "nlpark:ParkingSession",
+      "fqid" : "nlpark:sessionInEpisode",
+      "id" : "sessionInEpisode",
+      "range" : "nlcase:Episode",
+      "uri" : "ontology://normlab.parking/0.1.0/relations/sessionInEpisode"
+    }
+  ],
+  "sourceDigest" : "sha256:4760d2199e544601aa7f7fd27b9ee542b2d2324d5622b8c5fe1ef8e8356b9f3e",
+  "stateMachines" : [
+    {
+      "fqid" : "nlpark:ScopeAssessmentState",
+      "id" : "ScopeAssessmentState",
+      "states" : [
+        "basic_candidate",
+        "needs_clarification",
+        "needs_review",
+        "unsupported"
+      ],
+      "transitions" : [
+        {
+          "command" : "nlpark:AssessScope",
+          "from" : "needs_review",
+          "to" : "basic_candidate"
+        },
+        {
+          "command" : "nlpark:AssessScope",
+          "from" : "needs_review",
+          "to" : "needs_clarification"
+        },
+        {
+          "command" : "nlpark:AssessScope",
+          "from" : "needs_review",
+          "to" : "unsupported"
+        }
+      ]
+    }
+  ],
+  "version" : "0.1.0"
+}

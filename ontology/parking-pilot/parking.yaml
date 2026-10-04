@@ -1,0 +1,267 @@
+apiVersion: 'ontology.specgraph.io/v1alpha1'
+kind: 'DomainOntologyPackage'
+metadata:
+  id: 'normlab.parking'
+  namespace: 'nlpark'
+  version: '0.1.0'
+  publisher: 'NormLab'
+  source: 'docs/PARKING_ONTOLOGY_DRAFT.md'
+  approvalStatus: 'candidate'
+spec:
+  imports:
+    - id: 'specgraph.foundation'
+      namespace: 'sg'
+      version: '0.1.0'
+    - id: 'normlab.case-core'
+      namespace: 'nlcase'
+      version: '0.1.0'
+  classes:
+    ParkingPlacement:
+      extends: 'sg:DomainEntity'
+      description: 'Physical placement, distinct from an app session; all properties are asserted through statements.'
+    ParkingPlace:
+      extends: 'sg:DomainEntity'
+      description: 'Physical parking place, not automatically a legal city parking classification.'
+    ParkingZone:
+      extends: 'sg:DomainEntity'
+      description: 'Mentioned zone identity, distinct from a place and from the applicable paid regime.'
+    ParkingSession:
+      extends: 'sg:DomainEntity'
+      description: 'Recorded payment-system session, not physical placement.'
+    PaymentAttempt:
+      extends: 'sg:DomainEntity'
+      description: 'Attempt at payment; it does not imply a successful payment.'
+    Payment:
+      extends: 'sg:DomainEntity'
+      description: 'Claimed successful payment, subject to review; app debit messages alone do not establish coverage.'
+    PermitClaim:
+      extends: 'sg:DomainEntity'
+      description: 'Source-stated permit or exemption claim; applicability unsupported in the first pilot.'
+    SessionCorrectionClaim:
+      extends: 'sg:DomainEntity'
+      description: 'Source-stated correction of a session; legality is not modeled.'
+    SanctionClaim:
+      extends: 'sg:DomainEntity'
+      description: 'Source-stated punishment, distinct from engine output.'
+      fields:
+        normReferenceText:
+          type: 'string'
+          required: false
+          description: 'Source-stated legal provision; no automatic authority validation.'
+    ScopeAssessment:
+      extends: 'sg:DomainEntity'
+      description: 'Application-owned assessment of basic-scenario applicability.'
+      fields:
+        status:
+          type: 'string'
+          required: true
+          description: 'Candidate enum: needs_review, needs_clarification, unsupported, basic_candidate.'
+        reason:
+          type: 'string'
+          required: true
+          description: 'Traceable reason, not a model-issued legal verdict.'
+      lifecycle: 'ScopeAssessmentState'
+    AssessScope:
+      extends: 'sg:Command'
+      description: 'Application command assessing the reviewed bounded inputs.'
+  protocols: {}
+  relations:
+    parkingAssertionSubject:
+      domain: 'nlcase:Assertion'
+      range:
+        oneOf:
+          - 'ParkingPlacement'
+          - 'ParkingPlace'
+          - 'ParkingZone'
+          - 'ParkingSession'
+          - 'PaymentAttempt'
+          - 'Payment'
+          - 'PermitClaim'
+          - 'SessionCorrectionClaim'
+          - 'SanctionClaim'
+      cardinality:
+        min: 0
+        max: 1
+      description: 'Additional allowed subjects for statements in the parking extension.'
+    parkingAssertionObject:
+      domain: 'nlcase:Assertion'
+      range:
+        oneOf:
+          - 'ParkingPlacement'
+          - 'ParkingPlace'
+          - 'ParkingZone'
+          - 'ParkingSession'
+          - 'PaymentAttempt'
+          - 'Payment'
+          - 'PermitClaim'
+          - 'SessionCorrectionClaim'
+          - 'SanctionClaim'
+      cardinality:
+        min: 0
+        max: 1
+      description: 'Additional allowed entity objects in parking statements.'
+    placedAt:
+      domain: 'ParkingPlacement'
+      range: 'ParkingPlace'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate predicate only; instantiate through an Assertion.'
+    involvesVehicle:
+      domain: 'ParkingPlacement'
+      range: 'nlcase:Vehicle'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate placement vehicle predicate; instantiate through an Assertion.'
+    placeInZone:
+      domain: 'ParkingPlace'
+      range: 'ParkingZone'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate spatial predicate; instantiate through an Assertion.'
+    placementInEpisode:
+      domain: 'ParkingPlacement'
+      range: 'nlcase:Episode'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate event binding; instantiate through an Assertion.'
+    sessionInEpisode:
+      domain: 'ParkingSession'
+      range: 'nlcase:Episode'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate event binding; instantiate through an Assertion.'
+    paymentForSession:
+      domain: 'Payment'
+      range: 'ParkingSession'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate session target; instantiate through an Assertion.'
+    paymentTargetsVehicle:
+      domain: 'Payment'
+      range: 'nlcase:Vehicle'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate vehicle target; instantiate through an Assertion.'
+    paymentTargetsZone:
+      domain: 'Payment'
+      range: 'ParkingZone'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate zone target; instantiate through an Assertion.'
+    coversInterval:
+      domain: 'Payment'
+      range: 'nlcase:TimeInterval'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Claimed covered interval, not a computed coverage result; instantiate through an Assertion.'
+    placementInterval:
+      domain: 'ParkingPlacement'
+      range: 'nlcase:TimeInterval'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate physical interval; instantiate through an Assertion.'
+    correctionAboutSession:
+      domain: 'SessionCorrectionClaim'
+      range: 'ParkingSession'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate correction target; instantiate through an Assertion.'
+    permitAboutVehicle:
+      domain: 'PermitClaim'
+      range: 'nlcase:Vehicle'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate permit vehicle; instantiate through an Assertion.'
+    sanctionAboutEpisode:
+      domain: 'SanctionClaim'
+      range: 'nlcase:Episode'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate source sanction target; instantiate through an Assertion.'
+    sanctionAmount:
+      domain: 'SanctionClaim'
+      range: 'nlcase:MoneyAmount'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Candidate source amount; instantiate through an Assertion.'
+    scopeAboutEpisode:
+      domain: 'ScopeAssessment'
+      range: 'nlcase:Episode'
+      cardinality:
+        min: 1
+        max: 1
+      description: 'Application-owned scope context.'
+  policies:
+    BasicScope:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'ScopeAssessment'
+      text: 'Only ordinary Moscow city parking, personal vehicles of individuals, confirmed paid period and simple unpaid or timely correctly paid full-interval cases are basic candidates; normative lock and responsibility checks remain required.'
+    ComplexPaymentBoundary:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'PaymentAttempt'
+        - 'Payment'
+        - 'SessionCorrectionClaim'
+      text: 'Corrections, wrong identifiers, late payment and disputed extension are unsupported. Unknown complexity needs clarification; absence of mention does not mean no complexity.'
+    NoLegalTruthFromVocabulary:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'ParkingPlacement'
+        - 'ParkingPlace'
+        - 'ParkingZone'
+        - 'ParkingSession'
+        - 'PaymentAttempt'
+        - 'Payment'
+        - 'PermitClaim'
+        - 'SessionCorrectionClaim'
+        - 'SanctionClaim'
+      text: 'Vocabulary classification and schema validation do not prove legal applicability, factual truth, guilt or a sanction. NormPackage owns legal rules.'
+    AssertedRelationsOnly:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'ParkingPlacement'
+        - 'ParkingPlace'
+        - 'ParkingZone'
+        - 'ParkingSession'
+        - 'PaymentAttempt'
+        - 'Payment'
+        - 'PermitClaim'
+        - 'SessionCorrectionClaim'
+        - 'SanctionClaim'
+      text: 'Candidate domain relations are predicate definitions, not trusted instance edges. Record each proposed link as an nlcase:Assertion with subject/object/predicate, source and independent review.'
+  stateMachines:
+    ScopeAssessmentState:
+      states:
+        - 'needs_review'
+        - 'needs_clarification'
+        - 'unsupported'
+        - 'basic_candidate'
+      transitions:
+        - from: 'needs_review'
+          to: 'needs_clarification'
+          command: 'AssessScope'
+        - from: 'needs_review'
+          to: 'unsupported'
+          command: 'AssessScope'
+        - from: 'needs_review'
+          to: 'basic_candidate'
+          command: 'AssessScope'

@@ -96,6 +96,8 @@ Review decisions, результат движка, receipt/proof status, normati
 
 ## Порядок следующих работ
 
+- Candidate compiler input подготовлен в [ontology/parking-pilot](../ontology/parking-pilot/README.md); оба пакета прошли check/compile. Это структурное evidence, не approval и не готовая runtime validation.
+
 - [ ] Уточнить candidate classes/relations и competency questions на P01/P02/P04/P09.
 - [ ] Собрать compiler-compatible candidate package с base vocabulary и parking extension, provenance и открытыми вопросами.
 - [ ] Проверить refs, domain/range, generated SDK и отдельно достаточность instance validation для extraction.

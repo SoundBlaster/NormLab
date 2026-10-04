@@ -1,0 +1,339 @@
+apiVersion: 'ontology.specgraph.io/v1alpha1'
+kind: 'DomainOntologyPackage'
+metadata:
+  id: 'normlab.case-core'
+  namespace: 'nlcase'
+  version: '0.1.0'
+  publisher: 'NormLab'
+  source: 'docs/PARKING_ONTOLOGY_DRAFT.md'
+  approvalStatus: 'candidate'
+spec:
+  imports:
+    - id: 'specgraph.foundation'
+      namespace: 'sg'
+      version: '0.1.0'
+  classes:
+    CaseRevision:
+      extends: 'sg:DomainEntity'
+      description: 'Immutable analysis revision binding one source and vocabulary; not an AI-issued trusted artifact.'
+      central: true
+      fields:
+        revisionKey:
+          type: 'string'
+          required: true
+          description: 'Application-assigned revision identity.'
+        ontologyBinding:
+          type: 'string'
+          required: true
+          description: 'Application-owned exact vocabulary version and digest binding.'
+    Participant:
+      extends: 'sg:DomainEntity'
+      description: 'Case-local participant identity, including persons and organizations.'
+      fields:
+        alias:
+          type: 'string'
+          required: true
+          description: 'Display alias; not the original name.'
+        participantKind:
+          type: 'string'
+          required: true
+          description: 'Candidate category: person, organization, or unknown.'
+    Vehicle:
+      extends: 'sg:DomainEntity'
+      description: 'Case-local vehicle identity; references do not assert ownership.'
+      fields:
+        alias:
+          type: 'string'
+          required: true
+          description: 'Stable display alias in this revision.'
+    Episode:
+      extends: 'sg:DomainEntity'
+      description: 'Reviewable boundary of one event selected for analysis.'
+      fields:
+        label:
+          type: 'string'
+          required: true
+          description: 'Human-readable proposed episode label.'
+    Location:
+      extends: 'sg:DomainEntity'
+      description: 'Mentioned location, without implicit jurisdiction or legal regime.'
+      fields:
+        label:
+          type: 'string'
+          required: true
+          description: 'Proposed location description.'
+    TimeInterval:
+      extends: 'sg:DomainEntity'
+      description: 'Time interval preserving source precision and unknown boundaries.'
+      fields:
+        startText:
+          type: 'string'
+          required: false
+          description: 'Source-derived start; absent means unknown.'
+        endText:
+          type: 'string'
+          required: false
+          description: 'Source-derived end; absent means unknown.'
+        timezoneText:
+          type: 'string'
+          required: false
+          description: 'Explicit source timezone, if present.'
+        precision:
+          type: 'string'
+          required: true
+          description: 'Candidate precision: exact, approximate, mixed, or unknown.'
+    SourceDocument:
+      extends: 'sg:DomainEntity'
+      description: 'Source text revision; storage and anonymization are application concerns.'
+      fields:
+        revisionKey:
+          type: 'string'
+          required: true
+          description: 'Application-owned source revision.'
+        digest:
+          type: 'string'
+          required: true
+          description: 'Application-computed digest, not model supplied.'
+    SourceSpan:
+      extends: 'sg:DomainEntity'
+      description: 'Exact quoted text anchored to a source revision.'
+      fields:
+        quote:
+          type: 'string'
+          required: true
+          description: 'Exact source quote; may contain personal data.'
+        startOffset:
+          type: 'integer'
+          required: false
+          description: 'Application-resolved UTF-16 code unit start offset.'
+        endOffset:
+          type: 'integer'
+          required: false
+          description: 'Application-resolved exclusive UTF-16 code unit end offset.'
+    Assertion:
+      extends: 'sg:DomainEntity'
+      description: 'Proposed statement, including negation or uncertainty, rather than a trusted graph fact.'
+      lifecycle: 'AssertionReviewState'
+      fields:
+        predicateRef:
+          type: 'string'
+          required: true
+          description: 'Allowed predicate from the bound vocabulary; adapter must resolve it.'
+        stance:
+          type: 'string'
+          required: true
+          description: 'Candidate enum: asserted, denied, uncertain; runtime enum validation required.'
+        valueText:
+          type: 'string'
+          required: false
+          description: 'Source-faithful scalar statement when no entity object is used.'
+        attributionText:
+          type: 'string'
+          required: false
+          description: 'Reported speaker or source context; no truth guarantee.'
+    RoleAssignment:
+      extends: 'sg:DomainEntity'
+      description: 'Proposed contextual role, reified so it can have independent evidence and review.'
+      fields:
+        role:
+          type: 'string'
+          required: true
+          description: 'Candidate role: owner, driver, user, narrator, or other.'
+    ReviewDecision:
+      extends: 'sg:DomainEntity'
+      description: 'Application-owned human decision on one assertion.'
+      fields:
+        decision:
+          type: 'string'
+          required: true
+          description: 'Established, refuted, or not-established; not issued by model.'
+        rationale:
+          type: 'string'
+          required: false
+          description: 'Human rationale or uncertainty.'
+    MoneyAmount:
+      extends: 'sg:DomainEntity'
+      description: 'Source-stated amount; payment and sanction contexts remain separate.'
+      fields:
+        amount:
+          type: 'number'
+          required: true
+          description: 'Stated amount; integer ruble restrictions belong to the consumer.'
+        currency:
+          type: 'string'
+          required: true
+          description: 'Explicit or reviewed currency.'
+    UnmappedMention:
+      extends: 'sg:DomainEntity'
+      description: 'Preserved source-backed nuance requiring a candidate concept or interpretation.'
+      fields:
+        description:
+          type: 'string'
+          required: true
+          description: 'What cannot be expressed in the current vocabulary.'
+    ReviewAssertion:
+      extends: 'sg:Command'
+      description: 'Human command recording review; no automatic AI approval.'
+  protocols: {}
+  relations:
+    revisionHasSource:
+      domain: 'CaseRevision'
+      range: 'SourceDocument'
+      cardinality:
+        min: 1
+        max: 1
+      description: 'Application binding of a revision to its source.'
+    revisionContains:
+      domain: 'CaseRevision'
+      range:
+        oneOf:
+          - 'Participant'
+          - 'Vehicle'
+          - 'Episode'
+          - 'Location'
+          - 'TimeInterval'
+          - 'Assertion'
+          - 'RoleAssignment'
+          - 'ReviewDecision'
+          - 'MoneyAmount'
+          - 'UnmappedMention'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Case-local candidate artifacts.'
+    spanInSource:
+      domain: 'SourceSpan'
+      range: 'SourceDocument'
+      cardinality:
+        min: 1
+        max: 1
+      description: 'Exactly one source revision.'
+    assertionSupportedBy:
+      domain: 'Assertion'
+      range: 'SourceSpan'
+      cardinality:
+        min: 1
+        max: '*'
+      description: 'At least one source anchor for extracted proposals.'
+    assertionAboutEpisode:
+      domain: 'Assertion'
+      range: 'Episode'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Context episode, if identified.'
+    assertionSubject:
+      domain: 'Assertion'
+      range:
+        oneOf:
+          - 'Participant'
+          - 'Vehicle'
+          - 'Episode'
+          - 'Location'
+          - 'RoleAssignment'
+      cardinality:
+        min: 0
+        max: 1
+      description: 'Core subject alternative; consumer requires exactly one subject across core and extension relations.'
+    assertionObject:
+      domain: 'Assertion'
+      range:
+        oneOf:
+          - 'Episode'
+          - 'Participant'
+          - 'Vehicle'
+          - 'Location'
+          - 'TimeInterval'
+          - 'MoneyAmount'
+          - 'RoleAssignment'
+      cardinality:
+        min: 0
+        max: 1
+      description: 'Optional entity object; scalar value alternative needs consumer validation.'
+    assertionAttributedTo:
+      domain: 'Assertion'
+      range: 'Participant'
+      cardinality:
+        min: 0
+        max: '*'
+      description: 'Reported speaker; absence does not infer a speaker.'
+    roleParticipant:
+      domain: 'RoleAssignment'
+      range: 'Participant'
+      cardinality:
+        min: 1
+        max: 1
+      description: 'Participant proposed to have the contextual role.'
+    roleAboutEpisode:
+      domain: 'RoleAssignment'
+      range: 'Episode'
+      cardinality:
+        min: 1
+        max: 1
+      description: 'Episode context of a role.'
+    reviewTargets:
+      domain: 'ReviewDecision'
+      range: 'Assertion'
+      cardinality:
+        min: 1
+        max: 1
+      description: 'Exactly one reviewed assertion.'
+    unmappedSupportedBy:
+      domain: 'UnmappedMention'
+      range: 'SourceSpan'
+      cardinality:
+        min: 1
+        max: '*'
+      description: 'Evidence for a preserved unknown nuance.'
+  policies:
+    ProposalBoundary:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'Assertion'
+        - 'RoleAssignment'
+      text: 'All extracted statements and role links are proposals. Their occurrence in the graph does not establish truth; review is application-owned.'
+    SourceIntegrity:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'SourceSpan'
+        - 'SourceDocument'
+      text: 'Consumer must verify exact quote, offsets, source revision, unique IDs and references; compiler checks do not enforce these instance invariants.'
+    UnknownPreservation:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'Assertion'
+        - 'TimeInterval'
+      text: 'Absence is unknown, not denial. Preserve approximate times and opposing assertions; never silently merge conflicting statements.'
+    ImmutableBindings:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'CaseRevision'
+        - 'ReviewDecision'
+      text: 'Source edits create a new revision and invalidate dependent review; historical revisions remain immutable.'
+    GapBoundary:
+      extends: 'sg:Policy'
+      enforceability: 'design'
+      appliesTo:
+        - 'UnmappedMention'
+      text: 'A new nuance can propose a vocabulary delta but cannot mutate the trusted ontology or enable unsupported calculation.'
+  stateMachines:
+    AssertionReviewState:
+      states:
+        - 'unreviewed'
+        - 'established'
+        - 'refuted'
+        - 'not_established'
+      transitions:
+        - from: 'unreviewed'
+          to: 'established'
+          command: 'ReviewAssertion'
+        - from: 'unreviewed'
+          to: 'refuted'
+          command: 'ReviewAssertion'
+        - from: 'unreviewed'
+          to: 'not_established'
+          command: 'ReviewAssertion'

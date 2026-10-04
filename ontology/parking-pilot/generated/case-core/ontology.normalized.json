@@ -1,0 +1,676 @@
+{
+  "classes" : [
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Proposed statement, including negation or uncertainty, rather than a trusted graph fact.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Reported speaker or source context; no truth guarantee.",
+          "id" : "attributionText",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "description" : "Allowed predicate from the bound vocabulary; adapter must resolve it.",
+          "id" : "predicateRef",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Candidate enum: asserted, denied, uncertain; runtime enum validation required.",
+          "id" : "stance",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Source-faithful scalar statement when no entity object is used.",
+          "id" : "valueText",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:Assertion",
+      "id" : "Assertion",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "lifecycle" : "AssertionReviewState",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/Assertion"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : true,
+      "description" : "Immutable analysis revision binding one source and vocabulary; not an AI-issued trusted artifact.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Application-owned exact vocabulary version and digest binding.",
+          "id" : "ontologyBinding",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Application-assigned revision identity.",
+          "id" : "revisionKey",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:CaseRevision",
+      "id" : "CaseRevision",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/CaseRevision"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Reviewable boundary of one event selected for analysis.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Human-readable proposed episode label.",
+          "id" : "label",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:Episode",
+      "id" : "Episode",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/Episode"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Mentioned location, without implicit jurisdiction or legal regime.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Proposed location description.",
+          "id" : "label",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:Location",
+      "id" : "Location",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/Location"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Source-stated amount; payment and sanction contexts remain separate.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Stated amount; integer ruble restrictions belong to the consumer.",
+          "id" : "amount",
+          "required" : true,
+          "type" : "number"
+        },
+        {
+          "description" : "Explicit or reviewed currency.",
+          "id" : "currency",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:MoneyAmount",
+      "id" : "MoneyAmount",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/MoneyAmount"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Case-local participant identity, including persons and organizations.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Display alias; not the original name.",
+          "id" : "alias",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Candidate category: person, organization, or unknown.",
+          "id" : "participantKind",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:Participant",
+      "id" : "Participant",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/Participant"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Human command recording review; no automatic AI approval.",
+      "extends" : "sg:Command",
+      "fqid" : "nlcase:ReviewAssertion",
+      "id" : "ReviewAssertion",
+      "implements" : [
+
+      ],
+      "kind" : "Command",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/ReviewAssertion"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Application-owned human decision on one assertion.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Established, refuted, or not-established; not issued by model.",
+          "id" : "decision",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Human rationale or uncertainty.",
+          "id" : "rationale",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:ReviewDecision",
+      "id" : "ReviewDecision",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/ReviewDecision"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Proposed contextual role, reified so it can have independent evidence and review.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Candidate role: owner, driver, user, narrator, or other.",
+          "id" : "role",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:RoleAssignment",
+      "id" : "RoleAssignment",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/RoleAssignment"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Source text revision; storage and anonymization are application concerns.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Application-computed digest, not model supplied.",
+          "id" : "digest",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Application-owned source revision.",
+          "id" : "revisionKey",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:SourceDocument",
+      "id" : "SourceDocument",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/SourceDocument"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Exact quoted text anchored to a source revision.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Application-resolved exclusive UTF-16 code unit end offset.",
+          "id" : "endOffset",
+          "required" : false,
+          "type" : "integer"
+        },
+        {
+          "description" : "Exact source quote; may contain personal data.",
+          "id" : "quote",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Application-resolved UTF-16 code unit start offset.",
+          "id" : "startOffset",
+          "required" : false,
+          "type" : "integer"
+        }
+      ],
+      "fqid" : "nlcase:SourceSpan",
+      "id" : "SourceSpan",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/SourceSpan"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Time interval preserving source precision and unknown boundaries.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Source-derived end; absent means unknown.",
+          "id" : "endText",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "description" : "Candidate precision: exact, approximate, mixed, or unknown.",
+          "id" : "precision",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "description" : "Source-derived start; absent means unknown.",
+          "id" : "startText",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "description" : "Explicit source timezone, if present.",
+          "id" : "timezoneText",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:TimeInterval",
+      "id" : "TimeInterval",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/TimeInterval"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Preserved source-backed nuance requiring a candidate concept or interpretation.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "What cannot be expressed in the current vocabulary.",
+          "id" : "description",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:UnmappedMention",
+      "id" : "UnmappedMention",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/UnmappedMention"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Case-local vehicle identity; references do not assert ownership.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "description" : "Stable display alias in this revision.",
+          "id" : "alias",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlcase:Vehicle",
+      "id" : "Vehicle",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "uri" : "ontology://normlab.case-core/0.1.0/classes/Vehicle"
+    }
+  ],
+  "diagnostics" : [
+
+  ],
+  "id" : "normlab.case-core",
+  "imports" : [
+    {
+      "id" : "specgraph.foundation",
+      "namespace" : "sg",
+      "version" : "0.1.0"
+    }
+  ],
+  "namespace" : "nlcase",
+  "policies" : [
+    {
+      "appliesTo" : [
+        "nlcase:UnmappedMention"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlcase:GapBoundary",
+      "id" : "GapBoundary",
+      "text" : "A new nuance can propose a vocabulary delta but cannot mutate the trusted ontology or enable unsupported calculation."
+    },
+    {
+      "appliesTo" : [
+        "nlcase:CaseRevision",
+        "nlcase:ReviewDecision"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlcase:ImmutableBindings",
+      "id" : "ImmutableBindings",
+      "text" : "Source edits create a new revision and invalidate dependent review; historical revisions remain immutable."
+    },
+    {
+      "appliesTo" : [
+        "nlcase:Assertion",
+        "nlcase:RoleAssignment"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlcase:ProposalBoundary",
+      "id" : "ProposalBoundary",
+      "text" : "All extracted statements and role links are proposals. Their occurrence in the graph does not establish truth; review is application-owned."
+    },
+    {
+      "appliesTo" : [
+        "nlcase:SourceDocument",
+        "nlcase:SourceSpan"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlcase:SourceIntegrity",
+      "id" : "SourceIntegrity",
+      "text" : "Consumer must verify exact quote, offsets, source revision, unique IDs and references; compiler checks do not enforce these instance invariants."
+    },
+    {
+      "appliesTo" : [
+        "nlcase:Assertion",
+        "nlcase:TimeInterval"
+      ],
+      "enforceability" : "design",
+      "extends" : "sg:Policy",
+      "fqid" : "nlcase:UnknownPreservation",
+      "id" : "UnknownPreservation",
+      "text" : "Absence is unknown, not denial. Preserve approximate times and opposing assertions; never silently merge conflicting statements."
+    }
+  ],
+  "protocols" : [
+
+  ],
+  "relations" : [
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Context episode, if identified.",
+      "domain" : "nlcase:Assertion",
+      "fqid" : "nlcase:assertionAboutEpisode",
+      "id" : "assertionAboutEpisode",
+      "range" : "nlcase:Episode",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/assertionAboutEpisode"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Reported speaker; absence does not infer a speaker.",
+      "domain" : "nlcase:Assertion",
+      "fqid" : "nlcase:assertionAttributedTo",
+      "id" : "assertionAttributedTo",
+      "range" : "nlcase:Participant",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/assertionAttributedTo"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 0
+      },
+      "description" : "Optional entity object; scalar value alternative needs consumer validation.",
+      "domain" : "nlcase:Assertion",
+      "fqid" : "nlcase:assertionObject",
+      "id" : "assertionObject",
+      "range" : {
+        "oneOf" : [
+          "nlcase:Episode",
+          "nlcase:Location",
+          "nlcase:MoneyAmount",
+          "nlcase:Participant",
+          "nlcase:RoleAssignment",
+          "nlcase:TimeInterval",
+          "nlcase:Vehicle"
+        ]
+      },
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/assertionObject"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 0
+      },
+      "description" : "Core subject alternative; consumer requires exactly one subject across core and extension relations.",
+      "domain" : "nlcase:Assertion",
+      "fqid" : "nlcase:assertionSubject",
+      "id" : "assertionSubject",
+      "range" : {
+        "oneOf" : [
+          "nlcase:Episode",
+          "nlcase:Location",
+          "nlcase:Participant",
+          "nlcase:RoleAssignment",
+          "nlcase:Vehicle"
+        ]
+      },
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/assertionSubject"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 1
+      },
+      "description" : "At least one source anchor for extracted proposals.",
+      "domain" : "nlcase:Assertion",
+      "fqid" : "nlcase:assertionSupportedBy",
+      "id" : "assertionSupportedBy",
+      "range" : "nlcase:SourceSpan",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/assertionSupportedBy"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Exactly one reviewed assertion.",
+      "domain" : "nlcase:ReviewDecision",
+      "fqid" : "nlcase:reviewTargets",
+      "id" : "reviewTargets",
+      "range" : "nlcase:Assertion",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/reviewTargets"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Case-local candidate artifacts.",
+      "domain" : "nlcase:CaseRevision",
+      "fqid" : "nlcase:revisionContains",
+      "id" : "revisionContains",
+      "range" : {
+        "oneOf" : [
+          "nlcase:Assertion",
+          "nlcase:Episode",
+          "nlcase:Location",
+          "nlcase:MoneyAmount",
+          "nlcase:Participant",
+          "nlcase:ReviewDecision",
+          "nlcase:RoleAssignment",
+          "nlcase:TimeInterval",
+          "nlcase:UnmappedMention",
+          "nlcase:Vehicle"
+        ]
+      },
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/revisionContains"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Application binding of a revision to its source.",
+      "domain" : "nlcase:CaseRevision",
+      "fqid" : "nlcase:revisionHasSource",
+      "id" : "revisionHasSource",
+      "range" : "nlcase:SourceDocument",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/revisionHasSource"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Episode context of a role.",
+      "domain" : "nlcase:RoleAssignment",
+      "fqid" : "nlcase:roleAboutEpisode",
+      "id" : "roleAboutEpisode",
+      "range" : "nlcase:Episode",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/roleAboutEpisode"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Participant proposed to have the contextual role.",
+      "domain" : "nlcase:RoleAssignment",
+      "fqid" : "nlcase:roleParticipant",
+      "id" : "roleParticipant",
+      "range" : "nlcase:Participant",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/roleParticipant"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Exactly one source revision.",
+      "domain" : "nlcase:SourceSpan",
+      "fqid" : "nlcase:spanInSource",
+      "id" : "spanInSource",
+      "range" : "nlcase:SourceDocument",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/spanInSource"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 1
+      },
+      "description" : "Evidence for a preserved unknown nuance.",
+      "domain" : "nlcase:UnmappedMention",
+      "fqid" : "nlcase:unmappedSupportedBy",
+      "id" : "unmappedSupportedBy",
+      "range" : "nlcase:SourceSpan",
+      "uri" : "ontology://normlab.case-core/0.1.0/relations/unmappedSupportedBy"
+    }
+  ],
+  "sourceDigest" : "sha256:cf7cb77b3d576921c9d7222a6c6a13fa0a50137cae75adfcfc120a38415597f4",
+  "stateMachines" : [
+    {
+      "fqid" : "nlcase:AssertionReviewState",
+      "id" : "AssertionReviewState",
+      "states" : [
+        "established",
+        "not_established",
+        "refuted",
+        "unreviewed"
+      ],
+      "transitions" : [
+        {
+          "command" : "nlcase:ReviewAssertion",
+          "from" : "unreviewed",
+          "to" : "established"
+        },
+        {
+          "command" : "nlcase:ReviewAssertion",
+          "from" : "unreviewed",
+          "to" : "not_established"
+        },
+        {
+          "command" : "nlcase:ReviewAssertion",
+          "from" : "unreviewed",
+          "to" : "refuted"
+        }
+      ]
+    }
+  ],
+  "version" : "0.1.0"
+}
