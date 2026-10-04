@@ -1,0 +1,7 @@
+{
+  "caseId": "P04",
+  "status": "provider-error",
+  "httpStatus": 400,
+  "latencyMs": 17800,
+  "responseSha256": "8396d1b1bd9d6a1d9f05b97440514adb1088b13c041ab066546e4e7e5890bf52"
+}

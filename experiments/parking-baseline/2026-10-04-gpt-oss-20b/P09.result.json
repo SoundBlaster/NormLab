@@ -1,0 +1,6 @@
+{
+  "caseId": "P09",
+  "status": "transport-or-response-error",
+  "latencyMs": 240122,
+  "error": "The operation was aborted due to timeout"
+}

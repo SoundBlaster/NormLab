@@ -53,3 +53,7 @@ S04 также ограничивал изменение времени для �
 - [ ] Для каждого включённого fragment сохранить текст, источник, locator, редакцию, retrieval date и digest; отдельно отметить юридические интерпретации и решения reviewer.
 
 Сейчас ссылки и locators позволяют повторить исследование; неизменяемый архив всех источников и его hashes ещё не подготовлены. Engine readiness gate остаётся открытым.
+
+## Требования к первоисточникам
+
+[Norm source provenance](NORM_SOURCE_PROVENANCE.md) фиксирует две цепочки оснований, publication/edition identity, immutable originals и extracted text, digests, fragment locators и отдельный semantic review. Source registry URL не заменяет готовый snapshot/lock; реализация хранения и UI остаётся roadmap задачей.
