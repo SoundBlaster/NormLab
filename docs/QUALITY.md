@@ -1,6 +1,6 @@
 # Code quality checks
 
-Run the same checks locally that are required by `.github/workflows/ci.yml`:
+CI (`.github/workflows/ci.yml`) runs on every pull request to `main`, every push to `main`, and on manual dispatch. Dependabot checks npm and GitHub Actions dependencies weekly. Run the same checks locally:
 
 ```sh
 npm run format:check

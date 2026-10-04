@@ -92,4 +92,4 @@ Screenshots находятся в ignored `.artifacts/`: `ui-five-fixes-1812-des
 
 ## Следующий срез
 
-NL-503: [переносимый набор и import/read-only replay реализованы](EXPERIMENT_TRANSFER.md); остаются негативные HTTP/tampering проверки и walkthrough новой вкладки. Чистая установка, CI и recovery — NL-504; исследование понятности A/B/C с участниками — NL-505. Произвольный upload нормативных пакетов, multi-user authorization и публичное размещение в NL-502 не входят.
+NL-503 закрыт: [переносимый набор и import/read-only replay](EXPERIMENT_TRANSFER.md), негативные HTTP/tampering проверки и walkthrough вкладки импорта подтверждены. Чистая установка, CI и recovery — NL-504 (hosted CI проходит на `main`); исследование понятности A/B/C с участниками — NL-505. Произвольный upload нормативных пакетов, multi-user authorization и публичное размещение в NL-502 не входят.
