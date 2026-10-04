@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { writeBaselineArtifactManifest } from './baseline-artifact-manifest.js';
 import {
   createParkingExtractionRequest,
   consumeParkingExtraction,
@@ -108,4 +109,5 @@ for (const caseId of ['P01', 'P02', 'P04', 'P09']) {
   save('summary.json', { startedAt, updatedAt: new Date().toISOString(), outcomes });
   console.log(`${caseId}: saved result (${Math.round(performance.now() - begin)} ms)`);
 }
+writeBaselineArtifactManifest(output);
 console.log(`Baseline completed: ${output}`);
