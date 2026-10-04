@@ -1,0 +1,23 @@
+{
+  "recordedAfterRun": true,
+  "evidenceKind": "operator-observation-from-tool-output",
+  "loadedModelKey": "openai/gpt-oss-20b",
+  "requestedLoadedAlias": "hyperreview-gpt-oss-20b",
+  "contextLength": 16384,
+  "parallel": 1,
+  "quantization": "MXFP4",
+  "modelWeightsDigest": null,
+  "runnerSha256": "05f857519f9fea704744432d2216bcf31f1d6b1de8c3a4b631cfcb7e26f781e9",
+  "adapterSha256": "599d73cef24456dfa0cf01563ba64c7c1f938e26371038debfd7be8b19b30898",
+  "referenceReplay": {
+    "cases": [
+      "P01",
+      "P02",
+      "P04",
+      "P09"
+    ],
+    "result": "PASS",
+    "exactOriginalOffsetsPreserved": true,
+    "semanticApproval": false
+  }
+}

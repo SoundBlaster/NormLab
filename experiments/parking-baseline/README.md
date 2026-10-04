@@ -16,3 +16,7 @@ rtk proxy npm run parking:baseline -- experiments/parking-baseline/new-run
 HTTP response files и model content сохраняются без formatting/repair. Validation results — derived artifacts, не исправленные ответы модели. Для проверки digest используйте artifact-manifest.json; manifest не подписан и сам по себе не подтверждает подлинность эксперимента.
 
 Runner автоматически создаёт manifest после завершения всех четырёх cases; при interruption завершённого manifest может не быть. Если позже добавлены runtime observations, manifest нужно сформировать заново после последней записи. Historical artifacts и их digests сохранены: runnerSha256 первой серии относится к runner в commit `1a97369`, до добавления автоматического manifest.
+
+## Typed/quote серия
+
+[2026-10-05](2026-10-05-typed-quotes-gpt-oss-20b/): новая wire schema v2, typed catalogue, application-resolved offsets. [Отчёт](../../docs/PARKING_TYPED_BASELINE_2026-10-05.md). Для повторения используйте `scripts/parking-typed-baseline.ts` с новым output directory; `NORMLAB_PARKING_MODEL` выбирает явно загруженный alias. Оба runner автоматически создают manifest. Исторический runnerSha256 второй серии относится к commit `a8d6cb7`, до добавления автоматического manifest; первая конфигурация extraction сохраняется в отдельном runner.

@@ -1,0 +1,25 @@
+{
+  "schema": "normlab.parking-baseline-run/v1",
+  "intervention": "typed-link-catalogue-and-application-quote-anchoring-v2",
+  "startedAt": "2026-10-04T21:17:52.416Z",
+  "baseUrl": "http://127.0.0.1:1234",
+  "settings": {
+    "model": "hyperreview-gpt-oss-20b",
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 8192,
+    "stream": false
+  },
+  "timeoutMs": 240000,
+  "decodeMode": "prompt-only-json-no-provider-grammar",
+  "cases": [
+    "P01",
+    "P02",
+    "P04",
+    "P09"
+  ],
+  "notes": [
+    "Settings are requested, not proof of deterministic decoding.",
+    "Only source text and common instructions/schema sent; no reference graphs or reviewer notes."
+  ]
+}

@@ -152,3 +152,7 @@ Task IDs сохранены при изменении приоритетов: н
 - [ ] Проверить совместимость provider structured output без silent fallback.
 - [ ] Спроектировать application quote anchoring с handling неоднозначных цитат.
 - [ ] Провести следующую отдельную серию и semantic review, сравнив с сохранённым baseline.
+
+### Typed extraction и quote anchoring — 2026-10-05
+
+[Model contract v2](docs/PARKING_TYPED_EXTRACTION.md) передаёт typed link catalogue и разрешает exact quotes приложением с явным occurrence для повторов. Replay четырёх reference graphs восстановил исходные offsets. [Вторая серия](docs/PARKING_TYPED_BASELINE_2026-10-05.md): 4/4 JSON responses, 0/4 accepted proposals; shape и semantic проблемы сохраняются. AI readiness gate остаётся открытым. Следующий ход — отдельная проверка provider structured output и constrained-shape серия; при сохранении semantic потерь рассмотреть упрощённый промежуточный extraction contract.

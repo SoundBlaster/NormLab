@@ -1,0 +1,67 @@
+{
+  "caseId": "P01",
+  "status": "rejected",
+  "latencyMs": 39640,
+  "returnedModel": "hyperreview-gpt-oss-20b",
+  "usage": {
+    "prompt_tokens": 4472,
+    "completion_tokens": 1558,
+    "total_tokens": 6030,
+    "completion_tokens_details": {
+      "reasoning_tokens": 554
+    }
+  },
+  "finishReason": "stop",
+  "responseSha256": "6ac15f8d100cc856130bf56a9817fc99c0063013d61fafeafce9fb8c16adb7d8",
+  "contentSha256": "038adfee06e0ac2ca9ecf90bdd19b7c61969e0b9b3932411b918202ddfac5294",
+  "validation": {
+    "ok": false,
+    "issues": [
+      {
+        "path": "entities.5",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      },
+      {
+        "path": "entities.6",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      },
+      {
+        "path": "assertions.0.attributionText",
+        "code": "shape",
+        "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+      },
+      {
+        "path": "assertions.1.attributionText",
+        "code": "shape",
+        "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+      },
+      {
+        "path": "assertions.2.attributionText",
+        "code": "shape",
+        "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+      },
+      {
+        "path": "assertions.3.attributionText",
+        "code": "shape",
+        "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+      },
+      {
+        "path": "assertions.4.attributionText",
+        "code": "shape",
+        "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+      },
+      {
+        "path": "assertions.5.attributionText",
+        "code": "shape",
+        "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+      },
+      {
+        "path": "assertions.6.attributionText",
+        "code": "shape",
+        "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+      }
+    ]
+  }
+}

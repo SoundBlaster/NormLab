@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-pzqj34ip27mi0rdxhe7s5",
+  "object": "chat.completion",
+  "created": 1791148712,
+  "model": "hyperreview-gpt-oss-20b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"schema\":\"normlab.parking-extraction-proposal/v2\",\"entities\":[{\"id\":\"P1\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:Participant\",\"alias\":\"Мария\",\"participantKind\":\"person\"},{\"id\":\"V1\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:Vehicle\",\"alias\":\"личный легковой автомобиль\"},{\"id\":\"E1\",\"evidence\":[\"S1\"],\"concept\":\"nlcase:Episode\",\"label\":\"Parking episode on 1 October 2026\"},{\"id\":\"L1\",\"evidence\":[\"S2\"],\"concept\":\"nlcase:Location\",\"label\":\"Москва\"},{\"id\":\"Z1\",\"evidence\":[\"S3\"],\"concept\":\"nlpark:ParkingZone\",\"label\":\"M-102\"}],\"spans\":[{\"id\":\"S1\",\"quote\":\"1 октября 2026 года с 11:00 до 11:30 по московскому времени я, Мария, разместила свой личный легковой автомобиль на обычной городской уличной парковке Москвы в учебной зоне М-102.\"},{\"id\":\"S2\",\"quote\":\"по московскому времени\"},{\"id\":\"S3\",\"quote\":\"учебной зоне М-102\"}],\"assertions\":[{\"id\":\"A1\",\"subject\":\"P1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"S1\"],\"stance\":\"asserted\",\"attributedTo\":[],\"predicate\":\"nlcase:roleParticipant\",\"object\":\"driver\"},{\"id\":\"A2\",\"subject\":\"V1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"S1\"],\"stance\":\"asserted\",\"attributedTo\":[],\"predicate\":\"nlpark:involvesVehicle\",\"object\":\"V1\"},{\"id\":\"A3\",\"subject\":\"Z1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"S3\"],\"stance\":\"asserted\",\"attributedTo\":[],\"predicate\":\"nlpark:placeInZone\",\"object\":\"Z1\"},{\"id\":\"A4\",\"subject\":\"E1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"S1\"],\"stance\":\"asserted\",\"attributedTo\":[],\"predicate\":\"nlinput:eventTime\",\"valueText\":\"1 октября 2026 года с 11:00 до 11:30 по московскому времени\"}],\"unmappedMentions\":[]}",
+        "reasoning": "We need produce JSON with entities, spans, assertions. Extract: participant Maria (person). Vehicle unspecified. Episode covering 1 Oct 2026 11-30. Location Moscow. ParkingZone M-102. Payment for session 11-12. Time intervals. Provide evidence quotes.\n\nLet's craft minimal.",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 4475,
+    "completion_tokens": 532,
+    "total_tokens": 5007,
+    "completion_tokens_details": {
+      "reasoning_tokens": 62
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "hyperreview-gpt-oss-20b"
+}

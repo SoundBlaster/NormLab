@@ -1,0 +1,184 @@
+{
+  "startedAt": "2026-10-04T21:17:52.416Z",
+  "updatedAt": "2026-10-04T21:19:58.786Z",
+  "outcomes": [
+    {
+      "caseId": "P01",
+      "status": "rejected",
+      "latencyMs": 39640,
+      "returnedModel": "hyperreview-gpt-oss-20b",
+      "usage": {
+        "prompt_tokens": 4472,
+        "completion_tokens": 1558,
+        "total_tokens": 6030,
+        "completion_tokens_details": {
+          "reasoning_tokens": 554
+        }
+      },
+      "finishReason": "stop",
+      "responseSha256": "6ac15f8d100cc856130bf56a9817fc99c0063013d61fafeafce9fb8c16adb7d8",
+      "contentSha256": "038adfee06e0ac2ca9ecf90bdd19b7c61969e0b9b3932411b918202ddfac5294",
+      "validation": {
+        "ok": false,
+        "issues": [
+          {
+            "path": "entities.5",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          },
+          {
+            "path": "entities.6",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          },
+          {
+            "path": "assertions.0.attributionText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+          },
+          {
+            "path": "assertions.1.attributionText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+          },
+          {
+            "path": "assertions.2.attributionText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+          },
+          {
+            "path": "assertions.3.attributionText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+          },
+          {
+            "path": "assertions.4.attributionText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+          },
+          {
+            "path": "assertions.5.attributionText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+          },
+          {
+            "path": "assertions.6.attributionText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "P02",
+      "status": "rejected",
+      "latencyMs": 17540,
+      "returnedModel": "hyperreview-gpt-oss-20b",
+      "usage": {
+        "prompt_tokens": 4475,
+        "completion_tokens": 532,
+        "total_tokens": 5007,
+        "completion_tokens_details": {
+          "reasoning_tokens": 62
+        }
+      },
+      "finishReason": "stop",
+      "responseSha256": "4db3cc76a1a448e9192c8d987f61bb612fbf30e5ca5307785aa6e5fefcf0adf2",
+      "contentSha256": "3b35d587f9f60713727419c08f239899cc7c3d9f2b67927cd331a50bd72c22bd",
+      "validation": {
+        "ok": false,
+        "issues": [
+          {
+            "path": "entities.4",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "P04",
+      "status": "rejected",
+      "latencyMs": 33828,
+      "returnedModel": "hyperreview-gpt-oss-20b",
+      "usage": {
+        "prompt_tokens": 4420,
+        "completion_tokens": 1173,
+        "total_tokens": 5593,
+        "completion_tokens_details": {
+          "reasoning_tokens": 176
+        }
+      },
+      "finishReason": "stop",
+      "responseSha256": "b8d7694dcb31b9c2d92e2e39b2cc9cd6b2982ab14647c6748fa2e2e98549e929",
+      "contentSha256": "afc305a69836eed75ef20d220c5524b2e5ad5ea2b829639d031bb1e5cd8bdeb0",
+      "validation": {
+        "ok": false,
+        "issues": [
+          {
+            "path": "entities.4",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          },
+          {
+            "path": "entities.5",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          },
+          {
+            "path": "entities.6",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          },
+          {
+            "path": "entities.7",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          },
+          {
+            "path": "entities.8",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "P09",
+      "status": "rejected",
+      "latencyMs": 35192,
+      "returnedModel": "hyperreview-gpt-oss-20b",
+      "usage": {
+        "prompt_tokens": 4443,
+        "completion_tokens": 864,
+        "total_tokens": 5307,
+        "completion_tokens_details": {
+          "reasoning_tokens": 181
+        }
+      },
+      "finishReason": "stop",
+      "responseSha256": "4017152adcdb4ed0d4cfad86fdc9a0500863a677b6050647e4e354ecc582bce5",
+      "contentSha256": "d545f796bc6477393eca645e4cdfd9ec9e3087405c75a9c96764f220aeae0148",
+      "validation": {
+        "ok": false,
+        "issues": [
+          {
+            "path": "entities.4.timezoneText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,100}(?![\\s\\S])/u"
+          },
+          {
+            "path": "entities.5.timezoneText",
+            "code": "shape",
+            "message": "Invalid string: must match pattern /^[\\s\\S]{1,100}(?![\\s\\S])/u"
+          },
+          {
+            "path": "entities.6",
+            "code": "shape",
+            "message": "Unrecognized key: \"label\""
+          }
+        ]
+      }
+    }
+  ]
+}

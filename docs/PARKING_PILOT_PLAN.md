@@ -219,3 +219,7 @@ AI-предложение санкции не показывается как п
 ## Первый baseline extraction
 
 [Серия 2026-10-04](PARKING_BASELINE_2026-10-04.md) завершена: GPT OSS 20B через LM Studio, 4 последовательных запроса, 0 принятых graphs. P01/P02 отклонены schema, P04 — provider format error, P09 — timeout. Это не закрывает AI quality gate. Следующий ход — typed predicate catalogue, отдельная проверка structured output и application quote anchoring, затем новая сохраняемая серия.
+
+## Typed extraction серия
+
+2026-10-05: [новый model wire contract](PARKING_TYPED_EXTRACTION.md) и [вторая серия](PARKING_TYPED_BASELINE_2026-10-05.md). Typed predicates и application quote resolution реализованы отдельно от v1; reference replay проходит. Все 4 ответы модели остаются schema rejected, поэтому качество extraction и AI readiness не подтверждены. Следующий эксперимент — provider structured output compatibility и constrained-shape run, без перезаписи прошлых artifacts.
