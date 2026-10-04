@@ -1,0 +1,370 @@
+{
+  "schema": "normlab.parking-extraction/v1",
+  "entities": [
+    {
+      "id": "episode1",
+      "concept": "nlcase:Episode",
+      "evidence": ["span1"],
+      "label": "Эпизод парковки"
+    },
+    {
+      "id": "person1",
+      "concept": "nlcase:Participant",
+      "evidence": ["span2"],
+      "alias": "Участник 1",
+      "participantKind": "unknown"
+    },
+    {
+      "id": "vehicle1",
+      "concept": "nlcase:Vehicle",
+      "evidence": ["span3"],
+      "alias": "Автомобиль 1"
+    },
+    {
+      "id": "placement1",
+      "concept": "nlpark:ParkingPlacement",
+      "evidence": ["span1"]
+    },
+    {
+      "id": "place1",
+      "concept": "nlpark:ParkingPlace",
+      "evidence": ["span4"]
+    },
+    {
+      "id": "location1",
+      "concept": "nlcase:Location",
+      "evidence": ["span5"],
+      "label": "Москва"
+    },
+    {
+      "id": "zone1",
+      "concept": "nlpark:ParkingZone",
+      "evidence": ["span6"]
+    },
+    {
+      "id": "standingTime",
+      "concept": "nlcase:TimeInterval",
+      "evidence": ["span7"],
+      "startText": "10:00",
+      "endText": "10:40",
+      "precision": "exact",
+      "timezoneText": "по московскому времени"
+    },
+    {
+      "id": "narratorRole",
+      "concept": "nlcase:RoleAssignment",
+      "evidence": ["span2"],
+      "role": "narrator"
+    },
+    {
+      "id": "ownerRole",
+      "concept": "nlcase:RoleAssignment",
+      "evidence": ["span3"],
+      "role": "owner"
+    }
+  ],
+  "spans": [
+    {
+      "id": "span1",
+      "quote": "оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "startOffset": 72,
+      "endOffset": 180
+    },
+    {
+      "id": "span2",
+      "quote": "я, Алексей",
+      "startOffset": 60,
+      "endOffset": 70
+    },
+    {
+      "id": "span3",
+      "quote": "свой личный легковой автомобиль",
+      "startOffset": 80,
+      "endOffset": 111
+    },
+    {
+      "id": "span4",
+      "quote": "обычной городской уличной парковке",
+      "startOffset": 115,
+      "endOffset": 149
+    },
+    {
+      "id": "span5",
+      "quote": "в Москве",
+      "startOffset": 150,
+      "endOffset": 158
+    },
+    {
+      "id": "span6",
+      "quote": "учебной зоне М-101",
+      "startOffset": 162,
+      "endOffset": 180
+    },
+    {
+      "id": "span7",
+      "quote": "с 10:00 до 10:40 по московскому времени",
+      "startOffset": 20,
+      "endOffset": 59
+    },
+    {
+      "id": "span8",
+      "quote": "1 октября 2026 года",
+      "startOffset": 0,
+      "endOffset": 19
+    },
+    {
+      "id": "span9",
+      "quote": "Автомобиль стоял внутри обозначенного парковочного места.",
+      "startOffset": 182,
+      "endOffset": 239
+    },
+    {
+      "id": "span10",
+      "quote": "весь указанный период был платным",
+      "startOffset": 274,
+      "endOffset": 307
+    },
+    {
+      "id": "span11",
+      "quote": "Парковку я не оплачивал",
+      "startOffset": 331,
+      "endOffset": 354
+    },
+    {
+      "id": "span12",
+      "quote": "Ошибок реквизитов, попыток оплаты и последующих исправлений не было.",
+      "startOffset": 389,
+      "endOffset": 457
+    },
+    {
+      "id": "span13",
+      "quote": "Парковочных разрешений, абонементов и оснований бесплатного размещения у меня нет.",
+      "startOffset": 458,
+      "endOffset": 540
+    },
+    {
+      "id": "span14",
+      "quote": "парковочную сессию не запускал",
+      "startOffset": 357,
+      "endOffset": 387
+    },
+    {
+      "id": "span15",
+      "quote": "спора о знаках нет",
+      "startOffset": 311,
+      "endOffset": 329
+    }
+  ],
+  "assertions": [
+    {
+      "id": "eventDate",
+      "subject": "episode1",
+      "predicate": "nlinput:eventTime",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span8"],
+      "attributedTo": ["person1"],
+      "valueText": "1 октября 2026 года"
+    },
+    {
+      "id": "eventInterval",
+      "subject": "episode1",
+      "predicate": "nlinput:eventTime",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span7"],
+      "attributedTo": ["person1"],
+      "valueText": "с 10:00 до 10:40 по московскому времени"
+    },
+    {
+      "id": "placed",
+      "subject": "episode1",
+      "predicate": "nlinput:placement",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span9"],
+      "attributedTo": ["person1"],
+      "valueText": "Автомобиль стоял внутри обозначенного парковочного места."
+    },
+    {
+      "id": "locationMoscow",
+      "subject": "location1",
+      "predicate": "nlinput:inMoscow",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span5"],
+      "attributedTo": ["person1"],
+      "valueText": "в Москве"
+    },
+    {
+      "id": "cityParking",
+      "subject": "place1",
+      "predicate": "nlinput:cityParking",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span4"],
+      "attributedTo": ["person1"],
+      "valueText": "обычной городской уличной парковке"
+    },
+    {
+      "id": "personalCar",
+      "subject": "episode1",
+      "predicate": "nlinput:subjectScope",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span3"],
+      "attributedTo": ["person1"],
+      "valueText": "свой личный легковой автомобиль"
+    },
+    {
+      "id": "placementEpisode",
+      "subject": "placement1",
+      "predicate": "nlpark:placementInEpisode",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span1"],
+      "attributedTo": ["person1"],
+      "object": "episode1"
+    },
+    {
+      "id": "placementVehicle",
+      "subject": "placement1",
+      "predicate": "nlpark:involvesVehicle",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span1"],
+      "attributedTo": ["person1"],
+      "object": "vehicle1"
+    },
+    {
+      "id": "placementPlace",
+      "subject": "placement1",
+      "predicate": "nlpark:placedAt",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span1"],
+      "attributedTo": ["person1"],
+      "object": "place1"
+    },
+    {
+      "id": "placeZone",
+      "subject": "place1",
+      "predicate": "nlpark:placeInZone",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span1"],
+      "attributedTo": ["person1"],
+      "object": "zone1"
+    },
+    {
+      "id": "placementTime",
+      "subject": "placement1",
+      "predicate": "nlpark:placementInterval",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span7"],
+      "attributedTo": ["person1"],
+      "object": "standingTime"
+    },
+    {
+      "id": "narratorPerson",
+      "subject": "narratorRole",
+      "predicate": "nlcase:roleParticipant",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span2"],
+      "attributedTo": ["person1"],
+      "object": "person1"
+    },
+    {
+      "id": "narratorEpisode",
+      "subject": "narratorRole",
+      "predicate": "nlcase:roleAboutEpisode",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span1"],
+      "attributedTo": ["person1"],
+      "object": "episode1"
+    },
+    {
+      "id": "ownerPerson",
+      "subject": "ownerRole",
+      "predicate": "nlcase:roleParticipant",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span3"],
+      "attributedTo": ["person1"],
+      "object": "person1"
+    },
+    {
+      "id": "ownerEpisode",
+      "subject": "ownerRole",
+      "predicate": "nlcase:roleAboutEpisode",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span1"],
+      "attributedTo": ["person1"],
+      "object": "episode1"
+    },
+    {
+      "id": "paidPeriod",
+      "subject": "episode1",
+      "predicate": "nlinput:paidRegime",
+      "aboutEpisode": "episode1",
+      "stance": "asserted",
+      "evidence": ["span10"],
+      "attributedTo": ["person1"],
+      "valueText": "весь указанный период был платным"
+    },
+    {
+      "id": "noPayment",
+      "subject": "episode1",
+      "predicate": "nlinput:payment",
+      "aboutEpisode": "episode1",
+      "stance": "denied",
+      "evidence": ["span11"],
+      "attributedTo": ["person1"],
+      "valueText": "оплата парковки"
+    },
+    {
+      "id": "noComplexity",
+      "subject": "episode1",
+      "predicate": "nlinput:paymentComplexity",
+      "aboutEpisode": "episode1",
+      "stance": "denied",
+      "evidence": ["span12"],
+      "attributedTo": ["person1"],
+      "valueText": "ошибки реквизитов, попытки оплаты и последующие исправления"
+    },
+    {
+      "id": "noPermit",
+      "subject": "episode1",
+      "predicate": "nlinput:permit",
+      "aboutEpisode": "episode1",
+      "stance": "denied",
+      "evidence": ["span13"],
+      "attributedTo": ["person1"],
+      "valueText": "парковочные разрешения, абонементы и основания бесплатного размещения"
+    }
+  ],
+  "unmappedMentions": [
+    {
+      "id": "noSession",
+      "description": "Явное отсутствие запуска сессии; отдельного scalar predicate о запуске сессии пока нет. Не создавать существующую сессию из отрицания.",
+      "evidence": ["span14"],
+      "aboutEpisode": "episode1"
+    },
+    {
+      "id": "noSignDispute",
+      "description": "Явное отсутствие спора о знаках; отдельного predicate этого обстоятельства пока нет.",
+      "evidence": ["span15"],
+      "aboutEpisode": "episode1"
+    },
+    {
+      "id": "ownerVehicleTarget",
+      "description": "Заявленная принадлежность автомобиля рассказчику; RoleAssignment имеет participant/episode, но не target Vehicle relation. Не выводить ownership edge из alias.",
+      "evidence": ["span3"],
+      "aboutEpisode": "episode1"
+    }
+  ]
+}
