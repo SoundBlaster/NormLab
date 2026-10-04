@@ -1,0 +1,101 @@
+{
+  "formatVersion": 1,
+  "approvalStatus": "candidate",
+  "compiler": {
+    "repository": "https://github.com/0al-spec/Ontology",
+    "commit": "3d0c977c61fb4f725cbc4261fa8c6efad412f12b",
+    "target": "typescript"
+  },
+  "inputs": [
+    {
+      "path": "case-core.yaml",
+      "sha256": "2cae79fea9d2fa227df11e5189dbc9c6d34680e84cf7ccb8e4b33589f40477f2"
+    },
+    {
+      "path": "parking.yaml",
+      "sha256": "4760d2199e544601aa7f7fd27b9ee542b2d2324d5622b8c5fe1ef8e8356b9f3e"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "generated/case-core/ontology.normalized.json",
+      "sha256": "323e8180419c799f66f13577d0fc45dd01ee637c6051b88b57de6e098d928a2d"
+    },
+    {
+      "path": "generated/case-core/policies.ts",
+      "sha256": "b75785fede14d6b86416715b82fd5c2d7b204fb4331110ba1202fa7cb13d9db0"
+    },
+    {
+      "path": "generated/case-core/protocols.ts",
+      "sha256": "c4697e6b4087559079d834476a766e589307d1cf0422037bfb5042d714d4ecbc"
+    },
+    {
+      "path": "generated/case-core/refs.ts",
+      "sha256": "394e71e3386612efd85a4929e0611b075fbae5cca9ed5bca11db9f2cef64a51c"
+    },
+    {
+      "path": "generated/case-core/registry.ts",
+      "sha256": "b3cbbbd6156c3faeefad73dbea8982c04de4531352ce889398cb2e9bc651b80a"
+    },
+    {
+      "path": "generated/case-core/relations.ts",
+      "sha256": "27bd7a32d12191d35725033067c52cb7d730793f2aab9da3e9fa65d4b7ad37c2"
+    },
+    {
+      "path": "generated/case-core/schemas.ts",
+      "sha256": "9875880249c91dcd2ddd377e7d52bdcf9664e20c3609dcc894aa2c5c83c52d99"
+    },
+    {
+      "path": "generated/case-core/state-machines.ts",
+      "sha256": "e39f2a7b57fd23bffe5d772a91c1b6a6044dcb458205b8b080cc2f6c811bb5fd"
+    },
+    {
+      "path": "generated/case-core/types.ts",
+      "sha256": "e6c50c216470169859ca1b1fa969787c1fb95781492990022bd3eabed8d6e562"
+    },
+    {
+      "path": "generated/case-core/validators.ts",
+      "sha256": "7e48cee3e66304282f99cf282ec646e23e25346ab8f383d01eaf355540a353f4"
+    },
+    {
+      "path": "generated/parking/ontology.normalized.json",
+      "sha256": "580b643a80448bb8d21a8889a3ff1a9e3214128c3c73af8b0abfc2d409d33ebc"
+    },
+    {
+      "path": "generated/parking/policies.ts",
+      "sha256": "c55dd260b924a3771e3598a8c3c2f6036231941af3efd076ed8707f36660c401"
+    },
+    {
+      "path": "generated/parking/protocols.ts",
+      "sha256": "c4697e6b4087559079d834476a766e589307d1cf0422037bfb5042d714d4ecbc"
+    },
+    {
+      "path": "generated/parking/refs.ts",
+      "sha256": "fe51a6fda3e5fbbff9c8fadf89ea6f936e3c1e90df28d29ebf7095cc63b61937"
+    },
+    {
+      "path": "generated/parking/registry.ts",
+      "sha256": "50e5f6c05dd28e7d30b8ab2ce6322c715d6546c8aebc1ed8ac2fd824b603f7bc"
+    },
+    {
+      "path": "generated/parking/relations.ts",
+      "sha256": "2eb67d8fea72cbd8ce2e01463d391db6de7aa61695f0eba427829fe5b20a3e46"
+    },
+    {
+      "path": "generated/parking/schemas.ts",
+      "sha256": "b658f520364d8ce1f1316db0397e27125f4e67d4e5860fef5b26a01eeefe3900"
+    },
+    {
+      "path": "generated/parking/state-machines.ts",
+      "sha256": "7528cc51bd6af41f7b3bfdadda13d3e0497158621f64dd9583ab9acc5acece91"
+    },
+    {
+      "path": "generated/parking/types.ts",
+      "sha256": "1aadd9b6283dd02bd538075991be62f1188f6bcf8020e37e1c642ed83bbaadc6"
+    },
+    {
+      "path": "generated/parking/validators.ts",
+      "sha256": "7e48cee3e66304282f99cf282ec646e23e25346ab8f383d01eaf355540a353f4"
+    }
+  ]
+}
