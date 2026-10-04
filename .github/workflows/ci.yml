@@ -58,6 +58,9 @@ jobs:
       - name: Check generated schemas
         run: npm run schemas:check
 
+      - name: Check candidate parking reference graphs
+        run: npm run parking:references:check
+
       - name: Run Lean proof integration tests
         run: npm run test:lean
 

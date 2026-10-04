@@ -1,0 +1,59 @@
+{
+  "schema": "normlab.parking-reference-set/v1",
+  "status": "candidate-reference-draft",
+  "contract": "normlab.parking-extraction/v1",
+  "cases": [
+    {
+      "id": "P01",
+      "sourceFile": "P01.source.txt",
+      "graphFile": "P01.graph.json",
+      "sourceSha256": "2b0d6e22a1bfac8d60d9ce893cacce20d9e54f10184cedb0936940e335e7421c",
+      "graphSha256": "d47dc0752c9a53f83916cef5af5051f83a5f69db5a53043b91efc0fedabca01d",
+      "reviewerOnly": {
+        "expectedFlow": "basic-unpaid-candidate",
+        "unknownOrIncompleteConditions": ["C07", "C08", "C14", "C15", "C16"],
+        "limitations": "Неоплата не равна доказанному составу; физическое лицо не формально установлено, нет данных обо всех исключениях.",
+        "conflictAssertionIds": []
+      }
+    },
+    {
+      "id": "P02",
+      "sourceFile": "P02.source.txt",
+      "graphFile": "P02.graph.json",
+      "sourceSha256": "be24a6c1af93d190cd9945986b777580d7eec6021bbf15ae13971d2e7bc7317d",
+      "graphSha256": "2614b735a204ddc09bc388f2f0430b8d0395ce4f243d131c2c53d249f0635c1f",
+      "reviewerOnly": {
+        "expectedFlow": "basic-paid-candidate",
+        "unknownOrIncompleteConditions": ["C07", "C08", "C14", "C15", "C16"],
+        "limitations": "Не вычислять timely/legal coverage до review и normative lock; дата/payment timezone требуют contextual review.",
+        "conflictAssertionIds": []
+      }
+    },
+    {
+      "id": "P04",
+      "sourceFile": "P04.source.txt",
+      "graphFile": "P04.graph.json",
+      "sourceSha256": "94d175c3252f6cdb3a9ba1e4b1a40dfa9a882045693533c97330fdba58dfb8b7",
+      "graphSha256": "4c0f4e0696ce0679ede400ffaeb89ab5b80afb0e48b944b79a5df6b3cf4d26ed",
+      "reviewerOnly": {
+        "expectedFlow": "unsupported-after-complexity-review",
+        "unknownOrIncompleteConditions": ["C06", "C07", "C08", "C13", "C14", "C15", "C16"],
+        "limitations": "Не указан paid regime, покрытие, timezone и льготы; исходный платёж направлен vehicle2, исправление не меняет это ребро.",
+        "conflictAssertionIds": []
+      }
+    },
+    {
+      "id": "P09",
+      "sourceFile": "P09.source.txt",
+      "graphFile": "P09.graph.json",
+      "sourceSha256": "326cdaa7255511c34e62c764172619ba4f58663b1106632eaf0d9cff758e89e4",
+      "graphSha256": "c92fbd26002fd92c21a4e4623fdd47d4a610f2d1549f58c5c75efb1165a7b768",
+      "reviewerOnly": {
+        "expectedFlow": "conflict-after-review",
+        "unknownOrIncompleteConditions": ["C07", "C08", "C13", "C14", "C15", "C16"],
+        "limitations": "Начало оплаченного периода неизвестно; 16:02 — время платежа, не автоматически начало покрытия.",
+        "conflictAssertionIds": ["paymentPresent", "paymentDenied"]
+      }
+    }
+  ]
+}
