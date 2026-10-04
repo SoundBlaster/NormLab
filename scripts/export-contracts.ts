@@ -1,3 +1,4 @@
+import { parkingModelV2JsonSchema } from '../server/parking-typed-extraction.js';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { exportedReformSchemas } from '../shared/reform-contracts.js';
@@ -42,3 +43,15 @@ if (check) {
   writeFileSync(parkingFile, parkingContent);
 }
 console.log(`${check ? 'Checked' : 'Exported'} parking extraction schema`);
+
+const typedParkingOutput = new URL('../schemas/parking/', import.meta.url);
+const typedParkingFile = new URL('model-proposal-v2.schema.json', typedParkingOutput);
+const typedParkingContent = `${JSON.stringify(parkingModelV2JsonSchema, null, 2)}\n`;
+if (check) {
+  if (readFileSync(typedParkingFile, 'utf8') !== typedParkingContent)
+    throw new Error('Stale parking model proposal v2 schema');
+} else {
+  mkdirSync(typedParkingOutput, { recursive: true });
+  writeFileSync(typedParkingFile, typedParkingContent);
+}
+console.log(`${check ? 'Checked' : 'Exported'} parking model proposal v2 schema`);

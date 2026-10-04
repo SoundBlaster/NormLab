@@ -1,0 +1,27 @@
+{
+  "caseId": "P02",
+  "status": "rejected",
+  "latencyMs": 17540,
+  "returnedModel": "hyperreview-gpt-oss-20b",
+  "usage": {
+    "prompt_tokens": 4475,
+    "completion_tokens": 532,
+    "total_tokens": 5007,
+    "completion_tokens_details": {
+      "reasoning_tokens": 62
+    }
+  },
+  "finishReason": "stop",
+  "responseSha256": "4db3cc76a1a448e9192c8d987f61bb612fbf30e5ca5307785aa6e5fefcf0adf2",
+  "contentSha256": "3b35d587f9f60713727419c08f239899cc7c3d9f2b67927cd331a50bd72c22bd",
+  "validation": {
+    "ok": false,
+    "issues": [
+      {
+        "path": "entities.4",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      }
+    ]
+  }
+}

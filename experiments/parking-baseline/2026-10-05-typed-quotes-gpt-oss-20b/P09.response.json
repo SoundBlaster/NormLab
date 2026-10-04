@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-q58ozn8p52h5zm3ehpfnq6",
+  "object": "chat.completion",
+  "created": 1791148763,
+  "model": "hyperreview-gpt-oss-20b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"schema\":\"normlab.parking-extraction-proposal/v2\",\"entities\":[{\"id\":\"P1\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:Participant\",\"alias\":\"narrator\",\"participantKind\":\"person\"},{\"id\":\"V1\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:Vehicle\",\"alias\":\"my personal car\"},{\"id\":\"E1\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:Episode\",\"label\":\"Parking episode on 1 Oct 2026 16:00-16:30\"},{\"id\":\"L1\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:Location\",\"label\":\"Moscow\"},{\"id\":\"T1\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:TimeInterval\",\"startText\":\"16:00\",\"endText\":\"16:30\",\"timezoneText\":\"\",\"precision\":\"exact\"},{\"id\":\"T2\",\"evidence\":[\"E1\"],\"concept\":\"nlcase:TimeInterval\",\"startText\":\"16:02\",\"endText\":\"17:00\",\"timezoneText\":\"\",\"precision\":\"approximate\"},{\"id\":\"Z1\",\"evidence\":[\"E1\"],\"concept\":\"nlpark:ParkingZone\",\"label\":\"M-109\"}],\"spans\":[{\"id\":\"S1\",\"quote\":\"«Парковку с 16:00 до 16:30 я не оплачивал»\",\"occurrence\":0}],\"assertions\":[{\"id\":\"A1\",\"subject\":\"P1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"E1\"],\"stance\":\"asserted\",\"attributedTo\":[\"P1\"],\"attributionText\":\"narrator\",\"predicate\":\"nlcase:roleParticipant\",\"object\":\"P1\"},{\"id\":\"A2\",\"subject\":\"P1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"E1\"],\"stance\":\"asserted\",\"attributedTo\":[\"P1\"],\"attributionText\":\"narrator\",\"predicate\":\"nlcase:roleAboutEpisode\",\"object\":\"E1\"},{\"id\":\"A3\",\"subject\":\"V1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"E1\"],\"stance\":\"asserted\",\"attributedTo\":[\"P1\"],\"attributionText\":\"narrator\",\"predicate\":\"nlpark:involvesVehicle\",\"object\":\"V1\"},{\"id\":\"A4\",\"subject\":\"Z1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"E1\"],\"stance\":\"asserted\",\"attributedTo\":[\"P1\"],\"attributionText\":\"narrator\",\"predicate\":\"nlpark:placeInZone\",\"object\":\"Z1\"},{\"id\":\"A5\",\"subject\":\"V1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"E1\"],\"stance\":\"asserted\",\"attributedTo\":[\"P1\"],\"attributionText\":\"narrator\",\"predicate\":\"nlpark:coversInterval\",\"object\":\"T2\"},{\"id\":\"A6\",\"subject\":\"V1\",\"aboutEpisode\":\"E1\",\"evidence\":[\"S1\"],\"stance\":\"denied\",\"attributedTo\":[\"P1\"],\"attributionText\":\"narrator\",\"predicate\":\"nlpark:coversInterval\",\"object\":\"T1\"}],\"unmappedMentions\":[{\"id\":\"U1\",\"description\":\"The parking place itself is not specified in the source.\",\"evidence\":[\"E1\"],\"aboutEpisode\":\"E1\"}]}",
+        "reasoning": "We need produce JSON with entities, spans, assertions, unmappedMentions. Extract info: episode about parking 1 Oct 2026 16-16:30. Vehicle personal. Zone M-109. Payment claimed 16:02-17:00. Note says didn't pay 16-16:30. So conflicting.\n\nCreate entities: Participant (narrator), Vehicle, Episode, Location Moscow, TimeIntervals for parking and payment. Also ParkingZone M-109. Maybe ParkingPlace unspecified.\n\nAssertions: roleParticipant narrator driver? roleAboutEpisode. Payment assertion covers interval. Denied assertion about not paying 16-16:30. Provide evidence quotes.\n\nSpans: quote of note sentence.\n\nUnmappedMentions maybe \"учебной зоне М-109\" already mapped zone. Maybe mention of \"моя личный автомобиль\" but vehicle entity covers.\n\nLet's craft minimal.\n\n",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 4443,
+    "completion_tokens": 864,
+    "total_tokens": 5307,
+    "completion_tokens_details": {
+      "reasoning_tokens": 181
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "hyperreview-gpt-oss-20b"
+}

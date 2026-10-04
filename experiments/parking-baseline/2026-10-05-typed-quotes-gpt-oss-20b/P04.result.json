@@ -1,0 +1,47 @@
+{
+  "caseId": "P04",
+  "status": "rejected",
+  "latencyMs": 33828,
+  "returnedModel": "hyperreview-gpt-oss-20b",
+  "usage": {
+    "prompt_tokens": 4420,
+    "completion_tokens": 1173,
+    "total_tokens": 5593,
+    "completion_tokens_details": {
+      "reasoning_tokens": 176
+    }
+  },
+  "finishReason": "stop",
+  "responseSha256": "b8d7694dcb31b9c2d92e2e39b2cc9cd6b2982ab14647c6748fa2e2e98549e929",
+  "contentSha256": "afc305a69836eed75ef20d220c5524b2e5ad5ea2b829639d031bb1e5cd8bdeb0",
+  "validation": {
+    "ok": false,
+    "issues": [
+      {
+        "path": "entities.4",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      },
+      {
+        "path": "entities.5",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      },
+      {
+        "path": "entities.6",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      },
+      {
+        "path": "entities.7",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      },
+      {
+        "path": "entities.8",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      }
+    ]
+  }
+}
