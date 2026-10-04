@@ -1,0 +1,13 @@
+{
+  "recordedAfterRun": true,
+  "evidenceKind": "operator-observation-from-tool-output",
+  "lmStudioVersion": "0.4.23+1",
+  "lmsCliCommit": "07b7252",
+  "loadCommand": "lms load openai/gpt-oss-20b --context-length 16384 --ttl 1800 --yes",
+  "observedContextLength": 16384,
+  "observedParallel": 1,
+  "reportedLoadSeconds": 18.46,
+  "reportedMemoryGiB": 11.28,
+  "modelWeightsDigest": null,
+  "runnerSha256": "1c645ee45caaca2966e1ffafbf9e09949c2a014a9608a2e4963fe96365c211ba"
+}

@@ -24,7 +24,8 @@
     "reform:import": "tsx scripts/reform-import.ts",
     "schemas:write": "tsx scripts/export-contracts.ts",
     "schemas:check": "tsx scripts/export-contracts.ts --check",
-    "parking:references:check": "tsx scripts/check-parking-references.ts"
+    "parking:references:check": "tsx scripts/check-parking-references.ts",
+    "parking:baseline": "tsx scripts/parking-baseline.ts"
   },
   "dependencies": {
     "react": "19.3.0",

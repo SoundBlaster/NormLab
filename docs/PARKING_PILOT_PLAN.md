@@ -101,7 +101,7 @@ AI-предложение санкции не показывается как п
 
 ## 7. Архитектурные границы
 
-Уточнение автора: extraction опирается на базовую онтологию, которую кейс обогащает instances и assertions; новые concepts проходят отдельный review. [Candidate design](PARKING_ONTOLOGY_DRAFT.md) отделяет vocabulary, parking extension и case graph. Candidate ontology package и [consumer JSON-контракт](PARKING_EXTRACTION_CONTRACT.md) подготовлены; следующий шаг — reference graphs и baseline extraction.
+Уточнение автора: extraction опирается на базовую онтологию, которую кейс обогащает instances и assertions; новые concepts проходят отдельный review. [Candidate design](PARKING_ONTOLOGY_DRAFT.md) отделяет vocabulary, parking extension и case graph. Candidate ontology package и [consumer JSON-контракт](PARKING_EXTRACTION_CONTRACT.md) подготовлены; reference graphs подготовлены, первый baseline выполнен; следующая серия требует доработки model input и quote anchoring.
 
 Планируемый конвейер:
 
@@ -139,7 +139,7 @@ AI-предложение санкции не показывается как п
 
 ## 9. Этапы реализации и gates
 
-Первый исследовательский срез: [реестр источников](PARKING_SOURCES.md), [таблица условий](PARKING_CONDITIONS.md) и [полные фабулы с эталонами AI proposals](../fixtures/parking-pilot/README.md). Документы содержат открытые зависимости и не означают закрытие нормативного gate. Corpus подготовлен как draft, без model run и утверждённых правовых expected results.
+Первый исследовательский срез: [реестр источников](PARKING_SOURCES.md), [таблица условий](PARKING_CONDITIONS.md) и [полные фабулы с эталонами AI proposals](../fixtures/parking-pilot/README.md). Документы содержат открытые зависимости и не означают закрытие нормативного gate. Corpus подготовлен как draft, без утверждённых правовых expected results. Первый model baseline выполнен на четырёх cases; см. отчёт ниже.
 
 Это план следующих работ, а не отчёт об их завершении. Сроки определяются после первого нормативного среза; обещание подготовить весь домен за несколько вечеров не даётся.
 
@@ -211,3 +211,11 @@ AI-предложение санкции не показывается как п
 5. Политика хранения исходной фабулы и степень обезличивания до работы с реальными данными.
 
 **Ближайший ход:** подготовить источники и таблицу условий для выбранного нормативного среза, затем вывести из них corpus и extraction contract. Изменения кода начинаются отдельным следующим шагом после этого документа.
+
+## Provenance первоисточников норм
+
+Для будущего NormPackage и UI согласован [candidate provenance contract](NORM_SOURCE_PROVENANCE.md): каждый rule связан с reviewed fragment официальной публикации, зафиксированной редакцией и digest snapshot. Результат раскрывает отдельно основания по фактам и по нормам. История редакций UI отложена; воспроизводимые content bindings нужны уже в пилоте.
+
+## Первый baseline extraction
+
+[Серия 2026-10-04](PARKING_BASELINE_2026-10-04.md) завершена: GPT OSS 20B через LM Studio, 4 последовательных запроса, 0 принятых graphs. P01/P02 отклонены schema, P04 — provider format error, P09 — timeout. Это не закрывает AI quality gate. Следующий ход — typed predicate catalogue, отдельная проверка structured output и application quote anchoring, затем новая сохраняемая серия.

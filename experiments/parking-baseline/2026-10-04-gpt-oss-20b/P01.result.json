@@ -1,0 +1,27 @@
+{
+  "caseId": "P01",
+  "status": "rejected",
+  "latencyMs": 21147,
+  "returnedModel": "openai/gpt-oss-20b",
+  "usage": {
+    "prompt_tokens": 3382,
+    "completion_tokens": 799,
+    "total_tokens": 4181,
+    "completion_tokens_details": {
+      "reasoning_tokens": 91
+    }
+  },
+  "finishReason": "stop",
+  "responseSha256": "a07360a748f2cc4ff8b9be82bc0fff965c2653408bd60c7ab4368f14d6dde3f5",
+  "contentSha256": "2a65b01a2ada23c3e66fad15932405c1fcc51edc28f3f7d79d817c29d548341e",
+  "validation": {
+    "ok": false,
+    "issues": [
+      {
+        "path": "entities.4",
+        "code": "shape",
+        "message": "Unrecognized key: \"label\""
+      }
+    ]
+  }
+}

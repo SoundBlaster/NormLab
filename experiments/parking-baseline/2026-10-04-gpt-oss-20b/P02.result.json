@@ -1,0 +1,27 @@
+{
+  "caseId": "P02",
+  "status": "rejected",
+  "latencyMs": 23176,
+  "returnedModel": "openai/gpt-oss-20b",
+  "usage": {
+    "prompt_tokens": 3385,
+    "completion_tokens": 966,
+    "total_tokens": 4351,
+    "completion_tokens_details": {
+      "reasoning_tokens": 51
+    }
+  },
+  "finishReason": "stop",
+  "responseSha256": "5faff02931a067f756f25b71d4cc0c1720aaa1218a436bf2f5822728dff9c93e",
+  "contentSha256": "5899a6a72add1624cd24a88ffcc79b07c8e2addefddb4c497d7df355692ff2a3",
+  "validation": {
+    "ok": false,
+    "issues": [
+      {
+        "path": "assertions.10",
+        "code": "shape",
+        "message": "Invalid input"
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "normlab.baseline-artifacts/v1",
+  "signed": false,
+  "entries": [
+    {
+      "path": "P01.content.txt",
+      "sha256": "2a65b01a2ada23c3e66fad15932405c1fcc51edc28f3f7d79d817c29d548341e"
+    },
+    {
+      "path": "P01.request.json",
+      "sha256": "effafe215d11c6c660d5d3194a7495f23a3fa3784ca4b998c25d39ffa4f6070b"
+    },
+    {
+      "path": "P01.response.json",
+      "sha256": "a07360a748f2cc4ff8b9be82bc0fff965c2653408bd60c7ab4368f14d6dde3f5"
+    },
+    {
+      "path": "P01.result.json",
+      "sha256": "7027c214f29a12fee47001ab4c43c8bc950327a198127ed0e0547390f60a6496"
+    },
+    {
+      "path": "P02.content.txt",
+      "sha256": "5899a6a72add1624cd24a88ffcc79b07c8e2addefddb4c497d7df355692ff2a3"
+    },
+    {
+      "path": "P02.request.json",
+      "sha256": "7f9d6830332918741de88c47dd8ff1c0206bd9e3958702a5e475a7303922836f"
+    },
+    {
+      "path": "P02.response.json",
+      "sha256": "5faff02931a067f756f25b71d4cc0c1720aaa1218a436bf2f5822728dff9c93e"
+    },
+    {
+      "path": "P02.result.json",
+      "sha256": "71abc958dc702da9aaa8c614000b4d955b9297a7aefd4ac0dcda420cd32402a1"
+    },
+    {
+      "path": "P04.request.json",
+      "sha256": "43a6d70943b316639edb22853dde9ff86111d85c160828ed6bbc65fa3818caaf"
+    },
+    {
+      "path": "P04.response.json",
+      "sha256": "8396d1b1bd9d6a1d9f05b97440514adb1088b13c041ab066546e4e7e5890bf52"
+    },
+    {
+      "path": "P04.result.json",
+      "sha256": "39ec7fdbec90b66dc67296d7af1f9cbae7b5e15b2e5cc490d8ef2b33c30b01e8"
+    },
+    {
+      "path": "P09.request.json",
+      "sha256": "2cafc9c202d5c6860712f79ae900fbbd4c5c02551cc2c5ae26b0c1c58d7f67bc"
+    },
+    {
+      "path": "P09.result.json",
+      "sha256": "2bb1e02d2e627c25e5b392f4c6b0c0cadbff2618abd934268caced52ad278b17"
+    },
+    {
+      "path": "run.json",
+      "sha256": "5f98c9a71084c75da74127258d2c520e14c8475477d3c353bf25e7c1db2a0e1e"
+    },
+    {
+      "path": "runtime-observation.json",
+      "sha256": "6265b73754abac12ee2225a841ea3f3170634c342e51e131314e63cbe0e42cf0"
+    },
+    {
+      "path": "server-models.json",
+      "sha256": "5a7f7747dcd2dbcda8cf5508bc53c632ce85a240d8b7359d852d0b4ef3bf05a7"
+    },
+    {
+      "path": "summary.json",
+      "sha256": "8fa84e3198eee8483a7a056866d5cadbe183e4b6f0b96a344f0de56b4e9c93e2"
+    }
+  ]
+}
