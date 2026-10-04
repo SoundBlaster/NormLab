@@ -76,6 +76,6 @@ NORMLAB_DATA_VOLUME=normlab-restore NORMLAB_PORT=4320 \
 docker volume rm normlab-restore
 ```
 
-Keep the backup archive until verification succeeds. Legacy and A/B/C tables now have separate versioned entries in `normlab_schema_migrations`; migration 1 safely adopts the existing unversioned schema and is idempotent. This does not claim upgrade coverage for a future schema version until that migration and its rollback/recovery path are tested.
+Keep the backup archive until verification succeeds. Legacy and A/B/C tables now have separate versioned entries in `normlab_schema_migrations`; migration 1 safely adopts the existing unversioned schema and is idempotent. The generic migration engine's forward upgrade, atomic rollback, retry and idempotence are covered with synthetic versions in [`tests/database-migrations.test.ts`](../tests/database-migrations.test.ts). The application has no later schema version yet, so this does not prove a future application-specific schema upgrade; add migration-specific data-preservation and rollback coverage with that migration.
 
 Inspect logs with `docker compose logs --follow normlab`. `docker compose ps` reports the HTTP health check. Compose is a single-user local deployment, not a hardened multi-user or internet-facing production service.

@@ -12,6 +12,7 @@ Norms for People
 
 ## Документация
 
+- [Release notes v0.1.0 (draft)](docs/RELEASE_NOTES.md): возможности локального demonstrator, запуск и подтверждённые ограничения; GitHub Release ещё не опубликован.
 - [Замысел и требования](docs/VISION.md): однозначность, обязательность смягчения, модели A/B/C и границы гарантий.
 - [Laboratory UI](docs/LABORATORY_UI.md): пользовательский flow, v2 HTTP API, хранение, проверенные сценарии и ограничения.
 - [Перенос эксперимента](docs/EXPERIMENT_TRANSFER.md): manifest/locks, explicit issuer trust, read-only import и CLI replay.
@@ -142,4 +143,4 @@ prototype/    Original architecture archive, preserved as supplied
 
 Подпись подтверждает неизменность и происхождение квитанции. Lean подтверждает формальную допустимость результата относительно заданных входов и модели. Соответствие реальному праву и истинность описанных обстоятельств не проверяются. Подробнее: [границы проверки](docs/MVP.md).
 
-Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2, independent decision/comparison/property verification, signed receipts, deterministic explanations, separate structure/decision/change metrics, HTTP/UI и перенос выбранных экспериментов с read-only replay. NL-503 закрыт. Текущий срез — NL-504 (delivery): hosted CI проходит на `main` со всеми quality gates, включая Lean integration; открыты release notes, проверка будущих schema-version upgrades и rollback. Второй предметный домен, AI и инфраструктурные расширения имеют отдельные этапы в [roadmap](roadmap.md).
+Для A/B/C реализованы отдельное ядро producer, locked bundles, contracts v2, independent decision/comparison/property verification, signed receipts, deterministic explanations, separate structure/decision/change metrics, HTTP/UI и перенос выбранных экспериментов с read-only replay. NL-503 и NL-504 закрыты в объявленных границах локального demonstrator: hosted CI проходит на `main`, release notes подготовлены как draft, а migration engine покрыт synthetic upgrade/rollback regression. Branch protection недоступна текущему плану приватного GitHub-репозитория, поэтому CI не блокирует merge автоматически. Следующий исследовательский этап — NL-505; второй предметный домен, AI и production-инфраструктура имеют отдельные этапы в [roadmap](roadmap.md).
