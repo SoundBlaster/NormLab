@@ -102,4 +102,6 @@ IDs первого draft сохранены. C12 теперь проверяет
 - [ ] Зафиксировать базовую редакцию оплаты и общие зависимости ответственности. Полную модель корректировок отложить; она не gate пилота, пока соответствующие случаи отклоняются как unsupported.
 - [x] Для P01–P14 написать полные фабулы, ожидаемые extraction/review outputs и scope status: [corpus draft](../fixtures/parking-pilot/README.md), 15 текстов с двумя вариантами P11; это подготовка эталонов, не выполненный model run.
 - [ ] Назначить нормативные expected results для P01/P02/P11 после проверки зависимостей.
-- [ ] Сформировать минимальный extraction contract с признаками сложной оплаты/льгот для scope gate; не включать весь жизненный цикл сессии и не просить AI удостоверять predicates.
+- [x] Сформировать минимальный extraction contract с признаками сложной оплаты/льгот для scope gate; не включать весь жизненный цикл сессии и не просить AI удостоверять predicates.
+
+[Candidate extraction contract](PARKING_EXTRACTION_CONTRACT.md) фиксирует форму proposals и graph validation; completeness/scope gate и engine mapping пока не реализованы.
