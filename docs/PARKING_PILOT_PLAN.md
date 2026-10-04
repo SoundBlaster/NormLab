@@ -101,6 +101,8 @@ AI-предложение санкции не показывается как п
 
 ## 7. Архитектурные границы
 
+Уточнение автора: extraction опирается на базовую онтологию, которую кейс обогащает instances и assertions; новые concepts проходят отдельный review. [Candidate design](PARKING_ONTOLOGY_DRAFT.md) отделяет vocabulary, parking extension и case graph. Следующий шаг — candidate ontology package, затем JSON-контракт на его словаре.
+
 Планируемый конвейер:
 
 ```text
