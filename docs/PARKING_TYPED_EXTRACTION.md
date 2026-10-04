@@ -8,7 +8,7 @@
 2. Модель предлагает exact quote и optional zero-based `occurrence`, не числовые offsets. Source разрешает приложение из сохранённой request revision.
 3. Prompt явно напоминает направления roleParticipant/roleAboutEpisode, разделение Payment/Session/Placement, запрет label на ParkingZone, aliases без имён и необходимость сохранять explicit denials.
 
-Это новый contract/prompt digest. Первый runner и его artifacts не изменены. Вывод новой серии сравнивается с первой как результат совместного изменения input catalogue/prompt/anchor representation, не как изолированное доказательство эффекта одного фактора.
+Это новый contract/prompt digest. Artifacts первой серии не изменены; первый runner сохраняет прежнюю extraction конфигурацию. После серии оба runner дополнены автоматическим manifest, исторические runner hashes относятся к commits, указанным в baseline README. Вывод новой серии сравнивается с первой как результат совместного изменения input catalogue/prompt/anchor representation, не как изолированное доказательство эффекта одного фактора.
 
 ## Quote resolution
 

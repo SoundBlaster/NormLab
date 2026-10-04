@@ -36,7 +36,7 @@ GPT OSS 20B GGUF MXFP4 уже был загружен в LM Studio под identi
 
 Четыре reference graphs преобразованы в quote-only wire representation без изменения statements. Для повторяющихся quotes occurrence выбран из исходного reference offset. Replay v2 consumer восстановил точные original offsets, прошёл graph validator и вернул unreviewed proposals. Это подтверждает compatibility adapter с этими artifacts; не доказывает, что модель выберет правильную quote/occurrence или что reference semantics одобрены.
 
-Raw responses сохранены отдельно от derived validation. Старые artifacts первой серии и runner не изменены. Digest manifest второй серии фиксирует evidence bytes; он unsigned и не является attestation.
+Raw responses сохранены отдельно от derived validation. Старые artifacts первой серии не изменены. После серии оба runner дополнены автоматическим manifest; historical runner hashes относятся к commits, указанным в baseline README. Digest manifest второй серии фиксирует evidence bytes; он unsigned и не является attestation.
 
 ## Следующий ход
 
