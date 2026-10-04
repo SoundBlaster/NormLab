@@ -36,6 +36,7 @@ export const relationDefinitions = [
     "id" : "assertionObject",
     "range" : {
       "oneOf" : [
+        "nlcase:Episode",
         "nlcase:Location",
         "nlcase:MoneyAmount",
         "nlcase:Participant",

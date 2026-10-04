@@ -9,7 +9,7 @@ import { protocolDefinitions } from "./protocols";
 export const ontologyMetadata = {
   "id" : "normlab.case-core",
   "namespace" : "nlcase",
-  "sourceDigest" : "sha256:2cae79fea9d2fa227df11e5189dbc9c6d34680e84cf7ccb8e4b33589f40477f2",
+  "sourceDigest" : "sha256:cf7cb77b3d576921c9d7222a6c6a13fa0a50137cae75adfcfc120a38415597f4",
   "version" : "0.1.0"
 } as const;
 

@@ -9,7 +9,7 @@
   "inputs": [
     {
       "path": "case-core.yaml",
-      "sha256": "2cae79fea9d2fa227df11e5189dbc9c6d34680e84cf7ccb8e4b33589f40477f2"
+      "sha256": "cf7cb77b3d576921c9d7222a6c6a13fa0a50137cae75adfcfc120a38415597f4"
     },
     {
       "path": "parking.yaml",
@@ -19,7 +19,7 @@
   "outputs": [
     {
       "path": "generated/case-core/ontology.normalized.json",
-      "sha256": "323e8180419c799f66f13577d0fc45dd01ee637c6051b88b57de6e098d928a2d"
+      "sha256": "c683225822bc9bc41c60b3a2c93f2542938e3982c3cfdb98b576851b8c3d6962"
     },
     {
       "path": "generated/case-core/policies.ts",
@@ -35,11 +35,11 @@
     },
     {
       "path": "generated/case-core/registry.ts",
-      "sha256": "b3cbbbd6156c3faeefad73dbea8982c04de4531352ce889398cb2e9bc651b80a"
+      "sha256": "9f68be6b028bfd1030abc599b2e20b5a1cb1864856d0a710b760c8efe4d03da4"
     },
     {
       "path": "generated/case-core/relations.ts",
-      "sha256": "27bd7a32d12191d35725033067c52cb7d730793f2aab9da3e9fa65d4b7ad37c2"
+      "sha256": "344d113b1d10ecdb40df08236fa6407f2ca1aa7a11d0e16eecf512fef265b83c"
     },
     {
       "path": "generated/case-core/schemas.ts",
