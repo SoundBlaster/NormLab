@@ -1,0 +1,51 @@
+{
+  "schema": "normlab.parking-codex-baseline/v1",
+  "startedAt": "2026-10-04T22:13:50.450Z",
+  "model": "gpt-6-luna",
+  "reasoningEffort": "low",
+  "version": "codex-cli 0.156.1",
+  "timeoutMs": 240000,
+  "cases": [
+    "P01",
+    "P02",
+    "P04",
+    "P09"
+  ],
+  "commonArgs": [
+    "proxy",
+    "codex",
+    "exec",
+    "--ignore-user-config",
+    "--ignore-rules",
+    "--ephemeral",
+    "--skip-git-repo-check",
+    "--sandbox",
+    "read-only",
+    "--json",
+    "--color",
+    "never",
+    "-m",
+    "gpt-6-luna",
+    "-c",
+    "model_reasoning_effort=\"low\"",
+    "-c",
+    "project_doc_max_bytes=0",
+    "-c",
+    "features.shell_tool=false",
+    "-c",
+    "features.multi_agent=false",
+    "-c",
+    "web_search=\"disabled\""
+  ],
+  "runnerSha256": "3ae63a9844fbaa7bcf4da05fdde1a2c7c4d888478f7ff7d920200089e02e622e",
+  "adapterSha256": "599d73cef24456dfa0cf01563ba64c7c1f938e26371038debfd7be8b19b30898",
+  "decodeMode": "prompt-only-no-output-schema",
+  "notes": [
+    "Codex CLI surface, not a direct API model-only comparison: built-in system instructions remain.",
+    "Fresh empty cwd per case; project docs disabled; no conversation history/reference graphs/reviewer notes supplied.",
+    "Application instructions are part of the user prompt, unlike LM Studio system-role messages.",
+    "Temperature, seed and output token cap are not matched to LM Studio.",
+    "Tool events are checked after completion; any observed tool use invalidates the case comparison.",
+    "Model and effort are requested settings; CLI events may not attest returned model identity."
+  ]
+}

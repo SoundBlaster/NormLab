@@ -1,0 +1,32 @@
+{
+  "caseId": "P01",
+  "latencyMs": 42633,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "toolEvents": [],
+  "usage": {
+    "input_tokens": 21649,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1738,
+    "reasoning_output_tokens": 0
+  },
+  "contentSha256": "b81b2043c504a5555c0262e983276346da6b18f5b7726fcae9742cc23cd919ba",
+  "status": "rejected",
+  "validation": {
+    "ok": false,
+    "issues": [
+      {
+        "path": "assertions.0.subject",
+        "code": "missing_reference",
+        "message": "role1"
+      },
+      {
+        "path": "assertions.1.subject",
+        "code": "missing_reference",
+        "message": "role1"
+      }
+    ]
+  }
+}
