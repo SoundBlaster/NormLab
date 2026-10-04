@@ -75,7 +75,7 @@ Source: `Я не оплатил парковку.`
     { "id": "episode1", "concept": "nlcase:Episode", "label": "Парковка", "evidence": ["span1"] }
   ],
   "spans": [
-    { "id": "span1", "quote": "Я не оплатил парковку.", "startOffset": 0, "endOffset": 21 }
+    { "id": "span1", "quote": "Я не оплатил парковку.", "startOffset": 0, "endOffset": 22 }
   ],
   "assertions": [
     {
