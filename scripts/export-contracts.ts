@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { exportedReformSchemas } from '../shared/reform-contracts.js';
 import { z } from 'zod';
+import { exportedParkingExtractionSchema } from '../shared/parking-contracts.js';
 import { portableExperimentSchema } from '../server/reform-transfer.js';
 
 const output = new URL('../schemas/v2/', import.meta.url);
@@ -29,3 +30,15 @@ if (check) {
 console.log(
   `${check ? 'Checked' : 'Exported'} 10 v2 schemas and experiment schema in ${fileURLToPath(output)}`,
 );
+
+const parkingOutput = new URL('../schemas/parking/', import.meta.url);
+const parkingFile = new URL('extraction.schema.json', parkingOutput);
+const parkingContent = `${JSON.stringify(exportedParkingExtractionSchema(), null, 2)}\n`;
+if (check) {
+  if (readFileSync(parkingFile, 'utf8') !== parkingContent)
+    throw new Error('Stale parking extraction schema');
+} else {
+  mkdirSync(parkingOutput, { recursive: true });
+  writeFileSync(parkingFile, parkingContent);
+}
+console.log(`${check ? 'Checked' : 'Exported'} parking extraction schema`);

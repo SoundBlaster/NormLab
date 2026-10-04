@@ -101,7 +101,7 @@ AI-предложение санкции не показывается как п
 
 ## 7. Архитектурные границы
 
-Уточнение автора: extraction опирается на базовую онтологию, которую кейс обогащает instances и assertions; новые concepts проходят отдельный review. [Candidate design](PARKING_ONTOLOGY_DRAFT.md) отделяет vocabulary, parking extension и case graph. Следующий шаг — candidate ontology package, затем JSON-контракт на его словаре.
+Уточнение автора: extraction опирается на базовую онтологию, которую кейс обогащает instances и assertions; новые concepts проходят отдельный review. [Candidate design](PARKING_ONTOLOGY_DRAFT.md) отделяет vocabulary, parking extension и case graph. Candidate ontology package и [consumer JSON-контракт](PARKING_EXTRACTION_CONTRACT.md) подготовлены; следующий шаг — reference graphs и baseline extraction.
 
 Планируемый конвейер:
 
@@ -155,8 +155,9 @@ AI-предложение санкции не показывается как п
 
 ### Этап 2. Контракт и оценка AI extraction
 
-- [ ] Описать JSON-контракт эпизодов, обезличенных участников, ролей, времени/места, утверждений, source spans и упомянутых санкций.
-- [ ] Определить validation и поведение при malformed JSON, пустом ответе, timeout и недоступном сервере.
+- [x] Описать JSON-контракт эпизодов, обезличенных участников, ролей, времени/места, утверждений, source spans и упомянутых санкций.
+- [x] Определить shape/graph validation и отклонение malformed JSON/пустого ответа: [контракт](PARKING_EXTRACTION_CONTRACT.md).
+- [ ] Добавить provider adapter с timeout и обработкой недоступного сервера.
 - [ ] Проверить GPT OSS 20B на том же corpus, включая несколько эпизодов, отсутствующие данные, отрицания, противоречия и текст, пытающийся дать модели команды.
 - [ ] Сохранить конфигурацию модели и prompts; измерить latency и объём ручных исправлений.
 - [ ] При неудовлетворительном качестве сравнить доступный альтернативный локальный кандидат на одинаковых случаях.

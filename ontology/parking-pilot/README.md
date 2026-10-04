@@ -65,12 +65,14 @@ rtk proxy swift build --package-path /Users/egor/Development/GitHub/0AL/Ontology
 | Почему кейс неподдержан?              | Correction/Permit claims, ScopeAssessment; P04/P07/P08     | Application scope gate; model не присваивает trusted status |
 | Как сохранить неизвестный нюанс?      | UnmappedMention + SourceSpan                               | Gap candidate не мутирует общую ontology                    |
 
-## Открытые решения перед extraction contract
+## Ограничения consumer integration
 
-1. Exact whitelist scalar predicates для C01–C17 и representation отрицаний/unknown; compiler relations сейчас покрывают entity links, а не все scalar predicates.
-2. Bounded model-output envelope поверх двух registries: разрешённые classes, refs, IDs, enum значения, limits и source anchors.
+1. Consumer whitelist подготовлен отдельно для C01–C17; scalar predicates остаются consumer vocabulary, не generated ontology concepts. Перевод reviewed assertions в engine findings ещё не реализован.
+2. Bounded model-output envelope и graph validator подготовлены; семантическая корректность и полнота требуют review и corpus evaluation.
 3. Проверка cross-package refs и domain/range; нельзя выдавать namespace-only resolution за полный import lock.
 4. Raw source spans могут содержать имена: aliases не обеспечивают полного обезличивания источника.
 5. Ontology approval после review candidate; compiler evidence не заменяет одобрение семантики.
 
-Следующий шаг — строгий consumer JSON-контракт и instance validation на этом vocabulary, затем структурированные эталоны и baseline extraction.
+Следующий шаг — структурированные reference graphs и baseline extraction по consumer contract.
+
+Consumer contract v1 подготовлен в [документации](../../docs/PARKING_EXTRACTION_CONTRACT.md): strict model envelope, ограниченный scalar vocabulary и graph validation. Runtime/model integration пока отсутствует.

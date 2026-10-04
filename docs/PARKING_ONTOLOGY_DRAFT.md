@@ -1,6 +1,6 @@
 # Базовая онтология и обогащение кейсом
 
-Дата: 2026-10-04. Статус: candidate design, не утверждённый и не скомпилированный ontology package. Основание — [план](PARKING_PILOT_PLAN.md), [условия](PARKING_CONDITIONS.md), [corpus](../fixtures/parking-pilot/README.md) и уточнение автора: extraction должен опираться на базовую онтологию, обогащаемую нюансами кейса.
+Дата: 2026-10-04. Статус: candidate design, не утверждённая семантическая модель; candidate package скомпилирован. Основание — [план](PARKING_PILOT_PLAN.md), [условия](PARKING_CONDITIONS.md), [corpus](../fixtures/parking-pilot/README.md) и уточнение автора: extraction должен опираться на базовую онтологию, обогащаемую нюансами кейса.
 
 ## Три разных слоя
 
@@ -84,7 +84,7 @@ JSON — сериализация предложенного case graph по ф�
 - `assertions`: положительные/отрицательные/неопределённые proposals с evidence и attribution;
 - `unmappedMentions`: нюансы, которые не удалось выразить разрешённым словарём.
 
-Review decisions, результат движка, receipt/proof status, normative/ontology locks и digest исходной фабулы принадлежат приложению. Модель не может сама присвоить им доверенный статус. Точный JSON Schema ещё не создан: сначала нужно определить compiler-compatible vocabulary.
+Review decisions, результат движка, receipt/proof status, normative/ontology locks и digest исходной фабулы принадлежат приложению. Модель не может сама присвоить им доверенный статус. Consumer JSON Schema и validator подготовлены в [extraction contract](PARKING_EXTRACTION_CONTRACT.md); runtime extraction ещё не подключён.
 
 Обезличивание касается aliases и представления участника в UI. Цитаты из исходной фабулы могут содержать исходные имена: политика хранения и редактирования source spans требуется отдельно. Наличие aliases не делает сырой case graph полностью обезличенным.
 
@@ -99,9 +99,11 @@ Review decisions, результат движка, receipt/proof status, normati
 - Candidate compiler input подготовлен в [ontology/parking-pilot](../ontology/parking-pilot/README.md); оба пакета прошли check/compile. Это структурное evidence, не approval и не готовая runtime validation.
 
 - [ ] Уточнить candidate classes/relations и competency questions на P01/P02/P04/P09.
-- [ ] Собрать compiler-compatible candidate package с base vocabulary и parking extension, provenance и открытыми вопросами.
+- [x] Собрать compiler-compatible candidate package с base vocabulary и parking extension, provenance и открытыми вопросами.
 - [ ] Проверить refs, domain/range, generated SDK и отдельно достаточность instance validation для extraction.
 - [ ] Из выбранного словаря получить bounded JSON-контракт и prompt; перенести semantic targets corpus в структурированные эталоны.
 - [ ] Провести baseline extraction GPT OSS 20B; оценивать instance errors и новые concept candidates отдельно.
 
 Расширять словарь следует по конкретным невыразимым нюансам corpus; не формализовать все виды парковочных нарушений заранее.
+
+Consumer contract подготовлен: [документация, schema и validator](PARKING_EXTRACTION_CONTRACT.md). Prompt готов; перенос corpus в reference graphs и baseline ещё впереди.
