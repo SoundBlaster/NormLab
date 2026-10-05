@@ -37,6 +37,27 @@ type Bootstrap = {
   extractorAvailable: boolean;
   cases: { id: string; narrative: string }[];
 };
+function SectionHeading({
+  step,
+  title,
+  description,
+}: {
+  step: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <header className="parking-section-heading">
+      <span className="parking-step" aria-hidden="true">
+        {step}
+      </span>
+      <div>
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </div>
+    </header>
+  );
+}
 export function ParkingReview({ token }: { token: string }) {
   const [data, setData] = useState<Bootstrap>();
   const [draft, setDraft] = useState<ReviewDraft>();
@@ -188,11 +209,15 @@ export function ParkingReview({ token }: { token: string }) {
           {error}
         </p>
       )}
-      <p role="status" aria-live="polite">
+      <p className="parking-notice" role="status" aria-live="polite">
         {notice}
       </p>
       <section className="card">
-        <h2>Фабула и черновики</h2>
+        <SectionHeading
+          step="01"
+          title="Описание события"
+          description="Начните с фабулы или вернитесь к сохранённому разбору."
+        />
         <label>
           Открыть сохранённый черновик
           <select
@@ -214,7 +239,7 @@ export function ParkingReview({ token }: { token: string }) {
         <label>
           Описание события
           <textarea
-            rows={6}
+            rows={5}
             value={narrative}
             disabled={busy}
             onChange={(e) => {
@@ -274,8 +299,15 @@ export function ParkingReview({ token }: { token: string }) {
       {draft && (
         <>
           <section className="card">
-            <h2>Источник · ревизия {draft.revision}</h2>
-            <p>
+            <SectionHeading
+              step="02"
+              title={`Источник · ревизия ${draft.revision}`}
+              description="Получите предложения модели или выделите цитату и добавьте утверждение вручную."
+            />
+            <p
+              className="parking-review-state"
+              data-reviewed={draft.status === 'reviewed' && !dirty && !reviewDirty}
+            >
               {draft.status === 'reviewed' && !dirty && !reviewDirty
                 ? 'Проверено человеком'
                 : 'Проверка не завершена'}
@@ -303,7 +335,7 @@ export function ParkingReview({ token }: { token: string }) {
               <textarea
                 ref={sourceRef}
                 readOnly
-                rows={6}
+                rows={4}
                 value={draft.narrative}
                 onSelect={() => {
                   const input = sourceRef.current;
@@ -372,13 +404,17 @@ export function ParkingReview({ token }: { token: string }) {
             )}
           </section>
           <section className="card">
-            <h2>Утверждения · {statements.length}</h2>
-            <p>
+            <SectionHeading
+              step="03"
+              title={`Проверка утверждений · ${statements.length}`}
+              description="Сопоставьте каждое утверждение с цитатой. Исправьте смысл, затем сохраните и подтвердите."
+            />
+            <p className="parking-help">
               Проверьте полноту: время и место, автомобиль и участник, размещение, платный режим,
               оплата и её время, отъезд, ошибки оплаты и разрешения. Если сведений нет, это пробел
               для уточнения, а не отрицание. Эти пункты не заменяют проверку состава.
             </p>
-            <p>
+            <p className="parking-help">
               «Отрицается» сохраняет отрицательное утверждение. «Отклонить» исключает ошибочное
               предложение модели. Это разные действия.
             </p>
@@ -393,147 +429,160 @@ export function ParkingReview({ token }: { token: string }) {
             {!statements.length && (
               <p>Предложите утверждения автоматически или выделите текст источника.</p>
             )}
-            {statements.map((statement, index) => (
-              <fieldset
-                className="parking-statement"
-                key={statement.id}
-                disabled={busy || historical}
-              >
-                <legend>
-                  Утверждение {index + 1} · {statement.origin === 'model' ? 'модель' : 'человек'} ·{' '}
-                  {
-                    { pending: 'не проверено', confirmed: 'подтверждено', rejected: 'отклонено' }[
-                      statement.decision
-                    ]
-                  }
-                </legend>
-                <blockquote>{statement.quote}</blockquote>
-                <div className="parking-fields">
-                  <label>
-                    Обстоятельство
-                    <select
-                      value={statement.predicate}
-                      onChange={(e) => change(statement.id, { predicate: e.target.value })}
-                    >
-                      {reviewPredicates.map((p) => (
-                        <option key={p} value={p}>
-                          {predicateNames[p.split(':')[1]] ?? p}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    Состояние утверждения
-                    <select
-                      value={statement.stance}
-                      onChange={(e) =>
-                        change(statement.id, {
-                          stance: e.target.value as ReviewStatement['stance'],
-                        })
+            <div className="parking-statement-list">
+              {statements.map((statement, index) => (
+                <fieldset
+                  className="parking-statement"
+                  key={statement.id}
+                  disabled={busy || historical}
+                  data-decision={statement.decision}
+                >
+                  <legend>
+                    <span>Утверждение {index + 1}</span>{' '}
+                    <span className="parking-statement-meta">
+                      {statement.origin === 'model' ? 'Модель' : 'Ручная правка'}
+                    </span>{' '}
+                    <span className="parking-decision">
+                      {
+                        {
+                          pending: 'не проверено',
+                          confirmed: 'подтверждено',
+                          rejected: 'отклонено',
+                        }[statement.decision]
                       }
+                    </span>
+                  </legend>
+                  <blockquote>{statement.quote}</blockquote>
+                  <div className="parking-fields">
+                    <label>
+                      Обстоятельство
+                      <select
+                        value={statement.predicate}
+                        onChange={(e) => change(statement.id, { predicate: e.target.value })}
+                      >
+                        {reviewPredicates.map((p) => (
+                          <option key={p} value={p}>
+                            {predicateNames[p.split(':')[1]] ?? p}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      Состояние утверждения
+                      <select
+                        value={statement.stance}
+                        onChange={(e) =>
+                          change(statement.id, {
+                            stance: e.target.value as ReviewStatement['stance'],
+                          })
+                        }
+                      >
+                        <option value="asserted">Утверждается</option>
+                        <option value="denied">Отрицается</option>
+                        <option value="unknown">Неизвестно</option>
+                      </select>
+                    </label>
+                    <label>
+                      К кому или чему относится
+                      <input
+                        value={statement.subject}
+                        onChange={(e) => change(statement.id, { subject: e.target.value })}
+                      />
+                    </label>
+                    <label>
+                      Источник утверждения
+                      <input
+                        value={statement.speaker ?? ''}
+                        placeholder="Не указан"
+                        onChange={(e) =>
+                          change(statement.id, { speaker: e.target.value || undefined })
+                        }
+                      />
+                    </label>
+                    <label>
+                      Эпизод
+                      <input
+                        value={statement.aboutEpisode}
+                        onChange={(e) => change(statement.id, { aboutEpisode: e.target.value })}
+                      />
+                    </label>
+                  </div>
+                  <label>
+                    Содержание
+                    <textarea
+                      rows={2}
+                      value={statement.valueText}
+                      onChange={(e) => change(statement.id, { valueText: e.target.value })}
+                    />
+                  </label>
+                  <label>
+                    Основание проверки или причина отклонения
+                    <textarea
+                      rows={2}
+                      value={statement.rationale}
+                      onChange={(e) => {
+                        setStatements((items) =>
+                          items.map((s) =>
+                            s.id === statement.id ? { ...s, rationale: e.target.value } : s,
+                          ),
+                        );
+                        setDirty(true);
+                      }}
+                    />
+                  </label>
+                  <div className="parking-actions">
+                    <button
+                      className="secondary"
+                      disabled={!selection || selection.end <= selection.start}
+                      onClick={() => {
+                        if (selection)
+                          change(statement.id, {
+                            quote: draft.narrative.slice(selection.start, selection.end),
+                            startOffset: selection.start,
+                            endOffset: selection.end,
+                          });
+                      }}
                     >
-                      <option value="asserted">Утверждается</option>
-                      <option value="denied">Отрицается</option>
-                      <option value="unknown">Неизвестно</option>
-                    </select>
-                  </label>
-                  <label>
-                    К кому или чему относится
-                    <input
-                      value={statement.subject}
-                      onChange={(e) => change(statement.id, { subject: e.target.value })}
-                    />
-                  </label>
-                  <label>
-                    Источник утверждения
-                    <input
-                      value={statement.speaker ?? ''}
-                      placeholder="Не указан"
-                      onChange={(e) =>
-                        change(statement.id, { speaker: e.target.value || undefined })
+                      Заменить цитату выделенным текстом
+                    </button>
+                    <button
+                      className="secondary"
+                      disabled={
+                        dirty || reviewStatementIssues(statement, draft.narrative).length > 0
                       }
-                    />
-                  </label>
-                  <label>
-                    Эпизод
-                    <input
-                      value={statement.aboutEpisode}
-                      onChange={(e) => change(statement.id, { aboutEpisode: e.target.value })}
-                    />
-                  </label>
-                </div>
-                <label>
-                  Содержание
-                  <textarea
-                    rows={2}
-                    value={statement.valueText}
-                    onChange={(e) => change(statement.id, { valueText: e.target.value })}
-                  />
-                </label>
-                <label>
-                  Основание проверки или причина отклонения
-                  <textarea
-                    rows={2}
-                    value={statement.rationale}
-                    onChange={(e) => {
-                      setStatements((items) =>
-                        items.map((s) =>
-                          s.id === statement.id ? { ...s, rationale: e.target.value } : s,
-                        ),
-                      );
-                      setDirty(true);
-                    }}
-                  />
-                </label>
-                <div className="parking-actions">
-                  <button
-                    className="secondary"
-                    disabled={!selection || selection.end <= selection.start}
-                    onClick={() => {
-                      if (selection)
-                        change(statement.id, {
-                          quote: draft.narrative.slice(selection.start, selection.end),
-                          startOffset: selection.start,
-                          endOffset: selection.end,
-                        });
-                    }}
-                  >
-                    Заменить цитату выделенным текстом
-                  </button>
-                  <button
-                    className="secondary"
-                    disabled={dirty || reviewStatementIssues(statement, draft.narrative).length > 0}
-                    onClick={() => {
-                      setStatements((items) =>
-                        items.map((s) =>
-                          s.id === statement.id ? { ...s, decision: 'confirmed' } : s,
-                        ),
-                      );
-                      setChecklist({ ...emptyReviewChecklist });
-                      setReviewDirty(true);
-                    }}
-                  >
-                    Подтвердить
-                  </button>
-                  <button
-                    className="secondary"
-                    disabled={!statement.rationale.trim() || dirty}
-                    onClick={() => {
-                      setStatements((items) =>
-                        items.map((s) =>
-                          s.id === statement.id ? { ...s, decision: 'rejected' } : s,
-                        ),
-                      );
-                      setChecklist({ ...emptyReviewChecklist });
-                      setReviewDirty(true);
-                    }}
-                  >
-                    Отклонить с причиной
-                  </button>
-                </div>
-              </fieldset>
-            ))}
+                      onClick={() => {
+                        setStatements((items) =>
+                          items.map((s) =>
+                            s.id === statement.id ? { ...s, decision: 'confirmed' } : s,
+                          ),
+                        );
+                        setChecklist({ ...emptyReviewChecklist });
+                        setReviewDirty(true);
+                      }}
+                    >
+                      Подтвердить
+                    </button>
+                    <button
+                      className="secondary"
+                      disabled={!statement.rationale.trim() || dirty}
+                      onClick={() => {
+                        setStatements((items) =>
+                          items.map((s) =>
+                            s.id === statement.id ? { ...s, decision: 'rejected' } : s,
+                          ),
+                        );
+                        setChecklist({ ...emptyReviewChecklist });
+                        setReviewDirty(true);
+                      }}
+                    >
+                      Отклонить с причиной
+                    </button>
+                  </div>
+                </fieldset>
+              ))}
+            </div>
             <fieldset
+              className="parking-checklist"
               disabled={
                 busy || historical || dirty || statements.some((s) => s.decision === 'pending')
               }
@@ -553,7 +602,7 @@ export function ParkingReview({ token }: { token: string }) {
                 </label>
               ))}
             </fieldset>
-            <div className="parking-actions">
+            <div className="parking-actions parking-review-footer">
               <button
                 className="secondary"
                 disabled={busy || historical}
@@ -577,7 +626,11 @@ export function ParkingReview({ token }: { token: string }) {
             </div>
           </section>
           <section className="card">
-            <h2>История проверки</h2>
+            <SectionHeading
+              step="04"
+              title="История проверки"
+              description="Каждая сохранённая ревизия остаётся доступна для просмотра."
+            />
             <button
               className="secondary"
               disabled={busy || dirty || reviewDirty}
