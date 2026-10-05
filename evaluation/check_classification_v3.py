@@ -40,6 +40,12 @@ def main():
     unexpected["results"]["fragment_2"] = unexpected["results"].pop("fragment_1")
     empty = copy.deepcopy(valid)
     empty["results"]["fragment_1"]["classifications"][0]["valueText"] = "  "
+    padded_oversize = copy.deepcopy(valid)
+    padded_oversize["results"]["fragment_1"]["classifications"][0]["valueText"] = (
+        " " * 2048 + "x"
+    )
+    bounded = copy.deepcopy(valid)
+    bounded["results"]["fragment_1"]["classifications"][0]["valueText"] = "x" * 2048
     duplicate = copy.deepcopy(valid)
     duplicate["results"]["fragment_1"]["classifications"] *= 2
     contradictory = copy.deepcopy(valid)
@@ -57,6 +63,8 @@ def main():
         ("missing-id", missing, False),
         ("unexpected-id", unexpected, False),
         ("blank-value", empty, False),
+        ("padded-oversize-value", padded_oversize, False),
+        ("bounded-value", bounded, True),
         ("duplicate-predicate-stance", duplicate, False),
         ("unsupported-with-classification", contradictory, False),
         ("unsupported-without-reason", no_reason, False),

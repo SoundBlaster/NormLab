@@ -119,7 +119,8 @@ def validate(parsed, fragment_ids, predicates):
                 or not isinstance(item["stance"], str)
                 or item["stance"] not in ["asserted", "denied", "unknown"]
                 or not isinstance(item["valueText"], str)
-                or not 0 < len(item["valueText"].strip()) <= 2048
+                or not item["valueText"].strip()
+                or len(item["valueText"]) > 2048
             ):
                 raise ValueError(
                     "Classification predicate, stance or valueText contract"
