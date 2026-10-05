@@ -17,6 +17,7 @@ import {
   Status,
   Textarea,
 } from '@/shared/ui';
+import { apiUrl } from '@/shared/api';
 import { StatementEditor } from './StatementEditor.js';
 import './review.css';
 
@@ -49,7 +50,7 @@ export function ParkingReview({ token }: { token: string }) {
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   async function request<T>(path: string, body?: unknown): Promise<T> {
     const response = await fetch(
-      path,
+      apiUrl(path),
       body === undefined
         ? {}
         : {

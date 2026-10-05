@@ -1,5 +1,39 @@
 # Local deployment with Docker Compose
 
+## Protected reverse-proxy route
+
+The image can be built for a URL prefix such as `/normlab/`:
+
+```sh
+docker build --build-arg VITE_BASE_PATH=/normlab/ -t normlab:staging .
+```
+
+Configure the public proxy to strip `/normlab` from upstream request paths and
+forward the remaining requests to the NormLab container on port `4317`. It must
+preserve the incoming `Host` and `Origin` headers. The container must remain on
+the private Compose network; do not publish its port on the host.
+
+Enable the single-operator Basic Auth boundary in the NormLab service:
+
+```text
+NORMLAB_OPERATOR_AUTH_ENABLED=true
+NORMLAB_OPERATOR_AUTH_USERNAME=operator
+NORMLAB_OPERATOR_AUTH_PASSWORD=<injected runtime secret>
+NORMLAB_PUBLIC_ORIGIN=https://specgraph.space
+```
+
+Set the password in the host's runtime secret store, not in Git or the browser
+bundle. When authentication is enabled, the server refuses to start without an
+HTTPS public origin and both credentials. It protects static pages and every
+API route; `/health` returns only `{ "ok": true }` for container health checks.
+POST requests also require the exact configured Origin. This is a bounded
+single-operator staging boundary, not multi-user account management.
+
+`NORMLAB_VITE_BASE_PATH` configures the local Compose build and defaults to `/`.
+For the staging image, use `/normlab/` as the build argument. The reverse proxy
+must strip the route prefix before forwarding, so the Node server continues to
+see its existing root-level `/api/...` endpoints.
+
 Compose runs the production UI and API with the exact Lean toolchain from `lean-toolchain`. It publishes the service only on host loopback and stores SQLite state and the local receipt signing key in the named `normlab_normlab-data` volume by default. Containerized Lean checks default to a bounded 1024 MiB memory budget because the exhaustive A/B proof exceeds the native verifier's default 512 MiB limit on Linux ARM64. Override with `NORMLAB_LEAN_MEMORY_MB` from 512 to 4096 if needed; invalid values fall back to 512 MiB.
 
 ## Start

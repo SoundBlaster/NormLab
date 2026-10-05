@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { requestJson as request } from '@/shared/api';
+import { apiUrl, requestJson as request } from '@/shared/api';
 import {
   isCurrentAnalysis,
   type Analysis,
@@ -673,7 +673,7 @@ function Result({
             </div>
           </details>
           <div className="receipt-actions">
-            <a className="secondary" href={`/api/analyses/${analysis.id}/export`} download>
+            <a className="secondary" href={apiUrl(`/api/analyses/${analysis.id}/export`)} download>
               Скачать квитанцию <span aria-hidden="true">↓</span>
             </a>
             <button className="text-button" disabled={busy} onClick={onSignature}>

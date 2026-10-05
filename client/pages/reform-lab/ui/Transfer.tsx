@@ -6,6 +6,7 @@ import {
   type ImportedExperimentSummary,
   type ImportedExperimentView,
 } from '@/entities/norm';
+import { apiUrl } from '@/shared/api';
 import {
   ConsequenceMetrics,
   Evidence,
@@ -16,7 +17,7 @@ import {
 
 async function call<T>(path: string, token?: string, body?: unknown): Promise<T> {
   const response = await fetch(
-    path,
+    apiUrl(path),
     body === undefined
       ? {}
       : {
@@ -51,9 +52,11 @@ export function Transfer({
   const [itemIndex, setItemIndex] = useState(0);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
-  const downloadHref = `/api/reform/experiments/download?${selected
-    .map((id) => `analysisId=${encodeURIComponent(id)}`)
-    .join('&')}`;
+  const downloadHref = apiUrl(
+    `/api/reform/experiments/download?${selected
+      .map((id) => `analysisId=${encodeURIComponent(id)}`)
+      .join('&')}`,
+  );
   useEffect(() => {
     let active = true;
     call<ImportedExperimentSummary[]>('/api/reform/imports')
@@ -283,7 +286,7 @@ export function Transfer({
             <div className="lab-form-actions">
               <a
                 className="secondary"
-                href={`/api/reform/imports/${opened.experiment.id}/export`}
+                href={apiUrl(`/api/reform/imports/${opened.experiment.id}/export`)}
                 download
               >
                 Исходный набор ↓

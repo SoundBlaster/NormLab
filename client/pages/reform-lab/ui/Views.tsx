@@ -3,6 +3,7 @@ import type { LabAnalysisView, LabBootstrap } from '@/entities/norm';
 import type { ReformExplanation } from '@/entities/norm';
 import type { ReformMetrics } from '@/entities/norm';
 import type { FindingState } from '@/entities/norm';
+import { apiUrl } from '@/shared/api';
 
 export const findingNames: Record<FindingState, string> = {
   established: 'Установлено',
@@ -77,7 +78,11 @@ export function ArtifactActions({ view, issuerKey }: { view: LabAnalysisView; is
   return (
     <div className="lab-artifact-actions">
       {view.analysis.receipt && (
-        <a className="secondary" href={`/api/reform/analyses/${view.analysis.id}/export`} download>
+        <a
+          className="secondary"
+          href={apiUrl(`/api/reform/analyses/${view.analysis.id}/export`)}
+          download
+        >
           Export и receipt ↓
         </a>
       )}
