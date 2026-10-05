@@ -1,0 +1,27 @@
+{
+  "caseId": "P02",
+  "latencyMs": 53263,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "toolEvents": [],
+  "usage": {
+    "input_tokens": 21650,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 2239,
+    "reasoning_output_tokens": 0
+  },
+  "contentSha256": "ed7b1f2df8bc137025330d83700744200af62c17c55c558c794b667437d07962",
+  "status": "rejected",
+  "validation": {
+    "ok": false,
+    "issues": [
+      {
+        "path": "assertions.9.subject",
+        "code": "concept_mismatch",
+        "message": "nlpark:Payment"
+      }
+    ]
+  }
+}

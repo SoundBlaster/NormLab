@@ -148,11 +148,15 @@ Task IDs сохранены при изменении приоритетов: н
 
 [Первый ограниченный прогон](docs/PARKING_BASELINE_2026-10-04.md) выполнен: 0/4 принятых proposals. Обнаружены schema/ref/source проблемы, неполный link vocabulary в prompt, provider error и timeout. AI readiness gate остаётся открытым.
 
-- [ ] Передавать модели typed link predicate catalogue с domain/range.
+- [x] Передавать модели typed link predicate catalogue с domain/range.
 - [ ] Проверить совместимость provider structured output без silent fallback.
-- [ ] Спроектировать application quote anchoring с handling неоднозначных цитат.
-- [ ] Провести следующую отдельную серию и semantic review, сравнив с сохранённым baseline.
+- [x] Спроектировать application quote anchoring с handling неоднозначных цитат.
+- [x] Провести следующую отдельную серию и semantic review, сравнив с сохранённым baseline.
 
 ### Typed extraction и quote anchoring — 2026-10-05
 
 [Model contract v2](docs/PARKING_TYPED_EXTRACTION.md) передаёт typed link catalogue и разрешает exact quotes приложением с явным occurrence для повторов. Replay четырёх reference graphs восстановил исходные offsets. [Вторая серия](docs/PARKING_TYPED_BASELINE_2026-10-05.md): 4/4 JSON responses, 0/4 accepted proposals; shape и semantic проблемы сохраняются. AI readiness gate остаётся открытым. Следующий ход — отдельная проверка provider structured output и constrained-shape серия; при сохранении semantic потерь рассмотреть упрощённый промежуточный extraction contract.
+
+### Luna low comparison — 2026-10-05
+
+[Сравнение через Codex CLI](docs/PARKING_LUNA_COMPARISON_2026-10-05.md): 4/4 shape/quote pass и 1/4 structural pass при том же application input. P09 проходит validator, но теряет отрицание оплаты из assertions; semantic readiness gate остаётся открытым. Следующий ход — независимый checklist сохранения отрицаний/противоречий, evidence support и обязательных unknowns, затем statement-first extraction с построением графа приложением. Сравнение не изолирует эффект модели от Codex context/decoding/transport.

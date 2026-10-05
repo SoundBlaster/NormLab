@@ -1,0 +1,436 @@
+{
+  "caseId": "P09",
+  "latencyMs": 37347,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "toolEvents": [],
+  "usage": {
+    "input_tokens": 21618,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1572,
+    "reasoning_output_tokens": 0
+  },
+  "contentSha256": "8a82b8303ced8e4eb63e847cd3a06ab017b983aa358c7e104fccfea080d3a368",
+  "status": "structurally-valid",
+  "validation": {
+    "ok": true,
+    "proposal": {
+      "schema": "normlab.parking-extraction/v1",
+      "entities": [
+        {
+          "id": "episode1",
+          "evidence": [
+            "span1"
+          ],
+          "concept": "nlcase:Episode",
+          "label": "Парковка 1 октября 2026 года"
+        },
+        {
+          "id": "vehicle1",
+          "evidence": [
+            "span2"
+          ],
+          "concept": "nlcase:Vehicle",
+          "alias": "Vehicle 1"
+        },
+        {
+          "id": "location1",
+          "evidence": [
+            "span3"
+          ],
+          "concept": "nlcase:Location",
+          "label": "Москва"
+        },
+        {
+          "id": "place1",
+          "evidence": [
+            "span4"
+          ],
+          "concept": "nlpark:ParkingPlace"
+        },
+        {
+          "id": "zone1",
+          "evidence": [
+            "span5"
+          ],
+          "concept": "nlpark:ParkingZone"
+        },
+        {
+          "id": "placement1",
+          "evidence": [
+            "span6"
+          ],
+          "concept": "nlpark:ParkingPlacement"
+        },
+        {
+          "id": "interval1",
+          "evidence": [
+            "span7"
+          ],
+          "concept": "nlcase:TimeInterval",
+          "startText": "1 октября 2026 года в 16:00",
+          "endText": "1 октября 2026 года в 16:30",
+          "precision": "exact"
+        },
+        {
+          "id": "payment1",
+          "evidence": [
+            "span8"
+          ],
+          "concept": "nlpark:Payment"
+        },
+        {
+          "id": "paymentInterval1",
+          "evidence": [
+            "span9"
+          ],
+          "concept": "nlcase:TimeInterval",
+          "startText": "16:02",
+          "endText": "17:00",
+          "precision": "exact"
+        }
+      ],
+      "spans": [
+        {
+          "id": "span1",
+          "quote": "1 октября 2026 года с 16:00 до 16:30",
+          "startOffset": 0,
+          "endOffset": 36
+        },
+        {
+          "id": "span2",
+          "quote": "мой личный автомобиль",
+          "startOffset": 37,
+          "endOffset": 58
+        },
+        {
+          "id": "span3",
+          "quote": "Москвы",
+          "startOffset": 95,
+          "endOffset": 101
+        },
+        {
+          "id": "span4",
+          "quote": "обычной городской парковке",
+          "startOffset": 68,
+          "endOffset": 94
+        },
+        {
+          "id": "span5",
+          "quote": "учебной зоне М-109",
+          "startOffset": 104,
+          "endOffset": 122
+        },
+        {
+          "id": "span6",
+          "quote": "автомобиль стоял",
+          "startOffset": 48,
+          "endOffset": 64
+        },
+        {
+          "id": "span7",
+          "quote": "1 октября 2026 года с 16:00 до 16:30",
+          "startOffset": 0,
+          "endOffset": 36
+        },
+        {
+          "id": "span8",
+          "quote": "Я утверждаю, что оплатил именно эту машину и зону в 16:02 до 17:00",
+          "startOffset": 149,
+          "endOffset": 215
+        },
+        {
+          "id": "span9",
+          "quote": "16:02 до 17:00",
+          "startOffset": 201,
+          "endOffset": 215
+        },
+        {
+          "id": "span10",
+          "quote": "весь период был платным",
+          "startOffset": 124,
+          "endOffset": 147
+        },
+        {
+          "id": "span11",
+          "quote": "Я утверждаю",
+          "startOffset": 149,
+          "endOffset": 160
+        },
+        {
+          "id": "span12",
+          "quote": "Парковку с 16:00 до 16:30 я не оплачивал",
+          "startOffset": 260,
+          "endOffset": 300
+        },
+        {
+          "id": "span13",
+          "quote": "Ошибок реквизитов и последующих исправлений не было",
+          "startOffset": 303,
+          "endOffset": 354
+        }
+      ],
+      "assertions": [
+        {
+          "id": "assertion1",
+          "subject": "episode1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span1"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:eventTime",
+          "valueText": "1 октября 2026 года с 16:00 до 16:30"
+        },
+        {
+          "id": "assertion2",
+          "subject": "location1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span3"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:inMoscow",
+          "valueText": "Москва"
+        },
+        {
+          "id": "assertion3",
+          "subject": "place1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span4"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:cityParking",
+          "valueText": "обычная городская парковка"
+        },
+        {
+          "id": "assertion4",
+          "subject": "episode1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span6"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:placement",
+          "valueText": "мой личный автомобиль стоял на обычной городской парковке Москвы в учебной зоне М-109"
+        },
+        {
+          "id": "assertion5",
+          "subject": "episode1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span10"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:paidRegime",
+          "valueText": "весь период был платным"
+        },
+        {
+          "id": "assertion6",
+          "subject": "episode1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span2"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:subjectScope",
+          "valueText": "мой личный автомобиль"
+        },
+        {
+          "id": "assertion7",
+          "subject": "episode1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span11"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:attribution",
+          "valueText": "Я утверждаю"
+        },
+        {
+          "id": "assertion8",
+          "subject": "episode1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span8"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:payment",
+          "valueText": "оплатил именно эту машину и зону в 16:02 до 17:00"
+        },
+        {
+          "id": "assertion9",
+          "subject": "payment1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span9"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:paymentStart",
+          "valueText": "16:02"
+        },
+        {
+          "id": "assertion10",
+          "subject": "placement1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span1"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlinput:departure",
+          "valueText": "до 16:30"
+        },
+        {
+          "id": "assertion11",
+          "subject": "episode1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span13"
+          ],
+          "stance": "denied",
+          "attributedTo": [],
+          "predicate": "nlinput:faultAndExclusions",
+          "valueText": "Ошибок реквизитов и последующих исправлений не было"
+        },
+        {
+          "id": "assertion12",
+          "subject": "placement1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span6"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:placementInterval",
+          "object": "interval1"
+        },
+        {
+          "id": "assertion13",
+          "subject": "placement1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span6"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:placedAt",
+          "object": "place1"
+        },
+        {
+          "id": "assertion14",
+          "subject": "placement1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span2"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:involvesVehicle",
+          "object": "vehicle1"
+        },
+        {
+          "id": "assertion15",
+          "subject": "place1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span5"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:placeInZone",
+          "object": "zone1"
+        },
+        {
+          "id": "assertion16",
+          "subject": "placement1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span6"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:placementInEpisode",
+          "object": "episode1"
+        },
+        {
+          "id": "assertion17",
+          "subject": "payment1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span8"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:paymentTargetsVehicle",
+          "object": "vehicle1"
+        },
+        {
+          "id": "assertion18",
+          "subject": "payment1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span8"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:paymentTargetsZone",
+          "object": "zone1"
+        },
+        {
+          "id": "assertion19",
+          "subject": "payment1",
+          "aboutEpisode": "episode1",
+          "evidence": [
+            "span9"
+          ],
+          "stance": "asserted",
+          "attributedTo": [],
+          "predicate": "nlpark:coversInterval",
+          "object": "paymentInterval1"
+        }
+      ],
+      "unmappedMentions": [
+        {
+          "id": "unmapped1",
+          "description": "В заметке о том же эпизоде приведено прямое отрицание оплаты парковки с 16:00 до 16:30; источник не идентифицирует автора заметки.",
+          "evidence": [
+            "span12"
+          ],
+          "aboutEpisode": "episode1"
+        }
+      ]
+    },
+    "bindings": {
+      "requestId": "d9cce4a2-0ba3-40b2-bc69-55536b24b82c",
+      "sourceRevisionId": "P09-reference-v1",
+      "sourceDigest": "326cdaa7255511c34e62c764172619ba4f58663b1106632eaf0d9cff758e89e4",
+      "contract": "normlab.parking-extraction-proposal/v2",
+      "contractDigest": "acc033a46b71cf4771966b4c7d06af57bddc439148367374345c6c01b3c2e421",
+      "ontologyInputs": [
+        {
+          "path": "case-core.yaml",
+          "sha256": "cf7cb77b3d576921c9d7222a6c6a13fa0a50137cae75adfcfc120a38415597f4"
+        },
+        {
+          "path": "parking.yaml",
+          "sha256": "4760d2199e544601aa7f7fd27b9ee542b2d2324d5622b8c5fe1ef8e8356b9f3e"
+        }
+      ]
+    },
+    "reviewState": "unreviewed",
+    "anchoringMethod": "exact-source-substring"
+  }
+}
