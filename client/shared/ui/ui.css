@@ -1,5 +1,12 @@
 @import './tokens.css';
 
+.ui-logo {
+  display: block;
+  width: 212px;
+  max-width: 100%;
+  height: auto;
+}
+
 .ui-panel,
 .lab-panel {
   display: grid;

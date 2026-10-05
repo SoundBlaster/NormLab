@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Bootstrap } from '@/entities/norm';
 import { requestJson } from '@/shared/api';
+import { Logo } from '@/shared/ui';
 import { Lab } from '@/pages/reform-lab';
 import { ParkingReview } from '@/pages/parking-review';
 import { WorkspacePage } from '@/pages/workspace';
@@ -92,10 +93,15 @@ export function App() {
       </aside>
       <div className="main-shell">
         <header className="topbar">
-          <div>
-            <span className="breadcrumb">Лаборатория</span>
-            <span className="slash">/</span>
-            {tabs.find((item) => item.id === tab)!.label}
+          <div className="topbar-context">
+            <a className="topbar-home" href="/" aria-label="NormLab — главная">
+              <Logo />
+            </a>
+            <div className="topbar-location">
+              <span className="breadcrumb">Лаборатория</span>
+              <span className="slash">/</span>
+              {tabs.find((item) => item.id === tab)!.label}
+            </div>
           </div>
           <span className="chip amber">
             <span className="dot" />

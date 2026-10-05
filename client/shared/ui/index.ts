@@ -13,3 +13,4 @@ export {
   Notice,
   Disclosure,
 } from './components.js';
+export { Logo } from './Logo.js';
