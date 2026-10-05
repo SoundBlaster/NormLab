@@ -1,0 +1,156 @@
+"""Offline candidate-probe coverage by discovery and classification stage."""
+
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+
+def main():
+    run, output = map(Path, sys.argv[1:3])
+    output.mkdir(parents=True, exist_ok=False)
+    labels_bytes = (run / "reviewer-expectations.json").read_bytes()
+    labels = json.loads(labels_bytes)
+    cases = []
+    for label in labels["cases"]:
+        case_id = label["id"]
+        payload_path = run / f"{case_id}.output.json"
+        source = json.loads((run / f"{case_id}.input.json").read_text())["narrative"]
+        payload = json.loads(payload_path.read_text())
+        fragments = payload["fragments"]
+        raw = payload["rawExtractions"]
+        decisions = payload.get("classificationDecisions") or {}
+        fragment_ids = {fragment["fragmentId"] for fragment in fragments}
+        submitted_ids = set()
+        for call in payload.get("calls", []):
+            if call.get("stage") != "classification":
+                continue
+            try:
+                response = json.loads(call.get("output") or "null")
+                if not isinstance(response, dict):
+                    continue
+                if isinstance(response.get("results"), dict):
+                    submitted_ids.update(set(response["results"]) & fragment_ids)
+                elif isinstance(response.get("classifications"), list):
+                    submitted_ids.update(
+                        item["fragmentId"]
+                        for item in response["classifications"]
+                        if isinstance(item, dict)
+                        and item.get("fragmentId") in fragment_ids
+                    )
+            except (ValueError, TypeError):
+                continue
+        probes = []
+        for required in label["required"]:
+            covering = []
+            for fragment in fragments:
+                quote = fragment["quote"]
+                start = source.find(quote)
+                if start < 0 or source.find(quote, start + 1) >= 0:
+                    continue
+                start16 = len(source[:start].encode("utf-16-le")) // 2
+                end16 = start16 + len(quote.encode("utf-16-le")) // 2
+                if (
+                    start16 <= required["startOffset"]
+                    and end16 >= required["endOffset"]
+                ):
+                    covering.append(fragment["fragmentId"])
+            classified = [item for item in raw if item.get("fragmentId") in covering]
+            correct = any(
+                item["class"] == "nlinput:" + required["predicate"]
+                and item["attributes"]["stance"] == required["stance"]
+                for item in classified
+            )
+            probes.append(
+                {
+                    "required": required,
+                    "coveringFragmentIds": covering,
+                    "discoveryCovered": bool(covering),
+                    "classifiedFragment": bool(classified),
+                    "rawPredicateStanceMatched": correct,
+                    "explicitNoPredicate": bool(covering)
+                    and all(
+                        decisions.get(fragment_id, {}).get("status")
+                        == "no-supported-predicate"
+                        for fragment_id in covering
+                    ),
+                    "hasDecision": any(
+                        fragment_id in decisions for fragment_id in covering
+                    )
+                    or bool(classified),
+                }
+            )
+        cases.append(
+            {
+                "id": case_id,
+                "outputDigest": hashlib.sha256(payload_path.read_bytes()).hexdigest(),
+                "fragmentCount": len(fragment_ids),
+                "submittedFragmentCount": len(submitted_ids),
+                "acceptedExplicitDecisionCount": len(decisions),
+                "missingSubmittedFragmentIds": sorted(fragment_ids - submitted_ids),
+                "probes": probes,
+            }
+        )
+    probes = [probe for case in cases for probe in case["probes"]]
+    report = {
+        "schema": "normlab.discovery-stage-analysis/v1",
+        "run": run.name,
+        "sourceRunManifestDigest": hashlib.sha256(
+            (run / "artifact-manifest.json").read_bytes()
+        ).hexdigest(),
+        "expectationsDigest": hashlib.sha256(labels_bytes).hexdigest(),
+        "metrics": {
+            "inputFragments": sum(case["fragmentCount"] for case in cases),
+            "submittedFragmentDecisions": sum(
+                case["submittedFragmentCount"] for case in cases
+            ),
+            "fragmentsWithoutSubmittedDecision": sum(
+                len(case["missingSubmittedFragmentIds"]) for case in cases
+            ),
+            "acceptedExplicitDecisions": sum(
+                case["acceptedExplicitDecisionCount"] for case in cases
+            ),
+            "requiredProbes": len(probes),
+            "discoveryCovered": sum(p["discoveryCovered"] for p in probes),
+            "coveredButNoClassification": sum(
+                p["discoveryCovered"] and not p["classifiedFragment"] for p in probes
+            ),
+            "coveredButWrongPredicateOrStance": sum(
+                p["classifiedFragment"] and not p["rawPredicateStanceMatched"]
+                for p in probes
+            ),
+            "rawPredicateStanceMatched": sum(
+                p["rawPredicateStanceMatched"] for p in probes
+            ),
+            "coveredButNoDecision": sum(
+                p["discoveryCovered"] and not p["hasDecision"] for p in probes
+            ),
+            "coveredExplicitNoPredicate": sum(p["explicitNoPredicate"] for p in probes),
+        },
+        "limitations": "Candidate probe coverage only; not full discovery recall, attribution accuracy, legal sufficiency or population quality. Raw matches may still be quarantined downstream.",
+        "cases": cases,
+    }
+    (output / "report.json").write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n"
+    )
+    (output / "analyzer.py.snapshot").write_bytes(Path(__file__).read_bytes())
+    entries = [
+        {"path": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+        for path in sorted(output.iterdir())
+    ]
+    (output / "artifact-manifest.json").write_text(
+        json.dumps(
+            {
+                "schema": "normlab.baseline-artifacts/v1",
+                "signed": False,
+                "entries": entries,
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    print(json.dumps(report["metrics"]))
+
+
+if __name__ == "__main__":
+    main()

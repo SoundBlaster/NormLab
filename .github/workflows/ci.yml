@@ -48,6 +48,9 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
+      - name: Check complete classification contract
+        run: python evaluation/check_classification_v3.py "$RUNNER_TEMP/normlab-classification-contract"
+
       - name: Lint with type-aware rules
         run: npm run lint
 

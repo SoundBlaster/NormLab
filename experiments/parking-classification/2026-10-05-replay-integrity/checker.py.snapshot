@@ -1,0 +1,29 @@
+import hashlib
+import json
+from pathlib import Path
+
+baseline = Path('experiments/parking-baseline/2026-10-05-synthetic-v2-gpt-oss-20b')
+candidate = Path('experiments/parking-baseline/2026-10-05-classification-v3-replay')
+output = Path('experiments/parking-classification/2026-10-05-replay-integrity')
+output.mkdir(parents=True, exist_ok=False)
+records = []
+for path in sorted(baseline.glob('SYN*.output.json')):
+    case_id = path.name.split('.')[0]
+    parent_bytes = path.read_bytes()
+    parent = json.loads(parent_bytes)
+    current = json.loads((candidate / path.name).read_bytes())
+    checks = {
+        'parentSnapshotIdentical': parent_bytes == (candidate / f'{case_id}.discovery-parent.json').read_bytes(),
+        'parentDigestBound': current['discoveryReplay']['parentOutputDigest'] == hashlib.sha256(parent_bytes).hexdigest(),
+        'fragmentsIdentical': parent['fragments'] == current['fragments'],
+        'sourceDigestIdentical': parent['sourceDigest'] == current['sourceDigest'],
+        'modelPassCountOne': current['passes'] == 1,
+        'latencyScopeExplicit': current['latencyScope'] == 'classification-with-replayed-discovery',
+        'discoveryCallsReplayed': all(c.get('replayed') is True for c in current['calls'] if c['stage'] == 'discovery'),
+        'oneNewClassificationCall': sum(c['stage'] == 'classification' and not c.get('replayed') for c in current['calls']) == 1,
+    }
+    records.append({'case': case_id, 'fragmentCount': len(current['fragments']), 'checks': checks, 'passed': all(checks.values())})
+(output / 'report.json').write_text(json.dumps(records, ensure_ascii=False, indent=2) + '\n')
+(output / 'checker.py.snapshot').write_bytes(Path(__file__).read_bytes())
+print({'cases': len(records), 'passed': sum(r['passed'] for r in records), 'unchangedFragments': sum(r['fragmentCount'] for r in records)})
+assert len(records) == 40 and all(r['passed'] for r in records)
