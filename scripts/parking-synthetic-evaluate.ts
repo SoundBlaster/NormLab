@@ -205,15 +205,19 @@ function scoreRun(argument: string) {
           try {
             const parsed = JSON.parse(discoveryOutput) as { extractions?: unknown[] };
             const extractions = (parsed.extractions ?? []) as { statement?: unknown }[];
-            discoveryOutcome = !extractions.length
-              ? 'empty-response'
-              : extractions.every(
-                    (extraction) =>
-                      typeof extraction.statement === 'string' &&
-                      demoExampleQuotes.has(extraction.statement),
-                  )
-                ? 'demo-example-copy'
-                : 'no-exact-anchored-fragments';
+            discoveryOutcome =
+              discoveredFragmentCount > 0
+                ? 'exact-anchored-fragments'
+                : !extractions.length
+                  ? 'empty-response'
+                  : extractions.every(
+                        (extraction) =>
+                          typeof extraction.statement === 'string' &&
+                          demoExampleQuotes.has(extraction.statement) &&
+                          !source.includes(extraction.statement),
+                      )
+                    ? 'demo-example-copy'
+                    : 'no-exact-anchored-fragments';
           } catch {
             discoveryOutcome = 'unparseable-response';
           }

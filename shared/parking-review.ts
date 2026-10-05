@@ -8,6 +8,7 @@ export const reviewStatementSchema = z
     predicate: z.string().refine((value) => reviewPredicates.includes(value), 'Unknown predicate'),
     stance: z.enum(['asserted', 'denied', 'unknown']),
     subject: z.string().trim().min(1).max(128),
+    speaker: z.string().trim().min(1).max(128).optional(),
     aboutEpisode: z.string().trim().min(1).max(128),
     valueText: z.string().trim().min(1).max(2048),
     quote: z.string().min(1).max(4096),

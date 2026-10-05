@@ -1,0 +1,88 @@
+[
+  {
+    "case": "payment",
+    "discoveryAttributionPass": true,
+    "returnCode": 0,
+    "expected": [
+      [
+        "Я оплатил парковку",
+        "narrator"
+      ]
+    ],
+    "fragments": [
+      {
+        "fragmentId": "fragment_1",
+        "quote": "Я оплатил парковку.",
+        "attributes": {
+          "subject": "vehicle_1",
+          "aboutEpisode": "episode_1",
+          "speaker": "narrator"
+        },
+        "libraryInterval": null
+      }
+    ],
+    "error": null
+  },
+  {
+    "case": "negation",
+    "discoveryAttributionPass": true,
+    "returnCode": 0,
+    "expected": [
+      [
+        "Я не оплатил парковку",
+        "narrator"
+      ]
+    ],
+    "fragments": [
+      {
+        "fragmentId": "fragment_1",
+        "quote": "Я не оплатил парковку.",
+        "attributes": {
+          "subject": "vehicle_1",
+          "aboutEpisode": "episode_1",
+          "speaker": "narrator"
+        },
+        "libraryInterval": null
+      }
+    ],
+    "error": null
+  },
+  {
+    "case": "conflict",
+    "discoveryAttributionPass": true,
+    "returnCode": 0,
+    "expected": [
+      [
+        "Я оплатил парковку",
+        "narrator"
+      ],
+      [
+        "В письме написано: я не оплатил парковку",
+        "letter_1"
+      ]
+    ],
+    "fragments": [
+      {
+        "fragmentId": "fragment_1",
+        "quote": "Я оплатил парковку.",
+        "attributes": {
+          "subject": "vehicle_1",
+          "aboutEpisode": "episode_1",
+          "speaker": "narrator"
+        },
+        "libraryInterval": null
+      },
+      {
+        "fragmentId": "fragment_2",
+        "quote": "В письме написано: я не оплатил парковку.",
+        "attributes": {
+          "subject": "vehicle_1",
+          "aboutEpisode": "episode_1",
+          "speaker": "letter_1"
+        },
+        "libraryInterval": null
+      }
+    ],
+    "error": null
+  }
+]

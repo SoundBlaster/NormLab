@@ -184,6 +184,16 @@ Task IDs сохранены при изменении приоритетов: н
 - [x] Разделить synthetic inputs, provenance и reviewer-only labels.
 - [ ] Сверить официальные акты, source facts и candidate semantic expectations.
 - [x] Подключить dataset-aware runner/scorer; сохранить полный scored baseline по 40 synthetic cases и family-level breakdown.
-- [ ] Разобрать empty/unanchored discovery outputs и зафиксировать следующую версию extraction pipeline до нового прогона.
+- [x] Разобрать empty/unanchored discovery outputs и зафиксировать следующую версию extraction pipeline до нового прогона.
 - [x] Уточнить [rubric](docs/EVALUATION_PLAN.md): faithful extraction вместо проверки исторической истинности; конкретные gaps и корректное недостаточно-данных считаются положительным результатом, blanket refusal — нет.
 - [ ] Реализовать gap detection и sufficiency scoring отдельно от extraction; оценивать relevance уточнений и необоснованные definitive conclusions.
+
+### Direct discovery v2 — 2026-10-05
+
+[Отдельный candidate и сравнение](docs/DISCOVERY_V2_2026-10-05.md): русский direct prompt без demo, exact anchoring, сохранение `speaker` в review contract. Три development probes прошли quote/attribution checks. В 40-case прогоне все кейсы достигли classification; structural pass 39/40, selected assertion-probe pass 11/40. Discovery покрывает 44/46 контрольных spans, но 22 покрытых spans не получили classification. AI readiness gate открыт; HTTP worker пока использует v1.
+
+- [x] Реализовать отдельно versioned discovery candidate, сохранить raw requests/responses и повторить 40-case evaluation.
+- [x] Сохранить источник утверждения в v2 statements и дать ручную правку в review UI.
+- [ ] Сделать classification candidate с обязательным результатом для каждого fragmentId, explicit unknown и непустым valueText; отдельно считать omissions и polarity.
+- [ ] Закрыть пропуски discovery в SYN019/SYN033 и привязку к другому автомобилю в SYN030.
+- [ ] Провести независимый semantic review и browser walkthrough перед promotion v2 в HTTP/UI.
