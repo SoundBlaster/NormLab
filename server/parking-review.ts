@@ -155,6 +155,7 @@ export class ParkingReview {
             'predicate',
             'stance',
             'subject',
+            'speaker',
             'aboutEpisode',
             'valueText',
             'quote',

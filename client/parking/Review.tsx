@@ -445,6 +445,16 @@ export function ParkingReview({ token }: { token: string }) {
                     />
                   </label>
                   <label>
+                    Источник утверждения
+                    <input
+                      value={statement.speaker ?? ''}
+                      placeholder="Не указан"
+                      onChange={(e) =>
+                        change(statement.id, { speaker: e.target.value || undefined })
+                      }
+                    />
+                  </label>
+                  <label>
                     Эпизод
                     <input
                       value={statement.aboutEpisode}

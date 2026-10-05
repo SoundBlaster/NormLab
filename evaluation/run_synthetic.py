@@ -32,7 +32,7 @@ def write_run_manifest(output: Path, records: list[dict]) -> None:
                 "dataset": "synthetic-v1",
                 "model": "openai/gpt-oss-20b",
                 "provider": "lm-studio-openai-compatible",
-                "pipeline": "literal-discovery-then-classification/v1",
+                "pipeline": records[0]["pipeline"] if records else None,
                 "attemptedCaseIds": [record["caseId"] for record in records],
                 "records": records,
             },
@@ -75,11 +75,22 @@ def main() -> int:
     parser.add_argument(
         "--timeout", type=int, default=420, help="per-case timeout in seconds"
     )
+    parser.add_argument("--pipeline", choices=["v1", "v2"], default="v1")
     args = parser.parse_args()
 
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
-    for destination, source in SNAPSHOTS.items():
+    snapshots = dict(SNAPSHOTS)
+    extractor = (
+        ROOT
+        / "evaluation"
+        / ("two_stage_v2.py" if args.pipeline == "v2" else "two_stage.py")
+    )
+    snapshots["extractor-source.py"] = extractor
+    if args.pipeline == "v2":
+        snapshots["two-stage-base-source.py"] = ROOT / "evaluation/two_stage.py"
+        snapshots["discovery-source.py"] = ROOT / "evaluation/discovery_v2.py"
+    for destination, source in snapshots.items():
         shutil.copyfile(source, output / destination)
 
     corpus = json.loads((DATASET / "manifest.json").read_text())
@@ -95,7 +106,6 @@ def main() -> int:
         raise ValueError("Unknown or duplicate case ID")
 
     records = []
-    extractor = ROOT / "evaluation/two_stage.py"
     try:
         for case_id in selected:
             case = corpus_cases[case_id]
@@ -147,6 +157,7 @@ def main() -> int:
                 "error": error,
                 "elapsedSeconds": round(time.perf_counter() - started, 3),
                 "sourceDigest": narrative_digest,
+                "pipeline": f"literal-discovery-then-classification/{args.pipeline}",
             }
             records.append(record)
             write_run_manifest(output, records)

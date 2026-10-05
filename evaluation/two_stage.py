@@ -73,7 +73,7 @@ def object_schema(properties):
     }
 
 
-def main():
+def main(use_v2=False):
     input_path, output_path = map(Path, sys.argv[1:3])
     request = json.loads(input_path.read_text())
     source = request["narrative"]
@@ -86,6 +86,7 @@ def main():
     started = time.perf_counter()
     calls, fragments, raw, quarantine = [], [], [], []
     error = None
+    discovery_prompt = DISCOVERY_PROMPT
 
     class CapturingModel(OpenAILanguageModel):
         def _process_single_prompt(self, prompt, config):
@@ -143,6 +144,21 @@ def main():
             }
         }
     )
+    if use_v2:
+        discovery_item = discovery_schema["properties"]["extractions"]["items"]
+        discovery_schema["properties"]["extractions"]["maxItems"] = 256
+        discovery_item["properties"]["statement"] = {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096,
+        }
+        attribute_schema = discovery_item["properties"]["statement_attributes"][
+            "properties"
+        ]
+        for key in attribute_schema:
+            attribute_schema[key] = {"type": "string", "minLength": 1, "maxLength": 128}
+        attribute_schema["subject"]["pattern"] = "^(vehicle|person)_[1-9][0-9]*$"
+        attribute_schema["aboutEpisode"]["pattern"] = "^episode_[1-9][0-9]*$"
     classification_prompt = """Classify ONLY the supplied literal assertions using the definitions.
 One fragment may yield several predicates. Copy its fragmentId. No new quotes,
 participants, episodes or facts. Retain both sides of contradictions separately.
@@ -150,20 +166,26 @@ stance refers to whether the PREDICATE is affirmed or denied, not whether the cl
 contains any negative word. Omit unsupported predicates. Never infer absence from
 silence. Definitions:\n""" + json.dumps(DEFINITIONS, ensure_ascii=False)
     try:
-        model.apply_schema(OpenAISchema(schema_dict=discovery_schema, strict=True))
-        discovered = lx.extract(
-            text_or_documents=source,
-            prompt_description=DISCOVERY_PROMPT,
-            examples=EXAMPLES,
-            model=model,
-            extraction_passes=1,
-            max_workers=1,
-            max_char_buffer=32768,
-            resolver_params={
-                "enable_fuzzy_alignment": False,
-                "accept_match_lesser": False,
-            },
-        )
+        if use_v2:
+            from discovery_v2 import PROMPT, discover
+
+            discovery_prompt = PROMPT
+            discovered = discover(model._client, source, discovery_schema, calls)
+        else:
+            model.apply_schema(OpenAISchema(schema_dict=discovery_schema, strict=True))
+            discovered = lx.extract(
+                text_or_documents=source,
+                prompt_description=DISCOVERY_PROMPT,
+                examples=EXAMPLES,
+                model=model,
+                extraction_passes=1,
+                max_workers=1,
+                max_char_buffer=32768,
+                resolver_params={
+                    "enable_fuzzy_alignment": False,
+                    "accept_match_lesser": False,
+                },
+            )
         for index, extraction in enumerate(discovered.extractions or []):
             quote = extraction.extraction_text
             attrs = extraction.attributes or {}
@@ -216,6 +238,8 @@ silence. Definitions:\n""" + json.dumps(DEFINITIONS, ensure_ascii=False)
             calls.append(
                 {"stage": "classification", "messages": messages, "output": content}
             )
+            if use_v2:
+                calls[-1]["response"] = completion.model_dump(mode="json")
             if completion.choices[0].finish_reason != "stop":
                 raise ValueError("Incomplete classification response")
             classified = json.loads(content)["classifications"]
@@ -242,10 +266,12 @@ silence. Definitions:\n""" + json.dumps(DEFINITIONS, ensure_ascii=False)
                 )
     except Exception as exc:
         error = f"{type(exc).__name__}: {exc}"
-    statements, rejected, decisions = anchor(raw, source)
+    statements, rejected, decisions = anchor(raw, source, include_speaker=use_v2)
     payload = {
         "schema": "normlab.langextract-statements/v1",
-        "pipeline": "literal-discovery-then-classification/v1",
+        "pipeline": "literal-discovery-then-classification/v2"
+        if use_v2
+        else "literal-discovery-then-classification/v1",
         "sourceDigest": digest,
         "langextractVersion": importlib.metadata.version("langextract"),
         "model": "openai/gpt-oss-20b",
@@ -259,11 +285,11 @@ silence. Definitions:\n""" + json.dumps(DEFINITIONS, ensure_ascii=False)
         "quarantine": quarantine + rejected,
         "alignmentDecisions": decisions,
         "calls": calls,
-        "discoveryPrompt": DISCOVERY_PROMPT,
+        "discoveryPrompt": discovery_prompt,
         "classificationPrompt": classification_prompt,
         "discoverySchema": discovery_schema,
         "classificationSchema": classification_schema,
-        "exampleText": EXAMPLE_TEXT,
+        "exampleText": None if use_v2 else EXAMPLE_TEXT,
         "reviewState": "unreviewed",
     }
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n")

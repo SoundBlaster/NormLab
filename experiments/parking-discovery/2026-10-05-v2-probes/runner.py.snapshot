@@ -1,0 +1,32 @@
+import hashlib
+import json
+import pathlib
+import shutil
+import subprocess
+import sys
+
+output = pathlib.Path('experiments/parking-discovery/2026-10-05-v2-probes')
+output.mkdir(parents=True, exist_ok=False)
+shutil.copyfile(__file__, output / 'runner.py.snapshot')
+for name in ['two_stage.py', 'two_stage_v2.py', 'discovery_v2.py', 'anchor.py']:
+    shutil.copyfile(pathlib.Path('evaluation') / name, output / (name + '.snapshot'))
+cases = {
+    'payment': ('Я оплатил парковку.', [('Я оплатил парковку', 'narrator')]),
+    'negation': ('Я не оплатил парковку.', [('Я не оплатил парковку', 'narrator')]),
+    'conflict': ('Я оплатил парковку. В письме написано: я не оплатил парковку.', [('Я оплатил парковку', 'narrator'), ('я не оплатил парковку', 'letter_1')]),
+}
+results = []
+for case, (source, expected) in cases.items():
+    request = {'narrative': source, 'sourceDigest': hashlib.sha256(source.encode()).hexdigest()}
+    input_path = output / (case + '.input.json')
+    input_path.write_text(json.dumps(request, ensure_ascii=False, indent=2) + '\n')
+    response_path = output / (case + '.output.json')
+    result = subprocess.run([sys.executable, 'evaluation/two_stage_v2.py', str(input_path), str(response_path)], capture_output=True, text=True, timeout=420)
+    (output / (case + '.stderr.txt')).write_text(result.stderr)
+    d = json.loads(response_path.read_text())
+    fragments = d['fragments']
+    checks = [any(quote in f['quote'] and f['attributes']['speaker'] == speaker for f in fragments) for quote, speaker in expected]
+    item = {'case': case, 'discoveryAttributionPass': all(checks) and bool(fragments), 'returnCode': result.returncode, 'expected': expected, 'fragments': fragments, 'error': d['error']}
+    results.append(item)
+    print(json.dumps(item, ensure_ascii=False), flush=True)
+(output / 'summary.json').write_text(json.dumps(results, ensure_ascii=False, indent=2) + '\n')
