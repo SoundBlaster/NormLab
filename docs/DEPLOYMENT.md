@@ -22,6 +22,10 @@ NORMLAB_OPERATOR_AUTH_PASSWORD=<injected runtime secret>
 NORMLAB_PUBLIC_ORIGIN=https://specgraph.space
 ```
 
+For file-backed secrets, set `NORMLAB_OPERATOR_AUTH_PASSWORD_FILE` to a
+readable server-side path instead of setting the password environment variable.
+When both are present, the file takes precedence.
+
 Set the password in the host's runtime secret store, not in Git or the browser
 bundle. When authentication is enabled, the server refuses to start without an
 HTTPS public origin and both credentials. It protects static pages and every

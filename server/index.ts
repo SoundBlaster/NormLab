@@ -1,9 +1,14 @@
 import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
 import { createApp } from './app.js';
 
 const port = Number(process.env.PORT ?? 4317);
 const host = process.env.HOST ?? '127.0.0.1';
 const operatorAuthEnabled = process.env.NORMLAB_OPERATOR_AUTH_ENABLED === 'true';
+const operatorPasswordFile = process.env.NORMLAB_OPERATOR_AUTH_PASSWORD_FILE;
+const operatorPassword = operatorPasswordFile
+  ? readFileSync(operatorPasswordFile, 'utf8').replace(/\r?\n$/, '')
+  : process.env.NORMLAB_OPERATOR_AUTH_PASSWORD;
 if (!Number.isInteger(port) || port < 1 || port > 65535)
   throw new Error('PORT must be between 1 and 65535');
 const app = await createApp({
@@ -13,7 +18,7 @@ const app = await createApp({
   operatorAuth: operatorAuthEnabled
     ? {
         username: process.env.NORMLAB_OPERATOR_AUTH_USERNAME ?? '',
-        password: process.env.NORMLAB_OPERATOR_AUTH_PASSWORD ?? '',
+        password: operatorPassword ?? '',
       }
     : undefined,
 });
