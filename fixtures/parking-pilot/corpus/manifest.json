@@ -1,0 +1,213 @@
+{
+  "schema": "normlab.corpus-candidates/v1",
+  "status": "editorial-paraphrases-not-original-user-text",
+  "holdout": false,
+  "candidateCount": 10,
+  "caseSources": 5,
+  "cases": [
+    {
+      "id": "C01",
+      "sourceId": "S01",
+      "sourceLocator": "Основной текст, сообщение пресс-службы о Range Rover",
+      "sourceFile": "C01.source.txt",
+      "sourceDigest": "97a639882662600532993fd47c884e94d9a3615e46fda4ee6ff7520aa82f0189",
+      "textOrigin": "court-news-paraphrase",
+      "jurisdictionEvidence": "moscow-explicit",
+      "sourceGroup": "S01",
+      "incidentGroup": "C01",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "wrong-vehicle",
+        "payment-attribution"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C02",
+      "sourceId": "S02",
+      "sourceLocator": "Основной текст, событие 1 февраля 2022 года",
+      "sourceFile": "C02.source.txt",
+      "sourceDigest": "262604b7b93e69beb7db9190f75047f39e40d94d650ed279f5880e726a4d9fa3",
+      "textOrigin": "news-paraphrase",
+      "jurisdictionEvidence": "moscow-explicit",
+      "sourceGroup": "S02",
+      "incidentGroup": "C02",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "sms-typo",
+        "event-date"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C03",
+      "sourceId": "S03",
+      "sourceLocator": "Вопрос читателя перед ответом эксперта",
+      "sourceFile": "C03.source.txt",
+      "sourceDigest": "d30303fd2e9ad3a93129da2aae65d59c93bfdfdb6e98ed7aa5b9b28b5a215ad3",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "unknown",
+      "sourceGroup": "S03",
+      "incidentGroup": "C03",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "number-typo",
+        "jurisdiction-gap"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C04",
+      "sourceId": "S03",
+      "sourceLocator": "Комментарий: две стоянки, автомобиль девушки",
+      "sourceFile": "C04.source.txt",
+      "sourceDigest": "cf3a7c432321c8293a70abf216d84800458568799c9ec45d225af44b945f0b2a",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "moscow-explicit",
+      "sourceGroup": "S03",
+      "incidentGroup": "C04",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "multiple-episodes",
+        "multiple-vehicles",
+        "alleged-app-behavior"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C05",
+      "sourceId": "S03",
+      "sourceLocator": "Комментарий: неверный код региона 32/33",
+      "sourceFile": "C05.source.txt",
+      "sourceDigest": "fef3de7c42ebb1c3ea43f1ba7ce53ac17a67b916d36d1124783667072c8ab91f",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "unknown",
+      "sourceGroup": "S03",
+      "incidentGroup": "C05",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "region-typo",
+        "opposing-payment-claims"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C06",
+      "sourceId": "S03",
+      "sourceLocator": "Комментарий: 35 секунд, Симоновский суд и Мосгорсуд",
+      "sourceFile": "C06.source.txt",
+      "sourceDigest": "90dd4e127219e80347e8673697f1434fa8dea8eb55377cfe47c128abcd8accc5",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "moscow-courts-only",
+      "sourceGroup": "S03",
+      "incidentGroup": "C06",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "relative-time",
+        "alleged-outage",
+        "procedural-noise"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C07",
+      "sourceId": "S03",
+      "sourceLocator": "Комментарий: платёж 12:49:49, предел 12:49:50",
+      "sourceFile": "C07.source.txt",
+      "sourceDigest": "ae9d5bc2505c647547132acfd729d6de1efd4b6509c8ba18f61f7808ccb6a942",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "moscow-explicit",
+      "sourceGroup": "S03",
+      "incidentGroup": "C07",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "time-order",
+        "opposing-payment-claims"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C08",
+      "sourceId": "S04",
+      "sourceLocator": "Вопрос читателя, декабрь 2021 и октябрь 2022",
+      "sourceFile": "C08.source.txt",
+      "sourceDigest": "029832b8bc1f94322d52f5b9023d41b0f65ba01a623355518768805c7ac50f0e",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "unknown",
+      "sourceGroup": "S04",
+      "incidentGroup": "C08",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "late-payment",
+        "multiple-dates",
+        "procedural-noise"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C09",
+      "sourceId": "S05",
+      "sourceLocator": "Вопрос читателя; Казань указана в разборе редакции",
+      "sourceFile": "C09.source.txt",
+      "sourceDigest": "e835046cd0c10eb57e558ca2f537b13c8e9e542d5c39aeb7bf832279bf5190ff",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "kazan-editorial-identification",
+      "sourceGroup": "S05",
+      "incidentGroup": "C09",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "payment-gap",
+        "outside-moscow"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C10",
+      "sourceId": "S05",
+      "sourceLocator": "Комментарий: Садовническая улица, 12:47 и 13:17",
+      "sourceFile": "C10.source.txt",
+      "sourceDigest": "0e05599b3cc94682a52e7355115e3d1d6a22eb5c1542ecd69af1631471244e86",
+      "textOrigin": "reader-report-paraphrase",
+      "jurisdictionEvidence": "unknown",
+      "sourceGroup": "S05",
+      "incidentGroup": "C10",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "payment-interval",
+        "opposing-payment-claims",
+        "date-gap"
+      ],
+      "legalOutcome": null
+    }
+  ]
+}
