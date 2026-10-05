@@ -1,0 +1,130 @@
+{
+  "schema": "normlab.langextract-statements/v1",
+  "pipeline": "literal-discovery-then-classification/v1",
+  "sourceDigest": "a467a1fe70b0ad449c1173ff13ed03a4f7d67751bed17dc26cf4a57082cee707",
+  "langextractVersion": "1.7.0",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "passes": 2,
+  "latencyMs": 2091,
+  "error": "ValueError: No exactly anchored assertions; review source manually",
+  "fragments": [],
+  "rawExtractions": [],
+  "statements": [],
+  "quarantine": [],
+  "alignmentDecisions": [],
+  "calls": [
+    {
+      "stage": "discovery",
+      "prompt": "Find explicit factual assertions in the ORIGINAL narrative.\nUse only class statement with attributes subject, aboutEpisode, speaker (neutral keys).\nCopy complete literal clauses, including negation, dates and context. Never rewrite,\nnormalize spelling/case, classify legal predicates, resolve contradictions or invent\nunmentioned facts. Preserve every opposing assertion, including quoted statements.\nUse episode_1 for one episode; distinguish vehicles and speakers where explicit.\nOverlapping exact clauses are allowed; cover all explicit facts, not just payment.\n\n\nExamples\nQ: В Туле машина стояла с 09:00. Я оплатил парковку. В письме: я не оплатил парковку.\nA: {\n  \"extractions\": [\n    {\n      \"statement\": \"В Туле машина стояла с 09:00\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Я оплатил парковку\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"я не оплатил парковку\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"letter_1\"\n      }\n    }\n  ]\n}\n\nQ: В Москве я стоял на городской парковке. У меня есть действующее резидентное разрешение.\nA: ",
+      "output": "{\"extractions\":[] }"
+    }
+  ],
+  "discoveryPrompt": "Find explicit factual assertions in the ORIGINAL narrative.\nUse only class statement with attributes subject, aboutEpisode, speaker (neutral keys).\nCopy complete literal clauses, including negation, dates and context. Never rewrite,\nnormalize spelling/case, classify legal predicates, resolve contradictions or invent\nunmentioned facts. Preserve every opposing assertion, including quoted statements.\nUse episode_1 for one episode; distinguish vehicles and speakers where explicit.\nOverlapping exact clauses are allowed; cover all explicit facts, not just payment.\n",
+  "classificationPrompt": "Classify ONLY the supplied literal assertions using the definitions.\nOne fragment may yield several predicates. Copy its fragmentId. No new quotes,\nparticipants, episodes or facts. Retain both sides of contradictions separately.\nstance refers to whether the PREDICATE is affirmed or denied, not whether the clause\ncontains any negative word. Omit unsupported predicates. Never infer absence from\nsilence. Definitions:\n{\"eventTime\": \"Время или дата события.\", \"inMoscow\": \"Место события находится в Москве.\", \"cityParking\": \"Место является городской парковкой; одного названия зоны недостаточно.\", \"placement\": \"Автомобиль находился на парковке.\", \"paidRegime\": \"В момент события действовал платный режим. Отсутствие льгот или разрешений НЕ означает отсутствие платного режима.\", \"subjectScope\": \"Статус лица: физическое лицо, личное использование автомобиля.\", \"attribution\": \"Связь лица с автомобилем или действием.\", \"payment\": \"Оплата конкретной парковки. Платный режим НЕ является фактом оплаты.\", \"paymentStart\": \"Время начала оплаты или платежа.\", \"departure\": \"Время отъезда автомобиля.\", \"paymentComplexity\": \"Ошибки оплаты, неверная машина/зона или последующие исправления. Если ошибок и исправлений НЕ было, stance=denied.\", \"permit\": \"Наличие разрешения или абонемента.\", \"disabilityConditions\": \"Явно названные обстоятельства инвалидности; отсутствие льгот не доказывает отсутствие инвалидности.\", \"specialTariff\": \"Явно названный специальный тариф; отсутствие льгот не доказывает отсутствие специального тарифа.\", \"faultAndExclusions\": \"Явно названная вина или исключающие ответственность обстоятельства. Не выводить из отсутствия ошибок оплаты.\"}",
+  "discoverySchema": {
+    "type": "object",
+    "properties": {
+      "extractions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "statement": {
+              "type": "string"
+            },
+            "statement_attributes": {
+              "type": "object",
+              "properties": {
+                "subject": {
+                  "type": "string"
+                },
+                "aboutEpisode": {
+                  "type": "string"
+                },
+                "speaker": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "subject",
+                "aboutEpisode",
+                "speaker"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "statement",
+            "statement_attributes"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "extractions"
+    ],
+    "additionalProperties": false
+  },
+  "classificationSchema": {
+    "type": "object",
+    "properties": {
+      "classifications": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "fragmentId": {
+              "type": "string"
+            },
+            "predicate": {
+              "type": "string",
+              "enum": [
+                "eventTime",
+                "inMoscow",
+                "cityParking",
+                "placement",
+                "paidRegime",
+                "subjectScope",
+                "attribution",
+                "payment",
+                "paymentStart",
+                "departure",
+                "paymentComplexity",
+                "permit",
+                "disabilityConditions",
+                "specialTariff",
+                "faultAndExclusions"
+              ]
+            },
+            "stance": {
+              "type": "string",
+              "enum": [
+                "asserted",
+                "denied",
+                "unknown"
+              ]
+            },
+            "valueText": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "fragmentId",
+            "predicate",
+            "stance",
+            "valueText"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "classifications"
+    ],
+    "additionalProperties": false
+  },
+  "exampleText": "В Туле машина стояла с 09:00. Я оплатил парковку. В письме: я не оплатил парковку.",
+  "reviewState": "unreviewed"
+}
