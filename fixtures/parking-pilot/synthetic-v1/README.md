@@ -20,6 +20,8 @@
 - [manifest.json](manifest.json): версия, IDs, paths, hashes, family/split group, inspiration source IDs. Не передавать модели.
 - [reviewer-expectations.json](reviewer-expectations.json): отдельные candidate probes, literal quotes с UTF16 offsets, forbidden inferences и manual review focus. Не передавать модели.
 
+В `required.predicate` и `forbidden` predicate IDs указаны без namespace; dataset-aware scorer должен добавлять `nlinput:` при сравнении с полным ID извлечения.
+
 Source IDs относятся к [registry](../corpus/sources.json). Из публикаций взяты идеи сложности; даты, интервалы, Москва и отрицания могут быть придуманы. Ссылки не удостоверяют synthetic обстоятельства. Legal outcomes не заданы, действие льгот и юридический эффект исправлений не утверждаются.
 
 ## Использование

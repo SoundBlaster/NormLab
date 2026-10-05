@@ -7,7 +7,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "Парковку оплатил через приложение.",
           "startOffset": 53,
@@ -41,7 +41,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "Парковку не оплачивал.",
           "startOffset": 53,
@@ -75,7 +75,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "unknown",
           "quote": "Не знаю, прошла ли оплата.",
           "startOffset": 53,
@@ -117,14 +117,14 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "второй час не оплачивал.",
           "startOffset": 75,
           "endOffset": 99
         },
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "Я оплатил первый час",
           "startOffset": 53,
@@ -158,7 +158,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "парковку оплатил.",
           "startOffset": 72,
@@ -192,7 +192,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "Платёж прошёл за автомобиль Б",
           "startOffset": 59,
@@ -226,7 +226,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "Оплатил именно автомобиль А",
           "startOffset": 59,
@@ -260,7 +260,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentComplexity",
+          "predicate": "paymentComplexity",
           "stance": "asserted",
           "quote": "ошибся одной цифрой в номере.",
           "startOffset": 64,
@@ -294,7 +294,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentComplexity",
+          "predicate": "paymentComplexity",
           "stance": "asserted",
           "quote": "Зону указал неверно",
           "startOffset": 50,
@@ -328,7 +328,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentComplexity",
+          "predicate": "paymentComplexity",
           "stance": "unknown",
           "quote": "не помню, какой автомобиль и какую зону выбрал.",
           "startOffset": 66,
@@ -376,7 +376,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentStart",
+          "predicate": "paymentStart",
           "stance": "asserted",
           "quote": "Оплату провёл в 12:04:59.",
           "startOffset": 66,
@@ -410,7 +410,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentStart",
+          "predicate": "paymentStart",
           "stance": "asserted",
           "quote": "Оплату провёл в 12:05:00.",
           "startOffset": 66,
@@ -444,7 +444,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentStart",
+          "predicate": "paymentStart",
           "stance": "asserted",
           "quote": "Оплату провёл в 12:05:01.",
           "startOffset": 66,
@@ -478,14 +478,14 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentStart",
+          "predicate": "paymentStart",
           "stance": "asserted",
           "quote": "Платёж отправил в 12:02",
           "startOffset": 56,
           "endOffset": 79
         },
         {
-          "predicate": "nlinput:departure",
+          "predicate": "departure",
           "stance": "asserted",
           "quote": "уехал в 12:40.",
           "startOffset": 81,
@@ -519,7 +519,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "парковочную сессию не оплатил.",
           "startOffset": 68,
@@ -553,7 +553,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "через СМС я успешно оплатил эту стоянку.",
           "startOffset": 69,
@@ -587,7 +587,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "оплатить парковку не удалось.",
           "startOffset": 70,
@@ -621,7 +621,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "unknown",
           "quote": "в парковочном приложении оплата не отображается.",
           "startOffset": 69,
@@ -663,7 +663,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "unknown",
           "quote": "Сведений о моей оплате у меня нет.",
           "startOffset": 77,
@@ -705,7 +705,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paymentComplexity",
+          "predicate": "paymentComplexity",
           "stance": "denied",
           "quote": "Ошибок реквизитов и последующих исправлений не было.",
           "startOffset": 40,
@@ -739,7 +739,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:permit",
+          "predicate": "permit",
           "stance": "asserted",
           "quote": "У меня есть действующее резидентное разрешение.",
           "startOffset": 40,
@@ -765,7 +765,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:permit",
+          "predicate": "permit",
           "stance": "denied",
           "quote": "Действующего разрешения или абонемента у меня нет.",
           "startOffset": 40,
@@ -791,7 +791,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:permit",
+          "predicate": "permit",
           "stance": "unknown",
           "quote": "Не помню, действует ли ещё моё разрешение.",
           "startOffset": 40,
@@ -825,7 +825,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:permit",
+          "predicate": "permit",
           "stance": "unknown",
           "quote": "само разрешение ещё не получил.",
           "startOffset": 74,
@@ -859,7 +859,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:disabilityConditions",
+          "predicate": "disabilityConditions",
           "stance": "asserted",
           "quote": "Я перевожу человека с инвалидностью",
           "startOffset": 40,
@@ -899,14 +899,14 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "Я не оплатил парковку",
           "startOffset": 115,
           "endOffset": 136
         },
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "Я оплатил парковку",
           "startOffset": 68,
@@ -941,14 +941,14 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "Вечернюю парковку не оплатил.",
           "startOffset": 81,
           "endOffset": 110
         },
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "Утреннюю парковку оплатил.",
           "startOffset": 54,
@@ -983,14 +983,14 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "В уведомлении указано, что она не оплачена.",
           "startOffset": 78,
           "endOffset": 121
         },
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "Я утверждаю, что оплатил эту стоянку.",
           "startOffset": 40,
@@ -1025,7 +1025,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "unknown",
           "quote": "мне неизвестен результат платежа.",
           "startOffset": 79,
@@ -1059,14 +1059,14 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "asserted",
           "quote": "платёж был, но за другой автомобиль.",
           "startOffset": 91,
           "endOffset": 127
         },
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "не оплатил её.",
           "startOffset": 61,
@@ -1100,7 +1100,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:inMoscow",
+          "predicate": "inMoscow",
           "stance": "asserted",
           "quote": "в Москве",
           "startOffset": 30,
@@ -1134,7 +1134,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:inMoscow",
+          "predicate": "inMoscow",
           "stance": "denied",
           "quote": "в Казани",
           "startOffset": 30,
@@ -1168,7 +1168,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:inMoscow",
+          "predicate": "inMoscow",
           "stance": "unknown",
           "quote": "Город не указан.",
           "startOffset": 47,
@@ -1210,7 +1210,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:cityParking",
+          "predicate": "cityParking",
           "stance": "unknown",
           "quote": "Не знаю, городская это парковка или частная.",
           "startOffset": 49,
@@ -1252,7 +1252,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:inMoscow",
+          "predicate": "inMoscow",
           "stance": "denied",
           "quote": "не в Москве",
           "startOffset": 34,
@@ -1286,7 +1286,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paidRegime",
+          "predicate": "paidRegime",
           "stance": "asserted",
           "quote": "Весь период моей стоянки был платным.",
           "startOffset": 40,
@@ -1320,7 +1320,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paidRegime",
+          "predicate": "paidRegime",
           "stance": "denied",
           "quote": "весь период моей стоянки был бесплатным.",
           "startOffset": 74,
@@ -1354,7 +1354,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:paidRegime",
+          "predicate": "paidRegime",
           "stance": "unknown",
           "quote": "о действовавшем тарифе сведений нет.",
           "startOffset": 57,
@@ -1396,7 +1396,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:payment",
+          "predicate": "payment",
           "stance": "denied",
           "quote": "саму парковку не оплачивал.",
           "startOffset": 72,
@@ -1430,7 +1430,7 @@
       "status": "candidate-not-expert-approved",
       "required": [
         {
-          "predicate": "nlinput:eventTime",
+          "predicate": "eventTime",
           "stance": "unknown",
           "quote": "Точная дата стоянки неизвестна",
           "startOffset": 96,
