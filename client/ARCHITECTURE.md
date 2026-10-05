@@ -28,7 +28,7 @@ client/
 ## Checks
 
 - `npm run lint:architecture` runs Steiger against `client` with `--fail-on-warnings`.
-- `npm run lint` runs Oxlint and the architecture gate; CI uses the same command.
+- `npm run lint` runs Oxlint and the architecture gate. CI exposes the dedicated `FSD architecture` check (`lint:architecture`) and runs `lint:code`, including public API re-export guards, in its main verification job. Both run on PRs to any base branch.
 - `npm run check` checks aliases/types; `npm run build` checks the production bundle.
 - `steiger.config.ts` uses recommended rules without exceptions, plus import-locality and no-wildcard-exports.
 - Oxlint `no-restricted-imports` forbids alias/parent-path imports and named re-exports in public `index.ts` files. Steiger 0.7.0 checks import boundaries but does not apply them to named re-exports; this extra gate closes the public API bypass. Internal re-exports are not a substitute for public APIs.
