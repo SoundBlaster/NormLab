@@ -169,6 +169,8 @@ Task IDs сохранены при изменении приоритетов: н
 - [x] Дать пользователю выделение текста, правку и подтверждение каждого утверждения.
 - [ ] Провести browser walkthrough нового review flow.
 - [ ] Независимо разметить semantic ошибки и расширить holdout.
+- [x] Подготовить [source discovery pack](fixtures/parking-pilot/corpus/README.md): 15 leads и 10 unlabelled editorial candidates; [collection plan](docs/CORPUS_COLLECTION_PLAN.md) отделяет development, holdout и population sampling.
+- [ ] Сверить и разметить source candidates, добрать development corpus до 30–50 distinct cases; текущие новости не являются representative benchmark.
 - [ ] Улучшить discovery coverage и классификацию polarity без неподдержанных выводов.
 - [ ] Построить ontology graph из reviewed assertions и подключить legal calculation.
 - [ ] Включить Evidently при появлении пользовательского потока и согласованных drift metrics.
