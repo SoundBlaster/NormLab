@@ -225,7 +225,7 @@ export class ParkingReview {
         await promisify(execFile)(
           resolve('.tools/parking-evaluation/bin/python'),
           [
-            resolve('evaluation/two_stage.py'),
+            resolve('evaluation/two_stage_v3.py'),
             join(folder, 'input.json'),
             join(folder, 'output.json'),
           ],
@@ -233,12 +233,18 @@ export class ParkingReview {
         );
         const raw: unknown = JSON.parse(readFileSync(join(folder, 'output.json'), 'utf8'));
         const result = z
-          .object({ statements: z.array(reviewStatementSchema).max(256), sourceDigest: z.string() })
+          .object({
+            pipeline: z.literal('literal-discovery-then-classification/v3'),
+            statements: z.array(reviewStatementSchema).max(256),
+            sourceDigest: z.string(),
+          })
           .passthrough()
           .parse(raw);
         if (result.sourceDigest !== draft.sourceDigest)
           throw new ParkingReviewError('Source binding изменился.');
         for (const statement of result.statements) {
+          if (statement.origin !== 'model' || statement.decision !== 'pending')
+            throw new ParkingReviewError('Предложение модели требует проверки человеком.');
           if (reviewStatementIssues(statement, draft.narrative).length)
             throw new ParkingReviewError('Extractor вернул неверную цитату.');
         }
