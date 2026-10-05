@@ -179,8 +179,11 @@ Task IDs сохранены при изменении приоритетов: н
 
 Подготовлены [40 synthetic inputs в восьми families](fixtures/parking-pilot/synthetic-v1/README.md) с отдельными candidate probes и model-only inputs. [Source registry](fixtures/parking-pilot/corpus/README.md) расширен до 24 leads и 15 editorial candidates, включая [форумы и судебные зеркала](docs/COURT_AND_FORUM_SOURCES.md). Это development material, не independent holdout.
 
+[Первый scored-прогон](docs/SYNTHETIC_EVALUATION_2026-10-05.md): 40/40 model calls завершились без извлечённых утверждений, structural pass 0/40; 36 discovery responses пусты, 4 скопировали demo-example из prompt. Ни один кейс не достиг classification. Это diagnostic baseline для конкретного GPT OSS 20B + LangExtract pipeline, не оценка 80% quality и не population estimate.
+
 - [x] Разделить synthetic inputs, provenance и reviewer-only labels.
 - [ ] Сверить официальные акты, source facts и candidate semantic expectations.
-- [ ] Подключить dataset-aware runner/scorer, измерять family-level ошибки и новый natural-language holdout отдельно.
+- [x] Подключить dataset-aware runner/scorer; сохранить полный scored baseline по 40 synthetic cases и family-level breakdown.
+- [ ] Разобрать empty/unanchored discovery outputs и зафиксировать следующую версию extraction pipeline до нового прогона.
 - [x] Уточнить [rubric](docs/EVALUATION_PLAN.md): faithful extraction вместо проверки исторической истинности; конкретные gaps и корректное недостаточно-данных считаются положительным результатом, blanket refusal — нет.
 - [ ] Реализовать gap detection и sufficiency scoring отдельно от extraction; оценивать relevance уточнений и необоснованные definitive conclusions.

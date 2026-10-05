@@ -1,0 +1,1607 @@
+{
+  "schema": "normlab.synthetic-parking-evaluation/v1",
+  "createdAt": "2026-10-05T07:24:22.951Z",
+  "dataset": {
+    "schema": "normlab.synthetic-corpus/v1",
+    "version": 1,
+    "status": "development-not-holdout",
+    "caseCount": 40,
+    "realIncidentCount": 0,
+    "sourceManifestDigest": "dc638b02207b7b3f1fc87bbbaa4a626cbe0bae4d5282ad5b2aaabf20143cd8f8",
+    "expectationsStatus": "candidate-not-expert-approved",
+    "expectationsDigest": "49e9f4cf3fe159f5f263450a98a62cd96056192bc0473c057bc8cd554be3e2a8"
+  },
+  "scoringPolicy": {
+    "requiredProbe": "predicate and stance match, and the anchored source span covers the candidate quote span",
+    "forbiddenProbe": "exact predicate and stance pair appears in the extraction",
+    "caseAssertionProbePass": "valid non-empty extraction with no quarantine, no missing required probes, and no forbidden probe matches",
+    "denominator": "all 40 cases, including missing outputs and provider/extractor failures",
+    "gapScoring": "not evaluated because the extraction output contract contains no gaps field",
+    "limitations": [
+      "Candidate expectations are not expert-approved gold and cover selected probes, not the full semantic graph.",
+      "Cases are synthetic, clustered in eight contrast families, and include zero verified real incidents.",
+      "The assertion-probe rate is not the 80% critical-error-free target and is not a population accuracy estimate.",
+      "Legal sufficiency, event truth, disposition, and expected-gap detection are not scored."
+    ]
+  },
+  "runs": [
+    {
+      "name": "2026-10-05-synthetic-v1-gpt-oss-20b",
+      "model": "openai/gpt-oss-20b",
+      "provider": "lm-studio-openai-compatible",
+      "pipeline": "literal-discovery-then-classification/v1",
+      "runManifestDigest": "bb70d4d3b97ec5644e3cdfa2e92e01a0e626972c7801b88ae9bb9c16619e4eab",
+      "artifactManifestDigest": "f05613fe4fbec805a6554895699849fdb73b7646540b32bfc56e9eb90734efbb",
+      "metrics": {
+        "totalCases": 40,
+        "attemptedCases": 40,
+        "unattemptedCases": 0,
+        "structuralPasses": 0,
+        "structuralPassRate": 0,
+        "assertionProbePasses": 0,
+        "assertionProbePassRate": 0,
+        "requiredProbes": 46,
+        "requiredProbesMatched": 0,
+        "forbiddenInferenceMatches": 0,
+        "casesWithEmptyDiscoveryResponse": 36,
+        "casesWithUnanchoredDiscoveryOnly": 0,
+        "casesEchoingDemoExample": 4,
+        "casesReachingClassification": 0,
+        "extractionErrors": {
+          "ValueError: No exactly anchored assertions; review source manually": 40
+        },
+        "casesWithCandidateGaps": 11,
+        "gapScoredCases": 0,
+        "targetQualityStatus": "not-evaluated-candidate-labels-and-gap-detection-unscored",
+        "targetQualityRate": null
+      },
+      "familyMetrics": {
+        "payment-polarity": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        },
+        "vehicle-and-zone": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        },
+        "payment-time": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        },
+        "outage-and-corrections": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        },
+        "permits-and-gaps": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        },
+        "attribution-and-conflicts": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        },
+        "jurisdiction-and-scope": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        },
+        "regime-and-background": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 0,
+          "assertionProbePasses": 0
+        }
+      },
+      "cases": [
+        {
+          "id": "SYN001",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 4.771,
+          "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+          "outputDigest": "0481ac05afd40d730fdd88398c6d5bd8c7b0364ca487ba98ba691898704af504",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Парковку оплатил через приложение."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не путать оплату с платным режимом; режим и время не указаны."
+        },
+        {
+          "id": "SYN002",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 7.126,
+          "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5",
+          "outputDigest": "c849163bda792c0181b97fd52ebf9b2b26bd9dfa353aad7560fb6bf7d0f7ccbc",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "demo-example-copy",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 3,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "Парковку не оплачивал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить отрицание; не выводить вину или отсутствие льгот."
+        },
+        {
+          "id": "SYN003",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.761,
+          "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+          "outputDigest": "11707880b7945555533482d436fd20b1b3f926ff4a4f4d9ecd88daa3e6be80b7",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "Не знаю, прошла ли оплата."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не превращать незнание в оплату или неоплату."
+        },
+        {
+          "id": "SYN004",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.506,
+          "sourceDigest": "2ecca2adfcf939544ba06b076ea4e532b90bbb5c5ac8eb53e021647866f3fcdd",
+          "outputDigest": "76cc01c8801ea62aac3256e5b2c9c7aeaeb0884c94f0080fd4494ad20d86aaa2",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "второй час не оплачивал."
+            },
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Я оплатил первый час"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить оба утверждения с разными интервалами; это не обязательно противоречие."
+        },
+        {
+          "id": "SYN005",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.053,
+          "sourceDigest": "90663d5258b3e5dd5800b1a8b252fb172b05a1e52ee7eebc0d2ead5f87e838b0",
+          "outputDigest": "784f9f3c8a417b6a9b06f3dff4456cf1b49b56afe00b2e1a221d67bd149e48f5",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "парковку оплатил."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание отмены не является отрицанием оплаты."
+        },
+        {
+          "id": "SYN006",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.247,
+          "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d",
+          "outputDigest": "0f53c45b57759fc56bbbdaa11ec01c851c53d27f4dd9aff98cf75eab77d6a1bb",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Платёж прошёл за автомобиль Б"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Платёж относится к Б; размещение к А. Не считать размещённый автомобиль оплаченным."
+        },
+        {
+          "id": "SYN007",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.462,
+          "sourceDigest": "98a3520245ecd6527e6b352094dd4e6c45fef7349c00e142bcb63668b8bd99fd",
+          "outputDigest": "695d551d2fbdfaa7389aa51d7a3175063858b7cdc9d050e2b9f24eaee47f47e0",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Оплатил именно автомобиль А"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не создавать неоплату А из отрицания альтернативного автомобиля."
+        },
+        {
+          "id": "SYN008",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 4.303,
+          "sourceDigest": "d3307c2fe69ab65bc11dc67dfd7b5a042f6392ba1ea5064db4cccf17589ad31f",
+          "outputDigest": "bd87efbce43f1f8cad0e0ea33f0a7debe33883cac0d42cf6e6830e8182e737dd",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "asserted",
+              "quote": "ошибся одной цифрой в номере."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Факт платежа отдельно от его правильной привязки."
+        },
+        {
+          "id": "SYN009",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 5.346,
+          "sourceDigest": "f10cddd0db530847fa47abb2c09841187bd1b472e3039ff6c33d39ebc7469659",
+          "outputDigest": "a1ab0c8d819d417e292b2b4358feca93a757ed2576a419ef989b9db488385fb2",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "asserted",
+              "quote": "Зону указал неверно"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Попытка исправления не доказывает её успех или юридический эффект."
+        },
+        {
+          "id": "SYN010",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 6.484,
+          "sourceDigest": "1b3aeea8dd0fb0c5860153e2d644c4ade1f51a9e351e5679f7c9c8416cf8b635",
+          "outputDigest": "8d0e8cf2d31ac429c6e97343b2c551911eccf676df1760e5b87345f144bc85f1",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "demo-example-copy",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 3,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "unknown",
+              "quote": "не помню, какой автомобиль и какую зону выбрал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "payment.vehicle",
+              "payment.zone"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Платёж существует; его принадлежность этому размещению неизвестна."
+        },
+        {
+          "id": "SYN011",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.875,
+          "sourceDigest": "adeea0c7c3746f030929aac88ee1bf08560211b1369b5db45c84968f8498c069",
+          "outputDigest": "2daa63acea2d058afcdae1c1073b8e59448775b4b3db7a04dd3ea31de9b66c85",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentStart",
+              "stance": "asserted",
+              "quote": "Оплату провёл в 12:04:59."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Время платежа сохранить до секунд; не выносить решение по правилу пяти минут."
+        },
+        {
+          "id": "SYN012",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.655,
+          "sourceDigest": "17692929ae1ef9dbb8115f4f5e63b7d105184d1849b273aa55e29aad25c3f90e",
+          "outputDigest": "1ee19791c5a455599e7180f1f319b3bf8b4d61a7058216b6f3953811ffeb712a",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentStart",
+              "stance": "asserted",
+              "quote": "Оплату провёл в 12:05:00."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Граничное время — факт, не правовой вывод."
+        },
+        {
+          "id": "SYN013",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 4.398,
+          "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb",
+          "outputDigest": "1ffbf1ef2e6d3c586f4a679d8ce1b950a04aa9a927c20cdc34608bc86a9cfdff",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentStart",
+              "stance": "asserted",
+              "quote": "Оплату провёл в 12:05:01."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Различить этот вариант от двух соседних на одну секунду."
+        },
+        {
+          "id": "SYN014",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 5.311,
+          "sourceDigest": "d827cec769152b1e80bd98e2a9339617e015c94b80ba6c1cbcd000053fdc0879",
+          "outputDigest": "32823c20df6982adbb46294c2696c7eb25b5e15176d167a8a60efbebd2a8fcae",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentStart",
+              "stance": "asserted",
+              "quote": "Платёж отправил в 12:02"
+            },
+            {
+              "predicate": "departure",
+              "stance": "asserted",
+              "quote": "уехал в 12:40."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Разделить время платежа, покрытие и отъезд; три временных значения."
+        },
+        {
+          "id": "SYN015",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 4.744,
+          "sourceDigest": "4e6567a782094a72912acb5715e60cd59c4c711fe63c14ac3649fd61613cd16e",
+          "outputDigest": "02b51a7ba0c7b818c614ae6ab9b5e37362db646937a7401c9500eaf18a49d94b",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "парковочную сессию не оплатил."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Пополнение баланса не является оплатой парковочной сессии."
+        },
+        {
+          "id": "SYN016",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.308,
+          "sourceDigest": "0f9f3ab58f955ae3f0b7e69688e29a025a315b4008464f5785987b3f51aa6dc8",
+          "outputDigest": "17b06939a28291550591436f97183cc89d96130ff43c3fb4111f9e220af63482",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "через СМС я успешно оплатил эту стоянку."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сбой одного канала не означает отсутствие оплаты другим."
+        },
+        {
+          "id": "SYN017",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.303,
+          "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+          "outputDigest": "b30a515643460b11fc229bcda383137fac49c83aa8b2e30af77f891f1226b6e9",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "оплатить парковку не удалось."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не выводить отсутствие вины или отмену штрафа из заявления о сбое."
+        },
+        {
+          "id": "SYN018",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.849,
+          "sourceDigest": "b05fa7cd16f7b83d91d613c87245e3a67cb6f16722dfd6f92014626fa0dcaa96",
+          "outputDigest": "1a2ff2b12dbd327fc3887a6dc64553f6be004f378dac11d038576e65b864d89b",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "в парковочном приложении оплата не отображается."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.record"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отсутствие записи не равно установленной неоплате; банковское списание требует attribution."
+        },
+        {
+          "id": "SYN019",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.446,
+          "sourceDigest": "970fb032324b421c92ba083b6c3c8ecb58ba357711a3ccada202bb3d2ef39ba1",
+          "outputDigest": "e7b2cb2cd045f614a22edb9eafb08122d787838c2e70e9207dee7b63d7702b50",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "Сведений о моей оплате у меня нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Восстановление сервиса не создаёт факт платежа."
+        },
+        {
+          "id": "SYN020",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 7.416,
+          "sourceDigest": "26c96fd14b4e8e1c4752f7afcb533e1bef1397efeb983cc2becd7f30207b9031",
+          "outputDigest": "329132bcbf731eb23f664fb487d06dd6e2b827f818b4f27451e1c5e86ccb42c9",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "demo-example-copy",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 3,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "denied",
+              "quote": "Ошибок реквизитов и последующих исправлений не было."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Нельзя из этого вывести оплату, отсутствие вины или льгот."
+        },
+        {
+          "id": "SYN021",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 4.073,
+          "sourceDigest": "a467a1fe70b0ad449c1173ff13ed03a4f7d67751bed17dc26cf4a57082cee707",
+          "outputDigest": "ed98dcf14a23fd826601b5372166405fa99823289ab00fc3df31a6c55cf0b133",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "asserted",
+              "quote": "У меня есть действующее резидентное разрешение."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не выводить действие разрешения в этой зоне и в это время без уточнений."
+        },
+        {
+          "id": "SYN022",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.6,
+          "sourceDigest": "86f5d6b7643a97d34aa06fb7ad30a1e4be4171ebe5a257974779b85910050f23",
+          "outputDigest": "88bff3f4488fa230d805f3e3be386b9269d6e7aa33961917398a3536c9f188cc",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "denied",
+              "quote": "Действующего разрешения или абонемента у меня нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отсутствие разрешения не означает отсутствие платного режима или инвалидности."
+        },
+        {
+          "id": "SYN023",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 4.569,
+          "sourceDigest": "d75ebaa6d46997307c9ae41e20284fb28d5f716609a24234b9ce68b2e66b128c",
+          "outputDigest": "4987de31e6d9d00c13811dd739bb7aba2f4ea1d462d7bdbc7a09002564def788",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "demo-example-copy",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 3,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "unknown",
+              "quote": "Не помню, действует ли ещё моё разрешение."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "permit.validity"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить неизвестную актуальность разрешения."
+        },
+        {
+          "id": "SYN024",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.61,
+          "sourceDigest": "aac2df3755c11d07206ee04c002b3ab13b8cb3cc62e72367d648ccb14920c5ed",
+          "outputDigest": "fea1772fc4328e1978d101948beda0cab61da1b9e1467a5c6d9aef8787007c5e",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "unknown",
+              "quote": "само разрешение ещё не получил."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "permit.grant"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не приравнивать подачу заявки к действующему разрешению; юридический статус неизвестен."
+        },
+        {
+          "id": "SYN025",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 1.834,
+          "sourceDigest": "9fa5fe8c2dc6b68026398e4c177119ef7895c8ab5c4cb64b47ffa6a4a0cfd29c",
+          "outputDigest": "d18b328cad4f2ad15e15b1153e16a46e73d1c1671cc894d71ed7f582b267f498",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "disabilityConditions",
+              "stance": "asserted",
+              "quote": "Я перевожу человека с инвалидностью"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "disability.registry",
+              "disability.sign"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Неполные disability conditions не означают, что все условия льготы выполнены."
+        },
+        {
+          "id": "SYN026",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 1.855,
+          "sourceDigest": "70e9b071fdd28316381fb684d786c30c6d1f9b281357e01ce10d123dd9f9b042",
+          "outputDigest": "d4fb30c4910133ff2f90f875f195089f24071666c9d2668faac63cc6823820bc",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "Я не оплатил парковку"
+            },
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Я оплатил парковку"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить обе стороны одного эпизода; attribution к речи и заметке."
+        },
+        {
+          "id": "SYN027",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 1.987,
+          "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531",
+          "outputDigest": "f8bb5733cc453e79ac00f56e48eb0d202d2b6c7b1cda0a787c82741351c09d66",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "Вечернюю парковку не оплатил."
+            },
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Утреннюю парковку оплатил."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Два эпизода; не объявлять противоположные утверждения противоречием одного эпизода."
+        },
+        {
+          "id": "SYN028",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.493,
+          "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2",
+          "outputDigest": "63d4390c3b55a3471ec93004425b7239e24d8e621e159f0b2fca6d14cd87fdda",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "В уведомлении указано, что она не оплачена."
+            },
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Я утверждаю, что оплатил эту стоянку."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отделить содержание уведомления от утверждения рассказчика; не выбирать победителя."
+        },
+        {
+          "id": "SYN029",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 1.978,
+          "sourceDigest": "538072002a7e4eecb83faf2be39a33b581f2b4b55a76b731851ba4f237d4eee3",
+          "outputDigest": "d71501b39ff38b27cb66df9701a2252ddb4f6f58bc69824816174642ec59887d",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "мне неизвестен результат платежа."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание утверждения не равно утверждению неоплаты."
+        },
+        {
+          "id": "SYN030",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.148,
+          "sourceDigest": "652fb35e86d91a6a69bc01b05dee970c19a2569d3788aae32d74ef1717464a11",
+          "outputDigest": "9a6273e097d3402357693ad5d603b786f2083f08048429312524b45a4ab581df",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "платёж был, но за другой автомобиль."
+            },
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "не оплатил её."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить исходное сообщение и уточнение; разный объект оплаты не делает их автоматически несовместимыми."
+        },
+        {
+          "id": "SYN031",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 1.869,
+          "sourceDigest": "e19bd1d7845e6713d411bbae0e7af16f0e2880786671a7d64ec6d2789cb3f373",
+          "outputDigest": "37c367c5ac18e9b3268a44487717a5f26b6f5cb3894cd223255561857181cb15",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "asserted",
+              "quote": "в Москве"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Явная юрисдикция; остальные условия отдельно."
+        },
+        {
+          "id": "SYN032",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 1.751,
+          "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3",
+          "outputDigest": "375c487f33d9fcdffa05f5495d303b67ebec07c5176bde3e7f494e12927291d6",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "denied",
+              "quote": "в Казани"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Другая юрисдикция; не применять московские нормы."
+        },
+        {
+          "id": "SYN033",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.822,
+          "sourceDigest": "fb2dc288d7ac0599cf84ff58a9f295786ee3e299f538d930dc531bf94a870ab0",
+          "outputDigest": "c8de352fcb37611975c8faf0d7e93a0ad2d26e4d38c8ed9b2791af3074668d34",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "unknown",
+              "quote": "Город не указан."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "jurisdiction.city"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не подставлять Москву по контексту приложения."
+        },
+        {
+          "id": "SYN034",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.529,
+          "sourceDigest": "12f1987de1b2c23e9ea13f7f8c9f717229610bd0fca3fd47335baf9d6edfed15",
+          "outputDigest": "311c80c1ccbe01fa6382fbe54f4cb31b9836d72c63aab03fb6dcfd37368ba0f5",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "cityParking",
+              "stance": "unknown",
+              "quote": "Не знаю, городская это парковка или частная."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "parking.kind"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Москва не устанавливает статус городской парковки."
+        },
+        {
+          "id": "SYN035",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.832,
+          "sourceDigest": "1fe78c78bd24bdfd2cdb95dfb7ceda21ac79092eabea9267b6d32889b3dc2d0a",
+          "outputDigest": "c5679dc8040040692bb3c6de097cd5b96b7aba99bf39e5c5ba5408e0ad2bc943",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "denied",
+              "quote": "не в Москве"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить явное отрицание Москвы, не придумывать другой город."
+        },
+        {
+          "id": "SYN036",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.584,
+          "sourceDigest": "880ea9f682530bfd0c0b9e10d1dc4d003d04be86702710560ae2fd25ec3fe7e8",
+          "outputDigest": "feffe183e2f0e62c6b66ab66442a03c7c3e0d774161b3398500227072ddcb424",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paidRegime",
+              "stance": "asserted",
+              "quote": "Весь период моей стоянки был платным."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание разрешений не должно менять утверждение о платном режиме."
+        },
+        {
+          "id": "SYN037",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.831,
+          "sourceDigest": "964946ca7dc5f601ebc0ef7d2b9f78a517b1559243916f270c3f785a6738dba0",
+          "outputDigest": "5481b58ab73afda5b516edc2ecfd3a4efb5e1db4b926e86cca5eef446a49ffa4",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paidRegime",
+              "stance": "denied",
+              "quote": "весь период моей стоянки был бесплатным."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Это synthetic stipulation, не проверенная норма о тарифе."
+        },
+        {
+          "id": "SYN038",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.512,
+          "sourceDigest": "77422302b41fa4081616cbb07aacae732e497d9d896482cc162668edf0395c11",
+          "outputDigest": "2458bbbc179f7c6443185d367b802edfa2ba171924a6c6586d70420b42860071",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paidRegime",
+              "stance": "unknown",
+              "quote": "о действовавшем тарифе сведений нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "parking.paidRegime"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Оплата сама по себе не устанавливает обязательность оплаты."
+        },
+        {
+          "id": "SYN039",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 3.597,
+          "sourceDigest": "741ad2ba3529b95a323d564475b2f8fc1caaf6b98e489e965478326cc6fcb9e9",
+          "outputDigest": "a5060f931428005195704a5f61243520159df4304986899aa771afe9247eaeae",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "саму парковку не оплачивал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не перепутать уплату штрафа с оплатой парковки."
+        },
+        {
+          "id": "SYN040",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 2.687,
+          "sourceDigest": "d09a024650a946beeb94782b3b5b52244e93f2fc2a060345a5635b25a3e704ff",
+          "outputDigest": "b07f1666778a220427f57a1c74c811ed6e5630aa7353034a75d35038afd8b3a6",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: No exactly anchored assertions; review source manually",
+          "discoveryOutcome": "empty-response",
+          "discoveredFragmentCount": 0,
+          "classificationCalls": 0,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "eventTime",
+              "stance": "unknown",
+              "quote": "Точная дата стоянки неизвестна"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "eventTime.exactDate",
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Месяц стоянки сохраняется; июль относится к уведомлению, отсутствие сведений об оплате не превращать в отрицание."
+        }
+      ]
+    }
+  ]
+}

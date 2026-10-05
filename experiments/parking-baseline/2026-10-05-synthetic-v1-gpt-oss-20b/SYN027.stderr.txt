@@ -1,0 +1,7 @@
+/Users/egor/Development/GitHub/NormLab/.tools/parking-evaluation/lib/python3.10/site-packages/langextract/__init__.py:55: UserWarning: 'use_schema_constraints' is ignored when 'model' is provided. The model should already be configured with schema constraints.
+  return extract_func(*args, **kwargs)
+
+[94m[1mLangExtract[0m: model=[92mopenai/gpt-oss-20b[0m [00:00]
+[94m[1mLangExtract[0m: model=[92mopenai/gpt-oss-20b[0m, current=[92m110[0m chars, processed=[92m0[0m chars:  [00:00]
+[94m[1mLangExtract[0m: model=[92mopenai/gpt-oss-20b[0m, current=[92m110[0m chars, processed=[92m0[0m chars:  [00:01]
+[94m[1mLangExtract[0m: model=[92mopenai/gpt-oss-20b[0m, current=[92m110[0m chars, processed=[92m0[0m chars:  [00:01]

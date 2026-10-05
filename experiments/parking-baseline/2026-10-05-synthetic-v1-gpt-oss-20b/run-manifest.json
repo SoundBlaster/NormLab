@@ -1,0 +1,371 @@
+{
+  "schema": "normlab.synthetic-extraction-run/v1",
+  "dataset": "synthetic-v1",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "pipeline": "literal-discovery-then-classification/v1",
+  "attemptedCaseIds": [
+    "SYN001",
+    "SYN002",
+    "SYN003",
+    "SYN004",
+    "SYN005",
+    "SYN006",
+    "SYN007",
+    "SYN008",
+    "SYN009",
+    "SYN010",
+    "SYN011",
+    "SYN012",
+    "SYN013",
+    "SYN014",
+    "SYN015",
+    "SYN016",
+    "SYN017",
+    "SYN018",
+    "SYN019",
+    "SYN020",
+    "SYN021",
+    "SYN022",
+    "SYN023",
+    "SYN024",
+    "SYN025",
+    "SYN026",
+    "SYN027",
+    "SYN028",
+    "SYN029",
+    "SYN030",
+    "SYN031",
+    "SYN032",
+    "SYN033",
+    "SYN034",
+    "SYN035",
+    "SYN036",
+    "SYN037",
+    "SYN038",
+    "SYN039",
+    "SYN040"
+  ],
+  "records": [
+    {
+      "caseId": "SYN001",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 4.771,
+      "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a"
+    },
+    {
+      "caseId": "SYN002",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 7.126,
+      "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5"
+    },
+    {
+      "caseId": "SYN003",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.761,
+      "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4"
+    },
+    {
+      "caseId": "SYN004",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.506,
+      "sourceDigest": "2ecca2adfcf939544ba06b076ea4e532b90bbb5c5ac8eb53e021647866f3fcdd"
+    },
+    {
+      "caseId": "SYN005",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.053,
+      "sourceDigest": "90663d5258b3e5dd5800b1a8b252fb172b05a1e52ee7eebc0d2ead5f87e838b0"
+    },
+    {
+      "caseId": "SYN006",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.247,
+      "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d"
+    },
+    {
+      "caseId": "SYN007",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.462,
+      "sourceDigest": "98a3520245ecd6527e6b352094dd4e6c45fef7349c00e142bcb63668b8bd99fd"
+    },
+    {
+      "caseId": "SYN008",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 4.303,
+      "sourceDigest": "d3307c2fe69ab65bc11dc67dfd7b5a042f6392ba1ea5064db4cccf17589ad31f"
+    },
+    {
+      "caseId": "SYN009",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 5.346,
+      "sourceDigest": "f10cddd0db530847fa47abb2c09841187bd1b472e3039ff6c33d39ebc7469659"
+    },
+    {
+      "caseId": "SYN010",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 6.484,
+      "sourceDigest": "1b3aeea8dd0fb0c5860153e2d644c4ade1f51a9e351e5679f7c9c8416cf8b635"
+    },
+    {
+      "caseId": "SYN011",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.875,
+      "sourceDigest": "adeea0c7c3746f030929aac88ee1bf08560211b1369b5db45c84968f8498c069"
+    },
+    {
+      "caseId": "SYN012",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.655,
+      "sourceDigest": "17692929ae1ef9dbb8115f4f5e63b7d105184d1849b273aa55e29aad25c3f90e"
+    },
+    {
+      "caseId": "SYN013",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 4.398,
+      "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb"
+    },
+    {
+      "caseId": "SYN014",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 5.311,
+      "sourceDigest": "d827cec769152b1e80bd98e2a9339617e015c94b80ba6c1cbcd000053fdc0879"
+    },
+    {
+      "caseId": "SYN015",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 4.744,
+      "sourceDigest": "4e6567a782094a72912acb5715e60cd59c4c711fe63c14ac3649fd61613cd16e"
+    },
+    {
+      "caseId": "SYN016",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.308,
+      "sourceDigest": "0f9f3ab58f955ae3f0b7e69688e29a025a315b4008464f5785987b3f51aa6dc8"
+    },
+    {
+      "caseId": "SYN017",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.303,
+      "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b"
+    },
+    {
+      "caseId": "SYN018",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.849,
+      "sourceDigest": "b05fa7cd16f7b83d91d613c87245e3a67cb6f16722dfd6f92014626fa0dcaa96"
+    },
+    {
+      "caseId": "SYN019",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.446,
+      "sourceDigest": "970fb032324b421c92ba083b6c3c8ecb58ba357711a3ccada202bb3d2ef39ba1"
+    },
+    {
+      "caseId": "SYN020",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 7.416,
+      "sourceDigest": "26c96fd14b4e8e1c4752f7afcb533e1bef1397efeb983cc2becd7f30207b9031"
+    },
+    {
+      "caseId": "SYN021",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 4.073,
+      "sourceDigest": "a467a1fe70b0ad449c1173ff13ed03a4f7d67751bed17dc26cf4a57082cee707"
+    },
+    {
+      "caseId": "SYN022",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.6,
+      "sourceDigest": "86f5d6b7643a97d34aa06fb7ad30a1e4be4171ebe5a257974779b85910050f23"
+    },
+    {
+      "caseId": "SYN023",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 4.569,
+      "sourceDigest": "d75ebaa6d46997307c9ae41e20284fb28d5f716609a24234b9ce68b2e66b128c"
+    },
+    {
+      "caseId": "SYN024",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.61,
+      "sourceDigest": "aac2df3755c11d07206ee04c002b3ab13b8cb3cc62e72367d648ccb14920c5ed"
+    },
+    {
+      "caseId": "SYN025",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 1.834,
+      "sourceDigest": "9fa5fe8c2dc6b68026398e4c177119ef7895c8ab5c4cb64b47ffa6a4a0cfd29c"
+    },
+    {
+      "caseId": "SYN026",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 1.855,
+      "sourceDigest": "70e9b071fdd28316381fb684d786c30c6d1f9b281357e01ce10d123dd9f9b042"
+    },
+    {
+      "caseId": "SYN027",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 1.987,
+      "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531"
+    },
+    {
+      "caseId": "SYN028",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.493,
+      "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2"
+    },
+    {
+      "caseId": "SYN029",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 1.978,
+      "sourceDigest": "538072002a7e4eecb83faf2be39a33b581f2b4b55a76b731851ba4f237d4eee3"
+    },
+    {
+      "caseId": "SYN030",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.148,
+      "sourceDigest": "652fb35e86d91a6a69bc01b05dee970c19a2569d3788aae32d74ef1717464a11"
+    },
+    {
+      "caseId": "SYN031",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 1.869,
+      "sourceDigest": "e19bd1d7845e6713d411bbae0e7af16f0e2880786671a7d64ec6d2789cb3f373"
+    },
+    {
+      "caseId": "SYN032",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 1.751,
+      "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3"
+    },
+    {
+      "caseId": "SYN033",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.822,
+      "sourceDigest": "fb2dc288d7ac0599cf84ff58a9f295786ee3e299f538d930dc531bf94a870ab0"
+    },
+    {
+      "caseId": "SYN034",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.529,
+      "sourceDigest": "12f1987de1b2c23e9ea13f7f8c9f717229610bd0fca3fd47335baf9d6edfed15"
+    },
+    {
+      "caseId": "SYN035",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.832,
+      "sourceDigest": "1fe78c78bd24bdfd2cdb95dfb7ceda21ac79092eabea9267b6d32889b3dc2d0a"
+    },
+    {
+      "caseId": "SYN036",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.584,
+      "sourceDigest": "880ea9f682530bfd0c0b9e10d1dc4d003d04be86702710560ae2fd25ec3fe7e8"
+    },
+    {
+      "caseId": "SYN037",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.831,
+      "sourceDigest": "964946ca7dc5f601ebc0ef7d2b9f78a517b1559243916f270c3f785a6738dba0"
+    },
+    {
+      "caseId": "SYN038",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.512,
+      "sourceDigest": "77422302b41fa4081616cbb07aacae732e497d9d896482cc162668edf0395c11"
+    },
+    {
+      "caseId": "SYN039",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 3.597,
+      "sourceDigest": "741ad2ba3529b95a323d564475b2f8fc1caaf6b98e489e965478326cc6fcb9e9"
+    },
+    {
+      "caseId": "SYN040",
+      "status": "provider-or-extractor-error",
+      "returnCode": 1,
+      "error": "extractor exited 1",
+      "elapsedSeconds": 2.687,
+      "sourceDigest": "d09a024650a946beeb94782b3b5b52244e93f2fc2a060345a5635b25a3e704ff"
+    }
+  ]
+}

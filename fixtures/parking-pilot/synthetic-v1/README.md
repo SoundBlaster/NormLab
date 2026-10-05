@@ -24,15 +24,18 @@
 
 Source IDs относятся к [registry](../corpus/sources.json). Из публикаций взяты идеи сложности; даты, интервалы, Москва и отрицания могут быть придуманы. Ссылки не удостоверяют synthetic обстоятельства. Legal outcomes не заданы, действие льгот и юридический эффект исправлений не утверждаются.
 
-## Использование
+## Прогон и оценка
 
-После [setup](../../../docs/EVALUATION_SETUP.md), из корня проекта:
+После [setup](../../../docs/EVALUATION_SETUP.md), из корня проекта. LM Studio должен обслуживать `openai/gpt-oss-20b` на `127.0.0.1:1234`:
 
 ```sh
-.tools/parking-evaluation/bin/python evaluation/two_stage.py fixtures/parking-pilot/synthetic-v1/inputs/SYN019.input.json /tmp/normlab-SYN019-output.json
+.tools/parking-evaluation/bin/python evaluation/run_synthetic.py experiments/parking-baseline/2026-10-05-synthetic-v1-gpt-oss-20b
+npm run parking:evaluate:synthetic -- experiments/parking-evaluation/2026-10-05-synthetic-v1-final experiments/parking-baseline/2026-10-05-synthetic-v1-gpt-oss-20b
 ```
 
-Выбрать новый output path: прямой worker может перезаписать файл. Inference по этому набору при подготовке не выполнялось. Текущий `parking-evaluate.ts` оценивает только четыре P-cases; для synthetic-v1 нужен dataset-aware runner/scorer после согласования labels.
+Runner выполняет два model calls на case последовательно, не перезаписывает каталог и фиксирует source, pipeline, per-case status, stdout/stderr, outputs и SHA256 manifest. Можно ограничить ручной прогон списком IDs, например `.../run_synthetic.py /tmp/normlab-synthetic-smoke SYN001 SYN002`. Scorer использует только inputs/outputs из проверенного manifest, сверяет source digests и exact anchors, считает structural pass, required probes и forbidden inferences по всем 40 cases, включая пропуски и provider failures.
+
+`expectedGaps` показываются отдельно как **not evaluated**: текущий output contract не содержит поля для извлечённых пробелов. Поэтому assertion-probe rate — только диагностическая оценка выбранных candidate probes, а целевой показатель «80% кейсов без критических ошибок» остаётся `null` до экспертной разметки и реализации gap scoring. Первый прогон опубликован в [отчёте](../../../docs/SYNTHETIC_EVALUATION_2026-10-05.md): 0/40 structural pass; discovery stage вернул пустые либо не привязанные к источнику утверждения.
 
 ## Границы проверки
 
