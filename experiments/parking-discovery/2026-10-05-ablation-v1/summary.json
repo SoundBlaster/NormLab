@@ -1,0 +1,241 @@
+{
+  "schema": "normlab.discovery-diagnostic/v1",
+  "langextractVersion": "1.7.0",
+  "models": {
+    "data": [
+      {
+        "id": "openai/gpt-oss-20b",
+        "created": null,
+        "object": "model",
+        "owned_by": "organization_owner",
+        "shutdown_date": null
+      },
+      {
+        "id": "text-embedding-nomic-embed-text-v1.5",
+        "created": null,
+        "object": "model",
+        "owned_by": "organization_owner",
+        "shutdown_date": null
+      }
+    ],
+    "object": "list"
+  },
+  "workerDigest": "5a95b652e0d443beee51972618a37530eae2b6de909f19cdf1202c86ba8f660c",
+  "limitations": "Development probes; not a quality estimate. Direct versus LangExtract changes message packaging and schema instruction placement together.",
+  "results": [
+    {
+      "case": "payment",
+      "variant": "direct-text",
+      "source": "Я оплатил парковку.",
+      "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+      "expectedClauses": [
+        "Я оплатил парковку"
+      ],
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "finishReason": "stop",
+      "pass": false,
+      "latencyMs": 4670
+    },
+    {
+      "case": "payment",
+      "variant": "direct-schema",
+      "source": "Я оплатил парковку.",
+      "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+      "expectedClauses": [
+        "Я оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "Я оплатил парковку."
+      ],
+      "literalSourcePass": true,
+      "clauseCoveragePass": true,
+      "pass": true,
+      "latencyMs": 2272
+    },
+    {
+      "case": "payment",
+      "variant": "direct-example-schema",
+      "source": "Я оплатил парковку.",
+      "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+      "expectedClauses": [
+        "Я оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "Я оплатил парковку"
+      ],
+      "literalSourcePass": true,
+      "clauseCoveragePass": true,
+      "pass": true,
+      "latencyMs": 1900
+    },
+    {
+      "case": "payment",
+      "variant": "langextract",
+      "source": "Я оплатил парковку.",
+      "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+      "expectedClauses": [
+        "Я оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "В Туле машина стояла с 09:00",
+        "Я оплатил парковку",
+        "я не оплатил парковку"
+      ],
+      "literalSourcePass": false,
+      "clauseCoveragePass": true,
+      "pass": false,
+      "latencyMs": 3940
+    },
+    {
+      "case": "negation",
+      "variant": "direct-text",
+      "source": "Я не оплатил парковку.",
+      "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+      "expectedClauses": [
+        "Я не оплатил парковку"
+      ],
+      "error": "BadRequestError: Error code: 400 - {'error': 'Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}'}",
+      "pass": false,
+      "latencyMs": 2413
+    },
+    {
+      "case": "negation",
+      "variant": "direct-schema",
+      "source": "Я не оплатил парковку.",
+      "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+      "expectedClauses": [
+        "Я не оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "I did not pay for parking."
+      ],
+      "literalSourcePass": false,
+      "clauseCoveragePass": false,
+      "pass": false,
+      "latencyMs": 2175
+    },
+    {
+      "case": "negation",
+      "variant": "direct-example-schema",
+      "source": "Я не оплатил парковку.",
+      "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+      "expectedClauses": [
+        "Я не оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "я не оплатил парковку"
+      ],
+      "literalSourcePass": false,
+      "clauseCoveragePass": false,
+      "pass": false,
+      "latencyMs": 1730
+    },
+    {
+      "case": "negation",
+      "variant": "langextract",
+      "source": "Я не оплатил парковку.",
+      "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+      "expectedClauses": [
+        "Я не оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [],
+      "literalSourcePass": false,
+      "clauseCoveragePass": false,
+      "pass": false,
+      "latencyMs": 788
+    },
+    {
+      "case": "conflict",
+      "variant": "direct-text",
+      "source": "Я оплатил парковку. В письме написано: я не оплатил парковку.",
+      "sourceDigest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+      "expectedClauses": [
+        "Я оплатил парковку",
+        "В письме написано: я не оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "Я оплатил парковку.",
+        "В письме написано: я не оплатил парковку."
+      ],
+      "literalSourcePass": true,
+      "clauseCoveragePass": true,
+      "pass": true,
+      "latencyMs": 3523
+    },
+    {
+      "case": "conflict",
+      "variant": "direct-schema",
+      "source": "Я оплатил парковку. В письме написано: я не оплатил парковку.",
+      "sourceDigest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+      "expectedClauses": [
+        "Я оплатил парковку",
+        "В письме написано: я не оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "Я оплатил парковку.",
+        "В письме написано: я не оплатил парковку."
+      ],
+      "literalSourcePass": true,
+      "clauseCoveragePass": true,
+      "pass": true,
+      "latencyMs": 3371
+    },
+    {
+      "case": "conflict",
+      "variant": "direct-example-schema",
+      "source": "Я оплатил парковку. В письме написано: я не оплатил парковку.",
+      "sourceDigest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+      "expectedClauses": [
+        "Я оплатил парковку",
+        "В письме написано: я не оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "Я оплатил парковку",
+        "я не оплатил парковку"
+      ],
+      "literalSourcePass": true,
+      "clauseCoveragePass": false,
+      "pass": false,
+      "latencyMs": 2383
+    },
+    {
+      "case": "conflict",
+      "variant": "langextract",
+      "source": "Я оплатил парковку. В письме написано: я не оплатил парковку.",
+      "sourceDigest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+      "expectedClauses": [
+        "Я оплатил парковку",
+        "В письме написано: я не оплатил парковку"
+      ],
+      "error": null,
+      "finishReason": "stop",
+      "quotes": [
+        "В Туле машина стояла с 09:00",
+        "Я оплатил парковку",
+        "я не оплатил парковку"
+      ],
+      "literalSourcePass": false,
+      "clauseCoveragePass": false,
+      "pass": false,
+      "latencyMs": 3687
+    }
+  ]
+}

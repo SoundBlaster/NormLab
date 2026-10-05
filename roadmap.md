@@ -188,6 +188,14 @@ Task IDs сохранены при изменении приоритетов: н
 - [x] Уточнить [rubric](docs/EVALUATION_PLAN.md): faithful extraction вместо проверки исторической истинности; конкретные gaps и корректное недостаточно-данных считаются положительным результатом, blanket refusal — нет.
 - [ ] Реализовать gap detection и sufficiency scoring отдельно от extraction; оценивать relevance уточнений и необоснованные definitive conclusions.
 
+### Discovery diagnostic — 2026-10-05
+
+[15 диагностических вызовов](docs/DISCOVERY_DIAGNOSTIC_2026-10-05.md): текущий LangExtract discovery — 0/3 literal clause gate; прямой запрос с русской инструкцией без примера — 3/3. В последнем варианте происхождение утверждения письма не выделено: literal pass не означает отсутствие критических ошибок. Причина не сведена к одному компоненту; AI readiness gate остаётся открытым.
+
+- [x] Сохранить полные запросы и ответы, проверить пример, JSON Schema и прямой вызов.
+- [ ] Сделать отдельную версию discovery candidate и исправить attribution цитируемых утверждений.
+- [ ] Повторить 40-case evaluation, отдельно оценить discovery и classification.
+
 ### Direct discovery v2 — 2026-10-05
 
 [Отдельный candidate и сравнение](docs/DISCOVERY_V2_2026-10-05.md): русский direct prompt без demo, exact anchoring, сохранение `speaker` в review contract. Три development probes прошли quote/attribution checks. В 40-case прогоне все кейсы достигли classification; structural pass 39/40, selected assertion-probe pass 11/40. Discovery покрывает 44/46 контрольных spans, но 22 покрытых spans не получили classification. AI readiness gate открыт; HTTP worker пока использует v1.

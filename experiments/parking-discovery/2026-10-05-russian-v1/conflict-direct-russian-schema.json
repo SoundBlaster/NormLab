@@ -1,0 +1,133 @@
+{
+  "case": "conflict",
+  "variant": "direct-russian-schema",
+  "source": "Я оплатил парковку. В письме написано: я не оплатил парковку.",
+  "sourceDigest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+  "expectedClauses": [
+    "Я оплатил парковку",
+    "В письме написано: я не оплатил парковку"
+  ],
+  "calls": [
+    {
+      "request": {
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+          {
+            "role": "system",
+            "content": "Извлеки явные утверждения только из сообщения пользователя. Каждый statement — дословная цитата целого предложения: сохрани язык, регистр, отрицание и указание автора. Ничего не переводи и не перефразируй. Сохрани обе стороны противоречия. Не добавляй отсутствующие факты. Для одного автомобиля используй subject=vehicle_1, для одного эпизода aboutEpisode=episode_1. speaker=narrator для рассказчика, letter_1 для письма. Ответ — JSON по схеме:\n{\"type\": \"object\", \"properties\": {\"extractions\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"statement\": {\"type\": \"string\"}, \"statement_attributes\": {\"type\": \"object\", \"properties\": {\"subject\": {\"type\": \"string\"}, \"aboutEpisode\": {\"type\": \"string\"}, \"speaker\": {\"type\": \"string\"}}, \"required\": [\"subject\", \"aboutEpisode\", \"speaker\"], \"additionalProperties\": false}}, \"required\": [\"statement\", \"statement_attributes\"], \"additionalProperties\": false}}}, \"required\": [\"extractions\"], \"additionalProperties\": false}"
+          },
+          {
+            "role": "user",
+            "content": "Я оплатил парковку. В письме написано: я не оплатил парковку."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 8192,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "langextract_extractions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "extractions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "statement": {
+                        "type": "string"
+                      },
+                      "statement_attributes": {
+                        "type": "object",
+                        "properties": {
+                          "subject": {
+                            "type": "string"
+                          },
+                          "aboutEpisode": {
+                            "type": "string"
+                          },
+                          "speaker": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "subject",
+                          "aboutEpisode",
+                          "speaker"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "statement",
+                      "statement_attributes"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "extractions"
+              ],
+              "additionalProperties": false
+            },
+            "strict": true
+          }
+        }
+      },
+      "response": {
+        "id": "chatcmpl-p7kj0tvmtinzni7cegdfv",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"extractions\":[{\"statement\":\"Я оплатил парковку.\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"В письме написано: я не оплатил парковку.\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}}]}",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "Need extract statements from user message. Sentences: \"Я оплатил парковку.\" and \"В письме написано: я не оплатил парковку.\" So two statements. Provide subject vehicle_1, aboutEpisode episode_1, speaker narrator? The user is narrator? They are speaking. Use speaker=narrator. For second statement include that it's in letter? But statement_attributes require subject, aboutEpisode, speaker only. So both same attributes."
+            }
+          }
+        ],
+        "created": 1791187154,
+        "model": "openai/gpt-oss-20b",
+        "object": "chat.completion",
+        "metadata": null,
+        "moderation": null,
+        "service_tier": null,
+        "system_fingerprint": "openai/gpt-oss-20b",
+        "usage": {
+          "completion_tokens": 176,
+          "prompt_tokens": 341,
+          "total_tokens": 517,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 92,
+            "rejected_prediction_tokens": null,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": null
+        },
+        "stats": {}
+      }
+    }
+  ],
+  "error": null,
+  "finishReason": "stop",
+  "quotes": [
+    "Я оплатил парковку.",
+    "В письме написано: я не оплатил парковку."
+  ],
+  "literalSourcePass": true,
+  "clauseCoveragePass": true,
+  "pass": true,
+  "latencyMs": 3260
+}
