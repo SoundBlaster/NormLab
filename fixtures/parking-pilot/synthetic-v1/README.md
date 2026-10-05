@@ -38,6 +38,8 @@ Source IDs относятся к [registry](../corpus/sources.json). Из пуб
 
 Unknown не означает false. Partial disability conditions не закрывают все условия льготы. Временные границы — языковые/арифметические probes, не validated legal rule. Запрет необоснованного отрицания вины не устанавливает вину.
 
+По уточнению пользователя, **доказанность событий не требуется**: тестируем понимание заданной фабулы. `expectedGaps` перечисляет выбранные candidate уточнения, не полный набор нормативных требований. Корректно названный пробел и запрос уточнения — ожидаемый успех; уверенный вывод по неподтверждённым данным — ошибка. Эти expectations ещё не подключены к автоматическому scorer. Sufficiency правового вывода остаётся not-evaluated до реализации соответствующего этапа.
+
 40 inputs не равны 40 независимым случаям (`realIncidentCount=0`). Варианты family держать в одном split; общие source inspirations связывают также разные families. Поэтому весь набор development-only. Его score не доказывает population accuracy или достижение 80% на реальных обращениях.
 
 Следующий этап: review candidate labels, dataset-aware scoring и отдельный natural-language holdout.

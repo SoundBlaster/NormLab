@@ -182,3 +182,5 @@ Task IDs сохранены при изменении приоритетов: н
 - [x] Разделить synthetic inputs, provenance и reviewer-only labels.
 - [ ] Сверить официальные акты, source facts и candidate semantic expectations.
 - [ ] Подключить dataset-aware runner/scorer, измерять family-level ошибки и новый natural-language holdout отдельно.
+- [x] Уточнить [rubric](docs/EVALUATION_PLAN.md): faithful extraction вместо проверки исторической истинности; конкретные gaps и корректное недостаточно-данных считаются положительным результатом, blanket refusal — нет.
+- [ ] Реализовать gap detection и sufficiency scoring отдельно от extraction; оценивать relevance уточнений и необоснованные definitive conclusions.

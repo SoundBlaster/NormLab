@@ -30,7 +30,11 @@
       ],
       "reviewFocus": "Не путать оплату с платным режимом; режим и время не указаны.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN002",
@@ -60,7 +64,11 @@
       ],
       "reviewFocus": "Сохранить отрицание; не выводить вину или отсутствие льгот.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN003",
@@ -90,7 +98,19 @@
       ],
       "reviewFocus": "Не превращать незнание в оплату или неоплату.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "payment.result",
+          "reason": "Неизвестен результат оплаты.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN004",
@@ -127,7 +147,11 @@
       ],
       "reviewFocus": "Сохранить оба утверждения с разными интервалами; это не обязательно противоречие.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN005",
@@ -157,7 +181,11 @@
       ],
       "reviewFocus": "Отрицание отмены не является отрицанием оплаты.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN006",
@@ -187,7 +215,11 @@
       ],
       "reviewFocus": "Платёж относится к Б; размещение к А. Не считать размещённый автомобиль оплаченным.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN007",
@@ -217,7 +249,11 @@
       ],
       "reviewFocus": "Не создавать неоплату А из отрицания альтернативного автомобиля.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN008",
@@ -247,7 +283,11 @@
       ],
       "reviewFocus": "Факт платежа отдельно от его правильной привязки.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN009",
@@ -277,7 +317,11 @@
       ],
       "reviewFocus": "Попытка исправления не доказывает её успех или юридический эффект.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN010",
@@ -307,7 +351,25 @@
       ],
       "reviewFocus": "Платёж существует; его принадлежность этому размещению неизвестна.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "payment.vehicle",
+          "reason": "Неизвестен автомобиль платежа.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        },
+        {
+          "field": "payment.zone",
+          "reason": "Неизвестна зона платежа.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN011",
@@ -337,7 +399,11 @@
       ],
       "reviewFocus": "Время платежа сохранить до секунд; не выносить решение по правилу пяти минут.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN012",
@@ -367,7 +433,11 @@
       ],
       "reviewFocus": "Граничное время — факт, не правовой вывод.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN013",
@@ -397,7 +467,11 @@
       ],
       "reviewFocus": "Различить этот вариант от двух соседних на одну секунду.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN014",
@@ -434,7 +508,11 @@
       ],
       "reviewFocus": "Разделить время платежа, покрытие и отъезд; три временных значения.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN015",
@@ -464,7 +542,11 @@
       ],
       "reviewFocus": "Пополнение баланса не является оплатой парковочной сессии.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN016",
@@ -494,7 +576,11 @@
       ],
       "reviewFocus": "Сбой одного канала не означает отсутствие оплаты другим.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN017",
@@ -524,7 +610,11 @@
       ],
       "reviewFocus": "Не выводить отсутствие вины или отмену штрафа из заявления о сбое.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN018",
@@ -554,7 +644,19 @@
       ],
       "reviewFocus": "Отсутствие записи не равно установленной неоплате; банковское списание требует attribution.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "payment.record",
+          "reason": "Банковское списание и парковочная запись не согласованы; нужна привязка к стоянке.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN019",
@@ -584,7 +686,19 @@
       ],
       "reviewFocus": "Восстановление сервиса не создаёт факт платежа.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "payment.result",
+          "reason": "Нет сведений о собственном платеже.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN020",
@@ -614,7 +728,11 @@
       ],
       "reviewFocus": "Нельзя из этого вывести оплату, отсутствие вины или льгот.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN021",
@@ -636,7 +754,11 @@
       ],
       "reviewFocus": "Не выводить действие разрешения в этой зоне и в это время без уточнений.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN022",
@@ -658,7 +780,11 @@
       ],
       "reviewFocus": "Отсутствие разрешения не означает отсутствие платного режима или инвалидности.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN023",
@@ -680,7 +806,19 @@
       ],
       "reviewFocus": "Сохранить неизвестную актуальность разрешения.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "permit.validity",
+          "reason": "Неизвестно, действует ли разрешение.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN024",
@@ -702,7 +840,19 @@
       ],
       "reviewFocus": "Не приравнивать подачу заявки к действующему разрешению; юридический статус неизвестен.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "permit.grant",
+          "reason": "Подача заявки не устанавливает выдачу или действие разрешения.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN025",
@@ -724,7 +874,25 @@
       ],
       "reviewFocus": "Неполные disability conditions не означают, что все условия льготы выполнены.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "disability.registry",
+          "reason": "Сведения о реестре не сообщены.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        },
+        {
+          "field": "disability.sign",
+          "reason": "Сведения о знаке не сообщены.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN026",
@@ -762,7 +930,11 @@
       "reviewFocus": "Сохранить обе стороны одного эпизода; attribution к речи и заметке.",
       "coverage": "selected-semantic-probes-not-complete-gold",
       "legalOutcome": null,
-      "sameEpisodeOpposingClaims": true
+      "sameEpisodeOpposingClaims": true,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN027",
@@ -800,7 +972,11 @@
       "reviewFocus": "Два эпизода; не объявлять противоположные утверждения противоречием одного эпизода.",
       "coverage": "selected-semantic-probes-not-complete-gold",
       "legalOutcome": null,
-      "opposingClaimsDifferentEpisodes": true
+      "opposingClaimsDifferentEpisodes": true,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN028",
@@ -838,7 +1014,11 @@
       "reviewFocus": "Отделить содержание уведомления от утверждения рассказчика; не выбирать победителя.",
       "coverage": "selected-semantic-probes-not-complete-gold",
       "legalOutcome": null,
-      "sameEpisodeOpposingClaims": true
+      "sameEpisodeOpposingClaims": true,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN029",
@@ -868,7 +1048,11 @@
       ],
       "reviewFocus": "Отрицание утверждения не равно утверждению неоплаты.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN030",
@@ -905,7 +1089,11 @@
       ],
       "reviewFocus": "Сохранить исходное сообщение и уточнение; разный объект оплаты не делает их автоматически несовместимыми.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN031",
@@ -935,7 +1123,11 @@
       ],
       "reviewFocus": "Явная юрисдикция; остальные условия отдельно.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN032",
@@ -965,7 +1157,11 @@
       ],
       "reviewFocus": "Другая юрисдикция; не применять московские нормы.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN033",
@@ -995,7 +1191,19 @@
       ],
       "reviewFocus": "Не подставлять Москву по контексту приложения.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "jurisdiction.city",
+          "reason": "Город не указан.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN034",
@@ -1025,7 +1233,19 @@
       ],
       "reviewFocus": "Москва не устанавливает статус городской парковки.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "parking.kind",
+          "reason": "Неизвестно, городская парковка или частная.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN035",
@@ -1055,7 +1275,11 @@
       ],
       "reviewFocus": "Сохранить явное отрицание Москвы, не придумывать другой город.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN036",
@@ -1085,7 +1309,11 @@
       ],
       "reviewFocus": "Отрицание разрешений не должно менять утверждение о платном режиме.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN037",
@@ -1115,7 +1343,11 @@
       ],
       "reviewFocus": "Это synthetic stipulation, не проверенная норма о тарифе.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN038",
@@ -1145,7 +1377,19 @@
       ],
       "reviewFocus": "Оплата сама по себе не устанавливает обязательность оплаты.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "parking.paidRegime",
+          "reason": "Режим не установлен самим фактом оплаты.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     },
     {
       "id": "SYN039",
@@ -1175,7 +1419,11 @@
       ],
       "reviewFocus": "Не перепутать уплату штрафа с оплатой парковки.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [],
+      "gapCoverage": "selected-probes-not-complete-list"
     },
     {
       "id": "SYN040",
@@ -1205,7 +1453,26 @@
       ],
       "reviewFocus": "Месяц стоянки сохраняется; июль относится к уведомлению, отсутствие сведений об оплате не превращать в отрицание.",
       "coverage": "selected-semantic-probes-not-complete-gold",
-      "legalOutcome": null
+      "legalOutcome": null,
+      "factualTruthVerificationRequired": false,
+      "legalSufficiencyStatus": "not-evaluated",
+      "expectedGaps": [
+        {
+          "field": "eventTime.exactDate",
+          "reason": "Точная дата неизвестна.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        },
+        {
+          "field": "payment.result",
+          "reason": "Об оплате сведений нет.",
+          "status": "candidate",
+          "purpose": "relevant-clarification-not-normative-lock"
+        }
+      ],
+      "gapCoverage": "selected-probes-not-complete-list",
+      "expectedNextAction": "preserve-explicit-claims-and-request-relevant-clarification"
     }
-  ]
+  ],
+  "successPolicy": "Faithful extraction and relevant gap detection can pass on incomplete or fictional narratives. Human decides facts; legal sufficiency remains separate."
 }

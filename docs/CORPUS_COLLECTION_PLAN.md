@@ -7,11 +7,11 @@
 ## Этапы
 
 1. **Discovery:** источники и происхождение, privacy, scope, dedup. Начальный результат: 15 source leads, 10 editorial candidate narratives из пяти страниц; labels отсутствуют.
-2. **Development corpus, 30–50 cases:** независимая semantic разметка, adjudication и отладка rubric. Рекомендуемый рабочий объём — 40; десять новых candidates учитываются только после source review, scope и dedup. Synthetic controls маркируются отдельно, не выдаются за реальные происшествия.
+2. **Development corpus, 30–50 cases:** semantic разметка, adjudication и отладка rubric. Подготовлены 40 synthetic inputs и 15 editorial source candidates. Проверка соответствия пересказа входному тексту и dedup нужны; доказанность реального происшествия для extraction-тестов не нужна. Synthetic controls маркируются отдельно.
 3. **Freeze:** зафиксировать definitions, prompts, model/configuration, scorer, стоимость критических ошибок и acceptance rule.
 4. **Independent evaluation:** новый набор, собранный после freeze и не использованный в prompts, examples или ручной отладке. Отдельный adjudicated gold хранится вне model input.
 
-Не считать запланированные слоты собранными кейсами. Для следующей партии нужны 20–40 дополнительных distinct cases или отдельно учтённых controlled examples. Источники/эпизоды должны быть разнообразнее пяти текущих страниц.
+Синтетический development corpus уже собран; independent holdout ещё нет. Разметка оценивает faithful extraction и конкретные gaps, а не историческую истинность событий. Корректная нехватка данных для суждения может быть ожидаемым успехом.
 
 ## Development coverage (план на 40, не статистические веса)
 
@@ -30,7 +30,7 @@
 ## Правила источников
 
 - Новости: полезны для natural language и необычных ситуаций, но дают selection bias в сторону споров и ошибок. По ним нельзя оценить частоту успеха на всех обращениях.
-- Судебные акты: искать официальный ресурс и case ID; зеркало/новость — lead до сверки. Отличать довод заявителя, установленное судом обстоятельство и правовую оценку. Решение суда не является gold label extraction автоматически.
+- Судебные акты: case ID и официальный ресурс полезны для provenance и исследования права; официальная сверка не блокирует использование текста как extraction input. Отличать довод заявителя, установленное судом обстоятельство и правовую оценку. Решение суда не является gold label extraction автоматически.
 - Официальные сводки: проверка тем и масштабов, не индивидуальные фабулы. Число упомянутых нарушений нельзя превращать в размер нашей выборки без текстов каждого эпизода.
 - FAQ: context и идеи для separately labelled synthetic cases; не происшествие и не самостоятельная нормативная публикация.
 - Рассказы читателей: unverified reports, useful linguistic material. Сохранять uncertainty и attribution, не распространять имена/номера; не назначать Москву при неизвестной географии.
@@ -58,4 +58,4 @@ Reviewer-only metadata: legal outcome, normative references и темы конт
 
 ## Следующий ход
 
-Source/semantic review десяти кандидатов; затем добрать development corpus до 30–50, приоритет — полноценно оплаченные обычные стоянки, разрешения и unknowns. Эти темы хуже представлены в новостной выдаче. После rubric freeze собрать независимый dataset; model improvements оценивать на нём отдельно от текущих diagnostic sets.
+Review labels для 40 synthetic inputs и 15 editorial candidates, включая expected gaps и корректное abstention. Не ждать доказательства реальных событий. После rubric freeze собрать независимый dataset; model improvements оценивать отдельно от текущих diagnostic sets.
