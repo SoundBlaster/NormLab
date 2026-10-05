@@ -181,6 +181,15 @@ Task IDs сохранены при изменении приоритетов: н
 
 - [x] Разделить synthetic inputs, provenance и reviewer-only labels.
 - [ ] Сверить официальные акты, source facts и candidate semantic expectations.
-- [ ] Подключить dataset-aware runner/scorer, измерять family-level ошибки и новый natural-language holdout отдельно.
+- [x] Подключить dataset-aware runner/scorer: [прогон 40 кейсов](docs/SYNTHETIC_EVALUATION_2026-10-05.md), 0/40 structural pass; classification не достигнут.
+- [ ] Измерять family-level ошибки и новый natural-language holdout отдельно после восстановления discovery.
 - [x] Уточнить [rubric](docs/EVALUATION_PLAN.md): faithful extraction вместо проверки исторической истинности; конкретные gaps и корректное недостаточно-данных считаются положительным результатом, blanket refusal — нет.
 - [ ] Реализовать gap detection и sufficiency scoring отдельно от extraction; оценивать relevance уточнений и необоснованные definitive conclusions.
+
+### Discovery diagnostic — 2026-10-05
+
+[15 диагностических вызовов](docs/DISCOVERY_DIAGNOSTIC_2026-10-05.md): текущий LangExtract discovery — 0/3 literal clause gate; прямой запрос с русской инструкцией без примера — 3/3. В последнем варианте происхождение утверждения письма не выделено: literal pass не означает отсутствие критических ошибок. Причина не сведена к одному компоненту; AI readiness gate остаётся открытым.
+
+- [x] Сохранить полные запросы и ответы, проверить пример, JSON Schema и прямой вызов.
+- [ ] Сделать отдельную версию discovery candidate и исправить attribution цитируемых утверждений.
+- [ ] Повторить 40-case evaluation, отдельно оценить discovery и classification.

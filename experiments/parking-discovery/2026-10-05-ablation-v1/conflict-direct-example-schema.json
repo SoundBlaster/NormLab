@@ -1,0 +1,133 @@
+{
+  "case": "conflict",
+  "variant": "direct-example-schema",
+  "source": "Я оплатил парковку. В письме написано: я не оплатил парковку.",
+  "sourceDigest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+  "expectedClauses": [
+    "Я оплатил парковку",
+    "В письме написано: я не оплатил парковку"
+  ],
+  "calls": [
+    {
+      "request": {
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+          {
+            "role": "system",
+            "content": "Find explicit factual assertions in the ORIGINAL narrative.\nUse only class statement with attributes subject, aboutEpisode, speaker (neutral keys).\nCopy complete literal clauses, including negation, dates and context. Never rewrite,\nnormalize spelling/case, classify legal predicates, resolve contradictions or invent\nunmentioned facts. Preserve every opposing assertion, including quoted statements.\nUse episode_1 for one episode; distinguish vehicles and speakers where explicit.\nOverlapping exact clauses are allowed; cover all explicit facts, not just payment.\n\nReturn JSON with shape described by this schema:\n{\"type\": \"object\", \"properties\": {\"extractions\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"statement\": {\"type\": \"string\"}, \"statement_attributes\": {\"type\": \"object\", \"properties\": {\"subject\": {\"type\": \"string\"}, \"aboutEpisode\": {\"type\": \"string\"}, \"speaker\": {\"type\": \"string\"}}, \"required\": [\"subject\", \"aboutEpisode\", \"speaker\"], \"additionalProperties\": false}}, \"required\": [\"statement\", \"statement_attributes\"], \"additionalProperties\": false}}}, \"required\": [\"extractions\"], \"additionalProperties\": false}\nExample narrative:\nВ Туле машина стояла с 09:00. Я оплатил парковку. В письме: я не оплатил парковку.\nExample answer:\n{\"extractions\": [{\"statement\": \"В Туле машина стояла с 09:00\", \"statement_attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}}, {\"statement\": \"Я оплатил парковку\", \"statement_attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}}, {\"statement\": \"я не оплатил парковку\", \"statement_attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"letter_1\"}}]}"
+          },
+          {
+            "role": "user",
+            "content": "Я оплатил парковку. В письме написано: я не оплатил парковку."
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 8192,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "langextract_extractions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "extractions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "statement": {
+                        "type": "string"
+                      },
+                      "statement_attributes": {
+                        "type": "object",
+                        "properties": {
+                          "subject": {
+                            "type": "string"
+                          },
+                          "aboutEpisode": {
+                            "type": "string"
+                          },
+                          "speaker": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "subject",
+                          "aboutEpisode",
+                          "speaker"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "statement",
+                      "statement_attributes"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "extractions"
+              ],
+              "additionalProperties": false
+            },
+            "strict": true
+          }
+        }
+      },
+      "response": {
+        "id": "chatcmpl-36qgllwruuhxegskup8ph",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"extractions\":[{\"statement\":\"Я оплатил парковку\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"я не оплатил парковку\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"letter_1\"}}]}",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "Need extract two statements. subject vehicle_1, episode_1, speaker narrator and letter_1."
+            }
+          }
+        ],
+        "created": 1791187101,
+        "model": "openai/gpt-oss-20b",
+        "object": "chat.completion",
+        "metadata": null,
+        "moderation": null,
+        "service_tier": null,
+        "system_fingerprint": "openai/gpt-oss-20b",
+        "usage": {
+          "completion_tokens": 99,
+          "prompt_tokens": 498,
+          "total_tokens": 597,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 21,
+            "rejected_prediction_tokens": null,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": null
+        },
+        "stats": {}
+      }
+    }
+  ],
+  "error": null,
+  "finishReason": "stop",
+  "quotes": [
+    "Я оплатил парковку",
+    "я не оплатил парковку"
+  ],
+  "literalSourcePass": true,
+  "clauseCoveragePass": false,
+  "pass": false,
+  "latencyMs": 2383
+}
