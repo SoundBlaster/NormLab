@@ -35,7 +35,7 @@ export function App() {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <a className="brand" href="/" aria-label="NormLab — главная">
+        <a className="brand" href={import.meta.env.BASE_URL} aria-label="NormLab — главная">
           <span className="brand-mark">
             N<span>·</span>
           </span>
@@ -94,7 +94,11 @@ export function App() {
       <div className="main-shell">
         <header className="topbar">
           <div className="topbar-context">
-            <a className="topbar-home" href="/" aria-label="NormLab — главная">
+            <a
+              className="topbar-home"
+              href={import.meta.env.BASE_URL}
+              aria-label="NormLab — главная"
+            >
               <Logo />
             </a>
             <div className="topbar-location">

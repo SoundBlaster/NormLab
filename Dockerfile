@@ -7,6 +7,9 @@ ENV NODE_ENV=production \
     PORT=4317 \
     NORMLAB_DATA_DIR=/var/lib/normlab
 
+ARG VITE_BASE_PATH=/
+ENV VITE_BASE_PATH=$VITE_BASE_PATH
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates curl git \
     && rm -rf /var/lib/apt/lists/*

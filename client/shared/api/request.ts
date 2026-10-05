@@ -1,6 +1,11 @@
+export function apiUrl(path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  return `${base}/${path.replace(/^\//, '')}`;
+}
+
 export async function requestJson<T>(path: string, token?: string, body?: unknown): Promise<T> {
   const response = await fetch(
-    path,
+    apiUrl(path),
     body === undefined
       ? {}
       : {

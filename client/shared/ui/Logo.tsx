@@ -5,7 +5,7 @@ export function Logo({ className = '', ...props }: Omit<ComponentProps<'img'>, '
     <img
       {...props}
       className={`ui-logo ${className}`.trim()}
-      src="/normlab-logo.svg"
+      src={`${import.meta.env.BASE_URL}normlab-logo.svg`}
       alt="NormLab"
       width={212}
       height={40}

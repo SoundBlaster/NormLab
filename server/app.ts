@@ -1,4 +1,4 @@
-import { randomBytes, randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { mkdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { extname, join, resolve } from 'node:path';
@@ -52,6 +52,30 @@ function send(res: ServerResponse, status: number, body: unknown): void {
   });
   res.end(JSON.stringify(body));
 }
+function matchesSecret(candidate: string, expected: string): boolean {
+  const candidateDigest = createHash('sha256').update(candidate).digest();
+  const expectedDigest = createHash('sha256').update(expected).digest();
+  return timingSafeEqual(candidateDigest, expectedDigest);
+}
+function hasOperatorCredentials(
+  header: string | undefined,
+  username: string,
+  password: string,
+): boolean {
+  if (!header?.startsWith('Basic ') || header.length > 8192) return false;
+  let credentials: string;
+  try {
+    credentials = Buffer.from(header.slice(6), 'base64').toString('utf8');
+  } catch {
+    return false;
+  }
+  const separator = credentials.indexOf(':');
+  if (separator < 0) return false;
+  return (
+    matchesSecret(credentials.slice(0, separator), username) &&
+    matchesSecret(credentials.slice(separator + 1), password)
+  );
+}
 const analysisInput = z
   .object({ snapshotId: z.string().uuid(), bundleId: bundleIdSchema })
   .strict();
@@ -59,7 +83,23 @@ const snapshotRequest = z
   .object({ input: snapshotInputSchema, expectedSnapshotId: z.string().uuid() })
   .strict();
 
-export async function createApp(options: { dataDir: string; production?: boolean; web?: boolean }) {
+export async function createApp(options: {
+  dataDir: string;
+  production?: boolean;
+  web?: boolean;
+  publicOrigin?: string;
+  operatorAuth?: { username: string; password: string };
+}) {
+  const publicOrigin = options.publicOrigin ? new URL(options.publicOrigin).origin : undefined;
+  if (options.publicOrigin && publicOrigin !== options.publicOrigin)
+    throw new Error('NORMLAB_PUBLIC_ORIGIN must contain only an origin, without a path.');
+  if (
+    options.operatorAuth &&
+    (!publicOrigin?.startsWith('https://') ||
+      !options.operatorAuth.username ||
+      !options.operatorAuth.password)
+  )
+    throw new Error('Protected deployment requires HTTPS origin and operator credentials.');
   mkdirSync(options.dataDir, { recursive: true, mode: 0o700 });
   const store = new Store(join(options.dataDir, 'normlab.sqlite'));
   const signer = new ReceiptSigner(options.dataDir);
@@ -79,13 +119,36 @@ export async function createApp(options: { dataDir: string; production?: boolean
     res.setHeader('Referrer-Policy', 'no-referrer');
     res.setHeader('X-Frame-Options', 'DENY');
     try {
+      const requestUrl = new URL(req.url ?? '/', 'http://normlab.local');
+      if (requestUrl.pathname === '/health' && req.method === 'GET') {
+        send(res, 200, { ok: true });
+        return;
+      }
+      if (
+        options.operatorAuth &&
+        !hasOperatorCredentials(
+          req.headers.authorization,
+          options.operatorAuth.username,
+          options.operatorAuth.password,
+        )
+      ) {
+        res.writeHead(401, {
+          'WWW-Authenticate': 'Basic realm="NormLab private", charset="UTF-8"',
+          'Cache-Control': 'no-store',
+          'Content-Type': 'text/plain; charset=utf-8',
+        });
+        res.end('Authentication required.');
+        return;
+      }
       const host = req.headers.host;
-      const allowedHosts = [
-        `127.0.0.1:${req.socket.localPort}`,
-        `localhost:${req.socket.localPort}`,
-      ];
+      const allowedHosts = publicOrigin
+        ? [new URL(publicOrigin).host]
+        : [`127.0.0.1:${req.socket.localPort}`, `localhost:${req.socket.localPort}`];
       if (!host || !allowedHosts.includes(host)) throw new HttpError(403, 'Недопустимый Host.');
-      if (req.headers.origin && req.headers.origin !== `http://${host}`)
+      if (
+        (req.headers.origin && req.headers.origin !== (publicOrigin ?? `http://${host}`)) ||
+        (options.operatorAuth && req.method === 'POST' && req.headers.origin !== publicOrigin)
+      )
         throw new HttpError(403, 'Недопустимый Origin.');
       const url = new URL(req.url ?? '/', `http://${host}`);
       const path = url.pathname;

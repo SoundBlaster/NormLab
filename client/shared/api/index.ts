@@ -1,1 +1,1 @@
-export { requestJson } from './request.js';
+export { apiUrl, requestJson } from './request.js';

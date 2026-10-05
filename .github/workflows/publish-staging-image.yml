@@ -1,0 +1,81 @@
+name: Publish private staging image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: normlab-staging-image-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_ACTOR: ${{ github.actor }}
+        run: printf '%s' "$GH_TOKEN" | docker login ghcr.io --username "$GH_ACTOR" --password-stdin
+
+      - name: Build and publish private NormLab image
+        env:
+          IMAGE_TAG: ghcr.io/soundblaster/normlab:${{ github.sha }}
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --build-arg VITE_BASE_PATH=/normlab/ \
+            --provenance=true \
+            --sbom=true \
+            --tag "$IMAGE_TAG" \
+            --metadata-file "$RUNNER_TEMP/normlab-image-metadata.json" \
+            --push .
+
+      - name: Write digest-pinned image lock
+        env:
+          IMAGE_METADATA: ${{ runner.temp }}/normlab-image-metadata.json
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: |
+          image_digest="$(jq -r '."containerimage.digest"' "$IMAGE_METADATA")"
+          test "$image_digest" != "null"
+          image_ref="ghcr.io/soundblaster/normlab@${image_digest}"
+          generated_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          jq -n \
+            --arg generated_at "$generated_at" \
+            --arg source_commit "$SOURCE_COMMIT" \
+            --arg image_ref "$image_ref" \
+            '{
+              artifact_kind: "platform_service_image_lock",
+              schema_version: 1,
+              generated_at: $generated_at,
+              source_commit: $source_commit,
+              platforms: ["linux/amd64"],
+              services: {normlab: {image_ref: $image_ref}},
+              privacy_boundary: {
+                source_repository_private: true,
+                image_package_private: true,
+                includes_secrets: false
+              },
+              supply_chain: {
+                provenance_attestation: true,
+                sbom_attestation: true
+              }
+            }' > normlab-image-lock.json
+
+      - name: Upload image lock
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: normlab-image-lock-${{ github.sha }}
+          path: normlab-image-lock.json
+          if-no-files-found: error
+          retention-days: 30

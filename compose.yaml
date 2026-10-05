@@ -1,6 +1,9 @@
 services:
   normlab:
-    build: .
+    build:
+      context: .
+      args:
+        VITE_BASE_PATH: ${NORMLAB_VITE_BASE_PATH:-/}
     image: normlab-normlab:latest
     init: true
     restart: unless-stopped
@@ -9,6 +12,10 @@ services:
       PORT: ${NORMLAB_PORT:-4317}
       NORMLAB_LEAN_MEMORY_MB: ${NORMLAB_LEAN_MEMORY_MB:-1024}
       NORMLAB_DATA_DIR: /var/lib/normlab
+      NORMLAB_OPERATOR_AUTH_ENABLED: ${NORMLAB_OPERATOR_AUTH_ENABLED:-false}
+      NORMLAB_OPERATOR_AUTH_USERNAME: ${NORMLAB_OPERATOR_AUTH_USERNAME:-operator}
+      NORMLAB_OPERATOR_AUTH_PASSWORD: ${NORMLAB_OPERATOR_AUTH_PASSWORD:-}
+      NORMLAB_PUBLIC_ORIGIN: ${NORMLAB_PUBLIC_ORIGIN:-}
     ports:
       - '127.0.0.1:${NORMLAB_PORT:-4317}:${NORMLAB_PORT:-4317}'
     volumes:
@@ -18,7 +25,7 @@ services:
         - CMD
         - node
         - -e
-        - "fetch('http://127.0.0.1:' + process.env.PORT + '/api/bootstrap').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+        - "fetch('http://127.0.0.1:' + process.env.PORT + '/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
       interval: 30s
       timeout: 10s
       retries: 3
