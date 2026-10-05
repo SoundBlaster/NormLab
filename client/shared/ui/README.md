@@ -6,6 +6,8 @@
 - `components.tsx` — небольшие React primitives с обычными HTML props. React 19 `ref` передаётся в native control.
 - `ui.css` — единые normal, hover, focus, disabled, read-only, mobile и reduced-motion состояния.
 
+`Logo` — SVG wordmark с `alt="NormLab"`; исходная формула и воспроизведение находятся в `design/branding`.
+
 ## Компоненты
 
 | Компонент                     | Назначение                                                                     |
