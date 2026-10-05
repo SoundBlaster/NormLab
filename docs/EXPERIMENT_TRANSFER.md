@@ -1,6 +1,6 @@
 # Перенос эксперимента — NL-503
 
-Локальная реализация: 2026-10-03. Формат `normlab.experiment/v1` объединяет 1–12 подписанных exports текущего synthetic reform profile. JSON Schema: [experiment.schema.json](../schemas/transfer/experiment.schema.json). Реализация: [transfer](../server/reform-transfer.ts), [HTTP](../server/reform-lab.ts), [SQLite](../server/reform-store.ts), [UI](../client/lab/Transfer.tsx).
+Локальная реализация: 2026-10-03. Формат `normlab.experiment/v1` объединяет 1–12 подписанных exports текущего synthetic reform profile. JSON Schema: [experiment.schema.json](../schemas/transfer/experiment.schema.json). Реализация: [transfer](../server/reform-transfer.ts), [HTTP](../server/reform-lab.ts), [SQLite](../server/reform-store.ts), [UI](../client/pages/reform-lab/ui/Transfer.tsx).
 
 ## Состав и границы доверия
 

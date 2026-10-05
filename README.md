@@ -34,6 +34,7 @@ Norms for People
 - [Roadmap](roadmap.md): этапы, зависимости и актуальные приоритеты.
 - [Текущий MVP](docs/MVP.md) и [отчёт его проверки](docs/VERIFICATION.md): реализованные возможности, API и конкретные свидетельства.
 - [Проверки качества кода](docs/QUALITY.md): линтер, форматтер, CI и документированные исключения.
+- [Frontend architecture](client/ARCHITECTURE.md): FSD layers, public APIs, ownership и Steiger gate.
 - [Исходная архитектура v0.1.0](prototype/normlab-architecture/README.ru.md): сохранённый проект из архива.
 
 ## Запуск

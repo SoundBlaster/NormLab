@@ -51,7 +51,7 @@ jobs:
       - name: Check complete classification contract
         run: python evaluation/check_classification_v3.py "$RUNNER_TEMP/normlab-classification-contract"
 
-      - name: Lint with type-aware rules
+      - name: Lint TypeScript and FSD architecture
         run: npm run lint
 
       - name: Check TypeScript types

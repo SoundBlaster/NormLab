@@ -5,7 +5,13 @@
     "correctness": "error"
   },
   "rules": {
-    "eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
     "jsx-a11y/no-noninteractive-tabindex": "error",
     "jsx-a11y/prefer-tag-over-role": "off"
   },
@@ -17,9 +23,41 @@
       }
     },
     {
-      "files": ["client/lab/Views.tsx"],
+      "files": ["client/pages/reform-lab/ui/Views.tsx"],
       "rules": {
         "jsx-a11y/no-noninteractive-tabindex": "off"
+      }
+    },
+    {
+      "files": ["client/**/ui/**", "client/app/**"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "^(\\.\\./)+shared/",
+                "message": "Import canonical domain contracts through a page model or entity public API, not directly from UI."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["client/**/index.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "^@/|^\\.\\./|/\\.\\./",
+                "message": "FSD public APIs expose local modules only; import other slices at their consumer."
+              }
+            ]
+          }
+        ]
       }
     }
   ],
