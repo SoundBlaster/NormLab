@@ -1,0 +1,1074 @@
+{
+  "schema": "normlab.langextract-statements/v1",
+  "sourceDigest": "94d175c3252f6cdb3a9ba1e4b1a40dfa9a882045693533c97330fdba58dfb8b7",
+  "langextractVersion": "1.7.0",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "schemaConstraints": "explicit-json-schema-all-15-predicates",
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "extractions": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:eventTime": {
+                  "type": "string"
+                },
+                "nlinput:eventTime_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:eventTime",
+                "nlinput:eventTime_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:inMoscow": {
+                  "type": "string"
+                },
+                "nlinput:inMoscow_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:inMoscow",
+                "nlinput:inMoscow_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:cityParking": {
+                  "type": "string"
+                },
+                "nlinput:cityParking_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:cityParking",
+                "nlinput:cityParking_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:placement": {
+                  "type": "string"
+                },
+                "nlinput:placement_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:placement",
+                "nlinput:placement_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:paidRegime": {
+                  "type": "string"
+                },
+                "nlinput:paidRegime_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:paidRegime",
+                "nlinput:paidRegime_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:subjectScope": {
+                  "type": "string"
+                },
+                "nlinput:subjectScope_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:subjectScope",
+                "nlinput:subjectScope_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:attribution": {
+                  "type": "string"
+                },
+                "nlinput:attribution_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:attribution",
+                "nlinput:attribution_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:payment": {
+                  "type": "string"
+                },
+                "nlinput:payment_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:payment",
+                "nlinput:payment_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:paymentStart": {
+                  "type": "string"
+                },
+                "nlinput:paymentStart_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:paymentStart",
+                "nlinput:paymentStart_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:departure": {
+                  "type": "string"
+                },
+                "nlinput:departure_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:departure",
+                "nlinput:departure_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:paymentComplexity": {
+                  "type": "string"
+                },
+                "nlinput:paymentComplexity_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:paymentComplexity",
+                "nlinput:paymentComplexity_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:permit": {
+                  "type": "string"
+                },
+                "nlinput:permit_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:permit",
+                "nlinput:permit_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:disabilityConditions": {
+                  "type": "string"
+                },
+                "nlinput:disabilityConditions_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:disabilityConditions",
+                "nlinput:disabilityConditions_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:specialTariff": {
+                  "type": "string"
+                },
+                "nlinput:specialTariff_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:specialTariff",
+                "nlinput:specialTariff_attributes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nlinput:faultAndExclusions": {
+                  "type": "string"
+                },
+                "nlinput:faultAndExclusions_attributes": {
+                  "type": "object",
+                  "properties": {
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "aboutEpisode": {
+                      "type": "string"
+                    },
+                    "valueText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "stance",
+                    "subject",
+                    "aboutEpisode",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "nlinput:faultAndExclusions",
+                "nlinput:faultAndExclusions_attributes"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "required": [
+      "extractions"
+    ],
+    "additionalProperties": false
+  },
+  "passes": 1,
+  "fuzzyAlignment": false,
+  "latencyMs": 19456,
+  "error": null,
+  "prompt": "Extract explicit statements from the source narrative, not legal conclusions.\nUse these extraction classes: nlinput:eventTime, nlinput:inMoscow, nlinput:cityParking, nlinput:placement, nlinput:paidRegime, nlinput:subjectScope, nlinput:attribution, nlinput:payment, nlinput:paymentStart, nlinput:departure, nlinput:paymentComplexity, nlinput:permit, nlinput:disabilityConditions, nlinput:specialTariff, nlinput:faultAndExclusions.\nEvery extraction_text must be an exact source substring. Retain both asserted and\ndenied statements even when they contradict. 'Not mentioned' is unknown, not denied.\nExtract each explicit negative separately. Do not infer fault, disability conditions,\nspecial tariffs or paid regime from absence of corrections, benefits or a zone name.\nUse attributes stance (asserted/denied/unknown), subject (neutral key, never a name),\naboutEpisode (neutral episode key), valueText (the explicit fact).\nIn a single episode use episode_1. Keep different vehicles distinguishable in valueText.\nPreserve payment corrections and wrong vehicle/zone details as paymentComplexity.\nUnknown mandatory conditions must be explained later during review, not invented here.\n",
+  "exampleText": "В учебном эпизоде автомобиль стоял на городской парковке Тулы. Я сообщил: оплата произведена. В моём письме сказано: я не оплатил парковку. Оплата относилась к другому автомобилю.",
+  "statements": [
+    {
+      "id": "b22b583b-b563-47e2-b9f3-4b57393d7c56",
+      "predicate": "nlinput:cityParking",
+      "stance": "asserted",
+      "subject": "place_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "городская улица, Москва, зона M‑104",
+      "quote": "городскую уличную парковку Москвы в учебной зоне М-104",
+      "startOffset": 60,
+      "endOffset": 114,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "1efdaeae-5cf9-418b-bcad-e3c1b942ffc3",
+      "predicate": "nlinput:eventTime",
+      "stance": "asserted",
+      "subject": "episode_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "2026‑10‑01T12:00",
+      "quote": "1 октября 2026 года в 12:00",
+      "startOffset": 0,
+      "endOffset": 27,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "909ae5dc-e920-42bd-8306-e29002aacbf8",
+      "predicate": "nlinput:payment",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "платёж выполнен",
+      "quote": "оплата прошла",
+      "startOffset": 124,
+      "endOffset": 137,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "454c4726-ac28-4b10-86ad-211788f29686",
+      "predicate": "nlinput:eventTime",
+      "stance": "asserted",
+      "subject": "episode_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "2026‑10‑01T12:02",
+      "quote": "12:02",
+      "startOffset": 118,
+      "endOffset": 123,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "a71adcc0-e7e7-41d4-b8dc-859bcb8be3d2",
+      "predicate": "nlinput:paymentComplexity",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "неверный номер авто",
+      "quote": "выбрал номер другого своего автомобиля",
+      "startOffset": 144,
+      "endOffset": 182,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "c33ba176-ebd9-4332-bdcb-4a80c9f45251",
+      "predicate": "nlinput:eventTime",
+      "stance": "asserted",
+      "subject": "episode_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "2026‑10‑01T12:30",
+      "quote": "12:30",
+      "startOffset": 186,
+      "endOffset": 191,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "30c35757-6a75-4aea-b20c-f3b5a7c28945",
+      "predicate": "nlinput:departure",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "выезд из парковки",
+      "quote": "уехал",
+      "startOffset": 194,
+      "endOffset": 199,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "7b654c8d-ab57-4f2d-a768-f07b4f2b06c1",
+      "predicate": "nlinput:eventTime",
+      "stance": "asserted",
+      "subject": "episode_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "2026‑10‑01T18:00",
+      "quote": "18:00",
+      "startOffset": 205,
+      "endOffset": 210,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "9b22dd94-d32a-43cf-9d38-c77a3407f077",
+      "predicate": "nlinput:paymentComplexity",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "изменение номера после окончания",
+      "quote": "исправил номер автомобиля в завершённой сессии",
+      "startOffset": 211,
+      "endOffset": 257,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    }
+  ],
+  "quarantine": [
+    {
+      "class": "nlinput:paymentComplexity",
+      "text": "приложение показало, что исправление сохранено",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "сохранено в системе"
+      },
+      "interval": {
+        "start_pos": 259,
+        "end_pos": 305
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT",
+      "reason": "quote-not-found"
+    }
+  ],
+  "rawExtractions": [
+    {
+      "class": "nlinput:cityParking",
+      "text": "городскую уличную парковку Москвы в учебной зоне М-104",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "place_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "городская улица, Москва, зона M‑104"
+      },
+      "interval": {
+        "start_pos": 60,
+        "end_pos": 114
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:eventTime",
+      "text": "1 октября 2026 года в 12:00",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "episode_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "2026‑10‑01T12:00"
+      },
+      "interval": null,
+      "alignmentStatus": "None"
+    },
+    {
+      "class": "nlinput:payment",
+      "text": "оплата прошла",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "платёж выполнен"
+      },
+      "interval": {
+        "start_pos": 124,
+        "end_pos": 137
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:eventTime",
+      "text": "12:02",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "episode_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "2026‑10‑01T12:02"
+      },
+      "interval": {
+        "start_pos": 118,
+        "end_pos": 123
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:paymentComplexity",
+      "text": "выбрал номер другого своего автомобиля",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "неверный номер авто"
+      },
+      "interval": {
+        "start_pos": 144,
+        "end_pos": 182
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:eventTime",
+      "text": "12:30",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "episode_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "2026‑10‑01T12:30"
+      },
+      "interval": {
+        "start_pos": 186,
+        "end_pos": 191
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:departure",
+      "text": "уехал",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "выезд из парковки"
+      },
+      "interval": {
+        "start_pos": 194,
+        "end_pos": 199
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:eventTime",
+      "text": "18:00",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "episode_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "2026‑10‑01T18:00"
+      },
+      "interval": {
+        "start_pos": 205,
+        "end_pos": 210
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:paymentComplexity",
+      "text": "исправил номер автомобиля в завершённой сессии",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "изменение номера после окончания"
+      },
+      "interval": {
+        "start_pos": 211,
+        "end_pos": 257
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    },
+    {
+      "class": "nlinput:paymentComplexity",
+      "text": "приложение показало, что исправление сохранено",
+      "attributes": {
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "сохранено в системе"
+      },
+      "interval": {
+        "start_pos": 259,
+        "end_pos": 305
+      },
+      "alignmentStatus": "AlignmentStatus.MATCH_EXACT"
+    }
+  ],
+  "calls": [
+    {
+      "prompt": "Extract explicit statements from the source narrative, not legal conclusions.\nUse these extraction classes: nlinput:eventTime, nlinput:inMoscow, nlinput:cityParking, nlinput:placement, nlinput:paidRegime, nlinput:subjectScope, nlinput:attribution, nlinput:payment, nlinput:paymentStart, nlinput:departure, nlinput:paymentComplexity, nlinput:permit, nlinput:disabilityConditions, nlinput:specialTariff, nlinput:faultAndExclusions.\nEvery extraction_text must be an exact source substring. Retain both asserted and\ndenied statements even when they contradict. 'Not mentioned' is unknown, not denied.\nExtract each explicit negative separately. Do not infer fault, disability conditions,\nspecial tariffs or paid regime from absence of corrections, benefits or a zone name.\nUse attributes stance (asserted/denied/unknown), subject (neutral key, never a name),\naboutEpisode (neutral episode key), valueText (the explicit fact).\nIn a single episode use episode_1. Keep different vehicles distinguishable in valueText.\nPreserve payment corrections and wrong vehicle/zone details as paymentComplexity.\nUnknown mandatory conditions must be explained later during review, not invented here.\n\n\nExamples\nQ: В учебном эпизоде автомобиль стоял на городской парковке Тулы. Я сообщил: оплата произведена. В моём письме сказано: я не оплатил парковку. Оплата относилась к другому автомобилю.\nA: {\n  \"extractions\": [\n    {\n      \"nlinput:cityParking\": \"городской парковке Тулы\",\n      \"nlinput:cityParking_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"place_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"городская парковка Тулы\"\n      }\n    },\n    {\n      \"nlinput:payment\": \"оплата произведена\",\n      \"nlinput:payment_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"episode_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"оплата произведена\"\n      }\n    },\n    {\n      \"nlinput:payment\": \"я не оплатил парковку\",\n      \"nlinput:payment_attributes\": {\n        \"stance\": \"denied\",\n        \"subject\": \"episode_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"оплата отсутствует\"\n      }\n    },\n    {\n      \"nlinput:paymentComplexity\": \"Оплата относилась к другому автомобилю\",\n      \"nlinput:paymentComplexity_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"episode_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"неверный автомобиль\"\n      }\n    }\n  ]\n}\n\nQ: 1 октября 2026 года в 12:00 я поставил личный автомобиль на городскую уличную парковку Москвы в учебной зоне М-104. В 12:02 оплата прошла, но я выбрал номер другого своего автомобиля. В 12:30 я уехал, а в 18:00 исправил номер автомобиля в завершённой сессии. Приложение показало, что исправление сохранено.\nA: ",
+      "output": "{\n  \"extractions\": [\n    {\n      \"nlinput:cityParking\": \"городскую уличную парковку Москвы в учебной зоне М-104\",\n      \"nlinput:cityParking_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"place_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"городская улица, Москва, зона M‑104\"\n      }\n    },\n    {\n      \"nlinput:eventTime\": \"1 октября 2026 года в 12:00\",\n      \"nlinput:eventTime_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"episode_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"2026‑10‑01T12:00\"\n      }\n    },\n    {\n      \"nlinput:payment\": \"оплата прошла\",\n      \"nlinput:payment_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"платёж выполнен\"\n      }\n    },\n    {\n      \"nlinput:eventTime\": \"12:02\",\n      \"nlinput:eventTime_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"episode_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"2026‑10‑01T12:02\"\n      }\n    },\n    {\n      \"nlinput:paymentComplexity\": \"выбрал номер другого своего автомобиля\",\n      \"nlinput:paymentComplexity_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"неверный номер авто\"\n      }\n    },\n    {\n      \"nlinput:eventTime\": \"12:30\",\n      \"nlinput:eventTime_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"episode_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"2026‑10‑01T12:30\"\n      }\n    },\n    {\n      \"nlinput:departure\": \"уехал\",\n      \"nlinput:departure_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"выезд из парковки\"\n      }\n    },\n    {\n      \"nlinput:eventTime\": \"18:00\",\n      \"nlinput:eventTime_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"episode_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"2026‑10‑01T18:00\"\n      }\n    },\n    {\n      \"nlinput:paymentComplexity\": \"исправил номер автомобиля в завершённой сессии\",\n      \"nlinput:paymentComplexity_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"изменение номера после окончания\"\n      }\n    },\n    {\n      \"nlinput:paymentComplexity\": \"приложение показало, что исправление сохранено\",\n      \"nlinput:paymentComplexity_attributes\": {\n        \"stance\": \"asserted\",\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"valueText\": \"сохранено в системе\"\n      }\n    }\n  ]\n}"
+    }
+  ],
+  "reviewState": "unreviewed",
+  "alignmentDecisions": [
+    {
+      "statementId": "b22b583b-b563-47e2-b9f3-4b57393d7c56",
+      "libraryInterval": {
+        "start_pos": 60,
+        "end_pos": 114
+      },
+      "applicationInterval": {
+        "start_pos": 60,
+        "end_pos": 114
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "1efdaeae-5cf9-418b-bcad-e3c1b942ffc3",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 27
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "909ae5dc-e920-42bd-8306-e29002aacbf8",
+      "libraryInterval": {
+        "start_pos": 124,
+        "end_pos": 137
+      },
+      "applicationInterval": {
+        "start_pos": 124,
+        "end_pos": 137
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "454c4726-ac28-4b10-86ad-211788f29686",
+      "libraryInterval": {
+        "start_pos": 118,
+        "end_pos": 123
+      },
+      "applicationInterval": {
+        "start_pos": 118,
+        "end_pos": 123
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "a71adcc0-e7e7-41d4-b8dc-859bcb8be3d2",
+      "libraryInterval": {
+        "start_pos": 144,
+        "end_pos": 182
+      },
+      "applicationInterval": {
+        "start_pos": 144,
+        "end_pos": 182
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "c33ba176-ebd9-4332-bdcb-4a80c9f45251",
+      "libraryInterval": {
+        "start_pos": 186,
+        "end_pos": 191
+      },
+      "applicationInterval": {
+        "start_pos": 186,
+        "end_pos": 191
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "30c35757-6a75-4aea-b20c-f3b5a7c28945",
+      "libraryInterval": {
+        "start_pos": 194,
+        "end_pos": 199
+      },
+      "applicationInterval": {
+        "start_pos": 194,
+        "end_pos": 199
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "7b654c8d-ab57-4f2d-a768-f07b4f2b06c1",
+      "libraryInterval": {
+        "start_pos": 205,
+        "end_pos": 210
+      },
+      "applicationInterval": {
+        "start_pos": 205,
+        "end_pos": 210
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "9b22dd94-d32a-43cf-9d38-c77a3407f077",
+      "libraryInterval": {
+        "start_pos": 211,
+        "end_pos": 257
+      },
+      "applicationInterval": {
+        "start_pos": 211,
+        "end_pos": 257
+      },
+      "method": "unique-exact-source-search"
+    }
+  ],
+  "derivation": {
+    "mode": "offline-exact-reanchoring-no-inference",
+    "parentRawDigest": "dce18ac47f436e3c496ec8f7583b471469d576f133276bcc41e606017e3067f7",
+    "parentDirectory": "2026-10-05-langextract-schema-gpt-oss-20b"
+  }
+}

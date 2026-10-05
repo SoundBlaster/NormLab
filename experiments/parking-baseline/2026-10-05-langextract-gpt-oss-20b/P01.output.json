@@ -1,0 +1,19 @@
+{
+  "schema": "normlab.langextract-statements/v1",
+  "sourceDigest": "2b0d6e22a1bfac8d60d9ce893cacce20d9e54f10184cedb0936940e335e7421c",
+  "langextractVersion": "1.7.0",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "schemaConstraints": "library-default",
+  "passes": 1,
+  "fuzzyAlignment": false,
+  "latencyMs": 16777,
+  "error": "InferenceRuntimeError: OpenAI API error: Error code: 400 - {'error': \"'response_format.type' must be 'json_schema' or 'text'\"}",
+  "prompt": "Extract explicit statements from the source narrative, not legal conclusions.\nUse these extraction classes: nlinput:eventTime, nlinput:inMoscow, nlinput:cityParking, nlinput:placement, nlinput:paidRegime, nlinput:subjectScope, nlinput:attribution, nlinput:payment, nlinput:paymentStart, nlinput:departure, nlinput:paymentComplexity, nlinput:permit, nlinput:disabilityConditions, nlinput:specialTariff, nlinput:faultAndExclusions.\nEvery extraction_text must be an exact source substring. Retain both asserted and\ndenied statements even when they contradict. 'Not mentioned' is unknown, not denied.\nExtract each explicit negative separately. Do not infer fault, disability conditions,\nspecial tariffs or paid regime from absence of corrections, benefits or a zone name.\nUse attributes stance (asserted/denied/unknown), subject (neutral key, never a name),\naboutEpisode (neutral episode key), valueText (the explicit fact).\nIn a single episode use episode_1. Keep different vehicles distinguishable in valueText.\nPreserve payment corrections and wrong vehicle/zone details as paymentComplexity.\nUnknown mandatory conditions must be explained later during review, not invented here.\n",
+  "exampleText": "В учебном эпизоде автомобиль стоял на городской парковке Тулы. Я сообщил: оплата произведена. В моём письме сказано: я не оплатил парковку. Оплата относилась к другому автомобилю.",
+  "statements": [],
+  "quarantine": [],
+  "rawExtractions": [],
+  "calls": [],
+  "reviewState": "unreviewed"
+}

@@ -7,3 +7,5 @@ dist/
 *.ilean
 .DS_Store
 *.log
+__pycache__/
+.ruff_cache/

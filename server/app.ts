@@ -18,6 +18,7 @@ import { isCurrentAnalysis } from '../shared/current.js';
 import { LabHttpError, ReformLab } from './reform-lab.js';
 import { isWithinDirectory } from './path-containment.js';
 import { MAX_EXPERIMENT_BYTES } from '../shared/reform-transfer.js';
+import { ParkingReview, ParkingReviewError } from './parking-review.js';
 
 class HttpError extends Error {
   constructor(
@@ -65,6 +66,7 @@ export async function createApp(options: { dataDir: string; production?: boolean
   const csrfToken = randomBytes(32).toString('hex');
   const running = new Map<string, Promise<Analysis>>();
   const lab = new ReformLab(options.dataDir, () => running.size);
+  const parking = new ParkingReview(options.dataDir);
   const vite =
     options.web !== false && !options.production
       ? await (
@@ -90,6 +92,16 @@ export async function createApp(options: { dataDir: string; production?: boolean
       if (path.startsWith('/api/')) {
         if (req.method === 'POST' && req.headers['x-normlab-token'] !== csrfToken)
           throw new HttpError(403, 'Обновите страницу: локальная сессия изменилась.');
+        if (path.startsWith('/api/parking/')) {
+          const result = await parking.handle(
+            req.method ?? 'GET',
+            path,
+            req.method === 'POST' ? await readBody(req, 2 * 1024 * 1024) : undefined,
+          );
+          if (result === undefined) throw new HttpError(404, 'Parking route не найден.');
+          send(res, 200, result);
+          return;
+        }
         if (path.startsWith('/api/reform/')) {
           if (req.method === 'GET' && path === '/api/reform/experiments/download') {
             const result = await lab.handle(
@@ -267,7 +279,11 @@ export async function createApp(options: { dataDir: string; production?: boolean
       if (error instanceof z.ZodError)
         send(res, 400, { error: error.issues[0]?.message ?? 'Некорректные данные.' });
       else if (error instanceof Conflict) send(res, 409, { error: error.message });
-      else if (error instanceof HttpError || error instanceof LabHttpError)
+      else if (
+        error instanceof HttpError ||
+        error instanceof LabHttpError ||
+        error instanceof ParkingReviewError
+      )
         send(res, error.status, { error: error.message });
       else {
         console.error(error instanceof Error ? error.message : 'Server error');

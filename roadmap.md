@@ -160,3 +160,15 @@ Task IDs сохранены при изменении приоритетов: н
 ### Luna low comparison — 2026-10-05
 
 [Сравнение через Codex CLI](docs/PARKING_LUNA_COMPARISON_2026-10-05.md): 4/4 shape/quote pass и 1/4 structural pass при том же application input. P09 проходит validator, но теряет отрицание оплаты из assertions; semantic readiness gate остаётся открытым. Следующий ход — независимый checklist сохранения отрицаний/противоречий, evidence support и обязательных unknowns, затем statement-first extraction с построением графа приложением. Сравнение не изолирует эффект модели от Codex context/decoding/transport.
+
+### Evaluation и statement review — 2026-10-05
+
+[Методика](docs/EVALUATION_PLAN.md), [setup](docs/EVALUATION_SETUP.md), [результаты](docs/PARKING_EVALUATION_2026-10-05.md): MLflow registry, candidate expectations, single-pass LangExtract и двухэтапное literal discovery → classification. Реализован HTTP/UI этап выделения и ручного review утверждений с immutable revisions. Это не полный ontology graph и не КоАП calculation. Двухэтапная серия: 2/4 statement gate, 0/4 всех candidate checks; цель 80% не достигнута, release score pending.
+
+- [x] Хранить raw outputs, intermediate fragments, prompts, source hashes и scorer snapshots.
+- [x] Дать пользователю выделение текста, правку и подтверждение каждого утверждения.
+- [ ] Провести browser walkthrough нового review flow.
+- [ ] Независимо разметить semantic ошибки и расширить holdout.
+- [ ] Улучшить discovery coverage и классификацию polarity без неподдержанных выводов.
+- [ ] Построить ontology graph из reviewed assertions и подключить legal calculation.
+- [ ] Включить Evidently при появлении пользовательского потока и согласованных drift metrics.

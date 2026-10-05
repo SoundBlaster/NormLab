@@ -1,0 +1,221 @@
+{
+  "schema": "normlab.parking-evaluation-expectations/v1",
+  "status": "candidate-not-expert-approved",
+  "targetCasePassRate": 0.8,
+  "meaning": "80% cases without critical errors before human correction; release score requires independent semantic review",
+  "cases": [
+    {
+      "id": "P01",
+      "required": [
+        [
+          "eventTime",
+          "asserted"
+        ],
+        [
+          "inMoscow",
+          "asserted"
+        ],
+        [
+          "cityParking",
+          "asserted"
+        ],
+        [
+          "placement",
+          "asserted"
+        ],
+        [
+          "paidRegime",
+          "asserted"
+        ],
+        [
+          "payment",
+          "denied"
+        ],
+        [
+          "paymentComplexity",
+          "denied"
+        ],
+        [
+          "permit",
+          "denied"
+        ]
+      ],
+      "forbidden": [
+        [
+          "faultAndExclusions",
+          "denied"
+        ],
+        [
+          "disabilityConditions",
+          "denied"
+        ],
+        [
+          "specialTariff",
+          "denied"
+        ]
+      ],
+      "review": "Missing roles, alleged absence of zone designation, source support and attribution need human review."
+    },
+    {
+      "id": "P02",
+      "required": [
+        [
+          "eventTime",
+          "asserted"
+        ],
+        [
+          "inMoscow",
+          "asserted"
+        ],
+        [
+          "cityParking",
+          "asserted"
+        ],
+        [
+          "placement",
+          "asserted"
+        ],
+        [
+          "paidRegime",
+          "asserted"
+        ],
+        [
+          "payment",
+          "asserted"
+        ],
+        [
+          "paymentStart",
+          "asserted"
+        ],
+        [
+          "departure",
+          "asserted"
+        ],
+        [
+          "paymentComplexity",
+          "denied"
+        ],
+        [
+          "permit",
+          "denied"
+        ]
+      ],
+      "forbidden": [
+        [
+          "faultAndExclusions",
+          "denied"
+        ],
+        [
+          "disabilityConditions",
+          "denied"
+        ],
+        [
+          "specialTariff",
+          "denied"
+        ]
+      ],
+      "review": "Verify vehicle/zone/payment coverage and distinguish payment time from paid interval."
+    },
+    {
+      "id": "P04",
+      "required": [
+        [
+          "eventTime",
+          "asserted"
+        ],
+        [
+          "inMoscow",
+          "asserted"
+        ],
+        [
+          "cityParking",
+          "asserted"
+        ],
+        [
+          "placement",
+          "asserted"
+        ],
+        [
+          "payment",
+          "asserted"
+        ],
+        [
+          "paymentStart",
+          "asserted"
+        ],
+        [
+          "departure",
+          "asserted"
+        ],
+        [
+          "paymentComplexity",
+          "asserted"
+        ]
+      ],
+      "forbidden": [
+        [
+          "paidRegime",
+          "asserted"
+        ],
+        [
+          "paymentComplexity",
+          "denied"
+        ],
+        [
+          "faultAndExclusions",
+          "denied"
+        ]
+      ],
+      "review": "Both vehicles must remain distinguishable; payment targets the other vehicle, correction is a claim rather than legal validation. Mandatory unknowns remain open."
+    },
+    {
+      "id": "P09",
+      "required": [
+        [
+          "eventTime",
+          "asserted"
+        ],
+        [
+          "inMoscow",
+          "asserted"
+        ],
+        [
+          "cityParking",
+          "asserted"
+        ],
+        [
+          "placement",
+          "asserted"
+        ],
+        [
+          "paidRegime",
+          "asserted"
+        ],
+        [
+          "payment",
+          "asserted"
+        ],
+        [
+          "payment",
+          "denied"
+        ],
+        [
+          "paymentStart",
+          "asserted"
+        ],
+        [
+          "paymentComplexity",
+          "denied"
+        ]
+      ],
+      "forbidden": [
+        [
+          "faultAndExclusions",
+          "denied"
+        ]
+      ],
+      "opposingPaymentSameEpisode": true,
+      "review": "Both payment assertions need correct evidence/attribution. Absence of corrections does not establish absence of fault. Unknown permits must remain open."
+    }
+  ]
+}

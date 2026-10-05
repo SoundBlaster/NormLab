@@ -1,0 +1,80 @@
+{
+  "schema": "normlab.baseline-artifacts/v1",
+  "signed": false,
+  "entries": [
+    {
+      "path": "P01.input.json",
+      "sha256": "81602b56aa0a023bd1bb69b35a529990e4ebfd6dd81d1370aa0ca41aa5d96aba"
+    },
+    {
+      "path": "P01.output.json",
+      "sha256": "13d341d5fc1956aab0706f541bdd058d56055364b560374ae31fd6a919b428d6"
+    },
+    {
+      "path": "P01.stderr.txt",
+      "sha256": "14bfdc8b3b007304628932c36ecada52095915146989b3a48b8eef5267dca2ff"
+    },
+    {
+      "path": "P01.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "P02.input.json",
+      "sha256": "1a7d953fc61c2d3d385e4970a4a67a08cd5c60625fd215c470ce906ef5849e08"
+    },
+    {
+      "path": "P02.output.json",
+      "sha256": "66b1e94ec954c219be46eaa567f3ea28f35e23bf71482b813e5e9e9e2071a1cc"
+    },
+    {
+      "path": "P02.stderr.txt",
+      "sha256": "57a3eb1db55a1194ccb83d06ed8e88d2aa2128ed4a3a197b8d25ce7e40a52c44"
+    },
+    {
+      "path": "P02.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "P04.input.json",
+      "sha256": "8e09d6951e9139a3f180dd7e6f3e27b596661980d36fb74788f796ae4b942705"
+    },
+    {
+      "path": "P04.output.json",
+      "sha256": "dce18ac47f436e3c496ec8f7583b471469d576f133276bcc41e606017e3067f7"
+    },
+    {
+      "path": "P04.stderr.txt",
+      "sha256": "fb07c98976b70577b46fdacdcd09c01d0dfb756fdeb9b57de7ca900545a894ee"
+    },
+    {
+      "path": "P04.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "P09.input.json",
+      "sha256": "90ff11c0f3859c90e9e68ea44f34de3276649c1233c98bf527c126c58f6d8a48"
+    },
+    {
+      "path": "P09.output.json",
+      "sha256": "1e47d4e128b16cc396ea8067d1e0e9722eb86ffa979e0a8373facb70d2b70ba2"
+    },
+    {
+      "path": "P09.stderr.txt",
+      "sha256": "b5709db2c39ba2272c43746863810522fbedac92a9ee42c7a0adb03e4a0bfcb0"
+    },
+    {
+      "path": "P09.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "extractor-source.py",
+      "sha256": "89ff32b747ad1e329156ce925e26f107549b66d470d3e2edaf40f81b2a418ef6"
+    },
+    {
+      "path": "runner-source.py",
+      "sha256": "5aec3ee3873c3ed11cc46624189ef0e6344b7eaaf8cb92d2f1620e0f97f7afe1"
+    }
+  ],
+  "extractorSha256": "89ff32b747ad1e329156ce925e26f107549b66d470d3e2edaf40f81b2a418ef6",
+  "runnerSha256": "5aec3ee3873c3ed11cc46624189ef0e6344b7eaaf8cb92d2f1620e0f97f7afe1"
+}
