@@ -146,6 +146,7 @@ export class ParkingReview {
       const draft = this.expected(input.draftId, input.expectedRevisionId);
       if (new Set(input.statements.map((s) => s.id)).size !== input.statements.length)
         throw new ParkingReviewError('Повторяются IDs утверждений.');
+      let statementsChanged = false;
       const statements = input.statements.map((statement) => {
         const prior = draft.statements.find((s) => s.id === statement.id);
         const changed =
@@ -163,6 +164,7 @@ export class ParkingReview {
             (key) =>
               statement[key as keyof ReviewStatement] !== prior[key as keyof ReviewStatement],
           );
+        statementsChanged ||= changed;
         // A content edit must be saved before it can be confirmed in a subsequent revision.
         const result = {
           ...statement,
@@ -181,6 +183,8 @@ export class ParkingReview {
       const contentChanged = statements.some(
         (s) => s.origin === 'human' && s.decision === 'pending',
       );
+      const checklistChanged =
+        JSON.stringify(input.checklist) !== JSON.stringify(draft.checklist);
       const checklist = contentChanged ? { ...emptyReviewChecklist } : input.checklist;
       if (
         input.finishReview &&
@@ -194,7 +198,11 @@ export class ParkingReview {
       return this.revise(draft, {
         statements,
         checklist,
-        status: input.finishReview ? 'reviewed' : 'draft',
+        status:
+          input.finishReview ||
+          (draft.status === 'reviewed' && !statementsChanged && !checklistChanged)
+            ? 'reviewed'
+            : 'draft',
       });
     }
     if (method === 'POST' && path === '/api/parking/extract') {
