@@ -13,7 +13,18 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./client/*"]
+    }
   },
-  "include": ["client", "server", "shared", "scripts", "tests", "vite.config.ts"]
+  "include": [
+    "client",
+    "server",
+    "shared",
+    "scripts",
+    "tests",
+    "vite.config.ts",
+    "steiger.config.ts"
+  ]
 }

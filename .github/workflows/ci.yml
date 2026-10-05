@@ -2,7 +2,6 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
@@ -15,6 +14,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  architecture:
+    name: FSD architecture
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22.18.0
+          cache: npm
+
+      - name: Install locked npm dependencies
+        run: npm ci
+
+      - name: Check FSD layers, public APIs, and import boundaries
+        run: npm run lint:architecture
+
   verify:
     name: Format, lint, tests, and build
     runs-on: ubuntu-24.04
@@ -51,8 +70,8 @@ jobs:
       - name: Check complete classification contract
         run: python evaluation/check_classification_v3.py "$RUNNER_TEMP/normlab-classification-contract"
 
-      - name: Lint with type-aware rules
-        run: npm run lint
+      - name: Lint TypeScript and public API re-export guards
+        run: npm run lint:code
 
       - name: Check TypeScript types
         run: npm run check

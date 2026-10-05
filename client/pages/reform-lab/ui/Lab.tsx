@@ -1,4 +1,5 @@
-import { Button, Field, Panel, Select, Status, Textarea } from '../ui/components.js';
+import { requestJson as request } from '@/shared/api';
+import { Button, Field, Panel, Select, Status, Textarea } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import {
   labModelRoles,
@@ -7,13 +8,9 @@ import {
   type LabBootstrap,
   type LabQueryId,
   type LabWorkspace,
-} from '../../shared/reform-lab.js';
-import type {
-  ReformSnapshot,
-  ReformSnapshotInput,
-  ReformCompletedInput,
-} from '../../shared/reform-contracts.js';
-import type { FindingState } from '../../shared/domain.js';
+} from '@/entities/norm';
+import type { ReformSnapshot, ReformSnapshotInput, ReformCompletedInput } from '@/entities/norm';
+import type { FindingState } from '@/entities/norm';
 import {
   ArtifactActions,
   ConsequenceMetrics,
@@ -60,21 +57,6 @@ const emptyInput: ReformSnapshotInput = {
     E: { state: 'unreviewed', rationale: '' },
   },
 };
-async function request<T>(path: string, token?: string, body?: unknown): Promise<T> {
-  const response = await fetch(
-    path,
-    body === undefined
-      ? {}
-      : {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-NormLab-Token': token ?? '' },
-          body: JSON.stringify(body),
-        },
-  );
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error ?? 'Не удалось связаться с сервером.');
-  return result as T;
-}
 export function Lab() {
   const [data, setData] = useState<LabBootstrap | null>(null);
   const [tab, setTab] = useState<Tab>('experiment');

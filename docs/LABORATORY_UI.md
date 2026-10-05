@@ -35,7 +35,7 @@ Formal claims относятся к locked IR, findings, поддержанно�
 
 ## Storage и HTTP API
 
-Реализация: [ReformStore](../server/reform-store.ts), [ReformLab](../server/reform-lab.ts), [HTTP app](../server/app.ts), [wire types](../shared/reform-lab.ts), [React UI](../client/lab/Lab.tsx).
+Реализация: [ReformStore](../server/reform-store.ts), [ReformLab](../server/reform-lab.ts), [HTTP app](../server/app.ts), [wire types](../shared/reform-lab.ts), [React UI](../client/pages/reform-lab/ui/Lab.tsx).
 
 `reform_snapshots` и `reform_analyses` — отдельные таблицы в `normlab.sqlite`. SQL triggers запрещают UPDATE/DELETE; snapshot revisions создаются в transaction. M0 tables и v1 artifacts сохраняют прежние contracts. Миграция v1 snapshots в v2 не выполняется. По умолчанию данные и signing keys находятся в `.data/`; `NORMLAB_DATA_DIR` задаёт другой каталог. Private keys не входят в HTTP responses и downloads.
 

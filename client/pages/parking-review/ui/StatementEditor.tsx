@@ -2,17 +2,8 @@ import {
   reviewPredicates,
   reviewStatementIssues,
   type ReviewStatement,
-} from '../../shared/parking-review.js';
-import {
-  Actions,
-  Button,
-  Field,
-  Input,
-  Quote,
-  Select,
-  Status,
-  Textarea,
-} from '../ui/components.js';
+} from '../model/contracts.js';
+import { Actions, Button, Field, Input, Quote, Select, Status, Textarea } from '@/shared/ui';
 
 const predicateNames: Record<string, string> = {
   eventTime: 'Время события',

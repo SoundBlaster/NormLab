@@ -230,10 +230,19 @@ Task IDs сохранены при изменении приоритетов: н
 
 ### Общая дизайн-система — 2026-10-05
 
-[UI foundation и правила развития](client/ui/README.md): semantic tokens и небольшие reusable React primitives. Парковочный review и главная форма A/B/C используют общие поля, кнопки, панели и статусы; CSS парковки содержит layout и оформление domain editor. `StatementEditor` отделён от состояния экрана.
+[UI foundation и правила развития](client/shared/ui/README.md): semantic tokens и небольшие reusable React primitives. Парковочный review и главная форма A/B/C используют общие поля, кнопки, панели и статусы; CSS парковки содержит layout и оформление domain editor. `StatementEditor` отделён от состояния экрана.
 
 - [x] Вынести цвета, интервалы, размеры controls, radii и состояния в общую основу.
 - [x] Перевести parking review и основную форму A/B/C на shared components; убрать повторяющиеся базовые стили.
 - [x] Проверить refs/выделение цитаты, ручное добавление и редактирование pending statement без сохранения учебной правки.
 - [ ] Новые gap proposals собирать из тех же primitives.
 - [ ] Постепенно мигрировать legacy M0 и оставшиеся Views/Transfer с compatibility selectors.
+
+### Frontend architecture: FSD
+
+- [x] Separate app composition from page workflows, including legacy M0.
+- [x] Public APIs, aliases and shared UI under `client/shared/ui`.
+- [x] Steiger enforces layer boundaries, public APIs and import locality in local lint and CI.
+- [ ] Build the parking gaps editor using the same shared primitives and page-local model.
+
+See [frontend architecture](client/ARCHITECTURE.md).

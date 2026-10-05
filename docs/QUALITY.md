@@ -18,5 +18,17 @@ docker compose config --quiet
 ## Scoped accessibility and test-runner exceptions
 
 - `typescript/no-floating-promises` is disabled only under `tests/`. The Node.js test runner consumes the promises returned by top-level `test()` registrations; those are test declarations, not detached application work.
-- `jsx-a11y/no-noninteractive-tabindex` is disabled only in `client/lab/Views.tsx`. Its three overflowable table regions use `tabIndex={0}` so keyboard users can focus and scroll the tables.
+- `jsx-a11y/no-noninteractive-tabindex` is disabled only in `client/pages/reform-lab/ui/Views.tsx`. Its three overflowable table regions use `tabIndex={0}` so keyboard users can focus and scroll the tables.
 - `jsx-a11y/prefer-tag-over-role` is disabled globally. The application uses ARIA `role="status"` for live status announcements; HTML `output` is intended for a calculation or form result and is not a drop-in semantic replacement for every status message.
+
+## Frontend architecture
+
+`npm run lint` includes `lint:code` (Oxlint) and `lint:architecture` (Steiger). Architecture warnings fail the gate. See [FSD boundaries and ownership](../client/ARCHITECTURE.md).
+
+Steiger 0.7.0 named re-exports do not participate in its import-boundary checks; Oxlint restricts public `index.ts` to local modules. Negative probes confirmed rejection of Shared → Pages, Page → Page, deep public API bypass, higher-layer named re-export in a public API, and UI importing canonical root contracts directly.
+
+The pinned Steiger dev dependency currently brings npm audit advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) through braces/micromatch (5 high entries in the dependency chain). npm currently offers a downgrade rather than a patched braces release. This tooling reads repository glob patterns; it is not included in the browser production bundle. Track the upstream fix before accepting externally supplied glob patterns.
+
+GitHub CI runs on pull requests to any base branch, including stacked PRs. The dedicated `FSD architecture` job runs `npm run lint:architecture` with warnings treated as failures; the main verification job runs Oxlint, including public API re-export guards. Push-triggered CI remains limited to `main`.
+
+The project declares npm 10.9.3 (`packageManager`), matching CI's Node 22.18.0 distribution. Regenerate lockfiles with that npm version; npm 11 previously omitted Steiger's optional TypeScript 5.9 peer entry, causing npm 10 clean installation to fail. The application compiler remains TypeScript 7.

@@ -3,7 +3,7 @@ import {
   emptyReviewChecklist,
   type ReviewDraft,
   type ReviewStatement,
-} from '../../shared/parking-review.js';
+} from '../model/contracts.js';
 import {
   Actions,
   Button,
@@ -16,7 +16,7 @@ import {
   Select,
   Status,
   Textarea,
-} from '../ui/components.js';
+} from '@/shared/ui';
 import { StatementEditor } from './StatementEditor.js';
 import './review.css';
 

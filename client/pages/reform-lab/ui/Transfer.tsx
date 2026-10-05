@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import type { LabBootstrap } from '../../shared/reform-lab.js';
+import type { LabBootstrap } from '@/entities/norm';
 import {
   MAX_EXPERIMENT_BYTES,
   MAX_EXPERIMENT_ITEMS,
   type ImportedExperimentSummary,
   type ImportedExperimentView,
-} from '../../shared/reform-transfer.js';
+} from '@/entities/norm';
 import {
   ConsequenceMetrics,
   Evidence,

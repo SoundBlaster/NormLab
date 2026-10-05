@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { LabAnalysisView, LabBootstrap } from '../../shared/reform-lab.js';
-import type { ReformExplanation } from '../../shared/reform-explanations.js';
-import type { ReformMetrics } from '../../shared/reform-metrics.js';
-import type { FindingState } from '../../shared/domain.js';
+import type { LabAnalysisView, LabBootstrap } from '@/entities/norm';
+import type { ReformExplanation } from '@/entities/norm';
+import type { ReformMetrics } from '@/entities/norm';
+import type { FindingState } from '@/entities/norm';
 
 export const findingNames: Record<FindingState, string> = {
   established: 'Установлено',
