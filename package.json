@@ -26,7 +26,8 @@
     "schemas:check": "tsx scripts/export-contracts.ts --check",
     "parking:references:check": "tsx scripts/check-parking-references.ts",
     "parking:baseline": "tsx scripts/parking-baseline.ts",
-    "parking:evaluate": "tsx scripts/parking-evaluate.ts"
+    "parking:evaluate": "tsx scripts/parking-evaluate.ts",
+    "parking:evaluate:synthetic": "tsx scripts/parking-synthetic-evaluate.ts"
   },
   "dependencies": {
     "react": "19.3.0",
