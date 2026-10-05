@@ -152,7 +152,7 @@ export function ParkingReview({ token }: { token: string }) {
         id: crypto.randomUUID(),
         predicate: 'nlinput:payment',
         stance: 'asserted',
-        subject: 'episode_1',
+        subject: 'vehicle_1',
         aboutEpisode: 'episode_1',
         valueText: quote,
         quote,

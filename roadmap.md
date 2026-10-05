@@ -200,10 +200,22 @@ Task IDs сохранены при изменении приоритетов: н
 
 ### Complete classification v3 — 2026-10-05
 
-[Контракт и controlled comparison](docs/CLASSIFICATION_V3_2026-10-05.md): обязательное решение для каждого fragmentId, explicit unrelated reason, runtime validation и девять offline checks в CI. На неизменных 82 fragments v2 модель представила все 82 ID; 79 решений приняты, два case responses отклонены. Selected assertion-probe pass вырос с 11/40 до 28/40, structural pass снизился с 39/40 до 38/40. Это не оценка 80% critical-error-free; HTTP/UI остаётся на v1.
+[Контракт и controlled comparison](docs/CLASSIFICATION_V3_2026-10-05.md): обязательное решение для каждого fragmentId, explicit unrelated reason, runtime validation и девять offline checks в CI. На неизменных 82 fragments v2 модель представила все 82 ID; 79 решений приняты, два case responses отклонены. Selected assertion-probe pass вырос с 11/40 до 28/40, structural pass снизился с 39/40 до 38/40. Это не оценка 80% critical-error-free; на момент controlled comparison HTTP/UI оставался на v1 (подключение v3 описано ниже).
 
 - [x] Сохранить controlled replay, parent digests, полные ответы и отдельно сравнить submitted coverage / accepted decisions / semantic probes.
 - [x] Проверить три свежих end-to-end cases без replay.
 - [ ] Разобрать 12 semantic-probe failures: unknown, отрицания, интервалы, другой автомобиль, место и ошибки реквизитов.
 - [ ] Проверять evidence support каждого predicate; не переносить место/режим из соседнего fragment без provenance binding.
 - [ ] Устранить status/reason grammar inconsistency отдельной версией, сохраняя ошибки текущего прогона в denominator.
+
+### Локальное демо с ручной правкой — 2026-10-05
+
+[Результат подключения и browser walkthrough](docs/ASSISTED_DEMO_V3_2026-10-05.md). Цель демо снижена до **50% кейсов без критических ошибок до ручной правки**, 80% остаётся дальнейшей целью. Достижение 50% ещё не подтверждено: 28/40 selected semantic probes не покрывают всю метрику. V3 подключён как экспериментальные предложения для обязательного human review; AI readiness gate не закрыт.
+
+- [x] Подключить свежий discovery v2 → classification v3 к HTTP/UI, принимать только model/pending statements с точной цитатой.
+- [x] Проверить в Browser Preview ручную правку реальных предложений, подтверждение, checklist, сброс после следующей правки и read-only историю.
+- [x] Зафиксировать regression test сохранения ревизий и сброса после изменения speaker.
+- [ ] Добавить отдельные structured gap proposals и их ручную проверку: сейчас неизвестные обстоятельства записываются только в rationale.
+- [ ] Проверить ручное добавление выделенного текста, отказ модели и экспорт отдельным browser проходом.
+- [ ] Провести независимую разметку критических ошибок кейсов и оценить цель 50% до вмешательства пользователя.
+- [ ] Подключить проверенные утверждения и gaps к ontology graph и правовому расчёту; review сам по себе расчётом не является.
