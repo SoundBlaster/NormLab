@@ -28,13 +28,15 @@ VARIANTS = [
 
 
 def main():
+    variants = sys.argv[2:] or VARIANTS
+    if any(variant not in VARIANTS for variant in variants):
+        raise ValueError("Unknown diagnostic variant")
+    if len(variants) != len(set(variants)):
+        raise ValueError("Duplicate diagnostic variant")
     destination = Path(sys.argv[1])
     destination.mkdir(parents=True, exist_ok=False)
     worker_bytes = Path(__file__).read_bytes()
     (destination / "worker.py.snapshot").write_bytes(worker_bytes)
-    variants = sys.argv[2:] or VARIANTS
-    if any(variant not in VARIANTS for variant in variants):
-        raise ValueError("Unknown diagnostic variant")
     client = OpenAI(
         api_key="local-only",
         base_url="http://127.0.0.1:1234/v1",
