@@ -1,3 +1,4 @@
+import { Button, Field, Panel, Select, Status, Textarea } from '../ui/components.js';
 import { useEffect, useState } from 'react';
 import {
   labModelRoles,
@@ -275,10 +276,10 @@ export function Lab() {
   }
   if (!data || !selected)
     return (
-      <section className="lab-panel" role="status">
+      <Panel className="lab-panel" role="status">
         <h2>{error ? 'Не удалось открыть A/B/C' : 'Загружаем A/B/C…'}</h2>
         {error && <p role="alert">{error}</p>}
-      </section>
+      </Panel>
     );
   const changeFinding = (
     predicate: 'M' | 'N' | 'E',
@@ -292,17 +293,22 @@ export function Lab() {
     <div className="lab" aria-busy={busy}>
       <nav className="lab-tabs" aria-label="Разделы A/B/C">
         {tabs.map((t) => (
-          <button key={t.id} aria-pressed={tab === t.id} onClick={() => setTab(t.id)}>
+          <Button
+            variant="quiet"
+            key={t.id}
+            aria-pressed={tab === t.id}
+            onClick={() => setTab(t.id)}
+          >
             {t.label}
-          </button>
+          </Button>
         ))}
       </nav>
       {error && (
         <div className="message error" role="alert">
           {error}{' '}
-          <button className="text-button" onClick={() => location.reload()}>
+          <Button variant="quiet" className="text-button" onClick={() => location.reload()}>
             Перезагрузить рабочую область
-          </button>
+          </Button>
         </div>
       )}
       <div className="lab-live" role="status" aria-live="polite">
@@ -330,12 +336,12 @@ export function Lab() {
           {historical && (
             <div className="message historical">
               Просмотр исходных входов и результатов. Эта ревизия не изменяется.
-              <button onClick={() => selectSnapshot(latest!)} disabled={busy}>
+              <Button variant="quiet" onClick={() => selectSnapshot(latest!)} disabled={busy}>
                 К последней ревизии →
-              </button>
+              </Button>
             </div>
           )}
-          <section className="lab-panel lab-comparison" aria-labelledby="lab-comparison-title">
+          <Panel className="lab-panel lab-comparison" aria-labelledby="lab-comparison-title">
             <div className="lab-panel-heading">
               <div>
                 <h2 id="lab-comparison-title">Сравнение A/B/C</h2>
@@ -356,13 +362,13 @@ export function Lab() {
                 <>
                   <strong>Изменения ещё не рассчитаны.</strong>
                   <span>Ниже — результаты сохранённого snapshot #{selected.revision}.</span>
-                  <button
-                    className="primary"
+                  <Button
+                    variant="primary"
                     disabled={busy || historical}
                     onClick={() => runCase(true)}
                   >
                     Сохранить и пересчитать A/B/C
-                  </button>
+                  </Button>
                 </>
               ) : caseViews.length ? (
                 <span>
@@ -371,25 +377,25 @@ export function Lab() {
               ) : (
                 <>
                   <span>Для snapshot #{selected.revision} пока нет результатов.</span>
-                  <button
-                    className="primary"
+                  <Button
+                    variant="primary"
                     disabled={busy || historical}
                     onClick={() => runCase(true)}
                   >
                     Сравнить A/B/C
-                  </button>
+                  </Button>
                 </>
               )}
             </div>
             <ModelCards views={caseViews} active={activeRole} onSelect={setActiveRole} />
-          </section>
-          <section className="lab-panel lab-editor">
+          </Panel>
+          <Panel className="lab-panel lab-editor">
             <div className="lab-panel-heading">
               <div>
                 <span className="eyebrow">ОДИН СУБЪЕКТ · ОДИН ЭПИЗОД</span>
                 <h2>Обстоятельства и мотивированные findings</h2>
               </div>
-              <span className="lab-status">Simulated reviewer</span>
+              <Status>Simulated reviewer</Status>
             </div>
             <form
               onSubmit={(event) => {
@@ -398,28 +404,26 @@ export function Lab() {
               }}
             >
               <div className="lab-case-input">
-                <label>
-                  Описание сценария
-                  <textarea
+                <Field label="Описание сценария">
+                  <Textarea
                     value={form.narrative}
                     maxLength={6000}
                     rows={3}
                     disabled={busy || historical}
                     onChange={(e) => editForm({ ...form, narrative: e.target.value })}
                   />
-                </label>
-                <label>
-                  Группа
-                  <select
+                </Field>
+                <Field label="Группа">
+                  <Select
                     value={form.group}
                     disabled={busy || historical}
                     onChange={(e) => editForm({ ...form, group: e.target.value as 'K1' | 'K2' })}
                   >
                     <option>K1</option>
                     <option>K2</option>
-                  </select>
+                  </Select>
                   <small>Выбор группы задан извне; основания ответственности вне scope.</small>
-                </label>
+                </Field>
               </div>
               <div className="lab-finding-grid">
                 {(['M', 'N', 'E'] as const).map((p) => (
@@ -428,9 +432,8 @@ export function Lab() {
                       {p} ·{' '}
                       {{ M: 'Возмещение', N: 'Самостоятельное сообщение', E: 'Повторность' }[p]}
                     </legend>
-                    <label>
-                      Состояние {p}
-                      <select
+                    <Field label={<> Состояние {p} </>}>
+                      <Select
                         value={form.findings[p].state}
                         onChange={(e) =>
                           changeFinding(p, { state: e.target.value as FindingState })
@@ -441,18 +444,17 @@ export function Lab() {
                             {name}
                           </option>
                         ))}
-                      </select>
-                    </label>
-                    <label>
-                      Основание {p}
-                      <textarea
+                      </Select>
+                    </Field>
+                    <Field label={<> Основание {p} </>}>
+                      <Textarea
                         rows={2}
                         maxLength={2000}
                         value={form.findings[p].rationale}
                         onChange={(e) => changeFinding(p, { rationale: e.target.value })}
                         placeholder="Мотивировка simulated finding"
                       />
-                    </label>
+                    </Field>
                   </fieldset>
                 ))}
               </div>
@@ -461,30 +463,31 @@ export function Lab() {
                 исключается только N; M остаётся обязательным.
               </p>
               <div className="lab-form-actions">
-                <button className="primary" type="submit" disabled={busy || historical}>
+                <Button variant="primary" type="submit" disabled={busy || historical}>
                   {dirty ? 'Сохранить и сравнить A/B/C' : 'Сравнить A/B/C'}
-                </button>
-                <button
-                  className="secondary"
+                </Button>
+                <Button
+                  variant="secondary"
                   type="button"
                   disabled={busy || historical || !dirty}
                   onClick={() => runCase(false)}
                 >
                   Сохранить snapshot
-                </button>
+                </Button>
                 {dirty && (
-                  <button
+                  <Button
+                    variant="quiet"
                     className="text-button"
                     type="button"
                     disabled={busy}
                     onClick={() => setForm(inputFrom(selected))}
                   >
                     Сбросить draft
-                  </button>
+                  </Button>
                 )}
               </div>
             </form>
-          </section>
+          </Panel>
           {activeView && (
             <>
               <ExplanationPanel view={activeView} />
@@ -495,7 +498,7 @@ export function Lab() {
       )}
       {tab === 'properties' && (
         <>
-          <section className="lab-panel">
+          <Panel className="lab-panel">
             <div className="lab-panel-heading">
               <div>
                 <span className="eyebrow">ОБЩИЕ УТВЕРЖДЕНИЯ · D16</span>
@@ -506,9 +509,8 @@ export function Lab() {
               Эти queries исследуют объявленный domain. Findings выбранного snapshot не сужают их
               область.
             </p>
-            <label className="lab-query-select">
-              Утверждение
-              <select
+            <Field className="lab-query-select" label="Утверждение">
+              <Select
                 value={queryId}
                 disabled={busy}
                 onChange={(e) => setQueryId(e.target.value as LabQueryId)}
@@ -518,15 +520,15 @@ export function Lab() {
                     {q.title}
                   </option>
                 ))}
-              </select>
-            </label>
+              </Select>
+            </Field>
             <p className="lab-query-description">
               {labQueries.find((q) => q.id === queryId)!.detail}
             </p>
-            <button className="primary" disabled={busy} onClick={() => runQuery()}>
+            <Button variant="primary" disabled={busy} onClick={() => runQuery()}>
               Проверить свойство в Lean
-            </button>
-          </section>
+            </Button>
+          </Panel>
           {queryView && (
             <QueryResult
               view={queryView}
@@ -539,7 +541,7 @@ export function Lab() {
       )}
       {tab === 'metrics' && (
         <>
-          <section className="lab-panel">
+          <Panel className="lab-panel">
             <div className="lab-panel-heading">
               <div>
                 <span className="eyebrow">СТРУКТУРА ≠ СЛОЖНОСТЬ FINDINGS</span>
@@ -552,14 +554,14 @@ export function Lab() {
               текстовые отсылки подсчитаны по reviewed source annotations. Сокращение положений не
               измеряет труд reviewer.
             </p>
-            <button
-              className="secondary"
+            <Button
+              variant="secondary"
               disabled={busy}
               onClick={() => runQuery('AC-component-no-increase', 'metrics')}
             >
               Исследовать изменения A → C на D16
-            </button>
-          </section>
+            </Button>
+          </Panel>
           {queryView ? (
             <>
               <ConsequenceMetrics view={queryView} />
@@ -584,7 +586,7 @@ export function Lab() {
               Сохраните или сбросьте draft в рабочей области перед выбором другой ревизии.
             </p>
           )}
-          <section className="lab-panel">
+          <Panel className="lab-panel">
             <div className="lab-panel-heading">
               <div>
                 <span className="eyebrow">IMMUTABLE SNAPSHOTS</span>
@@ -593,7 +595,8 @@ export function Lab() {
             </div>
             <div className="lab-history">
               {data.workspace.snapshots.map((snapshot) => (
-                <button
+                <Button
+                  variant="quiet"
                   key={snapshot.id}
                   disabled={busy || dirty}
                   className="lab-history-row"
@@ -613,11 +616,11 @@ export function Lab() {
                   </span>
                   <time>{new Date(snapshot.createdAt).toLocaleString('ru-RU')}</time>
                   <span aria-hidden="true">→</span>
-                </button>
+                </Button>
               ))}
             </div>
-          </section>
-          <section className="lab-panel">
+          </Panel>
+          <Panel className="lab-panel">
             <div className="lab-panel-heading">
               <div>
                 <span className="eyebrow">GENERAL QUERIES</span>
@@ -631,7 +634,8 @@ export function Lab() {
             {data.workspace.analyses
               .filter((a) => a.queryId !== null)
               .map((a) => (
-                <button
+                <Button
+                  variant="quiet"
                   className="lab-history-row"
                   key={a.id}
                   disabled={busy}
@@ -645,12 +649,12 @@ export function Lab() {
                   </span>
                   <time>{new Date(a.createdAt).toLocaleString('ru-RU')}</time>
                   <span aria-hidden="true">→</span>
-                </button>
+                </Button>
               ))}
             {!data.workspace.analyses.some((a) => a.queryId !== null) && (
               <p className="lab-note">Общие queries ещё не выполнялись.</p>
             )}
-          </section>
+          </Panel>
         </>
       )}
       <p className="lab-boundary">

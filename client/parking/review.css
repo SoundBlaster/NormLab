@@ -1,184 +1,22 @@
 .parking-review {
-  --review-ink: #284735;
-  --review-muted: #58675a;
   display: grid;
-  gap: 24px;
-  max-width: 1120px;
+  gap: var(--space-6);
+  max-width: var(--measure-form);
   margin-inline: auto;
-  color: var(--review-ink);
-}
-.parking-review .card {
-  display: grid;
-  gap: 20px;
-  padding: 28px;
-  min-width: 0;
-  overflow: visible;
-  border-color: #dce2d5;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px #243c2804;
-}
-.parking-section-heading {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--line);
-}
-.parking-step {
-  display: grid;
-  place-items: center;
-  flex: 0 0 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: #edf1e5;
-  color: #48603e;
-  font-size: 12px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-.parking-section-heading h2 {
-  font-size: 20px;
-  line-height: 1.4;
-}
-.parking-section-heading p {
-  margin-top: 5px;
-  font-size: 13px;
-  line-height: 1.65;
-  color: var(--review-muted);
-}
-.parking-review label {
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-  font-size: 13px;
-  font-weight: 500;
-}
-.parking-review :is(textarea, select, input:not([type='checkbox'])) {
-  width: 100%;
-  min-width: 0;
-  border: 1px solid #c5d0c1;
-  border-radius: 7px;
-  padding: 11px 13px;
-  background-color: #fff;
-  color: #283e2f;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.65;
-  transition: border-color 120ms;
-}
-.parking-review select:not([multiple]):not([size]) {
-  padding-right: 42px;
-  background-position: right 13px center;
-}
-.parking-review :is(select, input:not([type='checkbox'])) {
-  min-height: 46px;
-}
-.parking-review textarea {
-  display: block;
-  resize: vertical;
-}
-.parking-review textarea[readonly] {
-  background-color: #f6f7f1;
-}
-.parking-review :is(input, textarea)::placeholder {
-  color: #657162;
-}
-.parking-review :is(input, textarea, select):disabled {
-  opacity: 1;
-  background-color: #f3f4ee;
-  color: #53604f;
-  cursor: default;
-  -webkit-text-fill-color: #53604f;
-}
-.parking-review :is(button, input, textarea, select, summary):focus-visible {
-  outline: 3px solid #718b61;
-  outline-offset: 3px;
-}
-.parking-review button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  justify-self: start;
-  min-height: 44px;
-  max-width: 100%;
-  padding: 11px 17px;
-  border: 1px solid var(--green);
-  border-radius: 7px;
-  background: var(--green);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.5;
-  text-align: center;
-  transition:
-    background-color 120ms,
-    border-color 120ms;
-}
-.parking-review button:hover:not(:disabled) {
-  background: #355c40;
-  border-color: #355c40;
-}
-.parking-review button.secondary {
-  background: #fffefa;
-  border-color: #c8d2c1;
-  color: #354c36;
-}
-.parking-review button.secondary:hover:not(:disabled) {
-  background: #edf2e5;
-  border-color: #9baa91;
-}
-.parking-review button:disabled {
-  opacity: 1;
-  color: #788170;
-  background: #f0f2eb;
-  border-color: #dde3d5;
-}
-.parking-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.parking-review .parking-notice:empty {
-  display: none;
-}
-.parking-review .parking-notice:not(:empty),
-.parking-review-state {
-  border-radius: 7px;
-  background: #edf3e7;
-  padding: 12px 16px;
-  font-size: 13px;
-  line-height: 1.65;
+  color: var(--color-ink);
 }
 .parking-review-state {
   justify-self: start;
-  padding: 6px 12px;
-  background: #f4eedc;
-  color: #705622;
 }
-.parking-review-state[data-reviewed='true'] {
-  color: #355637;
-  background: #edf3e7;
-}
-.parking-review .stale-note {
-  margin: 0;
-  padding: 13px 16px;
-  border: 1px solid #e7ddbc;
-  border-radius: 8px;
-  background: #faf6e9;
-  color: #6c582b;
-  font-size: 13px;
-  line-height: 1.65;
-}
-.parking-review .parking-help {
-  color: var(--review-muted);
-  font-size: 13px;
+.parking-help {
+  color: var(--color-muted);
+  font-size: var(--text-label);
   line-height: 1.75;
 }
 .parking-statement-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: var(--space-6);
   align-items: start;
 }
 .parking-statement-list:empty {
@@ -187,138 +25,66 @@
 .parking-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: var(--space-4);
 }
 .parking-statement {
   display: grid;
-  gap: 18px;
-  padding: 22px;
-  border: 1px solid #d1dac8;
-  border-radius: 10px;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-group);
   min-width: 0;
-  background: #f8f9f3;
+  background: var(--surface-inset);
 }
 .parking-statement legend {
-  padding: 0 8px;
+  padding: 0 var(--space-2);
   max-width: 100%;
-  font-size: 14px;
+  font-size: var(--text-body);
   font-weight: 600;
   line-height: 1.9;
 }
 .parking-statement-meta {
-  color: var(--review-muted);
-  font-size: 11px;
+  color: var(--color-muted);
+  font-size: var(--text-small);
   font-weight: 400;
-  margin-left: 9px;
+  margin-left: var(--space-2);
 }
-.parking-decision {
-  display: inline-block;
-  margin-left: 9px;
-  padding: 2px 7px;
-  border-radius: 5px;
-  background: #f0e9d3;
-  color: #735728;
-  font-size: 11px;
-  font-weight: 500;
+.parking-statement legend .ui-status {
+  margin-left: var(--space-2);
 }
-.parking-statement[data-decision='confirmed'] .parking-decision {
-  background: #e5eedc;
-  color: #365738;
+.parking-statement .ui-actions {
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-line);
 }
-.parking-statement[data-decision='rejected'] .parking-decision {
-  background: #f0e5df;
-  color: #794d3d;
-}
-.parking-review blockquote {
-  margin: 0;
-  padding: 14px 16px;
-  border-left: 3px solid #8c9f75;
-  border-radius: 0 7px 7px 0;
-  background: #edf1e4;
-  font-size: 14px;
-  line-height: 1.75;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-.parking-statement .parking-actions {
-  padding-top: 4px;
-  border-top: 1px solid #e0e6d7;
-}
-.parking-statement .parking-actions button:first-child {
+.parking-replace-quote.ui-button {
   flex-basis: 100%;
-  margin-block: 8px 2px;
+  margin-block: var(--space-2) 2px;
   background: transparent;
   border-style: dashed;
 }
 .parking-checklist {
-  padding: 20px;
-  border: 1px solid #d7dfcf;
-  border-radius: 10px;
-  background: #f7f8f1;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-group);
+  background: var(--surface-muted);
 }
 .parking-checklist legend {
-  padding: 0 8px;
+  padding: 0 var(--space-2);
   font-weight: 600;
-  font-size: 14px;
-}
-.parking-review .parking-check {
-  display: flex;
-  gap: 11px;
-  align-items: flex-start;
-  padding: 8px 0;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.65;
-}
-.parking-review input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
-  margin: 2px 0 0;
-  accent-color: var(--green);
+  font-size: var(--text-body);
 }
 .parking-review-footer {
   justify-content: flex-end;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-}
-.parking-review details {
-  border-top: 1px solid var(--line);
-  padding-top: 6px;
-  min-width: 0;
-}
-.parking-review summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 44px;
-  color: var(--review-muted);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  list-style: none;
-}
-.parking-review summary::after {
-  content: '';
-  flex: 0 0 7px;
-  width: 7px;
-  height: 7px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(45deg);
-  margin-right: 5px;
-}
-.parking-review details[open] > summary::after {
-  transform: rotate(225deg);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-line);
 }
 .parking-review pre {
   max-height: 360px;
   overflow: auto;
-  padding: 16px;
-  border-radius: 7px;
-  background: #f2f4ed;
-  font-size: 12px;
+  padding: var(--space-4);
+  border-radius: var(--radius-control);
+  background: var(--surface-muted);
+  font-size: var(--text-small);
   line-height: 1.7;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -330,38 +96,16 @@
 }
 @media (max-width: 680px) {
   .parking-review {
-    gap: 16px;
-  }
-  .parking-review .card {
-    padding: 18px;
-    gap: 18px;
-  }
-  .parking-section-heading {
-    gap: 10px;
-    padding-bottom: 16px;
-  }
-  .parking-section-heading h2 {
-    font-size: 18px;
+    gap: var(--space-4);
   }
   .parking-fields {
     grid-template-columns: 1fr;
   }
   .parking-statement,
   .parking-checklist {
-    padding: 16px;
+    padding: var(--space-4);
   }
-  .parking-review :is(textarea, select, input:not([type='checkbox'])) {
-    font-size: 16px;
-  }
-  .parking-actions > button {
-    flex: 1 1 180px;
-  }
-  .parking-review .card > button {
+  .parking-review .ui-panel > .ui-button {
     width: 100%;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .parking-review :is(button, input, textarea, select) {
-    transition: none;
   }
 }

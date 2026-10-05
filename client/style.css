@@ -6,14 +6,14 @@
     'Segoe UI',
     sans-serif;
   color: #28372e;
-  background: #f6f5f1;
+  background: var(--surface-page);
   font-synthesis: none;
   font-size: 14px;
   line-height: 1.5;
-  --green: #244936;
+  --green: var(--color-accent);
   --muted: #7c827a;
-  --line: #e4e6de;
-  --paper: #fffefa;
+  --line: var(--color-line);
+  --paper: var(--surface-paper);
 }
 * {
   box-sizing: border-box;
