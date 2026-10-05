@@ -30,3 +30,5 @@ Steiger 0.7.0 named re-exports do not participate in its import-boundary checks;
 The pinned Steiger dev dependency currently brings npm audit advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) through braces/micromatch (5 high entries in the dependency chain). npm currently offers a downgrade rather than a patched braces release. This tooling reads repository glob patterns; it is not included in the browser production bundle. Track the upstream fix before accepting externally supplied glob patterns.
 
 GitHub CI runs on pull requests to any base branch, including stacked PRs. The dedicated `FSD architecture` job runs `npm run lint:architecture` with warnings treated as failures; the main verification job runs Oxlint, including public API re-export guards. Push-triggered CI remains limited to `main`.
+
+The project declares npm 10.9.3 (`packageManager`), matching CI's Node 22.18.0 distribution. Regenerate lockfiles with that npm version; npm 11 previously omitted Steiger's optional TypeScript 5.9 peer entry, causing npm 10 clean installation to fail. The application compiler remains TypeScript 7.
