@@ -183,8 +183,7 @@ export class ParkingReview {
       const contentChanged = statements.some(
         (s) => s.origin === 'human' && s.decision === 'pending',
       );
-      const checklistChanged =
-        JSON.stringify(input.checklist) !== JSON.stringify(draft.checklist);
+      const checklistChanged = JSON.stringify(input.checklist) !== JSON.stringify(draft.checklist);
       const checklist = contentChanged ? { ...emptyReviewChecklist } : input.checklist;
       if (
         input.finishReview &&
