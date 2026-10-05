@@ -28,3 +28,5 @@ docker compose config --quiet
 Steiger 0.7.0 named re-exports do not participate in its import-boundary checks; Oxlint restricts public `index.ts` to local modules. Negative probes confirmed rejection of Shared → Pages, Page → Page, deep public API bypass, higher-layer named re-export in a public API, and UI importing canonical root contracts directly.
 
 The pinned Steiger dev dependency currently brings npm audit advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) through braces/micromatch (5 high entries in the dependency chain). npm currently offers a downgrade rather than a patched braces release. This tooling reads repository glob patterns; it is not included in the browser production bundle. Track the upstream fix before accepting externally supplied glob patterns.
+
+GitHub CI runs on pull requests to any base branch, including stacked PRs. The dedicated `FSD architecture` job runs `npm run lint:architecture` with warnings treated as failures; the main verification job runs Oxlint, including public API re-export guards. Push-triggered CI remains limited to `main`.
