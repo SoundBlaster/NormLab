@@ -1,0 +1,2889 @@
+{
+  "schema": "normlab.synthetic-parking-evaluation/v1",
+  "createdAt": "2026-10-05T09:50:57.813Z",
+  "dataset": {
+    "schema": "normlab.synthetic-corpus/v1",
+    "version": 1,
+    "status": "development-not-holdout",
+    "caseCount": 40,
+    "realIncidentCount": 0,
+    "sourceManifestDigest": "dc638b02207b7b3f1fc87bbbaa4a626cbe0bae4d5282ad5b2aaabf20143cd8f8",
+    "expectationsStatus": "candidate-not-expert-approved",
+    "expectationsDigest": "49e9f4cf3fe159f5f263450a98a62cd96056192bc0473c057bc8cd554be3e2a8"
+  },
+  "scoringPolicy": {
+    "requiredProbe": "predicate and stance match, and the anchored source span covers the candidate quote span",
+    "forbiddenProbe": "exact predicate and stance pair appears in the extraction",
+    "caseAssertionProbePass": "valid non-empty extraction with no quarantine, no missing required probes, and no forbidden probe matches",
+    "denominator": "all 40 cases, including missing outputs and provider/extractor failures",
+    "gapScoring": "not evaluated because the extraction output contract contains no gaps field",
+    "limitations": [
+      "Candidate expectations are not expert-approved gold and cover selected probes, not the full semantic graph.",
+      "Cases are synthetic, clustered in eight contrast families, and include zero verified real incidents.",
+      "The assertion-probe rate is not the 80% critical-error-free target and is not a population accuracy estimate.",
+      "Legal sufficiency, event truth, disposition, and expected-gap detection are not scored."
+    ]
+  },
+  "runs": [
+    {
+      "name": "2026-10-05-synthetic-v2-gpt-oss-20b",
+      "model": "openai/gpt-oss-20b",
+      "provider": "lm-studio-openai-compatible",
+      "pipeline": "literal-discovery-then-classification/v2",
+      "runManifestDigest": "e79a0d8a4954f51fd6c7bc593601aa5ef7c3f044a7c29524be860199b1679698",
+      "artifactManifestDigest": "be4cca58fbe69557026343fd52669d9e4f4a4c6d0754da0f737bf921f88bdbcc",
+      "metrics": {
+        "totalCases": 40,
+        "attemptedCases": 40,
+        "unattemptedCases": 0,
+        "structuralPasses": 39,
+        "structuralPassRate": 0.975,
+        "assertionProbePasses": 11,
+        "assertionProbePassRate": 0.275,
+        "requiredProbes": 46,
+        "requiredProbesMatched": 17,
+        "forbiddenInferenceMatches": 0,
+        "casesWithEmptyDiscoveryResponse": 0,
+        "casesWithUnanchoredDiscoveryOnly": 0,
+        "casesEchoingDemoExample": 0,
+        "casesReachingClassification": 40,
+        "extractionErrors": {},
+        "casesWithCandidateGaps": 11,
+        "gapScoredCases": 0,
+        "targetQualityStatus": "not-evaluated-candidate-labels-and-gap-detection-unscored",
+        "targetQualityRate": null
+      },
+      "familyMetrics": {
+        "payment-polarity": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 1
+        },
+        "vehicle-and-zone": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 2
+        },
+        "payment-time": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 1
+        },
+        "outage-and-corrections": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 0
+        },
+        "permits-and-gaps": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 4,
+          "assertionProbePasses": 0
+        },
+        "attribution-and-conflicts": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 4
+        },
+        "jurisdiction-and-scope": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 2
+        },
+        "regime-and-background": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 1
+        }
+      },
+      "cases": [
+        {
+          "id": "SYN001",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 8.9,
+          "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+          "outputDigest": "50af138cbaa4f04b4970fbc8716db7535a3992106ffaa2f40d89aaa3d64abea0",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Парковку оплатил через приложение."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не путать оплату с платным режимом; режим и время не указаны."
+        },
+        {
+          "id": "SYN002",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 8.783,
+          "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5",
+          "outputDigest": "92f3cca5c61ddefc096b405a5ffd4c40ef240394514a85f310d259cd83cd380c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить отрицание; не выводить вину или отсутствие льгот."
+        },
+        {
+          "id": "SYN003",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 7.111,
+          "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+          "outputDigest": "ff41fb3d827b65cda622ef5be3157f4558a9ee9443c4de3d830217a790e2824c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "Не знаю, прошла ли оплата."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не превращать незнание в оплату или неоплату."
+        },
+        {
+          "id": "SYN004",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 11.067,
+          "sourceDigest": "2ecca2adfcf939544ba06b076ea4e532b90bbb5c5ac8eb53e021647866f3fcdd",
+          "outputDigest": "86872cf30d2b204cd1c61177be39b32e79150717dee1e655e9ab5aaf3175ee7b",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 1,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "второй час не оплачивал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить оба утверждения с разными интервалами; это не обязательно противоречие."
+        },
+        {
+          "id": "SYN005",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 8.503,
+          "sourceDigest": "90663d5258b3e5dd5800b1a8b252fb172b05a1e52ee7eebc0d2ead5f87e838b0",
+          "outputDigest": "fc966bc45ad1afdb1f2d318aeca414ae099c3ffb9dd128388b22225a0154ed7c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "парковку оплатил."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание отмены не является отрицанием оплаты."
+        },
+        {
+          "id": "SYN006",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 10.789,
+          "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d",
+          "outputDigest": "5859ef411918a186152935ac5196da98dffccf8b980db5f4ed2547a3f0fa7306",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Платёж прошёл за автомобиль Б"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Платёж относится к Б; размещение к А. Не считать размещённый автомобиль оплаченным."
+        },
+        {
+          "id": "SYN007",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 9.342,
+          "sourceDigest": "98a3520245ecd6527e6b352094dd4e6c45fef7349c00e142bcb63668b8bd99fd",
+          "outputDigest": "3d48eb43d12ef80fe2c04734469c31385086ab753d50354e8270b03448de496c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "Оплатил именно автомобиль А"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не создавать неоплату А из отрицания альтернативного автомобиля."
+        },
+        {
+          "id": "SYN008",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 7.581,
+          "sourceDigest": "d3307c2fe69ab65bc11dc67dfd7b5a042f6392ba1ea5064db4cccf17589ad31f",
+          "outputDigest": "11156adfb48eb8f262b476354c2253d00d1dc976ce9645b0543521039656e719",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 6,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Факт платежа отдельно от его правильной привязки."
+        },
+        {
+          "id": "SYN009",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 14.469,
+          "sourceDigest": "f10cddd0db530847fa47abb2c09841187bd1b472e3039ff6c33d39ebc7469659",
+          "outputDigest": "d823a36707bb5315556b2470bb7d0f038343538e4d39a25047738e26f1fa5515",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 8,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Попытка исправления не доказывает её успех или юридический эффект."
+        },
+        {
+          "id": "SYN010",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 9.23,
+          "sourceDigest": "1b3aeea8dd0fb0c5860153e2d644c4ade1f51a9e351e5679f7c9c8416cf8b635",
+          "outputDigest": "ffdef80a0afe5583bd56ab5a3e7056b56839482879704548a88434403ca71574",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "unknown",
+              "quote": "не помню, какой автомобиль и какую зону выбрал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "payment.vehicle",
+              "payment.zone"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Платёж существует; его принадлежность этому размещению неизвестна."
+        },
+        {
+          "id": "SYN011",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 8.06,
+          "sourceDigest": "adeea0c7c3746f030929aac88ee1bf08560211b1369b5db45c84968f8498c069",
+          "outputDigest": "3f5091cdf383f3578e8a32cb0eded1a802c51b70eb71fe9f143cb69fe88a4a5d",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentStart",
+              "stance": "asserted",
+              "quote": "Оплату провёл в 12:04:59."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Время платежа сохранить до секунд; не выносить решение по правилу пяти минут."
+        },
+        {
+          "id": "SYN012",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 8.922,
+          "sourceDigest": "17692929ae1ef9dbb8115f4f5e63b7d105184d1849b273aa55e29aad25c3f90e",
+          "outputDigest": "bf96d9d012825ef4957ae509e384977812f2cd80441d7f1c3878d55803640a44",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentStart",
+              "stance": "asserted",
+              "quote": "Оплату провёл в 12:05:00."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Граничное время — факт, не правовой вывод."
+        },
+        {
+          "id": "SYN013",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 9.767,
+          "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb",
+          "outputDigest": "30b93984778317ec190845d019c9bf394b40659b751f3cd689f0eaab393519b1",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentStart",
+              "stance": "asserted",
+              "quote": "Оплату провёл в 12:05:01."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Различить этот вариант от двух соседних на одну секунду."
+        },
+        {
+          "id": "SYN014",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 11.069,
+          "sourceDigest": "d827cec769152b1e80bd98e2a9339617e015c94b80ba6c1cbcd000053fdc0879",
+          "outputDigest": "74bde0a86a8fea9e630314f96e0f48fb8599bd634077eedb196db58bceb914d4",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 8,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Разделить время платежа, покрытие и отъезд; три временных значения."
+        },
+        {
+          "id": "SYN015",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 9.912,
+          "sourceDigest": "4e6567a782094a72912acb5715e60cd59c4c711fe63c14ac3649fd61613cd16e",
+          "outputDigest": "1c32ed7f18808801d8e076dd32e7d4abc80e16461dbb506ccd5d3faf9eb414ed",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "парковочную сессию не оплатил."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Пополнение баланса не является оплатой парковочной сессии."
+        },
+        {
+          "id": "SYN016",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 7.508,
+          "sourceDigest": "0f9f3ab58f955ae3f0b7e69688e29a025a315b4008464f5785987b3f51aa6dc8",
+          "outputDigest": "57993a49ef60b11b2b4382d0f9af311855744bbb0f11194492175ed49819a619",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "через СМС я успешно оплатил эту стоянку."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сбой одного канала не означает отсутствие оплаты другим."
+        },
+        {
+          "id": "SYN017",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 10.54,
+          "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+          "outputDigest": "9b8886d96baf52343a806d56f4be0c1ff29def5280ab12f55411fda67522cca4",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "оплатить парковку не удалось."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не выводить отсутствие вины или отмену штрафа из заявления о сбое."
+        },
+        {
+          "id": "SYN018",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 10.328,
+          "sourceDigest": "b05fa7cd16f7b83d91d613c87245e3a67cb6f16722dfd6f92014626fa0dcaa96",
+          "outputDigest": "7e652e545934c0727772f5bf0562fcf1e7c532539252859ab39498271c8214b2",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "в парковочном приложении оплата не отображается."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.record"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отсутствие записи не равно установленной неоплате; банковское списание требует attribution."
+        },
+        {
+          "id": "SYN019",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 8.3,
+          "sourceDigest": "970fb032324b421c92ba083b6c3c8ecb58ba357711a3ccada202bb3d2ef39ba1",
+          "outputDigest": "199049da3495dc0d2390beca752510a04158db03cf3feec24955fd1eb1ca1da7",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "Сведений о моей оплате у меня нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Восстановление сервиса не создаёт факт платежа."
+        },
+        {
+          "id": "SYN020",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 9.815,
+          "sourceDigest": "26c96fd14b4e8e1c4752f7afcb533e1bef1397efeb983cc2becd7f30207b9031",
+          "outputDigest": "ba7b20ec71a0c3886c4b01a39fc876cef9bd67e940d5ebcea8d29e46468300b2",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "denied",
+              "quote": "Ошибок реквизитов и последующих исправлений не было."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Нельзя из этого вывести оплату, отсутствие вины или льгот."
+        },
+        {
+          "id": "SYN021",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 10.215,
+          "sourceDigest": "a467a1fe70b0ad449c1173ff13ed03a4f7d67751bed17dc26cf4a57082cee707",
+          "outputDigest": "177b821c399f72861aad1f432d925ebe3f023656f57d702aadf0dcf95eacfc57",
+          "extractionError": "quarantined-statements:4",
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 4,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "asserted",
+              "quote": "У меня есть действующее резидентное разрешение."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не выводить действие разрешения в этой зоне и в это время без уточнений."
+        },
+        {
+          "id": "SYN022",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 8.779,
+          "sourceDigest": "86f5d6b7643a97d34aa06fb7ad30a1e4be4171ebe5a257974779b85910050f23",
+          "outputDigest": "c0a5c3a088b8e66baa5fd215046ca2e8edf1ac2d4e20e14f13b4dea56513c1eb",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "denied",
+              "quote": "Действующего разрешения или абонемента у меня нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отсутствие разрешения не означает отсутствие платного режима или инвалидности."
+        },
+        {
+          "id": "SYN023",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 12.454,
+          "sourceDigest": "d75ebaa6d46997307c9ae41e20284fb28d5f716609a24234b9ce68b2e66b128c",
+          "outputDigest": "ab73ce3338be522e1c3217871e25ab3ff5c55b25f895d6534c00f1d0666b4441",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "unknown",
+              "quote": "Не помню, действует ли ещё моё разрешение."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "permit.validity"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить неизвестную актуальность разрешения."
+        },
+        {
+          "id": "SYN024",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 12.566,
+          "sourceDigest": "aac2df3755c11d07206ee04c002b3ab13b8cb3cc62e72367d648ccb14920c5ed",
+          "outputDigest": "fe09762be26692268a3584a62d41b831ea72f51379ad0446eb94505c52e16f03",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 6,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "permit",
+              "stance": "unknown",
+              "quote": "само разрешение ещё не получил."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "permit.grant"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не приравнивать подачу заявки к действующему разрешению; юридический статус неизвестен."
+        },
+        {
+          "id": "SYN025",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 13.893,
+          "sourceDigest": "9fa5fe8c2dc6b68026398e4c177119ef7895c8ab5c4cb64b47ffa6a4a0cfd29c",
+          "outputDigest": "d6788ba6ef6813ac3d11ddaddc0d5477e1e816bfaa24436b3e34925c55c68e1e",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "disabilityConditions",
+              "stance": "asserted",
+              "quote": "Я перевожу человека с инвалидностью"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "disability.registry",
+              "disability.sign"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Неполные disability conditions не означают, что все условия льготы выполнены."
+        },
+        {
+          "id": "SYN026",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 10.199,
+          "sourceDigest": "70e9b071fdd28316381fb684d786c30c6d1f9b281357e01ce10d123dd9f9b042",
+          "outputDigest": "d60a4d0c0b099bba51627820dc49d9732404f426c6cb98d0f31b8b43753b24ce",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить обе стороны одного эпизода; attribution к речи и заметке."
+        },
+        {
+          "id": "SYN027",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 17.368,
+          "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531",
+          "outputDigest": "f311858a45077b0c8b9e8066a587f2e4a13ebdd6cca268b1bbdcb468ca25cdab",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 17,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Два эпизода; не объявлять противоположные утверждения противоречием одного эпизода."
+        },
+        {
+          "id": "SYN028",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 11.211,
+          "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2",
+          "outputDigest": "08368b455258dcd53013fb4820f34f8b20a89ff304202a3221e5e4ea39686c82",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отделить содержание уведомления от утверждения рассказчика; не выбирать победителя."
+        },
+        {
+          "id": "SYN029",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 9.274,
+          "sourceDigest": "538072002a7e4eecb83faf2be39a33b581f2b4b55a76b731851ba4f237d4eee3",
+          "outputDigest": "223672f0f621d1b8e414f87930efb9e5d47965ba777b32d006cca5118140a91e",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "мне неизвестен результат платежа."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание утверждения не равно утверждению неоплаты."
+        },
+        {
+          "id": "SYN030",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 11.514,
+          "sourceDigest": "652fb35e86d91a6a69bc01b05dee970c19a2569d3788aae32d74ef1717464a11",
+          "outputDigest": "829d4617f3b06eef2ef17ab7a4c593da9ab3419fe6026e75e6708e6471a262ae",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 6,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить исходное сообщение и уточнение; разный объект оплаты не делает их автоматически несовместимыми."
+        },
+        {
+          "id": "SYN031",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 11.022,
+          "sourceDigest": "e19bd1d7845e6713d411bbae0e7af16f0e2880786671a7d64ec6d2789cb3f373",
+          "outputDigest": "3e6fc610d32b77b5107fdb7cded6f015c6ac4f5da30e1747e4c3b56ba358ec53",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Явная юрисдикция; остальные условия отдельно."
+        },
+        {
+          "id": "SYN032",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 8.546,
+          "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3",
+          "outputDigest": "ddfcf1cd9f60a6614bac8b2f21250ce9b165f055de0c9c20e7d6d99038bf2296",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "denied",
+              "quote": "в Казани"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Другая юрисдикция; не применять московские нормы."
+        },
+        {
+          "id": "SYN033",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 9.84,
+          "sourceDigest": "fb2dc288d7ac0599cf84ff58a9f295786ee3e299f538d930dc531bf94a870ab0",
+          "outputDigest": "2ba1772f2c4e10bfefd623d2881653c656b6a65c43bfe0611bd0abb95dc7beb0",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "unknown",
+              "quote": "Город не указан."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "jurisdiction.city"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не подставлять Москву по контексту приложения."
+        },
+        {
+          "id": "SYN034",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 9.328,
+          "sourceDigest": "12f1987de1b2c23e9ea13f7f8c9f717229610bd0fca3fd47335baf9d6edfed15",
+          "outputDigest": "8f91d0eaf690d9bdbb24c1bd013eb84a73ecdd5392ae3301267e3bb666c5733a",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 1,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "cityParking",
+              "stance": "unknown",
+              "quote": "Не знаю, городская это парковка или частная."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "parking.kind"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Москва не устанавливает статус городской парковки."
+        },
+        {
+          "id": "SYN035",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 6.371,
+          "sourceDigest": "1fe78c78bd24bdfd2cdb95dfb7ceda21ac79092eabea9267b6d32889b3dc2d0a",
+          "outputDigest": "125d2409708f72bc46c65f6ba83518b028332463ea837d43c3ddd5d40de7b26d",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 2,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить явное отрицание Москвы, не придумывать другой город."
+        },
+        {
+          "id": "SYN036",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 10.963,
+          "sourceDigest": "880ea9f682530bfd0c0b9e10d1dc4d003d04be86702710560ae2fd25ec3fe7e8",
+          "outputDigest": "4563faca789f207b4e4322379298c0f07c89cb94989620dab487ba9834332253",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание разрешений не должно менять утверждение о платном режиме."
+        },
+        {
+          "id": "SYN037",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 8.727,
+          "sourceDigest": "964946ca7dc5f601ebc0ef7d2b9f78a517b1559243916f270c3f785a6738dba0",
+          "outputDigest": "6a967054c8027a3f9e10a8627a2bee43b7d395e54cb6b09952fbf2c1796a7d59",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paidRegime",
+              "stance": "denied",
+              "quote": "весь период моей стоянки был бесплатным."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Это synthetic stipulation, не проверенная норма о тарифе."
+        },
+        {
+          "id": "SYN038",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 8.879,
+          "sourceDigest": "77422302b41fa4081616cbb07aacae732e497d9d896482cc162668edf0395c11",
+          "outputDigest": "ad305d2b0ae3a3bacac955b3ae0c749aa144a606a3900b43bccf7fd113c3afee",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paidRegime",
+              "stance": "unknown",
+              "quote": "о действовавшем тарифе сведений нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "parking.paidRegime"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Оплата сама по себе не устанавливает обязательность оплаты."
+        },
+        {
+          "id": "SYN039",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 11.239,
+          "sourceDigest": "741ad2ba3529b95a323d564475b2f8fc1caaf6b98e489e965478326cc6fcb9e9",
+          "outputDigest": "469bdc04ffa5f9129ee1a78e316d87db26223263736054526588be7078256e9c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "саму парковку не оплачивал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не перепутать уплату штрафа с оплатой парковки."
+        },
+        {
+          "id": "SYN040",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 13.159,
+          "sourceDigest": "d09a024650a946beeb94782b3b5b52244e93f2fc2a060345a5635b25a3e704ff",
+          "outputDigest": "9e927f4c054a62705e0dac3de8f0613fdc97646899599610e55154777a7a8ada",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 4,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "eventTime",
+              "stance": "unknown",
+              "quote": "Точная дата стоянки неизвестна"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "eventTime.exactDate",
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Месяц стоянки сохраняется; июль относится к уведомлению, отсутствие сведений об оплате не превращать в отрицание."
+        }
+      ]
+    },
+    {
+      "name": "2026-10-05-classification-v3-replay",
+      "model": "openai/gpt-oss-20b",
+      "provider": "lm-studio-openai-compatible",
+      "pipeline": "literal-discovery-then-classification/v3",
+      "runManifestDigest": "7bfea59699f44e15f3f3ea3eea5b9969c5ad9cb5027b58448d21decc1a0c074d",
+      "artifactManifestDigest": "99f64a6640752b922801a9a0663d1721979aa38f151c5c3ebc606dbda1ad2aa9",
+      "metrics": {
+        "totalCases": 40,
+        "attemptedCases": 40,
+        "unattemptedCases": 0,
+        "structuralPasses": 38,
+        "structuralPassRate": 0.95,
+        "assertionProbePasses": 28,
+        "assertionProbePassRate": 0.7,
+        "requiredProbes": 46,
+        "requiredProbesMatched": 34,
+        "forbiddenInferenceMatches": 0,
+        "casesWithEmptyDiscoveryResponse": 0,
+        "casesWithUnanchoredDiscoveryOnly": 0,
+        "casesEchoingDemoExample": 0,
+        "casesReachingClassification": 40,
+        "extractionErrors": {
+          "ValueError: Classified decision requires items and empty reason": 2
+        },
+        "casesWithCandidateGaps": 11,
+        "gapScoredCases": 0,
+        "targetQualityStatus": "not-evaluated-candidate-labels-and-gap-detection-unscored",
+        "targetQualityRate": null
+      },
+      "familyMetrics": {
+        "payment-polarity": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 4
+        },
+        "vehicle-and-zone": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 3
+        },
+        "payment-time": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 5
+        },
+        "outage-and-corrections": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 4,
+          "assertionProbePasses": 2
+        },
+        "permits-and-gaps": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 5
+        },
+        "attribution-and-conflicts": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 3
+        },
+        "jurisdiction-and-scope": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 4,
+          "assertionProbePasses": 3
+        },
+        "regime-and-background": {
+          "caseCount": 5,
+          "attemptedCases": 5,
+          "structuralPasses": 5,
+          "assertionProbePasses": 3
+        }
+      },
+      "cases": [
+        {
+          "id": "SYN001",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 6.435,
+          "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+          "outputDigest": "ae70f43a6723e0f1da7d7dac29672e2a174fb1fce391fd3a0a2f3e4d781e6249",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не путать оплату с платным режимом; режим и время не указаны."
+        },
+        {
+          "id": "SYN002",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 6.669,
+          "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5",
+          "outputDigest": "8c5aec614e2794afe10572623d94246c0836b9adcc64365c2cbaf356a1b9f292",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить отрицание; не выводить вину или отсутствие льгот."
+        },
+        {
+          "id": "SYN003",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 6.717,
+          "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+          "outputDigest": "3dcf569dcadd1d30242c6a7999d0329067832040887db7e8f9e630a8c9b8112c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не превращать незнание в оплату или неоплату."
+        },
+        {
+          "id": "SYN004",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 7.132,
+          "sourceDigest": "2ecca2adfcf939544ba06b076ea4e532b90bbb5c5ac8eb53e021647866f3fcdd",
+          "outputDigest": "7cd0f4897ac125df453471b1cb7b6df2753f4ebc4077cce09d1e5e7a7e53fa0e",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 1,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "второй час не оплачивал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить оба утверждения с разными интервалами; это не обязательно противоречие."
+        },
+        {
+          "id": "SYN005",
+          "family": "payment-polarity",
+          "splitGroup": "payment-polarity",
+          "status": "completed",
+          "elapsedSeconds": 6.713,
+          "sourceDigest": "90663d5258b3e5dd5800b1a8b252fb172b05a1e52ee7eebc0d2ead5f87e838b0",
+          "outputDigest": "15dfd0dfd4e6a7edf9aada09cacab27f5cf165d1dffa85e9bfd7b423e1bf87bc",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание отмены не является отрицанием оплаты."
+        },
+        {
+          "id": "SYN006",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 5.841,
+          "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d",
+          "outputDigest": "12c0460e14c63b7c871301c33b159dd1d3e6540594a421275950ff5e6726b281",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Платёж относится к Б; размещение к А. Не считать размещённый автомобиль оплаченным."
+        },
+        {
+          "id": "SYN007",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 7.541,
+          "sourceDigest": "98a3520245ecd6527e6b352094dd4e6c45fef7349c00e142bcb63668b8bd99fd",
+          "outputDigest": "7bb31bfb23ae3a26d973702003293789033b1322368ce7f0117057bc4a4d4ccf",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не создавать неоплату А из отрицания альтернативного автомобиля."
+        },
+        {
+          "id": "SYN008",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 10.199,
+          "sourceDigest": "d3307c2fe69ab65bc11dc67dfd7b5a042f6392ba1ea5064db4cccf17589ad31f",
+          "outputDigest": "c4f751853100a9c12c143b799a2c7247b9bfc1785641019875aaff8db5a42b46",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 6,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "asserted",
+              "quote": "ошибся одной цифрой в номере."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Факт платежа отдельно от его правильной привязки."
+        },
+        {
+          "id": "SYN009",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 9.797,
+          "sourceDigest": "f10cddd0db530847fa47abb2c09841187bd1b472e3039ff6c33d39ebc7469659",
+          "outputDigest": "0778f146664bda89286580cbb6abdca2fe8c263517f6858700809ede1f4d14e1",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 7,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Попытка исправления не доказывает её успех или юридический эффект."
+        },
+        {
+          "id": "SYN010",
+          "family": "vehicle-and-zone",
+          "splitGroup": "vehicle-and-zone",
+          "status": "completed",
+          "elapsedSeconds": 8.257,
+          "sourceDigest": "1b3aeea8dd0fb0c5860153e2d644c4ade1f51a9e351e5679f7c9c8416cf8b635",
+          "outputDigest": "c6c61d071f2b276ada57e99284a676bc1b8555b99cbf416e927125d6620f2d18",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paymentComplexity",
+              "stance": "unknown",
+              "quote": "не помню, какой автомобиль и какую зону выбрал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "payment.vehicle",
+              "payment.zone"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Платёж существует; его принадлежность этому размещению неизвестна."
+        },
+        {
+          "id": "SYN011",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 8.633,
+          "sourceDigest": "adeea0c7c3746f030929aac88ee1bf08560211b1369b5db45c84968f8498c069",
+          "outputDigest": "70982daf30edf7104b460d4a2740240943c108a836dfaaa2d5d53646034924dd",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 8,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Время платежа сохранить до секунд; не выносить решение по правилу пяти минут."
+        },
+        {
+          "id": "SYN012",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 9.09,
+          "sourceDigest": "17692929ae1ef9dbb8115f4f5e63b7d105184d1849b273aa55e29aad25c3f90e",
+          "outputDigest": "6bedc75de515a265355d084e7db678abb0c27511dd53b501bd688816bd34b57c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Граничное время — факт, не правовой вывод."
+        },
+        {
+          "id": "SYN013",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 11.472,
+          "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb",
+          "outputDigest": "529a0888a2eecc91022e4a4edd27e59df3a550ec8905ef882f65d98e7e719d92",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 6,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Различить этот вариант от двух соседних на одну секунду."
+        },
+        {
+          "id": "SYN014",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 13.679,
+          "sourceDigest": "d827cec769152b1e80bd98e2a9339617e015c94b80ba6c1cbcd000053fdc0879",
+          "outputDigest": "fce68a2087f459ef3f53c313e5ad1cd9ab4d95e686d6f9a1caf50481146a6a15",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 15,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Разделить время платежа, покрытие и отъезд; три временных значения."
+        },
+        {
+          "id": "SYN015",
+          "family": "payment-time",
+          "splitGroup": "payment-time",
+          "status": "completed",
+          "elapsedSeconds": 7.867,
+          "sourceDigest": "4e6567a782094a72912acb5715e60cd59c4c711fe63c14ac3649fd61613cd16e",
+          "outputDigest": "9f5be8b0cdf0c877c77e64b14458f21c0affd99361aae514b547d93b36e077cb",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Пополнение баланса не является оплатой парковочной сессии."
+        },
+        {
+          "id": "SYN016",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 7.944,
+          "sourceDigest": "0f9f3ab58f955ae3f0b7e69688e29a025a315b4008464f5785987b3f51aa6dc8",
+          "outputDigest": "75df88e23b6f1d5a405b9d46e83426554697b38f2fc6d7b6841549c152cad433",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 8,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сбой одного канала не означает отсутствие оплаты другим."
+        },
+        {
+          "id": "SYN017",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 8.59,
+          "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+          "outputDigest": "c60bec7868558a44edd4d7121c1b6fc8a5fbe4ddd5aaf76d8d772f3cd01da35c",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 6,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "оплатить парковку не удалось."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не выводить отсутствие вины или отмену штрафа из заявления о сбое."
+        },
+        {
+          "id": "SYN018",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 10.963,
+          "sourceDigest": "b05fa7cd16f7b83d91d613c87245e3a67cb6f16722dfd6f92014626fa0dcaa96",
+          "outputDigest": "529bd10be8e97bcbba30f0084c950866a8970da504d535ab917b8a7db2feae13",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: Classified decision requires items and empty reason",
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "в парковочном приложении оплата не отображается."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.record"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отсутствие записи не равно установленной неоплате; банковское списание требует attribution."
+        },
+        {
+          "id": "SYN019",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 5.735,
+          "sourceDigest": "970fb032324b421c92ba083b6c3c8ecb58ba357711a3ccada202bb3d2ef39ba1",
+          "outputDigest": "712d376ae2085072a38107ff0f43cef2377e29cb24189c6c312201e2762481bb",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "Сведений о моей оплате у меня нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Восстановление сервиса не создаёт факт платежа."
+        },
+        {
+          "id": "SYN020",
+          "family": "outage-and-corrections",
+          "splitGroup": "outage-and-corrections",
+          "status": "completed",
+          "elapsedSeconds": 6.36,
+          "sourceDigest": "26c96fd14b4e8e1c4752f7afcb533e1bef1397efeb983cc2becd7f30207b9031",
+          "outputDigest": "72b9effcf7dc4ed3f28829d338f22d0f9feed8206277a31ac29bb9f0cf3acd3a",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Нельзя из этого вывести оплату, отсутствие вины или льгот."
+        },
+        {
+          "id": "SYN021",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 4.931,
+          "sourceDigest": "a467a1fe70b0ad449c1173ff13ed03a4f7d67751bed17dc26cf4a57082cee707",
+          "outputDigest": "1f7a1fc75d2bf4471b5fbde391375313bcbde8b4caeda0d1e9737c137d7414aa",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не выводить действие разрешения в этой зоне и в это время без уточнений."
+        },
+        {
+          "id": "SYN022",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 5.751,
+          "sourceDigest": "86f5d6b7643a97d34aa06fb7ad30a1e4be4171ebe5a257974779b85910050f23",
+          "outputDigest": "1551693689184024c6c7c3ef90fa2903dbf686ab56d9f73b12f0e09ee2c6f1d5",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отсутствие разрешения не означает отсутствие платного режима или инвалидности."
+        },
+        {
+          "id": "SYN023",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 7.275,
+          "sourceDigest": "d75ebaa6d46997307c9ae41e20284fb28d5f716609a24234b9ce68b2e66b128c",
+          "outputDigest": "eaa94f9c7df94adac2be27f90925ccce3a4904501e81aee6232b81f18fed7b9e",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "permit.validity"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить неизвестную актуальность разрешения."
+        },
+        {
+          "id": "SYN024",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 5.218,
+          "sourceDigest": "aac2df3755c11d07206ee04c002b3ab13b8cb3cc62e72367d648ccb14920c5ed",
+          "outputDigest": "743e5e029a30b798ac5f1718c33ac9f88c6176784da9b804c1d1f4f567f2e105",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "permit.grant"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не приравнивать подачу заявки к действующему разрешению; юридический статус неизвестен."
+        },
+        {
+          "id": "SYN025",
+          "family": "permits-and-gaps",
+          "splitGroup": "permits-and-gaps",
+          "status": "completed",
+          "elapsedSeconds": 8.081,
+          "sourceDigest": "9fa5fe8c2dc6b68026398e4c177119ef7895c8ab5c4cb64b47ffa6a4a0cfd29c",
+          "outputDigest": "1216eb55f22e7c6fa7846b9feffa9bbbf8bf326c0f67ad40d2296e0169690cc3",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 6,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "disability.registry",
+              "disability.sign"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Неполные disability conditions не означают, что все условия льготы выполнены."
+        },
+        {
+          "id": "SYN026",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 8.591,
+          "sourceDigest": "70e9b071fdd28316381fb684d786c30c6d1f9b281357e01ce10d123dd9f9b042",
+          "outputDigest": "9523fc5eabfe781a379f3c05f377c04a21c8b63af3492d88399c7da0c0481e32",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить обе стороны одного эпизода; attribution к речи и заметке."
+        },
+        {
+          "id": "SYN027",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 7.221,
+          "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531",
+          "outputDigest": "44e2400cae82eb5ad15ce0d4d96ff4c56c7367a6c4dfb2ddd4188fd3e3832180",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Два эпизода; не объявлять противоположные утверждения противоречием одного эпизода."
+        },
+        {
+          "id": "SYN028",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 9.325,
+          "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2",
+          "outputDigest": "e1fa20ac1cc07fa3aeb26ae4531e19e0ad281c3764b9eeded895b982c86d8671",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 2,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отделить содержание уведомления от утверждения рассказчика; не выбирать победителя."
+        },
+        {
+          "id": "SYN029",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 4.655,
+          "sourceDigest": "538072002a7e4eecb83faf2be39a33b581f2b4b55a76b731851ba4f237d4eee3",
+          "outputDigest": "7d9d42a389f1d3e0d89c0a919bc7519b91c19f2eb85c79f1773e3ad74e8a5c66",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "quote": "мне неизвестен результат платежа."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание утверждения не равно утверждению неоплаты."
+        },
+        {
+          "id": "SYN030",
+          "family": "attribution-and-conflicts",
+          "splitGroup": "attribution-and-conflicts",
+          "status": "completed",
+          "elapsedSeconds": 9.173,
+          "sourceDigest": "652fb35e86d91a6a69bc01b05dee970c19a2569d3788aae32d74ef1717464a11",
+          "outputDigest": "82dcb8c47277eec775e10e4bb9beb2b612b57678ee25e8a02b1d123e027578e0",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 2,
+          "requiredMatchedCount": 1,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "asserted",
+              "quote": "платёж был, но за другой автомобиль."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить исходное сообщение и уточнение; разный объект оплаты не делает их автоматически несовместимыми."
+        },
+        {
+          "id": "SYN031",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 9.333,
+          "sourceDigest": "e19bd1d7845e6713d411bbae0e7af16f0e2880786671a7d64ec6d2789cb3f373",
+          "outputDigest": "ede2bcebaa6adc208a021f038e6f41acb8dfdb9a16fcc17d7e0f7c7de48689a5",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Явная юрисдикция; остальные условия отдельно."
+        },
+        {
+          "id": "SYN032",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 5.402,
+          "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3",
+          "outputDigest": "f2b75ba65b9108a2ec8583533a5dd05a312f2e403c22e64d67a546268fb411b6",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "denied",
+              "quote": "в Казани"
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Другая юрисдикция; не применять московские нормы."
+        },
+        {
+          "id": "SYN033",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "provider-or-extractor-error",
+          "elapsedSeconds": 5.748,
+          "sourceDigest": "fb2dc288d7ac0599cf84ff58a9f295786ee3e299f538d930dc531bf94a870ab0",
+          "outputDigest": "bbdd058665973495b7182644109cc7b0b36b90d1fd34d2acc09f0407cb5c59b7",
+          "extractionError": "extractor exited 1",
+          "modelError": "ValueError: Classified decision requires items and empty reason",
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": false,
+          "statementCount": 0,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "inMoscow",
+              "stance": "unknown",
+              "quote": "Город не указан."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "jurisdiction.city"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не подставлять Москву по контексту приложения."
+        },
+        {
+          "id": "SYN034",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 7.578,
+          "sourceDigest": "12f1987de1b2c23e9ea13f7f8c9f717229610bd0fca3fd47335baf9d6edfed15",
+          "outputDigest": "c22308a8943e9f7c093a9710ecf66e402a85c60901e028f77001b9bed32bca63",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 4,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "parking.kind"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Москва не устанавливает статус городской парковки."
+        },
+        {
+          "id": "SYN035",
+          "family": "jurisdiction-and-scope",
+          "splitGroup": "jurisdiction-and-scope",
+          "status": "completed",
+          "elapsedSeconds": 5.637,
+          "sourceDigest": "1fe78c78bd24bdfd2cdb95dfb7ceda21ac79092eabea9267b6d32889b3dc2d0a",
+          "outputDigest": "6c856b4e171ce244796d08869f3de77d2c1421979ba5e64650fbf84607b8d6d9",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 1,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 3,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Сохранить явное отрицание Москвы, не придумывать другой город."
+        },
+        {
+          "id": "SYN036",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 6.66,
+          "sourceDigest": "880ea9f682530bfd0c0b9e10d1dc4d003d04be86702710560ae2fd25ec3fe7e8",
+          "outputDigest": "61a92b86317c05c1b13d3cb0e421d9bbd17f1fa6489d8bc1ba2921f48dbaa03e",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 3,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Отрицание разрешений не должно менять утверждение о платном режиме."
+        },
+        {
+          "id": "SYN037",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 9.885,
+          "sourceDigest": "964946ca7dc5f601ebc0ef7d2b9f78a517b1559243916f270c3f785a6738dba0",
+          "outputDigest": "adcd56961c870b80d4764d88fd8b7cfa3d4420585a9acd8ad6cda1c6866bf52f",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Это synthetic stipulation, не проверенная норма о тарифе."
+        },
+        {
+          "id": "SYN038",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 8.951,
+          "sourceDigest": "77422302b41fa4081616cbb07aacae732e497d9d896482cc162668edf0395c11",
+          "outputDigest": "50f2aadb57394d0ba47b8e5ff1853fbcb3bf69061ad7099c2ef882513ba01345",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "paidRegime",
+              "stance": "unknown",
+              "quote": "о действовавшем тарифе сведений нет."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 1,
+            "fields": [
+              "parking.paidRegime"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Оплата сама по себе не устанавливает обязательность оплаты."
+        },
+        {
+          "id": "SYN039",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 11.309,
+          "sourceDigest": "741ad2ba3529b95a323d564475b2f8fc1caaf6b98e489e965478326cc6fcb9e9",
+          "outputDigest": "78d690f8dcdcaeb0a92bf5b00113291a783a1e0244efe2589470b7529abfbd15",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 2,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 9,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 0,
+          "missingRequired": [
+            {
+              "predicate": "payment",
+              "stance": "denied",
+              "quote": "саму парковку не оплачивал."
+            }
+          ],
+          "forbiddenMatches": [],
+          "assertionProbePass": false,
+          "expectedGaps": {
+            "status": "not-applicable",
+            "candidateCount": 0,
+            "fields": []
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Не перепутать уплату штрафа с оплатой парковки."
+        },
+        {
+          "id": "SYN040",
+          "family": "regime-and-background",
+          "splitGroup": "regime-and-background",
+          "status": "completed",
+          "elapsedSeconds": 10.527,
+          "sourceDigest": "d09a024650a946beeb94782b3b5b52244e93f2fc2a060345a5635b25a3e704ff",
+          "outputDigest": "2eefbb79564a84e39732e12d228417289f0ca92935a816feda10aa9099770301",
+          "extractionError": null,
+          "modelError": null,
+          "discoveryOutcome": "exact-anchored-fragments",
+          "discoveredFragmentCount": 4,
+          "classificationCalls": 1,
+          "structuralPass": true,
+          "statementCount": 5,
+          "quarantineCount": 0,
+          "requiredProbeCount": 1,
+          "requiredMatchedCount": 1,
+          "missingRequired": [],
+          "forbiddenMatches": [],
+          "assertionProbePass": true,
+          "expectedGaps": {
+            "status": "not-evaluated-output-contract-has-no-gap-field",
+            "candidateCount": 2,
+            "fields": [
+              "eventTime.exactDate",
+              "payment.result"
+            ]
+          },
+          "legalSufficiency": "not-evaluated",
+          "semanticReview": "pending",
+          "reviewFocus": "Месяц стоянки сохраняется; июль относится к уведомлению, отсутствие сведений об оплате не превращать в отрицание."
+        }
+      ]
+    }
+  ]
+}

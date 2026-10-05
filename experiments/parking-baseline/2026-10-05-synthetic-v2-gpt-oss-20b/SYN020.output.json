@@ -1,0 +1,524 @@
+{
+  "schema": "normlab.langextract-statements/v1",
+  "pipeline": "literal-discovery-then-classification/v2",
+  "sourceDigest": "26c96fd14b4e8e1c4752f7afcb533e1bef1397efeb983cc2becd7f30207b9031",
+  "langextractVersion": "1.7.0",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "passes": 2,
+  "latencyMs": 8630,
+  "error": null,
+  "fragments": [
+    {
+      "fragmentId": "fragment_1",
+      "quote": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null
+    },
+    {
+      "fragmentId": "fragment_2",
+      "quote": "Ошибок реквизитов и последующих исправлений не было.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null
+    }
+  ],
+  "rawExtractions": [
+    {
+      "class": "nlinput:inMoscow",
+      "text": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "Москва"
+      },
+      "interval": null,
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:cityParking",
+      "text": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "городская парковка"
+      },
+      "interval": null,
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:placement",
+      "text": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "на парковке"
+      },
+      "interval": null,
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:subjectScope",
+      "text": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "физическое лицо, личное использование автомобиля"
+      },
+      "interval": null,
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:attribution",
+      "text": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "связь лица с автомобилем или действием"
+      },
+      "interval": null,
+      "fragmentId": "fragment_1"
+    }
+  ],
+  "statements": [
+    {
+      "id": "9260f714-e96c-438b-bd41-9ae25b72e677",
+      "predicate": "nlinput:inMoscow",
+      "stance": "asserted",
+      "subject": "person_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "Москва",
+      "quote": "В Москве я стоял на городской парковке.",
+      "startOffset": 0,
+      "endOffset": 39,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "e3cacdf9-8529-4a9c-9850-26aa3c6c6c9a",
+      "predicate": "nlinput:cityParking",
+      "stance": "asserted",
+      "subject": "person_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "городская парковка",
+      "quote": "В Москве я стоял на городской парковке.",
+      "startOffset": 0,
+      "endOffset": 39,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "2dc2cebd-5e09-47fb-a630-967859b92ead",
+      "predicate": "nlinput:placement",
+      "stance": "asserted",
+      "subject": "person_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "на парковке",
+      "quote": "В Москве я стоял на городской парковке.",
+      "startOffset": 0,
+      "endOffset": 39,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "e031c5a4-f9f4-435d-8445-704202194f28",
+      "predicate": "nlinput:subjectScope",
+      "stance": "asserted",
+      "subject": "person_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "физическое лицо, личное использование автомобиля",
+      "quote": "В Москве я стоял на городской парковке.",
+      "startOffset": 0,
+      "endOffset": 39,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "e2e1a670-ee70-4d6e-81fb-68cb4436b2a9",
+      "predicate": "nlinput:attribution",
+      "stance": "asserted",
+      "subject": "person_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "связь лица с автомобилем или действием",
+      "quote": "В Москве я стоял на городской парковке.",
+      "startOffset": 0,
+      "endOffset": 39,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    }
+  ],
+  "quarantine": [],
+  "alignmentDecisions": [
+    {
+      "statementId": "9260f714-e96c-438b-bd41-9ae25b72e677",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 39
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "e3cacdf9-8529-4a9c-9850-26aa3c6c6c9a",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 39
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "2dc2cebd-5e09-47fb-a630-967859b92ead",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 39
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "e031c5a4-f9f4-435d-8445-704202194f28",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 39
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "e2e1a670-ee70-4d6e-81fb-68cb4436b2a9",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 39
+      },
+      "method": "unique-exact-source-search"
+    }
+  ],
+  "calls": [
+    {
+      "stage": "discovery",
+      "request": {
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+          {
+            "role": "system",
+            "content": "Извлеки явные утверждения только из сообщения пользователя.\nКаждый statement — дословная цитата целого предложения: сохрани язык, регистр,\nотрицание, время, место и вводные слова об источнике. Ничего не переводи,\nне перефразируй и не добавляй отсутствующие факты. Сохрани обе стороны противоречия.\nsubject=vehicle_1 для одного автомобиля; разные автомобили — vehicle_1, vehicle_2.\nЛица при необходимости — person_1, person_2. narrator НЕ является subject.\naboutEpisode=episode_1 обязателен и при отсутствии времени или даты.\nТолько явно разные стоянки получают разные эпизоды episode_1, episode_2.\nspeaker — происхождение утверждения: narrator для собственных слов рассказчика,\nletter_1 для утверждения из письма, notice_1 из уведомления/постановления,\nnote_1 из заметки. Это действует и для косвенного пересказа: утверждение письма\nвсегда получает letter_1, НЕ narrator. Сохрани вводные слова о письме в цитате.\nРазные документы одного типа различай по номеру. Не оценивай достоверность слов.\nОтвет — только JSON по схеме; все поля обязательны и не могут быть пустыми.\n\n{\"type\": \"object\", \"properties\": {\"extractions\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"statement\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 4096}, \"statement_attributes\": {\"type\": \"object\", \"properties\": {\"subject\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128, \"pattern\": \"^(vehicle|person)_[1-9][0-9]*$\"}, \"aboutEpisode\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128, \"pattern\": \"^episode_[1-9][0-9]*$\"}, \"speaker\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128}}, \"required\": [\"subject\", \"aboutEpisode\", \"speaker\"], \"additionalProperties\": false}}, \"required\": [\"statement\", \"statement_attributes\"], \"additionalProperties\": false}, \"maxItems\": 256}}, \"required\": [\"extractions\"], \"additionalProperties\": false}"
+          },
+          {
+            "role": "user",
+            "content": "В Москве я стоял на городской парковке. Ошибок реквизитов и последующих исправлений не было.\n"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 8192,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "discovery",
+            "strict": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "extractions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "statement": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 4096
+                      },
+                      "statement_attributes": {
+                        "type": "object",
+                        "properties": {
+                          "subject": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128,
+                            "pattern": "^(vehicle|person)_[1-9][0-9]*$"
+                          },
+                          "aboutEpisode": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128,
+                            "pattern": "^episode_[1-9][0-9]*$"
+                          },
+                          "speaker": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "subject",
+                          "aboutEpisode",
+                          "speaker"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "statement",
+                      "statement_attributes"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 256
+                }
+              },
+              "required": [
+                "extractions"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "response": {
+        "id": "chatcmpl-fd0kmq9hk3bbip9eitnb7",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"extractions\":[{\"statement\":\"В Москве я стоял на городской парковке.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"Ошибок реквизитов и последующих исправлений не было.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}}]}",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "Need extract statements. Two sentences: \"В Москве я стоял на городской парковке.\" and \"Ошибок реквизитов и последующих исправлений не было.\"\n\nsubject vehicle_1? narrator is person_1? The user says \"я\" so subject person_1. aboutEpisode episode_1 mandatory. speaker narrator. Provide two entries."
+            }
+          }
+        ],
+        "created": 1791188465,
+        "model": "openai/gpt-oss-20b",
+        "object": "chat.completion",
+        "metadata": null,
+        "moderation": null,
+        "service_tier": null,
+        "system_fingerprint": "openai/gpt-oss-20b",
+        "usage": {
+          "completion_tokens": 160,
+          "prompt_tokens": 605,
+          "total_tokens": 765,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 71,
+            "rejected_prediction_tokens": null,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": null
+        },
+        "stats": {}
+      },
+      "output": "{\"extractions\":[{\"statement\":\"В Москве я стоял на городской парковке.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"Ошибок реквизитов и последующих исправлений не было.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}}]}"
+    },
+    {
+      "stage": "classification",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Classify ONLY the supplied literal assertions using the definitions.\nOne fragment may yield several predicates. Copy its fragmentId. No new quotes,\nparticipants, episodes or facts. Retain both sides of contradictions separately.\nstance refers to whether the PREDICATE is affirmed or denied, not whether the clause\ncontains any negative word. Omit unsupported predicates. Never infer absence from\nsilence. Definitions:\n{\"eventTime\": \"Время или дата события.\", \"inMoscow\": \"Место события находится в Москве.\", \"cityParking\": \"Место является городской парковкой; одного названия зоны недостаточно.\", \"placement\": \"Автомобиль находился на парковке.\", \"paidRegime\": \"В момент события действовал платный режим. Отсутствие льгот или разрешений НЕ означает отсутствие платного режима.\", \"subjectScope\": \"Статус лица: физическое лицо, личное использование автомобиля.\", \"attribution\": \"Связь лица с автомобилем или действием.\", \"payment\": \"Оплата конкретной парковки. Платный режим НЕ является фактом оплаты.\", \"paymentStart\": \"Время начала оплаты или платежа.\", \"departure\": \"Время отъезда автомобиля.\", \"paymentComplexity\": \"Ошибки оплаты, неверная машина/зона или последующие исправления. Если ошибок и исправлений НЕ было, stance=denied.\", \"permit\": \"Наличие разрешения или абонемента.\", \"disabilityConditions\": \"Явно названные обстоятельства инвалидности; отсутствие льгот не доказывает отсутствие инвалидности.\", \"specialTariff\": \"Явно названный специальный тариф; отсутствие льгот не доказывает отсутствие специального тарифа.\", \"faultAndExclusions\": \"Явно названная вина или исключающие ответственность обстоятельства. Не выводить из отсутствия ошибок оплаты.\"}"
+        },
+        {
+          "role": "user",
+          "content": "[{\"fragmentId\": \"fragment_1\", \"quote\": \"В Москве я стоял на городской парковке.\", \"attributes\": {\"subject\": \"person_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": null}, {\"fragmentId\": \"fragment_2\", \"quote\": \"Ошибок реквизитов и последующих исправлений не было.\", \"attributes\": {\"subject\": \"person_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": null}]"
+        }
+      ],
+      "output": "{\"classifications\":[{\"fragmentId\":\"fragment_1\",\"predicate\":\"inMoscow\",\"stance\":\"asserted\",\"valueText\":\"Москва\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"cityParking\",\"stance\":\"asserted\",\"valueText\":\"городская парковка\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"placement\",\"stance\":\"asserted\",\"valueText\":\"на парковке\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"subjectScope\",\"stance\":\"asserted\",\"valueText\":\"физическое лицо, личное использование автомобиля\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"attribution\",\"stance\":\"asserted\",\"valueText\":\"связь лица с автомобилем или действием\"}]}",
+      "response": {
+        "id": "chatcmpl-b693o90ekb441eo5dcr5p7",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"classifications\":[{\"fragmentId\":\"fragment_1\",\"predicate\":\"inMoscow\",\"stance\":\"asserted\",\"valueText\":\"Москва\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"cityParking\",\"stance\":\"asserted\",\"valueText\":\"городская парковка\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"placement\",\"stance\":\"asserted\",\"valueText\":\"на парковке\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"subjectScope\",\"stance\":\"asserted\",\"valueText\":\"физическое лицо, личное использование автомобиля\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"attribution\",\"stance\":\"asserted\",\"valueText\":\"связь лица с автомобилем или действием\"}]}",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "We need to classify predicates. fragment1: statement: in Moscow, standing on city parking. So eventTime? not given. inMoscow true. cityParking true. placement true. subjectScope? person_1 is physical person using car. attribution? yes. payment? none. paymentStart? none. departure? none. paymentComplexity? no errors => stance denied for paymentComplexity. fragment2: says no errors and corrections. So paymentComplexity denied. Also maybe indicates no errors, so stance denied. No other predicates."
+            }
+          }
+        ],
+        "created": 1791188468,
+        "model": "openai/gpt-oss-20b",
+        "object": "chat.completion",
+        "metadata": null,
+        "moderation": null,
+        "service_tier": null,
+        "system_fingerprint": "openai/gpt-oss-20b",
+        "usage": {
+          "completion_tokens": 259,
+          "prompt_tokens": 578,
+          "total_tokens": 837,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 110,
+            "rejected_prediction_tokens": null,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": null
+        },
+        "stats": {}
+      }
+    }
+  ],
+  "discoveryPrompt": "Извлеки явные утверждения только из сообщения пользователя.\nКаждый statement — дословная цитата целого предложения: сохрани язык, регистр,\nотрицание, время, место и вводные слова об источнике. Ничего не переводи,\nне перефразируй и не добавляй отсутствующие факты. Сохрани обе стороны противоречия.\nsubject=vehicle_1 для одного автомобиля; разные автомобили — vehicle_1, vehicle_2.\nЛица при необходимости — person_1, person_2. narrator НЕ является subject.\naboutEpisode=episode_1 обязателен и при отсутствии времени или даты.\nТолько явно разные стоянки получают разные эпизоды episode_1, episode_2.\nspeaker — происхождение утверждения: narrator для собственных слов рассказчика,\nletter_1 для утверждения из письма, notice_1 из уведомления/постановления,\nnote_1 из заметки. Это действует и для косвенного пересказа: утверждение письма\nвсегда получает letter_1, НЕ narrator. Сохрани вводные слова о письме в цитате.\nРазные документы одного типа различай по номеру. Не оценивай достоверность слов.\nОтвет — только JSON по схеме; все поля обязательны и не могут быть пустыми.\n",
+  "classificationPrompt": "Classify ONLY the supplied literal assertions using the definitions.\nOne fragment may yield several predicates. Copy its fragmentId. No new quotes,\nparticipants, episodes or facts. Retain both sides of contradictions separately.\nstance refers to whether the PREDICATE is affirmed or denied, not whether the clause\ncontains any negative word. Omit unsupported predicates. Never infer absence from\nsilence. Definitions:\n{\"eventTime\": \"Время или дата события.\", \"inMoscow\": \"Место события находится в Москве.\", \"cityParking\": \"Место является городской парковкой; одного названия зоны недостаточно.\", \"placement\": \"Автомобиль находился на парковке.\", \"paidRegime\": \"В момент события действовал платный режим. Отсутствие льгот или разрешений НЕ означает отсутствие платного режима.\", \"subjectScope\": \"Статус лица: физическое лицо, личное использование автомобиля.\", \"attribution\": \"Связь лица с автомобилем или действием.\", \"payment\": \"Оплата конкретной парковки. Платный режим НЕ является фактом оплаты.\", \"paymentStart\": \"Время начала оплаты или платежа.\", \"departure\": \"Время отъезда автомобиля.\", \"paymentComplexity\": \"Ошибки оплаты, неверная машина/зона или последующие исправления. Если ошибок и исправлений НЕ было, stance=denied.\", \"permit\": \"Наличие разрешения или абонемента.\", \"disabilityConditions\": \"Явно названные обстоятельства инвалидности; отсутствие льгот не доказывает отсутствие инвалидности.\", \"specialTariff\": \"Явно названный специальный тариф; отсутствие льгот не доказывает отсутствие специального тарифа.\", \"faultAndExclusions\": \"Явно названная вина или исключающие ответственность обстоятельства. Не выводить из отсутствия ошибок оплаты.\"}",
+  "discoverySchema": {
+    "type": "object",
+    "properties": {
+      "extractions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "statement": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            },
+            "statement_attributes": {
+              "type": "object",
+              "properties": {
+                "subject": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^(vehicle|person)_[1-9][0-9]*$"
+                },
+                "aboutEpisode": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^episode_[1-9][0-9]*$"
+                },
+                "speaker": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "subject",
+                "aboutEpisode",
+                "speaker"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "statement",
+            "statement_attributes"
+          ],
+          "additionalProperties": false
+        },
+        "maxItems": 256
+      }
+    },
+    "required": [
+      "extractions"
+    ],
+    "additionalProperties": false
+  },
+  "classificationSchema": {
+    "type": "object",
+    "properties": {
+      "classifications": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "fragmentId": {
+              "type": "string"
+            },
+            "predicate": {
+              "type": "string",
+              "enum": [
+                "eventTime",
+                "inMoscow",
+                "cityParking",
+                "placement",
+                "paidRegime",
+                "subjectScope",
+                "attribution",
+                "payment",
+                "paymentStart",
+                "departure",
+                "paymentComplexity",
+                "permit",
+                "disabilityConditions",
+                "specialTariff",
+                "faultAndExclusions"
+              ]
+            },
+            "stance": {
+              "type": "string",
+              "enum": [
+                "asserted",
+                "denied",
+                "unknown"
+              ]
+            },
+            "valueText": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "fragmentId",
+            "predicate",
+            "stance",
+            "valueText"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "classifications"
+    ],
+    "additionalProperties": false
+  },
+  "exampleText": null,
+  "reviewState": "unreviewed"
+}

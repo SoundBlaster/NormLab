@@ -21,7 +21,7 @@ PREDICATES = [
 ]
 
 
-def anchor(raw, source):
+def anchor(raw, source, include_speaker=False):
     statements, quarantine, decisions = [], [], []
     for item in raw:
         quote, attributes = item["text"], item.get("attributes") or {}
@@ -74,6 +74,13 @@ def anchor(raw, source):
                 "rationale": "",
             }
         )
+        if include_speaker:
+            speaker = attributes.get("speaker")
+            if not isinstance(speaker, str) or not 0 < len(speaker.strip()) <= 128:
+                statements.pop()
+                quarantine.append({**item, "reason": "speaker-contract"})
+                continue
+            statements[-1]["speaker"] = speaker
         decisions.append(
             {
                 "statementId": statement_id,

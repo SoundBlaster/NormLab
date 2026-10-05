@@ -1,30 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   emptyReviewChecklist,
-  reviewPredicates,
-  reviewStatementIssues,
   type ReviewDraft,
   type ReviewStatement,
 } from '../../shared/parking-review.js';
+import {
+  Actions,
+  Button,
+  CheckField,
+  Disclosure,
+  Field,
+  Panel,
+  Notice,
+  SectionHeading,
+  Select,
+  Status,
+  Textarea,
+} from '../ui/components.js';
+import { StatementEditor } from './StatementEditor.js';
 import './review.css';
 
-const predicateNames: Record<string, string> = {
-  eventTime: 'Время события',
-  inMoscow: 'Москва',
-  cityParking: 'Городская парковка',
-  placement: 'Размещение автомобиля',
-  paidRegime: 'Платный режим',
-  subjectScope: 'Участник и автомобиль',
-  attribution: 'Кто сообщил',
-  payment: 'Оплата',
-  paymentStart: 'Начало оплаты',
-  departure: 'Отъезд',
-  paymentComplexity: 'Ошибки, исправления и сложность оплаты',
-  permit: 'Разрешения и абонементы',
-  disabilityConditions: 'Условия для инвалидов',
-  specialTariff: 'Специальный тариф',
-  faultAndExclusions: 'Вина и исключения',
-};
 const checklistNames = {
   negatives: 'Все явные отрицания сохранены.',
   conflicts: 'Противоречащие утверждения сохранены отдельно.',
@@ -152,7 +147,7 @@ export function ParkingReview({ token }: { token: string }) {
         id: crypto.randomUUID(),
         predicate: 'nlinput:payment',
         stance: 'asserted',
-        subject: 'episode_1',
+        subject: 'vehicle_1',
         aboutEpisode: 'episode_1',
         valueText: quote,
         quote,
@@ -179,23 +174,26 @@ export function ParkingReview({ token }: { token: string }) {
   }
   return (
     <section className="parking-review" aria-label="Проверка утверждений парковочного пилота">
-      <p className="stale-note">
+      <Notice className="stale-note" tone="warning">
         Эксперимент извлечения. Утверждения требуют проверки человеком. Решение по КоАП здесь не
         рассчитывается.
-      </p>
+      </Notice>
       {error && (
-        <p className="message error" role="alert">
+        <Notice tone="danger" role="alert">
           {error}
-        </p>
+        </Notice>
       )}
-      <p role="status" aria-live="polite">
+      <Notice tone="success" role="status" aria-live="polite">
         {notice}
-      </p>
-      <section className="card">
-        <h2>Фабула и черновики</h2>
-        <label>
-          Открыть сохранённый черновик
-          <select
+      </Notice>
+      <Panel>
+        <SectionHeading
+          step="01"
+          title="Описание события"
+          description="Начните с фабулы или вернитесь к сохранённому разбору."
+        />
+        <Field label="Открыть сохранённый черновик">
+          <Select
             value={draft?.draftId ?? ''}
             disabled={busy || dirty || reviewDirty}
             onChange={(e) => {
@@ -209,12 +207,11 @@ export function ParkingReview({ token }: { token: string }) {
                 {new Date(d.createdAt).toLocaleString('ru-RU')} · ревизия {d.revision}
               </option>
             ))}
-          </select>
-        </label>
-        <label>
-          Описание события
-          <textarea
-            rows={6}
+          </Select>
+        </Field>
+        <Field label="Описание события">
+          <Textarea
+            rows={5}
             value={narrative}
             disabled={busy}
             onChange={(e) => {
@@ -222,11 +219,10 @@ export function ParkingReview({ token }: { token: string }) {
               setNewSourceApproved(false);
             }}
           />
-        </label>
+        </Field>
         {!draft && (
-          <label>
-            Учебный пример
-            <select
+          <Field label="Учебный пример">
+            <Select
               disabled={busy}
               value=""
               onChange={(e) => {
@@ -239,21 +235,19 @@ export function ParkingReview({ token }: { token: string }) {
               {data?.cases.map((c) => (
                 <option key={c.id}>{c.id}</option>
               ))}
-            </select>
-          </label>
+            </Select>
+          </Field>
         )}
         {draft && (
-          <label className="parking-check">
-            <input
-              type="checkbox"
-              checked={newSourceApproved}
-              disabled={busy}
-              onChange={(e) => setNewSourceApproved(e.target.checked)}
-            />
+          <CheckField
+            checked={newSourceApproved}
+            disabled={busy}
+            onChange={(e) => setNewSourceApproved(e.target.checked)}
+          >
             Создать новый черновик: сохранить прежний разбор и начать с пустыми подтверждениями.
-          </label>
+          </CheckField>
         )}
-        <button
+        <Button
           disabled={
             busy || dirty || reviewDirty || !narrative.trim() || (!!draft && !newSourceApproved)
           }
@@ -269,51 +263,57 @@ export function ParkingReview({ token }: { token: string }) {
           }
         >
           Создать черновик
-        </button>
-      </section>
+        </Button>
+      </Panel>
       {draft && (
         <>
-          <section className="card">
-            <h2>Источник · ревизия {draft.revision}</h2>
-            <p>
+          <Panel>
+            <SectionHeading
+              step="02"
+              title={`Источник · ревизия ${draft.revision}`}
+              description="Получите предложения модели или выделите цитату и добавьте утверждение вручную."
+            />
+            <Status
+              className="parking-review-state"
+              tone={draft.status === 'reviewed' && !dirty && !reviewDirty ? 'success' : 'warning'}
+            >
               {draft.status === 'reviewed' && !dirty && !reviewDirty
                 ? 'Проверено человеком'
                 : 'Проверка не завершена'}
               {historical ? ' · историческая ревизия, только чтение' : ''}
-            </p>
+            </Status>
             {historical && (
-              <button
-                className="secondary"
+              <Button
+                variant="secondary"
                 onClick={() => {
                   const latest = data?.drafts.find((d) => d.draftId === draft.draftId);
                   if (latest) open(latest);
                 }}
               >
                 Открыть актуальную ревизию
-              </button>
+              </Button>
             )}
             {narrative !== draft.narrative && (
-              <p className="stale-note">
+              <Notice className="stale-note" tone="warning">
                 Вы изменили фабулу выше. Для её разбора создайте новый черновик. Ниже показан
                 сохранённый источник.
-              </p>
+              </Notice>
             )}
-            <label>
-              Выделите фрагмент для нового утверждения
-              <textarea
+            <Field label="Выделите фрагмент для нового утверждения">
+              <Textarea
                 ref={sourceRef}
                 readOnly
-                rows={6}
+                rows={4}
                 value={draft.narrative}
                 onSelect={() => {
                   const input = sourceRef.current;
                   if (input) setSelection({ start: input.selectionStart, end: input.selectionEnd });
                 }}
               />
-            </label>
-            <div className="parking-actions">
-              <button
-                className="secondary"
+            </Field>
+            <Actions>
+              <Button
+                variant="secondary"
                 disabled={
                   busy ||
                   historical ||
@@ -324,8 +324,8 @@ export function ParkingReview({ token }: { token: string }) {
                 onClick={addSelection}
               >
                 Добавить выделенное утверждение
-              </button>
-              <button
+              </Button>
+              <Button
                 disabled={
                   busy ||
                   dirty ||
@@ -349,15 +349,15 @@ export function ParkingReview({ token }: { token: string }) {
                 }
               >
                 {busy ? 'Выполняется…' : 'Выделить и классифицировать утверждения'}
-              </button>
-              <button
-                className="secondary"
+              </Button>
+              <Button
+                variant="secondary"
                 disabled={dirty || reviewDirty || busy}
                 onClick={exportDraft}
               >
                 Скачать сохранённую ревизию
-              </button>
-            </div>
+              </Button>
+            </Actions>
             {!data?.extractorAvailable && (
               <p>
                 Для автоматического извлечения требуется локальное evaluation environment. Ручная
@@ -365,193 +365,103 @@ export function ParkingReview({ token }: { token: string }) {
               </p>
             )}
             {draft.originalExtraction !== null && (
-              <details>
-                <summary>Исходное предложение модели</summary>
+              <Disclosure summary="Исходное предложение модели">
                 <pre>{JSON.stringify(draft.originalExtraction, null, 2)}</pre>
-              </details>
+              </Disclosure>
             )}
-          </section>
-          <section className="card">
-            <h2>Утверждения · {statements.length}</h2>
-            <p>
+          </Panel>
+          <Panel>
+            <SectionHeading
+              step="03"
+              title={`Проверка утверждений · ${statements.length}`}
+              description="Сопоставьте каждое утверждение с цитатой. Исправьте смысл, затем сохраните и подтвердите."
+            />
+            <p className="parking-help">
               Проверьте полноту: время и место, автомобиль и участник, размещение, платный режим,
               оплата и её время, отъезд, ошибки оплаты и разрешения. Если сведений нет, это пробел
               для уточнения, а не отрицание. Эти пункты не заменяют проверку состава.
             </p>
-            <p>
+            <p className="parking-help">
               «Отрицается» сохраняет отрицательное утверждение. «Отклонить» исключает ошибочное
               предложение модели. Это разные действия.
             </p>
             {dirty && (
-              <p className="stale-note">
+              <Notice className="stale-note" tone="warning">
                 Есть несохранённые изменения. Сохраните ревизию перед подтверждением.
-              </p>
+              </Notice>
             )}
             {reviewDirty && (
-              <p className="stale-note">Подтверждения и checklist ещё не сохранены.</p>
+              <Notice className="stale-note" tone="warning">
+                Подтверждения и checklist ещё не сохранены.
+              </Notice>
             )}
             {!statements.length && (
               <p>Предложите утверждения автоматически или выделите текст источника.</p>
             )}
-            {statements.map((statement, index) => (
-              <fieldset
-                className="parking-statement"
-                key={statement.id}
-                disabled={busy || historical}
-              >
-                <legend>
-                  Утверждение {index + 1} · {statement.origin === 'model' ? 'модель' : 'человек'} ·{' '}
-                  {
-                    { pending: 'не проверено', confirmed: 'подтверждено', rejected: 'отклонено' }[
-                      statement.decision
-                    ]
-                  }
-                </legend>
-                <blockquote>{statement.quote}</blockquote>
-                <div className="parking-fields">
-                  <label>
-                    Обстоятельство
-                    <select
-                      value={statement.predicate}
-                      onChange={(e) => change(statement.id, { predicate: e.target.value })}
-                    >
-                      {reviewPredicates.map((p) => (
-                        <option key={p} value={p}>
-                          {predicateNames[p.split(':')[1]] ?? p}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    Состояние утверждения
-                    <select
-                      value={statement.stance}
-                      onChange={(e) =>
-                        change(statement.id, {
-                          stance: e.target.value as ReviewStatement['stance'],
-                        })
-                      }
-                    >
-                      <option value="asserted">Утверждается</option>
-                      <option value="denied">Отрицается</option>
-                      <option value="unknown">Неизвестно</option>
-                    </select>
-                  </label>
-                  <label>
-                    К кому или чему относится
-                    <input
-                      value={statement.subject}
-                      onChange={(e) => change(statement.id, { subject: e.target.value })}
-                    />
-                  </label>
-                  <label>
-                    Эпизод
-                    <input
-                      value={statement.aboutEpisode}
-                      onChange={(e) => change(statement.id, { aboutEpisode: e.target.value })}
-                    />
-                  </label>
-                </div>
-                <label>
-                  Содержание
-                  <textarea
-                    rows={2}
-                    value={statement.valueText}
-                    onChange={(e) => change(statement.id, { valueText: e.target.value })}
-                  />
-                </label>
-                <label>
-                  Основание проверки или причина отклонения
-                  <textarea
-                    rows={2}
-                    value={statement.rationale}
-                    onChange={(e) => {
-                      setStatements((items) =>
-                        items.map((s) =>
-                          s.id === statement.id ? { ...s, rationale: e.target.value } : s,
-                        ),
-                      );
-                      setDirty(true);
-                    }}
-                  />
-                </label>
-                <div className="parking-actions">
-                  <button
-                    className="secondary"
-                    disabled={!selection || selection.end <= selection.start}
-                    onClick={() => {
-                      if (selection)
-                        change(statement.id, {
-                          quote: draft.narrative.slice(selection.start, selection.end),
-                          startOffset: selection.start,
-                          endOffset: selection.end,
-                        });
-                    }}
-                  >
-                    Заменить цитату выделенным текстом
-                  </button>
-                  <button
-                    className="secondary"
-                    disabled={dirty || reviewStatementIssues(statement, draft.narrative).length > 0}
-                    onClick={() => {
-                      setStatements((items) =>
-                        items.map((s) =>
-                          s.id === statement.id ? { ...s, decision: 'confirmed' } : s,
-                        ),
-                      );
-                      setChecklist({ ...emptyReviewChecklist });
-                      setReviewDirty(true);
-                    }}
-                  >
-                    Подтвердить
-                  </button>
-                  <button
-                    className="secondary"
-                    disabled={!statement.rationale.trim() || dirty}
-                    onClick={() => {
-                      setStatements((items) =>
-                        items.map((s) =>
-                          s.id === statement.id ? { ...s, decision: 'rejected' } : s,
-                        ),
-                      );
-                      setChecklist({ ...emptyReviewChecklist });
-                      setReviewDirty(true);
-                    }}
-                  >
-                    Отклонить с причиной
-                  </button>
-                </div>
-              </fieldset>
-            ))}
+            <div className="parking-statement-list">
+              {statements.map((statement, index) => (
+                <StatementEditor
+                  key={statement.id}
+                  statement={statement}
+                  index={index}
+                  narrative={draft.narrative}
+                  disabled={busy || historical}
+                  dirty={dirty}
+                  canReplaceQuote={!!selection && selection.end > selection.start}
+                  onChange={(patch) => change(statement.id, patch)}
+                  onRationaleChange={(rationale) => {
+                    setStatements((items) =>
+                      items.map((s) => (s.id === statement.id ? { ...s, rationale } : s)),
+                    );
+                    setDirty(true);
+                  }}
+                  onReplaceQuote={() => {
+                    if (selection)
+                      change(statement.id, {
+                        quote: draft.narrative.slice(selection.start, selection.end),
+                        startOffset: selection.start,
+                        endOffset: selection.end,
+                      });
+                  }}
+                  onDecision={(decision) => {
+                    setStatements((items) =>
+                      items.map((s) => (s.id === statement.id ? { ...s, decision } : s)),
+                    );
+                    setChecklist({ ...emptyReviewChecklist });
+                    setReviewDirty(true);
+                  }}
+                />
+              ))}
+            </div>
             <fieldset
+              className="parking-checklist"
               disabled={
                 busy || historical || dirty || statements.some((s) => s.decision === 'pending')
               }
             >
               <legend>Проверка полноты всего эпизода</legend>
               {Object.entries(checklistNames).map(([key, label]) => (
-                <label className="parking-check" key={key}>
-                  <input
-                    type="checkbox"
-                    checked={checklist[key as keyof typeof checklist]}
-                    onChange={(e) => {
-                      setChecklist({ ...checklist, [key]: e.target.checked });
-                      setReviewDirty(true);
-                    }}
-                  />
+                <CheckField
+                  key={key}
+                  checked={checklist[key as keyof typeof checklist]}
+                  onChange={(e) => {
+                    setChecklist({ ...checklist, [key]: e.target.checked });
+                    setReviewDirty(true);
+                  }}
+                >
                   {label}
-                </label>
+                </CheckField>
               ))}
             </fieldset>
-            <div className="parking-actions">
-              <button
-                className="secondary"
+            <Actions className="parking-review-footer">
+              <Button
+                variant="secondary"
                 disabled={busy || historical}
                 onClick={() => void act(() => save(false))}
               >
                 Сохранить ревизию
-              </button>
-              <button
+              </Button>
+              <Button
                 disabled={
                   busy ||
                   historical ||
@@ -563,13 +473,17 @@ export function ParkingReview({ token }: { token: string }) {
                 onClick={() => void act(() => save(true))}
               >
                 Завершить проверку
-              </button>
-            </div>
-          </section>
-          <section className="card">
-            <h2>История проверки</h2>
-            <button
-              className="secondary"
+              </Button>
+            </Actions>
+          </Panel>
+          <Panel>
+            <SectionHeading
+              step="04"
+              title="История проверки"
+              description="Каждая сохранённая ревизия остаётся доступна для просмотра."
+            />
+            <Button
+              variant="secondary"
               disabled={busy || dirty || reviewDirty}
               onClick={() =>
                 void act(async () => {
@@ -578,16 +492,16 @@ export function ParkingReview({ token }: { token: string }) {
               }
             >
               Показать ревизии
-            </button>
-            <div className="parking-actions">
+            </Button>
+            <Actions>
               {history.map((item) => (
-                <button className="secondary" key={item.revisionId} onClick={() => open(item)}>
+                <Button variant="secondary" key={item.revisionId} onClick={() => open(item)}>
                   Ревизия {item.revision} ·{' '}
                   {item.status === 'reviewed' ? 'проверена человеком' : 'черновик'}
-                </button>
+                </Button>
               ))}
-            </div>
-          </section>
+            </Actions>
+          </Panel>
         </>
       )}
     </section>

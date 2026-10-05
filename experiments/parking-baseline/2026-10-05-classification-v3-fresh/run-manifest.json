@@ -1,0 +1,44 @@
+{
+  "schema": "normlab.synthetic-extraction-run/v1",
+  "dataset": "synthetic-v1",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "pipeline": "literal-discovery-then-classification/v3",
+  "attemptedCaseIds": [
+    "SYN001",
+    "SYN003",
+    "SYN026"
+  ],
+  "records": [
+    {
+      "caseId": "SYN001",
+      "status": "completed",
+      "returnCode": 0,
+      "error": null,
+      "elapsedSeconds": 9.501,
+      "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+      "pipeline": "literal-discovery-then-classification/v3",
+      "discoveryReplayed": false
+    },
+    {
+      "caseId": "SYN003",
+      "status": "completed",
+      "returnCode": 0,
+      "error": null,
+      "elapsedSeconds": 9.111,
+      "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+      "pipeline": "literal-discovery-then-classification/v3",
+      "discoveryReplayed": false
+    },
+    {
+      "caseId": "SYN026",
+      "status": "completed",
+      "returnCode": 0,
+      "error": null,
+      "elapsedSeconds": 15.083,
+      "sourceDigest": "70e9b071fdd28316381fb684d786c30c6d1f9b281357e01ce10d123dd9f9b042",
+      "pipeline": "literal-discovery-then-classification/v3",
+      "discoveryReplayed": false
+    }
+  ]
+}

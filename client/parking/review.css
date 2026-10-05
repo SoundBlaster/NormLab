@@ -1,64 +1,111 @@
 .parking-review {
   display: grid;
-  gap: 20px;
+  gap: var(--space-6);
+  max-width: var(--measure-form);
+  margin-inline: auto;
+  color: var(--color-ink);
 }
-.parking-review .card {
+.parking-review-state {
+  justify-self: start;
+}
+.parking-help {
+  color: var(--color-muted);
+  font-size: var(--text-label);
+  line-height: 1.75;
+}
+.parking-statement-list {
   display: grid;
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  align-items: start;
 }
-.parking-review label {
-  display: grid;
-  gap: 6px;
-}
-.parking-review textarea {
-  width: 100%;
-  resize: vertical;
-}
-.parking-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.parking-statement-list:empty {
+  display: none;
 }
 .parking-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: var(--space-4);
 }
 .parking-statement {
   display: grid;
-  gap: 12px;
-  padding: 18px;
-  border: 1px solid #bfc8bf;
-  border-radius: 8px;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-group);
   min-width: 0;
+  background: var(--surface-inset);
 }
-.parking-review .parking-check {
-  display: flex;
-  gap: 10px;
-  align-items: start;
-  padding: 6px 0;
+.parking-statement legend {
+  padding: 0 var(--space-2);
+  max-width: 100%;
+  font-size: var(--text-body);
+  font-weight: 600;
+  line-height: 1.9;
 }
-.parking-check input {
-  width: auto;
-  flex: none;
-  margin-top: 4px;
+.parking-statement-meta {
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  font-weight: 400;
+  margin-left: var(--space-2);
 }
-.parking-review blockquote {
-  margin: 0;
-  padding: 12px;
-  border-left: 3px solid #244b38;
-  background: #f2f4ed;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+.parking-statement legend .ui-status {
+  margin-left: var(--space-2);
+}
+.parking-statement .ui-actions {
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-line);
+}
+.parking-replace-quote.ui-button {
+  flex-basis: 100%;
+  margin-block: var(--space-2) 2px;
+  background: transparent;
+  border-style: dashed;
+}
+.parking-checklist {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-group);
+  background: var(--surface-muted);
+}
+.parking-checklist legend {
+  padding: 0 var(--space-2);
+  font-weight: 600;
+  font-size: var(--text-body);
+}
+.parking-review-footer {
+  justify-content: flex-end;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-line);
 }
 .parking-review pre {
   max-height: 360px;
   overflow: auto;
+  padding: var(--space-4);
+  border-radius: var(--radius-control);
+  background: var(--surface-muted);
+  font-size: var(--text-small);
+  line-height: 1.7;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+@media (max-width: 1200px) {
+  .parking-statement-list {
+    grid-template-columns: 1fr;
+  }
+}
 @media (max-width: 680px) {
+  .parking-review {
+    gap: var(--space-4);
+  }
   .parking-fields {
     grid-template-columns: 1fr;
+  }
+  .parking-statement,
+  .parking-checklist {
+    padding: var(--space-4);
+  }
+  .parking-review .ui-panel > .ui-button {
+    width: 100%;
   }
 }
