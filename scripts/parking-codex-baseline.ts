@@ -143,6 +143,7 @@ for (const caseId of cases) {
   });
   writeFileSync(resolve(output, `${caseId}.events.jsonl`), processResult.events);
   writeFileSync(resolve(output, `${caseId}.stderr.txt`), processResult.stderr);
+  let eventParseFailed = false;
   const events = processResult.events
     .split('\n')
     .filter(Boolean)
@@ -150,9 +151,11 @@ for (const caseId of cases) {
       try {
         return JSON.parse(line) as { type?: string; item?: { type?: string }; usage?: unknown };
       } catch {
-        return { type: 'unparsed-event' };
+        eventParseFailed = true;
+        return undefined;
       }
-    });
+    })
+    .filter((event): event is NonNullable<typeof event> => event !== undefined);
   const toolEvents = events.filter(
     (event) => event.item?.type && !['agent_message', 'reasoning'].includes(event.item.type),
   );
@@ -170,7 +173,10 @@ for (const caseId of cases) {
     usage: events.find((event) => event.type === 'turn.completed')?.usage,
     contentSha256: content === undefined ? undefined : sha256(content),
     status:
-      processResult.exitCode !== 0 || processResult.timedOut || content === undefined
+      processResult.exitCode !== 0 ||
+      processResult.timedOut ||
+      content === undefined ||
+      eventParseFailed
         ? 'provider-or-cli-error'
         : toolEvents.length
           ? 'tool-contaminated'

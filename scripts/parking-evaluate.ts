@@ -29,6 +29,7 @@ const runs = inputs.map((input) => {
   ) as {
     entries: { path: string; sha256: string }[];
   };
+  const verifiedArtifacts = new Set<string>();
   for (const entry of manifest.entries) {
     const file = resolve(directory, entry.path);
     if (
@@ -36,7 +37,12 @@ const runs = inputs.map((input) => {
       createHash('sha256').update(readFileSync(file)).digest('hex') !== entry.sha256
     )
       throw new Error(`Artifact drift: ${entry.path}`);
+    verifiedArtifacts.add(entry.path);
   }
+  const requireArtifact = (path: string) => {
+    if (!verifiedArtifacts.has(path))
+      throw new Error(`Scored artifact missing from verified manifest: ${path}`);
+  };
   const cases = expectations.cases.map((label) => {
     const source = readFileSync(
       resolve(`fixtures/parking-pilot/reference/${label.id}.source.txt`),
@@ -51,6 +57,9 @@ const runs = inputs.map((input) => {
       rawDigest: string | null = null,
       latencyMs: number | null = null;
     if (existsSync(file)) {
+      requireArtifact(`${label.id}.content.txt`);
+      requireArtifact(`${label.id}.request.json`);
+      requireArtifact(`${label.id}.result.json`);
       const raw = readFileSync(file, 'utf8');
       rawDigest = sha256(raw);
       const binding = JSON.parse(
@@ -71,6 +80,7 @@ const runs = inputs.map((input) => {
       ) as { latencyMs: number };
       latencyMs = result.latencyMs;
     } else if (existsSync(flatFile)) {
+      requireArtifact(`${label.id}.output.json`);
       scope = 'statement-proposal';
       const raw = readFileSync(flatFile, 'utf8');
       rawDigest = sha256(raw);
