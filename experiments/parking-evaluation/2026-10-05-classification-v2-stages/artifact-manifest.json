@@ -1,0 +1,14 @@
+{
+  "schema": "normlab.baseline-artifacts/v1",
+  "signed": false,
+  "entries": [
+    {
+      "path": "analyzer.py.snapshot",
+      "sha256": "5b9a2b5fcb09bd553e823f1476d7992c9e88cb4a5dc9ac88171ee1c970a17635"
+    },
+    {
+      "path": "report.json",
+      "sha256": "0111067c02b5aa84c02727e6c1688a209238b9d835b28e05681b8f80679d6a2d"
+    }
+  ]
+}

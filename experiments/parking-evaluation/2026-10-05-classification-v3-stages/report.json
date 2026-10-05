@@ -1,0 +1,1036 @@
+{
+  "schema": "normlab.discovery-stage-analysis/v1",
+  "run": "2026-10-05-classification-v3-replay",
+  "sourceRunManifestDigest": "99f64a6640752b922801a9a0663d1721979aa38f151c5c3ebc606dbda1ad2aa9",
+  "expectationsDigest": "49e9f4cf3fe159f5f263450a98a62cd96056192bc0473c057bc8cd554be3e2a8",
+  "metrics": {
+    "requiredProbes": 46,
+    "discoveryCovered": 44,
+    "coveredButNoClassification": 2,
+    "coveredButWrongPredicateOrStance": 8,
+    "rawPredicateStanceMatched": 34,
+    "coveredButNoDecision": 1,
+    "coveredExplicitNoPredicate": 1
+  },
+  "limitations": "Candidate probe coverage only; not full discovery recall, attribution accuracy, legal sufficiency or population quality. Raw matches may still be quarantined downstream.",
+  "cases": [
+    {
+      "id": "SYN001",
+      "outputDigest": "ae70f43a6723e0f1da7d7dac29672e2a174fb1fce391fd3a0a2f3e4d781e6249",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "Парковку оплатил через приложение.",
+            "startOffset": 53,
+            "endOffset": 87
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN002",
+      "outputDigest": "8c5aec614e2794afe10572623d94246c0836b9adcc64365c2cbaf356a1b9f292",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "Парковку не оплачивал.",
+            "startOffset": 53,
+            "endOffset": 75
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN003",
+      "outputDigest": "3dcf569dcadd1d30242c6a7999d0329067832040887db7e8f9e630a8c9b8112c",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "unknown",
+            "quote": "Не знаю, прошла ли оплата.",
+            "startOffset": 53,
+            "endOffset": 79
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN004",
+      "outputDigest": "7cd0f4897ac125df453471b1cb7b6df2753f4ebc4077cce09d1e5e7a7e53fa0e",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "второй час не оплачивал.",
+            "startOffset": 75,
+            "endOffset": 99
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        },
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "Я оплатил первый час",
+            "startOffset": 53,
+            "endOffset": 73
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN005",
+      "outputDigest": "15dfd0dfd4e6a7edf9aada09cacab27f5cf165d1dffa85e9bfd7b423e1bf87bc",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "парковку оплатил.",
+            "startOffset": 72,
+            "endOffset": 89
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN006",
+      "outputDigest": "12c0460e14c63b7c871301c33b159dd1d3e6540594a421275950ff5e6726b281",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "Платёж прошёл за автомобиль Б",
+            "startOffset": 59,
+            "endOffset": 88
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN007",
+      "outputDigest": "7bb31bfb23ae3a26d973702003293789033b1322368ce7f0117057bc4a4d4ccf",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "Оплатил именно автомобиль А",
+            "startOffset": 59,
+            "endOffset": 86
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN008",
+      "outputDigest": "c4f751853100a9c12c143b799a2c7247b9bfc1785641019875aaff8db5a42b46",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentComplexity",
+            "stance": "asserted",
+            "quote": "ошибся одной цифрой в номере.",
+            "startOffset": 64,
+            "endOffset": 93
+          },
+          "coveringFragmentIds": [
+            "fragment_1"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN009",
+      "outputDigest": "0778f146664bda89286580cbb6abdca2fe8c263517f6858700809ede1f4d14e1",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentComplexity",
+            "stance": "asserted",
+            "quote": "Зону указал неверно",
+            "startOffset": 50,
+            "endOffset": 69
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN010",
+      "outputDigest": "c6c61d071f2b276ada57e99284a676bc1b8555b99cbf416e927125d6620f2d18",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentComplexity",
+            "stance": "unknown",
+            "quote": "не помню, какой автомобиль и какую зону выбрал.",
+            "startOffset": 66,
+            "endOffset": 113
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN011",
+      "outputDigest": "70982daf30edf7104b460d4a2740240943c108a836dfaaa2d5d53646034924dd",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentStart",
+            "stance": "asserted",
+            "quote": "Оплату провёл в 12:04:59.",
+            "startOffset": 66,
+            "endOffset": 91
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN012",
+      "outputDigest": "6bedc75de515a265355d084e7db678abb0c27511dd53b501bd688816bd34b57c",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentStart",
+            "stance": "asserted",
+            "quote": "Оплату провёл в 12:05:00.",
+            "startOffset": 66,
+            "endOffset": 91
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN013",
+      "outputDigest": "529a0888a2eecc91022e4a4edd27e59df3a550ec8905ef882f65d98e7e719d92",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentStart",
+            "stance": "asserted",
+            "quote": "Оплату провёл в 12:05:01.",
+            "startOffset": 66,
+            "endOffset": 91
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN014",
+      "outputDigest": "fce68a2087f459ef3f53c313e5ad1cd9ab4d95e686d6f9a1caf50481146a6a15",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentStart",
+            "stance": "asserted",
+            "quote": "Платёж отправил в 12:02",
+            "startOffset": 56,
+            "endOffset": 79
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        },
+        {
+          "required": {
+            "predicate": "departure",
+            "stance": "asserted",
+            "quote": "уехал в 12:40.",
+            "startOffset": 81,
+            "endOffset": 95
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN015",
+      "outputDigest": "9f5be8b0cdf0c877c77e64b14458f21c0affd99361aae514b547d93b36e077cb",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "парковочную сессию не оплатил.",
+            "startOffset": 68,
+            "endOffset": 98
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN016",
+      "outputDigest": "75df88e23b6f1d5a405b9d46e83426554697b38f2fc6d7b6841549c152cad433",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "через СМС я успешно оплатил эту стоянку.",
+            "startOffset": 69,
+            "endOffset": 109
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN017",
+      "outputDigest": "c60bec7868558a44edd4d7121c1b6fc8a5fbe4ddd5aaf76d8d772f3cd01da35c",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "оплатить парковку не удалось.",
+            "startOffset": 70,
+            "endOffset": 99
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN018",
+      "outputDigest": "529bd10be8e97bcbba30f0084c950866a8970da504d535ab917b8a7db2feae13",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "unknown",
+            "quote": "в парковочном приложении оплата не отображается.",
+            "startOffset": 69,
+            "endOffset": 117
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": false,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": false
+        }
+      ]
+    },
+    {
+      "id": "SYN019",
+      "outputDigest": "712d376ae2085072a38107ff0f43cef2377e29cb24189c6c312201e2762481bb",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "unknown",
+            "quote": "Сведений о моей оплате у меня нет.",
+            "startOffset": 77,
+            "endOffset": 111
+          },
+          "coveringFragmentIds": [],
+          "discoveryCovered": false,
+          "classifiedFragment": false,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": false
+        }
+      ]
+    },
+    {
+      "id": "SYN020",
+      "outputDigest": "72b9effcf7dc4ed3f28829d338f22d0f9feed8206277a31ac29bb9f0cf3acd3a",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paymentComplexity",
+            "stance": "denied",
+            "quote": "Ошибок реквизитов и последующих исправлений не было.",
+            "startOffset": 40,
+            "endOffset": 92
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN021",
+      "outputDigest": "1f7a1fc75d2bf4471b5fbde391375313bcbde8b4caeda0d1e9737c137d7414aa",
+      "probes": [
+        {
+          "required": {
+            "predicate": "permit",
+            "stance": "asserted",
+            "quote": "У меня есть действующее резидентное разрешение.",
+            "startOffset": 40,
+            "endOffset": 87
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN022",
+      "outputDigest": "1551693689184024c6c7c3ef90fa2903dbf686ab56d9f73b12f0e09ee2c6f1d5",
+      "probes": [
+        {
+          "required": {
+            "predicate": "permit",
+            "stance": "denied",
+            "quote": "Действующего разрешения или абонемента у меня нет.",
+            "startOffset": 40,
+            "endOffset": 90
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN023",
+      "outputDigest": "eaa94f9c7df94adac2be27f90925ccce3a4904501e81aee6232b81f18fed7b9e",
+      "probes": [
+        {
+          "required": {
+            "predicate": "permit",
+            "stance": "unknown",
+            "quote": "Не помню, действует ли ещё моё разрешение.",
+            "startOffset": 40,
+            "endOffset": 82
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN024",
+      "outputDigest": "743e5e029a30b798ac5f1718c33ac9f88c6176784da9b804c1d1f4f567f2e105",
+      "probes": [
+        {
+          "required": {
+            "predicate": "permit",
+            "stance": "unknown",
+            "quote": "само разрешение ещё не получил.",
+            "startOffset": 74,
+            "endOffset": 105
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN025",
+      "outputDigest": "1216eb55f22e7c6fa7846b9feffa9bbbf8bf326c0f67ad40d2296e0169690cc3",
+      "probes": [
+        {
+          "required": {
+            "predicate": "disabilityConditions",
+            "stance": "asserted",
+            "quote": "Я перевожу человека с инвалидностью",
+            "startOffset": 40,
+            "endOffset": 75
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN026",
+      "outputDigest": "9523fc5eabfe781a379f3c05f377c04a21c8b63af3492d88399c7da0c0481e32",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "Я не оплатил парковку",
+            "startOffset": 115,
+            "endOffset": 136
+          },
+          "coveringFragmentIds": [
+            "fragment_3"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        },
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "Я оплатил парковку",
+            "startOffset": 68,
+            "endOffset": 86
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN027",
+      "outputDigest": "44e2400cae82eb5ad15ce0d4d96ff4c56c7367a6c4dfb2ddd4188fd3e3832180",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "Вечернюю парковку не оплатил.",
+            "startOffset": 81,
+            "endOffset": 110
+          },
+          "coveringFragmentIds": [
+            "fragment_3"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        },
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "Утреннюю парковку оплатил.",
+            "startOffset": 54,
+            "endOffset": 80
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN028",
+      "outputDigest": "e1fa20ac1cc07fa3aeb26ae4531e19e0ad281c3764b9eeded895b982c86d8671",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "В уведомлении указано, что она не оплачена.",
+            "startOffset": 78,
+            "endOffset": 121
+          },
+          "coveringFragmentIds": [
+            "fragment_3"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        },
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "Я утверждаю, что оплатил эту стоянку.",
+            "startOffset": 40,
+            "endOffset": 77
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN029",
+      "outputDigest": "7d9d42a389f1d3e0d89c0a919bc7519b91c19f2eb85c79f1773e3ad74e8a5c66",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "unknown",
+            "quote": "мне неизвестен результат платежа.",
+            "startOffset": 79,
+            "endOffset": 112
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": false,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": true,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN030",
+      "outputDigest": "82dcb8c47277eec775e10e4bb9beb2b612b57678ee25e8a02b1d123e027578e0",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "asserted",
+            "quote": "платёж был, но за другой автомобиль.",
+            "startOffset": 91,
+            "endOffset": 127
+          },
+          "coveringFragmentIds": [
+            "fragment_3"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        },
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "не оплатил её.",
+            "startOffset": 61,
+            "endOffset": 75
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN031",
+      "outputDigest": "ede2bcebaa6adc208a021f038e6f41acb8dfdb9a16fcc17d7e0f7c7de48689a5",
+      "probes": [
+        {
+          "required": {
+            "predicate": "inMoscow",
+            "stance": "asserted",
+            "quote": "в Москве",
+            "startOffset": 30,
+            "endOffset": 38
+          },
+          "coveringFragmentIds": [
+            "fragment_1"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN032",
+      "outputDigest": "f2b75ba65b9108a2ec8583533a5dd05a312f2e403c22e64d67a546268fb411b6",
+      "probes": [
+        {
+          "required": {
+            "predicate": "inMoscow",
+            "stance": "denied",
+            "quote": "в Казани",
+            "startOffset": 30,
+            "endOffset": 38
+          },
+          "coveringFragmentIds": [
+            "fragment_1"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN033",
+      "outputDigest": "bbdd058665973495b7182644109cc7b0b36b90d1fd34d2acc09f0407cb5c59b7",
+      "probes": [
+        {
+          "required": {
+            "predicate": "inMoscow",
+            "stance": "unknown",
+            "quote": "Город не указан.",
+            "startOffset": 47,
+            "endOffset": 63
+          },
+          "coveringFragmentIds": [],
+          "discoveryCovered": false,
+          "classifiedFragment": false,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": false
+        }
+      ]
+    },
+    {
+      "id": "SYN034",
+      "outputDigest": "c22308a8943e9f7c093a9710ecf66e402a85c60901e028f77001b9bed32bca63",
+      "probes": [
+        {
+          "required": {
+            "predicate": "cityParking",
+            "stance": "unknown",
+            "quote": "Не знаю, городская это парковка или частная.",
+            "startOffset": 49,
+            "endOffset": 93
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN035",
+      "outputDigest": "6c856b4e171ce244796d08869f3de77d2c1421979ba5e64650fbf84607b8d6d9",
+      "probes": [
+        {
+          "required": {
+            "predicate": "inMoscow",
+            "stance": "denied",
+            "quote": "не в Москве",
+            "startOffset": 34,
+            "endOffset": 45
+          },
+          "coveringFragmentIds": [
+            "fragment_1"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN036",
+      "outputDigest": "61a92b86317c05c1b13d3cb0e421d9bbd17f1fa6489d8bc1ba2921f48dbaa03e",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paidRegime",
+            "stance": "asserted",
+            "quote": "Весь период моей стоянки был платным.",
+            "startOffset": 40,
+            "endOffset": 77
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN037",
+      "outputDigest": "adcd56961c870b80d4764d88fd8b7cfa3d4420585a9acd8ad6cda1c6866bf52f",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paidRegime",
+            "stance": "denied",
+            "quote": "весь период моей стоянки был бесплатным.",
+            "startOffset": 74,
+            "endOffset": 114
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN038",
+      "outputDigest": "50f2aadb57394d0ba47b8e5ff1853fbcb3bf69061ad7099c2ef882513ba01345",
+      "probes": [
+        {
+          "required": {
+            "predicate": "paidRegime",
+            "stance": "unknown",
+            "quote": "о действовавшем тарифе сведений нет.",
+            "startOffset": 57,
+            "endOffset": 93
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN039",
+      "outputDigest": "78d690f8dcdcaeb0a92bf5b00113291a783a1e0244efe2589470b7529abfbd15",
+      "probes": [
+        {
+          "required": {
+            "predicate": "payment",
+            "stance": "denied",
+            "quote": "саму парковку не оплачивал.",
+            "startOffset": 72,
+            "endOffset": 99
+          },
+          "coveringFragmentIds": [
+            "fragment_2"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": false,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    },
+    {
+      "id": "SYN040",
+      "outputDigest": "2eefbb79564a84e39732e12d228417289f0ca92935a816feda10aa9099770301",
+      "probes": [
+        {
+          "required": {
+            "predicate": "eventTime",
+            "stance": "unknown",
+            "quote": "Точная дата стоянки неизвестна",
+            "startOffset": 96,
+            "endOffset": 126
+          },
+          "coveringFragmentIds": [
+            "fragment_3"
+          ],
+          "discoveryCovered": true,
+          "classifiedFragment": true,
+          "rawPredicateStanceMatched": true,
+          "explicitNoPredicate": false,
+          "hasDecision": true
+        }
+      ]
+    }
+  ]
+}

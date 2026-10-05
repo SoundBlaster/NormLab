@@ -1,0 +1,181 @@
+[
+  {
+    "case": "explicit-unknown",
+    "input": {
+      "results": {
+        "fragment_1": {
+          "status": "classified",
+          "classifications": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "valueText": "Результат оплаты неизвестен"
+            }
+          ],
+          "reason": ""
+        }
+      }
+    },
+    "expectedValid": true,
+    "actualValid": true,
+    "passed": true,
+    "error": null
+  },
+  {
+    "case": "explicit-unsupported",
+    "input": {
+      "results": {
+        "fragment_1": {
+          "status": "no-supported-predicate",
+          "classifications": [],
+          "reason": "Фрагмент содержит только приветствие"
+        }
+      }
+    },
+    "expectedValid": true,
+    "actualValid": true,
+    "passed": true,
+    "error": null
+  },
+  {
+    "case": "missing-id",
+    "input": {
+      "results": {}
+    },
+    "expectedValid": false,
+    "actualValid": false,
+    "passed": true,
+    "error": "Missing or unexpected classification fragment IDs"
+  },
+  {
+    "case": "unexpected-id",
+    "input": {
+      "results": {
+        "fragment_2": {
+          "status": "classified",
+          "classifications": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "valueText": "Результат оплаты неизвестен"
+            }
+          ],
+          "reason": ""
+        }
+      }
+    },
+    "expectedValid": false,
+    "actualValid": false,
+    "passed": true,
+    "error": "Missing or unexpected classification fragment IDs"
+  },
+  {
+    "case": "blank-value",
+    "input": {
+      "results": {
+        "fragment_1": {
+          "status": "classified",
+          "classifications": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "valueText": "  "
+            }
+          ],
+          "reason": ""
+        }
+      }
+    },
+    "expectedValid": false,
+    "actualValid": false,
+    "passed": true,
+    "error": "Classification predicate, stance or valueText contract"
+  },
+  {
+    "case": "duplicate-predicate-stance",
+    "input": {
+      "results": {
+        "fragment_1": {
+          "status": "classified",
+          "classifications": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "valueText": "Результат оплаты неизвестен"
+            },
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "valueText": "Результат оплаты неизвестен"
+            }
+          ],
+          "reason": ""
+        }
+      }
+    },
+    "expectedValid": false,
+    "actualValid": false,
+    "passed": true,
+    "error": "Duplicate predicate/stance for fragment"
+  },
+  {
+    "case": "unsupported-with-classification",
+    "input": {
+      "results": {
+        "fragment_1": {
+          "status": "no-supported-predicate",
+          "classifications": [
+            {
+              "predicate": "payment",
+              "stance": "unknown",
+              "valueText": "Результат оплаты неизвестен"
+            }
+          ],
+          "reason": ""
+        }
+      }
+    },
+    "expectedValid": false,
+    "actualValid": false,
+    "passed": true,
+    "error": "Unsupported decision requires reason and no items"
+  },
+  {
+    "case": "unsupported-without-reason",
+    "input": {
+      "results": {
+        "fragment_1": {
+          "status": "no-supported-predicate",
+          "classifications": [],
+          "reason": ""
+        }
+      }
+    },
+    "expectedValid": false,
+    "actualValid": false,
+    "passed": true,
+    "error": "Unsupported decision requires reason and no items"
+  },
+  {
+    "case": "unknown-predicate",
+    "input": {
+      "results": {
+        "fragment_1": {
+          "status": "classified",
+          "classifications": [
+            {
+              "predicate": "invented",
+              "stance": "unknown",
+              "valueText": "Результат оплаты неизвестен"
+            }
+          ],
+          "reason": ""
+        }
+      }
+    },
+    "expectedValid": false,
+    "actualValid": false,
+    "passed": true,
+    "error": "Classification predicate, stance or valueText contract"
+  }
+]

@@ -1,0 +1,1158 @@
+{
+  "schema": "normlab.langextract-statements/v1",
+  "pipeline": "literal-discovery-then-classification/v3",
+  "sourceDigest": "d09a024650a946beeb94782b3b5b52244e93f2fc2a060345a5635b25a3e704ff",
+  "langextractVersion": "1.7.0",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "passes": 1,
+  "latencyMs": 9927,
+  "error": null,
+  "fragments": [
+    {
+      "fragmentId": "fragment_1",
+      "quote": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null
+    },
+    {
+      "fragmentId": "fragment_2",
+      "quote": "В июле получил уведомление о штрафе за майскую стоянку.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_2",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null
+    },
+    {
+      "fragmentId": "fragment_3",
+      "quote": "Точная дата стоянки неизвестна;",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null
+    },
+    {
+      "fragmentId": "fragment_4",
+      "quote": "о платеже ничего не сообщаю.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null
+    }
+  ],
+  "rawExtractions": [
+    {
+      "class": "nlinput:inMoscow",
+      "text": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "Место события находится в Москве"
+      },
+      "interval": null,
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:cityParking",
+      "text": "В Москве я стоял на городской парковке.",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "Событие произошло на городской парковке"
+      },
+      "interval": null,
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:eventTime",
+      "text": "В июле получил уведомление о штрафе за майскую стоянку.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_2",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "Получено уведомление о штрафе за стоянку в мае (уведомление пришло в июле)"
+      },
+      "interval": null,
+      "fragmentId": "fragment_2"
+    },
+    {
+      "class": "nlinput:eventTime",
+      "text": "Точная дата стоянки неизвестна;",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "unknown",
+        "valueText": "Дата стоянки неизвестна"
+      },
+      "interval": null,
+      "fragmentId": "fragment_3"
+    },
+    {
+      "class": "nlinput:payment",
+      "text": "о платеже ничего не сообщаю.",
+      "attributes": {
+        "subject": "person_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "unknown",
+        "valueText": "Информация о платеже отсутствует"
+      },
+      "interval": null,
+      "fragmentId": "fragment_4"
+    }
+  ],
+  "statements": [
+    {
+      "id": "7edf725a-c442-4f88-baa5-90dd84b2fc32",
+      "predicate": "nlinput:inMoscow",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "Место события находится в Москве",
+      "quote": "В Москве я стоял на городской парковке.",
+      "startOffset": 0,
+      "endOffset": 39,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "24b3c3da-08d1-4275-a292-6898d78beb7c",
+      "predicate": "nlinput:cityParking",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "Событие произошло на городской парковке",
+      "quote": "В Москве я стоял на городской парковке.",
+      "startOffset": 0,
+      "endOffset": 39,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "0d4d26cb-700a-4229-ba0f-da7a0366dc7b",
+      "predicate": "nlinput:eventTime",
+      "stance": "asserted",
+      "subject": "person_1",
+      "aboutEpisode": "episode_2",
+      "valueText": "Получено уведомление о штрафе за стоянку в мае (уведомление пришло в июле)",
+      "quote": "В июле получил уведомление о штрафе за майскую стоянку.",
+      "startOffset": 40,
+      "endOffset": 95,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "3b60a29f-ea41-498d-a51b-c0434a5d59bc",
+      "predicate": "nlinput:eventTime",
+      "stance": "unknown",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "Дата стоянки неизвестна",
+      "quote": "Точная дата стоянки неизвестна;",
+      "startOffset": 96,
+      "endOffset": 127,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    },
+    {
+      "id": "e31c9629-20dd-4557-9587-35ea503ef8a0",
+      "predicate": "nlinput:payment",
+      "stance": "unknown",
+      "subject": "person_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "Информация о платеже отсутствует",
+      "quote": "о платеже ничего не сообщаю.",
+      "startOffset": 128,
+      "endOffset": 156,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": "",
+      "speaker": "narrator"
+    }
+  ],
+  "quarantine": [],
+  "alignmentDecisions": [
+    {
+      "statementId": "7edf725a-c442-4f88-baa5-90dd84b2fc32",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 39
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "24b3c3da-08d1-4275-a292-6898d78beb7c",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 39
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "0d4d26cb-700a-4229-ba0f-da7a0366dc7b",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 40,
+        "end_pos": 95
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "3b60a29f-ea41-498d-a51b-c0434a5d59bc",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 96,
+        "end_pos": 127
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "e31c9629-20dd-4557-9587-35ea503ef8a0",
+      "libraryInterval": null,
+      "applicationInterval": {
+        "start_pos": 128,
+        "end_pos": 156
+      },
+      "method": "unique-exact-source-search"
+    }
+  ],
+  "calls": [
+    {
+      "stage": "discovery",
+      "request": {
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+          {
+            "role": "system",
+            "content": "Извлеки явные утверждения только из сообщения пользователя.\nКаждый statement — дословная цитата целого предложения: сохрани язык, регистр,\nотрицание, время, место и вводные слова об источнике. Ничего не переводи,\nне перефразируй и не добавляй отсутствующие факты. Сохрани обе стороны противоречия.\nsubject=vehicle_1 для одного автомобиля; разные автомобили — vehicle_1, vehicle_2.\nЛица при необходимости — person_1, person_2. narrator НЕ является subject.\naboutEpisode=episode_1 обязателен и при отсутствии времени или даты.\nТолько явно разные стоянки получают разные эпизоды episode_1, episode_2.\nspeaker — происхождение утверждения: narrator для собственных слов рассказчика,\nletter_1 для утверждения из письма, notice_1 из уведомления/постановления,\nnote_1 из заметки. Это действует и для косвенного пересказа: утверждение письма\nвсегда получает letter_1, НЕ narrator. Сохрани вводные слова о письме в цитате.\nРазные документы одного типа различай по номеру. Не оценивай достоверность слов.\nОтвет — только JSON по схеме; все поля обязательны и не могут быть пустыми.\n\n{\"type\": \"object\", \"properties\": {\"extractions\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"statement\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 4096}, \"statement_attributes\": {\"type\": \"object\", \"properties\": {\"subject\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128, \"pattern\": \"^(vehicle|person)_[1-9][0-9]*$\"}, \"aboutEpisode\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128, \"pattern\": \"^episode_[1-9][0-9]*$\"}, \"speaker\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 128}}, \"required\": [\"subject\", \"aboutEpisode\", \"speaker\"], \"additionalProperties\": false}}, \"required\": [\"statement\", \"statement_attributes\"], \"additionalProperties\": false}, \"maxItems\": 256}}, \"required\": [\"extractions\"], \"additionalProperties\": false}"
+          },
+          {
+            "role": "user",
+            "content": "В Москве я стоял на городской парковке. В июле получил уведомление о штрафе за майскую стоянку. Точная дата стоянки неизвестна; о платеже ничего не сообщаю.\n"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 8192,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "discovery",
+            "strict": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "extractions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "statement": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 4096
+                      },
+                      "statement_attributes": {
+                        "type": "object",
+                        "properties": {
+                          "subject": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128,
+                            "pattern": "^(vehicle|person)_[1-9][0-9]*$"
+                          },
+                          "aboutEpisode": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128,
+                            "pattern": "^episode_[1-9][0-9]*$"
+                          },
+                          "speaker": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          }
+                        },
+                        "required": [
+                          "subject",
+                          "aboutEpisode",
+                          "speaker"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "statement",
+                      "statement_attributes"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 256
+                }
+              },
+              "required": [
+                "extractions"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "response": {
+        "id": "chatcmpl-mjmscqp6b61j8sa20x3l9",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"extractions\":[{\"statement\":\"В Москве я стоял на городской парковке.\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"В июле получил уведомление о штрафе за майскую стоянку.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_2\",\"speaker\":\"narrator\"}},{\"statement\":\"Точная дата стоянки неизвестна;\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"о платеже ничего не сообщаю.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}}]}",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "Need extract statements. Sentences: \"В Москве я стоял на городской парковке.\" subject vehicle_1? narrator? speaker narrator. aboutEpisode episode_1 (parking). second: \"В июле получил уведомление о штрафе за майскую стоянку.\" statement from narrator, subject person_1? but subject should be vehicle or person. It's about notification; subject could be person_1. aboutEpisode episode_2? parking in May. third: \"Точная дата стоянки неизвестна;\" statement about episode_1. fourth: \"о платеже ничего не сообщаю.\" statement about episode_1.\n\nReturn array of 4 statements."
+            }
+          }
+        ],
+        "created": 1791188678,
+        "model": "openai/gpt-oss-20b",
+        "object": "chat.completion",
+        "metadata": null,
+        "moderation": null,
+        "service_tier": null,
+        "system_fingerprint": "openai/gpt-oss-20b",
+        "usage": {
+          "completion_tokens": 296,
+          "prompt_tokens": 625,
+          "total_tokens": 921,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 136,
+            "rejected_prediction_tokens": null,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": null
+        },
+        "stats": {}
+      },
+      "output": "{\"extractions\":[{\"statement\":\"В Москве я стоял на городской парковке.\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"В июле получил уведомление о штрафе за майскую стоянку.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_2\",\"speaker\":\"narrator\"}},{\"statement\":\"Точная дата стоянки неизвестна;\",\"statement_attributes\":{\"subject\":\"vehicle_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}},{\"statement\":\"о платеже ничего не сообщаю.\",\"statement_attributes\":{\"subject\":\"person_1\",\"aboutEpisode\":\"episode_1\",\"speaker\":\"narrator\"}}]}",
+      "replayed": true
+    },
+    {
+      "stage": "classification",
+      "request": {
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+          {
+            "role": "system",
+            "content": "Обработай КАЖДЫЙ переданный фрагмент, включая все фрагменты после первого.\nВерни results с обязательной записью для каждого fragmentId по схеме.\nНе создавай новые цитаты, участников, эпизоды или источники. Их задаёт приложение.\nОдин фрагмент может соответствовать нескольким признакам из definitions.\n\nstatus=classified: заполни classifications всеми явно поддержанными признаками,\nreason оставь пустым. valueText — непустое краткое описание утверждения на русском.\nstatus=no-supported-predicate: classifications пустой, reason содержит конкретное\nобъяснение, почему ни один признак из definitions не поддержан данным фрагментом.\nНе используй этот статус, чтобы пропустить оплату, разрешение или явную неизвестность.\n\nstance=asserted, если признак явно утверждается; denied, если явно отрицается;\nunknown, если сам текст сообщает, что значение неизвестно, не помнят или не знают.\nНеизвестность НЕ означает denied и НЕ означает отсутствие подходящего признака.\nСначала выбери признак, о котором говорится, и только затем его stance.\nСообщение о неизвестном результате оплаты относится к payment со stance=unknown:\nдля выбора predicate НЕ требуется подтверждение самого факта оплаты.\nСообщение о неизвестной действительности разрешения относится к permit=unknown.\nЯвно неизвестные дата, город или режим относятся к eventTime, inMoscow или paidRegime\nсо stance=unknown соответственно. no-supported-predicate разрешён только когда\nфрагмент вообще не относится к каталогу, а НЕ когда его значение неизвестно.\nОтсутствие упоминания признака не даёт основания его добавлять даже с unknown.\nПолярность относится к конкретному признаку, а не ко всем словам «не» в предложении.\nОплата парковки не означает, что доказан платный режим. Оплата штрафа или пополнение\nбаланса не являются оплатой парковочной сессии. Время оплаты относится к paymentStart,\nа дата/время стоянки — к eventTime. Отсутствие разрешения не означает отсутствие\nплатного режима. Сбой приложения сам по себе не устанавливает вину или освобождение.\nСохрани противоположные утверждения разных источников отдельно, не выбирай победителя.\nНе делай правовых выводов и не добавляй признаков по молчанию.\nDefinitions:\n{\"eventTime\": \"Время или дата события.\", \"inMoscow\": \"Место события находится в Москве.\", \"cityParking\": \"Место является городской парковкой; одного названия зоны недостаточно.\", \"placement\": \"Автомобиль находился на парковке.\", \"paidRegime\": \"В момент события действовал платный режим. Отсутствие льгот или разрешений НЕ означает отсутствие платного режима.\", \"subjectScope\": \"Статус лица: физическое лицо, личное использование автомобиля.\", \"attribution\": \"Связь лица с автомобилем или действием.\", \"payment\": \"Оплата конкретной парковки. Платный режим НЕ является фактом оплаты.\", \"paymentStart\": \"Время начала оплаты или платежа.\", \"departure\": \"Время отъезда автомобиля.\", \"paymentComplexity\": \"Ошибки оплаты, неверная машина/зона или последующие исправления. Если ошибок и исправлений НЕ было, stance=denied.\", \"permit\": \"Наличие разрешения или абонемента.\", \"disabilityConditions\": \"Явно названные обстоятельства инвалидности; отсутствие льгот не доказывает отсутствие инвалидности.\", \"specialTariff\": \"Явно названный специальный тариф; отсутствие льгот не доказывает отсутствие специального тарифа.\", \"faultAndExclusions\": \"Явно названная вина или исключающие ответственность обстоятельства. Не выводить из отсутствия ошибок оплаты.\"}"
+          },
+          {
+            "role": "user",
+            "content": "[{\"fragmentId\": \"fragment_1\", \"quote\": \"В Москве я стоял на городской парковке.\", \"attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": null}, {\"fragmentId\": \"fragment_2\", \"quote\": \"В июле получил уведомление о штрафе за майскую стоянку.\", \"attributes\": {\"subject\": \"person_1\", \"aboutEpisode\": \"episode_2\", \"speaker\": \"narrator\"}, \"libraryInterval\": null}, {\"fragmentId\": \"fragment_3\", \"quote\": \"Точная дата стоянки неизвестна;\", \"attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": null}, {\"fragmentId\": \"fragment_4\", \"quote\": \"о платеже ничего не сообщаю.\", \"attributes\": {\"subject\": \"person_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": null}]"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 8192,
+        "response_format": {
+          "type": "json_schema",
+          "json_schema": {
+            "name": "fragment_decisions",
+            "strict": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "results": {
+                  "type": "object",
+                  "properties": {
+                    "fragment_1": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "classified",
+                            "no-supported-predicate"
+                          ]
+                        },
+                        "classifications": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "predicate": {
+                                "type": "string",
+                                "enum": [
+                                  "eventTime",
+                                  "inMoscow",
+                                  "cityParking",
+                                  "placement",
+                                  "paidRegime",
+                                  "subjectScope",
+                                  "attribution",
+                                  "payment",
+                                  "paymentStart",
+                                  "departure",
+                                  "paymentComplexity",
+                                  "permit",
+                                  "disabilityConditions",
+                                  "specialTariff",
+                                  "faultAndExclusions"
+                                ]
+                              },
+                              "stance": {
+                                "type": "string",
+                                "enum": [
+                                  "asserted",
+                                  "denied",
+                                  "unknown"
+                                ]
+                              },
+                              "valueText": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2048
+                              }
+                            },
+                            "required": [
+                              "predicate",
+                              "stance",
+                              "valueText"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "maxItems": 30
+                        },
+                        "reason": {
+                          "type": "string",
+                          "maxLength": 2048
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "classifications",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "fragment_2": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "classified",
+                            "no-supported-predicate"
+                          ]
+                        },
+                        "classifications": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "predicate": {
+                                "type": "string",
+                                "enum": [
+                                  "eventTime",
+                                  "inMoscow",
+                                  "cityParking",
+                                  "placement",
+                                  "paidRegime",
+                                  "subjectScope",
+                                  "attribution",
+                                  "payment",
+                                  "paymentStart",
+                                  "departure",
+                                  "paymentComplexity",
+                                  "permit",
+                                  "disabilityConditions",
+                                  "specialTariff",
+                                  "faultAndExclusions"
+                                ]
+                              },
+                              "stance": {
+                                "type": "string",
+                                "enum": [
+                                  "asserted",
+                                  "denied",
+                                  "unknown"
+                                ]
+                              },
+                              "valueText": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2048
+                              }
+                            },
+                            "required": [
+                              "predicate",
+                              "stance",
+                              "valueText"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "maxItems": 30
+                        },
+                        "reason": {
+                          "type": "string",
+                          "maxLength": 2048
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "classifications",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "fragment_3": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "classified",
+                            "no-supported-predicate"
+                          ]
+                        },
+                        "classifications": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "predicate": {
+                                "type": "string",
+                                "enum": [
+                                  "eventTime",
+                                  "inMoscow",
+                                  "cityParking",
+                                  "placement",
+                                  "paidRegime",
+                                  "subjectScope",
+                                  "attribution",
+                                  "payment",
+                                  "paymentStart",
+                                  "departure",
+                                  "paymentComplexity",
+                                  "permit",
+                                  "disabilityConditions",
+                                  "specialTariff",
+                                  "faultAndExclusions"
+                                ]
+                              },
+                              "stance": {
+                                "type": "string",
+                                "enum": [
+                                  "asserted",
+                                  "denied",
+                                  "unknown"
+                                ]
+                              },
+                              "valueText": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2048
+                              }
+                            },
+                            "required": [
+                              "predicate",
+                              "stance",
+                              "valueText"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "maxItems": 30
+                        },
+                        "reason": {
+                          "type": "string",
+                          "maxLength": 2048
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "classifications",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "fragment_4": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "classified",
+                            "no-supported-predicate"
+                          ]
+                        },
+                        "classifications": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "predicate": {
+                                "type": "string",
+                                "enum": [
+                                  "eventTime",
+                                  "inMoscow",
+                                  "cityParking",
+                                  "placement",
+                                  "paidRegime",
+                                  "subjectScope",
+                                  "attribution",
+                                  "payment",
+                                  "paymentStart",
+                                  "departure",
+                                  "paymentComplexity",
+                                  "permit",
+                                  "disabilityConditions",
+                                  "specialTariff",
+                                  "faultAndExclusions"
+                                ]
+                              },
+                              "stance": {
+                                "type": "string",
+                                "enum": [
+                                  "asserted",
+                                  "denied",
+                                  "unknown"
+                                ]
+                              },
+                              "valueText": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2048
+                              }
+                            },
+                            "required": [
+                              "predicate",
+                              "stance",
+                              "valueText"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "maxItems": 30
+                        },
+                        "reason": {
+                          "type": "string",
+                          "maxLength": 2048
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "classifications",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "fragment_1",
+                    "fragment_2",
+                    "fragment_3",
+                    "fragment_4"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "results"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "response": {
+        "id": "chatcmpl-t93mgzkefwq8grxj5tlk88",
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"results\": {\"fragment_1\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"inMoscow\",\"stance\":\"asserted\",\"valueText\":\"Место события находится в Москве\"},{\"predicate\":\"cityParking\",\"stance\":\"asserted\",\"valueText\":\"Событие произошло на городской парковке\"}],\"reason\":\"\"},\"fragment_2\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"eventTime\",\"stance\":\"asserted\",\"valueText\":\"Получено уведомление о штрафе за стоянку в мае (уведомление пришло в июле)\"}],\"reason\":\"\"},\"fragment_3\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"eventTime\",\"stance\":\"unknown\",\"valueText\":\"Дата стоянки неизвестна\"}],\"reason\":\"\"},\"fragment_4\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"payment\",\"stance\":\"unknown\",\"valueText\":\"Информация о платеже отсутствует\"}],\"reason\":\"\"}}}",
+              "refusal": null,
+              "role": "assistant",
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "Need produce results array with each fragmentId. Determine classifications.\n\nfragment1: quote says in Moscow, on city parking. So eventTime? no time. inMoscow true. cityParking true. placement? says stood on parking so yes placement. paidRegime? not mentioned. subjectScope? vehicle_1 but speaker narrator; unclear. attribution? maybe none. payment? none. So classifications: inMoscow, cityParking, placement. stance asserted for each. valueText brief.\n\nfragment2: \"В июле получил уведомление о штрафе за майскую стоянку.\" eventTime? July (month) but refers to May parking. So eventTime could be July notification date? unclear. But we can classify eventTime as July? maybe yes. Also mention of parking in May, so placement? not directly. paidRegime? unknown. So only eventTime with stance asserted. valueText: \"Получено уведомление о штрафе за стоянку в мае\". \n\nfragment3: \"Точная дата стоянки неизвестна;\" indicates eventTime unknown. So classification eventTime with stance=unknown. valueText: \"Дата стоянки неизвестна\".\n\nfragment4: \"о платеже ничего не сообщаю.\" Means no payment info. So payment not supported? We can classify payment with stance=unknown? Actually says nothing about payment, so we cannot assert or deny. According to rules, if text says nothing, it's unknown. So classification payment stance=unknown. valueText: \"Информация о платеже отсутствует\".\n\nReturn array."
+            }
+          }
+        ],
+        "created": 1791193820,
+        "model": "openai/gpt-oss-20b",
+        "object": "chat.completion",
+        "metadata": null,
+        "moderation": null,
+        "service_tier": null,
+        "system_fingerprint": "openai/gpt-oss-20b",
+        "usage": {
+          "completion_tokens": 525,
+          "prompt_tokens": 1118,
+          "total_tokens": 1643,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 319,
+            "rejected_prediction_tokens": null,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": null
+        },
+        "stats": {}
+      },
+      "output": "{\"results\": {\"fragment_1\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"inMoscow\",\"stance\":\"asserted\",\"valueText\":\"Место события находится в Москве\"},{\"predicate\":\"cityParking\",\"stance\":\"asserted\",\"valueText\":\"Событие произошло на городской парковке\"}],\"reason\":\"\"},\"fragment_2\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"eventTime\",\"stance\":\"asserted\",\"valueText\":\"Получено уведомление о штрафе за стоянку в мае (уведомление пришло в июле)\"}],\"reason\":\"\"},\"fragment_3\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"eventTime\",\"stance\":\"unknown\",\"valueText\":\"Дата стоянки неизвестна\"}],\"reason\":\"\"},\"fragment_4\": {\"status\":\"classified\",\"classifications\":[{\"predicate\":\"payment\",\"stance\":\"unknown\",\"valueText\":\"Информация о платеже отсутствует\"}],\"reason\":\"\"}}}"
+    }
+  ],
+  "discoveryPrompt": "Извлеки явные утверждения только из сообщения пользователя.\nКаждый statement — дословная цитата целого предложения: сохрани язык, регистр,\nотрицание, время, место и вводные слова об источнике. Ничего не переводи,\nне перефразируй и не добавляй отсутствующие факты. Сохрани обе стороны противоречия.\nsubject=vehicle_1 для одного автомобиля; разные автомобили — vehicle_1, vehicle_2.\nЛица при необходимости — person_1, person_2. narrator НЕ является subject.\naboutEpisode=episode_1 обязателен и при отсутствии времени или даты.\nТолько явно разные стоянки получают разные эпизоды episode_1, episode_2.\nspeaker — происхождение утверждения: narrator для собственных слов рассказчика,\nletter_1 для утверждения из письма, notice_1 из уведомления/постановления,\nnote_1 из заметки. Это действует и для косвенного пересказа: утверждение письма\nвсегда получает letter_1, НЕ narrator. Сохрани вводные слова о письме в цитате.\nРазные документы одного типа различай по номеру. Не оценивай достоверность слов.\nОтвет — только JSON по схеме; все поля обязательны и не могут быть пустыми.\n",
+  "classificationPrompt": "Обработай КАЖДЫЙ переданный фрагмент, включая все фрагменты после первого.\nВерни results с обязательной записью для каждого fragmentId по схеме.\nНе создавай новые цитаты, участников, эпизоды или источники. Их задаёт приложение.\nОдин фрагмент может соответствовать нескольким признакам из definitions.\n\nstatus=classified: заполни classifications всеми явно поддержанными признаками,\nreason оставь пустым. valueText — непустое краткое описание утверждения на русском.\nstatus=no-supported-predicate: classifications пустой, reason содержит конкретное\nобъяснение, почему ни один признак из definitions не поддержан данным фрагментом.\nНе используй этот статус, чтобы пропустить оплату, разрешение или явную неизвестность.\n\nstance=asserted, если признак явно утверждается; denied, если явно отрицается;\nunknown, если сам текст сообщает, что значение неизвестно, не помнят или не знают.\nНеизвестность НЕ означает denied и НЕ означает отсутствие подходящего признака.\nСначала выбери признак, о котором говорится, и только затем его stance.\nСообщение о неизвестном результате оплаты относится к payment со stance=unknown:\nдля выбора predicate НЕ требуется подтверждение самого факта оплаты.\nСообщение о неизвестной действительности разрешения относится к permit=unknown.\nЯвно неизвестные дата, город или режим относятся к eventTime, inMoscow или paidRegime\nсо stance=unknown соответственно. no-supported-predicate разрешён только когда\nфрагмент вообще не относится к каталогу, а НЕ когда его значение неизвестно.\nОтсутствие упоминания признака не даёт основания его добавлять даже с unknown.\nПолярность относится к конкретному признаку, а не ко всем словам «не» в предложении.\nОплата парковки не означает, что доказан платный режим. Оплата штрафа или пополнение\nбаланса не являются оплатой парковочной сессии. Время оплаты относится к paymentStart,\nа дата/время стоянки — к eventTime. Отсутствие разрешения не означает отсутствие\nплатного режима. Сбой приложения сам по себе не устанавливает вину или освобождение.\nСохрани противоположные утверждения разных источников отдельно, не выбирай победителя.\nНе делай правовых выводов и не добавляй признаков по молчанию.\nDefinitions:\n{\"eventTime\": \"Время или дата события.\", \"inMoscow\": \"Место события находится в Москве.\", \"cityParking\": \"Место является городской парковкой; одного названия зоны недостаточно.\", \"placement\": \"Автомобиль находился на парковке.\", \"paidRegime\": \"В момент события действовал платный режим. Отсутствие льгот или разрешений НЕ означает отсутствие платного режима.\", \"subjectScope\": \"Статус лица: физическое лицо, личное использование автомобиля.\", \"attribution\": \"Связь лица с автомобилем или действием.\", \"payment\": \"Оплата конкретной парковки. Платный режим НЕ является фактом оплаты.\", \"paymentStart\": \"Время начала оплаты или платежа.\", \"departure\": \"Время отъезда автомобиля.\", \"paymentComplexity\": \"Ошибки оплаты, неверная машина/зона или последующие исправления. Если ошибок и исправлений НЕ было, stance=denied.\", \"permit\": \"Наличие разрешения или абонемента.\", \"disabilityConditions\": \"Явно названные обстоятельства инвалидности; отсутствие льгот не доказывает отсутствие инвалидности.\", \"specialTariff\": \"Явно названный специальный тариф; отсутствие льгот не доказывает отсутствие специального тарифа.\", \"faultAndExclusions\": \"Явно названная вина или исключающие ответственность обстоятельства. Не выводить из отсутствия ошибок оплаты.\"}",
+  "discoverySchema": {
+    "type": "object",
+    "properties": {
+      "extractions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "statement": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            },
+            "statement_attributes": {
+              "type": "object",
+              "properties": {
+                "subject": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^(vehicle|person)_[1-9][0-9]*$"
+                },
+                "aboutEpisode": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^episode_[1-9][0-9]*$"
+                },
+                "speaker": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "required": [
+                "subject",
+                "aboutEpisode",
+                "speaker"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "statement",
+            "statement_attributes"
+          ],
+          "additionalProperties": false
+        },
+        "maxItems": 256
+      }
+    },
+    "required": [
+      "extractions"
+    ],
+    "additionalProperties": false
+  },
+  "classificationSchema": {
+    "type": "object",
+    "properties": {
+      "results": {
+        "type": "object",
+        "properties": {
+          "fragment_1": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "classified",
+                  "no-supported-predicate"
+                ]
+              },
+              "classifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "predicate": {
+                      "type": "string",
+                      "enum": [
+                        "eventTime",
+                        "inMoscow",
+                        "cityParking",
+                        "placement",
+                        "paidRegime",
+                        "subjectScope",
+                        "attribution",
+                        "payment",
+                        "paymentStart",
+                        "departure",
+                        "paymentComplexity",
+                        "permit",
+                        "disabilityConditions",
+                        "specialTariff",
+                        "faultAndExclusions"
+                      ]
+                    },
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "valueText": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  },
+                  "required": [
+                    "predicate",
+                    "stance",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 30
+              },
+              "reason": {
+                "type": "string",
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "status",
+              "classifications",
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          "fragment_2": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "classified",
+                  "no-supported-predicate"
+                ]
+              },
+              "classifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "predicate": {
+                      "type": "string",
+                      "enum": [
+                        "eventTime",
+                        "inMoscow",
+                        "cityParking",
+                        "placement",
+                        "paidRegime",
+                        "subjectScope",
+                        "attribution",
+                        "payment",
+                        "paymentStart",
+                        "departure",
+                        "paymentComplexity",
+                        "permit",
+                        "disabilityConditions",
+                        "specialTariff",
+                        "faultAndExclusions"
+                      ]
+                    },
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "valueText": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  },
+                  "required": [
+                    "predicate",
+                    "stance",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 30
+              },
+              "reason": {
+                "type": "string",
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "status",
+              "classifications",
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          "fragment_3": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "classified",
+                  "no-supported-predicate"
+                ]
+              },
+              "classifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "predicate": {
+                      "type": "string",
+                      "enum": [
+                        "eventTime",
+                        "inMoscow",
+                        "cityParking",
+                        "placement",
+                        "paidRegime",
+                        "subjectScope",
+                        "attribution",
+                        "payment",
+                        "paymentStart",
+                        "departure",
+                        "paymentComplexity",
+                        "permit",
+                        "disabilityConditions",
+                        "specialTariff",
+                        "faultAndExclusions"
+                      ]
+                    },
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "valueText": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  },
+                  "required": [
+                    "predicate",
+                    "stance",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 30
+              },
+              "reason": {
+                "type": "string",
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "status",
+              "classifications",
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          "fragment_4": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "classified",
+                  "no-supported-predicate"
+                ]
+              },
+              "classifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "predicate": {
+                      "type": "string",
+                      "enum": [
+                        "eventTime",
+                        "inMoscow",
+                        "cityParking",
+                        "placement",
+                        "paidRegime",
+                        "subjectScope",
+                        "attribution",
+                        "payment",
+                        "paymentStart",
+                        "departure",
+                        "paymentComplexity",
+                        "permit",
+                        "disabilityConditions",
+                        "specialTariff",
+                        "faultAndExclusions"
+                      ]
+                    },
+                    "stance": {
+                      "type": "string",
+                      "enum": [
+                        "asserted",
+                        "denied",
+                        "unknown"
+                      ]
+                    },
+                    "valueText": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  },
+                  "required": [
+                    "predicate",
+                    "stance",
+                    "valueText"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 30
+              },
+              "reason": {
+                "type": "string",
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "status",
+              "classifications",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "fragment_1",
+          "fragment_2",
+          "fragment_3",
+          "fragment_4"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "results"
+    ],
+    "additionalProperties": false
+  },
+  "exampleText": null,
+  "reviewState": "unreviewed",
+  "classificationDecisions": {
+    "fragment_1": {
+      "status": "classified",
+      "classifications": [
+        {
+          "predicate": "inMoscow",
+          "stance": "asserted",
+          "valueText": "Место события находится в Москве"
+        },
+        {
+          "predicate": "cityParking",
+          "stance": "asserted",
+          "valueText": "Событие произошло на городской парковке"
+        }
+      ],
+      "reason": ""
+    },
+    "fragment_2": {
+      "status": "classified",
+      "classifications": [
+        {
+          "predicate": "eventTime",
+          "stance": "asserted",
+          "valueText": "Получено уведомление о штрафе за стоянку в мае (уведомление пришло в июле)"
+        }
+      ],
+      "reason": ""
+    },
+    "fragment_3": {
+      "status": "classified",
+      "classifications": [
+        {
+          "predicate": "eventTime",
+          "stance": "unknown",
+          "valueText": "Дата стоянки неизвестна"
+        }
+      ],
+      "reason": ""
+    },
+    "fragment_4": {
+      "status": "classified",
+      "classifications": [
+        {
+          "predicate": "payment",
+          "stance": "unknown",
+          "valueText": "Информация о платеже отсутствует"
+        }
+      ],
+      "reason": ""
+    }
+  },
+  "discoveryReplay": {
+    "parentOutputDigest": "9e927f4c054a62705e0dac3de8f0613fdc97646899599610e55154777a7a8ada",
+    "parentPipeline": "literal-discovery-then-classification/v2"
+  },
+  "latencyScope": "classification-with-replayed-discovery"
+}

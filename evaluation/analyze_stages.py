@@ -19,6 +19,27 @@ def main():
         payload = json.loads(payload_path.read_text())
         fragments = payload["fragments"]
         raw = payload["rawExtractions"]
+        decisions = payload.get("classificationDecisions") or {}
+        fragment_ids = {fragment["fragmentId"] for fragment in fragments}
+        submitted_ids = set()
+        for call in payload.get("calls", []):
+            if call.get("stage") != "classification":
+                continue
+            try:
+                response = json.loads(call.get("output") or "null")
+                if not isinstance(response, dict):
+                    continue
+                if isinstance(response.get("results"), dict):
+                    submitted_ids.update(set(response["results"]) & fragment_ids)
+                elif isinstance(response.get("classifications"), list):
+                    submitted_ids.update(
+                        item["fragmentId"]
+                        for item in response["classifications"]
+                        if isinstance(item, dict)
+                        and item.get("fragmentId") in fragment_ids
+                    )
+            except (ValueError, TypeError):
+                continue
         probes = []
         for required in label["required"]:
             covering = []
@@ -47,12 +68,26 @@ def main():
                     "discoveryCovered": bool(covering),
                     "classifiedFragment": bool(classified),
                     "rawPredicateStanceMatched": correct,
+                    "explicitNoPredicate": bool(covering)
+                    and all(
+                        decisions.get(fragment_id, {}).get("status")
+                        == "no-supported-predicate"
+                        for fragment_id in covering
+                    ),
+                    "hasDecision": any(
+                        fragment_id in decisions for fragment_id in covering
+                    )
+                    or bool(classified),
                 }
             )
         cases.append(
             {
                 "id": case_id,
                 "outputDigest": hashlib.sha256(payload_path.read_bytes()).hexdigest(),
+                "fragmentCount": len(fragment_ids),
+                "submittedFragmentCount": len(submitted_ids),
+                "acceptedExplicitDecisionCount": len(decisions),
+                "missingSubmittedFragmentIds": sorted(fragment_ids - submitted_ids),
                 "probes": probes,
             }
         )
@@ -65,6 +100,16 @@ def main():
         ).hexdigest(),
         "expectationsDigest": hashlib.sha256(labels_bytes).hexdigest(),
         "metrics": {
+            "inputFragments": sum(case["fragmentCount"] for case in cases),
+            "submittedFragmentDecisions": sum(
+                case["submittedFragmentCount"] for case in cases
+            ),
+            "fragmentsWithoutSubmittedDecision": sum(
+                len(case["missingSubmittedFragmentIds"]) for case in cases
+            ),
+            "acceptedExplicitDecisions": sum(
+                case["acceptedExplicitDecisionCount"] for case in cases
+            ),
             "requiredProbes": len(probes),
             "discoveryCovered": sum(p["discoveryCovered"] for p in probes),
             "coveredButNoClassification": sum(
@@ -77,6 +122,10 @@ def main():
             "rawPredicateStanceMatched": sum(
                 p["rawPredicateStanceMatched"] for p in probes
             ),
+            "coveredButNoDecision": sum(
+                p["discoveryCovered"] and not p["hasDecision"] for p in probes
+            ),
+            "coveredExplicitNoPredicate": sum(p["explicitNoPredicate"] for p in probes),
         },
         "limitations": "Candidate probe coverage only; not full discovery recall, attribution accuracy, legal sufficiency or population quality. Raw matches may still be quarantined downstream.",
         "cases": cases,

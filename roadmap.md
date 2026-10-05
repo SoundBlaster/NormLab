@@ -194,6 +194,16 @@ Task IDs сохранены при изменении приоритетов: н
 
 - [x] Реализовать отдельно versioned discovery candidate, сохранить raw requests/responses и повторить 40-case evaluation.
 - [x] Сохранить источник утверждения в v2 statements и дать ручную правку в review UI.
-- [ ] Сделать classification candidate с обязательным результатом для каждого fragmentId, explicit unknown и непустым valueText; отдельно считать omissions и polarity.
+- [x] Сделать classification candidate с обязательным результатом для каждого fragmentId, explicit unknown и непустым valueText; отдельно считать omissions и polarity.
 - [ ] Закрыть пропуски discovery в SYN019/SYN033 и привязку к другому автомобилю в SYN030.
 - [ ] Провести независимый semantic review и browser walkthrough перед promotion v2 в HTTP/UI.
+
+### Complete classification v3 — 2026-10-05
+
+[Контракт и controlled comparison](docs/CLASSIFICATION_V3_2026-10-05.md): обязательное решение для каждого fragmentId, explicit unrelated reason, runtime validation и девять offline checks в CI. На неизменных 82 fragments v2 модель представила все 82 ID; 79 решений приняты, два case responses отклонены. Selected assertion-probe pass вырос с 11/40 до 28/40, structural pass снизился с 39/40 до 38/40. Это не оценка 80% critical-error-free; HTTP/UI остаётся на v1.
+
+- [x] Сохранить controlled replay, parent digests, полные ответы и отдельно сравнить submitted coverage / accepted decisions / semantic probes.
+- [x] Проверить три свежих end-to-end cases без replay.
+- [ ] Разобрать 12 semantic-probe failures: unknown, отрицания, интервалы, другой автомобиль, место и ошибки реквизитов.
+- [ ] Проверять evidence support каждого predicate; не переносить место/режим из соседнего fragment без provenance binding.
+- [ ] Устранить status/reason grammar inconsistency отдельной версией, сохраняя ошибки текущего прогона в denominator.

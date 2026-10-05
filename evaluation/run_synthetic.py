@@ -75,8 +75,13 @@ def main() -> int:
     parser.add_argument(
         "--timeout", type=int, default=420, help="per-case timeout in seconds"
     )
-    parser.add_argument("--pipeline", choices=["v1", "v2"], default="v1")
+    parser.add_argument("--pipeline", choices=["v1", "v2", "v3"], default="v1")
+    parser.add_argument(
+        "--replay-discovery", type=Path, help="v2 run directory; classification v3 only"
+    )
     args = parser.parse_args()
+    if args.replay_discovery is not None and args.pipeline != "v3":
+        raise ValueError("Discovery replay requires pipeline v3")
 
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -84,12 +89,14 @@ def main() -> int:
     extractor = (
         ROOT
         / "evaluation"
-        / ("two_stage_v2.py" if args.pipeline == "v2" else "two_stage.py")
+        / ("two_stage.py" if args.pipeline == "v1" else f"two_stage_{args.pipeline}.py")
     )
     snapshots["extractor-source.py"] = extractor
-    if args.pipeline == "v2":
+    if args.pipeline != "v1":
         snapshots["two-stage-base-source.py"] = ROOT / "evaluation/two_stage.py"
         snapshots["discovery-source.py"] = ROOT / "evaluation/discovery_v2.py"
+    if args.pipeline == "v3":
+        snapshots["classification-source.py"] = ROOT / "evaluation/classification_v3.py"
     for destination, source in snapshots.items():
         shutil.copyfile(source, output / destination)
 
@@ -121,11 +128,23 @@ def main() -> int:
                 raise ValueError(f"Source digest mismatch for {case_id}")
 
             output_path = output / f"{case_id}.output.json"
+            command = [
+                sys.executable,
+                str(extractor),
+                str(input_path),
+                str(output_path),
+            ]
+            if args.replay_discovery is not None:
+                parent_path = output / f"{case_id}.discovery-parent.json"
+                shutil.copyfile(
+                    args.replay_discovery / f"{case_id}.output.json", parent_path
+                )
+                command.append(str(parent_path))
             started = time.perf_counter()
             status, return_code, error = "completed", None, None
             try:
                 result = subprocess.run(
-                    [sys.executable, str(extractor), str(input_path), str(output_path)],
+                    command,
                     capture_output=True,
                     text=True,
                     timeout=args.timeout,
@@ -158,6 +177,7 @@ def main() -> int:
                 "elapsedSeconds": round(time.perf_counter() - started, 3),
                 "sourceDigest": narrative_digest,
                 "pipeline": f"literal-discovery-then-classification/{args.pipeline}",
+                "discoveryReplayed": args.replay_discovery is not None,
             }
             records.append(record)
             write_run_manifest(output, records)

@@ -1,0 +1,602 @@
+[
+  {
+    "case": "SYN001",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN002",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN003",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN004",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN005",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN006",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN007",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN008",
+    "fragmentCount": 1,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN009",
+    "fragmentCount": 3,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN010",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN011",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN012",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN013",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN014",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN015",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN016",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN017",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN018",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN019",
+    "fragmentCount": 1,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN020",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN021",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN022",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN023",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN024",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN025",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN026",
+    "fragmentCount": 3,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN027",
+    "fragmentCount": 3,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN028",
+    "fragmentCount": 3,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN029",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN030",
+    "fragmentCount": 3,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN031",
+    "fragmentCount": 1,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN032",
+    "fragmentCount": 1,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN033",
+    "fragmentCount": 1,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN034",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN035",
+    "fragmentCount": 1,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN036",
+    "fragmentCount": 3,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN037",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN038",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN039",
+    "fragmentCount": 2,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  },
+  {
+    "case": "SYN040",
+    "fragmentCount": 4,
+    "checks": {
+      "parentSnapshotIdentical": true,
+      "parentDigestBound": true,
+      "fragmentsIdentical": true,
+      "sourceDigestIdentical": true,
+      "modelPassCountOne": true,
+      "latencyScopeExplicit": true,
+      "discoveryCallsReplayed": true,
+      "oneNewClassificationCall": true
+    },
+    "passed": true
+  }
+]
