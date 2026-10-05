@@ -174,3 +174,13 @@ Task IDs сохранены при изменении приоритетов: н
 - [ ] Улучшить discovery coverage и классификацию polarity без неподдержанных выводов.
 - [ ] Построить ontology graph из reviewed assertions и подключить legal calculation.
 - [ ] Включить Evidently при появлении пользовательского потока и согласованных drift metrics.
+
+### Synthetic corpus и forum/court discovery — 2026-10-05
+
+Подготовлены [40 synthetic inputs в восьми families](fixtures/parking-pilot/synthetic-v1/README.md) с отдельными candidate probes и model-only inputs. [Source registry](fixtures/parking-pilot/corpus/README.md) расширен до 24 leads и 15 editorial candidates, включая [форумы и судебные зеркала](docs/COURT_AND_FORUM_SOURCES.md). Это development material, не independent holdout.
+
+- [x] Разделить synthetic inputs, provenance и reviewer-only labels.
+- [ ] Сверить официальные акты, source facts и candidate semantic expectations.
+- [ ] Подключить dataset-aware runner/scorer, измерять family-level ошибки и новый natural-language holdout отдельно.
+- [x] Уточнить [rubric](docs/EVALUATION_PLAN.md): faithful extraction вместо проверки исторической истинности; конкретные gaps и корректное недостаточно-данных считаются положительным результатом, blanket refusal — нет.
+- [ ] Реализовать gap detection и sufficiency scoring отдельно от extraction; оценивать relevance уточнений и необоснованные definitive conclusions.
