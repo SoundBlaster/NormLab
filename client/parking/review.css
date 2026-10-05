@@ -1,0 +1,64 @@
+.parking-review {
+  display: grid;
+  gap: 20px;
+}
+.parking-review .card {
+  display: grid;
+  gap: 16px;
+}
+.parking-review label {
+  display: grid;
+  gap: 6px;
+}
+.parking-review textarea {
+  width: 100%;
+  resize: vertical;
+}
+.parking-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.parking-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.parking-statement {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid #bfc8bf;
+  border-radius: 8px;
+  min-width: 0;
+}
+.parking-review .parking-check {
+  display: flex;
+  gap: 10px;
+  align-items: start;
+  padding: 6px 0;
+}
+.parking-check input {
+  width: auto;
+  flex: none;
+  margin-top: 4px;
+}
+.parking-review blockquote {
+  margin: 0;
+  padding: 12px;
+  border-left: 3px solid #244b38;
+  background: #f2f4ed;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.parking-review pre {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 680px) {
+  .parking-fields {
+    grid-template-columns: 1fr;
+  }
+}

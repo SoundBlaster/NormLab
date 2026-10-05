@@ -1,0 +1,725 @@
+{
+  "schema": "normlab.langextract-statements/v1",
+  "pipeline": "literal-discovery-then-classification/v1",
+  "sourceDigest": "2b0d6e22a1bfac8d60d9ce893cacce20d9e54f10184cedb0936940e335e7421c",
+  "langextractVersion": "1.7.0",
+  "model": "openai/gpt-oss-20b",
+  "provider": "lm-studio-openai-compatible",
+  "passes": 2,
+  "latencyMs": 35877,
+  "error": null,
+  "fragments": [
+    {
+      "fragmentId": "fragment_1",
+      "quote": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      }
+    },
+    {
+      "fragmentId": "fragment_2",
+      "quote": "Автомобиль стоял внутри обозначенного парковочного места",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": {
+        "start_pos": 182,
+        "end_pos": 238
+      }
+    },
+    {
+      "fragmentId": "fragment_3",
+      "quote": "По условиям этого учебного случая весь указанный период был платным",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": {
+        "start_pos": 240,
+        "end_pos": 307
+      }
+    },
+    {
+      "fragmentId": "fragment_5",
+      "quote": "Парковку я не оплачивал",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": {
+        "start_pos": 331,
+        "end_pos": 354
+      }
+    },
+    {
+      "fragmentId": "fragment_7",
+      "quote": "Ошибок реквизитов, попыток оплаты и последующих исправлений не было",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": {
+        "start_pos": 389,
+        "end_pos": 456
+      }
+    }
+  ],
+  "rawExtractions": [
+    {
+      "class": "nlinput:eventTime",
+      "text": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "10:00-10:40 1 октября 2026 года по московскому времени"
+      },
+      "interval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:inMoscow",
+      "text": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "Москва"
+      },
+      "interval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:cityParking",
+      "text": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "обычная городская уличная парковка в учебной зоне М-101"
+      },
+      "interval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:placement",
+      "text": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "автомобиль находился на парковке"
+      },
+      "interval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:subjectScope",
+      "text": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "физическое лицо, личное использование автомобиля"
+      },
+      "interval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "fragmentId": "fragment_1"
+    },
+    {
+      "class": "nlinput:placement",
+      "text": "Автомобиль стоял внутри обозначенного парковочного места",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "автомобиль стоял внутри обозначенного парковочного места"
+      },
+      "interval": {
+        "start_pos": 182,
+        "end_pos": 238
+      },
+      "fragmentId": "fragment_2"
+    },
+    {
+      "class": "nlinput:paidRegime",
+      "text": "По условиям этого учебного случая весь указанный период был платным",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "asserted",
+        "valueText": "весь указанный период был платным"
+      },
+      "interval": {
+        "start_pos": 240,
+        "end_pos": 307
+      },
+      "fragmentId": "fragment_3"
+    },
+    {
+      "class": "nlinput:paymentComplexity",
+      "text": "По условиям этого учебного случая весь указанный период был платным",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "denied",
+        "valueText": "ошибок реквизитов, попыток оплаты и последующих исправлений не было"
+      },
+      "interval": {
+        "start_pos": 240,
+        "end_pos": 307
+      },
+      "fragmentId": "fragment_3"
+    },
+    {
+      "class": "nlinput:payment",
+      "text": "Парковку я не оплачивал",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "denied",
+        "valueText": "парковку я не оплачивал"
+      },
+      "interval": {
+        "start_pos": 331,
+        "end_pos": 354
+      },
+      "fragmentId": "fragment_5"
+    },
+    {
+      "class": "nlinput:paymentComplexity",
+      "text": "Ошибок реквизитов, попыток оплаты и последующих исправлений не было",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator",
+        "stance": "denied",
+        "valueText": "ошибок реквизитов, попыток оплаты и последующих исправлений не было"
+      },
+      "interval": {
+        "start_pos": 389,
+        "end_pos": 456
+      },
+      "fragmentId": "fragment_7"
+    }
+  ],
+  "statements": [
+    {
+      "id": "afd567d6-29da-4c1d-afcb-b810f18435a5",
+      "predicate": "nlinput:eventTime",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "10:00-10:40 1 октября 2026 года по московскому времени",
+      "quote": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "startOffset": 0,
+      "endOffset": 180,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "a992c466-5f22-4f5c-a195-86dcf30913e8",
+      "predicate": "nlinput:inMoscow",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "Москва",
+      "quote": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "startOffset": 0,
+      "endOffset": 180,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "c69b0a18-ae0b-4d38-a582-4f04f92aaaee",
+      "predicate": "nlinput:cityParking",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "обычная городская уличная парковка в учебной зоне М-101",
+      "quote": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "startOffset": 0,
+      "endOffset": 180,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "3b39a059-0806-480d-94e0-8f9346884c1d",
+      "predicate": "nlinput:placement",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "автомобиль находился на парковке",
+      "quote": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "startOffset": 0,
+      "endOffset": 180,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "c5cd4618-1b4f-4c1a-bf1d-2ae9d685bfcd",
+      "predicate": "nlinput:subjectScope",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "физическое лицо, личное использование автомобиля",
+      "quote": "1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101",
+      "startOffset": 0,
+      "endOffset": 180,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "a23eb548-bf66-4534-9ca3-ce5a87fdae35",
+      "predicate": "nlinput:placement",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "автомобиль стоял внутри обозначенного парковочного места",
+      "quote": "Автомобиль стоял внутри обозначенного парковочного места",
+      "startOffset": 182,
+      "endOffset": 238,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "c1300e89-6fb7-4095-a7c1-0ac4edf86f1f",
+      "predicate": "nlinput:paidRegime",
+      "stance": "asserted",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "весь указанный период был платным",
+      "quote": "По условиям этого учебного случая весь указанный период был платным",
+      "startOffset": 240,
+      "endOffset": 307,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "c0465f74-df3d-4892-9c15-db016a6a9d53",
+      "predicate": "nlinput:paymentComplexity",
+      "stance": "denied",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "ошибок реквизитов, попыток оплаты и последующих исправлений не было",
+      "quote": "По условиям этого учебного случая весь указанный период был платным",
+      "startOffset": 240,
+      "endOffset": 307,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "ca01ab35-68cb-4be3-91ed-b3d089339403",
+      "predicate": "nlinput:payment",
+      "stance": "denied",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "парковку я не оплачивал",
+      "quote": "Парковку я не оплачивал",
+      "startOffset": 331,
+      "endOffset": 354,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    },
+    {
+      "id": "18fe2d13-f431-475f-9e85-d2200698339f",
+      "predicate": "nlinput:paymentComplexity",
+      "stance": "denied",
+      "subject": "vehicle_1",
+      "aboutEpisode": "episode_1",
+      "valueText": "ошибок реквизитов, попыток оплаты и последующих исправлений не было",
+      "quote": "Ошибок реквизитов, попыток оплаты и последующих исправлений не было",
+      "startOffset": 389,
+      "endOffset": 456,
+      "origin": "model",
+      "decision": "pending",
+      "rationale": ""
+    }
+  ],
+  "quarantine": [
+    {
+      "fragmentId": "fragment_4",
+      "quote": "Спора о знаках нет",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": {
+        "start_pos": 311,
+        "end_pos": 329
+      },
+      "reason": "discovery-source-or-contract"
+    },
+    {
+      "fragmentId": "fragment_6",
+      "quote": "Парковочную сессию я не запускал",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null,
+      "reason": "discovery-source-or-contract"
+    },
+    {
+      "fragmentId": "fragment_8",
+      "quote": "У меня нет парковочных разрешений, абонементов и оснований бесплатного размещения",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null,
+      "reason": "discovery-source-or-contract"
+    },
+    {
+      "fragmentId": "fragment_9",
+      "quote": "В 10:40 я вышел из машины и зашёл в офис",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null,
+      "reason": "discovery-source-or-contract"
+    },
+    {
+      "fragmentId": "fragment_10",
+      "quote": "В 11:00 я получил уведомление о штрафе",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null,
+      "reason": "discovery-source-or-contract"
+    },
+    {
+      "fragmentId": "fragment_11",
+      "quote": "Штраф был выписан на мой автомобиль",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null,
+      "reason": "discovery-source-or-contract"
+    },
+    {
+      "fragmentId": "fragment_12",
+      "quote": "Я не согласен с начислением штрафа",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null,
+      "reason": "discovery-source-or-contract"
+    },
+    {
+      "fragmentId": "fragment_13",
+      "quote": "Я считаю, что нарушение правил парковки не произошло",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      },
+      "libraryInterval": null,
+      "reason": "discovery-source-or-contract"
+    }
+  ],
+  "alignmentDecisions": [
+    {
+      "statementId": "afd567d6-29da-4c1d-afcb-b810f18435a5",
+      "libraryInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "a992c466-5f22-4f5c-a195-86dcf30913e8",
+      "libraryInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "c69b0a18-ae0b-4d38-a582-4f04f92aaaee",
+      "libraryInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "3b39a059-0806-480d-94e0-8f9346884c1d",
+      "libraryInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "c5cd4618-1b4f-4c1a-bf1d-2ae9d685bfcd",
+      "libraryInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "applicationInterval": {
+        "start_pos": 0,
+        "end_pos": 180
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "a23eb548-bf66-4534-9ca3-ce5a87fdae35",
+      "libraryInterval": {
+        "start_pos": 182,
+        "end_pos": 238
+      },
+      "applicationInterval": {
+        "start_pos": 182,
+        "end_pos": 238
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "c1300e89-6fb7-4095-a7c1-0ac4edf86f1f",
+      "libraryInterval": {
+        "start_pos": 240,
+        "end_pos": 307
+      },
+      "applicationInterval": {
+        "start_pos": 240,
+        "end_pos": 307
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "c0465f74-df3d-4892-9c15-db016a6a9d53",
+      "libraryInterval": {
+        "start_pos": 240,
+        "end_pos": 307
+      },
+      "applicationInterval": {
+        "start_pos": 240,
+        "end_pos": 307
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "ca01ab35-68cb-4be3-91ed-b3d089339403",
+      "libraryInterval": {
+        "start_pos": 331,
+        "end_pos": 354
+      },
+      "applicationInterval": {
+        "start_pos": 331,
+        "end_pos": 354
+      },
+      "method": "unique-exact-source-search"
+    },
+    {
+      "statementId": "18fe2d13-f431-475f-9e85-d2200698339f",
+      "libraryInterval": {
+        "start_pos": 389,
+        "end_pos": 456
+      },
+      "applicationInterval": {
+        "start_pos": 389,
+        "end_pos": 456
+      },
+      "method": "unique-exact-source-search"
+    }
+  ],
+  "calls": [
+    {
+      "stage": "discovery",
+      "prompt": "Find explicit factual assertions in the ORIGINAL narrative.\nUse only class statement with attributes subject, aboutEpisode, speaker (neutral keys).\nCopy complete literal clauses, including negation, dates and context. Never rewrite,\nnormalize spelling/case, classify legal predicates, resolve contradictions or invent\nunmentioned facts. Preserve every opposing assertion, including quoted statements.\nUse episode_1 for one episode; distinguish vehicles and speakers where explicit.\nOverlapping exact clauses are allowed; cover all explicit facts, not just payment.\n\n\nExamples\nQ: В Туле машина стояла с 09:00. Я оплатил парковку. В письме: я не оплатил парковку.\nA: {\n  \"extractions\": [\n    {\n      \"statement\": \"В Туле машина стояла с 09:00\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Я оплатил парковку\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"я не оплатил парковку\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"letter_1\"\n      }\n    }\n  ]\n}\n\nQ: 1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101. Автомобиль стоял внутри обозначенного парковочного места. По условиям этого учебного случая весь указанный период был платным, и спора о знаках нет. Парковку я не оплачивал и парковочную сессию не запускал. Ошибок реквизитов, попыток оплаты и последующих исправлений не было. Парковочных разрешений, абонементов и оснований бесплатного размещения у меня нет.\nA: ",
+      "output": "{\n  \"extractions\": [\n    {\n      \"statement\": \"1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Автомобиль стоял внутри обозначенного парковочного места\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"По условиям этого учебного случая весь указанный период был платным\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Спора о знаках нет\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Парковку я не оплачивал\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Парковочную сессию я не запускал\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Ошибок реквизитов, попыток оплаты и последующих исправлений не было\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"У меня нет парковочных разрешений, абонементов и оснований бесплатного размещения\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"В 10:40 я вышел из машины и зашёл в офис\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"В 11:00 я получил уведомление о штрафе\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Штраф был выписан на мой автомобиль\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Я не согласен с начислением штрафа\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    },\n    {\n      \"statement\": \"Я считаю, что нарушение правил парковки не произошло\",\n      \"statement_attributes\": {\n        \"subject\": \"vehicle_1\",\n        \"aboutEpisode\": \"episode_1\",\n        \"speaker\": \"narrator\"\n      }\n    }\n  ]\n}"
+    },
+    {
+      "stage": "classification",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Classify ONLY the supplied literal assertions using the definitions.\nOne fragment may yield several predicates. Copy its fragmentId. No new quotes,\nparticipants, episodes or facts. Retain both sides of contradictions separately.\nstance refers to whether the PREDICATE is affirmed or denied, not whether the clause\ncontains any negative word. Omit unsupported predicates. Never infer absence from\nsilence. Definitions:\n{\"eventTime\": \"Время или дата события.\", \"inMoscow\": \"Место события находится в Москве.\", \"cityParking\": \"Место является городской парковкой; одного названия зоны недостаточно.\", \"placement\": \"Автомобиль находился на парковке.\", \"paidRegime\": \"В момент события действовал платный режим. Отсутствие льгот или разрешений НЕ означает отсутствие платного режима.\", \"subjectScope\": \"Статус лица: физическое лицо, личное использование автомобиля.\", \"attribution\": \"Связь лица с автомобилем или действием.\", \"payment\": \"Оплата конкретной парковки. Платный режим НЕ является фактом оплаты.\", \"paymentStart\": \"Время начала оплаты или платежа.\", \"departure\": \"Время отъезда автомобиля.\", \"paymentComplexity\": \"Ошибки оплаты, неверная машина/зона или последующие исправления. Если ошибок и исправлений НЕ было, stance=denied.\", \"permit\": \"Наличие разрешения или абонемента.\", \"disabilityConditions\": \"Явно названные обстоятельства инвалидности; отсутствие льгот не доказывает отсутствие инвалидности.\", \"specialTariff\": \"Явно названный специальный тариф; отсутствие льгот не доказывает отсутствие специального тарифа.\", \"faultAndExclusions\": \"Явно названная вина или исключающие ответственность обстоятельства. Не выводить из отсутствия ошибок оплаты.\"}"
+        },
+        {
+          "role": "user",
+          "content": "[{\"fragmentId\": \"fragment_1\", \"quote\": \"1 октября 2026 года с 10:00 до 10:40 по московскому времени я, Алексей, оставил свой личный легковой автомобиль на обычной городской уличной парковке в Москве, в учебной зоне М-101\", \"attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": {\"start_pos\": 0, \"end_pos\": 180}}, {\"fragmentId\": \"fragment_2\", \"quote\": \"Автомобиль стоял внутри обозначенного парковочного места\", \"attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": {\"start_pos\": 182, \"end_pos\": 238}}, {\"fragmentId\": \"fragment_3\", \"quote\": \"По условиям этого учебного случая весь указанный период был платным\", \"attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": {\"start_pos\": 240, \"end_pos\": 307}}, {\"fragmentId\": \"fragment_5\", \"quote\": \"Парковку я не оплачивал\", \"attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": {\"start_pos\": 331, \"end_pos\": 354}}, {\"fragmentId\": \"fragment_7\", \"quote\": \"Ошибок реквизитов, попыток оплаты и последующих исправлений не было\", \"attributes\": {\"subject\": \"vehicle_1\", \"aboutEpisode\": \"episode_1\", \"speaker\": \"narrator\"}, \"libraryInterval\": {\"start_pos\": 389, \"end_pos\": 456}}]"
+        }
+      ],
+      "output": "{\"classifications\":[{\"fragmentId\":\"fragment_1\",\"predicate\":\"eventTime\",\"stance\":\"asserted\",\"valueText\":\"10:00-10:40 1 октября 2026 года по московскому времени\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"inMoscow\",\"stance\":\"asserted\",\"valueText\":\"Москва\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"cityParking\",\"stance\":\"asserted\",\"valueText\":\"обычная городская уличная парковка в учебной зоне М-101\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"placement\",\"stance\":\"asserted\",\"valueText\":\"автомобиль находился на парковке\"},{\"fragmentId\":\"fragment_1\",\"predicate\":\"subjectScope\",\"stance\":\"asserted\",\"valueText\":\"физическое лицо, личное использование автомобиля\"},{\"fragmentId\":\"fragment_2\",\"predicate\":\"placement\",\"stance\":\"asserted\",\"valueText\":\"автомобиль стоял внутри обозначенного парковочного места\"},{\"fragmentId\":\"fragment_3\",\"predicate\":\"paidRegime\",\"stance\":\"asserted\",\"valueText\":\"весь указанный период был платным\"},{\"fragmentId\":\"fragment_3\",\"predicate\":\"paymentComplexity\",\"stance\":\"denied\",\"valueText\":\"ошибок реквизитов, попыток оплаты и последующих исправлений не было\"},{\"fragmentId\":\"fragment_5\",\"predicate\":\"payment\",\"stance\":\"denied\",\"valueText\":\"парковку я не оплачивал\"},{\"fragmentId\":\"fragment_7\",\"predicate\":\"paymentComplexity\",\"stance\":\"denied\",\"valueText\":\"ошибок реквизитов, попыток оплаты и последующих исправлений не было\"}]}"
+    }
+  ],
+  "discoveryPrompt": "Find explicit factual assertions in the ORIGINAL narrative.\nUse only class statement with attributes subject, aboutEpisode, speaker (neutral keys).\nCopy complete literal clauses, including negation, dates and context. Never rewrite,\nnormalize spelling/case, classify legal predicates, resolve contradictions or invent\nunmentioned facts. Preserve every opposing assertion, including quoted statements.\nUse episode_1 for one episode; distinguish vehicles and speakers where explicit.\nOverlapping exact clauses are allowed; cover all explicit facts, not just payment.\n",
+  "classificationPrompt": "Classify ONLY the supplied literal assertions using the definitions.\nOne fragment may yield several predicates. Copy its fragmentId. No new quotes,\nparticipants, episodes or facts. Retain both sides of contradictions separately.\nstance refers to whether the PREDICATE is affirmed or denied, not whether the clause\ncontains any negative word. Omit unsupported predicates. Never infer absence from\nsilence. Definitions:\n{\"eventTime\": \"Время или дата события.\", \"inMoscow\": \"Место события находится в Москве.\", \"cityParking\": \"Место является городской парковкой; одного названия зоны недостаточно.\", \"placement\": \"Автомобиль находился на парковке.\", \"paidRegime\": \"В момент события действовал платный режим. Отсутствие льгот или разрешений НЕ означает отсутствие платного режима.\", \"subjectScope\": \"Статус лица: физическое лицо, личное использование автомобиля.\", \"attribution\": \"Связь лица с автомобилем или действием.\", \"payment\": \"Оплата конкретной парковки. Платный режим НЕ является фактом оплаты.\", \"paymentStart\": \"Время начала оплаты или платежа.\", \"departure\": \"Время отъезда автомобиля.\", \"paymentComplexity\": \"Ошибки оплаты, неверная машина/зона или последующие исправления. Если ошибок и исправлений НЕ было, stance=denied.\", \"permit\": \"Наличие разрешения или абонемента.\", \"disabilityConditions\": \"Явно названные обстоятельства инвалидности; отсутствие льгот не доказывает отсутствие инвалидности.\", \"specialTariff\": \"Явно названный специальный тариф; отсутствие льгот не доказывает отсутствие специального тарифа.\", \"faultAndExclusions\": \"Явно названная вина или исключающие ответственность обстоятельства. Не выводить из отсутствия ошибок оплаты.\"}",
+  "discoverySchema": {
+    "type": "object",
+    "properties": {
+      "extractions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "statement": {
+              "type": "string"
+            },
+            "statement_attributes": {
+              "type": "object",
+              "properties": {
+                "subject": {
+                  "type": "string"
+                },
+                "aboutEpisode": {
+                  "type": "string"
+                },
+                "speaker": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "subject",
+                "aboutEpisode",
+                "speaker"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "statement",
+            "statement_attributes"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "extractions"
+    ],
+    "additionalProperties": false
+  },
+  "classificationSchema": {
+    "type": "object",
+    "properties": {
+      "classifications": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "fragmentId": {
+              "type": "string"
+            },
+            "predicate": {
+              "type": "string",
+              "enum": [
+                "eventTime",
+                "inMoscow",
+                "cityParking",
+                "placement",
+                "paidRegime",
+                "subjectScope",
+                "attribution",
+                "payment",
+                "paymentStart",
+                "departure",
+                "paymentComplexity",
+                "permit",
+                "disabilityConditions",
+                "specialTariff",
+                "faultAndExclusions"
+              ]
+            },
+            "stance": {
+              "type": "string",
+              "enum": [
+                "asserted",
+                "denied",
+                "unknown"
+              ]
+            },
+            "valueText": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "fragmentId",
+            "predicate",
+            "stance",
+            "valueText"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "classifications"
+    ],
+    "additionalProperties": false
+  },
+  "exampleText": "В Туле машина стояла с 09:00. Я оплатил парковку. В письме: я не оплатил парковку.",
+  "reviewState": "unreviewed"
+}

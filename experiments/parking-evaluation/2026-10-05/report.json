@@ -1,0 +1,462 @@
+{
+  "schema": "normlab.parking-evaluation-report/v1",
+  "createdAt": "2026-10-05T04:47:49.372Z",
+  "expectationsStatus": "candidate-not-expert-approved",
+  "expectationsDigest": "4f7c1f7e0596141b5e3a841efba537f7b787a26ea08d3354b03a6c9becdd09ac",
+  "scorerDigest": "0e4e2da12c595c7e273a44d18a371455ab2e5b59101df4342de85a7ea4f1b378",
+  "runs": [
+    {
+      "name": "2026-10-05-typed-quotes-gpt-oss-20b",
+      "artifactManifestDigest": "b4d36010eafa3fef28c858353f9e8b6e1fca36a4c28a91af12ce1fa5cf0f4053",
+      "cases": [
+        {
+          "caseId": "P01",
+          "sourceDigest": "2b0d6e22a1bfac8d60d9ce893cacce20d9e54f10184cedb0936940e335e7421c",
+          "rawDigest": "038adfee06e0ac2ca9ecf90bdd19b7c61969e0b9b3932411b918202ddfac5294",
+          "scope": "ontology-graph",
+          "gate": false,
+          "error": [
+            {
+              "path": "entities.5",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            },
+            {
+              "path": "entities.6",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            },
+            {
+              "path": "assertions.0.attributionText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+            },
+            {
+              "path": "assertions.1.attributionText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+            },
+            {
+              "path": "assertions.2.attributionText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+            },
+            {
+              "path": "assertions.3.attributionText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+            },
+            {
+              "path": "assertions.4.attributionText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+            },
+            {
+              "path": "assertions.5.attributionText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+            },
+            {
+              "path": "assertions.6.attributionText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,500}(?![\\s\\S])/u"
+            }
+          ],
+          "missing": [
+            [
+              "eventTime",
+              "asserted"
+            ],
+            [
+              "inMoscow",
+              "asserted"
+            ],
+            [
+              "cityParking",
+              "asserted"
+            ],
+            [
+              "placement",
+              "asserted"
+            ],
+            [
+              "paidRegime",
+              "asserted"
+            ],
+            [
+              "payment",
+              "denied"
+            ],
+            [
+              "paymentComplexity",
+              "denied"
+            ],
+            [
+              "permit",
+              "denied"
+            ]
+          ],
+          "unsupported": [],
+          "conflictPass": true,
+          "criticalChecksPass": false,
+          "latencyMs": 39640,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Missing roles, alleged absence of zone designation, source support and attribution need human review."
+        },
+        {
+          "caseId": "P02",
+          "sourceDigest": "be24a6c1af93d190cd9945986b777580d7eec6021bbf15ae13971d2e7bc7317d",
+          "rawDigest": "3b35d587f9f60713727419c08f239899cc7c3d9f2b67927cd331a50bd72c22bd",
+          "scope": "ontology-graph",
+          "gate": false,
+          "error": [
+            {
+              "path": "entities.4",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            }
+          ],
+          "missing": [
+            [
+              "inMoscow",
+              "asserted"
+            ],
+            [
+              "cityParking",
+              "asserted"
+            ],
+            [
+              "placement",
+              "asserted"
+            ],
+            [
+              "paidRegime",
+              "asserted"
+            ],
+            [
+              "payment",
+              "asserted"
+            ],
+            [
+              "paymentStart",
+              "asserted"
+            ],
+            [
+              "departure",
+              "asserted"
+            ],
+            [
+              "paymentComplexity",
+              "denied"
+            ],
+            [
+              "permit",
+              "denied"
+            ]
+          ],
+          "unsupported": [],
+          "conflictPass": true,
+          "criticalChecksPass": false,
+          "latencyMs": 17540,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Verify vehicle/zone/payment coverage and distinguish payment time from paid interval."
+        },
+        {
+          "caseId": "P04",
+          "sourceDigest": "94d175c3252f6cdb3a9ba1e4b1a40dfa9a882045693533c97330fdba58dfb8b7",
+          "rawDigest": "afc305a69836eed75ef20d220c5524b2e5ad5ea2b829639d031bb1e5cd8bdeb0",
+          "scope": "ontology-graph",
+          "gate": false,
+          "error": [
+            {
+              "path": "entities.4",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            },
+            {
+              "path": "entities.5",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            },
+            {
+              "path": "entities.6",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            },
+            {
+              "path": "entities.7",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            },
+            {
+              "path": "entities.8",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            }
+          ],
+          "missing": [
+            [
+              "eventTime",
+              "asserted"
+            ],
+            [
+              "inMoscow",
+              "asserted"
+            ],
+            [
+              "cityParking",
+              "asserted"
+            ],
+            [
+              "placement",
+              "asserted"
+            ],
+            [
+              "payment",
+              "asserted"
+            ],
+            [
+              "paymentStart",
+              "asserted"
+            ],
+            [
+              "departure",
+              "asserted"
+            ],
+            [
+              "paymentComplexity",
+              "asserted"
+            ]
+          ],
+          "unsupported": [],
+          "conflictPass": true,
+          "criticalChecksPass": false,
+          "latencyMs": 33828,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Both vehicles must remain distinguishable; payment targets the other vehicle, correction is a claim rather than legal validation. Mandatory unknowns remain open."
+        },
+        {
+          "caseId": "P09",
+          "sourceDigest": "326cdaa7255511c34e62c764172619ba4f58663b1106632eaf0d9cff758e89e4",
+          "rawDigest": "d545f796bc6477393eca645e4cdfd9ec9e3087405c75a9c96764f220aeae0148",
+          "scope": "ontology-graph",
+          "gate": false,
+          "error": [
+            {
+              "path": "entities.4.timezoneText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,100}(?![\\s\\S])/u"
+            },
+            {
+              "path": "entities.5.timezoneText",
+              "code": "shape",
+              "message": "Invalid string: must match pattern /^[\\s\\S]{1,100}(?![\\s\\S])/u"
+            },
+            {
+              "path": "entities.6",
+              "code": "shape",
+              "message": "Unrecognized key: \"label\""
+            }
+          ],
+          "missing": [
+            [
+              "eventTime",
+              "asserted"
+            ],
+            [
+              "inMoscow",
+              "asserted"
+            ],
+            [
+              "cityParking",
+              "asserted"
+            ],
+            [
+              "placement",
+              "asserted"
+            ],
+            [
+              "paidRegime",
+              "asserted"
+            ],
+            [
+              "payment",
+              "asserted"
+            ],
+            [
+              "payment",
+              "denied"
+            ],
+            [
+              "paymentStart",
+              "asserted"
+            ],
+            [
+              "paymentComplexity",
+              "denied"
+            ]
+          ],
+          "unsupported": [],
+          "conflictPass": false,
+          "criticalChecksPass": false,
+          "latencyMs": 35192,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Both payment assertions need correct evidence/attribution. Absence of corrections does not establish absence of fault. Unknown permits must remain open."
+        }
+      ],
+      "metrics": {
+        "attempted_cases": 4,
+        "total_cases": 4,
+        "structure_pass_rate": 0,
+        "candidate_case_pass_rate": 0,
+        "semantic_review_pending": 4,
+        "target_case_pass_rate": 0.8
+      },
+      "releaseCasePassRate": null
+    },
+    {
+      "name": "2026-10-05-codex-gpt-6-luna-low",
+      "artifactManifestDigest": "458bdc836c0ac2a32d4ea7253cfaf2ff062f695996161b5e285bc7a0a5e13439",
+      "cases": [
+        {
+          "caseId": "P01",
+          "sourceDigest": "2b0d6e22a1bfac8d60d9ce893cacce20d9e54f10184cedb0936940e335e7421c",
+          "rawDigest": "b81b2043c504a5555c0262e983276346da6b18f5b7726fcae9742cc23cd919ba",
+          "scope": "ontology-graph",
+          "gate": false,
+          "error": [
+            {
+              "path": "assertions.0.subject",
+              "code": "missing_reference",
+              "message": "role1"
+            },
+            {
+              "path": "assertions.1.subject",
+              "code": "missing_reference",
+              "message": "role1"
+            }
+          ],
+          "missing": [],
+          "unsupported": [],
+          "conflictPass": true,
+          "criticalChecksPass": false,
+          "latencyMs": 42633,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Missing roles, alleged absence of zone designation, source support and attribution need human review."
+        },
+        {
+          "caseId": "P02",
+          "sourceDigest": "be24a6c1af93d190cd9945986b777580d7eec6021bbf15ae13971d2e7bc7317d",
+          "rawDigest": "ed7b1f2df8bc137025330d83700744200af62c17c55c558c794b667437d07962",
+          "scope": "ontology-graph",
+          "gate": false,
+          "error": [
+            {
+              "path": "assertions.9.subject",
+              "code": "concept_mismatch",
+              "message": "nlpark:Payment"
+            }
+          ],
+          "missing": [],
+          "unsupported": [
+            [
+              "faultAndExclusions",
+              "denied"
+            ],
+            [
+              "disabilityConditions",
+              "denied"
+            ],
+            [
+              "specialTariff",
+              "denied"
+            ]
+          ],
+          "conflictPass": true,
+          "criticalChecksPass": false,
+          "latencyMs": 53263,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Verify vehicle/zone/payment coverage and distinguish payment time from paid interval."
+        },
+        {
+          "caseId": "P04",
+          "sourceDigest": "94d175c3252f6cdb3a9ba1e4b1a40dfa9a882045693533c97330fdba58dfb8b7",
+          "rawDigest": "c07f7fda349ac3c11e3c782be7299333eea7cb4b53b3244dc7cea1a5cb62c43b",
+          "scope": "ontology-graph",
+          "gate": false,
+          "error": [
+            {
+              "path": "assertions.20.subject",
+              "code": "concept_mismatch",
+              "message": "nlpark:Payment"
+            }
+          ],
+          "missing": [],
+          "unsupported": [
+            [
+              "paidRegime",
+              "asserted"
+            ]
+          ],
+          "conflictPass": true,
+          "criticalChecksPass": false,
+          "latencyMs": 48336,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Both vehicles must remain distinguishable; payment targets the other vehicle, correction is a claim rather than legal validation. Mandatory unknowns remain open."
+        },
+        {
+          "caseId": "P09",
+          "sourceDigest": "326cdaa7255511c34e62c764172619ba4f58663b1106632eaf0d9cff758e89e4",
+          "rawDigest": "8a82b8303ced8e4eb63e847cd3a06ab017b983aa358c7e104fccfea080d3a368",
+          "scope": "ontology-graph",
+          "gate": true,
+          "error": null,
+          "missing": [
+            [
+              "payment",
+              "denied"
+            ],
+            [
+              "paymentComplexity",
+              "denied"
+            ]
+          ],
+          "unsupported": [
+            [
+              "faultAndExclusions",
+              "denied"
+            ]
+          ],
+          "conflictPass": false,
+          "criticalChecksPass": false,
+          "latencyMs": 37347,
+          "semanticReview": "pending",
+          "releaseEligible": false,
+          "humanReviewChecklist": "Both payment assertions need correct evidence/attribution. Absence of corrections does not establish absence of fault. Unknown permits must remain open."
+        }
+      ],
+      "metrics": {
+        "attempted_cases": 4,
+        "total_cases": 4,
+        "structure_pass_rate": 0.25,
+        "candidate_case_pass_rate": 0,
+        "semantic_review_pending": 4,
+        "target_case_pass_rate": 0.8
+      },
+      "releaseCasePassRate": null
+    }
+  ],
+  "notes": [
+    "Candidate checks are incomplete semantic coverage, not expert approval.",
+    "Graph and statement gates have different scopes; do not treat flat statement acceptance as graph validity.",
+    "Provider failures remain in denominator.",
+    "Raw assertions are inspected diagnostically even if graph gate rejects; they never become trusted proposals."
+  ]
+}

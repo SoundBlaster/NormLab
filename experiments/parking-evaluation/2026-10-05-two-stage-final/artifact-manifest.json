@@ -1,0 +1,18 @@
+{
+  "schema": "normlab.baseline-artifacts/v1",
+  "signed": false,
+  "entries": [
+    {
+      "path": "expectations.json",
+      "sha256": "260b6b211ea4fe4f3b48866e6307f9b93f1cbb0717b15df25d66c1ecc1dc5977"
+    },
+    {
+      "path": "report.json",
+      "sha256": "51991ccb3899beb54263f44920d45fb87e333f072b27bd837720d2a6e8ac7171"
+    },
+    {
+      "path": "scorer-source.ts",
+      "sha256": "fea5ef7d512ce35c1df9bd670edcaacce5adcc1d243becf712c9d8831d762530"
+    }
+  ]
+}

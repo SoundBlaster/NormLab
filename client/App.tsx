@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { isCurrentAnalysis } from '../shared/current.js';
 import { Lab } from './lab/Lab.js';
+import { ParkingReview } from './parking/Review.js';
 import type {
   Analysis,
   Bootstrap,
@@ -27,9 +28,10 @@ const time = (value: string) =>
     minute: '2-digit',
   });
 const initial: SnapshotInput = { narrative: '', finding: 'unreviewed', rationale: '' };
-type Tab = 'lab' | 'workspace' | 'bundles' | 'comparison' | 'history';
+type Tab = 'lab' | 'parking' | 'workspace' | 'bundles' | 'comparison' | 'history';
 const tabs: { id: Tab; label: string; symbol: string }[] = [
   { id: 'lab', label: 'Реформа A/B/C', symbol: '⇄' },
+  { id: 'parking', label: 'Парковка · Разбор текста', symbol: '◫' },
   { id: 'workspace', label: 'M0 · Решение', symbol: '◫' },
   { id: 'bundles', label: 'M0 · Пакеты норм', symbol: '▤' },
   { id: 'comparison', label: 'M0 · Сравнение', symbol: '⇄' },
@@ -198,7 +200,7 @@ export function App() {
         <div className="sidebar-label">ИССЛЕДОВАНИЕ</div>
         <nav aria-label="Основная навигация">
           {tabs
-            .filter((item) => item.id === 'lab')
+            .filter((item) => item.id === 'lab' || item.id === 'parking')
             .map((item) => (
               <button
                 key={item.id}
@@ -216,7 +218,7 @@ export function App() {
             <summary>Пример M0</summary>
             <div>
               {tabs
-                .filter((item) => item.id !== 'lab')
+                .filter((item) => item.id !== 'lab' && item.id !== 'parking')
                 .map((item) => (
                   <button
                     key={item.id}
@@ -272,33 +274,39 @@ export function App() {
               <div className={`page-heading ${tab === 'lab' ? 'lab-page-heading' : ''}`}>
                 <div>
                   <span className="eyebrow">
-                    {tab === 'lab'
-                      ? 'ЭКСПЕРИМЕНТ 002 / ОБЩИЕ ПРАВИЛА СМЯГЧЕНИЯ'
-                      : tab === 'workspace'
-                        ? 'ЭКСПЕРИМЕНТ 001 / УСЛОВНОЕ ПРЕОБРАЗОВАНИЕ'
-                        : 'ИССЛЕДОВАТЕЛЬСКАЯ ЛАБОРАТОРИЯ'}
+                    {tab === 'parking'
+                      ? 'ЭКСПЕРИМЕНТ 003 / ПАРКОВОЧНЫЙ ПИЛОТ'
+                      : tab === 'lab'
+                        ? 'ЭКСПЕРИМЕНТ 002 / ОБЩИЕ ПРАВИЛА СМЯГЧЕНИЯ'
+                        : tab === 'workspace'
+                          ? 'ЭКСПЕРИМЕНТ 001 / УСЛОВНОЕ ПРЕОБРАЗОВАНИЕ'
+                          : 'ИССЛЕДОВАТЕЛЬСКАЯ ЛАБОРАТОРИЯ'}
                   </span>
                   <h1>
-                    {tab === 'lab'
-                      ? 'Сравнивать правила. Проверять изменения.'
-                      : tab === 'workspace'
-                        ? 'От обстоятельств к выводу.'
-                        : tab === 'bundles'
-                          ? 'Нормы с явной семантикой.'
-                          : tab === 'comparison'
-                            ? 'Что меняет новая редакция?'
-                            : 'Каждое изменение сохраняется.'}
+                    {tab === 'parking'
+                      ? 'Извлечь. Проверить. Исправить.'
+                      : tab === 'lab'
+                        ? 'Сравнивать правила. Проверять изменения.'
+                        : tab === 'workspace'
+                          ? 'От обстоятельств к выводу.'
+                          : tab === 'bundles'
+                            ? 'Нормы с явной семантикой.'
+                            : tab === 'comparison'
+                              ? 'Что меняет новая редакция?'
+                              : 'Каждое изменение сохраняется.'}
                   </h1>
                   <p>
-                    {tab === 'lab'
-                      ? 'Один snapshot. Три модели. Явные последствия и границы проверки.'
-                      : tab === 'workspace'
-                        ? 'Установите условие, примените норму и проверьте результат.'
-                        : tab === 'bundles'
-                          ? 'Декларативные правила, точные версии и прослеживаемое происхождение.'
-                          : tab === 'comparison'
-                            ? 'Один домен случаев. Две модели. Наблюдаемые различия.'
-                            : 'Выберите снимок, чтобы открыть его входы, результат и квитанцию.'}
+                    {tab === 'parking'
+                      ? 'Фабула, цитаты и утверждения. Каждый шаг сохраняется.'
+                      : tab === 'lab'
+                        ? 'Один snapshot. Три модели. Явные последствия и границы проверки.'
+                        : tab === 'workspace'
+                          ? 'Установите условие, примените норму и проверьте результат.'
+                          : tab === 'bundles'
+                            ? 'Декларативные правила, точные версии и прослеживаемое происхождение.'
+                            : tab === 'comparison'
+                              ? 'Один домен случаев. Две модели. Наблюдаемые различия.'
+                              : 'Выберите снимок, чтобы открыть его входы, результат и квитанцию.'}
                   </p>
                 </div>
                 <div className="hero-symbol" aria-hidden="true">
@@ -315,6 +323,9 @@ export function App() {
               </div>
               <div hidden={tab !== 'lab'}>
                 <Lab />
+              </div>
+              <div hidden={tab !== 'parking'}>
+                <ParkingReview token={data.csrfToken} />
               </div>
               {tab === 'workspace' && (
                 <>

@@ -1,0 +1,46 @@
+{
+  "schema": "normlab.baseline-artifacts/v1",
+  "signed": false,
+  "entries": [
+    {
+      "path": "P01.original-output.json",
+      "sha256": "13d341d5fc1956aab0706f541bdd058d56055364b560374ae31fd6a919b428d6"
+    },
+    {
+      "path": "P01.output.json",
+      "sha256": "940e166b9b8504a40a0e88e5ac26f81ceac74526af8f7b2222e9c6b2c59948a6"
+    },
+    {
+      "path": "P02.original-output.json",
+      "sha256": "66b1e94ec954c219be46eaa567f3ea28f35e23bf71482b813e5e9e9e2071a1cc"
+    },
+    {
+      "path": "P02.output.json",
+      "sha256": "ccaa37f6a550e88803254473ac47d4a8c05174f6c0f507433381baaf943e3891"
+    },
+    {
+      "path": "P04.original-output.json",
+      "sha256": "dce18ac47f436e3c496ec8f7583b471469d576f133276bcc41e606017e3067f7"
+    },
+    {
+      "path": "P04.output.json",
+      "sha256": "9c81e5fd1cc72a3c9dc5883799f52fdf53aa2d3e9479669162e74f5553af9742"
+    },
+    {
+      "path": "P09.original-output.json",
+      "sha256": "1e47d4e128b16cc396ea8067d1e0e9722eb86ffa979e0a8373facb70d2b70ba2"
+    },
+    {
+      "path": "P09.output.json",
+      "sha256": "829bd65a7a6f3529996ff93063fc6af3d757529eab52bb6dae052561e535956d"
+    },
+    {
+      "path": "anchor.py",
+      "sha256": "ad78425e5bb7fc3bafcec1c109b8ae4989a0c7f66b633a79dcc7dc9b87b4ce2d"
+    },
+    {
+      "path": "reanchor_langextract.py",
+      "sha256": "c1ed1aef44f0f8ba9a294d1d3a50abb18cc770c0c6dd3193ebf2c18ace9af2a0"
+    }
+  ]
+}

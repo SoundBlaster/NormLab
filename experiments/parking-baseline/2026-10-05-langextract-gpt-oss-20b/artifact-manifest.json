@@ -1,0 +1,32 @@
+{
+  "schema": "normlab.baseline-artifacts/v1",
+  "signed": false,
+  "entries": [
+    {
+      "path": "P01.input.json",
+      "sha256": "81602b56aa0a023bd1bb69b35a529990e4ebfd6dd81d1370aa0ca41aa5d96aba"
+    },
+    {
+      "path": "P01.output.json",
+      "sha256": "5104f9dc05a8664c94d0b94fd45ea90aacb89faf390bccbbdf0fe6c4b727946e"
+    },
+    {
+      "path": "P01.stderr.txt",
+      "sha256": "6f1b0c9cb775234abffc2ad3431fae0ca94f84652be54b8d199d6f14d72b4bfd"
+    },
+    {
+      "path": "P01.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "extractor-source.py",
+      "sha256": "334a1618b618fe99ea8d70938bff0e47659da734ed65ac977a62622c1cce7f3f"
+    },
+    {
+      "path": "runner-source.py",
+      "sha256": "a719b42a342eccab9f9a69435d4a6e47eda10377495d07c827f2960a2b0dffe6"
+    }
+  ],
+  "extractorSha256": "334a1618b618fe99ea8d70938bff0e47659da734ed65ac977a62622c1cce7f3f",
+  "runnerSha256": "a719b42a342eccab9f9a69435d4a6e47eda10377495d07c827f2960a2b0dffe6"
+}
