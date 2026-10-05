@@ -2,8 +2,8 @@
   "schema": "normlab.corpus-candidates/v1",
   "status": "editorial-paraphrases-not-original-user-text",
   "holdout": false,
-  "candidateCount": 10,
-  "caseSources": 5,
+  "candidateCount": 15,
+  "caseSources": 10,
   "cases": [
     {
       "id": "C01",
@@ -206,6 +206,109 @@
         "payment-interval",
         "opposing-payment-claims",
         "date-gap"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C11",
+      "sourceId": "S16",
+      "sourceLocator": "Первое сообщение 4 апреля 2022; уточнение того же автора",
+      "sourceFile": "C11.source.txt",
+      "sourceDigest": "5ec36a76239995697443bd1d33471877e32d410b1c2fd6e0e2c4f60ba0312807",
+      "textOrigin": "forum-report-paraphrase",
+      "jurisdictionEvidence": "moscow-context-only",
+      "sourceGroup": "S16",
+      "incidentGroup": "C11",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "vehicle-attribution",
+        "number-typo"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C12",
+      "sourceId": "S17",
+      "sourceLocator": "Первое сообщение 17 августа 2015 года",
+      "sourceFile": "C12.source.txt",
+      "sourceDigest": "0fbc89b8b73280fb330ce18a761e6562cea7d03852eff3a7a543dc8ca9fb9734",
+      "textOrigin": "forum-report-paraphrase",
+      "jurisdictionEvidence": "moscow-thread-title-only",
+      "sourceGroup": "S17",
+      "incidentGroup": "C12",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "sign-dispute",
+        "multiple-episodes",
+        "historical"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C13",
+      "sourceId": "S18",
+      "sourceLocator": "Вопрос и уточнение клиента 15 октября 2017",
+      "sourceFile": "C13.source.txt",
+      "sourceDigest": "9638d425011eae9479c49fb03ee2b3acd8d6889d471a76f29a9c9255ad15f216",
+      "textOrigin": "forum-report-paraphrase",
+      "jurisdictionEvidence": "moscow-explicit",
+      "sourceGroup": "S18",
+      "incidentGroup": "C13",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "registration-format",
+        "alleged-app-behavior",
+        "deposit-vs-payment"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C14",
+      "sourceId": "S19",
+      "sourceLocator": "Основной вопрос и уточнения автора 27 августа 2025",
+      "sourceFile": "C14.source.txt",
+      "sourceDigest": "2546658e868b2020e2539e27e2818eba903db577da2af393563e3b6899521300",
+      "textOrigin": "forum-report-paraphrase",
+      "jurisdictionEvidence": "moscow-explicit",
+      "sourceGroup": "S19",
+      "incidentGroup": "C14",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "payer-driver-attribution",
+        "payment-coverage"
+      ],
+      "legalOutcome": null
+    },
+    {
+      "id": "C15",
+      "sourceId": "S20",
+      "sourceLocator": "Текст акта: описание основания первоначального постановления",
+      "sourceFile": "C15.source.txt",
+      "sourceDigest": "7d9505b2ce8e155987c36a31af894c0fc5f81fa291115799c1298f8389f819a7",
+      "textOrigin": "court-mirror-allegation-paraphrase",
+      "jurisdictionEvidence": "moscow-court-jurisdiction",
+      "sourceGroup": "S20",
+      "incidentGroup": "C15",
+      "split": "development-discovery",
+      "labelsStatus": "unlabelled",
+      "expertApproved": false,
+      "releaseEligible": false,
+      "tags": [
+        "alleged-nonpayment",
+        "procedural-noise",
+        "historical"
       ],
       "legalOutcome": null
     }
