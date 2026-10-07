@@ -19,6 +19,7 @@ import { LabHttpError, ReformLab } from './reform-lab.js';
 import { isWithinDirectory } from './path-containment.js';
 import { MAX_EXPERIMENT_BYTES } from '../shared/reform-transfer.js';
 import { ParkingReview, ParkingReviewError } from './parking-review.js';
+import type { ParkingExtractor } from './inference-client.js';
 
 class HttpError extends Error {
   constructor(
@@ -89,6 +90,7 @@ export async function createApp(options: {
   web?: boolean;
   publicOrigin?: string;
   operatorAuth?: { username: string; password: string };
+  parkingExtractor?: ParkingExtractor | null;
 }) {
   const publicOrigin = options.publicOrigin ? new URL(options.publicOrigin).origin : undefined;
   if (options.publicOrigin && publicOrigin !== options.publicOrigin)
@@ -106,7 +108,7 @@ export async function createApp(options: {
   const csrfToken = randomBytes(32).toString('hex');
   const running = new Map<string, Promise<Analysis>>();
   const lab = new ReformLab(options.dataDir, () => running.size);
-  const parking = new ParkingReview(options.dataDir);
+  const parking = new ParkingReview(options.dataDir, options.parkingExtractor);
   const vite =
     options.web !== false && !options.production
       ? await (

@@ -1,5 +1,10 @@
 # Local deployment with Docker Compose
 
+For the opt-in VPS provider adapters, exact secret paths, network boundaries and
+activation gates, see [Hosted inference](HOSTED_INFERENCE.md). The production
+entrypoint defaults to inference disabled; the ordinary local Compose profile
+does not mount provider keys or start the gateway/egress services.
+
 ## Protected reverse-proxy route
 
 The image can be built for a URL prefix such as `/normlab/`:

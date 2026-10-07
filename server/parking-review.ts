@@ -11,6 +11,8 @@ import {
 } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { z } from 'zod';
+import { HOSTED_MAX_NARRATIVE, HOSTED_PIPELINE } from './hosted-extraction.js';
+import type { ParkingExtractor } from './inference-client.js';
 import {
   emptyReviewChecklist,
   reviewChecklistSchema,
@@ -52,7 +54,10 @@ const extractInput = z
 export class ParkingReview {
   private readonly root: string;
   private extracting = false;
-  constructor(dataDir: string) {
+  constructor(
+    dataDir: string,
+    private readonly extractor?: ParkingExtractor | null,
+  ) {
     this.root = join(dataDir, 'parking-review');
     mkdirSync(this.root, { recursive: true, mode: 0o700 });
   }
@@ -104,7 +109,11 @@ export class ParkingReview {
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
       return {
         drafts,
-        extractorAvailable: existsSync(resolve('.tools/parking-evaluation/bin/python')),
+        externalInference: Boolean(this.extractor),
+        extractorAvailable:
+          Boolean(this.extractor) ||
+          (this.extractor === undefined &&
+            existsSync(resolve('.tools/parking-evaluation/bin/python'))),
         cases: ['P01', 'P02', 'P04', 'P09'].map((id) => ({
           id,
           narrative: readFileSync(
@@ -209,9 +218,15 @@ export class ParkingReview {
       const input = extractInput.parse(body);
       const draft = this.expected(input.draftId, input.expectedRevisionId);
       if (this.extracting) throw new ParkingReviewError('Извлечение уже выполняется.');
-      if (!existsSync(resolve('.tools/parking-evaluation/bin/python')))
+      if (
+        this.extractor === null ||
+        (!this.extractor && !existsSync(resolve('.tools/parking-evaluation/bin/python')))
+      )
+        throw new ParkingReviewError('Извлечение не настроено. Ручная разметка доступна.');
+      // Rejected before any provider call or quota use.
+      if (this.extractor && draft.narrative.length > HOSTED_MAX_NARRATIVE)
         throw new ParkingReviewError(
-          'Установите evaluation environment по docs/EVALUATION_SETUP.md.',
+          `Внешнее извлечение принимает фабулу до ${HOSTED_MAX_NARRATIVE} символов. Ручная разметка доступна.`,
         );
       this.extracting = true;
       const folder = join(this.folder(draft.draftId), `extraction-${randomUUID()}`);
@@ -222,19 +237,33 @@ export class ParkingReview {
         { mode: 0o600 },
       );
       try {
-        await promisify(execFile)(
-          resolve('.tools/parking-evaluation/bin/python'),
-          [
-            resolve('evaluation/two_stage_v3.py'),
-            join(folder, 'input.json'),
-            join(folder, 'output.json'),
-          ],
-          { timeout: 420000, maxBuffer: 4 * 1024 * 1024 },
-        );
-        const raw: unknown = JSON.parse(readFileSync(join(folder, 'output.json'), 'utf8'));
+        let raw: unknown;
+        if (this.extractor) {
+          raw = await this.extractor({
+            narrative: draft.narrative,
+            sourceDigest: draft.sourceDigest,
+          });
+          writeFileSync(join(folder, 'output.json'), JSON.stringify(raw), {
+            flag: 'wx',
+            mode: 0o600,
+          });
+        } else {
+          await promisify(execFile)(
+            resolve('.tools/parking-evaluation/bin/python'),
+            [
+              resolve('evaluation/two_stage_v3.py'),
+              join(folder, 'input.json'),
+              join(folder, 'output.json'),
+            ],
+            { timeout: 420000, maxBuffer: 4 * 1024 * 1024 },
+          );
+          raw = JSON.parse(readFileSync(join(folder, 'output.json'), 'utf8')) as unknown;
+        }
         const result = z
           .object({
-            pipeline: z.literal('literal-discovery-then-classification/v3'),
+            pipeline: z.literal(
+              this.extractor ? HOSTED_PIPELINE : 'literal-discovery-then-classification/v3',
+            ),
             statements: z.array(reviewStatementSchema).max(256),
             sourceDigest: z.string(),
           })
@@ -258,7 +287,7 @@ export class ParkingReview {
       } catch (error) {
         if (error instanceof ParkingReviewError) throw error;
         throw new ParkingReviewError(
-          'Извлечение не завершено. Проверьте локальную модель; прежняя ревизия сохранена. Ручная разметка доступна.',
+          'Извлечение не завершено; прежняя ревизия сохранена. Ручная разметка доступна.',
           503,
         );
       } finally {

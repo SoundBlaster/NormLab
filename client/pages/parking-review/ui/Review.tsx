@@ -31,6 +31,7 @@ const checklistNames = {
 type Bootstrap = {
   drafts: ReviewDraft[];
   extractorAvailable: boolean;
+  externalInference: boolean;
   cases: { id: string; narrative: string }[];
 };
 export function ParkingReview({ token }: { token: string }) {
@@ -360,9 +361,12 @@ export function ParkingReview({ token }: { token: string }) {
               </Button>
             </Actions>
             {!data?.extractorAvailable && (
-              <p>
-                Для автоматического извлечения требуется локальное evaluation environment. Ручная
-                разметка доступна.
+              <p>Автоматическое извлечение не настроено. Ручная разметка доступна.</p>
+            )}
+            {data?.externalInference && (
+              <p className="parking-help">
+                При извлечении фабула отправляется внешнему AI-провайдеру. Используйте синтетические
+                примеры. Каждое предложение требует вашего подтверждения.
               </p>
             )}
             {draft.originalExtraction !== null && (
