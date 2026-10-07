@@ -279,3 +279,13 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [ ] Сравнить Decisions, Jev и Responses на одном фиксированном корпусе: критические ошибки, отрицания, противоречия, latency и стоимость. Discovery оставить отдельным этапом.
 
 Рабочее допущение пользователя от 2026-10-07: CoreInfra полностью проксирует OpenAI API, включая Decisions. Реальным авторизованным запросом это пока не проверено; activation и оценки качества остаются открытыми задачами.
+
+### Mellea + Jev — validation/repair evaluation
+
+[Утверждённый план](docs/MELLEA_EVALUATION_PLAN.md): три matched arms, сначала classification на одинаковом discovery, затем полный pipeline. Одна repair-попытка; фабула неизменна, подтверждения остаются ручными.
+
+- [x] Зафиксировать цель, arms, бюджет и границы доказательств.
+- [x] Подготовить candidate runner и offline проверки настоящего Mellea 0.8 control flow: [run_mellea.py](evaluation/run_mellea.py), fixed responses, 8 локальных проверок; отдельный CI job без сетевого инференса.
+- [ ] Выполнить paired classification comparison на фиксированном корпусе после фиксации зависимостей и доступности генератора/ключа Jev.
+- [ ] Расширить на discovery + classification и провести независимую разметку критических ошибок.
+- [ ] По качеству, latency и стоимости решить, нужен ли Python worker в hosted runtime.
