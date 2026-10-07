@@ -2,6 +2,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import prompts from './inference-prompts.json';
 import { reviewStatementSchema, type ReviewStatement } from '../shared/parking-review.js';
+import { DECISIONS_SETTINGS } from './inference-decisions.js';
 import {
   InferenceProviders,
   OPENAI_REQUEST_SETTINGS,
@@ -10,6 +11,8 @@ import {
 } from './inference-providers.js';
 
 export const HOSTED_PIPELINE = 'literal-discovery-then-classification/hosted-v1';
+export const HOSTED_DECISIONS_PIPELINE =
+  'literal-discovery-then-classification/hosted-decisions-v1';
 /**
  * Provisional hosted bound (UTF-16 units), well above the reference cases (<600). Discovery
  * quotes the whole source, so longer input risks the output-token and per-call time limits.
@@ -119,6 +122,10 @@ export const HOSTED_PROMPT_DIGEST = sha({
   batchSize: BATCH_SIZE,
   openai: OPENAI_REQUEST_SETTINGS,
 });
+export const HOSTED_DECISIONS_PROMPT_DIGEST = sha({
+  basePromptDigest: HOSTED_PROMPT_DIGEST,
+  decisions: DECISIONS_SETTINGS,
+});
 type Fragment = {
   fragmentId: string;
   quote: string;
@@ -158,7 +165,7 @@ async function mapBatches<T, R>(
 export async function runHostedExtraction(
   input: unknown,
   providers: InferenceProviders,
-  classifier: 'openai' | 'typesafe',
+  classifier: 'openai' | 'typesafe' | 'decisions',
   signal: AbortSignal,
 ) {
   const { narrative, sourceDigest: digest } = extractionInput.parse(input);
@@ -199,7 +206,8 @@ export async function runHostedExtraction(
     signal,
     classifier === 'openai'
       ? (batch, batchSignal) => classifyWithOpenAI(batch, providers, batchSignal)
-      : (batch, batchSignal) => classifyWithJev(batch, providers, batchSignal),
+      : (batch, batchSignal) =>
+          classifyWithAtomicChoices(batch, providers, classifier, batchSignal),
   );
   calls.push(...results.flatMap((result) => result.calls));
   const decisions = results.flatMap((result) => result.decisions);
@@ -226,9 +234,10 @@ export async function runHostedExtraction(
     throw new Error('Extraction statement count outside limits.');
   return {
     schema: 'normlab.hosted-statements/v1',
-    pipeline: HOSTED_PIPELINE,
+    pipeline: classifier === 'decisions' ? HOSTED_DECISIONS_PIPELINE : HOSTED_PIPELINE,
     sourceDigest: digest,
-    promptDigest: HOSTED_PROMPT_DIGEST,
+    promptDigest:
+      classifier === 'decisions' ? HOSTED_DECISIONS_PROMPT_DIGEST : HOSTED_PROMPT_DIGEST,
     classifier,
     latencyMs: Date.now() - started,
     fragments,
@@ -236,7 +245,7 @@ export async function runHostedExtraction(
     statements,
     calls,
     reviewState: 'unreviewed',
-    valueTextMethod: classifier === 'typesafe' ? 'exact-source-quote' : 'model-summary',
+    valueTextMethod: classifier === 'openai' ? 'model-summary' : 'exact-source-quote',
   };
 }
 
@@ -287,9 +296,10 @@ async function classifyWithOpenAI(
   return { calls, decisions, classified };
 }
 
-async function classifyWithJev(
+async function classifyWithAtomicChoices(
   batch: Fragment[],
   providers: InferenceProviders,
+  classifier: 'typesafe' | 'decisions',
   signal: AbortSignal,
 ): Promise<BatchResult> {
   const calls: InferenceCall[] = [];
@@ -306,12 +316,15 @@ async function classifyWithJev(
           .replace('{definition}', () => prompts.definitions[predicate]),
         criteria: JEV_CRITERIA,
       };
-  const answers = await providers.choices(
-    batch.map(({ fragmentId, quote, attributes: attrs }) => ({ fragmentId, quote, ...attrs })),
-    questions,
-    calls,
-    signal,
-  );
+  const state = batch.map(({ fragmentId, quote, attributes: attrs }) => ({
+    fragmentId,
+    quote,
+    ...attrs,
+  }));
+  const answers =
+    classifier === 'decisions'
+      ? await providers.decisions(state, questions, calls, signal)
+      : await providers.choices(state, questions, calls, signal);
   for (const fragment of batch)
     for (const predicate of predicates) {
       const answer = answers[`${fragment.fragmentId}_${predicate}`];

@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { inferencePost } from './inference-http.js';
 import type { InferenceGatewayConfig } from './inference-config.js';
 import { DEFAULT_INFERENCE_ENDPOINTS } from './inference-endpoints.js';
+import { decisionsChoices } from './inference-decisions.js';
 
 export const INFERENCE_DESTINATIONS = Object.freeze({
   openai: DEFAULT_INFERENCE_ENDPOINTS.openai.url,
@@ -14,7 +15,7 @@ export const OPENAI_REQUEST_SETTINGS = Object.freeze({
 });
 export type StructuredStage = keyof typeof OPENAI_REQUEST_SETTINGS.maxOutputTokens;
 export type InferenceCall = {
-  provider: 'openai' | 'typesafe';
+  provider: 'openai' | 'typesafe' | 'openai-decisions';
   endpoint: string;
   stage: string;
   model: string;
@@ -156,5 +157,13 @@ export class InferenceProviders {
       response,
     });
     return response.answers;
+  }
+  async decisions(
+    state: unknown,
+    questions: Record<string, TypeSafeQuestion>,
+    calls: InferenceCall[],
+    signal: AbortSignal,
+  ) {
+    return decisionsChoices(this.config, state, questions, calls, signal, this.fetcher);
   }
 }

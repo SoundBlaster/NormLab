@@ -274,6 +274,8 @@ See [frontend architecture](client/ARCHITECTURE.md).
 [OpenAI changelog](https://developers.openai.com/api/docs/changelog) сообщает о beta-релизе Decisions API с `gpt-6-luna` 6 октября 2026. [Контракт](https://developers.openai.com/api/docs/guides/decisions) содержит `predicate`, `choice`, `score` и возможность отказа. Это отдельный протокол: настройка Responses base URL сама по себе его не подключает.
 
 - [ ] Подтвердить поддержку `/decisions` и модели у CoreInfra; официальный релиз не подтверждает доступность у посредника.
-- [ ] Подготовить отдельный classification adapter с `choice`, явными вариантами unknown/unsupported и обработкой refusal; сохранить source binding и обязательный human review.
-- [ ] Сохранять probabilities/confidence как оценки модели, без превращения их в подтверждение фактов.
+- [x] Подготовить отдельный classification adapter с `choice`, явными вариантами unknown/unsupported и обработкой refusal; сохранить source binding и обязательный human review. Mock-проверки не подтверждают доступность поставщика.
+- [x] Сохранять probabilities/confidence как оценки модели, без превращения их в подтверждение фактов.
 - [ ] Сравнить Decisions, Jev и Responses на одном фиксированном корпусе: критические ошибки, отрицания, противоречия, latency и стоимость. Discovery оставить отдельным этапом.
+
+Рабочее допущение пользователя от 2026-10-07: CoreInfra полностью проксирует OpenAI API, включая Decisions. Реальным авторизованным запросом это пока не проверено; activation и оценки качества остаются открытыми задачами.

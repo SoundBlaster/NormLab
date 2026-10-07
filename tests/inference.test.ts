@@ -40,6 +40,7 @@ const config = {
   openaiModel: 'gpt-6-luna',
   typesafeKey: token,
   typesafeModel: 'jev-1.13.0',
+  decisionsModel: 'gpt-6-luna',
   classifier: 'openai' as const,
   requestsPerHour: 1,
 };

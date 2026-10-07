@@ -8,7 +8,9 @@ keys were read or installed and no paid inference was run during preparation.
 
 The container image now contains native TypeScript adapters for
 [OpenAI Responses structured output](https://developers.openai.com/api/docs/guides/structured-outputs)
-and [TypeSafe System One Choice](https://docs.typesafe.ai/api). It does not need
+and [TypeSafe System One Choice](https://docs.typesafe.ai/api), plus an opt-in
+[OpenAI Decisions Choice](https://developers.openai.com/api/docs/guides/decisions)
+classifier. It does not need
 Python, LM Studio or LangExtract for this hosted path. The local Python v3
 evaluation path remains selectable with `NORMLAB_INFERENCE_MODE=local`.
 Production defaults to `disabled`; opt-in configuration selects `gateway`.
@@ -55,7 +57,7 @@ own outbound Bearer header. Registry/GitHub credentials have no role here.
 
 | Setting in gateway and egress | Default API base | Fixed resource |
 | --- | --- | --- |
-| `NORMLAB_OPENAI_BASE_URL` | `https://api.openai.com/v1` | `/responses` |
+| `NORMLAB_OPENAI_BASE_URL` | `https://api.openai.com/v1` | `/responses`, optional `/decisions` |
 | `NORMLAB_TYPESAFE_BASE_URL` | `https://api.typesafe.ai/v1` | `/systemone` |
 
 An API base includes its complete path prefix; an optional trailing slash is
@@ -86,6 +88,28 @@ Preparation probe on 2026-10-07: unauthenticated GET of CoreInfra's Responses
 path returned HTTP 404. No key or narrative was sent. This does not establish
 whether authenticated POST supports the required contract.
 
+### Optional Decisions classifier
+
+Set `NORMLAB_INFERENCE_CLASSIFIER=decisions` and
+`NORMLAB_DECISIONS_MODEL=gpt-6-luna` in the gateway. Discovery still uses
+`NORMLAB_OPENAI_MODEL` through `/responses`. Classification uses `/decisions`
+under the **same validated API base**, with the same supplier key and TLS host.
+For CoreInfra this is `https://hub.coreinfra.ai/codex/api/v1/decisions`; no new
+egress host, secret or browser-selectable setting is introduced.
+
+The Decisions request contains `model`, JSON-string `input` and named `choice`
+questions with value/description options. It has a different wire shape from
+Responses and System One. The official contract does not expose `store`,
+`reasoning` or `max_output_tokens` request settings; they are not sent here.
+Do not interpret their absence as a retention guarantee. Official documentation
+lists `gpt-6-luna` as the currently supported Decisions model; supplier aliases
+require confirmation.
+
+CoreInfra's full proxy compatibility is an explicit working assumption requested
+by the operator on 2026-10-07, **not a verified deployment capability**. The adapter
+has mock-based protocol checks only. A rejected/refused request fails without
+switching to another provider or silently importing partial results.
+
 ## Exact network paths and enforcement
 
 | Source | Destination | Allowed operation |
@@ -94,6 +118,7 @@ whether authenticated POST supports the required contract.
 | NormLab | `http://normlab-inference-gateway:4318/v1/extract` | Authenticated POST with narrative and source digest only |
 | Gateway | `http://normlab-inference-egress:4319` | CONNECT to exactly two configured DNS authorities on port 443 |
 | Gateway via TLS tunnel | Responses API base + `/responses` | POST for discovery and optionally classification |
+| Gateway via TLS tunnel | OpenAI API base + `/decisions` | POST for optional Decisions Choice classification |
 | Gateway via TLS tunnel | System One API base + `/systemone` | POST for optional Jev classification |
 
 NormLab joins the existing `normlab-private` ingress network and the new
@@ -109,7 +134,7 @@ plaintext HTTP and DNS answers in private/link-local/loopback ranges. It dials
 the checked address without a second DNS lookup. TLS is end-to-end between
 gateway and provider with normal hostname/certificate verification; the proxy
 does not decrypt payloads or receive API keys. It enforces domains/port, while
-the gateway adapters enforce the two API paths and fixed request shapes.
+the gateway adapters enforce the three API paths and fixed request shapes.
 The RPC caller cannot select an endpoint, model, prompt, schema, tool or header.
 Redirects are rejected; there are no retries or provider fallback.
 
@@ -132,6 +157,10 @@ and resolved model names, usage, responses and decisions accompany each result.
 Changing transport/model or Jev's questions requires a new evaluation; previous
 50%/80% goals and corpus scores do not transfer automatically.
 
+Decisions results use `literal-discovery-then-classification/hosted-decisions-v1`
+with a distinct prompt digest covering the base prompts and Decisions settings.
+Existing Responses/Jev candidate identifiers and prompt digests are unchanged.
+
 1. OpenAI discovers literal quotations, subjects, episodes and attribution.
 2. The application rejects invented or ambiguous repeated quotations. It
    computes UTF-16 offsets against the unchanged original, without normalization.
@@ -139,13 +168,15 @@ Changing transport/model or Jev's questions requires a new evaluation; previous
    schema/output size and requires an explicit decision for every fragment.
    Up to 3 batches run concurrently; results keep source order, and the first
    failed batch cancels the others and starts no further calls.
-   Alternatively Jev answers four-option atomic questions for each of the 15
+   Alternatively Jev or Decisions answers four-option atomic questions for each of the 15
    predicates: asserted / denied / explicitly unknown / unsupported. Requests
    contain 8 fragments and up to 120 questions. The fragment ID and predicate
    appear in instructions, because TypeSafe question keys are not model input.
-4. Jev probabilities/confidence remain in the artifact. Low confidence is not
+   Decisions answers are bound by unique question names; missing, duplicate or
+   unrequested answers, refusals and invalid probability vectors reject the run.
+4. Jev/Decisions probabilities/confidence remain in the artifact. Low confidence is not
    silently discarded and high confidence never confirms a fact. `valueText`
-   uses the exact source quote, since Jev does not generate summaries.
+   uses the exact source quote; these classifiers do not generate summaries.
 5. Every resulting statement is `origin=model, decision=pending`. Human review,
    contradictions and missing facts remain separate from legal computation.
 
@@ -162,7 +193,7 @@ probabilities fail closed and preserve the saved draft revision.
 
 Successful inference artifacts contain narrative/quotes/prompts and are saved
 in the existing private NormLab data volume, separate from human revisions.
-Use synthetic inputs during staging. `store:false` is requested from OpenAI;
+Use synthetic inputs during staging. `store:false` is requested for Responses;
 this is not a claim of zero retention at either provider. The UI discloses the
 external transmission before extraction.
 

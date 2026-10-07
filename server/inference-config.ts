@@ -42,7 +42,13 @@ export function inferenceGatewayConfig(env: NodeJS.ProcessEnv) {
       .string()
       .regex(/^jev-[a-z0-9.-]+$/)
       .parse(env.NORMLAB_TYPESAFE_MODEL ?? 'jev-1.13.0'),
-    classifier: z.enum(['openai', 'typesafe']).parse(env.NORMLAB_INFERENCE_CLASSIFIER ?? 'openai'),
+    decisionsModel: z
+      .string()
+      .regex(/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/)
+      .parse(env.NORMLAB_DECISIONS_MODEL ?? 'gpt-6-luna'),
+    classifier: z
+      .enum(['openai', 'typesafe', 'decisions'])
+      .parse(env.NORMLAB_INFERENCE_CLASSIFIER ?? 'openai'),
     requestsPerHour: z.coerce
       .number()
       .int()
