@@ -105,10 +105,28 @@ Do not interpret their absence as a retention guarantee. Official documentation
 lists `gpt-6-luna` as the currently supported Decisions model; supplier aliases
 require confirmation.
 
-CoreInfra's full proxy compatibility is an explicit working assumption requested
-by the operator on 2026-10-07, **not a verified deployment capability**. The adapter
-has mock-based protocol checks only. A rejected/refused request fails without
-switching to another provider or silently importing partial results.
+Live probe on 2026-10-08 (Moscow): authenticated POST to CoreInfra's `/decisions`
+returned HTTP 404. A minimal streaming `/responses` request using `gpt-6-luna`
+completed with HTTP 200 in about 2.6 seconds (23 tokens), after a connection
+failure on the first attempt. This proves that credential and minimal Responses
+inference work; it does not prove the hosted adapter's non-streaming structured
+output contract. Full API compatibility is no longer a supported assumption.
+
+Use `NORMLAB_INFERENCE_CLASSIFIER=typesafe` with a separate TypeSafe secret for
+Jev classification while awaiting CoreInfra Decisions support. Do not enable
+the Decisions classifier for this gateway yet. A rejected/refused request fails
+without switching providers or silently importing partial results.
+
+### Visible API access failures
+
+Provider failures carry only allowlisted provider, stage, reason and HTTP status
+through the internal gateway. The parking UI alert identifies authentication
+failures (401/403), missing endpoints (404/405), quota/rate limits (429), upstream
+unavailability (5xx), timeouts, connection failures and invalid transport JSON.
+Provider response bodies, keys and URLs are not included in the alert or logs.
+The previous draft revision remains intact and manual annotation is available.
+These messages diagnose the last attempted request; configuration alone is not
+a live health check. Unknown failures retain the generic extraction message.
 
 ## Exact network paths and enforcement
 

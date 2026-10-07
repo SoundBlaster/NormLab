@@ -13,6 +13,7 @@ import { join, resolve } from 'node:path';
 import { z } from 'zod';
 import { HOSTED_MAX_NARRATIVE, HOSTED_PIPELINE } from './hosted-extraction.js';
 import type { ParkingExtractor } from './inference-client.js';
+import { InferenceAccessError, inferenceFailureMessage } from './inference-errors.js';
 import {
   emptyReviewChecklist,
   reviewChecklistSchema,
@@ -287,7 +288,7 @@ export class ParkingReview {
       } catch (error) {
         if (error instanceof ParkingReviewError) throw error;
         throw new ParkingReviewError(
-          'Извлечение не завершено; прежняя ревизия сохранена. Ручная разметка доступна.',
+          `${error instanceof InferenceAccessError ? `${inferenceFailureMessage(error.failure)} ` : ''}Извлечение не завершено; прежняя ревизия сохранена. Ручная разметка доступна.`,
           503,
         );
       } finally {

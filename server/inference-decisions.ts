@@ -63,7 +63,10 @@ export async function decisionsChoices(
   };
   const endpoint = `${config.endpoints.openai.baseUrl}/${DECISIONS_SETTINGS.resource}`;
   const response = responseSchema.parse(
-    await inferencePost(endpoint, config.openaiKey, request, signal, fetcher),
+    await inferencePost(endpoint, config.openaiKey, request, signal, fetcher, 120000, {
+      provider: 'openai-decisions',
+      stage: 'classification',
+    }),
   );
   const seen = new Set<string>();
   const answers: Record<string, Answer> = Object.create(null) as Record<string, Answer>;

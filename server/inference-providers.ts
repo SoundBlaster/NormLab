@@ -98,6 +98,8 @@ export class InferenceProviders {
         request,
         signal,
         this.fetcher,
+        120000,
+        { provider: 'openai', stage },
       ),
     );
     const messages = response.output.filter((item) => item.type === 'message');
@@ -135,6 +137,8 @@ export class InferenceProviders {
         request,
         signal,
         this.fetcher,
+        120000,
+        { provider: 'typesafe', stage: 'classification' },
       ),
     );
     const expected = Object.keys(questions).sort();
