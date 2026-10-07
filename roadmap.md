@@ -246,3 +246,17 @@ Task IDs сохранены при изменении приоритетов: н
 - [ ] Build the parking gaps editor using the same shared primitives and page-local model.
 
 See [frontend architecture](client/ARCHITECTURE.md).
+
+### Hosted inference — подготовка 2026-10-07
+
+[Контракт и границы](docs/HOSTED_INFERENCE.md). Новый candidate pipeline имеет собственную версию и не наследует показатели Python/LM Studio baseline.
+
+- [x] Подготовить OpenAI Responses adapter для дословного discovery и классификации.
+- [x] Подготовить TypeSafe Jev adapter для atomic predicate/stance choices с сохранением confidence и обязательным human review.
+- [x] Закрепить секреты в `/srv/0al/secrets/normlab-inference`, отделить gateway token от operator password.
+- [x] Подготовить внутренний gateway и CONNECT proxy с allowlist двух API-доменов; приложение и gateway без прямого internet egress.
+- [x] Добавить проверки source binding, точных цитат, полноты решений, отказов, квоты и сохранения ревизии.
+- [ ] Подтвердить региональную и account доступность провайдеров: текущий VPS по предоставленному скриншоту находится в России, отсутствующей в списке поддерживаемых стран OpenAI.
+- [ ] После review опубликовать immutable image и активировать opt-in Compose overlays в допустимом окружении.
+- [ ] Внести ключи через скрытый terminal prompt и провести один synthetic сквозной запуск.
+- [ ] Оценить новый pipeline на фиксированном корпусе отдельно от прежних baseline и целей 50%/80%.
