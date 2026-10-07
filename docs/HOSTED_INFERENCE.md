@@ -19,8 +19,8 @@ flowchart LR
   Caddy -->|internal 4317| NormLab
   NormLab -->|internal 4318, gateway token| Gateway
   Gateway -->|internal 4319, CONNECT| Egress
-  Egress -->|TLS 443| OpenAI[api.openai.com]
-  Egress -->|TLS 443| TypeSafe[api.typesafe.ai]
+  Egress -->|TLS 443| OpenAI[Configured Responses API provider]
+  Egress -->|TLS 443| TypeSafe[Configured System One provider]
 ```
 
 Only the existing Caddy ingress publishes a port. Gateway and egress are separate
@@ -51,15 +51,50 @@ Provider keys and the gateway token never appear in request artifacts or logs.
 The browser calls NormLab only. The gateway inserts each provider key into its
 own outbound Bearer header. Registry/GitHub credentials have no role here.
 
+## Provider addresses (operator configuration)
+
+| Setting in gateway and egress | Default API base | Fixed resource |
+| --- | --- | --- |
+| `NORMLAB_OPENAI_BASE_URL` | `https://api.openai.com/v1` | `/responses` |
+| `NORMLAB_TYPESAFE_BASE_URL` | `https://api.typesafe.ai/v1` | `/systemone` |
+
+An API base includes its complete path prefix; an optional trailing slash is
+removed. The user-supplied CoreInfra base
+`https://hub.coreinfra.ai/codex/api/v1` yields exactly
+`https://hub.coreinfra.ai/codex/api/v1/responses`, preserving `/codex/api` and
+adding no second `/v1`. It replaces the direct-OpenAI destination. Addresses
+are non-secret deployment settings, never browser inputs. Startup rejects HTTP,
+IP literals, single-label hosts, non-443 ports, userinfo, queries, fragments and
+ambiguous paths. The gateway and egress independently parse the same two values;
+the proxy allowlist derives only their exact DNS authorities on port 443.
+
+Recreate **both** services after changing an API base: mismatched settings fail
+closed. NormLab does not receive provider addresses or keys. Replace the
+corresponding secret with that supplier's key when changing suppliers; never
+put it in a URL. Secret paths/mounts stay unchanged. Each inference call records
+its validated endpoint, requested model and resolved model, identifying the
+actual supplier even when API-family labels (`openai`/`typesafe`) match.
+
+The OpenAI slot requires Responses API compatibility: Bearer auth, non-streaming
+JSON responses, `store:false`, reasoning settings and strict `text.format` JSON
+Schema. It does not implement Chat Completions or SSE-only backends. The TypeSafe
+slot retains the System One Choice contract. A different URL alone does not
+establish API/model/account compatibility. OpenAI-compatible model aliases may
+include a vendor prefix such as `vendor/model`; use a supplier-confirmed name.
+
+Preparation probe on 2026-10-07: unauthenticated GET of CoreInfra's Responses
+path returned HTTP 404. No key or narrative was sent. This does not establish
+whether authenticated POST supports the required contract.
+
 ## Exact network paths and enforcement
 
 | Source | Destination | Allowed operation |
 | --- | --- | --- |
 | Authenticated browser | `https://managed.specgraph.tech/normlab/api/parking/extract` | Existing POST, operator authentication + Origin + CSRF |
 | NormLab | `http://normlab-inference-gateway:4318/v1/extract` | Authenticated POST with narrative and source digest only |
-| Gateway | `http://normlab-inference-egress:4319` | CONNECT to exactly `api.openai.com:443` or `api.typesafe.ai:443` |
-| Gateway via TLS tunnel | `https://api.openai.com/v1/responses` | POST for discovery and optionally classification |
-| Gateway via TLS tunnel | `https://api.typesafe.ai/v1/systemone` | POST for optional Jev classification |
+| Gateway | `http://normlab-inference-egress:4319` | CONNECT to exactly two configured DNS authorities on port 443 |
+| Gateway via TLS tunnel | Responses API base + `/responses` | POST for discovery and optionally classification |
+| Gateway via TLS tunnel | System One API base + `/systemone` | POST for optional Jev classification |
 
 NormLab joins the existing `normlab-private` ingress network and the new
 `inference-private` network; both are internal. Gateway joins only
@@ -75,14 +110,15 @@ the checked address without a second DNS lookup. TLS is end-to-end between
 gateway and provider with normal hostname/certificate verification; the proxy
 does not decrypt payloads or receive API keys. It enforces domains/port, while
 the gateway adapters enforce the two API paths and fixed request shapes.
-The caller cannot select an endpoint, model, prompt, schema, tool or header.
+The RPC caller cannot select an endpoint, model, prompt, schema, tool or header.
 Redirects are rejected; there are no retries or provider fallback.
 
 The egress container itself is the trusted network boundary and has outgoing
 network access. This is container isolation plus a proxy allowlist, not a
 host firewall domain rule. Root, Docker daemon compromise or compromise of
-the proxy itself are outside this boundary. New providers require code/config
-review, not a user-supplied URL.
+the proxy itself are outside this boundary. New suppliers require operator
+configuration review and API verification. New API protocols need adapter code;
+the RPC never accepts a URL.
 
 ## Pipeline and review boundaries
 
@@ -143,6 +179,9 @@ Russia is absent from OpenAI's current
 [supported countries](https://developers.openai.com/api/docs/supported-countries).
 Before activation establish an eligible deployment/account arrangement with
 the provider; a local egress proxy does not change the VPS region or source IP.
+For a reseller such as CoreInfra, verify that supplier's supported regions,
+account access and API contract separately. The direct-OpenAI regional observation
+does not establish whether a reseller is available or eligible.
 TypeSafe availability must also be checked against the intended account/region.
 These overlays remain opt-in while that is unresolved.
 

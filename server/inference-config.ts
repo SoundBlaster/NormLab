@@ -1,6 +1,7 @@
 import { readFileSync, statSync } from 'node:fs';
 import { isAbsolute } from 'node:path';
 import { z } from 'zod';
+import { inferenceEndpoints } from './inference-endpoints.js';
 
 /** Only paths enter configuration; credential values never enter env or diagnostics. */
 export function readInferenceSecret(path: string | undefined): string {
@@ -27,11 +28,12 @@ export function inferenceClientConfig(env: NodeJS.ProcessEnv) {
 
 export function inferenceGatewayConfig(env: NodeJS.ProcessEnv) {
   return {
+    endpoints: inferenceEndpoints(env),
     token: readInferenceSecret(env.NORMLAB_INFERENCE_TOKEN_FILE),
     openaiKey: readInferenceSecret(env.NORMLAB_OPENAI_API_KEY_FILE),
     openaiModel: z
       .string()
-      .regex(/^[a-z0-9][a-z0-9._-]{0,99}$/)
+      .regex(/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/)
       .parse(env.NORMLAB_OPENAI_MODEL ?? 'gpt-6-luna'),
     typesafeKey: env.NORMLAB_TYPESAFE_API_KEY_FILE
       ? readInferenceSecret(env.NORMLAB_TYPESAFE_API_KEY_FILE)

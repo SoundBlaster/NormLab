@@ -260,3 +260,20 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [ ] После review опубликовать immutable image и активировать opt-in Compose overlays в допустимом окружении.
 - [ ] Внести ключи через скрытый terminal prompt и провести один synthetic сквозной запуск.
 - [ ] Оценить новый pipeline на фиксированном корпусе отдельно от прежних baseline и целей 50%/80%.
+
+### Hosted inference — поставщик API
+
+- [x] Настраивать API base для Responses/System One на сервере; сохранять path prefix.
+- [x] Передавать одинаковые base URLs в gateway и egress, выводить точный TLS allowlist из этих значений.
+- [x] Сохранять endpoint в артефактах inference; ключи остаются в отдельных secret-файлах.
+- [ ] Проверить CoreInfra (`https://hub.coreinfra.ai/codex/api/v1`) с его ключом: Responses, non-streaming JSON, strict Structured Outputs и выбранная модель. GET без авторизации вернул 404 и не подтверждает поддержку POST.
+- [ ] После проверки совместимости выполнить synthetic acceptance и evaluation corpus через выбранного поставщика.
+
+### Decisions API — кандидат для сравнения
+
+[OpenAI changelog](https://developers.openai.com/api/docs/changelog) сообщает о beta-релизе Decisions API с `gpt-6-luna` 6 октября 2026. [Контракт](https://developers.openai.com/api/docs/guides/decisions) содержит `predicate`, `choice`, `score` и возможность отказа. Это отдельный протокол: настройка Responses base URL сама по себе его не подключает.
+
+- [ ] Подтвердить поддержку `/decisions` и модели у CoreInfra; официальный релиз не подтверждает доступность у посредника.
+- [ ] Подготовить отдельный classification adapter с `choice`, явными вариантами unknown/unsupported и обработкой refusal; сохранить source binding и обязательный human review.
+- [ ] Сохранять probabilities/confidence как оценки модели, без превращения их в подтверждение фактов.
+- [ ] Сравнить Decisions, Jev и Responses на одном фиксированном корпусе: критические ошибки, отрицания, противоречия, latency и стоимость. Discovery оставить отдельным этапом.

@@ -22,13 +22,19 @@ import {
   inferenceTunnelHost,
   isPublicInferenceAddress,
 } from '../server/inference-egress.js';
-import { readInferenceSecret, inferenceClientConfig } from '../server/inference-config.js';
+import {
+  readInferenceSecret,
+  inferenceClientConfig,
+  inferenceGatewayConfig,
+} from '../server/inference-config.js';
 import { readBoundedJson } from '../server/inference-http.js';
+import { DEFAULT_INFERENCE_ENDPOINTS, inferenceEndpoints } from '../server/inference-endpoints.js';
 import { ParkingReview } from '../server/parking-review.js';
 import { reviewDraftSchema } from '../shared/parking-review.js';
 
 const token = 'test-only-credential-not-a-real-key-0000000000';
 const config = {
+  endpoints: DEFAULT_INFERENCE_ENDPOINTS,
   token,
   openaiKey: token,
   openaiModel: 'gpt-6-luna',
@@ -447,6 +453,14 @@ test('secrets require private files and client configuration cannot select an ex
     const path = join(folder, 'test-key');
     writeFileSync(path, token + '\n', { mode: 0o400 });
     assert.equal(readInferenceSecret(path), token);
+    const gateway = inferenceGatewayConfig({
+      NORMLAB_INFERENCE_TOKEN_FILE: path,
+      NORMLAB_OPENAI_API_KEY_FILE: path,
+      NORMLAB_OPENAI_BASE_URL: 'https://hub.coreinfra.ai/codex/api/v1',
+      NORMLAB_OPENAI_MODEL: 'vendor/model-alias',
+    });
+    assert.equal(gateway.endpoints.openai.url, 'https://hub.coreinfra.ai/codex/api/v1/responses');
+    assert.equal(gateway.openaiModel, 'vendor/model-alias');
     chmodSync(path, 0o644);
     assert.throws(() => readInferenceSecret(path), /private file/);
     assert.throws(
@@ -755,4 +769,117 @@ test('egress dials only checked DNS answers and offers all of them for family fa
   lookup('api.openai.com', { all: true }, (_error, result) => seen.push(result));
   lookup('api.openai.com', {}, (_error, address, family) => seen.push([address, family]));
   assert.deepEqual(seen, [addresses, ['2606:4700::1111', 6]]);
+});
+
+const coreinfraBase = 'https://hub.coreinfra.ai/codex/api/v1';
+
+test('operator base URLs preserve API prefixes and replace the exact proxy authority', () => {
+  const endpoints = inferenceEndpoints({ NORMLAB_OPENAI_BASE_URL: coreinfraBase + '/' });
+  assert.deepEqual(endpoints.openai, {
+    baseUrl: coreinfraBase,
+    url: coreinfraBase + '/responses',
+    authority: 'hub.coreinfra.ai:443',
+  });
+  assert.equal(endpoints.typesafe.url, INFERENCE_DESTINATIONS.typesafe);
+  assert.equal(inferenceTunnelHost('hub.coreinfra.ai:443', endpoints), 'hub.coreinfra.ai');
+  for (const authority of [
+    'api.openai.com:443',
+    'hub.coreinfra.ai:80',
+    'hub.coreinfra.ai.evil.example:443',
+    'HUB.COREINFRA.AI:443',
+  ])
+    assert.equal(inferenceTunnelHost(authority, endpoints), undefined);
+  const other = inferenceEndpoints({
+    NORMLAB_TYPESAFE_BASE_URL: 'https://jev.provider.example/proxy/v1',
+  });
+  assert.equal(other.typesafe.url, 'https://jev.provider.example/proxy/v1/systemone');
+  assert.equal(inferenceTunnelHost('api.typesafe.ai:443', other), undefined);
+});
+
+test('base URL configuration rejects credentials, IPs, redirects via paths and URL parameters without echoing values', () => {
+  const forbidden = [
+    'http://hub.coreinfra.ai/codex/api/v1',
+    `https://operator:${token}@hub.coreinfra.ai/v1`,
+    `https://hub.coreinfra.ai/v1?key=${token}`,
+    'https://hub.coreinfra.ai/v1#fragment',
+    'https://hub.coreinfra.ai:8443/v1',
+    'https://127.0.0.1/v1',
+    'https://2130706433/v1',
+    'https://[::1]/v1',
+    'https://localhost/v1',
+    'https://hub.coreinfra.ai/a/../v1',
+    'https://hub.coreinfra.ai/%2e%2e/v1',
+    'https://hub.coreinfra.ai/v1//proxy',
+    'https://hub.coreinfra.ai\\v1',
+    coreinfraBase + '?',
+    coreinfraBase + '#',
+    ' ' + coreinfraBase,
+  ];
+  for (const base of forbidden)
+    for (const setting of ['NORMLAB_OPENAI_BASE_URL', 'NORMLAB_TYPESAFE_BASE_URL'])
+      assert.throws(
+        () => inferenceEndpoints({ [setting]: base }),
+        (error: Error) =>
+          /Inference base URL/.test(error.message) && !error.message.includes(token),
+      );
+});
+
+test('CoreInfra configuration controls adapter URL, Bearer key and recorded endpoint without changing request schema', async () => {
+  const endpoints = inferenceEndpoints({ NORMLAB_OPENAI_BASE_URL: coreinfraBase });
+  const requests: { url: string; body: Record<string, unknown> }[] = [];
+  const fetcher: typeof fetch = async (url, options) => {
+    assert.equal(url, endpoints.openai.url);
+    assert.equal(new Headers(options?.headers).get('authorization'), `Bearer ${token}`);
+    assert.equal(options?.redirect, 'error');
+    requests.push({ url: String(url), body: JSON.parse(options?.body as string) });
+    return openai(requests.length === 1 ? discoveryOutput : classificationOutput);
+  };
+  const result = await runHostedExtraction(
+    input,
+    new InferenceProviders({ ...config, endpoints }, fetcher),
+    'openai',
+    signal(),
+  );
+  assert.equal(requests.length, 2);
+  assert.ok(requests.every((request) => request.url === coreinfraBase + '/responses'));
+  assert.ok(
+    requests.every(
+      (request) =>
+        (request.body.text as { format: { type: string } }).format.type === 'json_schema',
+    ),
+  );
+  assert.ok(result.calls.every((call) => call.endpoint === endpoints.openai.url));
+  assert.ok(!JSON.stringify(result).includes(token));
+  assert.deepEqual(
+    result.statements.map((s) => s.decision),
+    ['pending', 'pending'],
+  );
+});
+
+test('custom proxy authority still rejects private DNS answers before connecting', async () => {
+  const endpoints = inferenceEndpoints({ NORMLAB_OPENAI_BASE_URL: coreinfraBase });
+  const resolved: string[] = [];
+  const resolver = (async (host: string) => {
+    resolved.push(host);
+    return [{ address: '127.0.0.1', family: 4 }];
+  }) as unknown as Parameters<typeof createInferenceEgress>[0];
+  const server = createInferenceEgress(resolver, endpoints);
+  const url = await listen(server);
+  try {
+    for (const authority of ['hub.coreinfra.ai:443', 'api.openai.com:443']) {
+      const status = await new Promise<number>((done, reject) => {
+        const req = request(url, { method: 'CONNECT', path: authority });
+        req.on('connect', (res, socket) => {
+          socket.destroy();
+          done(res.statusCode ?? 0);
+        });
+        req.on('error', reject);
+        req.end();
+      });
+      assert.equal(status, 403);
+    }
+    assert.deepEqual(resolved, ['hub.coreinfra.ai']);
+  } finally {
+    await new Promise<void>((done) => server.close(() => done()));
+  }
 });
