@@ -6,6 +6,12 @@ export const INFERENCE_DESTINATIONS = Object.freeze({
   openai: 'https://api.openai.com/v1/responses',
   typesafe: 'https://api.typesafe.ai/v1/systemone',
 });
+/** Discovery quotes the whole source; reasoning tokens also count against this limit. */
+export const OPENAI_REQUEST_SETTINGS = Object.freeze({
+  reasoning: { effort: 'low' },
+  maxOutputTokens: { discovery: 16384, classification: 8192 },
+});
+export type StructuredStage = keyof typeof OPENAI_REQUEST_SETTINGS.maxOutputTokens;
 export type InferenceCall = {
   provider: 'openai' | 'typesafe';
   stage: string;
@@ -66,7 +72,7 @@ export class InferenceProviders {
       throw new Error('TypeSafe classifier requires its secret file.');
   }
   async structured(
-    stage: string,
+    stage: StructuredStage,
     instructions: string,
     input: string,
     schema: unknown,
@@ -78,8 +84,8 @@ export class InferenceProviders {
       store: false,
       instructions,
       input,
-      reasoning: { effort: 'low' },
-      max_output_tokens: 8192,
+      reasoning: OPENAI_REQUEST_SETTINGS.reasoning,
+      max_output_tokens: OPENAI_REQUEST_SETTINGS.maxOutputTokens[stage],
       text: { format: { type: 'json_schema', name: stage, strict: true, schema } },
     };
     const response = openaiResponse.parse(

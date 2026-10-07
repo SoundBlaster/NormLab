@@ -1,6 +1,7 @@
+import type { LookupAddress } from 'node:dns';
 import { lookup } from 'node:dns/promises';
 import { createServer } from 'node:http';
-import { BlockList, connect, isIP, Socket } from 'node:net';
+import { BlockList, connect, isIP, Socket, type LookupFunction } from 'node:net';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -41,6 +42,13 @@ export function inferenceTunnelHost(authority: string | undefined): string | und
   return undefined;
 }
 
+export function checkedLookup(addresses: LookupAddress[]): LookupFunction {
+  return (_hostname, options, callback) => {
+    if (options.all) callback(null, addresses);
+    else callback(null, addresses[0].address, addresses[0].family);
+  };
+}
+
 /** Opaque TLS tunnels only; no credentials, volumes, arbitrary hosts or plaintext HTTP. */
 export function createInferenceEgress(resolver: typeof lookup = lookup) {
   let active = 0;
@@ -74,11 +82,13 @@ export function createInferenceEgress(resolver: typeof lookup = lookup) {
         )
           throw new Error('Non-public DNS answer.');
         if (client.destroyed) return;
-        // Dial the checked IP, rather than resolve the hostname again (DNS rebinding).
+        // Dial only the checked answers, never a fresh resolution (DNS rebinding), and let
+        // Node fall back across them (e.g. an AAAA answer without an IPv6 route).
         const remote = connect({
-          host: addresses[0].address,
-          family: addresses[0].family,
+          host,
           port: 443,
+          autoSelectFamily: true,
+          lookup: checkedLookup(addresses),
         });
         remote.setTimeout(125000, () => remote.destroy());
         remote.on('error', () => {

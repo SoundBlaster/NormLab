@@ -2,11 +2,18 @@ import { createHash, timingSafeEqual } from 'node:crypto';
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
-import { ProxyAgent, setGlobalDispatcher } from 'undici';
+import { ProxyAgent, fetch as undiciFetch } from 'undici';
 import { inferenceGatewayConfig, type InferenceGatewayConfig } from './inference-config.js';
 import { InferenceProviders } from './inference-providers.js';
 import { MAX_INFERENCE_RESPONSE_BYTES } from './inference-http.js';
 import { extractionInput, runHostedExtraction } from './hosted-extraction.js';
+
+/** Explicit route: no reliance on Node's bundled fetch sharing undici's global dispatcher. */
+export function proxiedFetch(proxy: string): typeof fetch {
+  const dispatcher = new ProxyAgent(proxy);
+  return ((url: Parameters<typeof undiciFetch>[0], init?: Parameters<typeof undiciFetch>[1]) =>
+    undiciFetch(url, { ...init, dispatcher })) as unknown as typeof fetch;
+}
 
 export function createInferenceGateway(
   config: InferenceGatewayConfig,
@@ -111,8 +118,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     process.env.NORMLAB_INFERENCE_EGRESS_PROXY ?? 'http://normlab-inference-egress:4319';
   if (!['http://normlab-inference-egress:4319', 'http://127.0.0.1:4319'].includes(proxy))
     throw new Error('Invalid inference egress proxy.');
-  setGlobalDispatcher(new ProxyAgent(proxy));
-  const server = createInferenceGateway(inferenceGatewayConfig(process.env));
+  const server = createInferenceGateway(inferenceGatewayConfig(process.env), proxiedFetch(proxy));
   server.listen(4318, '0.0.0.0', () =>
     console.log('NormLab inference gateway listening on port 4318.'),
   );

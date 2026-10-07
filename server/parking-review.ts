@@ -11,7 +11,7 @@ import {
 } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { z } from 'zod';
-import { HOSTED_PIPELINE } from './hosted-extraction.js';
+import { HOSTED_MAX_NARRATIVE, HOSTED_PIPELINE } from './hosted-extraction.js';
 import type { ParkingExtractor } from './inference-client.js';
 import {
   emptyReviewChecklist,
@@ -223,6 +223,11 @@ export class ParkingReview {
         (!this.extractor && !existsSync(resolve('.tools/parking-evaluation/bin/python')))
       )
         throw new ParkingReviewError('Извлечение не настроено. Ручная разметка доступна.');
+      // Rejected before any provider call or quota use.
+      if (this.extractor && draft.narrative.length > HOSTED_MAX_NARRATIVE)
+        throw new ParkingReviewError(
+          `Внешнее извлечение принимает фабулу до ${HOSTED_MAX_NARRATIVE} символов. Ручная разметка доступна.`,
+        );
       this.extracting = true;
       const folder = join(this.folder(draft.draftId), `extraction-${randomUUID()}`);
       mkdirSync(folder, { mode: 0o700 });

@@ -88,8 +88,11 @@ review, not a user-supplied URL.
 
 `literal-discovery-then-classification/hosted-v1` is a separate candidate from
 the measured Python v3. Prompts and definitions are a frozen snapshot in
-`server/inference-prompts.json`; its digest, model response IDs, requested and
-resolved model names, usage, responses and decisions accompany each result.
+`server/inference-prompts.json`. `promptDigest` hashes those prompts together with
+the inline untrusted-data prefixes, Jev question template and criteria, JSON
+schemas, batch size and OpenAI request settings, so any behavioural change yields a
+new digest (pinned in `tests/inference.test.ts`). It, model response IDs, requested
+and resolved model names, usage, responses and decisions accompany each result.
 Changing transport/model or Jev's questions requires a new evaluation; previous
 50%/80% goals and corpus scores do not transfer automatically.
 
@@ -98,6 +101,8 @@ Changing transport/model or Jev's questions requires a new evaluation; previous
    computes UTF-16 offsets against the unchanged original, without normalization.
 3. OpenAI classification uses batches of up to 8 fragments to bound strict
    schema/output size and requires an explicit decision for every fragment.
+   Up to 3 batches run concurrently; results keep source order, and the first
+   failed batch cancels the others and starts no further calls.
    Alternatively Jev answers four-option atomic questions for each of the 15
    predicates: asserted / denied / explicitly unknown / unsupported. Requests
    contain 8 fragments and up to 120 questions. The fragment ID and predicate
@@ -108,9 +113,11 @@ Changing transport/model or Jev's questions requires a new evaluation; previous
 5. Every resulting statement is `origin=model, decision=pending`. Human review,
    contradictions and missing facts remain separate from legal computation.
 
-Limits: 32768 UTF-16 source units, 256 discovered fragments/statements, 2048
-units per hosted quote, 8192 OpenAI output tokens per call, 120 seconds per
-provider call, 300 seconds per complete extraction, 4 MiB output, one active
+Limits: 8000 UTF-16 source units for hosted extraction (drafts still accept
+32768; longer drafts are rejected before any provider call or quota use), 256
+discovered fragments/statements, 2048 units per hosted quote, 16384 OpenAI output
+tokens for discovery (reasoning included) and 8192 per classification batch, 120
+seconds per provider call, 300 seconds per complete extraction, 4 MiB output, one active
 extraction. Default quota is six attempts/hour. The quota is in-memory and
 resets with gateway restart; it is not a hard billing cap. Configure a provider
 project spending limit separately. No automatic retry doubles an invoice.

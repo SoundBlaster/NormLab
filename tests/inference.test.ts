@@ -5,12 +5,19 @@ import { randomUUID } from 'node:crypto';
 import { mkdtempSync, rmSync, writeFileSync, chmodSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { request } from 'node:http';
+import { createServer, request } from 'node:http';
 import prompts from '../server/inference-prompts.json';
 import { InferenceProviders, INFERENCE_DESTINATIONS } from '../server/inference-providers.js';
-import { runHostedExtraction, sourceDigest, HOSTED_PIPELINE } from '../server/hosted-extraction.js';
-import { createInferenceGateway } from '../server/inference-gateway.js';
 import {
+  runHostedExtraction,
+  sourceDigest,
+  HOSTED_MAX_NARRATIVE,
+  HOSTED_PIPELINE,
+  HOSTED_PROMPT_DIGEST,
+} from '../server/hosted-extraction.js';
+import { createInferenceGateway, proxiedFetch } from '../server/inference-gateway.js';
+import {
+  checkedLookup,
   createInferenceEgress,
   inferenceTunnelHost,
   isPublicInferenceAddress,
@@ -282,7 +289,14 @@ test('discovery rejects wrong bindings, hallucinated/repeated quotes, and missin
 test('provider rejects incomplete, refusal, invalid distributions and transport errors without leaking bodies', async () => {
   const incomplete: typeof fetch = async () => response({ status: 'incomplete' });
   await assert.rejects(
-    new InferenceProviders(config, incomplete).structured('test', '', '', {}, [], signal()),
+    new InferenceProviders(config, incomplete).structured(
+      'classification',
+      '',
+      '',
+      {},
+      [],
+      signal(),
+    ),
   );
   const refusal: typeof fetch = async () =>
     response({
@@ -293,7 +307,7 @@ test('provider rejects incomplete, refusal, invalid distributions and transport 
       output: [{ type: 'message', status: 'completed', content: [{ type: 'refusal' }] }],
     });
   await assert.rejects(
-    new InferenceProviders(config, refusal).structured('test', '', '', {}, [], signal()),
+    new InferenceProviders(config, refusal).structured('classification', '', '', {}, [], signal()),
     /refused/,
   );
   const badDistribution: typeof fetch = async () =>
@@ -320,7 +334,7 @@ test('provider rejects incomplete, refusal, invalid distributions and transport 
   );
   const failed: typeof fetch = async () => new Response(token, { status: 401 });
   await assert.rejects(
-    new InferenceProviders(config, failed).structured('test', '', '', {}, [], signal()),
+    new InferenceProviders(config, failed).structured('classification', '', '', {}, [], signal()),
     (error: Error) => !error.message.includes(token) && /transport failed/.test(error.message),
   );
   await assert.rejects(readBoundedJson(new Response('123456789'), 2), /limit/);
@@ -350,6 +364,16 @@ test('gateway authenticates exact RPC route, blocks arbitrary URLs and enforces 
         await fetch(`${url}/v1/extract`, {
           ...options,
           body: JSON.stringify({ ...input, url: 'https://evil.example' }),
+        })
+      ).status,
+      400,
+    );
+    const long = 'а'.repeat(HOSTED_MAX_NARRATIVE + 1);
+    assert.equal(
+      (
+        await fetch(`${url}/v1/extract`, {
+          ...options,
+          body: JSON.stringify({ narrative: long, sourceDigest: sourceDigest(long) }),
         })
       ).status,
       400,
@@ -545,4 +569,190 @@ test('extraction completing after a human edit preserves the newer review revisi
   } finally {
     rmSync(folder, { recursive: true, force: true });
   }
+});
+
+test('OpenAI stages use their own output limits and the digest covers every behavioural input', async () => {
+  const mock = mockFetch();
+  const result = await runHostedExtraction(
+    input,
+    new InferenceProviders(config, mock.fetcher),
+    'openai',
+    signal(),
+  );
+  assert.deepEqual(
+    mock.requests.map((call) => call.body.max_output_tokens),
+    [16384, 8192],
+  );
+  assert.ok((mock.requests[0].body.instructions as string).endsWith(prompts.discovery));
+  // Pinned: prompts, inline prefixes, Jev template/criteria, schemas, batch size and request
+  // settings all feed this value. Update it only together with a new evaluation run.
+  assert.equal(
+    HOSTED_PROMPT_DIGEST,
+    '46c9b4089ba8a93e71272c817dd3bab1aefabc74924b0b360199ec42666627a2',
+  );
+  assert.equal(result.promptDigest, HOSTED_PROMPT_DIGEST);
+  assert.notEqual(HOSTED_PROMPT_DIGEST, sourceDigest(JSON.stringify(prompts)));
+});
+
+function batchedFetcher(
+  statements: string[],
+  classify: (
+    batch: { fragmentId: string; quote: string }[],
+    signal: AbortSignal,
+  ) => Promise<Response>,
+) {
+  let discovered = false;
+  const fetcher: typeof fetch = async (_url, options) => {
+    if (!discovered) {
+      discovered = true;
+      return openai({
+        extractions: statements.map((statement) => ({
+          statement,
+          statement_attributes: discoveryOutput.extractions[0].statement_attributes,
+        })),
+      });
+    }
+    const body = JSON.parse(options?.body as string) as Record<string, unknown>;
+    return classify(JSON.parse(body.input as string), options!.signal!);
+  };
+  return fetcher;
+}
+const classifiedBatch = (batch: { fragmentId: string; quote: string }[]) =>
+  openai({
+    results: Object.fromEntries(
+      batch.map((fragment) => [
+        fragment.fragmentId,
+        {
+          status: 'classified',
+          reason: '',
+          classifications: [
+            { predicate: 'payment', stance: 'asserted', valueText: fragment.quote },
+          ],
+        },
+      ]),
+    ),
+  });
+const untilAborted = (abort: AbortSignal) =>
+  new Promise<never>((_, reject) =>
+    abort.addEventListener('abort', () => reject(new Error('aborted')), { once: true }),
+  );
+
+test('classification batches run with bounded concurrency and keep source order', async () => {
+  const statements = Array.from({ length: 20 }, (_, i) => `Эпизод ${i + 1}: парковка оплачена.`);
+  const source = statements.join(' ');
+  let active = 0;
+  let peak = 0;
+  const fetcher = batchedFetcher(statements, async (batch) => {
+    active++;
+    peak = Math.max(peak, active);
+    // Later batches finish first; results must still follow the source order.
+    await new Promise((done) => setTimeout(done, 60 - Number(batch[0].fragmentId.slice(9)) * 2));
+    active--;
+    return classifiedBatch(batch);
+  });
+  const result = await runHostedExtraction(
+    { narrative: source, sourceDigest: sourceDigest(source) },
+    new InferenceProviders(config, fetcher),
+    'openai',
+    signal(),
+  );
+  assert.equal(peak, 3);
+  assert.deepEqual(
+    result.statements.map((s) => s.quote),
+    statements,
+  );
+  assert.deepEqual(
+    result.calls.map((call) =>
+      call.stage === 'discovery'
+        ? 'discovery'
+        : (JSON.parse((call.request as { input: string }).input) as { fragmentId: string }[])[0]
+            .fragmentId,
+    ),
+    ['discovery', 'fragment_1', 'fragment_9', 'fragment_17'],
+  );
+});
+
+test('a failed classification batch cancels in-flight batches and starts no more', async () => {
+  const statements = Array.from({ length: 25 }, (_, i) => `Эпизод ${i + 1}: парковка оплачена.`);
+  const source = statements.join(' ');
+  const started: string[] = [];
+  const aborted: string[] = [];
+  const fetcher = batchedFetcher(statements, async (batch, abort) => {
+    const id = batch[0].fragmentId;
+    started.push(id);
+    if (id === 'fragment_9') {
+      await new Promise((done) => setTimeout(done, 20));
+      return new Response('{}', { status: 500 });
+    }
+    abort.addEventListener('abort', () => aborted.push(id), { once: true });
+    return untilAborted(abort);
+  });
+  await assert.rejects(
+    runHostedExtraction(
+      { narrative: source, sourceDigest: sourceDigest(source) },
+      new InferenceProviders(config, fetcher),
+      'openai',
+      signal(),
+    ),
+  );
+  assert.deepEqual(started, ['fragment_1', 'fragment_9', 'fragment_17']);
+  assert.deepEqual(aborted.sort(), ['fragment_1', 'fragment_17']);
+});
+
+test('hosted extraction rejects an over-limit narrative before calling the provider', async () => {
+  const folder = mkdtempSync(join(tmpdir(), 'normlab-hosted-limit-'));
+  try {
+    let called = false;
+    const api = new ParkingReview(folder, async () => {
+      called = true;
+      return {};
+    });
+    const draft = reviewDraftSchema.parse(
+      await api.handle('POST', '/api/parking/drafts', {
+        narrative: 'Я оплатил парковку. '.repeat(Math.ceil(HOSTED_MAX_NARRATIVE / 20) + 1),
+      }),
+    );
+    await assert.rejects(
+      api.handle('POST', '/api/parking/extract', {
+        draftId: draft.draftId,
+        expectedRevisionId: draft.revisionId,
+      }),
+      new RegExp(`до ${HOSTED_MAX_NARRATIVE} символов`),
+    );
+    assert.equal(called, false);
+  } finally {
+    rmSync(folder, { recursive: true, force: true });
+  }
+});
+
+test('gateway transport tunnels through the configured proxy without global dispatcher state', async () => {
+  const authorities: string[] = [];
+  const proxy = createServer((_req, res) => res.writeHead(403).end());
+  proxy.on('connect', (req, socket) => {
+    authorities.push(req.url ?? '');
+    socket.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n');
+  });
+  proxy.listen(0, '127.0.0.1');
+  await once(proxy, 'listening');
+  const address = proxy.address();
+  assert.ok(address && typeof address !== 'string');
+  try {
+    const fetcher = proxiedFetch(`http://127.0.0.1:${address.port}`);
+    await assert.rejects(fetcher(INFERENCE_DESTINATIONS.openai, { method: 'POST', body: '{}' }));
+    assert.deepEqual(authorities, ['api.openai.com:443']);
+  } finally {
+    await new Promise<void>((done) => proxy.close(() => done()));
+  }
+});
+
+test('egress dials only checked DNS answers and offers all of them for family fallback', () => {
+  const addresses = [
+    { address: '2606:4700::1111', family: 6 },
+    { address: '8.8.8.8', family: 4 },
+  ];
+  const lookup = checkedLookup(addresses);
+  const seen: unknown[] = [];
+  lookup('api.openai.com', { all: true }, (_error, result) => seen.push(result));
+  lookup('api.openai.com', {}, (_error, address, family) => seen.push([address, family]));
+  assert.deepEqual(seen, [addresses, ['2606:4700::1111', 6]]);
 });
