@@ -113,3 +113,14 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 - [MLflow evaluation and monitoring](https://mlflow.org/docs/latest/genai/eval-monitor/) — datasets, custom scorers, feedback и tracing; совместимость с закреплённой версией проверить при реализации.
 - [Evidently library](https://docs.evidentlyai.com/docs/library/overview) — evaluation metrics, exportable reports и monitoring; это опциональная интеграция.
 - [Jev4Mellea 0.3.0](https://github.com/SoundBlaster/Jev4Mellea/releases/tag/v0.3.0) — OpenAI primitives и provider evaluation; live native availability отдельное свидетельство.
+
+## ProxyAPI bridge — подготовка 2026-10-09
+
+Экспериментальный bridge скопирован из immutable commit ветки
+`proxyapi-adapter` в [evaluation/providers](../evaluation/providers/README.md).
+Он переиспользует выпущенный adapter 0.3.0; опубликованный native OpenAIProvider
+не заменяет proxy state/questions wire contract. Factory читает PROXYAPI_API_KEY
+только при явном construction. Верхнеуровневые зависимости закреплены отдельно
+в requirements-providers.txt; старое окружение 0.2.1 сохранено. Offline CLI
+не переключён на live calls; provider/multi-turn интеграция остаётся следующим
+срезом. Upstream license metadata discrepancy зафиксирована в provenance.

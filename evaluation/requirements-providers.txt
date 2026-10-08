@@ -1,0 +1,3 @@
+# Optional provider/Requirement environment; separate from offline harness.
+mellea-jev-adapter[openai,mellea]==0.3.0
+mellea==0.8.0
