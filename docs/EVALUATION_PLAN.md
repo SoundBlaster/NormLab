@@ -50,3 +50,12 @@ Labels имеют статус candidate. `candidate_case_pass_rate` показ�
 - [MLflow datasets и SQL backend](https://mlflow.org/docs/latest/genai/datasets/)
 - [Google LangExtract](https://github.com/google/langextract), Apache-2.0
 - [Luna comparison](PARKING_LUNA_COMPARISON_2026-10-05.md)
+
+## Повторяемые сравнения новых моделей — 2026-10-09
+
+[Evaluation harness plan](EVALUATION_HARNESS_PLAN.md) описывает общий manifest,
+provider/strategy/tactic matrix, offline replay и расширение существующего MLflow
+import. Обычная Luna Responses Low исследуется через independent/batch/sequential
+questions отдельно от Luna Decisions. Evidently остаётся опциональным: локальный
+comparison report можно оценить раньше пользовательского потока, periodic drift
+monitoring — после появления сопоставимых временных данных.

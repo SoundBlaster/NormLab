@@ -299,3 +299,14 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [ ] По выходу Stage 1 выбрать следующий bounded эксперимент, не объявляя заранее правильную архитектуру.
 - [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
 - [ ] Проверить mapping, bounded repair и полный pipeline на независимо размеченном holdout до выбора реализации.
+
+### Повторяемый evaluation harness — 2026-10-09
+
+[План инфраструктуры](docs/EVALUATION_HARNESS_PLAN.md): Mellea исполняет candidate
+strategy, общий runner фиксирует условия, MLflow хранит runs/evidence. Исследуем
+обычную Luna Low с независимыми, пакетными и последовательными вопросами.
+
+- [ ] Общие versioned dataset/experiment/run/turn contracts и offline replay.
+- [ ] Matrix Jev / Luna Responses Low / opt-in Luna Decisions с независимыми budget и context policies.
+- [ ] Расширить существующий MLflow importer: paired comparison, provenance и идемпотентный import.
+- [ ] Решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных.
