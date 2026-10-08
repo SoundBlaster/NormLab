@@ -295,6 +295,7 @@ See [frontend architecture](client/ARCHITECTURE.md).
 [Roadmap экспериментов](docs/EXTRACTION_EXPERIMENT_ROADMAP.md) фиксирует гипотезы и условия отказа от подходов. Jev/Luna, язык, узкие проверки, Razdel, LangExtract и Natasha сравниваются поэтапно; ни один новый вариант пока не выбран для hosted runtime.
 
 - [x] Записать исследовательский план, контрольные arms, метрики и evidence boundaries.
-- [ ] Сравнить Jev/Luna при независимой нейтральной подаче одинаковых кандидатов; отдельно исследовать язык и polarity-only requirement.
+- [ ] Stage 1: собрать свидетельства — offline representability audit, независимое сравнение Jev/Luna и диагностические task ablations; оформить ограничения и реестр гипотез.
+- [ ] По выходу Stage 1 выбрать следующий bounded эксперимент, не объявляя заранее правильную архитектуру.
 - [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
 - [ ] Проверить mapping, bounded repair и полный pipeline на независимо размеченном holdout до выбора реализации.
