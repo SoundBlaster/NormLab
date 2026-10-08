@@ -1,6 +1,6 @@
 # Повторяемый evaluation harness: стратегии, тактики и новые модели
 
-Дата: 2026-10-09. Статус: план реализации, не готовый runner. Связь: [roadmap экспериментов](EXTRACTION_EXPERIMENT_ROADMAP.md), [rubric](EVALUATION_PLAN.md).
+Дата: 2026-10-09. Статус: первый offline replay срез реализован; live/provider matrix и registry extension остаются планом. Связь: [roadmap экспериментов](EXTRACTION_EXPERIMENT_ROADMAP.md), [rubric](EVALUATION_PLAN.md).
 
 ## Задача
 
@@ -10,13 +10,13 @@
 
 ## Роли инструментов и текущий статус
 
-| Компонент | Роль | Что есть / что требуется |
-| --- | --- | --- |
-| Mellea | Generation/sampling, requirements, bounded repair выбранного candidate | Есть classification runner; не заменяет независимые labels и scorer |
-| NormLab evaluation runner | Dataset × strategy × tactic × provider; budgets, captures, replay и paired comparison | Есть отдельные runners/scorers; общий manifest/control plane ещё нужно собрать |
-| MLflow | Registry runs, configuration, metrics/artifacts, этапные traces и human feedback | `mlflow==3.16.1`, `evaluation/import_mlflow.py`: локальный SQLite registry и offline import уже в коде; новые форматы и tracing ещё не интегрированы |
-| Evidently | Опциональные visual reports, сравнение распределений/срезов, позже monitoring | Не подключён; добавить только при конкретной пользе сверх текущих отчётов и MLflow |
-| Независимый reviewer/scorer | Ground truth и оценка критических ошибок | Candidate expectations и partial probes уже есть; independent review/holdout остаются открытыми |
+| Компонент                   | Роль                                                                                  | Что есть / что требуется                                                                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mellea                      | Generation/sampling, requirements, bounded repair выбранного candidate                | Есть classification runner; не заменяет независимые labels и scorer                                                                                  |
+| NormLab evaluation runner   | Dataset × strategy × tactic × provider; budgets, captures, replay и paired comparison | Есть отдельные runners/scorers; общий manifest/control plane ещё нужно собрать                                                                       |
+| MLflow                      | Registry runs, configuration, metrics/artifacts, этапные traces и human feedback      | `mlflow==3.16.1`, `evaluation/import_mlflow.py`: локальный SQLite registry и offline import уже в коде; новые форматы и tracing ещё не интегрированы |
+| Evidently                   | Опциональные visual reports, сравнение распределений/срезов, позже monitoring         | Не подключён; добавить только при конкретной пользе сверх текущих отчётов и MLflow                                                                   |
+| Независимый reviewer/scorer | Ground truth и оценка критических ошибок                                              | Candidate expectations и partial probes уже есть; independent review/holdout остаются открытыми                                                      |
 
 MLflow и Evidently поддерживают evaluation/monitoring, но не определяют, какой разбор текста правильный. Их LLM judges не заменяют независимую разметку. Модель, которую исследуем как verifier, не должна единолично выставлять себе итоговый quality score.
 
@@ -68,11 +68,11 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 ### Harness 1 — общий manifest и offline replay
 
 - [ ] Инвентаризировать текущие report schemas и сохранить legacy import без переписывания старых evidence.
-- [ ] Определить versioned run/case/turn contracts и neutral Stage 1 dataset manifest.
-- [ ] Объединить dry-run, capture и replay для fixed candidates без платных запросов.
-- [ ] Зафиксировать правила отсутствующих outputs, partial runs и denominators.
+- [x] Определить первые offline experiment/capture/labels/report v1 contracts и neutral fixture manifest. Общий multi-turn и полный Stage 1 dataset ещё впереди.
+- [x] Добавить dry-run и replay фиксированных capture artifacts без платных запросов: [harness.py](../evaluation/harness.py), [контракт и команды](../evaluation/HARNESS.md). Capture live executions пока не реализован.
+- [x] Зафиксировать failure/partial/invalid output в denominators; без labels probes null/not_evaluated. Полный critical-error-free score отсутствует до independent review.
 
-**Gate:** сохранённый запуск воспроизводимо пересчитывается офлайн; capture не содержит secrets/labels в model context.
+**Gate:** сохранённый запуск воспроизводимо пересчитывается офлайн; capture не содержит secrets/labels в model context. На fixture из 3 records повторный пересчёт snapshot дал побайтно одинаковый report; model/semantic quality этим не оценивалась.
 
 ### Harness 2 — provider и interaction matrix
 
