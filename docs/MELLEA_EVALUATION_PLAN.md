@@ -91,3 +91,11 @@ final acceptance. Use a new artifact directory per run. Never capture keys.
 References: [Mellea requirements](https://docs.mellea.ai/concepts/requirements-system),
 [Jev4Mellea](https://github.com/SoundBlaster/Jev4Mellea),
 [existing evaluation plan](EVALUATION_PLAN.md).
+
+## Research extension — 2026-10-09
+
+The [extraction experiment roadmap](EXTRACTION_EXPERIMENT_ROADMAP.md) defines
+controlled verifier/language comparisons, atomic requirements, segmentation and
+statement representation experiments before selecting a pipeline. These are
+hypotheses, not a commitment to LangExtract, syntax parsing or a provider.
+The original matched Mellea arms and evidence boundaries remain applicable.
