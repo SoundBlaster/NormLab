@@ -369,7 +369,42 @@ def main():
         "--output", type=Path, help="New directory for immutable replay artifacts"
     )
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--verifier-capture", type=Path)
     args = parser.parse_args()
+    manifest, raw = load_json(args.manifest)
+    if manifest.get("schema") == "normlab.verifier-experiment/v1":
+        from verifier_capture import replay_verifier, validate_manifest
+
+        validate_manifest(manifest)
+        require(args.labels is None, "Verifier replay has no reviewer-label scorer yet")
+        if args.dry_run:
+            print(
+                json.dumps(
+                    {
+                        "experimentId": manifest["experimentId"],
+                        "liveCalls": 0,
+                        "mode": "offline-replay",
+                    }
+                )
+            )
+            return
+        require(
+            args.output is not None and args.verifier_capture is not None,
+            "Verifier replay requires capture and output",
+        )
+        capture, capture_raw = load_json(args.verifier_capture)
+        report = replay_verifier(manifest, raw, capture)
+        args.output.mkdir(parents=True, mode=0o700, exist_ok=False)
+        (args.output / "experiment.json").write_bytes(raw)
+        (args.output / "capture.json").write_bytes(capture_raw)
+        (args.output / "report.json").write_text(
+            json.dumps(report, ensure_ascii=False, indent=2) + "\n"
+        )
+        print(json.dumps(report, ensure_ascii=False))
+        return
+    require(
+        args.verifier_capture is None, "Verifier capture requires verifier manifest"
+    )
     prepared = prepare(args.manifest, args.labels)
     if args.dry_run:
         print(

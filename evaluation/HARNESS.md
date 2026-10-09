@@ -41,3 +41,48 @@ Capture snapshots включают dataset, labels при наличии, code/d
 Dry-run: 3 records, 0 live calls. Replay: 2 completed, 2 structuralPass, 1 probePass, 1 fixture transport failure в denominator. Повторный replay сохранённого dataset дал побайтно одинаковый report. Ключи и API не использовались. Это два CLI-прогона, не подтверждение test-suite или live interoperability.
 
 Следующее: оформить representability audit cases, независимые labels и общий turn/context contract для Stage 1. Затем provider adapter matrix, bounded live execution и расширение существующего MLflow importer, который пока принимает только legacy parking reports.
+
+## Verifier turn capture (experimental ProxyAPI)
+
+A separate `normlab.verifier-experiment/v1` manifest binds synthetic source text,
+neutral question IDs, provider, batch tactic, one-call budget and Noul routing
+thresholds. This is a contract smoke, not a corpus quality score. Choice and Score
+are recorded without imposing an acceptance decision.
+
+```bash
+# No SDK credentials or calls required for manifest preflight.
+python evaluation/run_verifier.py fixtures/parking-pilot/evaluation-harness/verifier-smoke.json
+
+# Explicit opt-in: one potentially billable request, no retry, no fallback.
+# PROXYAPI_API_KEY must be set in the process environment.
+.tools/provider-evaluation/bin/python evaluation/run_verifier.py \
+  fixtures/parking-pilot/evaluation-harness/verifier-smoke.json \
+  --live --output .artifacts/verifier-new-run
+
+# SDK-free replay of the archived live capture; performs zero API calls.
+python evaluation/harness.py \
+  fixtures/parking-pilot/evaluation-harness/verifier-smoke.json \
+  --verifier-capture fixtures/parking-pilot/evaluation-harness/verifier-live-capture.json \
+  --output .artifacts/verifier-new-replay
+```
+
+The transport records the exact outgoing body and URL but no headers or key.
+Capture is written before transport invocation and after completion/failure;
+interrupted runs retain `sent` status and must not be retried automatically.
+Errors use fixed categories without provider bodies or exception messages.
+One call contains at most three questions, with a ten-second transport timeout.
+This timeout is not a guaranteed wall-clock deadline. No monetary estimate is
+invented: `cost` remains null, while returned token usage is recorded.
+
+Run artifacts preserve the exact manifest bytes, normalized typed response,
+request ID, returned model, dependency versions, latency, source/manifest hashes,
+and source snapshots with an unsigned file hash inventory. Hashes detect changes
+relative to the inventory; they do not authenticate its author. The offline CLI
+validates binding and response contracts, then applies the pinned Noul policy.
+It does not re-run inference or estimate `criticalErrorFreeRate`.
+
+The committed capture is synthetic and contains no authentication material.
+Real narratives may contain personal data: run artifacts stay local by default.
+This runner currently supports only the pinned ProxyAPI batch bridge. It does not
+connect the production UI, sequential tactics, an MLflow importer, or a Mellea
+sampling loop. Those require subsequent experiments.

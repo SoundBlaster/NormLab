@@ -307,6 +307,8 @@ strategy, общий runner фиксирует условия, MLflow храни
 обычную Luna Low с независимыми, пакетными и последовательными вопросами.
 
 - [ ] Общие versioned dataset/experiment/run/turn contracts и offline replay.
+  - [x] Первый offline classification replay и отдельный ProxyAPI verifier turn capture: один live batch Noul/Choice/Score, replay без SDK; [отчёт](docs/PROXYAPI_LIVE_CHECK_2026-10-09.md).
+  - [ ] Обобщить verifier runner на Jev и Luna Responses Low; добавить независимые semantic labels и paired comparison.
 - [ ] Matrix Jev / Luna Responses Low / opt-in Luna Decisions с независимыми budget и context policies.
 - [ ] Расширить существующий MLflow importer: paired comparison, provenance и идемпотентный import.
 - [ ] Решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных.
