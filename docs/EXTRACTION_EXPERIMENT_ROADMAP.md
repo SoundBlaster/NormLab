@@ -57,7 +57,8 @@
 
 - [x] Подготовить 12–16 вручную размеченных источников и проверить, может ли текущая schema сохранить их смысл. Статус разметки — candidate до независимого review; спорные чтения сохранить отдельно.
   - [Audit 2026-10-09](STAGE1_REPRESENTABILITY_AUDIT_2026-10-09.md): 16 sources / 13 families / 32 neutral records, sentence 7 representable / 7 lossy / 2 ambiguous; ручные claims 9 / 5 / 2.
-  - [Independent LLM review](STAGE1_INDEPENDENT_REVIEW_2026-10-09.md) выполнен для всех 16/32: 30 expectations agree, R028 revise, R015 unresolved. Expert labels не установлены; model comparison gate — hold до новой annotation revision и scope conventions.
+  - [Independent LLM review v1](STAGE1_INDEPENDENT_REVIEW_2026-10-09.md): 30 expectations agree, R028 revise, R015 unresolved. Исторические артефакты сохранены.
+  - [Annotation v2 и regression review](STAGE1_ANNOTATION_V2_2026-10-09.md): явные identity/scope/operator/ambiguity conventions; те же 16 текстов / 13 families / 32 records. Строгая typed projection: 1 representable / 15 lossy для обоих layouts. Повторный nonblind LLM review: 32 agree, прежние пять замечаний закрыты. Это смена audit policy, не падение model quality; expert labels не установлены.
 - [x] Сопоставить whole-sentence fragment и минимальные claims с scope, используя ручную разметку как diagnostic oracle, не deployable extractor.
 - [x] Разделить domain `subject`/`aboutEntity`, grammatical subject, actor и claimant в candidate oracle: автомобиль и человек, оплативший парковку, не одна роль. Это ещё не изменение production ontology.
 - [ ] Различать explicit unknown источника, not mentioned, ambiguity интерпретации и uncertainty verifier. Ни одно из этих состояний не превращать автоматически в отрицание.
