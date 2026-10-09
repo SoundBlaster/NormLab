@@ -58,7 +58,7 @@ jobs:
         with:
           python-version: '3.13'
       - name: Validate synthetic sources, candidate mutations and frozen contract
-        run: python -m unittest discover -s evaluation -p test_stage1_audit.py
+        run: python -m unittest discover -s evaluation -p 'test_stage1*.py'
 
   architecture:
     name: FSD architecture

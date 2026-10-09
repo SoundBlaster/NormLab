@@ -1,0 +1,19 @@
+{
+  "schema": "normlab.stage1-review-integration-policy/v1",
+  "declaredBeforeReviewRead": true,
+  "reviewerKind": "fresh-llm-agent",
+  "humanExpertGroundTruth": false,
+  "phase1": "source-only analysis saved before authored labels are read",
+  "phase2": "all 16 cases and 32 candidate expectations compared",
+  "treatment": {
+    "definiteError": "record evidence and block affected expectation pending correction",
+    "conventionDisagreement": "state alternatives and freeze policy before comparison",
+    "ambiguous": "retain unresolved outcome; do not force binary correctness",
+    "outOfScopeOmission": "do not treat selected probes as exhaustive case annotation"
+  },
+  "promotion": {
+    "automaticExpertLabels": false,
+    "automaticCaseQualityScore": false,
+    "automaticPaidInference": false
+  }
+}

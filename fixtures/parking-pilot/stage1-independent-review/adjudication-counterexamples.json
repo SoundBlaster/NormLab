@@ -1,0 +1,27 @@
+{
+  "schema": "normlab.stage1-adjudication-examples/v1",
+  "status": "main-agent-proposed-not-independent-labels",
+  "examples": [
+    {
+      "id": "scope-person-versus-episode",
+      "text": "Я не оплатил парковку. Её оплатил мой друг.",
+      "question": "Противоречат ли друг другу эти claims при разных actors?",
+      "proposedReading": "Отрицание оплаты рассказчиком совместимо с утверждением оплаты другом; для episode оплата утверждается.",
+      "role": "counterexample to dropping actor in a negative payment claim"
+    },
+    {
+      "id": "negated-speech-act",
+      "text": "Я не утверждал, что оплатил парковку.",
+      "question": "На что распространяется отрицание?",
+      "proposedReading": "Отрицается speech act; ни payment, ни отсутствие payment сами по себе не утверждаются.",
+      "role": "define operator scope before incompatible mutation labels"
+    },
+    {
+      "id": "same-place-different-vehicle",
+      "text": "Вчера я оплатил стоянку своей машины. Сегодня на той же парковке друг оставил другую машину.",
+      "question": "Достаточно ли одинакового места для совпадения vehicle ID?",
+      "proposedReading": "Нет; location, vehicle и episode — разные relations.",
+      "role": "counterexample to inferring vehicle identity from shared place"
+    }
+  ]
+}

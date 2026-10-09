@@ -297,7 +297,8 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [x] Записать исследовательский план, контрольные arms, метрики и evidence boundaries.
 - [ ] Stage 1: собрать свидетельства — offline representability audit, независимое сравнение Jev/Luna и диагностические task ablations; оформить ограничения и реестр гипотез.
   - [x] Подготовить candidate contrast corpus и offline audit: [16 sources, 13 families, 32 records](docs/STAGE1_REPRESENTABILITY_AUDIT_2026-10-09.md).
-  - [ ] Независимо проверить labels и альтернативные чтения; зафиксировать бюджет fair comparison.
+  - [x] Выполнить [fresh LLM review 16 cases / 32 expectations](docs/STAGE1_INDEPENDENT_REVIEW_2026-10-09.md), сохранив blind phase и candidate status.
+  - [ ] Разрешить C014 identity, R015 composition и actor-scoped payment/ambiguity policy в новой revision; затем зафиксировать бюджет fair comparison.
 - [ ] По выходу Stage 1 выбрать следующий bounded эксперимент, не объявляя заранее правильную архитектуру.
 - [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
 - [x] Зафиксировать [идею augmentation synthetic narratives](docs/NARRATIVE_AUGMENTATION_EXPERIMENTS.md): смыслосохраняющее перефразирование отдельно от обогащения structured seed.

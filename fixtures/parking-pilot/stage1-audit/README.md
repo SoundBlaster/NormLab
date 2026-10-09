@@ -69,3 +69,10 @@ This small chosen set does not estimate general error rates or significance.
    per request; source-only reconstruction is a separate arm.
 4. Fix provider/tactic matrix, repeats and billable budget before any live run.
    This audit authorizes and executes no corpus inference.
+
+## Subsequent independent model review
+
+[Review 2026-10-09](../../../docs/STAGE1_INDEPENDENT_REVIEW_2026-10-09.md) covered
+all 16 cases / 32 expectations with a source-only first phase. Comparison is held
+for C014 identity, R015 field composition and scope conventions. Original v1
+artifacts remain unchanged; reviewer judgments do not promote expert labels.
