@@ -166,6 +166,18 @@ LangExtract — существующий кандидат для LLM extraction,
 
 **Gate:** меньше критических ошибок без неприемлемого роста пропусков, review burden и latency. Допустим отрицательный результат: segmentation или syntax hints могут оказаться бесполезными.
 
+### Отдельная гипотеза — расширение синтетических фабул
+
+[План augmentation](NARRATIVE_AUGMENTATION_EXPERIMENTS.md): A — перефразирование
+при фиксированных semantic invariants; B — структурированный synthetic seed →
+естественный рассказ → независимый review → extraction. Генератор и extractor
+оцениваются раздельно. Предложенный pilot: 16 sources × 3 styles = 48 derivatives,
+13 исходных families; без live calls и без новой независимой выборки.
+
+- [x] Зафиксировать идею, различие A/B, риски semantic drift и артефакты.
+- [ ] После Stage 1 review зафиксировать seed/invariants, prompts, критерии пользы и budgets.
+- [ ] Проверить fidelity генератора и paired extraction regressions/rescues на frozen variants.
+
 ## Фаза 4 — mapping и ограниченный repair
 
 **H5:** отделение извлечения утверждений от mapping в ontology снижает неподдержанные predicates.
