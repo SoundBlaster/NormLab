@@ -1,0 +1,25 @@
+{
+  "schema": "normlab.stage1-contract-description/v1",
+  "scope": "evaluation.discovery_v2-and-classification_v3-only",
+  "fragmentAttributes": [
+    "subject",
+    "aboutEpisode",
+    "speaker"
+  ],
+  "classificationFields": [
+    "predicate",
+    "stance",
+    "valueText"
+  ],
+  "spanScope": "whole-fragment-not-per-classification",
+  "stanceValues": [
+    "asserted",
+    "denied",
+    "unknown"
+  ],
+  "untypedTextFields": [
+    "quote",
+    "valueText"
+  ],
+  "productionOntologyAudited": false
+}

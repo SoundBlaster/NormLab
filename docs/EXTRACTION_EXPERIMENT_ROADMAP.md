@@ -55,9 +55,10 @@
 
 #### Offline audit до новых API-вызовов
 
-- [ ] Подготовить 12–16 вручную размеченных источников и проверить, может ли текущая schema сохранить их смысл. Статус разметки — candidate до независимого review; спорные чтения сохранить отдельно.
-- [ ] Сопоставить whole-sentence fragment и минимальные claims с scope, используя ручную разметку как diagnostic oracle, не deployable extractor.
-- [ ] Разделить domain `subject`/`aboutEntity`, grammatical subject, actor и claimant: автомобиль и человек, оплативший парковку, не одна роль.
+- [x] Подготовить 12–16 вручную размеченных источников и проверить, может ли текущая schema сохранить их смысл. Статус разметки — candidate до независимого review; спорные чтения сохранить отдельно.
+  - [Audit 2026-10-09](STAGE1_REPRESENTABILITY_AUDIT_2026-10-09.md): 16 sources / 13 families / 32 neutral records, sentence 7 representable / 7 lossy / 2 ambiguous; ручные claims 9 / 5 / 2. Independent review и model comparison gate остаются открытыми.
+- [x] Сопоставить whole-sentence fragment и минимальные claims с scope, используя ручную разметку как diagnostic oracle, не deployable extractor.
+- [x] Разделить domain `subject`/`aboutEntity`, grammatical subject, actor и claimant в candidate oracle: автомобиль и человек, оплативший парковку, не одна роль. Это ещё не изменение production ontology.
 - [ ] Различать explicit unknown источника, not mentioned, ambiguity интерпретации и uncertainty verifier. Ни одно из этих состояний не превращать автоматически в отрицание.
 - [ ] Добавить single-field mutations и проверенные преобразования: смена speaker/episode/negation, согласованное переименование сущностей, отвлекающий текст. Переводы и мутации одного источника остаются одним семейством.
 

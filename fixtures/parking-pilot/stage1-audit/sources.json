@@ -1,0 +1,277 @@
+{
+  "schema": "normlab.stage1-sources/v1",
+  "datasetId": "stage1-contrast-ru-v1",
+  "provenance": "authored-synthetic",
+  "splitPolicy": "diagnostic-development-only-no-holdout",
+  "offsetUnit": "unicode-code-points",
+  "cases": [
+    {
+      "id": "C001",
+      "familyId": "F001",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Я оплатил парковку.",
+      "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Я оплатил парковку.",
+          "start": 0,
+          "end": 19
+        }
+      ]
+    },
+    {
+      "id": "C002",
+      "familyId": "F001",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Я не оплатил парковку.",
+      "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Я не оплатил парковку.",
+          "start": 0,
+          "end": 22
+        }
+      ]
+    },
+    {
+      "id": "C003",
+      "familyId": "F002",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Не помню, оплатил ли парковку.",
+      "sourceDigest": "281b8c4f1893954942830860952a09ca98e730e75b1d6882b40767d8b652e13a",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Не помню, оплатил ли парковку.",
+          "start": 0,
+          "end": 30
+        }
+      ]
+    },
+    {
+      "id": "C004",
+      "familyId": "F002",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Автомобиль стоял на городской парковке.",
+      "sourceDigest": "1d7ccc3a971121b658551fc39d2e37e8967d60e161b9c89bab3a0462d4de8354",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Автомобиль стоял на городской парковке.",
+          "start": 0,
+          "end": 39
+        }
+      ]
+    },
+    {
+      "id": "C005",
+      "familyId": "F003",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Я оплатил парковку. В письме: парковка не оплачена.",
+      "sourceDigest": "e2c7ce0cf61e3d4f696037e352824c1bc8d2fe0bf65693ce88355f361a38ce96",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Я оплатил парковку.",
+          "start": 0,
+          "end": 19
+        },
+        {
+          "id": "S02",
+          "quote": "В письме: парковка не оплачена.",
+          "start": 20,
+          "end": 51
+        }
+      ]
+    },
+    {
+      "id": "C006",
+      "familyId": "F003",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Я оплатил парковку, а письмо утверждает, что парковка не оплачена.",
+      "sourceDigest": "4ba5d3a31ea2c5274a3c0e259e66096b686969c36d2a4e42fce0ce04f1a6e4ff",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Я оплатил парковку, а письмо утверждает, что парковка не оплачена.",
+          "start": 0,
+          "end": 66
+        }
+      ]
+    },
+    {
+      "id": "C007",
+      "familyId": "F004",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Я не мог не оплатить парковку.",
+      "sourceDigest": "be917aeed11c0e86ef2c722f7a7a2d08c5b65ee3b31d70e6f64128f8197b4020",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Я не мог не оплатить парковку.",
+          "start": 0,
+          "end": 30
+        }
+      ]
+    },
+    {
+      "id": "C008",
+      "familyId": "F005",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Я не утверждал, что оплатил парковку.",
+      "sourceDigest": "932b07d586ed1d16f306a4e7243cb4c7fb17d56b1a1c0bef230870d1c8be50e8",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Я не утверждал, что оплатил парковку.",
+          "start": 0,
+          "end": 37
+        }
+      ]
+    },
+    {
+      "id": "C009",
+      "familyId": "F006",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Я должен был оплатить парковку.",
+      "sourceDigest": "d1e8ab6d63b2672e85103cd9579bf8591972a111b8be9adc19a204801a2e761b",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Я должен был оплатить парковку.",
+          "start": 0,
+          "end": 31
+        }
+      ]
+    },
+    {
+      "id": "C010",
+      "familyId": "F007",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Если бы я оплатил парковку, то сохранил бы чек.",
+      "sourceDigest": "e5e059c73bcd8281d768748661574ebefb6971887ecbd92ea06813efe3318290",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Если бы я оплатил парковку, то сохранил бы чек.",
+          "start": 0,
+          "end": 47
+        }
+      ]
+    },
+    {
+      "id": "C011",
+      "familyId": "F008",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Допустим, парковка была оплачена.",
+      "sourceDigest": "e500fc9c849d245ed99b62683c79a664b72fb9beaac28dd814c9bd9db0836b41",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Допустим, парковка была оплачена.",
+          "start": 0,
+          "end": 33
+        }
+      ]
+    },
+    {
+      "id": "C012",
+      "familyId": "F009",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Парковку моего автомобиля оплатил друг, а не я.",
+      "sourceDigest": "3f4b9ce1e56799da3f0f408c8888c27a7887314b4346106b137940f1c43cabc3",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Парковку моего автомобиля оплатил друг, а не я.",
+          "start": 0,
+          "end": 47
+        }
+      ]
+    },
+    {
+      "id": "C013",
+      "familyId": "F010",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Парковку моей машины я оплатил, а парковку машины друга не оплатил.",
+      "sourceDigest": "979bfa0b721923412dec43d4a91f0ccf3922adad52a6e9890c80335a56614203",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Парковку моей машины я оплатил, а парковку машины друга не оплатил.",
+          "start": 0,
+          "end": 67
+        }
+      ]
+    },
+    {
+      "id": "C014",
+      "familyId": "F011",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "Вчера я оплатил стоянку. Сегодня на той же парковке я не оплатил новую стоянку.",
+      "sourceDigest": "442849c7bbb728d401b717f83a9b10b62a3747bbc6aba9b859f8a7044401a3c3",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "Вчера я оплатил стоянку.",
+          "start": 0,
+          "end": 24
+        },
+        {
+          "id": "S02",
+          "quote": "Сегодня на той же парковке я не оплатил новую стоянку.",
+          "start": 25,
+          "end": 79
+        }
+      ]
+    },
+    {
+      "id": "C015",
+      "familyId": "F012",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "В письме сообщили, что моя парковка не оплачена.",
+      "sourceDigest": "4cf2be995dfc38043ee112918581aadc6b2d5e3005c12a75df59721729b7a81c",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "В письме сообщили, что моя парковка не оплачена.",
+          "start": 0,
+          "end": 48
+        }
+      ]
+    },
+    {
+      "id": "C016",
+      "familyId": "F013",
+      "split": "diagnostic-development",
+      "language": "ru",
+      "sourceText": "В постановлении: «ТС стояло в зоне ПП; оплаты нет».",
+      "sourceDigest": "f91d4b7b22250e263c4463202e1c3fb7058258cb002eb6089c6a4084ac213005",
+      "sentences": [
+        {
+          "id": "S01",
+          "quote": "В постановлении: «ТС стояло в зоне ПП; оплаты нет».",
+          "start": 0,
+          "end": 51
+        }
+      ]
+    }
+  ]
+}

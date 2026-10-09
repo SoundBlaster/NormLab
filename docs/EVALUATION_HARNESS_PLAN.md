@@ -69,7 +69,7 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 
 - [ ] Инвентаризировать текущие report schemas и сохранить legacy import без переписывания старых evidence.
 - [x] Определить первые offline experiment/capture/labels/report v1 contracts и neutral fixture manifest. Общий multi-turn и полный Stage 1 dataset ещё впереди.
-- [x] Добавить dry-run и replay фиксированных capture artifacts без платных запросов: [harness.py](../evaluation/harness.py), [контракт и команды](../evaluation/HARNESS.md). Capture live executions пока не реализован.
+- [x] Добавить dry-run и replay фиксированных capture artifacts без платных запросов: [harness.py](../evaluation/harness.py), [контракт и команды](../evaluation/HARNESS.md). Отдельный one-batch ProxyAPI verifier capture и SDK-free replay реализованы: [live smoke](PROXYAPI_LIVE_CHECK_2026-10-09.md). Общая provider matrix остаётся планом.
 - [x] Зафиксировать failure/partial/invalid output в denominators; без labels probes null/not_evaluated. Полный critical-error-free score отсутствует до independent review.
 
 **Gate:** сохранённый запуск воспроизводимо пересчитывается офлайн; capture не содержит secrets/labels в model context. На fixture из 3 records повторный пересчёт snapshot дал побайтно одинаковый report; model/semantic quality этим не оценивалась.
@@ -127,4 +127,6 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 
 [Offline bridge verification](PROXYAPI_OFFLINE_CHECK_2026-10-09.md): 41 tests
 passed against installed 0.3.0, with fake transport and real Requirement hooks.
-Provider contracts are now included in CI; live turn capture remains pending.
+Provider contracts are now included in CI. One bounded live batch and SDK-free turn replay passed: [live report](PROXYAPI_LIVE_CHECK_2026-10-09.md). No corpus quality inference follows from this smoke.
+
+[Stage 1 candidate dataset/audit](STAGE1_REPRESENTABILITY_AUDIT_2026-10-09.md) adds 16 sources, 13 families and 32 neutral records. Independent labels and fair provider comparison remain pending.
