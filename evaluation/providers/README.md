@@ -29,3 +29,11 @@ Factory reads `PROXYAPI_API_KEY` only when explicitly called (or accepts explici
 The proxy uses state + named questions + noul/choice/score. This is not native OpenAI Decisions SDK wire format: changing OpenAIProvider.base_url alone does not connect it. Existing JevVerifier/JevClassifier/JevScorer can consume its structural interfaces. Multiple questions can use one .system_one call; count questions and aggregate request usage separately.
 
 The offline harness is unchanged and makes no API requests. This provider is prepared for the next live/multi-turn harness slice, not already selected by its CLI. Copying and import compilation do not establish live compatibility, semantic quality or full integration. Nothing is added to hosted services or Docker images.
+
+## Offline compatibility evidence
+
+[2026-10-09 report](../../docs/PROXYAPI_OFFLINE_CHECK_2026-10-09.md): 41 tests
+passed with the installed released adapter 0.3.0 and Mellea 0.8.0, using
+MockTransport only. The factory, primitive wrappers and real Requirement
+callbacks were checked. Live interoperability and full sampling/repair remain
+unverified. CI repeats these tests via Evaluation provider contracts.

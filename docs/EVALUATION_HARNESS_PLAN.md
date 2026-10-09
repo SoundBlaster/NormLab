@@ -124,3 +124,7 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 в requirements-providers.txt; старое окружение 0.2.1 сохранено. Offline CLI
 не переключён на live calls; provider/multi-turn интеграция остаётся следующим
 срезом. Upstream license metadata discrepancy зафиксирована в provenance.
+
+[Offline bridge verification](PROXYAPI_OFFLINE_CHECK_2026-10-09.md): 41 tests
+passed against installed 0.3.0, with fake transport and real Requirement hooks.
+Provider contracts are now included in CI; live turn capture remains pending.
