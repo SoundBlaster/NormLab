@@ -13,7 +13,7 @@ import stat
 from pathlib import Path
 from types import SimpleNamespace
 
-from mellea_candidate import (
+from mellea_candidate_v2 import (
     ARMS,
     DEFINITIONS,
     SEMANTIC_REQUIREMENT,
@@ -63,7 +63,7 @@ async def main(args):
     (args.output / "discovery-parent.json").write_bytes(args.parent.read_bytes())
     for name in (
         "run_mellea.py",
-        "mellea_candidate.py",
+        "mellea_candidate_v2.py",
         "classification_v3.py",
         "anchor.py",
     ):
@@ -156,7 +156,7 @@ async def main(args):
         if p.is_file()
     ]
     manifest = {
-        "schema": "normlab.mellea-comparison/v1",
+        "schema": "normlab.mellea-comparison/v2",
         "evidence": "live" if args.live_local else "offline-control-flow-only",
         "records": records,
         "entries": entries,

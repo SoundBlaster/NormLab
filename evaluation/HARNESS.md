@@ -1,32 +1,38 @@
-# Offline evaluation harness v1
+# Offline evaluation harness v2
 
 Первый реализованный срез [плана](../docs/EVALUATION_HARNESS_PLAN.md). Общая live matrix, multi-turn execution, MLflow import нового формата и независимый case-level quality review пока не реализованы.
 
 ## Запуск из корня репозитория
 
-Python 3.10+; внешние Python зависимости и ключи не нужны. Используются текущие deterministic contracts из `mellea_candidate.py`, `classification_v3.py`, `anchor.py`.
+Python 3.10+; внешние Python зависимости и ключи не нужны. Новые replay используют `harness_v2.py` и deterministic contracts из `mellea_candidate_v2.py`, `classification_v3.py`, `anchor.py`.
 
 ```bash
-python3 evaluation/harness.py fixtures/parking-pilot/evaluation-harness/experiment.json \
+python3 evaluation/harness_v2.py fixtures/parking-pilot/evaluation-harness/experiment.json \
   --labels fixtures/parking-pilot/evaluation-harness/reviewer-labels.json --dry-run
 
-python3 evaluation/harness.py fixtures/parking-pilot/evaluation-harness/experiment.json \
+python3 evaluation/harness_v2.py fixtures/parking-pilot/evaluation-harness/experiment.json \
   --labels fixtures/parking-pilot/evaluation-harness/reviewer-labels.json \
-  --output .artifacts/harness-run-001
+  --output .artifacts/harness-v2-run-001
 
-python3 evaluation/harness.py .artifacts/harness-run-001/dataset/experiment.json \
-  --labels .artifacts/harness-run-001/reviewer-labels.json \
-  --output .artifacts/harness-rescore-001
+python3 evaluation/harness_v2.py .artifacts/harness-v2-run-001/dataset/experiment.json \
+  --labels .artifacts/harness-v2-run-001/reviewer-labels.json \
+  --output .artifacts/harness-v2-rescore-001
 ```
 
 Каждый output — новый каталог. Без `--labels` semantic probes остаются not_evaluated/null; структура проверяется. Dry-run проверяет manifest, digests, source binding и labels, не создаёт output. CLI не имеет live mode и не конструирует provider.
 
+## Совместимость и lineage
+
+`harness_v2.py` принимает manifests `normlab.evaluation-experiment/v2` и прежние v1 без изменения исходных bytes, captures или labels. Requested/returned model — bounded opaque metadata: 1–256 ASCII symbols, leading alphanumeric, затем letters/digits/`_./:-`. Эти значения не используются как пути. Experiment/dataset/provider/route/case/record identifiers сохраняют прежний узкий contract.
+
+Новый classification report всегда `normlab.evaluation-replay/v2`, содержит `replayContract: model-metadata/v2`, исходный `inputSchema` и hashes v2 исходников. Payment probe scorer остаётся `classification-selected-probes/v1`: scoring semantics не изменены. Повторный scoring v1 capture означает новый v2 replay, а не замену исторического отчёта. `harness.py` и `mellea_candidate.py` заморожены для исторических pins; команды с ними предназначены для воспроизведения v1 evidence. Frozen Stage1 planner/manifest остаются на v1 и не используют новые model metadata. [Подробности lineage](../docs/CONTRACT_REPAIRS_2026-10-10.md).
+
 ## Контракт первого среза
 
-- `normlab.evaluation-experiment/v1`: experiment/dataset identity, strategy/tactic, provider metadata, offline budget, hashed definitions, cases и records.
+- `normlab.evaluation-experiment/v2` (или historical v1 input): experiment/dataset identity, strategy/tactic, provider metadata, offline budget, hashed definitions, cases и records.
 - `normlab.evaluation-capture/v1`: record/source/parent identity, returned model и один classification turn. Status completed/failed/partial; raw output только completed; ошибки безопасными enum, без HTTP body. Usage/latency/cost в fixture v1 всегда null.
 - `normlab.evaluation-labels/v1`: отдельный reviewer-only файл, bound к полным bytes manifest через experimentDigest, candidate review status, payment probes по record IDs. Labels не часть model input; в этом срезе model input вообще не отправляется.
-- `normlab.evaluation-replay/v1`: per-record structure/probe results и counts, manifest/labels/scorer/dependency/definitions hashes. `criticalErrorFreeRate` всегда null, verifier quality not_evaluated.
+- `normlab.evaluation-replay/v2`: per-record structure/probe results и counts, manifest/labels/scorer/dependency/definitions hashes. `criticalErrorFreeRate` всегда null, verifier quality not_evaluated.
 
 Manifest/artifacts/labels полностью валидируются до записи output. Файлы ограничены 2 MiB; пути relative, без выхода за каталог; source digests и exact fragment binding проверяются существующим контрактом. Другой definition contract требует явно новой совместимой конфигурации, не молчаливого пересчёта.
 
@@ -36,7 +42,7 @@ Failure/partial/invalid output дают probePass=false при наличии la
 
 Capture snapshots включают dataset, labels при наличии, code/definitions copies и unsigned artifact manifest. Для replay используется текущий repo CLI; snapshot не заявлен standalone executable. Изменение scorer/dependencies видно по hashes; побайтная идентичность ожидается только при одинаковых версиях.
 
-## Свидетельство 2026-10-09
+## Историческое v1 свидетельство 2026-10-09
 
 Dry-run: 3 records, 0 live calls. Replay: 2 completed, 2 structuralPass, 1 probePass, 1 fixture transport failure в denominator. Повторный replay сохранённого dataset дал побайтно одинаковый report. Ключи и API не использовались. Это два CLI-прогона, не подтверждение test-suite или live interoperability.
 

@@ -307,7 +307,7 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
 - [x] Зафиксировать [идею augmentation synthetic narratives](docs/NARRATIVE_AUGMENTATION_EXPERIMENTS.md): смыслосохраняющее перефразирование отдельно от обогащения structured seed.
 - [ ] После independent review спланировать и выполнить bounded augmentation pilot с отдельной оценкой generator drift и extractor quality.
-- [ ] Проверить mapping, bounded repair и полный pipeline на независимо размеченном holdout до выбора реализации.
+- [ ] Сравнить mapping, bounded repair и полный pipeline на development/validation, зафиксировать выбор реализации и полный contract; затем оценить выбранный вариант на untouched final test. Настройка после final score требует нового test set.
 
 ### Повторяемый evaluation harness — 2026-10-09
 

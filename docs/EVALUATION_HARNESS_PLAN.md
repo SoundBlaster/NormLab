@@ -69,7 +69,7 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 
 - [ ] Инвентаризировать текущие report schemas и сохранить legacy import без переписывания старых evidence.
 - [x] Определить первые offline experiment/capture/labels/report v1 contracts и neutral fixture manifest. Общий multi-turn и полный Stage 1 dataset ещё впереди.
-- [x] Добавить dry-run и replay фиксированных capture artifacts без платных запросов: [harness.py](../evaluation/harness.py), [контракт и команды](../evaluation/HARNESS.md). Отдельный one-batch ProxyAPI verifier capture и SDK-free replay реализованы: [live smoke](PROXYAPI_LIVE_CHECK_2026-10-09.md). Общая provider matrix остаётся планом.
+- [x] Добавить dry-run и replay фиксированных capture artifacts без платных запросов: [harness_v2.py](../evaluation/harness_v2.py), [контракт и команды](../evaluation/HARNESS.md). Отдельный one-batch ProxyAPI verifier capture и SDK-free replay реализованы: [live smoke](PROXYAPI_LIVE_CHECK_2026-10-09.md). Общая provider matrix остаётся планом.
 - [x] Зафиксировать failure/partial/invalid output в denominators; без labels probes null/not_evaluated. Полный critical-error-free score отсутствует до independent review.
 
 **Gate:** сохранённый запуск воспроизводимо пересчитывается офлайн; capture не содержит secrets/labels в model context. На fixture из 3 records повторный пересчёт snapshot дал побайтно одинаковый report; model/semantic quality этим не оценивалась.

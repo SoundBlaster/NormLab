@@ -67,7 +67,11 @@ Compare paired case outcomes and retain both successful and failed captures:
 - Paired differences and uncertainty intervals; choose sample size from a
   meaningful effect and independent labels before claiming significance.
 
-Run all selected cases in all arms. Preserve source/parent/prompt digests,
+Compare all arms on development/validation cases and freeze the selected
+pipeline, prompts/schema, model/configuration, scorer and acceptance rule before
+evaluating it once on an untouched final test. Final scores cannot tune or select
+a pipeline; changes informed by that test require a fresh untouched test. Run
+all development/validation cases in all arms. Preserve source/parent/prompt digests,
 dependency versions, raw candidates, per-attempt checks, repair feedback and
 final acceptance. Use a new artifact directory per run. Never capture keys.
 
@@ -99,3 +103,18 @@ controlled verifier/language comparisons, atomic requirements, segmentation and
 statement representation experiments before selecting a pipeline. These are
 hypotheses, not a commitment to LangExtract, syntax parsing or a provider.
 The original matched Mellea arms and evidence boundaries remain applicable.
+
+## Generation contract v2 — 2026-10-10
+
+Current `run_mellea.py` uses `mellea_candidate_v2.py`: the classification schema
+is passed through `user_variables` and rendered by `{{schema}}` in the instruction.
+The recorded `promptDigest` binds that exact instruction and all user variables
+(including fragments), plus the arm's semantic requirement. Results use
+`normlab.mellea-classification/v2` and `mellea-frozen-discovery/<arm>-v2`;
+comparison manifests use `normlab.mellea-comparison/v2`.
+
+Frozen `mellea_candidate.py` preserves v1 audit pins and historical evidence; it
+is not the entrypoint for new generation. Historical v1 digests described a
+schema that was not passed to generation. New v2 runs are a new experiment
+lineage; existing reports are neither amended nor promoted to v2 evidence.
+See [contract lineage](CONTRACT_REPAIRS_2026-10-10.md).
