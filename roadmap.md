@@ -300,7 +300,9 @@ See [frontend architecture](client/ARCHITECTURE.md).
   - [x] Выполнить [fresh LLM review 16 cases / 32 expectations](docs/STAGE1_INDEPENDENT_REVIEW_2026-10-09.md), сохранив blind phase и candidate status.
   - [x] Исправить identity, actor/payment scope, operators и ambiguity policy в [annotation v2](docs/STAGE1_ANNOTATION_V2_2026-10-09.md); сохранить v1 и повторить LLM regression review.
   - [x] Зафиксировать [matched comparison protocol](docs/STAGE1_COMPARISON_PROTOCOL.md): общий Choice, изолированный контекст, counterbalanced schedule, три повтора; предложенные caps 24/192/12, authorized/executed calls 0. Labels остаются candidate.
-  - [ ] Реализовать bounded executor/capture/replay для Jev и Luna Low; после отдельного live opt-in проверить compatibility и выполнить pilot из frozen protocol.
+  - [x] Реализовать [offline executor/capture/replay](docs/STAGE1_OFFLINE_EXECUTOR.md) с отдельными states, caps, отказами и representative wire fixtures Jev / Luna Low / Luna Decisions: 228 mock slots, 0 network calls; без оценки качества моделей.
+  - [ ] Исправить четыре активных P1 из [проверки открытых PR](docs/OPEN_PR_REVIEW_2026-10-10.md), сохранив lineage исторических evidence.
+  - [ ] Добавить реальный bounded transport, проверить его через mock HTTP client, затем после отдельного live opt-in проверить compatibility и выполнить pilot из frozen protocol.
 - [ ] По выходу Stage 1 выбрать следующий bounded эксперимент, не объявляя заранее правильную архитектуру.
 - [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
 - [x] Зафиксировать [идею augmentation synthetic narratives](docs/NARRATIVE_AUGMENTATION_EXPERIMENTS.md): смыслосохраняющее перефразирование отдельно от обогащения structured seed.
