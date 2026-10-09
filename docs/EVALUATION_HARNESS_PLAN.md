@@ -76,6 +76,8 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 
 ### Harness 2 — provider и interaction matrix
 
+- [x] Подготовить [frozen matched comparison protocol/plan](STAGE1_COMPARISON_PROTOCOL.md) на annotation v2: одинаковый task, public planned request bodies, изоляция contexts, counterbalanced schedule, caps 24/192/12 без inference. `evaluation/plan_stage1_comparison.py` работает без SDK/ключей/сети; исполнение/captures/scoring пока впереди.
+
 - [ ] Подготовить Jev4Mellea 0.3.0 локально с exact pin, отдельным окружением и проверкой compatibility; сохранить исторический 0.2.1 baseline.
 - [ ] Подключить Jev Noul/Choice, Luna Responses Low и opt-in Luna Decisions через общие stage/turn records.
 - [ ] Реализовать independent/batch/sequential context policy, bounded execution и explicit resume semantics.
@@ -129,4 +131,4 @@ MLflow и Evidently поддерживают evaluation/monitoring, но не о
 passed against installed 0.3.0, with fake transport and real Requirement hooks.
 Provider contracts are now included in CI. One bounded live batch and SDK-free turn replay passed: [live report](PROXYAPI_LIVE_CHECK_2026-10-09.md). No corpus quality inference follows from this smoke.
 
-[Stage 1 candidate dataset/audit](STAGE1_REPRESENTABILITY_AUDIT_2026-10-09.md) adds 16 sources, 13 families and 32 neutral records. Independent labels and fair provider comparison remain pending.
+[Stage 1 annotation v2](STAGE1_ANNOTATION_V2_2026-10-09.md) preserves 16 sources, 13 families and 32 records with explicit semantics and repeated LLM review. Labels remain candidates, not expert ground truth. [Fair comparison protocol](STAGE1_COMPARISON_PROTOCOL.md) and offline plan are frozen; live execution and quality evidence remain pending.

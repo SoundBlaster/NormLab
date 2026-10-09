@@ -83,6 +83,15 @@
 **H1:** различение ошибки зависит от языка исходного текста.
 **H2:** Luna лучше различает polarity на этих входах при независимой подаче кандидатов.
 
+[Frozen matched protocol v1](STAGE1_COMPARISON_PROTOCOL.md): первый общий arm —
+three-way Choice на русском, те же v2 source/candidate/conventions. Offline compiler
+готовит 24-call pilot (C002/C008 × два candidates × Jev/Luna Low × три повтора),
+192-call corpus и отдельный 12-call Decisions pilot. Authorized/executed calls 0.
+Это не Noul/boolean или language experiment; они остаются отдельными arms ниже.
+
+- [x] Зафиксировать вопросы, изоляцию контекста, ordering/repeats, hashes и предложенные caps в machine-readable manifest; проверить plan без SDK/credentials/network.
+- [ ] Реализовать bounded executor/capture/replay и выполнить отдельно разрешённый matched pilot.
+
 - [ ] Подавать каждому verifier один кандидат за запрос, без названий correct/wrong и без соседнего ответа. Полный исходный контекст и definitions одинаковы по смыслу.
 - [ ] Сравнить Jev Noul и Luna Responses с boolean verdict. Раздельно показывать raw verdict, abstention и routing policy: обязательный boolean и вероятность с uncertain — разные контракты. Boolean Luna не выдавать за откалиброванную вероятность. Добавление abstention в задание Luna — отдельная versioned конфигурация.
 - [ ] Основной language arm: перевести только фабулу/quotes/valueText, оставить инструкцию и definitions фиксированными. Влияние языка инструкции исследовать отдельным arm, если требуется.
@@ -91,7 +100,7 @@
 
 **Метрики:** false acceptance известной ошибки, false rejection правильного кандидата, uncertain/refusal, различимость правильного/ошибочного ответа, latency, usage и измеренная стоимость.
 
-План диагностического smoke: 2 кандидата × 2 языка × 2 verifier × 3 заранее заданных повтора = 24 запроса. Это предложенный бюджет, не выполненный запуск и не разрешение на расход сверх ранее согласованного лимита. Фиксировать фактически возвращённую model version, settings и request IDs. Повторы оценивают вариативность, не дают новые независимые кейсы.
+Ранее предложенный language smoke: 2 кандидата × 2 языка × 2 verifier × 3 заранее заданных повтора = 24 запроса. Это отдельный эксперимент от нового 24-call Russian Choice pilot; переводы ещё требуют review. Это предложенный бюджет, не выполненный запуск и не разрешение на расход сверх ранее согласованного лимита. Фиксировать фактически возвращённую model version, settings и request IDs. Повторы оценивают вариативность, не дают новые независимые кейсы.
 
 **Результат:** воспроизводимость различения и перечень оставшихся confounds. Никакая модель по этому smoke не выбирается для production. Отсутствие эффекта на малой паре не доказывает отсутствие language effect в целом.
 
@@ -216,7 +225,7 @@ LangExtract — существующий кандидат для LLM extraction,
 
 Остановить ветку исследования при утечке labels, систематической потере отрицаний/источников, исчерпании бюджета или отсутствии улучшения относительно более простого arm. Исправленная методика запускается как новая версия; старые неудачные результаты сохраняются.
 
-**Ближайший шаг:** S1.1 — offline representability audit и manifest нейтральных кандидатов. Затем S1.2 matched smoke, S1.3 task ablations и S1.4 Luna interaction arms отдельными версиями экспериментов с заранее ограниченным бюджетом. Новых платных вызовов этот документ не выполняет.
+**Ближайший шаг:** S1.1 v2 audit/review и S1.2 Choice protocol/plan готовы. Реализовать bounded matched executor/capture/replay с offline adapter mocks; затем отдельно разрешённый compatibility pilot. S1.3 task ablations и S1.4 interaction arms остаются отдельными версиями с собственным budget. Новых платных вызовов этот документ не выполняет.
 
 ## Первичные источники инструментов
 
