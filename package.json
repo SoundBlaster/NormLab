@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@feature-sliced/steiger-plugin": "0.8.0",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "ajv": "8.20.0",
