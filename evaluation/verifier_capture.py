@@ -329,18 +329,74 @@ def replay_verifier(manifest, raw, capture):
                     "probabilities": probabilities,
                     "outcome": "recorded",
                 }
+    elif turn["status"] == "prepared":
+        require(
+            turn["calls"] == 0
+            and turn["request"] is None
+            and turn["response"] is None
+            and turn["error"] is None
+            and turn["httpStatus"] is None
+            and turn["latencyMs"] is None,
+            "Prepared turn state",
+        )
+    elif turn["status"] == "sent":
+        require(
+            turn["calls"] == 1
+            and turn["request"] is not None
+            and turn["response"] is None
+            and turn["error"] is None
+            and turn["httpStatus"] is None
+            and turn["latencyMs"] is None,
+            "Sent turn state",
+        )
     else:
         require(
             turn["response"] is None
             and turn["error"]
-            in {None, "http", "protocol", "transport", "configuration", "unknown"},
-            "Failure/pending capture",
+            in {"http", "protocol", "transport", "configuration", "unknown"}
+            and turn["latencyMs"] is not None,
+            "Failed turn state",
+        )
+        require(
+            (turn["calls"] == 0 and turn["request"] is None)
+            or (turn["calls"] == 1 and turn["request"] is not None),
+            "Failed call/request state",
         )
         require(
             turn["httpStatus"] is None
             or type(turn["httpStatus"]) is int
             and 100 <= turn["httpStatus"] <= 599,
-            "Failure HTTP status",
+            "Failed HTTP status",
+        )
+        require(
+            (
+                turn["error"] == "configuration"
+                and turn["calls"] == 0
+                and turn["httpStatus"] is None
+            )
+            or (
+                turn["error"] == "transport"
+                and turn["calls"] == 1
+                and turn["httpStatus"] is None
+            )
+            or (
+                turn["error"] == "http"
+                and turn["calls"] == 1
+                and turn["httpStatus"] not in (None, 200)
+            )
+            or (
+                turn["error"] == "protocol"
+                and turn["calls"] == 1
+                and turn["httpStatus"] == 200
+            )
+            or (
+                turn["error"] == "unknown"
+                and (
+                    turn["calls"] == 1
+                    or (turn["calls"] == 0 and turn["httpStatus"] is None)
+                )
+            ),
+            "Failure/error/HTTP state",
         )
     return {
         "schema": "normlab.verifier-replay/v1",

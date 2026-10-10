@@ -8,6 +8,11 @@ responses. This is the first implementation slice of the executor. **No live
 transport exists in this runner**: no SDK, HTTP client, credential lookup or live
 flag. The protocol still authorizes **zero paid calls**.
 
+New runs can use `evaluation/stage1_executor_v2.py`, which pairs with the
+versioned `stage1_wire_v2.py` parser. It allows a selected choice probability to
+be within `1e-6` of the reported maximum to account for rounded distributions.
+The v1 parser, executor, captures and source pins remain unchanged for replay.
+
 The reusable parser in `evaluation/stage1_wire.py` covers representative
 Jev/Decisions Choice and Luna Responses JSON
 Schema bodies, including refusal, incomplete output and malformed distributions.

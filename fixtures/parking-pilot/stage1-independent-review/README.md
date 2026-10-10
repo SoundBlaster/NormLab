@@ -18,6 +18,11 @@ Raw reviewer artifacts retain the paths originally used under `.artifacts/`.
 Their portable copies are siblings here and retain identical bytes/hashes. Hashes
 bind the saved evidence; they do not prove reviewer identity or absence of bias.
 
+The historical `review.json` stays byte-identical. Its C001→IR-003 association
+was inconsistent with IR-003's case and record scope; `erratum-2026-10-10.json`
+records the correction, and `review-v2.json` is the consistent projection for
+new readers.
+
 30/32 authored expectations agreed; R028 needs revision and R015 is unresolved.
 These are review judgments, not an accuracy measurement. Historical v1 corpus and
 bookkeeping counts remain intact; this review does not certify their semantics.

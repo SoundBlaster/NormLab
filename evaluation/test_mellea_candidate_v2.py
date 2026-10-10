@@ -9,6 +9,7 @@ from unittest.mock import AsyncMock
 from mellea_candidate_v2 import (
     INSTRUCTION,
     SEMANTIC_REQUIREMENT,
+    bound_fragments,
     fixture_backend,
     run_candidate,
     sha,
@@ -18,6 +19,46 @@ from test_mellea_candidate import PARENT, REQUEST, VALID
 
 @unittest.skipUnless(importlib.util.find_spec("mellea"), "Optional Mellea runtime")
 class PromptContractTests(unittest.TestCase):
+    def test_quote_bound_uses_utf16_code_units(self):
+        source = "😀" * 2049
+        digest = sha(source.encode())
+        request = {"narrative": source, "sourceDigest": digest}
+        parent = {
+            "sourceDigest": digest,
+            "fragments": [
+                {
+                    "fragmentId": "fragment_1",
+                    "quote": source,
+                    "attributes": {
+                        "subject": "vehicle_1",
+                        "aboutEpisode": "episode_1",
+                        "speaker": "narrator",
+                    },
+                }
+            ],
+        }
+        with self.assertRaisesRegex(ValueError, "Quote contract"):
+            bound_fragments(request, parent)
+
+    def test_failed_semantic_sampling_retains_generation_attempt_count(self):
+        from mellea import MelleaSession
+
+        class Verifier:
+            def evaluate(self, _text):
+                raise RuntimeError("fixture transport failure")
+
+        backend = fixture_backend(["{}", "{}"])
+        result = asyncio.run(
+            run_candidate(
+                MelleaSession(backend=backend), REQUEST, PARENT, "jev", Verifier()
+            )
+        )
+        self.assertEqual(result["generationAttempts"], backend.idx)
+        self.assertEqual(
+            result["generationAttempts"], len(result["validationAttempts"])
+        )
+        self.assertFalse(result["accepted"])
+
     def test_actual_generation_matches_recorded_contract_in_every_arm(self):
         from types import SimpleNamespace
 

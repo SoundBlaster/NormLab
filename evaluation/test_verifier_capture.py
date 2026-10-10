@@ -145,6 +145,107 @@ def test_archived_live_capture():
     assert report["quality"] == "not_evaluated"
 
 
+@pytest.mark.parametrize(
+    "status,updates",
+    [
+        (
+            "prepared",
+            {
+                "calls": 0,
+                "request": None,
+                "response": None,
+                "error": None,
+                "httpStatus": None,
+                "latencyMs": None,
+            },
+        ),
+        (
+            "sent",
+            {
+                "calls": 1,
+                "response": None,
+                "error": None,
+                "httpStatus": None,
+                "latencyMs": None,
+            },
+        ),
+        (
+            "failed",
+            {
+                "calls": 1,
+                "response": None,
+                "error": "transport",
+                "httpStatus": None,
+                "latencyMs": 1.0,
+            },
+        ),
+        (
+            "failed",
+            {
+                "calls": 0,
+                "request": None,
+                "response": None,
+                "error": "configuration",
+                "httpStatus": None,
+                "latencyMs": 1.0,
+            },
+        ),
+    ],
+)
+def test_valid_unfinished_states(status, updates):
+    raw = FIXTURE.read_bytes()
+    manifest = json.loads(raw)
+    capture = json.loads(FIXTURE.with_name("verifier-live-capture.json").read_bytes())
+    capture["turn"].update(status=status, **updates)
+    if status == "sent" or (status == "failed" and updates["calls"] == 1):
+        capture["turn"]["request"] = {
+            "method": "POST",
+            "endpoint": manifest["provider"]["endpoint"],
+            "body": {
+                "model": manifest["provider"]["model"],
+                "state": manifest["state"],
+                "questions": manifest["questions"],
+            },
+        }
+    else:
+        capture["turn"]["request"] = None
+    report = replay_verifier(manifest, raw, capture)
+    assert report["status"] == status
+
+
+@pytest.mark.parametrize(
+    "status,mutation",
+    [
+        ("prepared", {"calls": 1, "request": {"method": "POST"}, "httpStatus": 200}),
+        ("sent", {"calls": 0, "request": None}),
+        ("sent", {"response": {"answers": {}}, "httpStatus": 200}),
+        ("failed", {"error": None}),
+        ("failed", {"error": "configuration"}),
+        ("failed", {"error": "http", "httpStatus": 200}),
+        ("failed", {"calls": 0, "request": None, "error": "transport"}),
+        (
+            "failed",
+            {"calls": 0, "request": None, "error": "unknown", "httpStatus": 200},
+        ),
+    ],
+)
+def test_contradictory_unfinished_states_are_rejected(status, mutation):
+    raw = FIXTURE.read_bytes()
+    manifest = json.loads(raw)
+    capture = json.loads(FIXTURE.with_name("verifier-live-capture.json").read_bytes())
+    capture["turn"].update(
+        status=status,
+        calls=1,
+        response=None,
+        error="transport" if status == "failed" else None,
+        httpStatus=None,
+        latencyMs=1.0 if status == "failed" else None,
+    )
+    capture["turn"].update(mutation)
+    with pytest.raises(ValueError):
+        replay_verifier(manifest, raw, capture)
+
+
 def test_offline_cli_without_sdk(tmp_path):
     import os
     import subprocess

@@ -75,9 +75,25 @@ byte-identical v2 rescore and frozen code pins. Executed locally:
 
 The P2 findings in the review snapshot remain separate, including Mellea failure
 attempt accounting and non-BMP quote limits, unfinished verifier-state invariants,
-predicate-catalog cross-checking and the historical review metadata erratum.
-These repairs do not establish semantic model quality, live interoperability or
-readiness to merge the whole PR stack.
+predicate-catalog cross-checking and the historical review metadata erratum. This
+repair layer addresses them without rewriting frozen v1 sources:
 
-Next step: review this repair PR against #42 and run CI before resolving its four
-P1 review threads; no merge or review-thread mutation is performed here.
+- Mellea v2 records validated generation attempts when sampling raises and bounds
+  quote length in UTF-16 code units; the v1 source and manifests stay unchanged.
+- Verifier replay validates `prepared`, `sent`, and `failed` turn states against
+  allowed calls, requests, statuses, errors, and timing fields.
+- The separately versioned Stage 1 audit v3 compares its frozen catalog with the
+  pinned runtime definitions; audit v1/v2 files and manifests remain unchanged.
+- The original independent-review `review.json` remains byte-identical; the
+  versioned `review-v2.json` and erratum remove C001's stray IR-003 association.
+- Stage 1 rounded-choice tolerance is introduced by `stage1_wire_v2.py` and
+  `stage1_executor_v2.py`. The v1 executor, parser, reports, and code pins remain
+  frozen and replayable.
+
+The Jev adapter 0.3.0 review concern was an availability observation, not a code
+defect; clean PyPI download and CI verification are required before resolving it.
+
+These repairs do not establish semantic model quality, live interoperability or
+production readiness. The expanded native stack is intended to merge atomically
+only after changed heads have fresh successful checks and actionable review
+threads are addressed.

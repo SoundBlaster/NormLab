@@ -1,0 +1,21 @@
+{
+  "schema": "normlab.stage1-independent-review-erratum/v1",
+  "historicalArtifact": {
+    "path": "review.json",
+    "sha256": "8524257aa8160a3e92dfb090ae34dfa149f24defb04c24df4bf847ab94d37e56",
+    "preserved": true
+  },
+  "correctedArtifact": {
+    "path": "review-v2.json",
+    "schema": "normlab.stage1-independent-semantic-review/v2",
+    "sha256": "72c893febb5bd086f2382a7a906950b841e59dd13fc566f330ce56b9380b00ce"
+  },
+  "corrections": [
+    {
+      "case_id": "C001",
+      "remove_related_issue": "IR-003",
+      "corrected_related_issues": []
+    }
+  ],
+  "rationale": "IR-003 scopes only C002/C012/C013/C014 and records R004/R024/R025/R028. It does not describe either C001 record. Use review-v2.json for the consistent projection; review.json remains byte-identical historical evidence."
+}

@@ -78,7 +78,11 @@ def bound_fragments(request, parent):
         ):
             raise ValueError("Fragment identity contract")
         seen.add(name)
-        if not isinstance(quote, str) or not 0 < len(quote) <= 4096:
+        if (
+            not isinstance(quote, str)
+            or not quote
+            or len(quote.encode("utf-16-le")) // 2 > 4096
+        ):
             raise ValueError("Quote contract")
         start = source.find(quote)
         if start < 0 or source.find(quote, start + 1) >= 0:
@@ -254,7 +258,10 @@ async def run_candidate(session, request, parent, arm, verifier=None, timeout=30
         },
         "accepted": text is not None,
         "error": error,
-        "generationAttempts": len(sampled.sample_generations) if sampled else None,
+        "generationAttempts": max(
+            len(sampled.sample_generations) if sampled else 0,
+            len(records),
+        ),
         "validatedCandidates": len(records),
         "validationAttempts": records,
         "usage": None,
