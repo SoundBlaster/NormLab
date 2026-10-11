@@ -168,6 +168,8 @@ Evidently добавляется только при конкретной пол
 ## Следующие deliverables
 
 - [x] Зафиксировать согласованный порядок и inventory исходного pool.
+- [x] Подготовить [candidate review внешних diagnostics](EXTERNAL_DIAGNOSTIC_REVIEW_2026-10-12.md): 24 RCB пары и 50 targeted attribution probes; content, attribution, scope и projection разделены. Это не полная разметка доменных фабул и не human gold.
+- [ ] Adjudicate спорные external readings; сохранить upstream labels и independent reviewer decisions отдельно, не объединять NLI и parking quality denominators.
 - [ ] Каталог ошибок и полнота reviewer rubric для 30–50 выбранных development-фабул.
 - [ ] Versioned S1.3 manifest, локальные questions, source-only arm и offline contract.
 - [ ] Разрешённый development experiment и полный отчёт, затем решение об extraction ablation.
