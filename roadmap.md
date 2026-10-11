@@ -356,7 +356,7 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Локально проверить восстановление, исчерпание попыток/бюджета, отсутствие HTTP/schema retries и безопасную остановку при прерывании; zero live calls.
 - [x] [Добавить retry-aware scoring](docs/STAGE1_RETRY_SCORING.md) с отдельным учётом first-attempt completion, результата после повторов, candidate agreement и всех потраченных attempts.
 - [x] Новая ревизия retry-runner v2 со split-export: полный план из 288 corpus-заданий экспортируется в digest-bound артефакты меньше 2 MiB каждый; offline execution/scoring проверены в PR #57. Историческая v1 сохраняет прежнее ограничение.
-- [ ] Провести малый live-прогон новой стратегии с явно ограниченным общим числом попыток.
+- [x] Провести [малый live-прогон retry v2](docs/STAGE1_RETRY_LIVE_2026-10-11.md): 12 попыток, 6 ответов, 4 восстановленных задания; replay/sealing/scoring прошли. Два общих контекста не устанавливают победителя моделей.
 
 ### Stack merge review — 2026-10-11
 
@@ -364,4 +364,5 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Retry scorer v2: preserve known tokens for pending completed children; keep verdict unknown.
 - [x] Add offline regression coverage for both fixes to provider CI.
 - [x] Align pinned Node runtime, CI and package engines on Node 22.19.0 for Undici 8 (#50).
-- [ ] Run the next explicitly budgeted live comparison with the v2 retry contract.
+- [x] Run the next explicitly budgeted live comparison with the v2 retry contract: [12-attempt partial capture](docs/STAGE1_RETRY_LIVE_2026-10-11.md).
+- [ ] Расширить matched live comparison на C008 и следующие contrast families с новым явно ограниченным бюджетом; отдельно исследовать TLS без платного inference.
