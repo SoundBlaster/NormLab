@@ -349,3 +349,10 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [ ] Новая ревизия executor с sanitized transport exception class, затем новый отдельно разрешённый live-прогон.
 
 Свидетельства: [scoring contract](docs/STAGE1_PROVIDER_SCORING.md), [live attempt](docs/STAGE1_LIVE_PILOT_2026-10-11.md).
+
+### Stage 1 — ограниченные network retries
+
+- [x] [Отдельная версия retry-runner](docs/STAGE1_NETWORK_RETRIES.md): до трёх попыток, exponential backoff + jitter, sanitized transport exceptions, общий dispatch cap и SDK-free replay.
+- [x] Локально проверить восстановление, исчерпание попыток/бюджета, отсутствие HTTP/schema retries и безопасную остановку при прерывании; zero live calls.
+- [ ] Добавить retry-aware scoring с отдельным учётом first-attempt reliability и результата после повторов.
+- [ ] Провести малый live-прогон новой стратегии с явно ограниченным общим числом попыток.

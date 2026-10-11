@@ -107,3 +107,7 @@ capture. Historical v1 evidence and pinned source digests remain unchanged.
 
 See [candidate-label scorer](../docs/STAGE1_PROVIDER_SCORING.md) and the
 [first partial live context](../docs/STAGE1_LIVE_PILOT_2026-10-11.md).
+
+The separate [network retry runner](../docs/STAGE1_NETWORK_RETRIES.md) preserves
+each attempt and enforces a shared dispatch cap. Historical no-retry runs remain
+unchanged; retry captures require a separate scoring projection.
