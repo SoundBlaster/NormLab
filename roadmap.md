@@ -363,5 +363,5 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Retry v2: bounded split plan export for the 288-job corpus; historical v1 unchanged.
 - [x] Retry scorer v2: preserve known tokens for pending completed children; keep verdict unknown.
 - [x] Add offline regression coverage for both fixes to provider CI.
-- [ ] Align pinned Node runtime with Undici 8's Node >=22.19 requirement before merging its dependency update (#50).
+- [x] Align pinned Node runtime, CI and package engines on Node 22.19.0 for Undici 8 (#50).
 - [ ] Run the next explicitly budgeted live comparison with the v2 retry contract.
