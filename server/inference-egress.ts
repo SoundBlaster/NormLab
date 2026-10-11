@@ -4,6 +4,11 @@ import { createServer } from 'node:http';
 import { BlockList, connect, isIP, Socket, type LookupFunction } from 'node:net';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  DEFAULT_INFERENCE_ENDPOINTS,
+  inferenceEndpoints,
+  type InferenceEndpoints,
+} from './inference-endpoints.js';
 
 const blocked = new BlockList();
 for (const [address, prefix] of [
@@ -36,10 +41,12 @@ export function isPublicInferenceAddress(address: string): boolean {
     ? !blocked.check(address, 'ipv4')
     : family === 6 && globalV6.check(address, 'ipv6') && !blocked.check(address, 'ipv6');
 }
-export function inferenceTunnelHost(authority: string | undefined): string | undefined {
-  if (authority === 'api.openai.com:443') return 'api.openai.com';
-  if (authority === 'api.typesafe.ai:443') return 'api.typesafe.ai';
-  return undefined;
+export function inferenceTunnelHost(
+  authority: string | undefined,
+  endpoints: InferenceEndpoints = DEFAULT_INFERENCE_ENDPOINTS,
+): string | undefined {
+  const endpoint = Object.values(endpoints).find((entry) => authority === entry.authority);
+  return endpoint ? new URL(endpoint.url).hostname : undefined;
 }
 
 export function checkedLookup(addresses: LookupAddress[]): LookupFunction {
@@ -50,7 +57,10 @@ export function checkedLookup(addresses: LookupAddress[]): LookupFunction {
 }
 
 /** Opaque TLS tunnels only; no credentials, volumes, arbitrary hosts or plaintext HTTP. */
-export function createInferenceEgress(resolver: typeof lookup = lookup) {
+export function createInferenceEgress(
+  resolver: typeof lookup = lookup,
+  endpoints: InferenceEndpoints = DEFAULT_INFERENCE_ENDPOINTS,
+) {
   let active = 0;
   const server = createServer((req, res) => {
     const ok = req.method === 'GET' && req.url === '/health';
@@ -62,7 +72,7 @@ export function createInferenceEgress(resolver: typeof lookup = lookup) {
       client.destroy();
       return;
     }
-    const host = inferenceTunnelHost(req.url);
+    const host = inferenceTunnelHost(req.url, endpoints);
     if (!host || active >= 4) {
       client.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n');
       return;
@@ -117,7 +127,7 @@ export function createInferenceEgress(resolver: typeof lookup = lookup) {
   return server;
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const server = createInferenceEgress();
+  const server = createInferenceEgress(lookup, inferenceEndpoints(process.env));
   server.listen(4319, '0.0.0.0', () =>
     console.log('NormLab inference egress listening on port 4319.'),
   );

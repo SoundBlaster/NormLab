@@ -1,0 +1,8 @@
+{
+  "schema": "normlab.blind-review-integrity/v1",
+  "sha256": "480bddd3eefe05cdce18665bf006cc352472a01f7c696c98108a26ffd65d720e",
+  "cases": 16,
+  "evidenceSpansChecked": 25,
+  "spanErrors": [],
+  "sourceMatch": true
+}

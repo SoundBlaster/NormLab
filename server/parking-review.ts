@@ -11,8 +11,13 @@ import {
 } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { z } from 'zod';
-import { HOSTED_MAX_NARRATIVE, HOSTED_PIPELINE } from './hosted-extraction.js';
+import {
+  HOSTED_DECISIONS_PIPELINE,
+  HOSTED_MAX_NARRATIVE,
+  HOSTED_PIPELINE,
+} from './hosted-extraction.js';
 import type { ParkingExtractor } from './inference-client.js';
+import { InferenceAccessError, inferenceFailureMessage } from './inference-errors.js';
 import {
   emptyReviewChecklist,
   reviewChecklistSchema,
@@ -261,9 +266,9 @@ export class ParkingReview {
         }
         const result = z
           .object({
-            pipeline: z.literal(
-              this.extractor ? HOSTED_PIPELINE : 'literal-discovery-then-classification/v3',
-            ),
+            pipeline: this.extractor
+              ? z.enum([HOSTED_PIPELINE, HOSTED_DECISIONS_PIPELINE])
+              : z.literal('literal-discovery-then-classification/v3'),
             statements: z.array(reviewStatementSchema).max(256),
             sourceDigest: z.string(),
           })
@@ -287,7 +292,7 @@ export class ParkingReview {
       } catch (error) {
         if (error instanceof ParkingReviewError) throw error;
         throw new ParkingReviewError(
-          'Извлечение не завершено; прежняя ревизия сохранена. Ручная разметка доступна.',
+          `${error instanceof InferenceAccessError ? `${inferenceFailureMessage(error.failure)} ` : ''}Извлечение не завершено; прежняя ревизия сохранена. Ручная разметка доступна.`,
           503,
         );
       } finally {

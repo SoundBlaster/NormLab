@@ -1,0 +1,43 @@
+{
+  "schema": "normlab.evaluation-labels/v1",
+  "experimentDigest": "49a58d77388a5caa4a67e91b34782ef6d16fbd24a890710cabacec6e1c84a109",
+  "status": "candidate",
+  "expectations": {
+    "R001": [
+      {
+        "fragmentId": "fragment_1",
+        "predicate": "payment",
+        "stance": "asserted"
+      },
+      {
+        "fragmentId": "fragment_2",
+        "predicate": "payment",
+        "stance": "denied"
+      }
+    ],
+    "R002": [
+      {
+        "fragmentId": "fragment_1",
+        "predicate": "payment",
+        "stance": "asserted"
+      },
+      {
+        "fragmentId": "fragment_2",
+        "predicate": "payment",
+        "stance": "denied"
+      }
+    ],
+    "R003": [
+      {
+        "fragmentId": "fragment_1",
+        "predicate": "payment",
+        "stance": "asserted"
+      },
+      {
+        "fragmentId": "fragment_2",
+        "predicate": "payment",
+        "stance": "denied"
+      }
+    ]
+  }
+}

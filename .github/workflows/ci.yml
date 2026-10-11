@@ -14,6 +14,52 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  mellea:
+    name: Mellea offline control flow
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - name: Install pinned Mellea runtime
+        run: python -m pip install mellea==0.8.0
+      - name: Run real sampling with fixture generation and verification
+        run: python -m unittest discover -s evaluation -p 'test_mellea_candidate*.py'
+
+  providers:
+    name: Evaluation provider contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - name: Install released adapter and offline test dependencies
+        run: python -m pip install -r evaluation/requirements-provider-tests.txt
+      - name: Check copied ProxyAPI bridge without inference
+        run: python -m pytest evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_provider_smoke.py evaluation/test_retry_contracts_v2.py -q
+
+  stage1:
+    name: Stage 1 dataset audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - name: Validate synthetic sources, candidate mutations and frozen contract
+        run: python -m unittest discover -s evaluation -p 'test_stage1*.py'
+
   architecture:
     name: FSD architecture
     runs-on: ubuntu-24.04
@@ -23,7 +69,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22.19.0
           cache: npm
@@ -45,7 +91,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22.19.0
           cache: npm
@@ -69,6 +115,9 @@ jobs:
 
       - name: Check complete classification contract
         run: python evaluation/check_classification_v3.py "$RUNNER_TEMP/normlab-classification-contract"
+
+      - name: Check Mellea candidate contracts without inference
+        run: python -m unittest discover -s evaluation -p 'test_mellea_candidate*.py'
 
       - name: Lint TypeScript and public API re-export guards
         run: npm run lint:code

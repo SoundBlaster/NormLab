@@ -1,0 +1,19 @@
+{
+  "schema": "normlab.evaluation-capture/v1",
+  "recordId": "R002",
+  "sourceDigest": "e2c7ce0cf61e3d4f696037e352824c1bc8d2fe0bf65693ce88355f361a38ce96",
+  "parentDigest": "f75a49e6c3b81a32a17c787f8410d6ad5533665a499e9e8a493f7735d84dcd58",
+  "returnedModel": "fixture",
+  "turns": [
+    {
+      "id": "turn_1",
+      "stage": "classification",
+      "status": "completed",
+      "output": "{\"results\": {\"fragment_1\": {\"status\": \"classified\", \"reason\": \"\", \"classifications\": [{\"predicate\": \"payment\", \"stance\": \"asserted\", \"valueText\": \"Я оплатил парковку.\"}]}, \"fragment_2\": {\"status\": \"classified\", \"reason\": \"\", \"classifications\": [{\"predicate\": \"payment\", \"stance\": \"asserted\", \"valueText\": \"В письме: парковка не оплачена.\"}]}}}",
+      "error": null,
+      "usage": null,
+      "latencyMs": null,
+      "cost": null
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "normlab.verifier-experiment/v1",
+  "experimentId": "proxyapi-letter-smoke-v1",
+  "provider": {
+    "id": "proxyapi-luna-decisions",
+    "endpoint": "https://api.proxyapi.ru/v1/decisions",
+    "model": "openai/gpt-6-luna-decisions",
+    "wireContract": "proxyapi-state-questions/v1",
+    "adapterVersion": "0.3.0"
+  },
+  "tactic": "batch",
+  "state": {
+    "sourceText": "Я оплатил парковку. В письме: парковка не оплачена."
+  },
+  "questions": {
+    "Q001": {
+      "type": "noul",
+      "instructions": "Утверждает ли письмо, что парковка не оплачена? Оцени только содержание письма, а не слова рассказчика.",
+      "criteria": {
+        "true": "В письме утверждается отсутствие оплаты парковки.",
+        "false": "В письме не утверждается отсутствие оплаты парковки."
+      }
+    },
+    "Q002": {
+      "type": "choice",
+      "instructions": "Какую позицию об оплате парковки выражает письмо?",
+      "criteria": {
+        "asserted": "Письмо утверждает, что парковка оплачена.",
+        "denied": "Письмо утверждает, что парковка не оплачена.",
+        "unknown": "Письмо не сообщает об оплате.",
+        "unsupported": "Содержание письма невозможно определить из текста."
+      }
+    },
+    "Q003": {
+      "type": "score",
+      "instructions": "Насколько явно письмо сообщает об отсутствии оплаты парковки?",
+      "criteria": [
+        "Отсутствие оплаты не упомянуто.",
+        "Сообщение об отсутствии оплаты неоднозначно.",
+        "Отсутствие оплаты утверждается явно."
+      ]
+    }
+  },
+  "budget": {
+    "maxCalls": 1,
+    "maxQuestions": 3,
+    "transportTimeoutSeconds": 10
+  },
+  "policy": {
+    "rejectAt": 0.2,
+    "acceptAt": 0.8
+  }
+}

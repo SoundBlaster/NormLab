@@ -1,0 +1,12 @@
+{
+  "candidates": [
+    "{}",
+    "{\"results\": {\"fragment_1\": {\"status\": \"classified\", \"reason\": \"\", \"classifications\": [{\"predicate\": \"payment\", \"stance\": \"asserted\", \"valueText\": \"Я оплатил парковку.\"}]}, \"fragment_2\": {\"status\": \"classified\", \"reason\": \"\", \"classifications\": [{\"predicate\": \"payment\", \"stance\": \"denied\", \"valueText\": \"В письме: парковка не оплачена.\"}]}}}"
+  ],
+  "semanticVerdicts": [
+    {
+      "outcome": "pass",
+      "p_yes": 0.98
+    }
+  ]
+}

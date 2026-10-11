@@ -1,10 +1,12 @@
 import { z } from 'zod';
 import { inferencePost } from './inference-http.js';
 import type { InferenceGatewayConfig } from './inference-config.js';
+import { DEFAULT_INFERENCE_ENDPOINTS } from './inference-endpoints.js';
+import { decisionsChoices } from './inference-decisions.js';
 
 export const INFERENCE_DESTINATIONS = Object.freeze({
-  openai: 'https://api.openai.com/v1/responses',
-  typesafe: 'https://api.typesafe.ai/v1/systemone',
+  openai: DEFAULT_INFERENCE_ENDPOINTS.openai.url,
+  typesafe: DEFAULT_INFERENCE_ENDPOINTS.typesafe.url,
 });
 /** Discovery quotes the whole source; reasoning tokens also count against this limit. */
 export const OPENAI_REQUEST_SETTINGS = Object.freeze({
@@ -13,7 +15,8 @@ export const OPENAI_REQUEST_SETTINGS = Object.freeze({
 });
 export type StructuredStage = keyof typeof OPENAI_REQUEST_SETTINGS.maxOutputTokens;
 export type InferenceCall = {
-  provider: 'openai' | 'typesafe';
+  provider: 'openai' | 'typesafe' | 'openai-decisions';
+  endpoint: string;
   stage: string;
   model: string;
   request: unknown;
@@ -90,11 +93,13 @@ export class InferenceProviders {
     };
     const response = openaiResponse.parse(
       await inferencePost(
-        INFERENCE_DESTINATIONS.openai,
+        this.config.endpoints.openai.url,
         this.config.openaiKey,
         request,
         signal,
         this.fetcher,
+        120000,
+        { provider: 'openai', stage },
       ),
     );
     const messages = response.output.filter((item) => item.type === 'message');
@@ -107,7 +112,14 @@ export class InferenceProviders {
     const content = messages[0].content;
     if (!content || content.length !== 1 || content[0].type !== 'output_text' || !content[0].text)
       throw new Error('Incomplete or refused OpenAI output.');
-    calls.push({ provider: 'openai', stage, model: response.model, request, response });
+    calls.push({
+      provider: 'openai',
+      endpoint: this.config.endpoints.openai.url,
+      stage,
+      model: response.model,
+      request,
+      response,
+    });
     return JSON.parse(content[0].text) as unknown;
   }
   async choices(
@@ -120,11 +132,13 @@ export class InferenceProviders {
     const request = { model: this.config.typesafeModel, state, questions };
     const response = typesafeResponse.parse(
       await inferencePost(
-        INFERENCE_DESTINATIONS.typesafe,
+        this.config.endpoints.typesafe.url,
         this.config.typesafeKey,
         request,
         signal,
         this.fetcher,
+        120000,
+        { provider: 'typesafe', stage: 'classification' },
       ),
     );
     const expected = Object.keys(questions).sort();
@@ -140,11 +154,20 @@ export class InferenceProviders {
     }
     calls.push({
       provider: 'typesafe',
+      endpoint: this.config.endpoints.typesafe.url,
       stage: 'classification',
       model: response.model,
       request,
       response,
     });
     return response.answers;
+  }
+  async decisions(
+    state: unknown,
+    questions: Record<string, TypeSafeQuestion>,
+    calls: InferenceCall[],
+    signal: AbortSignal,
+  ) {
+    return decisionsChoices(this.config, state, questions, calls, signal, this.fetcher);
   }
 }

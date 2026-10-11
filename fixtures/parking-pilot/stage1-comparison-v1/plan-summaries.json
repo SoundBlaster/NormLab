@@ -1,0 +1,91 @@
+{
+  "pilot": {
+    "schema": "normlab.stage1-comparison-plan-summary/v1",
+    "experimentId": "stage1-matched-choice-ru-v1",
+    "manifestDigest": "70e7bc4979c8e853ce37b64b2b1c7b654ee78ee9edf06faac10113785ceaea98",
+    "planDigest": "f34195dc931d848f8dfc3d731280c47858130a549d7a4937e13b9b1ab9a7b8c6",
+    "profile": "pilot",
+    "mode": "offline-plan",
+    "callsExecuted": 0,
+    "plannedCalls": 24,
+    "plannedQuestions": 24,
+    "cases": 2,
+    "families": 2,
+    "records": 4,
+    "callsPerArm": {
+      "jev-coreinfra": 12,
+      "luna-low-coreinfra": 12
+    },
+    "repeats": 3,
+    "criticalErrorFreeRate": null,
+    "budget": {
+      "maxCalls": 24,
+      "maxQuestions": 24,
+      "maxInputUtf8Bytes": 32768,
+      "transportTimeoutSeconds": 30,
+      "wallDeadlineSeconds": 900,
+      "authorizedCalls": 0,
+      "monetaryCap": null,
+      "pricingVerified": false
+    }
+  },
+  "corpus": {
+    "schema": "normlab.stage1-comparison-plan-summary/v1",
+    "experimentId": "stage1-matched-choice-ru-v1",
+    "manifestDigest": "70e7bc4979c8e853ce37b64b2b1c7b654ee78ee9edf06faac10113785ceaea98",
+    "planDigest": "fb207d1f0a0ade3bb4fffa54aea1dce85472b6640bdf26962aae41078d5f6ffb",
+    "profile": "corpus",
+    "mode": "offline-plan",
+    "callsExecuted": 0,
+    "plannedCalls": 192,
+    "plannedQuestions": 192,
+    "cases": 16,
+    "families": 13,
+    "records": 32,
+    "callsPerArm": {
+      "jev-coreinfra": 96,
+      "luna-low-coreinfra": 96
+    },
+    "repeats": 3,
+    "criticalErrorFreeRate": null,
+    "budget": {
+      "maxCalls": 192,
+      "maxQuestions": 192,
+      "maxInputUtf8Bytes": 32768,
+      "transportTimeoutSeconds": 30,
+      "wallDeadlineSeconds": 7200,
+      "authorizedCalls": 0,
+      "monetaryCap": null,
+      "pricingVerified": false
+    }
+  },
+  "decisions-pilot": {
+    "schema": "normlab.stage1-comparison-plan-summary/v1",
+    "experimentId": "stage1-matched-choice-ru-v1",
+    "manifestDigest": "70e7bc4979c8e853ce37b64b2b1c7b654ee78ee9edf06faac10113785ceaea98",
+    "planDigest": "6ba5f8c358dbe37da805560d260939a123e29c43f32222eef5b01901420892e1",
+    "profile": "decisions-pilot",
+    "mode": "offline-plan",
+    "callsExecuted": 0,
+    "plannedCalls": 12,
+    "plannedQuestions": 12,
+    "cases": 2,
+    "families": 2,
+    "records": 4,
+    "callsPerArm": {
+      "luna-decisions-proxyapi": 12
+    },
+    "repeats": 3,
+    "criticalErrorFreeRate": null,
+    "budget": {
+      "maxCalls": 12,
+      "maxQuestions": 12,
+      "maxInputUtf8Bytes": 32768,
+      "transportTimeoutSeconds": 30,
+      "wallDeadlineSeconds": 450,
+      "authorizedCalls": 0,
+      "monetaryCap": null,
+      "pricingVerified": false
+    }
+  }
+}

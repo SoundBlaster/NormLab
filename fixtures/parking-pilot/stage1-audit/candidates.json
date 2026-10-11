@@ -1,0 +1,982 @@
+{
+  "schema": "normlab.stage1-candidates/v1",
+  "datasetId": "stage1-contrast-ru-v1",
+  "sourcesDigest": "a31cc0af98c3eeac64050333843212282be1ff0f25a461089c2a8bce5dc0dd32",
+  "representation": "diagnostic-oracle-not-production-contract",
+  "records": [
+    {
+      "id": "R001",
+      "caseId": "C001",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R002",
+      "caseId": "C001",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R003",
+      "caseId": "C002",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не оплатил парковку",
+          "start": 0,
+          "end": 21,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R004",
+      "caseId": "C002",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не оплатил парковку",
+          "start": 0,
+          "end": 21,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R005",
+      "caseId": "C003",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Не помню, оплатил ли парковку",
+          "start": 0,
+          "end": 29,
+          "predicate": "payment",
+          "stance": "unknown",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R006",
+      "caseId": "C003",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Не помню, оплатил ли парковку",
+          "start": 0,
+          "end": 29,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R007",
+      "caseId": "C004",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Автомобиль стоял на городской парковке",
+          "start": 0,
+          "end": 38,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": null,
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "городской парковке",
+          "start": 20,
+          "end": 38,
+          "predicate": "cityParking",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": null,
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R008",
+      "caseId": "C004",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Автомобиль стоял на городской парковке",
+          "start": 0,
+          "end": 38,
+          "predicate": "placement",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": null,
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "городской парковке",
+          "start": 20,
+          "end": 38,
+          "predicate": "cityParking",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": null,
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R009",
+      "caseId": "C005",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S02",
+          "quote": "парковка не оплачена",
+          "start": 30,
+          "end": 50,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "letter_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R010",
+      "caseId": "C005",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S02",
+          "quote": "парковка не оплачена",
+          "start": 30,
+          "end": 50,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R011",
+      "caseId": "C006",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "парковка не оплачена",
+          "start": 45,
+          "end": 65,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R012",
+      "caseId": "C006",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "парковка не оплачена",
+          "start": 45,
+          "end": 65,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "letter_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R013",
+      "caseId": "C007",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не мог не оплатить парковку",
+          "start": 0,
+          "end": 29,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "necessity",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R014",
+      "caseId": "C007",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не мог не оплатить парковку",
+          "start": 0,
+          "end": 29,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "necessity",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "letter_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R015",
+      "caseId": "C008",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не утверждал, что оплатил парковку",
+          "start": 0,
+          "end": 36,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "speech-act",
+          "subject": "person_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "assertion-of-payment"
+        }
+      ]
+    },
+    {
+      "id": "R016",
+      "caseId": "C008",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не утверждал, что оплатил парковку",
+          "start": 0,
+          "end": 36,
+          "predicate": "speechAct",
+          "stance": "denied",
+          "mode": "speech-act",
+          "subject": "person_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "assertion-of-payment"
+        }
+      ]
+    },
+    {
+      "id": "R017",
+      "caseId": "C009",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я должен был оплатить парковку",
+          "start": 0,
+          "end": 30,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "obligation",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R018",
+      "caseId": "C009",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я должен был оплатить парковку",
+          "start": 0,
+          "end": 30,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R019",
+      "caseId": "C010",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Если бы я оплатил парковку",
+          "start": 0,
+          "end": 26,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "antecedent"
+        }
+      ]
+    },
+    {
+      "id": "R020",
+      "caseId": "C010",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Если бы я оплатил парковку",
+          "start": 0,
+          "end": 26,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "conditional",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "antecedent"
+        }
+      ]
+    },
+    {
+      "id": "R021",
+      "caseId": "C011",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Допустим, парковка была оплачена",
+          "start": 0,
+          "end": 32,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "hypothetical",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R022",
+      "caseId": "C011",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Допустим, парковка была оплачена",
+          "start": 0,
+          "end": 32,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R023",
+      "caseId": "C012",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Парковку моего автомобиля оплатил друг",
+          "start": 0,
+          "end": 38,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "друг",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "а не я",
+          "start": 40,
+          "end": 46,
+          "predicate": "attribution",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "person_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "я",
+          "scope": "payment-actor"
+        }
+      ]
+    },
+    {
+      "id": "R024",
+      "caseId": "C012",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Парковку моего автомобиля оплатил друг",
+          "start": 0,
+          "end": 38,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_2",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "друг",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "а не я",
+          "start": 40,
+          "end": 46,
+          "predicate": "attribution",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "person_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "я",
+          "scope": "payment-actor"
+        }
+      ]
+    },
+    {
+      "id": "R025",
+      "caseId": "C013",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Парковку моей машины я оплатил",
+          "start": 0,
+          "end": 30,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "парковку машины друга не оплатил",
+          "start": 34,
+          "end": 66,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_2",
+          "aboutEntity": "vehicle_2",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_2",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R026",
+      "caseId": "C013",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Парковку моей машины я оплатил",
+          "start": 0,
+          "end": 30,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "парковку машины друга не оплатил",
+          "start": 34,
+          "end": 66,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_2",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_2",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R027",
+      "caseId": "C014",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Вчера я оплатил стоянку",
+          "start": 0,
+          "end": 23,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S02",
+          "quote": "Сегодня на той же парковке я не оплатил новую стоянку",
+          "start": 25,
+          "end": 78,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R028",
+      "caseId": "C014",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Вчера я оплатил стоянку",
+          "start": 0,
+          "end": 23,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S02",
+          "quote": "Сегодня на той же парковке я не оплатил новую стоянку",
+          "start": 25,
+          "end": 78,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_2",
+          "grammaticalSubject": "Я",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R029",
+      "caseId": "C015",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "моя парковка не оплачена",
+          "start": 23,
+          "end": 47,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "letter_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R030",
+      "caseId": "C015",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "моя парковка не оплачена",
+          "start": 23,
+          "end": 47,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R031",
+      "caseId": "C016",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "ТС стояло в зоне ПП",
+          "start": 18,
+          "end": 37,
+          "predicate": "placement",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "notice_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "ТС",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "оплаты нет",
+          "start": 39,
+          "end": 49,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "notice_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "оплата",
+          "scope": "proposition"
+        }
+      ]
+    },
+    {
+      "id": "R032",
+      "caseId": "C016",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "ТС стояло в зоне ПП",
+          "start": 18,
+          "end": 37,
+          "predicate": "placement",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "notice_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "ТС",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "оплаты нет",
+          "start": 39,
+          "end": 49,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "notice_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "оплата",
+          "scope": "proposition"
+        }
+      ]
+    }
+  ]
+}

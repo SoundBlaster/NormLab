@@ -19,5 +19,7 @@ export function configuredParkingExtractor(
       AbortSignal.timeout(305000),
       fetch,
       305000,
+      { provider: 'gateway', stage: 'extraction' },
+      true,
     );
 }

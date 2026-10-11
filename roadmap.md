@@ -260,3 +260,108 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [ ] После review опубликовать immutable image и активировать opt-in Compose overlays в допустимом окружении.
 - [ ] Внести ключи через скрытый terminal prompt и провести один synthetic сквозной запуск.
 - [ ] Оценить новый pipeline на фиксированном корпусе отдельно от прежних baseline и целей 50%/80%.
+
+### Hosted inference — поставщик API
+
+- [x] Настраивать API base для Responses/System One на сервере; сохранять path prefix.
+- [x] Передавать одинаковые base URLs в gateway и egress, выводить точный TLS allowlist из этих значений.
+- [x] Сохранять endpoint в артефактах inference; ключи остаются в отдельных secret-файлах.
+- [x] Проверить CoreInfra application API (`https://hub.coreinfra.ai/openai/api/v1`): [один live Responses Low + strict JSON](docs/COREINFRA_LIVE_CHECK_2026-10-11.md) прошёл; полный hosted extraction contract ещё требует отдельной проверки. `/codex/api/v1` — адрес агента, не выбранный application API.
+- [ ] После проверки совместимости выполнить synthetic acceptance и evaluation corpus через выбранного поставщика.
+
+### Decisions API — кандидат для сравнения
+
+[OpenAI changelog](https://developers.openai.com/api/docs/changelog) сообщает о beta-релизе Decisions API с `gpt-6-luna` 6 октября 2026. [Контракт](https://developers.openai.com/api/docs/guides/decisions) содержит `predicate`, `choice`, `score` и возможность отказа. Это отдельный протокол: настройка Responses base URL сама по себе его не подключает.
+
+- [x] Подтвердить на synthetic-примере Noul/Choice/Score с `gpt-6-luna` по CoreInfra `/openai/api/v1/decisions`; один предшествующий Choice attempt завершился без HTTP-статуса. Это compatibility, не quality/reliability benchmark.
+- [x] Подготовить отдельный classification adapter с `choice`, явными вариантами unknown/unsupported и обработкой refusal; сохранить source binding и обязательный human review. Mock-проверки не подтверждают доступность поставщика.
+- [x] Сохранять probabilities/confidence как оценки модели, без превращения их в подтверждение фактов.
+- [ ] Сравнить Decisions, Jev и Responses на одном фиксированном корпусе: критические ошибки, отрицания, противоречия, latency и стоимость. Discovery оставить отдельным этапом.
+
+Рабочее допущение пользователя от 2026-10-07: CoreInfra полностью проксирует OpenAI API, включая Decisions. Реальным авторизованным запросом это пока не проверено; activation и оценки качества остаются открытыми задачами.
+
+### Mellea + Jev — validation/repair evaluation
+
+[Утверждённый план](docs/MELLEA_EVALUATION_PLAN.md): три matched arms, сначала classification на одинаковом discovery, затем полный pipeline. Одна repair-попытка; фабула неизменна, подтверждения остаются ручными.
+
+- [x] Зафиксировать цель, arms, бюджет и границы доказательств.
+- [x] Подготовить candidate runner и offline проверки настоящего Mellea 0.8 control flow: [run_mellea.py](evaluation/run_mellea.py), fixed responses, 8 локальных проверок; отдельный CI job без сетевого инференса.
+- [ ] Выполнить paired classification comparison на фиксированном корпусе после фиксации зависимостей и доступности генератора/ключа Jev.
+- [ ] Расширить на discovery + classification и провести независимую разметку критических ошибок.
+- [ ] По качеству, latency и стоимости решить, нужен ли Python worker в hosted runtime.
+
+### Исследование extraction и semantic validation — 2026-10-09
+
+[Roadmap экспериментов](docs/EXTRACTION_EXPERIMENT_ROADMAP.md) фиксирует гипотезы и условия отказа от подходов. Jev/Luna, язык, узкие проверки, Razdel, LangExtract и Natasha сравниваются поэтапно; ни один новый вариант пока не выбран для hosted runtime.
+
+- [x] Записать исследовательский план, контрольные arms, метрики и evidence boundaries.
+- [ ] Stage 1: собрать свидетельства — offline representability audit, независимое сравнение Jev/Luna и диагностические task ablations; оформить ограничения и реестр гипотез.
+  - [x] Подготовить candidate contrast corpus и offline audit: [16 sources, 13 families, 32 records](docs/STAGE1_REPRESENTABILITY_AUDIT_2026-10-09.md).
+  - [x] Выполнить [fresh LLM review 16 cases / 32 expectations](docs/STAGE1_INDEPENDENT_REVIEW_2026-10-09.md), сохранив blind phase и candidate status.
+  - [x] Исправить identity, actor/payment scope, operators и ambiguity policy в [annotation v2](docs/STAGE1_ANNOTATION_V2_2026-10-09.md); сохранить v1 и повторить LLM regression review.
+  - [x] Зафиксировать [matched comparison protocol](docs/STAGE1_COMPARISON_PROTOCOL.md): общий Choice, изолированный контекст, counterbalanced schedule, три повтора; предложенные caps 24/192/12, authorized/executed calls 0. Labels остаются candidate.
+  - [x] Реализовать [offline executor/capture/replay](docs/STAGE1_OFFLINE_EXECUTOR.md) с отдельными states, caps, отказами и representative wire fixtures Jev / Luna Low / Luna Decisions: 228 mock slots, 0 network calls; без оценки качества моделей.
+  - [ ] Исправить четыре активных P1 из [проверки открытых PR](docs/OPEN_PR_REVIEW_2026-10-10.md), сохранив lineage исторических evidence.
+  - [ ] Добавить реальный bounded transport, проверить его через mock HTTP client, затем после отдельного live opt-in проверить compatibility и выполнить pilot из frozen protocol.
+- [ ] По выходу Stage 1 выбрать следующий bounded эксперимент, не объявляя заранее правильную архитектуру.
+- [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
+- [x] Зафиксировать [идею augmentation synthetic narratives](docs/NARRATIVE_AUGMENTATION_EXPERIMENTS.md): смыслосохраняющее перефразирование отдельно от обогащения structured seed.
+- [ ] После independent review спланировать и выполнить bounded augmentation pilot с отдельной оценкой generator drift и extractor quality.
+- [ ] Сравнить mapping, bounded repair и полный pipeline на development/validation, зафиксировать выбор реализации и полный contract; затем оценить выбранный вариант на untouched final test. Настройка после final score требует нового test set.
+
+### Повторяемый evaluation harness — 2026-10-09
+
+[План инфраструктуры](docs/EVALUATION_HARNESS_PLAN.md): Mellea исполняет candidate
+strategy, общий runner фиксирует условия, MLflow хранит runs/evidence. Исследуем
+обычную Luna Low с независимыми, пакетными и последовательными вопросами.
+
+- [ ] Общие versioned dataset/experiment/run/turn contracts и offline replay.
+  - [x] Первый offline classification replay и отдельный ProxyAPI verifier turn capture: один live batch Noul/Choice/Score, replay без SDK; [отчёт](docs/PROXYAPI_LIVE_CHECK_2026-10-09.md).
+  - [ ] Обобщить verifier runner на Jev и Luna Responses Low; добавить независимые semantic labels и paired comparison.
+- [ ] Matrix Jev / Luna Responses Low / opt-in Luna Decisions с независимыми budget и context policies.
+- [ ] Расширить существующий MLflow importer: paired comparison, provenance и идемпотентный import.
+- [ ] Решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных.
+
+### Provider configuration — 2026-10-11
+
+- [x] Обновить Python adapter до 0.4.0; разделить supplier, API format, model, exact endpoint и источник ключа: [контракт и примеры](docs/PROVIDER_CONFIGURATION.md).
+- [x] Добавить dry-run/opt-in smoke CLI для Noul/Choice/Score с лимитом запросов и отдельным отчётом, без оценки качества.
+- [x] Настраивать полные Responses/Decisions/System One endpoints в hosted gateway/egress; допустить отдельный Decisions secret.
+- [ ] Подтвердить реальные пути и модели каждого поставщика авторизованным compatibility smoke. Пресеты не доказывают доступность.
+- [ ] Подключить выбранную конфигурацию к bounded Stage 1 live transport, сохранив frozen protocol и независимые labels.
+
+- [x] Выполнить [CoreInfra local compatibility smoke](docs/COREINFRA_LIVE_CHECK_2026-10-11.md): Jev Noul/Choice/Score — 3 HTTP 200; Luna Responses Low + strict JSON — HTTP 200; ожидаемый Decisions endpoint — 404. Это не semantic benchmark.
+
+- [x] Уточнить CoreInfra application base `/openai/api/v1`: Luna Decisions Noul/Choice/Score и Responses Low + strict JSON успешно проверены. [Отчёт](docs/COREINFRA_LIVE_CHECK_2026-10-11.md) сохраняет также неуспешную попытку Choice и старый Codex-route 404.
+
+### Stage 1 — подключение трёх provider arms
+
+- [x] Новый versioned manifest поверх frozen comparison inputs: Jev + Luna Decisions + Luna Low через CoreInfra, одинаковый semantic task и сбалансированный порядок. Pilot — 36, corpus — 288 planned calls, authorized calls — 0.
+- [x] [Реальный provider transport](docs/STAGE1_PROVIDER_TRANSPORT.md): SDK adapters 0.4.0 и Responses HTTP, exact request guard, bounded responses, capture/replay, stop-on-failure и отдельный execution permit.
+- [x] Выполнить отдельно разрешённый трёхзапросный live context с фиксированным plan digest. Прогон частичный: Responses transport failed, точный внешний денежный лимит не проверен.
+- [x] После sealing predictions добавить/запустить отдельный scorer candidate labels; ошибки и неотправленные задания сохранять в знаменателе.
+
+### Stage 1 — scoring и первый live context, 2026-10-11
+
+- [x] Отдельный SDK-free scorer: hash-снимок ответов, candidate-label agreement, полный planned denominator и сравнение matched contexts.
+- [x] Сохранить частичный live context: Jev и Decisions ответили, Responses завершился transport error.
+- [x] Сравнить четыре candidate inputs (12 новых dispatches): Jev 2/4, Decisions 2/4, Luna Low 2/2 при двух transport failures. Mixed-transport diagnostic, победитель не установлен.
+- [ ] Новая ревизия executor с sanitized transport exception class, затем новый отдельно разрешённый live-прогон.
+
+Свидетельства: [scoring contract](docs/STAGE1_PROVIDER_SCORING.md), [live attempt](docs/STAGE1_LIVE_PILOT_2026-10-11.md).
+
+### Stage 1 — ограниченные network retries
+
+- [x] [Отдельная версия retry-runner](docs/STAGE1_NETWORK_RETRIES.md): до трёх попыток, exponential backoff + jitter, sanitized transport exceptions, общий dispatch cap и SDK-free replay.
+- [x] Локально проверить восстановление, исчерпание попыток/бюджета, отсутствие HTTP/schema retries и безопасную остановку при прерывании; zero live calls.
+- [x] [Добавить retry-aware scoring](docs/STAGE1_RETRY_SCORING.md) с отдельным учётом first-attempt completion, результата после повторов, candidate agreement и всех потраченных attempts.
+- [ ] Новая ревизия retry-runner со split-export: полный corpus-план сейчас превышает лимит JSON artifact в 2 MiB; pilot проверен.
+- [ ] Провести малый live-прогон новой стратегии с явно ограниченным общим числом попыток.
+
+### Stack merge review — 2026-10-11
+
+- [x] Retry v2: bounded split plan export for the 288-job corpus; historical v1 unchanged.
+- [x] Retry scorer v2: preserve known tokens for pending completed children; keep verdict unknown.
+- [x] Add offline regression coverage for both fixes to provider CI.
+- [ ] Align pinned Node runtime with Undici 8's Node >=22.19 requirement before merging its dependency update (#50).
+- [ ] Run the next explicitly budgeted live comparison with the v2 retry contract.

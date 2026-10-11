@@ -1,0 +1,1584 @@
+{
+  "schema": "normlab.stage1-targeted-regression-review/v1",
+  "review_type": "targeted regression by the same LLM reviewer that saw v1; not a fresh blind review",
+  "reviewer_limit": "LLM review, not human/expert ground truth or a quality metric",
+  "dataset_id": "stage1-contrast-ru-v2",
+  "input_sha256": [
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/sources.json",
+      "sha256": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+      "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+      "sha256": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/conventions.json",
+      "sha256": "8673b5c4d2e1257b470e256f47a183963913975754755ba0a8e5ea284c08f9f8"
+    }
+  ],
+  "code_inspection": {
+    "path": "evaluation/audit_stage1_v2.py",
+    "sha256": null,
+    "reason": "Main agent was formatting/testing mutable bytes; inspection only, no code pin or execution claim.",
+    "findings": "For the current selected claims, required_fields covers actor/scope/mode/aboutEntity dependencies; unresolved subjects and diagnostic predicates are also counted as lossy. No representability omission found within these 16 cases. This does not certify general semantic validation."
+  },
+  "coverage": {
+    "cases": 16,
+    "families": 13,
+    "records": 32,
+    "baseline_records": 16,
+    "mutation_records": 16,
+    "judgments": {
+      "agree": 32
+    }
+  },
+  "integrity_observations": {
+    "candidate_claim_spans_checked": 46,
+    "span_errors": [],
+    "declared_mutation_errors": [],
+    "source_digest_match": true,
+    "candidate_sources_digest_match": true,
+    "note": "Read-only span/delta bookkeeping, not evidence of model accuracy or automatic semantic judgment."
+  },
+  "issue_resolutions": [
+    {
+      "v1_issue": "IR-001",
+      "status": "resolved",
+      "case_ids": [
+        "C014"
+      ],
+      "record_ids": [
+        "R027",
+        "R028"
+      ],
+      "path": "reviewer-only.json#/cases/13/claims",
+      "evidence": [
+        {
+          "case_id": "C014",
+          "quote": "Вчера я оплатил стоянку",
+          "start": 0,
+          "end": 23,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C014",
+          "quote": "Сегодня на той же парковке я не оплатил новую стоянку",
+          "start": 25,
+          "end": 78,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "resolution": "Both vehicle references are null; conventions explicitly forbid interpreting nulls as identity, distinctness or an explicit-unknown fact. actor person_1 is retained and episodes remain distinct."
+    },
+    {
+      "v1_issue": "IR-002",
+      "status": "resolved",
+      "case_ids": [
+        "C008"
+      ],
+      "record_ids": [
+        "R015",
+        "R016"
+      ],
+      "path": "candidates.json#/records/14/claims/0/stance",
+      "evidence": [
+        {
+          "case_id": "C008",
+          "quote": "Я не утверждал, что оплатил парковку",
+          "start": 0,
+          "end": 36,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "resolution": "R015 now changes outer speechAct stance denied→asserted. Diagnostic speechAct is paired only with speech-act mode and assertion-of-payment scope; wrapper equivalence no longer defeats this contrast."
+    },
+    {
+      "v1_issue": "IR-003",
+      "status": "resolved",
+      "case_ids": [
+        "C001",
+        "C002",
+        "C003",
+        "C005",
+        "C006",
+        "C007",
+        "C009",
+        "C010",
+        "C011",
+        "C012",
+        "C013",
+        "C014",
+        "C015",
+        "C016"
+      ],
+      "record_ids": [
+        "R004",
+        "R024",
+        "R025",
+        "R028"
+      ],
+      "path": "conventions.json#/scopeMeanings",
+      "evidence": [
+        {
+          "case_id": "C002",
+          "quote": "Я не оплатил парковку",
+          "start": 0,
+          "end": 21,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C012",
+          "quote": "Парковку моего автомобиля оплатил друг, а не я",
+          "start": 0,
+          "end": 46,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C013",
+          "quote": "парковку машины друга не оплатил",
+          "start": 34,
+          "end": 66,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C014",
+          "quote": "я не оплатил новую стоянку",
+          "start": 52,
+          "end": 78,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "resolution": "actor-payment and episode-payment are explicitly distinct, all selected named payer roles are retained, and faithful projection now requires scope plus actor when bound. The audit no longer treats those claims as fully representable via unscoped payment."
+    },
+    {
+      "v1_issue": "IR-004",
+      "status": "resolved",
+      "case_ids": [
+        "C016"
+      ],
+      "record_ids": [
+        "R031",
+        "R032"
+      ],
+      "path": "reviewer-only.json#/cases/15/claims/0/predicate",
+      "evidence": [
+        {
+          "case_id": "C016",
+          "quote": "ТС стояло в зоне ПП",
+          "start": 18,
+          "end": 37,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C016",
+          "quote": "оплаты нет",
+          "start": 39,
+          "end": 49,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "resolution": "standing is a diagnostic raw-location relation with no parking inference. Selected episode-payment is the document’s quoted payment absence for the referenced event, not a claim that ПП is a parking/paid zone. Unknown abbreviation expansion is outside these selected claims."
+    },
+    {
+      "v1_issue": "IR-005",
+      "status": "resolved",
+      "case_ids": [
+        "C007"
+      ],
+      "record_ids": [
+        "R013",
+        "R014"
+      ],
+      "path": "conventions.json#/baselinePolicy",
+      "evidence": [
+        {
+          "case_id": "C007",
+          "quote": "Я не мог не оплатить парковку",
+          "start": 0,
+          "end": 29,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "resolution": "Selected necessity content is compatible; unresolved factual-completion reading remains sourceAmbiguity. Case-level alternatives no longer mechanically make every baseline indeterminate."
+    },
+    {
+      "v1_issue": "related-mutation-regression",
+      "status": "resolved",
+      "case_ids": [
+        "C004",
+        "C010"
+      ],
+      "record_ids": [
+        "R007",
+        "R019"
+      ],
+      "path": "conventions.json#/changedMutations",
+      "evidence": [
+        {
+          "case_id": "C004",
+          "quote": "Автомобиль стоял на городской парковке",
+          "start": 0,
+          "end": 38,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C010",
+          "quote": "Если бы я оплатил парковку",
+          "start": 0,
+          "end": 26,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "resolution": "R007 now denies explicit placement. R019 changes stance while preserving conditional antecedent scope, rather than changing mode in a way that left the antecedent wrapper intact. Both are valid-field, semantically wrong contrasts under the conventions."
+    }
+  ],
+  "new_issues": [],
+  "case_reviews": [
+    {
+      "case_id": "C001",
+      "judgment": "agree",
+      "selected_support": "Narrator’s actual payment is explicit; unmentioned vehicle remains unbound. actor-payment preserves the payer relation.",
+      "baseline_record": "R001",
+      "mutation_record": "R002",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C002",
+      "judgment": "agree",
+      "selected_support": "Narrator’s payment is denied. This does not deny payment by another person; actor-payment correctly preserves that distinction.",
+      "baseline_record": "R004",
+      "mutation_record": "R003",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C003",
+      "judgment": "agree",
+      "selected_support": "Explicit nonrecall concerns narrator payment. Unknown is supported; unmentioned vehicle null is not an explicit-unknown payment fact.",
+      "baseline_record": "R005",
+      "mutation_record": "R006",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C004",
+      "judgment": "agree",
+      "selected_support": "Vehicle placement at a city parking facility is explicit. Neither payment nor paid regime is extracted.",
+      "baseline_record": "R008",
+      "mutation_record": "R007",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C005",
+      "judgment": "agree",
+      "selected_support": "Narrator payment and the letter’s episode-payment denial remain distinct sourced propositions. Same episode is the ordinary discourse-anaphoric reading; no vehicle identity is added.",
+      "baseline_record": "R009",
+      "mutation_record": "R010",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C006",
+      "judgment": "agree",
+      "selected_support": "Both claimant and scope differences are preserved inside one sentence; the contrast supports the ordinary shared-target reading.",
+      "baseline_record": "R012",
+      "mutation_record": "R011",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C007",
+      "judgment": "agree",
+      "selected_support": "The selected necessity claim is supported under both recorded readings. No actual completed payment is inferred; source-level completion ambiguity remains recorded.",
+      "baseline_record": "R013",
+      "mutation_record": "R014",
+      "source_ambiguity_preserved": [
+        "Может подразумеваться фактическая оплата.",
+        "Может сообщаться лишь невозможность отказаться от обязанности оплатить."
+      ]
+    },
+    {
+      "case_id": "C008",
+      "judgment": "agree",
+      "selected_support": "The outer assertion speech act is denied. Embedded payment remains unresolved; speechAct/mode/scope combination makes the target of negation explicit.",
+      "baseline_record": "R016",
+      "mutation_record": "R015",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C009",
+      "judgment": "agree",
+      "selected_support": "Past obligation is supported. Completion is not asserted. No other wrapper preserves obligation in the actual-mode mutant.",
+      "baseline_record": "R017",
+      "mutation_record": "R018",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C010",
+      "judgment": "agree",
+      "selected_support": "The selected positive payment content occurs only under conditional antecedent scope. Receipt consequence is intentionally outside this probe.",
+      "baseline_record": "R020",
+      "mutation_record": "R019",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C011",
+      "judgment": "agree",
+      "selected_support": "The positive episode-payment proposition is hypothetical. No actual payment or named payer is inferred.",
+      "baseline_record": "R021",
+      "mutation_record": "R022",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C012",
+      "judgment": "agree",
+      "selected_support": "Friend is payer; narrator is excluded from the payment act. The explicitly named car is the target, and denied attribution is scoped to payment participation.",
+      "baseline_record": "R024",
+      "mutation_record": "R023",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C013",
+      "judgment": "agree",
+      "selected_support": "Two explicit vehicle-associated targets stay separate. Narrator is payer/nonpayer respectively; personal denial does not assert absence of any payer.",
+      "baseline_record": "R025",
+      "mutation_record": "R026",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C014",
+      "judgment": "agree",
+      "selected_support": "Yesterday and today/new stay are distinct episodes at the same facility. Null vehicle references assert neither shared vehicle identity nor distinct vehicles.",
+      "baseline_record": "R028",
+      "mutation_record": "R027",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C015",
+      "judgment": "agree",
+      "selected_support": "The letter is source of the episode-payment denial. Narrator reports communication without independently endorsing nonpayment or identifying a vehicle/payer.",
+      "baseline_record": "R029",
+      "mutation_record": "R030",
+      "source_ambiguity_preserved": []
+    },
+    {
+      "case_id": "C016",
+      "judgment": "agree",
+      "selected_support": "The document reports vehicle standing at raw location зона ПП and absence of payment for the referenced event. No parking-zone meaning, paid regime, or actual truth is inferred.",
+      "baseline_record": "R032",
+      "mutation_record": "R031",
+      "source_ambiguity_preserved": [
+        "ПП может обозначать платную парковку.",
+        "Без словаря документа значение ПП не установлено."
+      ]
+    }
+  ],
+  "record_reviews": [
+    {
+      "record_id": "R001",
+      "case_id": "C001",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Explicit affirmative actual payment by narrator is supported; vehicle reference is correctly unbound.",
+      "claim_evidence": [
+        {
+          "case_id": "C001",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R002",
+      "case_id": "C001",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Denial contradicts the selected affirmative narrator-payment claim.",
+      "claim_evidence": [
+        {
+          "case_id": "C001",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "asserted",
+        "to": "denied"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R003",
+      "case_id": "C002",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Affirmation contradicts the selected negative narrator-payment claim.",
+      "claim_evidence": [
+        {
+          "case_id": "C002",
+          "quote": "Я не оплатил парковку",
+          "start": 0,
+          "end": 21,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "denied",
+        "to": "asserted"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R004",
+      "case_id": "C002",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Explicit personal nonpayment is supported with actor-payment scope.",
+      "claim_evidence": [
+        {
+          "case_id": "C002",
+          "quote": "Я не оплатил парковку",
+          "start": 0,
+          "end": 21,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R005",
+      "case_id": "C003",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Explicit nonrecall supports unknown narrator payment, not denial.",
+      "claim_evidence": [
+        {
+          "case_id": "C003",
+          "quote": "Не помню, оплатил ли парковку",
+          "start": 0,
+          "end": 29,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R006",
+      "case_id": "C003",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Affirmative payment overclaims the stated memory uncertainty.",
+      "claim_evidence": [
+        {
+          "case_id": "C003",
+          "quote": "Не помню, оплатил ли парковку",
+          "start": 0,
+          "end": 29,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "unknown",
+        "to": "asserted"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R007",
+      "case_id": "C004",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Denied actual placement contradicts explicit vehicle standing at the city parking facility; unchanged cityParking cannot repair that polarity.",
+      "claim_evidence": [
+        {
+          "case_id": "C004",
+          "quote": "Автомобиль стоял на городской парковке",
+          "start": 0,
+          "end": 38,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C004",
+          "quote": "городской парковке",
+          "start": 20,
+          "end": 38,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "asserted",
+        "to": "denied"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R008",
+      "case_id": "C004",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Placement and cityParking are supported; no paid regime/payment assertion is added.",
+      "claim_evidence": [
+        {
+          "case_id": "C004",
+          "quote": "Автомобиль стоял на городской парковке",
+          "start": 0,
+          "end": 38,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C004",
+          "quote": "городской парковке",
+          "start": 20,
+          "end": 38,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R009",
+      "case_id": "C005",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Narrator affirmative actor-payment and letter negative episode-payment claims are separately supported under ordinary discourse coreference.",
+      "claim_evidence": [
+        {
+          "case_id": "C005",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C005",
+          "quote": "парковка не оплачена",
+          "start": 30,
+          "end": 50,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R010",
+      "case_id": "C005",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "The embedded negative claim belongs to the letter; narrator is the reporter, not its endorsing claimant.",
+      "claim_evidence": [
+        {
+          "case_id": "C005",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C005",
+          "quote": "парковка не оплачена",
+          "start": 30,
+          "end": 50,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A02",
+        "field": "claimant",
+        "from": "letter_1",
+        "to": "narrator"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R011",
+      "case_id": "C006",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "The sentence expressly attributes its negative payment claim to the letter, not narrator endorsement.",
+      "claim_evidence": [
+        {
+          "case_id": "C006",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C006",
+          "quote": "парковка не оплачена",
+          "start": 45,
+          "end": 65,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A02",
+        "field": "claimant",
+        "from": "letter_1",
+        "to": "narrator"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R012",
+      "case_id": "C006",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Distinct narrator/letter claimants and actor/episode payment scopes preserve the selected contrast.",
+      "claim_evidence": [
+        {
+          "case_id": "C006",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C006",
+          "quote": "парковка не оплачена",
+          "start": 45,
+          "end": 65,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R013",
+      "case_id": "C007",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Necessity of narrator payment is the shared supported content of the recorded readings; actual completion is not asserted.",
+      "claim_evidence": [
+        {
+          "case_id": "C007",
+          "quote": "Я не мог не оплатить парковку",
+          "start": 0,
+          "end": 29,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R014",
+      "case_id": "C007",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "A letter claimant is invented; no letter occurs under either necessity/completion reading.",
+      "claim_evidence": [
+        {
+          "case_id": "C007",
+          "quote": "Я не мог не оплатить парковку",
+          "start": 0,
+          "end": 29,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "claimant",
+        "from": "narrator",
+        "to": "letter_1"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R015",
+      "case_id": "C008",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "The source denies having asserted payment. Asserted outer speechAct reverses that denial; speech-act mode and scope now clearly retain the wrong positive speech act.",
+      "claim_evidence": [
+        {
+          "case_id": "C008",
+          "quote": "Я не утверждал, что оплатил парковку",
+          "start": 0,
+          "end": 36,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "denied",
+        "to": "asserted"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R016",
+      "case_id": "C008",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Denied outer speech act correctly leaves the embedded payment fact open.",
+      "claim_evidence": [
+        {
+          "case_id": "C008",
+          "quote": "Я не утверждал, что оплатил парковку",
+          "start": 0,
+          "end": 36,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R017",
+      "case_id": "C009",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Obligation-scoped narrator payment is explicit and does not assert completion.",
+      "claim_evidence": [
+        {
+          "case_id": "C009",
+          "quote": "Я должен был оплатить парковку",
+          "start": 0,
+          "end": 30,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R018",
+      "case_id": "C009",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Actual mode removes the only obligation operator and wrongly asserts completed narrator payment.",
+      "claim_evidence": [
+        {
+          "case_id": "C009",
+          "quote": "Я должен был оплатить парковку",
+          "start": 0,
+          "end": 30,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "mode",
+        "from": "obligation",
+        "to": "actual"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R019",
+      "case_id": "C010",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Denied selected conditional content does not match the positive antecedent. Conditional/antecedent wrappers preserve nonactuality but do not restore the original positive content.",
+      "claim_evidence": [
+        {
+          "case_id": "C010",
+          "quote": "Если бы я оплатил парковку",
+          "start": 0,
+          "end": 26,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "asserted",
+        "to": "denied"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R020",
+      "case_id": "C010",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Positive narrator-payment content is supported solely within the conditional antecedent.",
+      "claim_evidence": [
+        {
+          "case_id": "C010",
+          "quote": "Если бы я оплатил парковку",
+          "start": 0,
+          "end": 26,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R021",
+      "case_id": "C011",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Positive episode-payment content is supported as a hypothesis, with no actual-fact assertion.",
+      "claim_evidence": [
+        {
+          "case_id": "C011",
+          "quote": "Допустим, парковка была оплачена",
+          "start": 0,
+          "end": 32,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R022",
+      "case_id": "C011",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Actual mode removes the hypothetical operator; episode-payment scope supplies no alternative hypothetical wrapper.",
+      "claim_evidence": [
+        {
+          "case_id": "C011",
+          "quote": "Допустим, парковка была оплачена",
+          "start": 0,
+          "end": 32,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "mode",
+        "from": "hypothetical",
+        "to": "actual"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R023",
+      "case_id": "C012",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Narrator as payer contradicts explicit friend payer and the separate exclusion of narrator participation.",
+      "claim_evidence": [
+        {
+          "case_id": "C012",
+          "quote": "Парковку моего автомобиля оплатил друг",
+          "start": 0,
+          "end": 38,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C012",
+          "quote": "а не я",
+          "start": 40,
+          "end": 46,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "actor",
+        "from": "person_2",
+        "to": "person_1"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R024",
+      "case_id": "C012",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Friend payer, narrator excluded payer and narrator-associated car are all textually supported.",
+      "claim_evidence": [
+        {
+          "case_id": "C012",
+          "quote": "Парковку моего автомобиля оплатил друг",
+          "start": 0,
+          "end": 38,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C012",
+          "quote": "а не я",
+          "start": 40,
+          "end": 46,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R025",
+      "case_id": "C013",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Both actor-scoped payment claims concern their respective explicit vehicle targets and distinct target episodes.",
+      "claim_evidence": [
+        {
+          "case_id": "C013",
+          "quote": "Парковку моей машины я оплатил",
+          "start": 0,
+          "end": 30,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C013",
+          "quote": "парковку машины друга не оплатил",
+          "start": 34,
+          "end": 66,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R026",
+      "case_id": "C013",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "The second claim concerns friend-associated vehicle_2. Changing subject to vehicle_1 gives one wrong target relation despite retained aboutEntity=vehicle_2.",
+      "claim_evidence": [
+        {
+          "case_id": "C013",
+          "quote": "Парковку моей машины я оплатил",
+          "start": 0,
+          "end": 30,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C013",
+          "quote": "парковку машины друга не оплатил",
+          "start": 34,
+          "end": 66,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A02",
+        "field": "subject",
+        "from": "vehicle_2",
+        "to": "vehicle_1"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R027",
+      "case_id": "C014",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Today/new stay cannot share yesterday’s episode ID; nullable vehicles no longer add an inherited vehicle-identity defect.",
+      "claim_evidence": [
+        {
+          "case_id": "C014",
+          "quote": "Вчера я оплатил стоянку",
+          "start": 0,
+          "end": 23,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C014",
+          "quote": "Сегодня на той же парковке я не оплатил новую стоянку",
+          "start": 25,
+          "end": 78,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A02",
+        "field": "episode",
+        "from": "episode_2",
+        "to": "episode_1"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R028",
+      "case_id": "C014",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Distinct explicit stays are preserved while vehicle identity remains unbound and personal payment scope retains person_1 as actor.",
+      "claim_evidence": [
+        {
+          "case_id": "C014",
+          "quote": "Вчера я оплатил стоянку",
+          "start": 0,
+          "end": 23,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C014",
+          "quote": "Сегодня на той же парковке я не оплатил новую стоянку",
+          "start": 25,
+          "end": 78,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R029",
+      "case_id": "C015",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "The letter is the source of the episode-payment denial; no narrator payer or vehicle is invented.",
+      "claim_evidence": [
+        {
+          "case_id": "C015",
+          "quote": "моя парковка не оплачена",
+          "start": 23,
+          "end": 47,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    },
+    {
+      "record_id": "R030",
+      "case_id": "C015",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Narrator reporting the letter does not support narrator as claimant of the embedded negative payment assertion.",
+      "claim_evidence": [
+        {
+          "case_id": "C015",
+          "quote": "моя парковка не оплачена",
+          "start": 23,
+          "end": 47,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A01",
+        "field": "claimant",
+        "from": "letter_1",
+        "to": "narrator"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R031",
+      "case_id": "C016",
+      "kind": "mutation",
+      "declared_expectation": "incompatible",
+      "judgment": "agree",
+      "reviewer_expectation": "incompatible",
+      "reason": "Оплаты нет is a negative document claim. Asserted payment reverses its polarity; raw standing is unchanged.",
+      "claim_evidence": [
+        {
+          "case_id": "C016",
+          "quote": "ТС стояло в зоне ПП",
+          "start": 18,
+          "end": 37,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C016",
+          "quote": "оплаты нет",
+          "start": 39,
+          "end": 49,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": {
+        "claimId": "A02",
+        "field": "stance",
+        "from": "denied",
+        "to": "asserted"
+      },
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": "one wrong selected semantic value/relation; retained wrappers do not make the candidate equivalent"
+    },
+    {
+      "record_id": "R032",
+      "case_id": "C016",
+      "kind": "baseline",
+      "declared_expectation": "compatible",
+      "judgment": "agree",
+      "reviewer_expectation": "compatible",
+      "reason": "Raw vehicle standing and document-attributed negative episode-payment are supported independently of the meaning of ПП.",
+      "claim_evidence": [
+        {
+          "case_id": "C016",
+          "quote": "ТС стояло в зоне ПП",
+          "start": 18,
+          "end": 37,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        },
+        {
+          "case_id": "C016",
+          "quote": "оплаты нет",
+          "start": 39,
+          "end": 49,
+          "offset_unit": "Python Unicode code point",
+          "end_exclusive": true
+        }
+      ],
+      "mutation": null,
+      "declared_mutation_matches_observed_delta": true,
+      "semantic_defect_judgment": null
+    }
+  ],
+  "representability_review": {
+    "counts_from_inspected_logic": {
+      "sentence_projection": {
+        "lossy": 15,
+        "representable": 1
+      },
+      "claim_projection": {
+        "lossy": 15,
+        "representable": 1
+      }
+    },
+    "expected_normalized_counts": {
+      "sentence": {
+        "representable": 1,
+        "lossy": 15,
+        "ambiguous": 0
+      },
+      "claim": {
+        "representable": 1,
+        "lossy": 15,
+        "ambiguous": 0
+      }
+    },
+    "reason": "C004 is the only fully representable selected set. All scoped payment and speech-act claims have missing typed dependencies; C016 raw standing is also outside the production catalog. C007/C016 source ambiguity is preserved separately from selected support.",
+    "rows": [
+      {
+        "case_id": "C001",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C002",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C003",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C004",
+        "required_fields_match": true,
+        "sentence_projection": "representable",
+        "claim_projection": "representable",
+        "sentence_issues": [],
+        "claim_issues": []
+      },
+      {
+        "case_id": "C005",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C006",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "multiple-attributions-in-one-sentence",
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C007",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C008",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "predicate-outside-catalog:speechAct"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "predicate-outside-catalog:speechAct"
+        ]
+      },
+      {
+        "case_id": "C009",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C010",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C011",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:mode",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C012",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "multiple-attributions-in-one-sentence",
+          "no-typed-field:aboutEntity",
+          "no-typed-field:actor",
+          "no-typed-field:scope"
+        ],
+        "claim_issues": [
+          "no-typed-field:aboutEntity",
+          "no-typed-field:actor",
+          "no-typed-field:scope"
+        ]
+      },
+      {
+        "case_id": "C013",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "multiple-attributions-in-one-sentence",
+          "no-typed-field:actor",
+          "no-typed-field:scope"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope"
+        ]
+      },
+      {
+        "case_id": "C014",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:actor",
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C015",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ],
+        "claim_issues": [
+          "no-typed-field:scope",
+          "unresolved-subject-reference"
+        ]
+      },
+      {
+        "case_id": "C016",
+        "required_fields_match": true,
+        "sentence_projection": "lossy",
+        "claim_projection": "lossy",
+        "sentence_issues": [
+          "no-typed-field:scope",
+          "predicate-outside-catalog:standing"
+        ],
+        "claim_issues": [
+          "no-typed-field:scope",
+          "predicate-outside-catalog:standing"
+        ]
+      }
+    ]
+  },
+  "gate_recommendation": {
+    "decision": "targeted annotation regression concerns resolved under the supplied selected-claim conventions",
+    "remaining_semantic_blockers_in_this_pass": false,
+    "expert_ground_truth_approved": false,
+    "model_quality_metric_approved": false,
+    "paid_or_network_calls_authorized": false,
+    "scope": "May retain these labels as LLM-reviewed synthetic diagnostic-development annotations. This pass does not promote labels to expert truth or validate model quality/fairness.",
+    "next_step": "Integration owner should pin final audit bytes and publish this bounded regression evidence while preserving candidate label status and separate experiment authorization."
+  },
+  "limits": [
+    "One bounded targeted pass after prior exposure to v1 labels; no fresh blindness claim.",
+    "All 16 sources and 32 candidates reviewed under explicit conventions; no exhaustive extraction requirement.",
+    "No Git/PR operations, network, production, credentials, inference calls, delegation, or writes outside the assigned output directory.",
+    "Audit code inspected as mutable source and not hashed, imported, executed or tested by this reviewer.",
+    "Same-target discourse reading in C005/C006 is natural anaphora, not a recovered unique vehicle/date.",
+    "C016 scoped diagnostic payment is read as quoted event-payment content; no parking-specific production predicate equivalence is asserted."
+  ]
+}
