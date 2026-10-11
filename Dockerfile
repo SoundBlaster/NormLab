@@ -1,4 +1,4 @@
-FROM node:22.18.0-bookworm-slim
+FROM node:22.19.0-bookworm-slim
 
 ENV NODE_ENV=production \
     ELAN_HOME=/home/node/.elan \
