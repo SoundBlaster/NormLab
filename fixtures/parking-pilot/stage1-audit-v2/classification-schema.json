@@ -1,0 +1,88 @@
+{
+  "type": "object",
+  "properties": {
+    "results": {
+      "type": "object",
+      "properties": {
+        "fragment_1": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "classified",
+                "no-supported-predicate"
+              ]
+            },
+            "classifications": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "predicate": {
+                    "type": "string",
+                    "enum": [
+                      "eventTime",
+                      "inMoscow",
+                      "cityParking",
+                      "placement",
+                      "paidRegime",
+                      "subjectScope",
+                      "attribution",
+                      "payment",
+                      "paymentStart",
+                      "departure",
+                      "paymentComplexity",
+                      "permit",
+                      "disabilityConditions",
+                      "specialTariff",
+                      "faultAndExclusions"
+                    ]
+                  },
+                  "stance": {
+                    "type": "string",
+                    "enum": [
+                      "asserted",
+                      "denied",
+                      "unknown"
+                    ]
+                  },
+                  "valueText": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  }
+                },
+                "required": [
+                  "predicate",
+                  "stance",
+                  "valueText"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 30
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "status",
+            "classifications",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "fragment_1"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "results"
+  ],
+  "additionalProperties": false
+}

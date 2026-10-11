@@ -1,6 +1,7 @@
 import { readFileSync, statSync } from 'node:fs';
 import { isAbsolute } from 'node:path';
 import { z } from 'zod';
+import { inferenceEndpoints } from './inference-endpoints.js';
 
 /** Only paths enter configuration; credential values never enter env or diagnostics. */
 export function readInferenceSecret(path: string | undefined): string {
@@ -26,21 +27,33 @@ export function inferenceClientConfig(env: NodeJS.ProcessEnv) {
 }
 
 export function inferenceGatewayConfig(env: NodeJS.ProcessEnv) {
+  const decisionsSecrets: { decisionsKey?: string } =
+    env.NORMLAB_DECISIONS_API_KEY_FILE !== undefined
+      ? { decisionsKey: readInferenceSecret(env.NORMLAB_DECISIONS_API_KEY_FILE) }
+      : {};
   return {
+    ...decisionsSecrets,
+    endpoints: inferenceEndpoints(env),
     token: readInferenceSecret(env.NORMLAB_INFERENCE_TOKEN_FILE),
     openaiKey: readInferenceSecret(env.NORMLAB_OPENAI_API_KEY_FILE),
     openaiModel: z
       .string()
-      .regex(/^[a-z0-9][a-z0-9._-]{0,99}$/)
+      .regex(/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/)
       .parse(env.NORMLAB_OPENAI_MODEL ?? 'gpt-6-luna'),
     typesafeKey: env.NORMLAB_TYPESAFE_API_KEY_FILE
       ? readInferenceSecret(env.NORMLAB_TYPESAFE_API_KEY_FILE)
       : undefined,
     typesafeModel: z
       .string()
-      .regex(/^jev-[a-z0-9.-]+$/)
+      .regex(/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/)
       .parse(env.NORMLAB_TYPESAFE_MODEL ?? 'jev-1.13.0'),
-    classifier: z.enum(['openai', 'typesafe']).parse(env.NORMLAB_INFERENCE_CLASSIFIER ?? 'openai'),
+    decisionsModel: z
+      .string()
+      .regex(/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/)
+      .parse(env.NORMLAB_DECISIONS_MODEL ?? 'gpt-6-luna'),
+    classifier: z
+      .enum(['openai', 'typesafe', 'decisions'])
+      .parse(env.NORMLAB_INFERENCE_CLASSIFIER ?? 'openai'),
     requestsPerHour: z.coerce
       .number()
       .int()

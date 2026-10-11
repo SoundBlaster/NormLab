@@ -1,0 +1,43 @@
+{
+  "schema": "normlab.stage1-provider-experiment/v1",
+  "experimentId": "stage1-coreinfra-three-arm-ru-v1",
+  "parent": {
+    "path": "fixtures/parking-pilot/stage1-comparison-v1/experiment.json",
+    "sha256": "70e7bc4979c8e853ce37b64b2b1c7b654ee78ee9edf06faac10113785ceaea98"
+  },
+  "codePins": {
+    "evaluation/stage1_provider_plan.py": "0277e4bfca81ecd11c56608336dea5c04a318abadf2e5998d37afded6848b1de",
+    "evaluation/plan_stage1_comparison.py": "ac039a7e1b522f7289d2f7aeb84a50cc91b12276c74f83daf977a3818b2f4e7c",
+    "evaluation/harness.py": "395fbf66d149e1b05fedf9b5710421fb4894614daf87dd2372b453446a1d1af5",
+    "evaluation/provider_config.py": "d0aa39bac9ae70cfcaf73885ec3ec44a57484900f8a19f9762ff9a2d701ae59a"
+  },
+  "providers": {
+    "jev-coreinfra": {
+      "apiFormat": "typesafe-systemone",
+      "endpoint": "https://hub.coreinfra.ai/typesafe/api/v1/systemone",
+      "model": "jev-1.13.0",
+      "keyEnvironment": "COREINFRA_API_KEY",
+      "settings": {}
+    },
+    "luna-decisions-coreinfra": {
+      "apiFormat": "openai-decisions",
+      "endpoint": "https://hub.coreinfra.ai/openai/api/v1/decisions",
+      "model": "gpt-6-luna",
+      "keyEnvironment": "COREINFRA_API_KEY",
+      "settings": {}
+    },
+    "luna-low-coreinfra": {
+      "apiFormat": "openai-responses",
+      "endpoint": "https://hub.coreinfra.ai/openai/api/v1/responses",
+      "model": "gpt-6-luna",
+      "keyEnvironment": "COREINFRA_API_KEY",
+      "settings": {
+        "reasoning": {
+          "effort": "low"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "normlab.stage1-review-provenance/v1",
+  "datasetRevision": "stage1-contrast-ru-v1",
+  "reviewerKind": "fresh-llm-agent",
+  "humanExpertGroundTruth": false,
+  "phase1": "source-only-first",
+  "phase2": "comparison-with-authored-candidates-and-labels",
+  "inputFiles": {
+    "experiment.json": "8fa7947a3ec6d63c89ba6f6a6e008efeb57fb5ec8cbf5b847bddd46e6fdf9b37",
+    "sources.json": "a31cc0af98c3eeac64050333843212282be1ff0f25a461089c2a8bce5dc0dd32",
+    "reviewer-only.json": "7b952bdd7de0b3a477b5edb43d450bc47d365a26f47b3ce111b8d15fcc1c3945",
+    "candidates.json": "5a0d1ac40b6df33586b354ce2bf66689f4bce9e67aa58bce36dd9afd0ef47bd5",
+    "definitions.json": "0b9be80b864f3563de2af79d4b160c266362906efafdb264cffd40c98ff7a224",
+    "fragment-contract.json": "e48e49aae9fd9721cc30a561724fa1cedd8a466b6916e19ea8f10cc70952ccc2",
+    "classification-schema.json": "03d7a76a78311e461093f843fedec1d94edab7a124feddcbbf171bb9d42cc733"
+  },
+  "blindSha256": "480bddd3eefe05cdce18665bf006cc352472a01f7c696c98108a26ffd65d720e",
+  "inferenceProviderCalls": 0
+}

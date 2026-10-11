@@ -1,0 +1,332 @@
+{
+  "schema": "normlab.stage1-audit-report/v2",
+  "experimentId": "stage1-representability-ru-v2",
+  "manifestDigest": "07452aa44ebc6519b9bc46a86c1f0b0f1413a2b31e827764a9801c9f522d58ed",
+  "liveCalls": 0,
+  "cases": 16,
+  "families": 13,
+  "candidateRecords": 32,
+  "labelStatus": "candidate-not-independent",
+  "auditScope": "faithful-selected-typed-semantics-not-model-quality",
+  "counts": {
+    "sentenceProjection": {
+      "lossy": 15,
+      "representable": 1
+    },
+    "claimProjection": {
+      "lossy": 15,
+      "representable": 1
+    }
+  },
+  "criticalErrorFreeRate": null,
+  "independentReviewCompleted": false,
+  "rows": [
+    {
+      "caseId": "C001",
+      "familyId": "F001",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C002",
+      "familyId": "F001",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C003",
+      "familyId": "F002",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C004",
+      "familyId": "F002",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C005",
+      "familyId": "F003",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C006",
+      "familyId": "F003",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "multiple-attributions-in-one-sentence",
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C007",
+      "familyId": "F004",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [
+        "Может подразумеваться фактическая оплата.",
+        "Может сообщаться лишь невозможность отказаться от обязанности оплатить."
+      ],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C008",
+      "familyId": "F005",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "predicate-outside-catalog:speechAct"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "predicate-outside-catalog:speechAct"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C009",
+      "familyId": "F006",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C010",
+      "familyId": "F007",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C011",
+      "familyId": "F008",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C012",
+      "familyId": "F009",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "multiple-attributions-in-one-sentence",
+        "no-typed-field:aboutEntity",
+        "no-typed-field:actor",
+        "no-typed-field:scope"
+      ],
+      "claimIssues": [
+        "no-typed-field:aboutEntity",
+        "no-typed-field:actor",
+        "no-typed-field:scope"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C013",
+      "familyId": "F010",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "multiple-attributions-in-one-sentence",
+        "no-typed-field:actor",
+        "no-typed-field:scope"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C014",
+      "familyId": "F011",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:actor",
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C015",
+      "familyId": "F012",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "claimIssues": [
+        "no-typed-field:scope",
+        "unresolved-subject-reference"
+      ],
+      "sourceAmbiguity": [],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    },
+    {
+      "caseId": "C016",
+      "familyId": "F013",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:scope",
+        "predicate-outside-catalog:standing"
+      ],
+      "claimIssues": [
+        "no-typed-field:scope",
+        "predicate-outside-catalog:standing"
+      ],
+      "sourceAmbiguity": [
+        "ПП может обозначать платную парковку.",
+        "Без словаря документа значение ПП не установлено."
+      ],
+      "baselineExpectation": "compatible",
+      "reviewStatus": "candidate"
+    }
+  ]
+}

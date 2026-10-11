@@ -1,0 +1,865 @@
+{
+  "artifact": "blind semantic reading before comparison",
+  "phase": 1,
+  "reviewer": "fresh LLM reviewer; not human or expert ground truth",
+  "input_access_before_freeze": [
+    ".artifacts/stage1-independent-review/source-only.json"
+  ],
+  "method": "Independent source-text reading. Claims describe textual commitments and their attribution, not truth or legal validity. No dataset schema, candidates, labels, audit implementation, documentation, or augmentation plan was read.",
+  "offset_convention": "Python Unicode code point offsets, zero-based start and exclusive end, calculated against exact source_text.",
+  "global_notes": [
+    "An unmentioned property is different from explicit uncertainty or a declared lack of knowledge.",
+    "Payment by a named person and existential payment for a parking stay are distinct claims. Not paying personally does not show that no one paid.",
+    "A vehicle can be the standing subject or target of parking; a person can be payer; a document can be evidential source. These roles cannot be substituted.",
+    "Reported document propositions, negated speech-act content, obligations, and hypothetical assumptions must retain their scope.",
+    "Same-episode readings based on discourse are distinguishable from explicit temporal or anaphoric identity."
+  ],
+  "cases": [
+    {
+      "case_id": "C001",
+      "source_text": "Я оплатил парковку.",
+      "supported_claims": [
+        {
+          "description": "The narrator asserts that they paid for a parking stay.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "one unspecified parking stay",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Я оплатил парковку",
+              "start": 0,
+              "end": 18,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is payer and claimant"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "One unspecified parking stay; no time or location is supplied.",
+      "unresolved_readings": [
+        "The scope/amount/time of payment and vehicle are unspecified."
+      ],
+      "unsupported_inferences": [
+        "A particular vehicle, paid zone, city, date, document, tariff, or legal compliance.",
+        "Unmentioned properties are not explicitly unknown."
+      ]
+    },
+    {
+      "case_id": "C002",
+      "source_text": "Я не оплатил парковку.",
+      "supported_claims": [
+        {
+          "description": "The narrator asserts that they did not pay for a parking stay.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "one unspecified parking stay",
+          "polarity": "negative",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Я не оплатил парковку",
+              "start": 0,
+              "end": 21,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is the negated payer and claimant"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "One unspecified parking stay.",
+      "unresolved_readings": [
+        "Someone else may have paid; the sentence does not assert that no payment by anyone exists."
+      ],
+      "unsupported_inferences": [
+        "No person paid for this parking stay.",
+        "Parking is inherently a paid zone or a violation occurred.",
+        "Unmentioned vehicle identity is explicit uncertainty."
+      ]
+    },
+    {
+      "case_id": "C003",
+      "source_text": "Не помню, оплатил ли парковку.",
+      "supported_claims": [
+        {
+          "description": "The narrator says they cannot remember whether they paid for parking.",
+          "kind": "memory_state",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "memory of own payment",
+          "polarity": "negative",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Не помню, оплатил ли парковку",
+              "start": 0,
+              "end": 29,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "Whether the narrator paid is an explicitly unresolved question in their reported memory.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "one unspecified parking stay",
+          "polarity": "unresolved",
+          "modality": "embedded_question",
+          "actuality": "not asserted either way",
+          "evidence": [
+            {
+              "quote": "оплатил ли парковку",
+              "start": 10,
+              "end": 29,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "implicit first-person narrator; probable payer in embedded question"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "One parking stay is the object of a payment-memory question.",
+      "unresolved_readings": [
+        "The narrator may have paid or may not have paid. This is a limitation of reported memory, not a claim that objective payment records are unknown."
+      ],
+      "unsupported_inferences": [
+        "Affirmative payment.",
+        "Negative payment.",
+        "Every unmentioned property is explicitly unknown.",
+        "The statement establishes an objectively missing payment record."
+      ]
+    },
+    {
+      "case_id": "C004",
+      "source_text": "Автомобиль стоял на городской парковке.",
+      "supported_claims": [
+        {
+          "description": "A vehicle stood/was parked at a city parking facility.",
+          "kind": "vehicle_standing",
+          "claim_source": "narrator",
+          "actor": "unspecified automobile",
+          "target": "city parking facility",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Автомобиль стоял на городской парковке",
+              "start": 0,
+              "end": 38,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": "No person or payer is mentioned.",
+        "vehicles": [
+          "automobile is the subject of standing; ownership and driver are unspecified"
+        ]
+      },
+      "episode_relations": "One vehicle-standing situation at an unspecified facility.",
+      "unresolved_readings": [
+        "Городская can mean municipal or city-associated; it does not itself establish a fee-charging facility."
+      ],
+      "unsupported_inferences": [
+        "The narrator drove or owned the car.",
+        "A person stood there.",
+        "The area was a paid zone.",
+        "Payment/nonpayment or explicit payment uncertainty."
+      ]
+    },
+    {
+      "case_id": "C005",
+      "source_text": "Я оплатил парковку. В письме: парковка не оплачена.",
+      "supported_claims": [
+        {
+          "description": "The narrator asserts that they paid for parking.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "parking stay in first sentence",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Я оплатил парковку",
+              "start": 0,
+              "end": 18,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "The letter contains an assertion that parking was not paid for.",
+          "kind": "payment_status",
+          "claim_source": "letter contents / unnamed document author",
+          "actor": "payer unspecified",
+          "target": "parking stay referred to by letter",
+          "polarity": "negative",
+          "modality": "reported_document_assertion",
+          "actuality": "asserted by the document, not endorsed by narrator",
+          "evidence": [
+            {
+              "quote": "В письме: парковка не оплачена",
+              "start": 20,
+              "end": 50,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is first payer and reporter of letter",
+          "letter author is not identified; the letter is evidential source, not the payer"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "Normal discourse reading connects both clauses to the same parking stay, but that identity is inferred rather than expressly identified by time, vehicle, or episode ID.",
+      "unresolved_readings": [
+        "A same-stay reading creates opposed source-level claims; another-stay or differently scoped payment reading remains possible.",
+        "The narrator reports the letter contents and need not endorse them."
+      ],
+      "unsupported_inferences": [
+        "The narrator personally asserts both payment and nonpayment as facts.",
+        "The letter proves real nonpayment.",
+        "The vehicle is the letter or the narrator.",
+        "Same episode is an explicit textual identifier."
+      ]
+    },
+    {
+      "case_id": "C006",
+      "source_text": "Я оплатил парковку, а письмо утверждает, что парковка не оплачена.",
+      "supported_claims": [
+        {
+          "description": "The narrator asserts that they paid for parking.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "parking stay in first clause",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Я оплатил парковку",
+              "start": 0,
+              "end": 18,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "The letter claims that parking was not paid for.",
+          "kind": "payment_status",
+          "claim_source": "letter contents / unnamed document author",
+          "actor": "payer unspecified",
+          "target": "parking stay referred to by letter",
+          "polarity": "negative",
+          "modality": "reported_document_assertion",
+          "actuality": "asserted by the document, not endorsed by narrator",
+          "evidence": [
+            {
+              "quote": "письмо утверждает, что парковка не оплачена",
+              "start": 22,
+              "end": 65,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is payer of first clause and reporter",
+          "letter/document is the source of the embedded negative claim"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "The contrastive conjunction а strongly supports a common parking target across clauses; exact episode identity is a discourse resolution, not an explicit timestamp.",
+      "unresolved_readings": [
+        "The text establishes a disagreement between sources on the natural shared-target reading; it does not resolve which account is true."
+      ],
+      "unsupported_inferences": [
+        "Nonpayment is the narrator’s own accepted factual assertion.",
+        "The existence of a letter supplies a date, vehicle, paid-zone fact, or legal result."
+      ]
+    },
+    {
+      "case_id": "C007",
+      "source_text": "Я не мог не оплатить парковку.",
+      "supported_claims": [
+        {
+          "description": "The narrator says they could not avoid paying for parking / could not fail to pay.",
+          "kind": "modal_constraint_on_payment",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "one unspecified parking stay",
+          "polarity": "outer inability applied to inner nonpayment",
+          "modality": "circumstantial_or_deontic_necessity",
+          "actuality": "ordinary idiomatic reading strongly conveys completed payment, but modality is explicit",
+          "evidence": [
+            {
+              "quote": "Я не мог не оплатить парковку",
+              "start": 0,
+              "end": 29,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is modal experiencer and intended/actual payer on the idiomatic reading"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "One modalized payment situation.",
+      "unresolved_readings": [
+        "The idiomatic perfective reading usually presents payment as having happened because it was unavoidable.",
+        "A strictly modal reading asserts inability to avoid paying; simple actual-payment extraction requires an explicit annotation convention. It is not equivalent in form to an unmodalized statement Я оплатил.",
+        "The nature of the constraint is unspecified."
+      ],
+      "unsupported_inferences": [
+        "Negative payment by cancelling only one не.",
+        "An explicit payment-memory unknown.",
+        "An independently stated plain factual negative or legal obligation.",
+        "A unique reason for the inability."
+      ]
+    },
+    {
+      "case_id": "C008",
+      "source_text": "Я не утверждал, что оплатил парковку.",
+      "supported_claims": [
+        {
+          "description": "The narrator denies having asserted that they paid for parking.",
+          "kind": "speech_act",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "earlier assertion of narrator payment",
+          "polarity": "negative",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Я не утверждал, что оплатил парковку",
+              "start": 0,
+              "end": 36,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "Payment is the content of the denied assertion; its truth is not asserted here.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "one unspecified parking stay",
+          "polarity": "positive within content",
+          "modality": "content_of_negated_speech_act",
+          "actuality": "not asserted",
+          "evidence": [
+            {
+              "quote": "что оплатил парковку",
+              "start": 16,
+              "end": 36,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is denied speaker and subject of embedded payment content"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "One referred payment proposition, embedded inside a denied speech act.",
+      "unresolved_readings": [
+        "The narrator may have paid or not paid; neither is established.",
+        "No explicit statement of ignorance or inability to remember occurs."
+      ],
+      "unsupported_inferences": [
+        "Payment happened.",
+        "Payment did not happen.",
+        "Negating утверждал negates the embedded proposition.",
+        "Payment is explicitly unknown."
+      ]
+    },
+    {
+      "case_id": "C009",
+      "source_text": "Я должен был оплатить парковку.",
+      "supported_claims": [
+        {
+          "description": "The narrator had an obligation/necessity to pay for parking.",
+          "kind": "obligation",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "one unspecified parking stay",
+          "polarity": "positive",
+          "modality": "past_obligation_or_necessity",
+          "actuality": "obligation asserted; payment completion not asserted",
+          "evidence": [
+            {
+              "quote": "Я должен был оплатить парковку",
+              "start": 0,
+              "end": 30,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is obligation bearer, not an asserted successful payer"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "One parking-payment obligation situated in the past.",
+      "unresolved_readings": [
+        "Past должен был can invite an inference that the obligation was unfulfilled, but that inference is cancellable.",
+        "The origin and legal validity of the obligation are unspecified."
+      ],
+      "unsupported_inferences": [
+        "Payment occurred.",
+        "Payment definitely did not occur.",
+        "A named law, paid zone, penalty, deadline, or explicit payment uncertainty."
+      ]
+    },
+    {
+      "case_id": "C010",
+      "source_text": "Если бы я оплатил парковку, то сохранил бы чек.",
+      "supported_claims": [
+        {
+          "description": "Under the condition of having paid, the narrator would have kept a receipt.",
+          "kind": "conditional_relation",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "payment and receipt-retention scenario",
+          "polarity": "positive",
+          "modality": "irrealis_conditional",
+          "actuality": "conditional relation asserted; antecedent and consequence not asserted as actual",
+          "evidence": [
+            {
+              "quote": "Если бы я оплатил парковку, то сохранил бы чек",
+              "start": 0,
+              "end": 46,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is conditional payer and receipt keeper"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "Payment and receipt retention are connected within one hypothetical/counterfactual scenario.",
+      "unresolved_readings": [
+        "The ordinary counterfactual reading suggests the narrator did not pay and did not keep a receipt; irrealis morphology alone does not license either as a standalone asserted fact.",
+        "Receipt existence, whether one was issued, and whether it is currently available are unestablished."
+      ],
+      "unsupported_inferences": [
+        "Positive actual payment.",
+        "Definite asserted nonpayment.",
+        "Actual receipt absence.",
+        "Explicit inability to know whether payment occurred."
+      ]
+    },
+    {
+      "case_id": "C011",
+      "source_text": "Допустим, парковка была оплачена.",
+      "supported_claims": [
+        {
+          "description": "The speaker invites adopting the supposition that parking was paid for.",
+          "kind": "supposition",
+          "claim_source": "narrator",
+          "actor": "speaker / interlocutor addressed by supposition",
+          "target": "one unspecified parking stay",
+          "polarity": "positive",
+          "modality": "hypothetical_assumption",
+          "actuality": "positive payment is assumed, not asserted as actual",
+          "evidence": [
+            {
+              "quote": "Допустим, парковка была оплачена",
+              "start": 0,
+              "end": 32,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "speaker proposes the supposition; payer is unspecified"
+        ],
+        "vehicles": "No vehicle is mentioned."
+      },
+      "episode_relations": "One parking-payment proposition inside an assumption.",
+      "unresolved_readings": [
+        "The word Допустим can also introduce a provisional concession; either reading leaves the narrator’s unconditional factual commitment unresolved."
+      ],
+      "unsupported_inferences": [
+        "Parking was actually paid for.",
+        "Parking was not paid for.",
+        "The narrator is payer.",
+        "Explicit factual uncertainty from missing information."
+      ]
+    },
+    {
+      "case_id": "C012",
+      "source_text": "Парковку моего автомобиля оплатил друг, а не я.",
+      "supported_claims": [
+        {
+          "description": "The narrator’s friend paid for the parking of the narrator’s car.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "friend",
+          "target": "parking stay of narrator-associated automobile",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Парковку моего автомобиля оплатил друг",
+              "start": 0,
+              "end": 38,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "The narrator did not personally perform that payment.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "same parking stay of narrator-associated automobile",
+          "polarity": "negative",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "а не я",
+              "start": 40,
+              "end": 46,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "friend is payer",
+          "narrator is contrasted nonpayer and claimant"
+        ],
+        "vehicles": [
+          "narrator-associated automobile is the parked object, not the payer; possessive wording need not prove legal title"
+        ]
+      },
+      "episode_relations": "Both contrasted payer roles concern one parking stay of one automobile.",
+      "unresolved_readings": [
+        "Friend’s identity is unspecified; no document, tariff, time, or standing location is given."
+      ],
+      "unsupported_inferences": [
+        "The parking was unpaid.",
+        "The narrator paid.",
+        "The friend’s automobile was the target.",
+        "The automobile paid or is the claimant.",
+        "The narrator drove the car."
+      ]
+    },
+    {
+      "case_id": "C013",
+      "source_text": "Парковку моей машины я оплатил, а парковку машины друга не оплатил.",
+      "supported_claims": [
+        {
+          "description": "The narrator paid for parking of the narrator’s car.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "parking stay of narrator-associated car",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Парковку моей машины я оплатил",
+              "start": 0,
+              "end": 30,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "The narrator did not pay for parking of the friend’s car.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "parking stay of friend-associated car",
+          "polarity": "negative",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "парковку машины друга не оплатил",
+              "start": 34,
+              "end": 66,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is positive payer for first target and negative payer for second",
+          "friend is the possessor/associate of second car, not an asserted payer"
+        ],
+        "vehicles": [
+          "narrator-associated car",
+          "friend-associated car"
+        ]
+      },
+      "episode_relations": "Two distinct vehicle-associated payment targets; no shared time, facility, or causal relation is supplied.",
+      "unresolved_readings": [
+        "The friend’s car could have been paid for by someone else.",
+        "Distinct parking targets are clear; the dates and duration of each stay are unknown because unmentioned, not explicitly declared unknown."
+      ],
+      "unsupported_inferences": [
+        "The friend’s parking was unpaid by everyone.",
+        "The friend was the second payer.",
+        "Both payment claims concern the narrator’s car.",
+        "A single target has inconsistent payment claims.",
+        "One common time or paid zone."
+      ]
+    },
+    {
+      "case_id": "C014",
+      "source_text": "Вчера я оплатил стоянку. Сегодня на той же парковке я не оплатил новую стоянку.",
+      "supported_claims": [
+        {
+          "description": "Yesterday the narrator paid for one parking stay.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "yesterday parking stay",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Вчера я оплатил стоянку",
+              "start": 0,
+              "end": 23,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "Today, at the same parking facility, the narrator did not pay for a new parking stay.",
+          "kind": "payment_by_person",
+          "claim_source": "narrator",
+          "actor": "narrator",
+          "target": "today new parking stay",
+          "polarity": "negative",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "Сегодня на той же парковке я не оплатил новую стоянку",
+              "start": 25,
+              "end": 78,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator is payer for yesterday and nonpayer for today"
+        ],
+        "vehicles": "No vehicle is identified."
+      },
+      "episode_relations": "Two explicitly distinct parking episodes: yesterday and today/new stay; same facility is explicit. The payment on yesterday’s stay does not cover today merely because the location is shared.",
+      "unresolved_readings": [
+        "Someone else could have paid for today’s stay.",
+        "Actual calendar dates depend on the unknown narrative date."
+      ],
+      "unsupported_inferences": [
+        "A single parking episode with conflicting payment.",
+        "Definite absence of all payment for today.",
+        "A named vehicle, exact date, parking tariff, or legal violation."
+      ]
+    },
+    {
+      "case_id": "C015",
+      "source_text": "В письме сообщили, что моя парковка не оплачена.",
+      "supported_claims": [
+        {
+          "description": "A letter communicated that the narrator-associated parking was not paid for.",
+          "kind": "reported_communication",
+          "claim_source": "narrator reporting a letter",
+          "actor": "unnamed communicator",
+          "target": "letter communication",
+          "polarity": "positive",
+          "modality": "asserted",
+          "actuality": "asserted",
+          "evidence": [
+            {
+              "quote": "В письме сообщили, что моя парковка не оплачена",
+              "start": 0,
+              "end": 47,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "The letter’s embedded claim is negative payment status of the narrator-associated parking.",
+          "kind": "payment_status",
+          "claim_source": "letter contents / unnamed communicator",
+          "actor": "payer unspecified",
+          "target": "narrator-associated parking stay",
+          "polarity": "negative",
+          "modality": "reported_document_assertion",
+          "actuality": "asserted by the document, not necessarily accepted by narrator",
+          "evidence": [
+            {
+              "quote": "моя парковка не оплачена",
+              "start": 23,
+              "end": 47,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "narrator reports communication and is associated with the parking target",
+          "communicator is unnamed; payer is not identified"
+        ],
+        "vehicles": "No vehicle is explicitly mentioned."
+      },
+      "episode_relations": "One parking target in a reported letter; no competing narrator assertion on payment occurs.",
+      "unresolved_readings": [
+        "Моя парковка most naturally refers to the narrator’s parking stay; literal ownership of a facility is grammatically possible but less natural.",
+        "Narrator association does not establish who was obligated to pay, drove, or actually attempted payment."
+      ],
+      "unsupported_inferences": [
+        "The narrator personally endorses nonpayment.",
+        "The narrator is the letter’s author.",
+        "The narrator personally failed to pay.",
+        "A vehicle identity follows from моя парковка.",
+        "A letter is necessarily a постановление."
+      ]
+    },
+    {
+      "case_id": "C016",
+      "source_text": "В постановлении: «ТС стояло в зоне ПП; оплаты нет».",
+      "supported_claims": [
+        {
+          "description": "An order/decision document states that a vehicle stood in a zone designated ПП.",
+          "kind": "vehicle_standing",
+          "claim_source": "постановление / unnamed issuing author",
+          "actor": "vehicle designated ТС",
+          "target": "zone designated ПП",
+          "polarity": "positive",
+          "modality": "quoted_document_assertion",
+          "actuality": "asserted by document, not independently established by narrator",
+          "evidence": [
+            {
+              "quote": "ТС стояло в зоне ПП",
+              "start": 18,
+              "end": 37,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        },
+        {
+          "description": "The same quoted document states that there is no payment.",
+          "kind": "payment_status",
+          "claim_source": "постановление / unnamed issuing author",
+          "actor": "payer unspecified",
+          "target": "payment context of quoted standing situation",
+          "polarity": "negative",
+          "modality": "quoted_document_assertion",
+          "actuality": "asserted by document, not independently established by narrator",
+          "evidence": [
+            {
+              "quote": "оплаты нет",
+              "start": 39,
+              "end": 49,
+              "offset_unit": "Python Unicode code point",
+              "end_exclusive": true
+            }
+          ]
+        }
+      ],
+      "roles": {
+        "persons": [
+          "document author/issuer and payer are unidentified"
+        ],
+        "vehicles": [
+          "ТС naturally expands to транспортное средство; vehicle is the subject of standing, not payer"
+        ]
+      },
+      "episode_relations": "The two clauses inside one quote normally refer to one vehicle-parking situation; no explicit time or unique vehicle identifier is provided.",
+      "unresolved_readings": [
+        "The expansion of ПП is not given; платная парковка is plausible in a parking diagnostic context but cannot be established from the source alone.",
+        "Оплаты нет naturally denies payment, but it may mean absent recorded/available payment depending on document context; no record-level qualification is explicit.",
+        "The text presents a document’s account, not verified real-world facts."
+      ],
+      "unsupported_inferences": [
+        "ПП unambiguously means paid parking without an abbreviation convention.",
+        "The narrator is the driver/payer or accepts the quoted allegations.",
+        "The vehicle is a person or the payer.",
+        "A particular violation, law, fee, or legal validity is established."
+      ]
+    }
+  ]
+}

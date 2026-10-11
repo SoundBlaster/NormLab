@@ -1,0 +1,66 @@
+{
+  "schema": "normlab.evaluation-experiment/v1",
+  "experimentId": "stage1-fixture-001",
+  "dataset": {
+    "id": "parking-polarity",
+    "version": "1"
+  },
+  "mode": "offline-replay",
+  "strategy": "frozen-classification",
+  "tactic": "independent",
+  "provider": {
+    "id": "fixture",
+    "route": "offline",
+    "requestedModel": null,
+    "settings": {}
+  },
+  "budget": {
+    "maxRecords": 3,
+    "liveCalls": 0
+  },
+  "definitions": {
+    "path": "definitions.json",
+    "sha256": "3f3025d931c4f8460b9b73564f636a064d0261304c9f08f969bec6a1911a30cc"
+  },
+  "cases": [
+    {
+      "id": "C001",
+      "family": "payment-conflicting-sources",
+      "language": "ru",
+      "input": {
+        "path": "input.json",
+        "sha256": "3d0898d142b5b68ce041096f4d549cb21cff17b035f251f39a5894c7b00d82d6"
+      },
+      "parent": {
+        "path": "parent.json",
+        "sha256": "f75a49e6c3b81a32a17c787f8410d6ad5533665a499e9e8a493f7735d84dcd58"
+      }
+    }
+  ],
+  "records": [
+    {
+      "id": "R001",
+      "caseId": "C001",
+      "capture": {
+        "path": "R001.json",
+        "sha256": "0a658f37f6d237d231aa23d8d7972135edff040e777dbb3eae9c509029da2946"
+      }
+    },
+    {
+      "id": "R002",
+      "caseId": "C001",
+      "capture": {
+        "path": "R002.json",
+        "sha256": "23f384c701321da1202fe62794b394954bc1b7a14daa165047402336e19e7f95"
+      }
+    },
+    {
+      "id": "R003",
+      "caseId": "C001",
+      "capture": {
+        "path": "R003.json",
+        "sha256": "156438b939f491b9ff2972997f9eca1a1f0e13d72d9814eb1f218ebfbd52766f"
+      }
+    }
+  ]
+}

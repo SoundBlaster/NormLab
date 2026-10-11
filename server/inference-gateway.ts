@@ -6,6 +6,7 @@ import { ProxyAgent, fetch as undiciFetch } from 'undici';
 import { inferenceGatewayConfig, type InferenceGatewayConfig } from './inference-config.js';
 import { InferenceProviders } from './inference-providers.js';
 import { MAX_INFERENCE_RESPONSE_BYTES } from './inference-http.js';
+import { InferenceAccessError } from './inference-errors.js';
 import { extractionInput, runHostedExtraction } from './hosted-extraction.js';
 
 /** Explicit route: no reliance on Node's bundled fetch sharing undici's global dispatcher. */
@@ -99,10 +100,13 @@ export function createInferenceGateway(
       if (Buffer.byteLength(JSON.stringify(result)) > MAX_INFERENCE_RESPONSE_BYTES)
         throw new Error('Result too large.');
       send(200, result);
-    } catch {
+    } catch (error) {
       // Never log provider bodies, keys, narratives, authorization, or exception strings.
       if (!res.destroyed)
-        send(503, { error: 'Inference failed; manual review remains available.' });
+        send(503, {
+          error: 'Inference failed; manual review remains available.',
+          ...(error instanceof InferenceAccessError ? { inferenceFailure: error.failure } : {}),
+        });
     } finally {
       active = false;
       res.off('close', disconnected);

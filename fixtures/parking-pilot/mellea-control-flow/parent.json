@@ -1,0 +1,23 @@
+{
+  "sourceDigest": "e2c7ce0cf61e3d4f696037e352824c1bc8d2fe0bf65693ce88355f361a38ce96",
+  "fragments": [
+    {
+      "fragmentId": "fragment_1",
+      "quote": "Я оплатил парковку.",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "narrator"
+      }
+    },
+    {
+      "fragmentId": "fragment_2",
+      "quote": "В письме: парковка не оплачена.",
+      "attributes": {
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "speaker": "letter_1"
+      }
+    }
+  ]
+}

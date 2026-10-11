@@ -27,7 +27,7 @@
 2. Импорт неизменённых raw baseline artifacts, scoring без повторного inference, локальный MLflow как registry прогонов, metrics и reports. JSON artifacts/hashes остаются независимым источником evidence.
 3. LangExtract как альтернативный statement-first extractor. После диагностического single-pass baseline реализован двухэтапный вариант: literal assertions без predicates, затем классификация фрагментов по определениям признаков и polarity. Второй этап ссылается на fragment IDs, исходные quotes не переписываются. Few-shot examples отделены от evaluation cases. Local provider, дополнительные definitions и structured output фиксируются как новая конфигурация, не изолированный эффект числа проходов.
 4. Локальный экран проверки: источник, выделение текста, создание/редактирование/отклонение утверждений, обязательное подтверждение каждого. Сохраняются исходное предложение, новые review revisions и источник. Изменение фабулы требует явного создания нового draft; предыдущая цепочка сохраняется, подтверждения сбрасываются.
-5. Отдельный holdout и экспертная разметка перед заявлением о достижении целевого critical-error-free score (50% для демо, 80% далее). MLflow хранит и machine checks, и human review отдельно. Evidently отложен до появления пользовательского потока.
+5. Выбор pipeline и настройка на development/validation, frozen selection полного contract и затем однократная оценка выбранного варианта на untouched final test с экспертной разметкой перед заявлением о достижении целевого critical-error-free score (50% для демо, 80% далее). MLflow хранит и machine checks, и human review отдельно. Evidently отложен до появления пользовательского потока.
 
 ## Границы первой реализации
 
@@ -50,3 +50,12 @@ Labels имеют статус candidate. `candidate_case_pass_rate` показ�
 - [MLflow datasets и SQL backend](https://mlflow.org/docs/latest/genai/datasets/)
 - [Google LangExtract](https://github.com/google/langextract), Apache-2.0
 - [Luna comparison](PARKING_LUNA_COMPARISON_2026-10-05.md)
+
+## Повторяемые сравнения новых моделей — 2026-10-09
+
+[Evaluation harness plan](EVALUATION_HARNESS_PLAN.md) описывает общий manifest,
+provider/strategy/tactic matrix, offline replay и расширение существующего MLflow
+import. Обычная Luna Responses Low исследуется через independent/batch/sequential
+questions отдельно от Luna Decisions. Evidently остаётся опциональным: локальный
+comparison report можно оценить раньше пользовательского потока, periodic drift
+monitoring — после появления сопоставимых временных данных.

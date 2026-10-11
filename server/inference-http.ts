@@ -1,3 +1,10 @@
+import {
+  InferenceAccessError,
+  httpFailure,
+  parseInferenceFailure,
+  type InferenceContext,
+} from './inference-errors.js';
+
 export const MAX_INFERENCE_RESPONSE_BYTES = 4 * 1024 * 1024;
 
 export async function readBoundedJson(
@@ -33,22 +40,47 @@ export async function inferencePost(
   signal: AbortSignal,
   fetcher: typeof fetch = fetch,
   timeoutMs = 120000,
+  context: InferenceContext = { provider: 'gateway', stage: 'extraction' },
+  trustedGateway = false,
 ): Promise<unknown> {
+  const deadline = AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)]);
   try {
     const response = await fetcher(url, {
       method: 'POST',
       redirect: 'error',
-      signal: AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)]),
+      signal: deadline,
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     if (!response.ok) {
-      await response.body?.cancel();
-      throw new Error('Inference request rejected.');
+      if (trustedGateway) {
+        try {
+          const envelope = await readBoundedJson(response, 4096);
+          const failure = parseInferenceFailure(
+            envelope && typeof envelope === 'object' && 'inferenceFailure' in envelope
+              ? envelope.inferenceFailure
+              : undefined,
+          );
+          if (failure) throw new InferenceAccessError(failure);
+        } catch (error) {
+          if (error instanceof InferenceAccessError) throw error;
+        }
+      } else await response.body?.cancel();
+      throw new InferenceAccessError({
+        ...context,
+        code: httpFailure(response.status),
+        httpStatus: response.status,
+      });
     }
-    return await readBoundedJson(response);
-  } catch {
+    try {
+      return await readBoundedJson(response);
+    } catch (error) {
+      if (deadline.aborted) throw error;
+      throw new InferenceAccessError({ ...context, code: 'invalid_response' });
+    }
+  } catch (error) {
+    if (error instanceof InferenceAccessError) throw error;
     // Fetch exceptions can include URLs; upstream errors can contain source text or secrets.
-    throw new Error('Inference transport failed.');
+    throw new InferenceAccessError({ ...context, code: deadline.aborted ? 'timeout' : 'network' });
   }
 }

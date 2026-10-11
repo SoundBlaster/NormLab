@@ -1,0 +1,9 @@
+{
+  "schema": "normlab.provider-config/v1",
+  "id": "custom-decisions",
+  "api_format": "openai-decisions",
+  "endpoint_url": "https://gateway.example.com/inference/decisions",
+  "model": "vendor/model",
+  "key_env": "CUSTOM_INFERENCE_API_KEY",
+  "timeout": 10
+}
