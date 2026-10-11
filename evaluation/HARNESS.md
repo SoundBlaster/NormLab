@@ -103,3 +103,7 @@ capture. Historical v1 evidence and pinned source digests remain unchanged.
 ## Stage 1 provider execution
 
 [Three-arm Stage 1 transport](../docs/STAGE1_PROVIDER_TRANSPORT.md) connects Jev, native Luna Decisions and Responses Low through CoreInfra application endpoints. Dry-run/replay require no SDK; mock HTTP uses real SDK request construction. Paid execution requires a separate plan-bound permit and operator-confirmed external spending limit.
+# Sealed Stage 1 provider scoring
+
+See [candidate-label scorer](../docs/STAGE1_PROVIDER_SCORING.md) and the
+[first partial live context](../docs/STAGE1_LIVE_PILOT_2026-10-11.md).

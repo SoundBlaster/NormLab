@@ -338,5 +338,13 @@ strategy, общий runner фиксирует условия, MLflow храни
 
 - [x] Новый versioned manifest поверх frozen comparison inputs: Jev + Luna Decisions + Luna Low через CoreInfra, одинаковый semantic task и сбалансированный порядок. Pilot — 36, corpus — 288 planned calls, authorized calls — 0.
 - [x] [Реальный provider transport](docs/STAGE1_PROVIDER_TRANSPORT.md): SDK adapters 0.4.0 и Responses HTTP, exact request guard, bounded responses, capture/replay, stop-on-failure и отдельный execution permit.
-- [ ] Выполнить отдельно разрешённый малый live pilot с фиксированным plan digest и подтверждённым provider-side денежным ограничением.
-- [ ] После sealing predictions добавить/запустить отдельный scorer candidate labels; ошибки и неотправленные задания сохранять в знаменателе.
+- [x] Выполнить отдельно разрешённый трёхзапросный live context с фиксированным plan digest. Прогон частичный: Responses transport failed, точный внешний денежный лимит не проверен.
+- [x] После sealing predictions добавить/запустить отдельный scorer candidate labels; ошибки и неотправленные задания сохранять в знаменателе.
+
+### Stage 1 — scoring и первый live context, 2026-10-11
+
+- [x] Отдельный SDK-free scorer: hash-снимок ответов, candidate-label agreement, полный planned denominator и сравнение matched contexts.
+- [x] Сохранить частичный live context: Jev и Decisions ответили, Responses завершился transport error.
+- [ ] Новая ревизия executor с sanitized transport exception class, затем новый отдельно разрешённый live-прогон.
+
+Свидетельства: [scoring contract](docs/STAGE1_PROVIDER_SCORING.md), [live attempt](docs/STAGE1_LIVE_PILOT_2026-10-11.md).
