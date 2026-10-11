@@ -103,6 +103,7 @@ capture. Historical v1 evidence and pinned source digests remain unchanged.
 ## Stage 1 provider execution
 
 [Three-arm Stage 1 transport](../docs/STAGE1_PROVIDER_TRANSPORT.md) connects Jev, native Luna Decisions and Responses Low through CoreInfra application endpoints. Dry-run/replay require no SDK; mock HTTP uses real SDK request construction. Paid execution requires a separate plan-bound permit and operator-confirmed external spending limit.
+
 # Sealed Stage 1 provider scoring
 
 See [candidate-label scorer](../docs/STAGE1_PROVIDER_SCORING.md) and the
@@ -112,3 +113,11 @@ The separate [network retry runner](../docs/STAGE1_NETWORK_RETRIES.md) preserves
 each attempt and enforces a shared dispatch cap. Historical no-retry runs remain
 unchanged. Use the [retry-aware scorer](../docs/STAGE1_RETRY_SCORING.md) for retry
 captures; it keeps first/final outcomes and per-attempt costs separate.
+
+### Retry v2 entrypoints
+
+New retry experiments use `stage1_retry_executor_v2.py` and
+`score_stage1_retries_v2.py`. Corpus jobs are exported separately under the 2 MiB
+artifact bound, and pending completed children preserve known usage without
+exposing a verdict. V1 captures remain replayable by their frozen v1 tools.
+See [commands and contracts](../docs/STAGE1_RETRY_SCORING.md#current-entrypoints-v2).

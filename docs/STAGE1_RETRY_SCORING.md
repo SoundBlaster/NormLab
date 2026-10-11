@@ -1,5 +1,28 @@
 # Retry-aware Stage 1 scoring
 
+## Current entrypoints: v2
+
+Use `stage1_retry_executor_v2.py` and `score_stage1_retries_v2.py` for new runs.
+V2 splits parent jobs into digest-bound artifacts below the 2 MiB per-file bound,
+including the complete 288-job corpus. The scorer retains known token usage from
+completed child captures even when the outer attempt remains pending; its verdict
+stays unknown. The seal also binds the exported outer plan header bytes.
+
+V1 files and archived reports below remain unchanged for historical replay.
+V2 plans, captures, seals and scores use `/v2` identities and cannot reuse v1
+execution permits or prediction seals. There is no new paid provider evidence.
+
+```bash
+python evaluation/stage1_retry_executor_v2.py fixtures/parking-pilot/stage1-coreinfra-v1/experiment.json --profile corpus --mock-output .artifacts/retry-v2-corpus
+python -S evaluation/score_stage1_retries_v2.py fixtures/parking-pilot/stage1-coreinfra-v1/experiment.json --profile corpus .artifacts/retry-v2-corpus --seal-output .artifacts/retry-v2-seal.json
+python -S evaluation/score_stage1_retries_v2.py fixtures/parking-pilot/stage1-coreinfra-v1/experiment.json --profile corpus .artifacts/retry-v2-corpus --seal .artifacts/retry-v2-seal.json --output .artifacts/retry-v2-score.json
+```
+
+Offline regression coverage in the provider CI job exercises full corpus execution
+and scoring, zero-cap export/replay, transient recovery, pending-child usage,
+split-job tampering and post-seal header mutation. Mock completion checks the
+transport and accounting contracts; candidate agreement is not model quality.
+
 `evaluation/score_stage1_retries.py` adds a separate SDK-free evaluator for
 `stage1_retry_executor.py` captures. Historical no-retry scorer/executor code,
 retry-runner code and existing evidence are unchanged. No provider is constructed,
@@ -24,10 +47,10 @@ records, not signatures, trusted timestamps or proof of blinded operator access.
 
 Each planned semantic job keeps its full attempt history and two views:
 
-| View | Meaning |
-| --- | --- |
+| View    | Meaning                                                             |
+| ------- | ------------------------------------------------------------------- |
 | `first` | The first attempt only; subsequent recovery does not erase failure. |
-| `final` | The terminal attempt after the permitted retry strategy. |
+| `final` | The terminal attempt after the permitted retry strategy.            |
 
 Each view reports completed outputs, statuses, candidate-label confusion matrix,
 matches among completed outputs, matches per all planned jobs and strict complete

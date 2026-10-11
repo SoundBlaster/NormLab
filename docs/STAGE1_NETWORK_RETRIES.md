@@ -1,5 +1,10 @@
 # Stage 1 network retries, revision 1
 
+Current runner: [`stage1_retry_executor_v2.py`](../evaluation/stage1_retry_executor_v2.py).
+V2 fixes corpus export with bounded split artifacts; use the
+[v2 commands and compatibility notes](STAGE1_RETRY_SCORING.md#current-entrypoints-v2)
+for new runs. The v1 limitations and evidence below describe the frozen lineage.
+
 `evaluation/stage1_retry_executor.py` adds an explicit outer retry policy over the
 frozen three-provider planner and single-attempt executor. The old no-retry CLI,
 manifests, source pins, scorer and captures are unchanged. New retry-plan and
@@ -108,17 +113,17 @@ backoff-interrupt. The HTTP scenario injects 503 and demonstrates no HTTP retry.
 Local CLI rehearsals used SDK 0.4.0 mock HTTP with `COREINFRA_API_KEY` removed
 from subprocess environments. All nine captures were replayed with Python -B -S:
 
-| Scenario | Mock dispatches | Stop |
-| --- | ---: | --- |
-| Complete pilot | 36 | complete |
-| First failure then recovery | 37 | complete |
-| All three attempts fail | 3 | retries-exhausted |
-| HTTP 503 | 1 | provider-error |
-| Malformed output | 1 | invalid-output |
-| Recovery needs a second slot, cap one | 1 | budget-exhaustion |
-| Cap zero | 0 | budget-exhaustion |
-| Interrupted attempt | 1 | unknown-sent-outcome |
-| Interrupted backoff | 1 | interrupted-during-backoff |
+| Scenario                              | Mock dispatches | Stop                       |
+| ------------------------------------- | --------------: | -------------------------- |
+| Complete pilot                        |              36 | complete                   |
+| First failure then recovery           |              37 | complete                   |
+| All three attempts fail               |               3 | retries-exhausted          |
+| HTTP 503                              |               1 | provider-error             |
+| Malformed output                      |               1 | invalid-output             |
+| Recovery needs a second slot, cap one |               1 | budget-exhaustion          |
+| Cap zero                              |               0 | budget-exhaustion          |
+| Interrupted attempt                   |               1 | unknown-sent-outcome       |
+| Interrupted backoff                   |               1 | interrupted-during-backoff |
 
 These are local control-flow rehearsals, not a new automatic CI suite or live
 provider reliability/quality evidence. No paid calls were made for this change.
