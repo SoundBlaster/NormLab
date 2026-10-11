@@ -73,3 +73,23 @@ accuracy estimate, and retain the Responses failure in reliability accounting.
 Next: capture a sanitized transport exception class in a new executor revision,
 rehearse offline, then explicitly authorize a new live attempt within a confirmed
 spending budget. Do not rewrite or resume this historical capture.
+
+## Explicit single Responses repeat — 17:07 Moscow time
+
+The operator explicitly authorized repeating **only Luna Low**. One new direct
+httpx2 request used the exact planned J0003 endpoint and body, a fresh client,
+30-second per-operation timeout, no redirects/environment proxies and zero
+automatic retries. Jev and Decisions were not called again. This separate attempt
+does not replace the original failed turn or complete its original capture.
+
+**HTTP 200**, status `completed`, label **`incompatible`**, matching the candidate
+expectation. Returned model `gpt-6-luna`, latency **6.053 s**, reported usage
+**965 input / 67 output tokens**; currency cost unknown. Response ID:
+`resp_0871d4edfdf7be81016acb980fe33c87d2a2c10200d228fea3`.
+
+Private capture: `.artifacts/luna-low-single-repeat-20261011-1406/report.json`.
+It binds parent plan/job digests and retains the public normalized response;
+authorization headers and encrypted reasoning are excluded. The isolated attempt
+could record sanitized exception class names, but no exception occurred. Success
+on this attempt leaves the cause of the earlier transport failure undetermined.
+It is not part of the sealed original score, and is not a three-arm quality ranking.
