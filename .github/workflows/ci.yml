@@ -63,6 +63,9 @@ jobs:
       - name: Check development corpus inventory without inference
         run: python -B -S evaluation/audit_pipeline_corpus.py --check
 
+      - name: Check external diagnostic snapshots without network or inference
+        run: python -B -S evaluation/collect_external_diagnostics.py --check
+
   architecture:
     name: FSD architecture
     runs-on: ubuntu-24.04

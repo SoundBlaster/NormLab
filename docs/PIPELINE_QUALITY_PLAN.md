@@ -50,6 +50,14 @@ python3 -B -S evaluation/audit_pipeline_corpus.py --check
 Она не проверяет семантическую независимость, корректность labels или полноту
 разметки. При изменении входов inventory должен быть явно пересмотрен.
 
+Отдельно собран [external diagnostic set v1](../fixtures/external-diagnostics-v1/README.md):
+24 RCB NLI-пары и 12 полных судебных текстов. Сохранены dataset revisions,
+upstream IDs, исходные hashes, licensing notices и deterministic selection recipe.
+Labels RCB вынесены в reviewer-only файл и требуют проверки; судебные LLM-ответы
+не используются как gold. Это development material для языковых diagnostics,
+не 36 новых подтверждённо независимых parking-фабул. Его результаты не объединять
+с доменным case-pass score без отдельного protocol. Holdout eligibility — 0.
+
 ## Единица оценки и rubric
 
 Единица — вся исходная фабула с выбранным эпизодом и объявленным extraction scope.
