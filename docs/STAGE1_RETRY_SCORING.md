@@ -85,7 +85,7 @@ cases without a holdout. Population accuracy, statistical significance, product
 critical-error-free rate and actual monetary cost remain null. Mock labels are
 synthetic and cannot establish provider quality or the demo's quality target.
 
-## CLI
+## Historical v1 CLI
 
 ```bash
 python3 -B -S evaluation/score_stage1_retries.py \
@@ -101,10 +101,11 @@ python3 -B -S evaluation/score_stage1_retries.py \
 
 Use new output paths. Exit 0 means valid scoring/sealing, including a partial
 capture; examine `stopReason` and coverage. Exit 2 means rejected artifacts.
-`--profile corpus` selects corpus lineage, but see the current runner export limit
-below; no corpus runtime validation is claimed here.
+`--profile corpus` selects corpus lineage, but v1 has the export limitation below.
+Use the v2 commands at the top for new corpus runs; v2 corpus execution/scoring
+has offline regression coverage, not live provider evidence.
 
-## Local evidence — 2026-10-11
+## Historical v1 local evidence — 2026-10-11
 
 All nine existing retry mock captures were sealed and scored with Python -B -S,
 with `COREINFRA_API_KEY` removed from subprocess environments. Zero external calls.
@@ -121,13 +122,15 @@ attempt. Evidence is in the fixture summary, with full private reports under
 `.artifacts/stage1-retry-scoring-final-v1/`. These are local rehearsals, not a newly
 added automatic CI suite or live reliability evidence.
 
-## Known corpus export limitation
+## Historical v1 corpus export limitation — resolved in v2
 
-The current retry-runner writes its complete parent plan to one JSON artifact.
+The frozen v1 retry-runner writes its complete parent plan to one JSON artifact.
 The corpus plan is about **3.5 MB even before pretty printing**, exceeding its
 2 MiB artifact bound. Pilot captures used above fit. A corpus retry run cannot
-currently export that plan successfully; the scorer must not be presented as
+export that plan successfully; its historical scorer evidence must not be presented as
 evidence that the larger end-to-end run works.
 
-Next: introduce a new retry-runner revision with split parent-plan export,
-preserving existing source pins and captures, before a broader live comparison.
+PR #57 resolved this in v2 with split parent-plan export, preserving v1 source pins
+and captures. Next: an explicitly budgeted small live comparison using v2,
+followed by sealing and first/final scoring. Offline corpus success does not
+authorize 288 live jobs or establish provider quality.
