@@ -35,8 +35,11 @@ Revision `53cb9d7f38b34c308a2eea3f4797f9edc7947d8b`, архив `data/RCB.zip`,
 каждого класса четыре `negation` и четыре `no_negation` по upstream metadata.
 Это целевые diagnostic quotas, не частоты естественных обращений. Поле
 `negation` — разметка авторов, не результат нашего поиска слова «не».
-Внутри каждой страты порядок задаёт SHA256 фиксированного seed и канонического
-upstream JSON. Повторные exact premise hashes исключены.
+Отбор идёт отдельно по каждой страте, затем выбранные 24 строки глобально
+сортируются по SHA256 фиксированного seed и канонического upstream JSON. Только
+после этой label-independent сортировки назначаются последовательные ID и порядок
+публикации, поэтому они не раскрывают label или negation. Повторные exact premise
+hashes исключены.
 
 `premise` скопирован в `sourceText`, `hypothesis` — в `candidateText`, дословно.
 Остальная upstream metadata находится отдельно. Исходные labels сохранены без

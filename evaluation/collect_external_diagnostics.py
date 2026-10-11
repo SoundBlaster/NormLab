@@ -109,6 +109,7 @@ def collect(cache):
             json.loads(line) for line in archive.read("RCB/train.jsonl").splitlines()
         ]
     used = set()
+    selected_rcb = []
     for label in ("entailment", "contradiction", "neutral"):
         for negation in ("negation", "no_negation"):
             count = 0
@@ -120,11 +121,16 @@ def collect(cache):
                 if text_hash in used:
                     continue
                 used.add(text_hash)
-                add("rcb", len(inputs) + 1, row, row["premise"], row["hypothesis"])
+                selected_rcb.append(row)
                 count += 1
                 if count == 4:
                     break
             require(count == 4, f"Insufficient RCB records: {label}/{negation}")
+
+    # Assign public IDs only after a label-independent global ordering. The
+    # stratified selection above must not leak its label/negation loop order.
+    for ordinal, row in enumerate(sorted(selected_rcb, key=rank), start=1):
+        add("rcb", ordinal, row, row["premise"], row["hypothesis"])
 
     courts = json.loads((cache / "court.json").read_bytes())
     grouped = defaultdict(list)
@@ -186,6 +192,7 @@ def build(lock_path, cache, output, fetch):
         "selection": {
             "seed": SEED,
             "order": "ascending SHA256(seed + newline + canonical JSON)",
+            "rcbIdAssignment": "selected rows globally sorted by the same label-independent rank before sequential IDs",
             "rcb": "train only; 4 negation + 4 no_negation per label; unique premise hashes",
             "sud": "6 admin, 3 civil, 3 financial; unique source hashes; 1500..20000 chars",
             "dependenceReview": "exact text grouped; incident and semantic dedup pending",
