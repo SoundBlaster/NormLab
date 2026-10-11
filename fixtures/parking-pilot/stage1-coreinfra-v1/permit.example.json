@@ -1,0 +1,13 @@
+{
+  "schema": "normlab.stage1-execution-permit/v1",
+  "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+  "maxCalls": 0,
+  "expiresAt": "1970-01-01T00:00:00Z",
+  "spending": {
+    "enforcement": "external-provider-limit",
+    "amount": null,
+    "currency": "RUB",
+    "pricingReference": "",
+    "operatorConfirmed": false
+  }
+}

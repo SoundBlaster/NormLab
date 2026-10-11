@@ -99,3 +99,7 @@ sampling loop. Those require subsequent experiments.
 TypeSafe/OpenAI and custom full endpoints. `provider_smoke.py` is dry-run by
 default; its separate smoke report is not a Stage 1 quality evaluation or replay
 capture. Historical v1 evidence and pinned source digests remain unchanged.
+
+## Stage 1 provider execution
+
+[Three-arm Stage 1 transport](../docs/STAGE1_PROVIDER_TRANSPORT.md) connects Jev, native Luna Decisions and Responses Low through CoreInfra application endpoints. Dry-run/replay require no SDK; mock HTTP uses real SDK request construction. Paid execution requires a separate plan-bound permit and operator-confirmed external spending limit.

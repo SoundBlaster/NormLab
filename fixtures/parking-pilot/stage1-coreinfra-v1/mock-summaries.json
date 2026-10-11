@@ -1,0 +1,388 @@
+{
+  "schema": "normlab.stage1-provider-implementation-evidence/v1",
+  "codePins": {
+    "stage1_provider_executor.py": "a9c2584175d3765581233c5821ea92a6366698aa4e10f6c906c637e1ffaa5dc5",
+    "stage1_provider_plan.py": "0277e4bfca81ecd11c56608336dea5c04a318abadf2e5998d37afded6848b1de",
+    "stage1_provider_wire.py": "ce76b6688b3e13672b4fb51ecb51c368f7b5f16fc76ea237cd7c123c75549200",
+    "stage1_wire_v2.py": "72950c1b7551e821f81d68aa058e0f61f74977b80499b3f498c8a8429dc261fa",
+    "plan_stage1_comparison.py": "ac039a7e1b522f7289d2f7aeb84a50cc91b12276c74f83daf977a3818b2f4e7c",
+    "harness.py": "395fbf66d149e1b05fedf9b5710421fb4894614daf87dd2372b453446a1d1af5",
+    "provider_config.py": "d0aa39bac9ae70cfcaf73885ec3ec44a57484900f8a19f9762ff9a2d701ae59a"
+  },
+  "planSummaries": {
+    "pilot": {
+      "schema": "normlab.stage1-provider-plan-summary/v1",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "profile": "pilot",
+      "plannedCalls": 36,
+      "callsPerArm": {
+        "jev-coreinfra": 12,
+        "luna-decisions-coreinfra": 12,
+        "luna-low-coreinfra": 12
+      },
+      "authorizedCalls": 0,
+      "budget": {
+        "maxCalls": 36,
+        "maxQuestions": 36,
+        "maxInputUtf8Bytes": 32768,
+        "transportTimeoutSeconds": 30,
+        "wallDeadlineSeconds": 1350,
+        "authorizedCalls": 0,
+        "monetaryCap": null,
+        "pricingVerified": false
+      },
+      "semanticQualityEvidence": false
+    },
+    "corpus": {
+      "schema": "normlab.stage1-provider-plan-summary/v1",
+      "planDigest": "eaf1b7d7f36ca31a975ae6b260ef4c230bcd455b017321c35cc37ebb600a30c5",
+      "profile": "corpus",
+      "plannedCalls": 288,
+      "callsPerArm": {
+        "jev-coreinfra": 96,
+        "luna-decisions-coreinfra": 96,
+        "luna-low-coreinfra": 96
+      },
+      "authorizedCalls": 0,
+      "budget": {
+        "maxCalls": 288,
+        "maxQuestions": 288,
+        "maxInputUtf8Bytes": 32768,
+        "transportTimeoutSeconds": 30,
+        "wallDeadlineSeconds": 10800,
+        "authorizedCalls": 0,
+        "monetaryCap": null,
+        "pricingVerified": false
+      },
+      "semanticQualityEvidence": false
+    }
+  },
+  "captures": {
+    "pilot": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 36,
+      "stopReason": null,
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "completed": 12,
+          "dispatched": 12,
+          "compatible": 4,
+          "indeterminate": 4,
+          "incompatible": 4
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "completed": 12,
+          "dispatched": 12,
+          "incompatible": 4,
+          "compatible": 4,
+          "indeterminate": 4
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "completed": 12,
+          "dispatched": 12,
+          "indeterminate": 4,
+          "incompatible": 4,
+          "compatible": 4
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "corpus": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "eaf1b7d7f36ca31a975ae6b260ef4c230bcd455b017321c35cc37ebb600a30c5",
+      "networkCalls": 0,
+      "mockHttpCalls": 288,
+      "stopReason": null,
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 96,
+          "completed": 96,
+          "dispatched": 96,
+          "compatible": 32,
+          "indeterminate": 32,
+          "incompatible": 32
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 96,
+          "completed": 96,
+          "dispatched": 96,
+          "incompatible": 32,
+          "compatible": 32,
+          "indeterminate": 32
+        },
+        "luna-low-coreinfra": {
+          "planned": 96,
+          "completed": 96,
+          "dispatched": 96,
+          "indeterminate": 32,
+          "incompatible": 32,
+          "compatible": 32
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "http": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 1,
+      "stopReason": "provider-error",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "failed": 1,
+          "dispatched": 1,
+          "not-executed": 11
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "transport": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 2,
+      "stopReason": "transport-error",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "compatible": 1,
+          "not-executed": 11
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "failed": 1,
+          "dispatched": 1,
+          "not-executed": 11
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "malformed": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 3,
+      "stopReason": "invalid-output",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "compatible": 1,
+          "not-executed": 11
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "incompatible": 1,
+          "not-executed": 11
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "failed": 1,
+          "dispatched": 1,
+          "not-executed": 11
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "model-drift": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 4,
+      "stopReason": "returned-model-change",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "compatible": 1,
+          "not-executed": 11
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 2,
+          "incompatible": 1,
+          "failed": 1,
+          "not-executed": 10
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "indeterminate": 1,
+          "not-executed": 11
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "request-mismatch": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 0,
+      "stopReason": "request-mismatch",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "failed": 1,
+          "dispatched": 0,
+          "not-executed": 11
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "interrupt": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 2,
+      "stopReason": "unknown-sent-outcome",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "compatible": 1,
+          "not-executed": 11
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "sent": 1,
+          "dispatched": 1,
+          "not-executed": 11
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "cap-two": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 2,
+      "stopReason": "budget-exhaustion",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "compatible": 1,
+          "not-executed": 11
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "completed": 1,
+          "dispatched": 1,
+          "incompatible": 1,
+          "not-executed": 11
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    },
+    "cap-zero": {
+      "schema": "normlab.stage1-provider-run-summary/v1",
+      "mode": "mock-http",
+      "planDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+      "networkCalls": 0,
+      "mockHttpCalls": 0,
+      "stopReason": "budget-exhaustion",
+      "arms": {
+        "jev-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        },
+        "luna-decisions-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        },
+        "luna-low-coreinfra": {
+          "planned": 12,
+          "not-executed": 12,
+          "dispatched": 0
+        }
+      },
+      "semanticQualityEvidence": false,
+      "criticalErrorFreeRate": null,
+      "actualCost": null
+    }
+  },
+  "unfilledPermitRejectedBeforeOutput": true,
+  "credentialsRemovedForExecution": true,
+  "networkCalls": 0,
+  "semanticQualityEvidence": false
+}

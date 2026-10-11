@@ -333,3 +333,10 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Выполнить [CoreInfra local compatibility smoke](docs/COREINFRA_LIVE_CHECK_2026-10-11.md): Jev Noul/Choice/Score — 3 HTTP 200; Luna Responses Low + strict JSON — HTTP 200; ожидаемый Decisions endpoint — 404. Это не semantic benchmark.
 
 - [x] Уточнить CoreInfra application base `/openai/api/v1`: Luna Decisions Noul/Choice/Score и Responses Low + strict JSON успешно проверены. [Отчёт](docs/COREINFRA_LIVE_CHECK_2026-10-11.md) сохраняет также неуспешную попытку Choice и старый Codex-route 404.
+
+### Stage 1 — подключение трёх provider arms
+
+- [x] Новый versioned manifest поверх frozen comparison inputs: Jev + Luna Decisions + Luna Low через CoreInfra, одинаковый semantic task и сбалансированный порядок. Pilot — 36, corpus — 288 planned calls, authorized calls — 0.
+- [x] [Реальный provider transport](docs/STAGE1_PROVIDER_TRANSPORT.md): SDK adapters 0.4.0 и Responses HTTP, exact request guard, bounded responses, capture/replay, stop-on-failure и отдельный execution permit.
+- [ ] Выполнить отдельно разрешённый малый live pilot с фиксированным plan digest и подтверждённым provider-side денежным ограничением.
+- [ ] После sealing predictions добавить/запустить отдельный scorer candidate labels; ошибки и неотправленные задания сохранять в знаменателе.

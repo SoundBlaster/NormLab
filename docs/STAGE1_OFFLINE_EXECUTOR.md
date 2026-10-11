@@ -115,3 +115,7 @@ pattern includes the new executor tests automatically.
 4. After live opt-in, perform bounded compatibility probes, then the 24-call pilot.
    Seal predictions before loading candidate labels; report failures and abstentions
    in the planned denominator, without promoting labels to expert ground truth.
+
+## Separate CoreInfra provider transport
+
+The historical runners above remain offline. A new [three-arm transport](STAGE1_PROVIDER_TRANSPORT.md) adds actual adapter 0.4.0 clients, direct Responses, mock HTTP capture, SDK-free replay and plan-bound live permits. Its manifest/captures use separate schemas; previous source pins remain unchanged.
