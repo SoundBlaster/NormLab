@@ -110,4 +110,5 @@ See [candidate-label scorer](../docs/STAGE1_PROVIDER_SCORING.md) and the
 
 The separate [network retry runner](../docs/STAGE1_NETWORK_RETRIES.md) preserves
 each attempt and enforces a shared dispatch cap. Historical no-retry runs remain
-unchanged; retry captures require a separate scoring projection.
+unchanged. Use the [retry-aware scorer](../docs/STAGE1_RETRY_SCORING.md) for retry
+captures; it keeps first/final outcomes and per-attempt costs separate.

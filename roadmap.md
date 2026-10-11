@@ -354,5 +354,6 @@ strategy, общий runner фиксирует условия, MLflow храни
 
 - [x] [Отдельная версия retry-runner](docs/STAGE1_NETWORK_RETRIES.md): до трёх попыток, exponential backoff + jitter, sanitized transport exceptions, общий dispatch cap и SDK-free replay.
 - [x] Локально проверить восстановление, исчерпание попыток/бюджета, отсутствие HTTP/schema retries и безопасную остановку при прерывании; zero live calls.
-- [ ] Добавить retry-aware scoring с отдельным учётом first-attempt reliability и результата после повторов.
+- [x] [Добавить retry-aware scoring](docs/STAGE1_RETRY_SCORING.md) с отдельным учётом first-attempt completion, результата после повторов, candidate agreement и всех потраченных attempts.
+- [ ] Новая ревизия retry-runner со split-export: полный corpus-план сейчас превышает лимит JSON artifact в 2 MiB; pilot проверен.
 - [ ] Провести малый live-прогон новой стратегии с явно ограниченным общим числом попыток.

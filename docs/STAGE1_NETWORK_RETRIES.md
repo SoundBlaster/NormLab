@@ -70,8 +70,9 @@ No replay imports SDKs, reads credentials or performs network calls. Hashes are
 local integrity checks, not signatures or trusted timestamps.
 
 The previous candidate-label scorer accepts canonical no-retry captures only;
-do not feed it the wrapper index or discard failed attempts when assessing the
-new strategy. A retry-aware scoring projection is a separate follow-up.
+do not feed it the wrapper index or discard failed attempts. Use the separate
+[retry-aware scorer](STAGE1_RETRY_SCORING.md) for first/final views and attempt costs.
+That document also records the current full-corpus plan export limitation.
 
 ## CLI
 
@@ -121,5 +122,5 @@ from subprocess environments. All nine captures were replayed with Python -B -S:
 
 These are local control-flow rehearsals, not a new automatic CI suite or live
 provider reliability/quality evidence. No paid calls were made for this change.
-Next: add a retry-aware terminal-result scoring projection, then authorize a small
-live comparison with an aggregate attempt cap and preserve first-attempt reliability.
+Next: fix full-corpus plan export in a new revision, then authorize a small live
+comparison with an aggregate attempt cap and preserve first-attempt reliability.
