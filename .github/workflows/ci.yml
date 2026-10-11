@@ -80,6 +80,9 @@ jobs:
       - name: Check FSD layers, public APIs, and import boundaries
         run: npm run lint:architecture
 
+      - name: Verify glob protection and forbidden-import regression probes
+        run: npm run test:architecture
+
   verify:
     name: Format, lint, tests, and build
     runs-on: ubuntu-24.04
