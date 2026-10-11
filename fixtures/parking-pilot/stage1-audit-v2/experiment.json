@@ -1,0 +1,45 @@
+{
+  "schema": "normlab.stage1-audit/v2",
+  "experimentId": "stage1-representability-ru-v2",
+  "budget": {
+    "maxCalls": 0
+  },
+  "artifacts": {
+    "sources": {
+      "path": "sources.json",
+      "sha256": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c"
+    },
+    "reviewer-only": {
+      "path": "reviewer-only.json",
+      "sha256": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91"
+    },
+    "candidates": {
+      "path": "candidates.json",
+      "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+    },
+    "definitions": {
+      "path": "definitions.json",
+      "sha256": "0b9be80b864f3563de2af79d4b160c266362906efafdb264cffd40c98ff7a224"
+    },
+    "classification-schema": {
+      "path": "classification-schema.json",
+      "sha256": "03d7a76a78311e461093f843fedec1d94edab7a124feddcbbf171bb9d42cc733"
+    },
+    "fragment-contract": {
+      "path": "fragment-contract.json",
+      "sha256": "e48e49aae9fd9721cc30a561724fa1cedd8a466b6916e19ea8f10cc70952ccc2"
+    },
+    "conventions": {
+      "path": "conventions.json",
+      "sha256": "8673b5c4d2e1257b470e256f47a183963913975754755ba0a8e5ea284c08f9f8"
+    }
+  },
+  "codePins": {
+    "evaluation/discovery_v2.py": "185a9f143fd3046fe127c5b5cfada4b4319506d88bb95ee3be9048cdc3d75cab",
+    "evaluation/classification_v3.py": "13a28657de6dddd0a78da48b80a59c051ca5050d141f17a6bdef85294e5c82dc",
+    "evaluation/mellea_candidate.py": "c9b23618204a80f19ffdd95da1424e7b908489e4a956bf7612a1d1cc6d7499c0",
+    "server/inference-prompts.json": "3f3025d931c4f8460b9b73564f636a064d0261304c9f08f969bec6a1911a30cc",
+    "evaluation/audit_stage1.py": "1520551116b1050c0304366f51909a7006b1884b1c0f399fedd4c7c82ebc8976",
+    "evaluation/audit_stage1_v2.py": "d8e544925cdba9456e78707086505f514cd09991a09379c253bfa7f180ff68f0"
+  }
+}

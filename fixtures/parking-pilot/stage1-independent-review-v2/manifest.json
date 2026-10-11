@@ -1,0 +1,41 @@
+{
+  "schema": "normlab.stage1-regression-review-bundle/v1",
+  "datasetId": "stage1-contrast-ru-v2",
+  "datasetManifestDigest": "07452aa44ebc6519b9bc46a86c1f0b0f1413a2b31e827764a9801c9f522d58ed",
+  "artifactHashes": {
+    "review.json": "2aabec72d5368c9640586e4c31d30d1994f58d3e1ff4bc87cfe00ff1b36132ad",
+    "report.md": "eca1889e67ab095eed7dd3049913758dee5ae41ba41db134d72f671cbbf86d42"
+  },
+  "integrationPins": {
+    "evaluation/audit_stage1_v2.py": "d8e544925cdba9456e78707086505f514cd09991a09379c253bfa7f180ff68f0",
+    "fixtures/parking-pilot/stage1-audit-v2/audit-report.json": "d6d99fb721fd522aa22824e718985d88c8b693b92da267c8230feb9f067848d2",
+    "fixtures/parking-pilot/stage1-independent-review/manifest.json": "0832a097bd2c5c8ab82bafefb625aa48eada4c02baf08d8566140f38250c0b9f"
+  },
+  "provenance": {
+    "reviewer": "/root/stage1_independent_review",
+    "reviewType": "same-reviewer-nonblind-targeted-regression",
+    "freshBlindReview": false,
+    "humanExpertGroundTruth": false,
+    "rawArtifactsModified": false,
+    "evidenceSpansChecked": 58,
+    "paidProviderCalls": 0
+  },
+  "disposition": {
+    "resolvedIssueIds": [
+      "IR-001",
+      "IR-002",
+      "IR-003",
+      "IR-004",
+      "IR-005"
+    ],
+    "recordJudgments": {
+      "agree": 32
+    },
+    "newBlockers": 0,
+    "annotationRegression": "resolved-under-declared-conventions",
+    "labelsPromotedToExpert": false,
+    "criticalErrorFreeRate": null,
+    "fairComparison": "protocol-and-budget-pending",
+    "productionPromotion": false
+  }
+}

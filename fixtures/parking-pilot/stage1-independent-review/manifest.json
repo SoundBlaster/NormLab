@@ -1,0 +1,37 @@
+{
+  "schema": "normlab.stage1-review-evidence/v1",
+  "reviewerKind": "fresh-llm-agent",
+  "humanExpertGroundTruth": false,
+  "phaseOrder": [
+    "source-only-freeze",
+    "compare-authored-labels"
+  ],
+  "datasetPath": "fixtures/parking-pilot/stage1-audit",
+  "datasetManifestDigest": "8fa7947a3ec6d63c89ba6f6a6e008efeb57fb5ec8cbf5b847bddd46e6fdf9b37",
+  "artifactHashes": {
+    "source-only.json": "7c795127bc959f752e0b809085f5a51dd9a90894a44023295712dc7772e7845d",
+    "blind.json": "480bddd3eefe05cdce18665bf006cc352472a01f7c696c98108a26ffd65d720e",
+    "review.json": "8524257aa8160a3e92dfb090ae34dfa149f24defb04c24df4bf847ab94d37e56",
+    "report.md": "73ffdd0b9929246f3c84a352cc0a502cbe5aef1d03092bdfe37fb711113f0e69",
+    "blind-integrity.json": "a1ec8b0ad306475cabce5d8598f92852f36bf8bdc8bed95478bdcd231e050352",
+    "provenance.json": "08fe3e826869255184f9f0b2a22b6a5eda64d32eeed53932539f1b94a459421f",
+    "integration-policy.json": "2a6a9bb3f7fdc4f155a8a38347b66d7d4e4fb1531f677985877938bf5735e754",
+    "adjudication-counterexamples.json": "7c6455024381f9d1687b26b8a69b73f0a9f862ae513d1533c8623ad975af488a"
+  },
+  "gate": {
+    "status": "hold",
+    "resolutionsApplied": false,
+    "blockingIssues": [
+      "IR-001",
+      "IR-002"
+    ],
+    "policyIssues": [
+      "IR-003",
+      "IR-004",
+      "IR-005"
+    ],
+    "expertLabelsPromoted": false,
+    "criticalErrorFreeRate": null,
+    "apiInferenceCalls": 0
+  }
+}

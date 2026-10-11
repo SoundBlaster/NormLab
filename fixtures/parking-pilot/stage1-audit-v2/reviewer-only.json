@@ -1,0 +1,944 @@
+{
+  "schema": "normlab.stage1-review/v2",
+  "datasetId": "stage1-contrast-ru-v2",
+  "sourcesDigest": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c",
+  "labelStatus": "candidate-not-independent",
+  "cases": [
+    {
+      "caseId": "C001",
+      "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+      "focus": "Явное утверждение оплаты.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C002",
+      "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+      "focus": "Явное отрицание оплаты.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не оплатил парковку",
+          "start": 0,
+          "end": 21,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C003",
+      "sourceDigest": "281b8c4f1893954942830860952a09ca98e730e75b1d6882b40767d8b652e13a",
+      "focus": "Explicit unknown не равен denied.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Не помню, оплатил ли парковку",
+          "start": 0,
+          "end": 29,
+          "predicate": "payment",
+          "stance": "unknown",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C004",
+      "sourceDigest": "1d7ccc3a971121b658551fc39d2e37e8967d60e161b9c89bab3a0462d4de8354",
+      "focus": "Оплата и платный режим не упомянуты.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Автомобиль стоял на городской парковке",
+          "start": 0,
+          "end": 38,
+          "predicate": "placement",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": null,
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "городской парковке",
+          "start": 20,
+          "end": 38,
+          "predicate": "cityParking",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": null,
+          "scope": "proposition"
+        }
+      ],
+      "notMentioned": [
+        "payment",
+        "paidRegime"
+      ],
+      "requiredTypedFields": [],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C005",
+      "sourceDigest": "e2c7ce0cf61e3d4f696037e352824c1bc8d2fe0bf65693ce88355f361a38ce96",
+      "focus": "Оплата рассказчиком и неоплата эпизода по письму: сохранить разные scope/claimants; совместность требует дальнейшего анализа.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S02",
+          "quote": "парковка не оплачена",
+          "start": 30,
+          "end": 50,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": null,
+          "claimant": "letter_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "episode-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C006",
+      "sourceDigest": "4ba5d3a31ea2c5274a3c0e259e66096b686969c36d2a4e42fce0ce04f1a6e4ff",
+      "focus": "Разные scope/claimants в одном предложении; не выбирать победителя.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я оплатил парковку",
+          "start": 0,
+          "end": 18,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "парковка не оплачена",
+          "start": 45,
+          "end": 65,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": null,
+          "claimant": "letter_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "episode-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C007",
+      "sourceDigest": "be917aeed11c0e86ef2c722f7a7a2d08c5b65ee3b31d70e6f64128f8197b4020",
+      "focus": "Двойное отрицание с модальностью: не считать частицы арифметически.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не мог не оплатить парковку",
+          "start": 0,
+          "end": 29,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "necessity",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "mode",
+        "scope"
+      ],
+      "alternativeReadings": [
+        "Может подразумеваться фактическая оплата.",
+        "Может сообщаться лишь невозможность отказаться от обязанности оплатить."
+      ],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C008",
+      "sourceDigest": "932b07d586ed1d16f306a4e7243cb4c7fb17d56b1a1c0bef230870d1c8be50e8",
+      "focus": "Отрицание speech act не даёт ни payment asserted, ни payment denied.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я не утверждал, что оплатил парковку",
+          "start": 0,
+          "end": 36,
+          "predicate": "speechAct",
+          "stance": "denied",
+          "mode": "speech-act",
+          "subject": "person_1",
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "assertion-of-payment"
+        }
+      ],
+      "notMentioned": [
+        "payment"
+      ],
+      "requiredTypedFields": [
+        "actor",
+        "mode",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C009",
+      "sourceDigest": "d1e8ab6d63b2672e85103cd9579bf8591972a111b8be9adc19a204801a2e761b",
+      "focus": "Обязанность оплатить не подтверждает выполненный платёж.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Я должен был оплатить парковку",
+          "start": 0,
+          "end": 30,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "obligation",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "mode",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C010",
+      "sourceDigest": "e5e059c73bcd8281d768748661574ebefb6971887ecbd92ea06813efe3318290",
+      "focus": "Условие не является фактом оплаты и не доказывает неоплату.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Если бы я оплатил парковку",
+          "start": 0,
+          "end": 26,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "conditional",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "antecedent-actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "mode",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C011",
+      "sourceDigest": "e500fc9c849d245ed99b62683c79a664b72fb9beaac28dd814c9bd9db0836b41",
+      "focus": "Гипотетическое допущение не превращать в actual fact.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Допустим, парковка была оплачена",
+          "start": 0,
+          "end": 32,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "hypothetical",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "episode-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "mode",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C012",
+      "sourceDigest": "3f4b9ce1e56799da3f0f408c8888c27a7887314b4346106b137940f1c43cabc3",
+      "focus": "Платёж утверждается; участие рассказчика отрицается. Actor не равен автомобилю.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Парковку моего автомобиля оплатил друг",
+          "start": 0,
+          "end": 38,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_2",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "друг",
+          "scope": "actor-payment"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "а не я",
+          "start": 40,
+          "end": 46,
+          "predicate": "attribution",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "person_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "я",
+          "scope": "payment-actor"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "aboutEntity",
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C013",
+      "sourceDigest": "979bfa0b721923412dec43d4a91f0ccf3922adad52a6e9890c80335a56614203",
+      "focus": "Два автомобиля и две парковочные сессии в одном предложении; не переносить оплату между ними.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Парковку моей машины я оплатил",
+          "start": 0,
+          "end": 30,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "парковку машины друга не оплатил",
+          "start": 34,
+          "end": 66,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_2",
+          "aboutEntity": "vehicle_2",
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_2",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C014",
+      "sourceDigest": "442849c7bbb728d401b717f83a9b10b62a3747bbc6aba9b859f8a7044401a3c3",
+      "focus": "Разные эпизоды; автомобиль не назван, его тождество не установлено.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "Вчера я оплатил стоянку",
+          "start": 0,
+          "end": 23,
+          "predicate": "payment",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_1",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S02",
+          "quote": "Сегодня на той же парковке я не оплатил новую стоянку",
+          "start": 25,
+          "end": 78,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": "person_1",
+          "claimant": "narrator",
+          "episode": "episode_2",
+          "grammaticalSubject": "Я",
+          "scope": "actor-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "actor",
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C015",
+      "sourceDigest": "4cf2be995dfc38043ee112918581aadc6b2d5e3005c12a75df59721729b7a81c",
+      "focus": "Косвенная речь остаётся утверждением письма.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "моя парковка не оплачена",
+          "start": 23,
+          "end": 47,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": null,
+          "aboutEntity": null,
+          "actor": null,
+          "claimant": "letter_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "парковка",
+          "scope": "episode-payment"
+        }
+      ],
+      "notMentioned": [],
+      "requiredTypedFields": [
+        "scope"
+      ],
+      "alternativeReadings": [],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    },
+    {
+      "caseId": "C016",
+      "sourceDigest": "f91d4b7b22250e263c4463202e1c3fb7058258cb002eb6089c6a4084ac213005",
+      "focus": "Raw standing в зоне ПП и отсутствие оплаты по постановлению; значение ПП и парковочный режим не установлены.",
+      "claims": [
+        {
+          "id": "A01",
+          "sentenceId": "S01",
+          "quote": "ТС стояло в зоне ПП",
+          "start": 18,
+          "end": 37,
+          "predicate": "standing",
+          "stance": "asserted",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "notice_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "ТС",
+          "scope": "proposition"
+        },
+        {
+          "id": "A02",
+          "sentenceId": "S01",
+          "quote": "оплаты нет",
+          "start": 39,
+          "end": 49,
+          "predicate": "payment",
+          "stance": "denied",
+          "mode": "actual",
+          "subject": "vehicle_1",
+          "aboutEntity": "vehicle_1",
+          "actor": null,
+          "claimant": "notice_1",
+          "episode": "episode_1",
+          "grammaticalSubject": "оплата",
+          "scope": "episode-payment"
+        }
+      ],
+      "notMentioned": [
+        "cityParking",
+        "paidRegime"
+      ],
+      "requiredTypedFields": [
+        "scope"
+      ],
+      "alternativeReadings": [
+        "ПП может обозначать платную парковку.",
+        "Без словаря документа значение ПП не установлено."
+      ],
+      "reviewStatus": "candidate",
+      "independentReview": false,
+      "baselineExpectation": "compatible"
+    }
+  ],
+  "records": [
+    {
+      "recordId": "R001",
+      "caseId": "C001",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R002",
+      "caseId": "C001",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "asserted",
+        "to": "denied"
+      }
+    },
+    {
+      "recordId": "R004",
+      "caseId": "C002",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R003",
+      "caseId": "C002",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "denied",
+        "to": "asserted"
+      }
+    },
+    {
+      "recordId": "R005",
+      "caseId": "C003",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R006",
+      "caseId": "C003",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "unknown",
+        "to": "asserted"
+      }
+    },
+    {
+      "recordId": "R008",
+      "caseId": "C004",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R007",
+      "caseId": "C004",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "asserted",
+        "to": "denied"
+      }
+    },
+    {
+      "recordId": "R009",
+      "caseId": "C005",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R010",
+      "caseId": "C005",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A02",
+        "field": "claimant",
+        "from": "letter_1",
+        "to": "narrator"
+      }
+    },
+    {
+      "recordId": "R012",
+      "caseId": "C006",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R011",
+      "caseId": "C006",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A02",
+        "field": "claimant",
+        "from": "letter_1",
+        "to": "narrator"
+      }
+    },
+    {
+      "recordId": "R013",
+      "caseId": "C007",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R014",
+      "caseId": "C007",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "claimant",
+        "from": "narrator",
+        "to": "letter_1"
+      }
+    },
+    {
+      "recordId": "R016",
+      "caseId": "C008",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R015",
+      "caseId": "C008",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "denied",
+        "to": "asserted"
+      }
+    },
+    {
+      "recordId": "R017",
+      "caseId": "C009",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R018",
+      "caseId": "C009",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "mode",
+        "from": "obligation",
+        "to": "actual"
+      }
+    },
+    {
+      "recordId": "R020",
+      "caseId": "C010",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R019",
+      "caseId": "C010",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "stance",
+        "from": "asserted",
+        "to": "denied"
+      }
+    },
+    {
+      "recordId": "R021",
+      "caseId": "C011",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R022",
+      "caseId": "C011",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "mode",
+        "from": "hypothetical",
+        "to": "actual"
+      }
+    },
+    {
+      "recordId": "R024",
+      "caseId": "C012",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R023",
+      "caseId": "C012",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "actor",
+        "from": "person_2",
+        "to": "person_1"
+      }
+    },
+    {
+      "recordId": "R025",
+      "caseId": "C013",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R026",
+      "caseId": "C013",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A02",
+        "field": "subject",
+        "from": "vehicle_2",
+        "to": "vehicle_1"
+      }
+    },
+    {
+      "recordId": "R028",
+      "caseId": "C014",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R027",
+      "caseId": "C014",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A02",
+        "field": "episode",
+        "from": "episode_2",
+        "to": "episode_1"
+      }
+    },
+    {
+      "recordId": "R029",
+      "caseId": "C015",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R030",
+      "caseId": "C015",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A01",
+        "field": "claimant",
+        "from": "letter_1",
+        "to": "narrator"
+      }
+    },
+    {
+      "recordId": "R032",
+      "caseId": "C016",
+      "expectation": "compatible",
+      "mutation": null
+    },
+    {
+      "recordId": "R031",
+      "caseId": "C016",
+      "expectation": "incompatible",
+      "mutation": {
+        "claimId": "A02",
+        "field": "stance",
+        "from": "denied",
+        "to": "asserted"
+      }
+    }
+  ],
+  "evaluationPolicy": "selected-claim-support"
+}

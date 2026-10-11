@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
+import { HOSTED_DECISIONS_PIPELINE, HOSTED_PIPELINE } from '../server/hosted-extraction.js';
 import { ParkingReview } from '../server/parking-review.js';
 import {
   emptyReviewChecklist,
@@ -87,6 +88,71 @@ test('manual review preserves revisions and invalidates edited attribution', asy
     assert.equal(next.previousDraftId, initial.draftId);
     assert.deepEqual(next.statements, []);
     assert.equal(next.status, 'draft');
+  } finally {
+    rmSync(folder, { recursive: true, force: true });
+  }
+});
+
+test('hosted review accepts both declared pipelines and preserves extraction identity', async () => {
+  const folder = mkdtempSync(join(tmpdir(), 'normlab-pipeline-review-'));
+  const narrative = 'Я оплатил парковку.';
+  try {
+    for (const pipeline of [HOSTED_PIPELINE, HOSTED_DECISIONS_PIPELINE]) {
+      const api = new ParkingReview(folder, async ({ sourceDigest }) => ({
+        pipeline,
+        sourceDigest,
+        statements: [
+          {
+            id: randomUUID(),
+            predicate: 'nlinput:payment',
+            stance: 'asserted',
+            subject: 'vehicle_1',
+            speaker: 'narrator',
+            aboutEpisode: 'episode_1',
+            valueText: narrative,
+            quote: narrative,
+            startOffset: 0,
+            endOffset: narrative.length,
+            origin: 'model',
+            decision: 'pending',
+            rationale: '',
+          },
+        ],
+      }));
+      const initial = reviewDraftSchema.parse(
+        await api.handle('POST', '/api/parking/drafts', { narrative }),
+      );
+      const result = reviewDraftSchema.parse(
+        await api.handle('POST', '/api/parking/extract', {
+          draftId: initial.draftId,
+          expectedRevisionId: initial.revisionId,
+        }),
+      );
+      assert.equal(result.revision, 2);
+      assert.equal((result.originalExtraction as { pipeline: string }).pipeline, pipeline);
+      assert.equal(result.statements[0].origin, 'model');
+      assert.equal(result.statements[0].decision, 'pending');
+      assert.equal(result.status, 'draft');
+    }
+    for (const pipeline of ['unknown', 'literal-discovery-then-classification/v3']) {
+      const api = new ParkingReview(folder, async ({ sourceDigest }) => ({
+        pipeline,
+        sourceDigest,
+        statements: [],
+      }));
+      const initial = reviewDraftSchema.parse(
+        await api.handle('POST', '/api/parking/drafts', { narrative }),
+      );
+      await assert.rejects(
+        api.handle('POST', '/api/parking/extract', {
+          draftId: initial.draftId,
+          expectedRevisionId: initial.revisionId,
+        }),
+        /прежняя ревизия сохранена/,
+      );
+      const history = await api.handle('GET', `/api/parking/history/${initial.draftId}`);
+      assert.equal((history as unknown[]).length, 1);
+    }
   } finally {
     rmSync(folder, { recursive: true, force: true });
   }

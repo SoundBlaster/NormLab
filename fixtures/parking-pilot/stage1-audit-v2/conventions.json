@@ -1,0 +1,32 @@
+{
+  "schema": "normlab.stage1-conventions/v1",
+  "evaluationPolicy": "selected-claim-support",
+  "qualityMetricAllowed": false,
+  "identityPolicy": "Explicitly mentioned vehicles only. Null subject/aboutEntity means unbound vehicle reference, not an explicit-unknown fact. Nulls assert neither identity nor distinctness. person_1 is narrator; person_2 is friend, local to each case. Episode IDs distinguish textually described sessions, not vehicle identities.",
+  "operatorPolicy": "claimant reports stance(mode(scoped relation)). Stance applies to the selected relation under mode, never automatically to an embedded payment fact. Conditional mode denotes non-actual antecedent here. Actual payment cannot be inferred from necessity, obligation, hypothetical, conditional or speech-act claims.",
+  "scopeMeanings": {
+    "proposition": "Unqualified selected non-payment relation.",
+    "actor-payment": "Payment by actor for episode; denial does not imply nobody paid.",
+    "episode-payment": "Payment of episode without named payer; no actor identity inferred.",
+    "antecedent-actor-payment": "Actor-payment content in the conditional antecedent; even mode=actual does not erase antecedent scope.",
+    "assertion-of-payment": "Outer assertion speech act by actor with embedded actor-payment content; its denial leaves actual payment open.",
+    "payment-actor": "Attribution of the payment act to subject (person), aboutEntity is the explicit vehicle."
+  },
+  "diagnosticPredicates": {
+    "speechAct": "Outer assertion relation, paired only with speech-act mode and assertion-of-payment scope.",
+    "standing": "Vehicle standing at the raw quoted location; no assumption that location is parking."
+  },
+  "baselinePolicy": "Compatible means the selected claims are supported by text under these conventions, not that every fact is extracted or true. Source ambiguity outside selected claims is recorded separately and does not automatically imply indeterminate. Unknown payment is a positive extraction of explicit uncertainty, not a missing predicate.",
+  "projectionPolicy": "Faithful preservation of all selected typed semantics. Null subject cannot satisfy production nonempty subject. Payment scope is not equivalent to the unscoped production predicate; actor/scope/operators must not be hidden in valueText. Diagnostic predicates outside production catalog are lossy.",
+  "sourceUnchanged": true,
+  "changedMutations": [
+    "R007: placement stance asserted -> denied",
+    "R015: speechAct stance denied -> asserted",
+    "R019: conditional antecedent stance asserted -> denied"
+  ],
+  "lineage": {
+    "parentDatasetId": "stage1-contrast-ru-v1",
+    "parentManifestDigest": "8fa7947a3ec6d63c89ba6f6a6e008efeb57fb5ec8cbf5b847bddd46e6fdf9b37",
+    "reason": "IR-001 through IR-005 and regression across all related claims; no production schema change"
+  }
+}

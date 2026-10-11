@@ -1,0 +1,73 @@
+{
+  "pilot": {
+    "schema": "normlab.stage1-offline-summary/v1",
+    "planDigest": "f34195dc931d848f8dfc3d731280c47858130a549d7a4937e13b9b1ab9a7b8c6",
+    "fixtureCalls": 24,
+    "networkCalls": 0,
+    "stopReason": null,
+    "arms": {
+      "jev-coreinfra": {
+        "planned": 12,
+        "completed": 12,
+        "compatible": 4,
+        "indeterminate": 4,
+        "incompatible": 4
+      },
+      "luna-low-coreinfra": {
+        "planned": 12,
+        "completed": 12,
+        "incompatible": 4,
+        "indeterminate": 4,
+        "compatible": 4
+      }
+    },
+    "criticalErrorFreeRate": null,
+    "semanticQualityEvidence": false,
+    "actualCost": null
+  },
+  "corpus": {
+    "schema": "normlab.stage1-offline-summary/v1",
+    "planDigest": "fb207d1f0a0ade3bb4fffa54aea1dce85472b6640bdf26962aae41078d5f6ffb",
+    "fixtureCalls": 192,
+    "networkCalls": 0,
+    "stopReason": null,
+    "arms": {
+      "jev-coreinfra": {
+        "planned": 96,
+        "completed": 96,
+        "compatible": 32,
+        "indeterminate": 32,
+        "incompatible": 32
+      },
+      "luna-low-coreinfra": {
+        "planned": 96,
+        "completed": 96,
+        "incompatible": 32,
+        "indeterminate": 32,
+        "compatible": 32
+      }
+    },
+    "criticalErrorFreeRate": null,
+    "semanticQualityEvidence": false,
+    "actualCost": null
+  },
+  "decisions-pilot": {
+    "schema": "normlab.stage1-offline-summary/v1",
+    "planDigest": "6ba5f8c358dbe37da805560d260939a123e29c43f32222eef5b01901420892e1",
+    "fixtureCalls": 12,
+    "networkCalls": 0,
+    "stopReason": null,
+    "arms": {
+      "luna-decisions-proxyapi": {
+        "planned": 12,
+        "completed": 12,
+        "compatible": 4,
+        "incompatible": 4,
+        "indeterminate": 4
+      }
+    },
+    "criticalErrorFreeRate": null,
+    "semanticQualityEvidence": false,
+    "actualCost": null
+  }
+}

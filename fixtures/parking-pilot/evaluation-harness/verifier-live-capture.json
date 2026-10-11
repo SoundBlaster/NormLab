@@ -1,0 +1,122 @@
+{
+  "schema": "normlab.verifier-capture/v1",
+  "manifestDigest": "c0c310f9ca3824a10a868fda37076adc1a1ffd8b9b4a78552662ef5475e3dfaa",
+  "sourceDigest": "e2c7ce0cf61e3d4f696037e352824c1bc8d2fe0bf65693ce88355f361a38ce96",
+  "provider": {
+    "id": "proxyapi-luna-decisions",
+    "endpoint": "https://api.proxyapi.ru/v1/decisions",
+    "model": "openai/gpt-6-luna-decisions",
+    "wireContract": "proxyapi-state-questions/v1",
+    "adapterVersion": "0.3.0"
+  },
+  "dependencies": {
+    "mellea-jev-adapter": "0.3.0",
+    "typesafe-sdk": "0.7.2",
+    "httpx2": "2.13.1"
+  },
+  "turn": {
+    "id": "turn_1",
+    "stage": "verification",
+    "status": "completed",
+    "request": {
+      "method": "POST",
+      "endpoint": "https://api.proxyapi.ru/v1/decisions",
+      "body": {
+        "state": {
+          "sourceText": "Я оплатил парковку. В письме: парковка не оплачена."
+        },
+        "model": "openai/gpt-6-luna-decisions",
+        "questions": {
+          "Q001": {
+            "type": "noul",
+            "instructions": "Утверждает ли письмо, что парковка не оплачена? Оцени только содержание письма, а не слова рассказчика.",
+            "criteria": {
+              "true": "В письме утверждается отсутствие оплаты парковки.",
+              "false": "В письме не утверждается отсутствие оплаты парковки."
+            }
+          },
+          "Q002": {
+            "type": "choice",
+            "instructions": "Какую позицию об оплате парковки выражает письмо?",
+            "criteria": {
+              "asserted": "Письмо утверждает, что парковка оплачена.",
+              "denied": "Письмо утверждает, что парковка не оплачена.",
+              "unknown": "Письмо не сообщает об оплате.",
+              "unsupported": "Содержание письма невозможно определить из текста."
+            }
+          },
+          "Q003": {
+            "type": "score",
+            "instructions": "Насколько явно письмо сообщает об отсутствии оплаты парковки?",
+            "criteria": [
+              "Отсутствие оплаты не упомянуто.",
+              "Сообщение об отсутствии оплаты неоднозначно.",
+              "Отсутствие оплаты утверждается явно."
+            ]
+          }
+        }
+      }
+    },
+    "response": {
+      "answers": {
+        "Q001": {
+          "p_yes": 1.0,
+          "model": "openai/gpt-6-luna-decisions-20261006",
+          "request_id": "gen-dec-1791528021-wx2U1MQFut3X3WAiE330",
+          "usage": {
+            "input_tokens": 521,
+            "output_tokens": 0
+          }
+        },
+        "Q002": {
+          "choice": "denied",
+          "confidence": 0.99,
+          "probabilities": {
+            "asserted": 0.01,
+            "denied": 0.99,
+            "unknown": 0.0,
+            "unsupported": 0.0
+          },
+          "model": "openai/gpt-6-luna-decisions-20261006",
+          "request_id": "gen-dec-1791528021-wx2U1MQFut3X3WAiE330",
+          "usage": {
+            "input_tokens": 521,
+            "output_tokens": 0
+          }
+        },
+        "Q003": {
+          "score": 1.96,
+          "confidence": 0.94,
+          "probabilities": {
+            "0": 0.01,
+            "1": 0.02,
+            "2": 0.97
+          },
+          "legend": {
+            "0": "Отсутствие оплаты не упомянуто.",
+            "1": "Сообщение об отсутствии оплаты неоднозначно.",
+            "2": "Отсутствие оплаты утверждается явно."
+          },
+          "model": "openai/gpt-6-luna-decisions-20261006",
+          "request_id": "gen-dec-1791528021-wx2U1MQFut3X3WAiE330",
+          "usage": {
+            "input_tokens": 521,
+            "output_tokens": 0
+          }
+        }
+      },
+      "model": "openai/gpt-6-luna-decisions-20261006",
+      "request_id": "gen-dec-1791528021-wx2U1MQFut3X3WAiE330",
+      "usage": {
+        "input_tokens": 521,
+        "output_tokens": 0
+      }
+    },
+    "error": null,
+    "httpStatus": 200,
+    "calls": 1,
+    "questions": 3,
+    "latencyMs": 380.113,
+    "cost": null
+  }
+}

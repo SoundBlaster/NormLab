@@ -1,0 +1,286 @@
+{
+  "schema": "normlab.stage1-mixed-transport-diagnostic-score/v1",
+  "binding": {
+    "createdAt": "2026-10-11T14:11:59.299278+00:00",
+    "parentPlanDigest": "ac5458e62eca6be1a5d447d1098a7f93cb96f6554dc70a20d2edb554987ba6f2",
+    "canonicalCaptureDigest": "e0868e1e73b4ae0def8e5161cd0acd5606833ba25507e1c8944ee326752b59d3",
+    "directCaptureDigest": "0c3db96ecf9fac64ad90d65f73aed021fa57f3f548312c53e0c26e3d9ab2ec1b"
+  },
+  "labelsDigest": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91",
+  "candidateStatus": "candidate-not-independent",
+  "transportChangedAfterFailure": true,
+  "dispatches": 12,
+  "actualCost": null,
+  "populationAccuracy": null,
+  "criticalErrorFreeRate": null,
+  "commonCompletedRecords": [
+    "R004",
+    "R016"
+  ],
+  "arms": {
+    "jev-coreinfra": {
+      "plannedDispatched": 4,
+      "completed": 4,
+      "failed": 0,
+      "candidateMatches": 2,
+      "matchesOnCommonCompleted": 2,
+      "commonCompletedDenominator": 2
+    },
+    "luna-decisions-coreinfra": {
+      "plannedDispatched": 4,
+      "completed": 4,
+      "failed": 0,
+      "candidateMatches": 2,
+      "matchesOnCommonCompleted": 1,
+      "commonCompletedDenominator": 2
+    },
+    "luna-low-coreinfra": {
+      "plannedDispatched": 4,
+      "completed": 2,
+      "failed": 2,
+      "candidateMatches": 2,
+      "matchesOnCommonCompleted": 2,
+      "commonCompletedDenominator": 2
+    }
+  },
+  "rows": [
+    {
+      "jobId": "J0001",
+      "caseId": "C002",
+      "recordId": "R003",
+      "armId": "jev-coreinfra",
+      "transport": "canonical-runner",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "incompatible",
+      "observed": "compatible",
+      "matches": false,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 2.6625827079988085,
+      "usage": {
+        "input_tokens": 1872,
+        "output_tokens": 43
+      },
+      "requestId": "req_01a12b4b2df778689bd18234ff86539a"
+    },
+    {
+      "jobId": "J0002",
+      "caseId": "C002",
+      "recordId": "R003",
+      "armId": "luna-decisions-coreinfra",
+      "transport": "canonical-runner",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "incompatible",
+      "observed": "incompatible",
+      "matches": true,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 4.526714625011664,
+      "usage": {
+        "input_tokens": 1089,
+        "output_tokens": 0
+      },
+      "requestId": "req_5061b8c45e0b48e89d328331392c0e9e"
+    },
+    {
+      "jobId": "J0003",
+      "caseId": "C002",
+      "recordId": "R003",
+      "armId": "luna-low-coreinfra",
+      "transport": "canonical-runner",
+      "status": "failed",
+      "httpStatus": null,
+      "expected": "incompatible",
+      "observed": null,
+      "matches": false,
+      "error": "transport-error",
+      "errorClassChain": [],
+      "latencySeconds": 6.577308540989179,
+      "usage": null,
+      "requestId": null
+    },
+    {
+      "jobId": "J0004",
+      "caseId": "C002",
+      "recordId": "R004",
+      "armId": "luna-decisions-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "compatible",
+      "observed": "incompatible",
+      "matches": false,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 1.8355654579936527,
+      "usage": {
+        "input_tokens": 1089,
+        "output_tokens": 0
+      },
+      "requestId": "req_c06e6dd497a447ed8dc38ebe709d91aa"
+    },
+    {
+      "jobId": "J0005",
+      "caseId": "C002",
+      "recordId": "R004",
+      "armId": "luna-low-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "compatible",
+      "observed": "compatible",
+      "matches": true,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 3.3324809999903664,
+      "usage": {
+        "input_tokens": 965,
+        "output_tokens": 75
+      },
+      "requestId": "resp_0ea9fd9acd2b6e10016acb98e7f21487d2bc3217a9748ef6d5"
+    },
+    {
+      "jobId": "J0006",
+      "caseId": "C002",
+      "recordId": "R004",
+      "armId": "jev-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "compatible",
+      "observed": "compatible",
+      "matches": true,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 3.0306563750491478,
+      "usage": {
+        "input_tokens": 1871,
+        "output_tokens": 43
+      },
+      "requestId": "req_01a12b4d5ca57bb9b4e31f9007c18722"
+    },
+    {
+      "jobId": "J0007",
+      "caseId": "C008",
+      "recordId": "R016",
+      "armId": "luna-low-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "compatible",
+      "observed": "compatible",
+      "matches": true,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 3.8408383339992724,
+      "usage": {
+        "input_tokens": 979,
+        "output_tokens": 69
+      },
+      "requestId": "resp_05b9d5c79fd94ced016acb98eee63c87d2ac6542c9fe5664b8"
+    },
+    {
+      "jobId": "J0008",
+      "caseId": "C008",
+      "recordId": "R016",
+      "armId": "jev-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "compatible",
+      "observed": "compatible",
+      "matches": true,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 2.218524084019009,
+      "usage": {
+        "input_tokens": 1903,
+        "output_tokens": 43
+      },
+      "requestId": "req_01a12b4d71e772d48d27bd8c44c90f10"
+    },
+    {
+      "jobId": "J0009",
+      "caseId": "C008",
+      "recordId": "R016",
+      "armId": "luna-decisions-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "compatible",
+      "observed": "compatible",
+      "matches": true,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 2.2349835420027375,
+      "usage": {
+        "input_tokens": 1104,
+        "output_tokens": 0
+      },
+      "requestId": "req_6e19dbb63e7e46e58db5c167afb7ecc8"
+    },
+    {
+      "jobId": "J0010",
+      "caseId": "C008",
+      "recordId": "R015",
+      "armId": "jev-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "incompatible",
+      "observed": "compatible",
+      "matches": false,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 1.9759819590253755,
+      "usage": {
+        "input_tokens": 1904,
+        "output_tokens": 43
+      },
+      "requestId": "req_01a12b4d84f477749b7bdaf8656bda27"
+    },
+    {
+      "jobId": "J0011",
+      "caseId": "C008",
+      "recordId": "R015",
+      "armId": "luna-decisions-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "completed",
+      "httpStatus": 200,
+      "expected": "incompatible",
+      "observed": "compatible",
+      "matches": false,
+      "error": null,
+      "errorClassChain": [],
+      "latencySeconds": 1.5000770000042394,
+      "usage": {
+        "input_tokens": 1104,
+        "output_tokens": 0
+      },
+      "requestId": "req_538ac51fc44f456e85907e60d6b7369b"
+    },
+    {
+      "jobId": "J0012",
+      "caseId": "C008",
+      "recordId": "R015",
+      "armId": "luna-low-coreinfra",
+      "transport": "direct-http-diagnostic",
+      "status": "failed",
+      "httpStatus": null,
+      "expected": "incompatible",
+      "observed": null,
+      "matches": false,
+      "error": null,
+      "errorClassChain": [
+        "ConnectError",
+        "ConnectError",
+        "SSLEOFError"
+      ],
+      "latencySeconds": 6.576297374966089,
+      "usage": null,
+      "requestId": null
+    }
+  ]
+}

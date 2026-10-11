@@ -1,0 +1,272 @@
+{
+  "schema": "normlab.stage1-audit-report/v1",
+  "experimentId": "stage1-representability-ru-v1",
+  "manifestDigest": "8fa7947a3ec6d63c89ba6f6a6e008efeb57fb5ec8cbf5b847bddd46e6fdf9b37",
+  "liveCalls": 0,
+  "cases": 16,
+  "families": 13,
+  "candidateRecords": 32,
+  "labelStatus": "candidate-not-independent",
+  "auditScope": "selected-typed-fields-not-full-ontology-or-semantic-correctness",
+  "counts": {
+    "sentenceProjection": {
+      "representable": 7,
+      "lossy": 7,
+      "ambiguous": 2
+    },
+    "claimProjection": {
+      "representable": 9,
+      "ambiguous": 2,
+      "lossy": 5
+    }
+  },
+  "criticalErrorFreeRate": null,
+  "independentReviewCompleted": false,
+  "rows": [
+    {
+      "caseId": "C001",
+      "familyId": "F001",
+      "focus": "Явное утверждение оплаты.",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C002",
+      "familyId": "F001",
+      "focus": "Явное отрицание оплаты.",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C003",
+      "familyId": "F002",
+      "focus": "Explicit unknown не равен denied.",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C004",
+      "familyId": "F002",
+      "focus": "Оплата и платный режим не упомянуты.",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [
+        "payment",
+        "paidRegime"
+      ],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C005",
+      "familyId": "F003",
+      "focus": "Два противоречащих claims разных источников; не выбирать победителя.",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C006",
+      "familyId": "F003",
+      "focus": "Два claimants в одном предложении.",
+      "sentenceProjection": "lossy",
+      "claimProjection": "representable",
+      "sentenceIssues": [
+        "multiple-attributions-in-one-sentence"
+      ],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C007",
+      "familyId": "F004",
+      "focus": "Двойное отрицание с модальностью: не считать частицы арифметически.",
+      "sentenceProjection": "ambiguous",
+      "claimProjection": "ambiguous",
+      "sentenceIssues": [
+        "no-typed-field:mode"
+      ],
+      "claimIssues": [
+        "no-typed-field:mode"
+      ],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": [
+        "Может подразумеваться фактическая оплата.",
+        "Может сообщаться лишь невозможность отказаться от обязанности оплатить."
+      ]
+    },
+    {
+      "caseId": "C008",
+      "familyId": "F005",
+      "focus": "Отрицание speech act не даёт ни payment asserted, ни payment denied.",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "predicate-outside-catalog:speechAct"
+      ],
+      "claimIssues": [
+        "no-typed-field:mode",
+        "no-typed-field:scope",
+        "predicate-outside-catalog:speechAct"
+      ],
+      "reviewStatus": "candidate",
+      "notMentioned": [
+        "payment"
+      ],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C009",
+      "familyId": "F006",
+      "focus": "Обязанность оплатить не подтверждает выполненный платёж.",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:mode"
+      ],
+      "claimIssues": [
+        "no-typed-field:mode"
+      ],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C010",
+      "familyId": "F007",
+      "focus": "Условие не является фактом оплаты и не доказывает неоплату.",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:mode",
+        "no-typed-field:scope"
+      ],
+      "claimIssues": [
+        "no-typed-field:mode",
+        "no-typed-field:scope"
+      ],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C011",
+      "familyId": "F008",
+      "focus": "Гипотетическое допущение не превращать в actual fact.",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "no-typed-field:mode"
+      ],
+      "claimIssues": [
+        "no-typed-field:mode"
+      ],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C012",
+      "familyId": "F009",
+      "focus": "Платёж утверждается; участие рассказчика отрицается. Actor не равен автомобилю.",
+      "sentenceProjection": "lossy",
+      "claimProjection": "lossy",
+      "sentenceIssues": [
+        "multiple-attributions-in-one-sentence",
+        "no-typed-field:aboutEntity",
+        "no-typed-field:actor",
+        "no-typed-field:scope"
+      ],
+      "claimIssues": [
+        "no-typed-field:aboutEntity",
+        "no-typed-field:actor",
+        "no-typed-field:scope"
+      ],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C013",
+      "familyId": "F010",
+      "focus": "Два автомобиля и две парковочные сессии в одном предложении; не переносить оплату между ними.",
+      "sentenceProjection": "lossy",
+      "claimProjection": "representable",
+      "sentenceIssues": [
+        "multiple-attributions-in-one-sentence"
+      ],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C014",
+      "familyId": "F011",
+      "focus": "Разные эпизоды, а не противоречие одного платежа.",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C015",
+      "familyId": "F012",
+      "focus": "Косвенная речь остаётся утверждением письма.",
+      "sentenceProjection": "representable",
+      "claimProjection": "representable",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [],
+      "alternativeReadings": []
+    },
+    {
+      "caseId": "C016",
+      "familyId": "F013",
+      "focus": "Сокращение ПП без словаря: платный режим/городскую парковку не угадывать.",
+      "sentenceProjection": "ambiguous",
+      "claimProjection": "ambiguous",
+      "sentenceIssues": [],
+      "claimIssues": [],
+      "reviewStatus": "candidate",
+      "notMentioned": [
+        "cityParking",
+        "paidRegime"
+      ],
+      "alternativeReadings": [
+        "ПП может обозначать платную парковку.",
+        "Без словаря документа значение ПП не установлено."
+      ]
+    }
+  ]
+}

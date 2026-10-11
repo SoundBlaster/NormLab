@@ -8,8 +8,9 @@
 
 1. **Discovery:** источники и происхождение, privacy, scope, dedup. Начальный результат: 15 source leads, 10 editorial candidate narratives из пяти страниц; labels отсутствуют.
 2. **Development corpus, 30–50 cases:** semantic разметка, adjudication и отладка rubric. Подготовлены 40 synthetic inputs и 15 editorial source candidates. Проверка соответствия пересказа входному тексту и dedup нужны; доказанность реального происшествия для extraction-тестов не нужна. Synthetic controls маркируются отдельно.
-3. **Freeze:** зафиксировать definitions, prompts, model/configuration, scorer, стоимость критических ошибок и acceptance rule.
-4. **Independent evaluation:** новый набор, собранный после freeze и не использованный в prompts, examples или ручной отладке. Отдельный adjudicated gold хранится вне model input.
+3. **Validation и selection:** сравнить конфигурации на отдельном validation split; final test и его labels недоступны для выбора, настройки и ручной отладки.
+4. **Frozen selection:** зафиксировать выбранный pipeline, definitions, prompts/schema, model/configuration, scorer, стоимость критических ошибок, acceptance rule и budget в selection record.
+5. **Independent final test:** один раз оценить выбранный вариант на untouched наборе, собранном после freeze и не использованном в prompts, examples или ручной отладке. Отдельный adjudicated gold хранится вне model input. Изменения по результатам final test делают его development evidence и требуют нового untouched test для следующего final score.
 
 Синтетический development corpus уже собран; independent holdout ещё нет. Разметка оценивает faithful extraction и конкретные gaps, а не историческую истинность событий. Корректная нехватка данных для суждения может быть ожидаемым успехом.
 
@@ -38,7 +39,7 @@
 
 ## Независимость и holdout
 
-До split объединять по incident: все судебные стадии, перепечатки и варианты пересказа в одной группе. Дополнительно не разделять одну discussion page между development и evaluation. Близость фактов и текстов проверять вручную; SHA256 ловит только точные повторы.
+До split объединять по incident: все судебные стадии, перепечатки и варианты пересказа в одной группе. Дополнительно не разделять одну discussion page между development, validation и final test. Близость фактов и текстов проверять вручную; SHA256 ловит только точные повторы.
 
 Несколько model runs на одном input оценивают stability, не добавляют независимые случаи. Несколько clauses одного case не добавляют наблюдения в case-level metric. Cluster dependence надо учитывать при интервалах и сравнении; 250 производных текстов от нескольких эпизодов не дают эффективную выборку 250.
 
@@ -52,10 +53,10 @@ Reviewer-only metadata: legal outcome, normative references и темы конт
 
 При независимой репрезентативной binomial выборке и ожидаемой доле 0.8 приближённое планирование двустороннего 95% interval даёт около 62 случаев для ±10 pp и 246 для ±5 pp (`n ≈ 1.96² × 0.8 × 0.2 / margin²`). Это ориентир **точности оценки**, не универсальное число для statistical significance и не доказательство достижения порога 80%. [NIST: confidence intervals](https://itl.nist.gov/div898/handbook/prc/section2/prc241.htm), [sample size planning](https://www.itl.nist.gov/div898/handbook/prc/section2/prc242.htm).
 
-Для release threshold заранее определить one-sided lower confidence bound и допустимые отдельные critical-error classes. Для сравнения pipelines — одинаковые случаи, paired binary outcomes, минимальный полезный прирост и power calculation. Выбор final test и adjustment при множестве конфигураций зафиксировать до evaluation. Одних 80% наблюдаемых successes недостаточно, чтобы уверенно утверждать population success ≥80%.
+Для release threshold заранее определить one-sided lower confidence bound и допустимые отдельные critical-error classes. Для сравнения pipelines — одинаковые случаи, paired binary outcomes, минимальный полезный прирост и power calculation. Splits и критерии selection зафиксировать до comparison; выбор конфигурации выполнять на development/validation. Frozen selection проверяется один раз на untouched final test; его score не выбирает победителя. Одних 80% наблюдаемых successes недостаточно, чтобы уверенно утверждать population success ≥80%.
 
 Новостной challenge corpus отчётно измеряет качество **на этом корпусе**. Для population claim нужен sampling frame обычных обезличенных обращений: consented volunteer narratives или последовательный сбор по заранее заданным условиям, включая простые и успешные эпизоды. Сейчас таких данных нет. Набор 250 новостей сам по себе selection bias не устраняет.
 
 ## Следующий ход
 
-Review labels для 40 synthetic inputs и 15 editorial candidates, включая expected gaps и корректное abstention. Не ждать доказательства реальных событий. После rubric freeze собрать независимый dataset; model improvements оценивать отдельно от текущих diagnostic sets.
+Review labels для 40 synthetic inputs и 15 editorial candidates, включая expected gaps и корректное abstention. Не ждать доказательства реальных событий. Подготовить validation split для выбора pipeline; после frozen selection собрать untouched final test. Текущие diagnostic sets остаются development.
