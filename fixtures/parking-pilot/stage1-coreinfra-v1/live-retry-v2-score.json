@@ -1,0 +1,1438 @@
+{
+  "schema": "normlab.stage1-retry-score/v2",
+  "exportedPlanDigest": "e44ac9d1e7722a1b05b3f2b31674d0e3f18b2bd82862a9ec09dfdd03486c8e48",
+  "planDigest": "f55fe6ccfe8940d8429063fb672e06e7fc37c3c10cb891916b86fbbcd6c286b8",
+  "captureDigest": "75d95a5b6defbee45ac7f9385ca8171f30c6e98fb5d1452b230a99459d274720",
+  "attemptArtifacts": [
+    {
+      "path": "attempt-0001",
+      "captureDigest": "6928becd251534eb870451fb33ef7b966069cd3d2bacd9184002a0db0a95d2fe",
+      "planDigest": "6a24cd1a1259950b0f2b8949119174f21343cec56ac01cd97c663db432690776",
+      "turnArtifacts": [
+        {
+          "path": "J0001.json",
+          "sha256": "069e67b646749942880fbdb9f66c3bab989fec93ad4e9b10f187c32f6435b6bb"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0002",
+      "captureDigest": "f190cb4a30d8bb9b77f55894aaf6ba58978f39817072431dd692dcb700ffc9b2",
+      "planDigest": "e08d7e4fd7f9ae1b5c350e867759d469f5af6c85b199f75be449b8199fce81f4",
+      "turnArtifacts": [
+        {
+          "path": "J0002.json",
+          "sha256": "3e36a8714e9b246bc146370f38074766f2acddb1e419f51b6796ae701dc95e0b"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0003",
+      "captureDigest": "35a465df9178d6c0680e4bdb5a70d464e420dbc263a9a6270f6a19749b5b2f50",
+      "planDigest": "714879255a60e7289b82d2308fd70b0acdb143adf65e1c56c75ecafb1f7393a1",
+      "turnArtifacts": [
+        {
+          "path": "J0003.json",
+          "sha256": "7c436caf02d3390c2c1503123dfe03b1c5237818dae1379798e41c9445dc13c3"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0004",
+      "captureDigest": "916f6fe16952397fe3d518a61bff80a6071c054b89e9c011c3fdfb91ea9de87b",
+      "planDigest": "8f8d4e5f8c05100538ec40ec2fced939b0f2da959727749e650824cfcc40618f",
+      "turnArtifacts": [
+        {
+          "path": "J0003.json",
+          "sha256": "a173f5abcbe4743bb7a0af62eed3a5aee050ef30e3d3301fda7ae4b7f15454d6"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0005",
+      "captureDigest": "e29865d1b74579fa5a2b8f37f2dab971fc6fd510259cb2bd79b48cd7f4a60167",
+      "planDigest": "8f45bb461a6bc681fe62dccaae2ebd7ed86c5446484f32a8f69287383dfc1a2c",
+      "turnArtifacts": [
+        {
+          "path": "J0004.json",
+          "sha256": "a72bb86f2ca4234e9baaabcef0b70fe32e02702d61d46f5f48d92d5f770ffcb3"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0006",
+      "captureDigest": "f73700d958d7bdc9280cafeb3bbcf68418b58dda26d0cefe3a43c4c5035dc9f8",
+      "planDigest": "dfa552a614b7003ece6a6b3d11cfedeb19a5b902b8dbbae8689a3ca07fafb83a",
+      "turnArtifacts": [
+        {
+          "path": "J0004.json",
+          "sha256": "b6459d7ea5b58394eb2561da5b921ae08bbdf076c83713b1e2798be36b9cd556"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0007",
+      "captureDigest": "9bfc81362b0c89e55e0c664027e103675d5ec8532791e2cc870855caaa07885a",
+      "planDigest": "10d5f2ff9674ca74e2c4d74353f45bb1322e478cb80d964187596523aefb65aa",
+      "turnArtifacts": [
+        {
+          "path": "J0005.json",
+          "sha256": "2ea7ae7f9d01e83c52f53ad34f7a339ea25b01b3bc8d3847d0fbe59d548bfb54"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0008",
+      "captureDigest": "79b9003772f33b0503a025f8bdd15bd660b3beda4188fcdd30a1a703dc020bbd",
+      "planDigest": "bb1592d29f301477ccb05d8a237eb2d020be2aefb4e93ad2285ec11683618348",
+      "turnArtifacts": [
+        {
+          "path": "J0005.json",
+          "sha256": "486c44cad251fa877238d41ffce3a1d816c9bc483e2505ec16c82d136787e2d6"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0009",
+      "captureDigest": "7333838053f0c2669a8249959d774e96f4cc51652a267dda709d38efeeb42d3c",
+      "planDigest": "389b29a7c8bdbb129788d519b5950ec3ef06fac3b084db48cf9c25e567b5391d",
+      "turnArtifacts": [
+        {
+          "path": "J0005.json",
+          "sha256": "b17187b59ca8db393f4684522573e4abc810cb8e57d76fe747f5e7fd13354356"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0010",
+      "captureDigest": "0d766b0535173a38eaf825210ff314dbadb17e000d1802a888ed9db24eae4556",
+      "planDigest": "835f37d155eda05ff52bb88ba00d01a7eec0018d947f6b9483e8d635b0e94fab",
+      "turnArtifacts": [
+        {
+          "path": "J0006.json",
+          "sha256": "8d8f002f0ddbee0cf9e45534cbd04ae2db0e432b05b2c9d9f24d7117cc9b5b84"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0011",
+      "captureDigest": "c5e759bba8a196c2e69b80c17ca0e89b2740153d81a18432a0720ceacb156802",
+      "planDigest": "e6e74542b2a5b68479b48d75f94ee8312bbc553310a52e4a76dbbccc9ea6b07b",
+      "turnArtifacts": [
+        {
+          "path": "J0006.json",
+          "sha256": "d88f1e1d4abbe1c9622cbed08bc4e840aa7009b1ec3e4b0573f99f99129e35f3"
+        }
+      ]
+    },
+    {
+      "path": "attempt-0012",
+      "captureDigest": "85fdd7769e309d6d9a04207efdd74b99b331f972cd7ffc90fc5c3e86e5b5ae2a",
+      "planDigest": "4fdaa197c1f0e573b5beb5799ab02a34f3a7d5e97b51d9d1c080609875367dd0",
+      "turnArtifacts": [
+        {
+          "path": "J0007.json",
+          "sha256": "0e350997b6be83165b176a640ff08ddd672cb4e7c6abd1f4b7e7d36406f8a2de"
+        }
+      ]
+    }
+  ],
+  "scorerCodePins": {
+    "score_stage1_retries_v2.py": "3705142763ca510eefd610ffb1a06e03b6ce4efe123151517d4f3d3a6cb04052",
+    "score_stage1_providers.py": "3e30f30a4c9b2fe2e2cdb81591b473191544008e1728207a032a4c1a760f18cc"
+  },
+  "sealDigest": "4aa110e2af28c9dec1cba924d9ae4bb8589868274a163c90ab4211266a3828fc",
+  "labelsDigest": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91",
+  "mode": "live",
+  "stopReason": "budget-exhaustion",
+  "annotationStatus": "candidate-not-independent",
+  "semanticQualityEvidence": false,
+  "populationAccuracy": null,
+  "criticalErrorFreeRate": null,
+  "statisticalSignificance": null,
+  "actualCost": null,
+  "arms": {
+    "jev-coreinfra": {
+      "first": {
+        "plannedJobs": 12,
+        "completedJobs": 1,
+        "statuses": {
+          "completed": 1,
+          "failed": 1,
+          "not-executed": 10
+        },
+        "completionPerPlanned": 0.08333333333333333,
+        "candidateMatches": 0,
+        "candidateAgreementAmongCompleted": 0.0,
+        "candidateMatchesPerPlanned": 0.0,
+        "confusionExpectedToObserved": {
+          "compatible": {},
+          "incompatible": {
+            "compatible": 1
+          },
+          "indeterminate": {}
+        },
+        "casesPlanned": 2,
+        "casesFullyCompleted": 0,
+        "casesAllPlannedVerdictsMatch": 0
+      },
+      "final": {
+        "plannedJobs": 12,
+        "completedJobs": 2,
+        "statuses": {
+          "completed": 2,
+          "not-executed": 10
+        },
+        "completionPerPlanned": 0.16666666666666666,
+        "candidateMatches": 1,
+        "candidateAgreementAmongCompleted": 0.5,
+        "candidateMatchesPerPlanned": 0.08333333333333333,
+        "confusionExpectedToObserved": {
+          "compatible": {
+            "compatible": 1
+          },
+          "incompatible": {
+            "compatible": 1
+          },
+          "indeterminate": {}
+        },
+        "casesPlanned": 2,
+        "casesFullyCompleted": 0,
+        "casesAllPlannedVerdictsMatch": 0
+      },
+      "startedJobs": 2,
+      "firstAttemptCompletionAmongStarted": 0.5,
+      "finalCompletionAmongStarted": 1.0,
+      "retryEligibleFirstFailures": 1,
+      "recoveredJobs": 1,
+      "recoveryAmongRetryEligibleFirstFailures": 1.0,
+      "recoveredMatchingCandidate": 1,
+      "attemptsStarted": 3,
+      "retryAttemptsStarted": 1,
+      "dispatches": 3,
+      "firstDispatches": 2,
+      "retryDispatches": 1,
+      "dispatchedAttemptsWithoutUsage": 1,
+      "knownInputTokens": 3743,
+      "knownOutputTokens": 86,
+      "scheduledBackoffSeconds": 1.4079889845392126
+    },
+    "luna-decisions-coreinfra": {
+      "first": {
+        "plannedJobs": 12,
+        "completedJobs": 1,
+        "statuses": {
+          "completed": 1,
+          "failed": 1,
+          "not-executed": 10
+        },
+        "completionPerPlanned": 0.08333333333333333,
+        "candidateMatches": 1,
+        "candidateAgreementAmongCompleted": 1.0,
+        "candidateMatchesPerPlanned": 0.08333333333333333,
+        "confusionExpectedToObserved": {
+          "compatible": {},
+          "incompatible": {
+            "incompatible": 1
+          },
+          "indeterminate": {}
+        },
+        "casesPlanned": 2,
+        "casesFullyCompleted": 0,
+        "casesAllPlannedVerdictsMatch": 0
+      },
+      "final": {
+        "plannedJobs": 12,
+        "completedJobs": 2,
+        "statuses": {
+          "completed": 2,
+          "not-executed": 10
+        },
+        "completionPerPlanned": 0.16666666666666666,
+        "candidateMatches": 1,
+        "candidateAgreementAmongCompleted": 0.5,
+        "candidateMatchesPerPlanned": 0.08333333333333333,
+        "confusionExpectedToObserved": {
+          "compatible": {
+            "incompatible": 1
+          },
+          "incompatible": {
+            "incompatible": 1
+          },
+          "indeterminate": {}
+        },
+        "casesPlanned": 2,
+        "casesFullyCompleted": 0,
+        "casesAllPlannedVerdictsMatch": 0
+      },
+      "startedJobs": 2,
+      "firstAttemptCompletionAmongStarted": 0.5,
+      "finalCompletionAmongStarted": 1.0,
+      "retryEligibleFirstFailures": 1,
+      "recoveredJobs": 1,
+      "recoveryAmongRetryEligibleFirstFailures": 1.0,
+      "recoveredMatchingCandidate": 0,
+      "attemptsStarted": 3,
+      "retryAttemptsStarted": 1,
+      "dispatches": 3,
+      "firstDispatches": 2,
+      "retryDispatches": 1,
+      "dispatchedAttemptsWithoutUsage": 1,
+      "knownInputTokens": 2178,
+      "knownOutputTokens": 0,
+      "scheduledBackoffSeconds": 1.4986126857287345
+    },
+    "luna-low-coreinfra": {
+      "first": {
+        "plannedJobs": 12,
+        "completedJobs": 0,
+        "statuses": {
+          "failed": 3,
+          "not-executed": 9
+        },
+        "completionPerPlanned": 0.0,
+        "candidateMatches": 0,
+        "candidateAgreementAmongCompleted": null,
+        "candidateMatchesPerPlanned": 0.0,
+        "confusionExpectedToObserved": {
+          "compatible": {},
+          "incompatible": {},
+          "indeterminate": {}
+        },
+        "casesPlanned": 2,
+        "casesFullyCompleted": 0,
+        "casesAllPlannedVerdictsMatch": 0
+      },
+      "final": {
+        "plannedJobs": 12,
+        "completedJobs": 2,
+        "statuses": {
+          "completed": 2,
+          "failed": 1,
+          "not-executed": 9
+        },
+        "completionPerPlanned": 0.16666666666666666,
+        "candidateMatches": 2,
+        "candidateAgreementAmongCompleted": 1.0,
+        "candidateMatchesPerPlanned": 0.16666666666666666,
+        "confusionExpectedToObserved": {
+          "compatible": {
+            "compatible": 1
+          },
+          "incompatible": {
+            "incompatible": 1
+          },
+          "indeterminate": {}
+        },
+        "casesPlanned": 2,
+        "casesFullyCompleted": 0,
+        "casesAllPlannedVerdictsMatch": 0
+      },
+      "startedJobs": 3,
+      "firstAttemptCompletionAmongStarted": 0.0,
+      "finalCompletionAmongStarted": 0.6666666666666666,
+      "retryEligibleFirstFailures": 3,
+      "recoveredJobs": 2,
+      "recoveryAmongRetryEligibleFirstFailures": 0.6666666666666666,
+      "recoveredMatchingCandidate": 2,
+      "attemptsStarted": 6,
+      "retryAttemptsStarted": 3,
+      "dispatches": 6,
+      "firstDispatches": 3,
+      "retryDispatches": 3,
+      "dispatchedAttemptsWithoutUsage": 4,
+      "knownInputTokens": 1930,
+      "knownOutputTokens": 116,
+      "scheduledBackoffSeconds": 4.795400984861639
+    }
+  },
+  "paired": {
+    "first": [
+      {
+        "armA": "jev-coreinfra",
+        "armB": "luna-decisions-coreinfra",
+        "plannedPairs": 12,
+        "bothCompleted": 1,
+        "bothMatch": 0,
+        "onlyAMatches": 0,
+        "onlyBMatches": 1,
+        "neitherMatches": 0
+      },
+      {
+        "armA": "jev-coreinfra",
+        "armB": "luna-low-coreinfra",
+        "plannedPairs": 12,
+        "bothCompleted": 0,
+        "bothMatch": 0,
+        "onlyAMatches": 0,
+        "onlyBMatches": 0,
+        "neitherMatches": 0
+      },
+      {
+        "armA": "luna-decisions-coreinfra",
+        "armB": "luna-low-coreinfra",
+        "plannedPairs": 12,
+        "bothCompleted": 0,
+        "bothMatch": 0,
+        "onlyAMatches": 0,
+        "onlyBMatches": 0,
+        "neitherMatches": 0
+      }
+    ],
+    "final": [
+      {
+        "armA": "jev-coreinfra",
+        "armB": "luna-decisions-coreinfra",
+        "plannedPairs": 12,
+        "bothCompleted": 2,
+        "bothMatch": 0,
+        "onlyAMatches": 1,
+        "onlyBMatches": 1,
+        "neitherMatches": 0
+      },
+      {
+        "armA": "jev-coreinfra",
+        "armB": "luna-low-coreinfra",
+        "plannedPairs": 12,
+        "bothCompleted": 2,
+        "bothMatch": 1,
+        "onlyAMatches": 0,
+        "onlyBMatches": 1,
+        "neitherMatches": 0
+      },
+      {
+        "armA": "luna-decisions-coreinfra",
+        "armB": "luna-low-coreinfra",
+        "plannedPairs": 12,
+        "bothCompleted": 2,
+        "bothMatch": 1,
+        "onlyAMatches": 0,
+        "onlyBMatches": 1,
+        "neitherMatches": 0
+      }
+    ]
+  },
+  "rows": [
+    {
+      "jobId": "J0001",
+      "armId": "jev-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 1,
+      "expected": "incompatible",
+      "attempts": [
+        {
+          "ordinal": 1,
+          "finished": true,
+          "status": "completed",
+          "error": null,
+          "exceptionClasses": [],
+          "dispatches": 1,
+          "observed": "compatible",
+          "usage": {
+            "input_tokens": 1872,
+            "output_tokens": 43
+          },
+          "scheduledBackoffSeconds": null,
+          "retryEligible": false
+        }
+      ],
+      "attemptsStarted": 1,
+      "dispatches": 1,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "completed",
+        "observed": "compatible",
+        "matches": false
+      },
+      "final": {
+        "status": "completed",
+        "observed": "compatible",
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0002",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 1,
+      "expected": "incompatible",
+      "attempts": [
+        {
+          "ordinal": 1,
+          "finished": true,
+          "status": "completed",
+          "error": null,
+          "exceptionClasses": [],
+          "dispatches": 1,
+          "observed": "incompatible",
+          "usage": {
+            "input_tokens": 1089,
+            "output_tokens": 0
+          },
+          "scheduledBackoffSeconds": null,
+          "retryEligible": false
+        }
+      ],
+      "attemptsStarted": 1,
+      "dispatches": 1,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "completed",
+        "observed": "incompatible",
+        "matches": true
+      },
+      "final": {
+        "status": "completed",
+        "observed": "incompatible",
+        "matches": true
+      }
+    },
+    {
+      "jobId": "J0003",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 1,
+      "expected": "incompatible",
+      "attempts": [
+        {
+          "ordinal": 1,
+          "finished": true,
+          "status": "failed",
+          "error": "transport-error",
+          "exceptionClasses": [
+            "ConnectError",
+            "ConnectError",
+            "SSLEOFError"
+          ],
+          "dispatches": 1,
+          "observed": null,
+          "usage": null,
+          "scheduledBackoffSeconds": 1.426296181895815,
+          "retryEligible": true
+        },
+        {
+          "ordinal": 2,
+          "finished": true,
+          "status": "completed",
+          "error": null,
+          "exceptionClasses": [],
+          "dispatches": 1,
+          "observed": "incompatible",
+          "usage": {
+            "input_tokens": 965,
+            "output_tokens": 60
+          },
+          "scheduledBackoffSeconds": null,
+          "retryEligible": false
+        }
+      ],
+      "attemptsStarted": 2,
+      "dispatches": 2,
+      "firstFailureRetryEligible": true,
+      "first": {
+        "status": "failed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "completed",
+        "observed": "incompatible",
+        "matches": true
+      }
+    },
+    {
+      "jobId": "J0004",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 1,
+      "expected": "compatible",
+      "attempts": [
+        {
+          "ordinal": 1,
+          "finished": true,
+          "status": "failed",
+          "error": "transport-error",
+          "exceptionClasses": [
+            "ConnectError",
+            "ConnectError",
+            "SSLEOFError"
+          ],
+          "dispatches": 1,
+          "observed": null,
+          "usage": null,
+          "scheduledBackoffSeconds": 1.4986126857287345,
+          "retryEligible": true
+        },
+        {
+          "ordinal": 2,
+          "finished": true,
+          "status": "completed",
+          "error": null,
+          "exceptionClasses": [],
+          "dispatches": 1,
+          "observed": "incompatible",
+          "usage": {
+            "input_tokens": 1089,
+            "output_tokens": 0
+          },
+          "scheduledBackoffSeconds": null,
+          "retryEligible": false
+        }
+      ],
+      "attemptsStarted": 2,
+      "dispatches": 2,
+      "firstFailureRetryEligible": true,
+      "first": {
+        "status": "failed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "completed",
+        "observed": "incompatible",
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0005",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 1,
+      "expected": "compatible",
+      "attempts": [
+        {
+          "ordinal": 1,
+          "finished": true,
+          "status": "failed",
+          "error": "transport-error",
+          "exceptionClasses": [
+            "ConnectError",
+            "ConnectError",
+            "SSLEOFError"
+          ],
+          "dispatches": 1,
+          "observed": null,
+          "usage": null,
+          "scheduledBackoffSeconds": 1.2481522255759132,
+          "retryEligible": true
+        },
+        {
+          "ordinal": 2,
+          "finished": true,
+          "status": "failed",
+          "error": "transport-error",
+          "exceptionClasses": [
+            "ConnectError",
+            "ConnectError",
+            "SSLEOFError"
+          ],
+          "dispatches": 1,
+          "observed": null,
+          "usage": null,
+          "scheduledBackoffSeconds": 2.120952577389911,
+          "retryEligible": true
+        },
+        {
+          "ordinal": 3,
+          "finished": true,
+          "status": "completed",
+          "error": null,
+          "exceptionClasses": [],
+          "dispatches": 1,
+          "observed": "compatible",
+          "usage": {
+            "input_tokens": 965,
+            "output_tokens": 56
+          },
+          "scheduledBackoffSeconds": null,
+          "retryEligible": false
+        }
+      ],
+      "attemptsStarted": 3,
+      "dispatches": 3,
+      "firstFailureRetryEligible": true,
+      "first": {
+        "status": "failed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "completed",
+        "observed": "compatible",
+        "matches": true
+      }
+    },
+    {
+      "jobId": "J0006",
+      "armId": "jev-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 1,
+      "expected": "compatible",
+      "attempts": [
+        {
+          "ordinal": 1,
+          "finished": true,
+          "status": "failed",
+          "error": "transport-error",
+          "exceptionClasses": [
+            "ConnectError",
+            "ConnectError",
+            "SSLEOFError"
+          ],
+          "dispatches": 1,
+          "observed": null,
+          "usage": null,
+          "scheduledBackoffSeconds": 1.4079889845392126,
+          "retryEligible": true
+        },
+        {
+          "ordinal": 2,
+          "finished": true,
+          "status": "completed",
+          "error": null,
+          "exceptionClasses": [],
+          "dispatches": 1,
+          "observed": "compatible",
+          "usage": {
+            "input_tokens": 1871,
+            "output_tokens": 43
+          },
+          "scheduledBackoffSeconds": null,
+          "retryEligible": false
+        }
+      ],
+      "attemptsStarted": 2,
+      "dispatches": 2,
+      "firstFailureRetryEligible": true,
+      "first": {
+        "status": "failed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "completed",
+        "observed": "compatible",
+        "matches": true
+      }
+    },
+    {
+      "jobId": "J0007",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 1,
+      "expected": "compatible",
+      "attempts": [
+        {
+          "ordinal": 1,
+          "finished": true,
+          "status": "failed",
+          "error": "transport-error",
+          "exceptionClasses": [
+            "ConnectError",
+            "ConnectError",
+            "SSLEOFError"
+          ],
+          "dispatches": 1,
+          "observed": null,
+          "usage": null,
+          "scheduledBackoffSeconds": null,
+          "retryEligible": true
+        }
+      ],
+      "attemptsStarted": 1,
+      "dispatches": 1,
+      "firstFailureRetryEligible": true,
+      "first": {
+        "status": "failed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "failed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0008",
+      "armId": "jev-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 1,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0009",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 1,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0010",
+      "armId": "jev-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 1,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0011",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 1,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0012",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 1,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0013",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 2,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0014",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 2,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0015",
+      "armId": "jev-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 2,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0016",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 2,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0017",
+      "armId": "jev-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 2,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0018",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 2,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0019",
+      "armId": "jev-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 2,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0020",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 2,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0021",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 2,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0022",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 2,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0023",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 2,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0024",
+      "armId": "jev-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 2,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0025",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 3,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0026",
+      "armId": "jev-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 3,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0027",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R003",
+      "repeat": 3,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0028",
+      "armId": "jev-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 3,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0029",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 3,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0030",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C002",
+      "familyId": "F001",
+      "recordId": "R004",
+      "repeat": 3,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0031",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 3,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0032",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 3,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0033",
+      "armId": "jev-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R016",
+      "repeat": 3,
+      "expected": "compatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0034",
+      "armId": "luna-low-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 3,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0035",
+      "armId": "jev-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 3,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    },
+    {
+      "jobId": "J0036",
+      "armId": "luna-decisions-coreinfra",
+      "caseId": "C008",
+      "familyId": "F005",
+      "recordId": "R015",
+      "repeat": 3,
+      "expected": "incompatible",
+      "attempts": [],
+      "attemptsStarted": 0,
+      "dispatches": 0,
+      "firstFailureRetryEligible": false,
+      "first": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      },
+      "final": {
+        "status": "not-executed",
+        "observed": null,
+        "matches": false
+      }
+    }
+  ]
+}

@@ -51,6 +51,13 @@ Reviewer-only metadata: legal outcome, normative references и темы конт
 
 ## Статистический план
 
+Текущий согласованный порядок: [30–50 development-фабул → freeze → 100 новых
+holdout-фабул](PIPELINE_QUALITY_PLAN.md), ориентир 400 только при необходимости
+повысить точность. При доле около 50% планировочная погрешность 95% interval —
+примерно ±10 pp для 100 и ±5 pp для 400 при независимой репрезентативной выборке.
+100 не является универсальным числом для statistical significance. Пример с
+0.8 ниже относится к дальнейшему ориентиру, а не к нынешней цели демо.
+
 При независимой репрезентативной binomial выборке и ожидаемой доле 0.8 приближённое планирование двустороннего 95% interval даёт около 62 случаев для ±10 pp и 246 для ±5 pp (`n ≈ 1.96² × 0.8 × 0.2 / margin²`). Это ориентир **точности оценки**, не универсальное число для statistical significance и не доказательство достижения порога 80%. [NIST: confidence intervals](https://itl.nist.gov/div898/handbook/prc/section2/prc241.htm), [sample size planning](https://www.itl.nist.gov/div898/handbook/prc/section2/prc242.htm).
 
 Для release threshold заранее определить one-sided lower confidence bound и допустимые отдельные critical-error classes. Для сравнения pipelines — одинаковые случаи, paired binary outcomes, минимальный полезный прирост и power calculation. Splits и критерии selection зафиксировать до comparison; выбор конфигурации выполнять на development/validation. Frozen selection проверяется один раз на untouched final test; его score не выбирает победителя. Одних 80% наблюдаемых successes недостаточно, чтобы уверенно утверждать population success ≥80%.

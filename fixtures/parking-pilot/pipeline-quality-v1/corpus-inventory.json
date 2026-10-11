@@ -1,0 +1,614 @@
+{
+  "schema": "normlab.pipeline-quality-corpus-inventory/v1",
+  "purpose": "pipeline-development-not-provider-ranking",
+  "inputCount": 71,
+  "uniqueTextDigestCount": 71,
+  "independentCaseCount": null,
+  "independenceStatus": "manual-cross-dataset-family-dedup-pending",
+  "holdoutEligibleCount": 0,
+  "goldCasePassRate": null,
+  "exactDuplicates": [],
+  "datasets": [
+    {
+      "id": "stage1-audit-v2",
+      "manifest": "fixtures/parking-pilot/stage1-audit-v2/sources.json",
+      "manifestDigest": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c",
+      "inputCount": 16,
+      "groupMeaning": "familyId",
+      "declaredGroupCount": 13,
+      "labelsStatus": "candidate-llm-reviewed",
+      "records": [
+        {
+          "id": "C001",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C001/sourceText",
+          "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+          "declaredGroup": "F001",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C002",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C002/sourceText",
+          "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+          "declaredGroup": "F001",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C003",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C003/sourceText",
+          "sourceDigest": "281b8c4f1893954942830860952a09ca98e730e75b1d6882b40767d8b652e13a",
+          "declaredGroup": "F002",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C004",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C004/sourceText",
+          "sourceDigest": "1d7ccc3a971121b658551fc39d2e37e8967d60e161b9c89bab3a0462d4de8354",
+          "declaredGroup": "F002",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C005",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C005/sourceText",
+          "sourceDigest": "e2c7ce0cf61e3d4f696037e352824c1bc8d2fe0bf65693ce88355f361a38ce96",
+          "declaredGroup": "F003",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C006",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C006/sourceText",
+          "sourceDigest": "4ba5d3a31ea2c5274a3c0e259e66096b686969c36d2a4e42fce0ce04f1a6e4ff",
+          "declaredGroup": "F003",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C007",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C007/sourceText",
+          "sourceDigest": "be917aeed11c0e86ef2c722f7a7a2d08c5b65ee3b31d70e6f64128f8197b4020",
+          "declaredGroup": "F004",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C008",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C008/sourceText",
+          "sourceDigest": "932b07d586ed1d16f306a4e7243cb4c7fb17d56b1a1c0bef230870d1c8be50e8",
+          "declaredGroup": "F005",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C009",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C009/sourceText",
+          "sourceDigest": "d1e8ab6d63b2672e85103cd9579bf8591972a111b8be9adc19a204801a2e761b",
+          "declaredGroup": "F006",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C010",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C010/sourceText",
+          "sourceDigest": "e5e059c73bcd8281d768748661574ebefb6971887ecbd92ea06813efe3318290",
+          "declaredGroup": "F007",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C011",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C011/sourceText",
+          "sourceDigest": "e500fc9c849d245ed99b62683c79a664b72fb9beaac28dd814c9bd9db0836b41",
+          "declaredGroup": "F008",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C012",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C012/sourceText",
+          "sourceDigest": "3f4b9ce1e56799da3f0f408c8888c27a7887314b4346106b137940f1c43cabc3",
+          "declaredGroup": "F009",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C013",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C013/sourceText",
+          "sourceDigest": "979bfa0b721923412dec43d4a91f0ccf3922adad52a6e9890c80335a56614203",
+          "declaredGroup": "F010",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C014",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C014/sourceText",
+          "sourceDigest": "442849c7bbb728d401b717f83a9b10b62a3747bbc6aba9b859f8a7044401a3c3",
+          "declaredGroup": "F011",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C015",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C015/sourceText",
+          "sourceDigest": "4cf2be995dfc38043ee112918581aadc6b2d5e3005c12a75df59721729b7a81c",
+          "declaredGroup": "F012",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C016",
+          "source": "fixtures/parking-pilot/stage1-audit-v2/sources.json#cases/C016/sourceText",
+          "sourceDigest": "f91d4b7b22250e263c4463202e1c3fb7058258cb002eb6089c6a4084ac213005",
+          "declaredGroup": "F013",
+          "split": "diagnostic-development",
+          "holdoutEligible": false
+        }
+      ]
+    },
+    {
+      "id": "synthetic-v1",
+      "manifest": "fixtures/parking-pilot/synthetic-v1/manifest.json",
+      "manifestDigest": "dc638b02207b7b3f1fc87bbbaa4a626cbe0bae4d5282ad5b2aaabf20143cd8f8",
+      "inputCount": 40,
+      "groupMeaning": "family",
+      "declaredGroupCount": 8,
+      "labelsStatus": "partial-candidate-probes",
+      "records": [
+        {
+          "id": "SYN001",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN001.source.txt",
+          "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+          "declaredGroup": "payment-polarity",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN002",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN002.source.txt",
+          "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5",
+          "declaredGroup": "payment-polarity",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN003",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN003.source.txt",
+          "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+          "declaredGroup": "payment-polarity",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN004",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN004.source.txt",
+          "sourceDigest": "2ecca2adfcf939544ba06b076ea4e532b90bbb5c5ac8eb53e021647866f3fcdd",
+          "declaredGroup": "payment-polarity",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN005",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN005.source.txt",
+          "sourceDigest": "90663d5258b3e5dd5800b1a8b252fb172b05a1e52ee7eebc0d2ead5f87e838b0",
+          "declaredGroup": "payment-polarity",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN006",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN006.source.txt",
+          "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d",
+          "declaredGroup": "vehicle-and-zone",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN007",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN007.source.txt",
+          "sourceDigest": "98a3520245ecd6527e6b352094dd4e6c45fef7349c00e142bcb63668b8bd99fd",
+          "declaredGroup": "vehicle-and-zone",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN008",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN008.source.txt",
+          "sourceDigest": "d3307c2fe69ab65bc11dc67dfd7b5a042f6392ba1ea5064db4cccf17589ad31f",
+          "declaredGroup": "vehicle-and-zone",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN009",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN009.source.txt",
+          "sourceDigest": "f10cddd0db530847fa47abb2c09841187bd1b472e3039ff6c33d39ebc7469659",
+          "declaredGroup": "vehicle-and-zone",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN010",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN010.source.txt",
+          "sourceDigest": "1b3aeea8dd0fb0c5860153e2d644c4ade1f51a9e351e5679f7c9c8416cf8b635",
+          "declaredGroup": "vehicle-and-zone",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN011",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN011.source.txt",
+          "sourceDigest": "adeea0c7c3746f030929aac88ee1bf08560211b1369b5db45c84968f8498c069",
+          "declaredGroup": "payment-time",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN012",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN012.source.txt",
+          "sourceDigest": "17692929ae1ef9dbb8115f4f5e63b7d105184d1849b273aa55e29aad25c3f90e",
+          "declaredGroup": "payment-time",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN013",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN013.source.txt",
+          "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb",
+          "declaredGroup": "payment-time",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN014",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN014.source.txt",
+          "sourceDigest": "d827cec769152b1e80bd98e2a9339617e015c94b80ba6c1cbcd000053fdc0879",
+          "declaredGroup": "payment-time",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN015",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN015.source.txt",
+          "sourceDigest": "4e6567a782094a72912acb5715e60cd59c4c711fe63c14ac3649fd61613cd16e",
+          "declaredGroup": "payment-time",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN016",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN016.source.txt",
+          "sourceDigest": "0f9f3ab58f955ae3f0b7e69688e29a025a315b4008464f5785987b3f51aa6dc8",
+          "declaredGroup": "outage-and-corrections",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN017",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN017.source.txt",
+          "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+          "declaredGroup": "outage-and-corrections",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN018",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN018.source.txt",
+          "sourceDigest": "b05fa7cd16f7b83d91d613c87245e3a67cb6f16722dfd6f92014626fa0dcaa96",
+          "declaredGroup": "outage-and-corrections",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN019",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN019.source.txt",
+          "sourceDigest": "970fb032324b421c92ba083b6c3c8ecb58ba357711a3ccada202bb3d2ef39ba1",
+          "declaredGroup": "outage-and-corrections",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN020",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN020.source.txt",
+          "sourceDigest": "26c96fd14b4e8e1c4752f7afcb533e1bef1397efeb983cc2becd7f30207b9031",
+          "declaredGroup": "outage-and-corrections",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN021",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN021.source.txt",
+          "sourceDigest": "a467a1fe70b0ad449c1173ff13ed03a4f7d67751bed17dc26cf4a57082cee707",
+          "declaredGroup": "permits-and-gaps",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN022",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN022.source.txt",
+          "sourceDigest": "86f5d6b7643a97d34aa06fb7ad30a1e4be4171ebe5a257974779b85910050f23",
+          "declaredGroup": "permits-and-gaps",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN023",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN023.source.txt",
+          "sourceDigest": "d75ebaa6d46997307c9ae41e20284fb28d5f716609a24234b9ce68b2e66b128c",
+          "declaredGroup": "permits-and-gaps",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN024",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN024.source.txt",
+          "sourceDigest": "aac2df3755c11d07206ee04c002b3ab13b8cb3cc62e72367d648ccb14920c5ed",
+          "declaredGroup": "permits-and-gaps",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN025",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN025.source.txt",
+          "sourceDigest": "9fa5fe8c2dc6b68026398e4c177119ef7895c8ab5c4cb64b47ffa6a4a0cfd29c",
+          "declaredGroup": "permits-and-gaps",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN026",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN026.source.txt",
+          "sourceDigest": "70e9b071fdd28316381fb684d786c30c6d1f9b281357e01ce10d123dd9f9b042",
+          "declaredGroup": "attribution-and-conflicts",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN027",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN027.source.txt",
+          "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531",
+          "declaredGroup": "attribution-and-conflicts",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN028",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN028.source.txt",
+          "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2",
+          "declaredGroup": "attribution-and-conflicts",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN029",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN029.source.txt",
+          "sourceDigest": "538072002a7e4eecb83faf2be39a33b581f2b4b55a76b731851ba4f237d4eee3",
+          "declaredGroup": "attribution-and-conflicts",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN030",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN030.source.txt",
+          "sourceDigest": "652fb35e86d91a6a69bc01b05dee970c19a2569d3788aae32d74ef1717464a11",
+          "declaredGroup": "attribution-and-conflicts",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN031",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN031.source.txt",
+          "sourceDigest": "e19bd1d7845e6713d411bbae0e7af16f0e2880786671a7d64ec6d2789cb3f373",
+          "declaredGroup": "jurisdiction-and-scope",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN032",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN032.source.txt",
+          "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3",
+          "declaredGroup": "jurisdiction-and-scope",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN033",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN033.source.txt",
+          "sourceDigest": "fb2dc288d7ac0599cf84ff58a9f295786ee3e299f538d930dc531bf94a870ab0",
+          "declaredGroup": "jurisdiction-and-scope",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN034",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN034.source.txt",
+          "sourceDigest": "12f1987de1b2c23e9ea13f7f8c9f717229610bd0fca3fd47335baf9d6edfed15",
+          "declaredGroup": "jurisdiction-and-scope",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN035",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN035.source.txt",
+          "sourceDigest": "1fe78c78bd24bdfd2cdb95dfb7ceda21ac79092eabea9267b6d32889b3dc2d0a",
+          "declaredGroup": "jurisdiction-and-scope",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN036",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN036.source.txt",
+          "sourceDigest": "880ea9f682530bfd0c0b9e10d1dc4d003d04be86702710560ae2fd25ec3fe7e8",
+          "declaredGroup": "regime-and-background",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN037",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN037.source.txt",
+          "sourceDigest": "964946ca7dc5f601ebc0ef7d2b9f78a517b1559243916f270c3f785a6738dba0",
+          "declaredGroup": "regime-and-background",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN038",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN038.source.txt",
+          "sourceDigest": "77422302b41fa4081616cbb07aacae732e497d9d896482cc162668edf0395c11",
+          "declaredGroup": "regime-and-background",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN039",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN039.source.txt",
+          "sourceDigest": "741ad2ba3529b95a323d564475b2f8fc1caaf6b98e489e965478326cc6fcb9e9",
+          "declaredGroup": "regime-and-background",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        },
+        {
+          "id": "SYN040",
+          "source": "fixtures/parking-pilot/synthetic-v1/inputs/SYN040.source.txt",
+          "sourceDigest": "d09a024650a946beeb94782b3b5b52244e93f2fc2a060345a5635b25a3e704ff",
+          "declaredGroup": "regime-and-background",
+          "split": "development-synthetic",
+          "holdoutEligible": false
+        }
+      ]
+    },
+    {
+      "id": "corpus",
+      "manifest": "fixtures/parking-pilot/corpus/manifest.json",
+      "manifestDigest": "6b85e8694273a2ce9ce6f3479534b9051476b08c2618f77fbbc7e3117080d378",
+      "inputCount": 15,
+      "groupMeaning": "sourceGroup",
+      "declaredGroupCount": 10,
+      "labelsStatus": "unlabelled-editorial",
+      "records": [
+        {
+          "id": "C01",
+          "source": "fixtures/parking-pilot/corpus/C01.source.txt",
+          "sourceDigest": "97a639882662600532993fd47c884e94d9a3615e46fda4ee6ff7520aa82f0189",
+          "declaredGroup": "S01",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C02",
+          "source": "fixtures/parking-pilot/corpus/C02.source.txt",
+          "sourceDigest": "262604b7b93e69beb7db9190f75047f39e40d94d650ed279f5880e726a4d9fa3",
+          "declaredGroup": "S02",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C03",
+          "source": "fixtures/parking-pilot/corpus/C03.source.txt",
+          "sourceDigest": "d30303fd2e9ad3a93129da2aae65d59c93bfdfdb6e98ed7aa5b9b28b5a215ad3",
+          "declaredGroup": "S03",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C04",
+          "source": "fixtures/parking-pilot/corpus/C04.source.txt",
+          "sourceDigest": "cf3a7c432321c8293a70abf216d84800458568799c9ec45d225af44b945f0b2a",
+          "declaredGroup": "S03",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C05",
+          "source": "fixtures/parking-pilot/corpus/C05.source.txt",
+          "sourceDigest": "fef3de7c42ebb1c3ea43f1ba7ce53ac17a67b916d36d1124783667072c8ab91f",
+          "declaredGroup": "S03",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C06",
+          "source": "fixtures/parking-pilot/corpus/C06.source.txt",
+          "sourceDigest": "90dd4e127219e80347e8673697f1434fa8dea8eb55377cfe47c128abcd8accc5",
+          "declaredGroup": "S03",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C07",
+          "source": "fixtures/parking-pilot/corpus/C07.source.txt",
+          "sourceDigest": "ae9d5bc2505c647547132acfd729d6de1efd4b6509c8ba18f61f7808ccb6a942",
+          "declaredGroup": "S03",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C08",
+          "source": "fixtures/parking-pilot/corpus/C08.source.txt",
+          "sourceDigest": "029832b8bc1f94322d52f5b9023d41b0f65ba01a623355518768805c7ac50f0e",
+          "declaredGroup": "S04",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C09",
+          "source": "fixtures/parking-pilot/corpus/C09.source.txt",
+          "sourceDigest": "e835046cd0c10eb57e558ca2f537b13c8e9e542d5c39aeb7bf832279bf5190ff",
+          "declaredGroup": "S05",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C10",
+          "source": "fixtures/parking-pilot/corpus/C10.source.txt",
+          "sourceDigest": "0e05599b3cc94682a52e7355115e3d1d6a22eb5c1542ecd69af1631471244e86",
+          "declaredGroup": "S05",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C11",
+          "source": "fixtures/parking-pilot/corpus/C11.source.txt",
+          "sourceDigest": "5ec36a76239995697443bd1d33471877e32d410b1c2fd6e0e2c4f60ba0312807",
+          "declaredGroup": "S16",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C12",
+          "source": "fixtures/parking-pilot/corpus/C12.source.txt",
+          "sourceDigest": "0fbc89b8b73280fb330ce18a761e6562cea7d03852eff3a7a543dc8ca9fb9734",
+          "declaredGroup": "S17",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C13",
+          "source": "fixtures/parking-pilot/corpus/C13.source.txt",
+          "sourceDigest": "9638d425011eae9479c49fb03ee2b3acd8d6889d471a76f29a9c9255ad15f216",
+          "declaredGroup": "S18",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C14",
+          "source": "fixtures/parking-pilot/corpus/C14.source.txt",
+          "sourceDigest": "2546658e868b2020e2539e27e2818eba903db577da2af393563e3b6899521300",
+          "declaredGroup": "S19",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        },
+        {
+          "id": "C15",
+          "source": "fixtures/parking-pilot/corpus/C15.source.txt",
+          "sourceDigest": "7d9505b2ce8e155987c36a31af894c0fc5f81fa291115799c1298f8389f819a7",
+          "declaredGroup": "S20",
+          "split": "development-discovery",
+          "holdoutEligible": false
+        }
+      ]
+    }
+  ]
+}
