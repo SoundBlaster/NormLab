@@ -345,6 +345,7 @@ strategy, общий runner фиксирует условия, MLflow храни
 
 - [x] Отдельный SDK-free scorer: hash-снимок ответов, candidate-label agreement, полный planned denominator и сравнение matched contexts.
 - [x] Сохранить частичный live context: Jev и Decisions ответили, Responses завершился transport error.
+- [x] Сравнить четыре candidate inputs (12 новых dispatches): Jev 2/4, Decisions 2/4, Luna Low 2/2 при двух transport failures. Mixed-transport diagnostic, победитель не установлен.
 - [ ] Новая ревизия executor с sanitized transport exception class, затем новый отдельно разрешённый live-прогон.
 
 Свидетельства: [scoring contract](docs/STAGE1_PROVIDER_SCORING.md), [live attempt](docs/STAGE1_LIVE_PILOT_2026-10-11.md).

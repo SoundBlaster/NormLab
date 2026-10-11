@@ -93,3 +93,59 @@ authorization headers and encrypted reasoning are excluded. The isolated attempt
 could record sanitized exception class names, but no exception occurred. Success
 on this attempt leaves the cause of the earlier transport failure undetermined.
 It is not part of the sealed original score, and is not a three-arm quality ranking.
+
+## Four-context diagnostic comparison — 17:08–17:11 Moscow time
+
+The operator authorized comparing multiple inputs. The cap was **12 new inference
+dispatches**: first-repeat original/mutated candidates for C002 and C008, three
+arms each. No automatic retries or extra inference calls were made. Previously
+recorded attempts, including the successful isolated Responses repeat, are not
+substituted for failed slots in this comparison.
+
+The canonical runner stopped after J0003 again: Jev `compatible`, Decisions
+`incompatible`, Responses `transport-error`. Its separate capture is
+`.artifacts/stage1-coreinfra-live-20261011-1408/`; it was sealed and replay-scored.
+The remaining **nine distinct requests**, J0004–J0012, ran once each through a
+separate direct httpx2 diagnostic for **all three arms**, with unchanged parent
+request bodies, fresh clients, no redirects/proxies or retries, 30-second
+per-operation timeouts and bounded response bodies. This was a transport change
+after failure, not an automatic resume of the original capture. It is therefore
+reported as a mixed-transport diagnostic, not a clean canonical benchmark.
+
+The direct run preserved public native responses and independently normalized them
+with the existing wire parser. Its request bodies come from the pinned plan; it
+does not have the canonical recorder's independent actual-wire guard. Its private
+capture is `.artifacts/stage1-direct-remaining-20261011-1410/report.json`.
+Capture hashes were sealed before this separate diagnostic summary loaded labels.
+
+| Context | Candidate label | Jev | Decisions | Luna Low |
+| --- | --- | --- | --- | --- |
+| R003: denied payment changed to asserted | incompatible | compatible | incompatible | transport failure |
+| R004: original denied payment | compatible | compatible | incompatible | compatible |
+| R016: original denied assertion of payment | compatible | compatible | compatible | compatible |
+| R015: denied assertion changed to asserted | incompatible | compatible | compatible | TLS failure |
+
+Jev: **2/4 candidate matches**, 4/4 responses. Decisions: **2/4 matches**, 4/4
+responses. Luna Low: **2/2 matches among responses**, but only **2/4 responses**.
+All three have 2 matches per 4 planned dispatches; that combines availability and
+agreement and must not be called semantic accuracy. Common completed contexts
+are only R004 and R016, both with `compatible` labels: Jev 2/2, Decisions 1/2,
+Luna Low 2/2. This subset cannot measure rejection of incompatible candidates.
+
+The last direct Responses request failed before any HTTP status with sanitized
+exception chain **ConnectError → ConnectError → SSLEOFError**. This demonstrates
+a TLS connection failure in that attempt, outside the canonical recorder too.
+It does not prove the earlier failures had the same cause, identify which network
+component closed TLS, or establish a balance/region/model restriction. No new
+inference was sent to diagnose it.
+
+[Machine-readable diagnostic summary](../fixtures/parking-pilot/stage1-coreinfra-v1/live-four-context-score.json)
+binds the two captures, labels and every selected row. The canonical 36-job plan's
+remaining repeats stay unexecuted; only 12 selected first-repeat jobs were in this
+diagnostic budget. Two authored stories, four correlated candidate inputs, mixed
+transports and incomplete paired coverage do not support a winner or statistical
+significance. Labels remain non-independent candidates; currency costs are unknown.
+
+Next: investigate TLS connectivity without paid inference and add sanitized
+transport exception diagnostics in a new immutable runner revision, then plan a
+broader matched comparison under a confirmed budget.
