@@ -1,0 +1,1148 @@
+{
+  "schema": "normlab.external-diagnostic-corpus/v1",
+  "collectedOn": "2026-10-11",
+  "purpose": "pipeline-development-not-provider-ranking",
+  "inputCount": 36,
+  "datasetCounts": {
+    "rcb": 24,
+    "sud": 12
+  },
+  "independentCaseCount": null,
+  "holdoutEligibleCount": 0,
+  "goldCasePassRate": null,
+  "selection": {
+    "seed": "normlab-external-diagnostics-v1",
+    "order": "ascending SHA256(seed + newline + canonical JSON)",
+    "rcb": "train only; 4 negation + 4 no_negation per label; unique premise hashes",
+    "sud": "6 admin, 3 civil, 3 financial; unique source hashes; 1500..20000 chars",
+    "dependenceReview": "exact text grouped; incident and semantic dedup pending",
+    "contamination": "public training exposure unknown; development only"
+  },
+  "files": {
+    "inputs.jsonl": "0c013a0bf69ddd74e1273b301bbdb5b4c9629a1258c397b167a2520e1150879d",
+    "licenses/RCB-MIT.txt": "e69f12e8fa47f0568071cd6f6a472e01dcde4c183ecb89dfea86932bd8fe4107",
+    "licenses/SUD-GPL-3.0.txt": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+    "reviewer-annotations.jsonl": "773b984458198dda83c84b283df8a1d49a18db73f34b26fb043140bf591c31c4",
+    "texts/EXT-RCB-001.source.txt": "05649dccd33112d130936048ef0f7a218b3a7240dad2b389ffa5344ccd3ede67",
+    "texts/EXT-RCB-002.source.txt": "0d3a7c4c71e249483f667d7a73dbd904f330f3e7d750403331dae5741daef939",
+    "texts/EXT-RCB-003.source.txt": "d4cb1035837a2a5f83c27f23f9ab7d67fc474c851384fab2041645e36842cc16",
+    "texts/EXT-RCB-004.source.txt": "5ade77eca4387dde7ffab2433d7596e5699fbcf2077760c883dd2e55c8ae3f5b",
+    "texts/EXT-RCB-005.source.txt": "1e1018add2fdb8f0b96b894ca2ab355d48093759c039828957aad215926c4bdb",
+    "texts/EXT-RCB-006.source.txt": "ab48533f0fda9ee1c2509ed53fd28a8ae5171bfef779b2a69965cf2c9e095ac2",
+    "texts/EXT-RCB-007.source.txt": "4b20e2150c553cf78003e8e69e1fb35285edca9ff3ed48377512eafd47725059",
+    "texts/EXT-RCB-008.source.txt": "cea2131d54b1291f89e4340a9fe2a390469b6ba92324888d479b375a0b3e326f",
+    "texts/EXT-RCB-009.source.txt": "0d2e8249bdf5da3e54169fc22916680e1884098cbef074bff84a0e2177013786",
+    "texts/EXT-RCB-010.source.txt": "ed2ebc39735a3a45c4d386db982300d8ffecf40b6244577f3a803a1c0596bb43",
+    "texts/EXT-RCB-011.source.txt": "4683d56c94c321967b31a1b04840616ddd33cb98c22f7d5f08f054f505efc1d3",
+    "texts/EXT-RCB-012.source.txt": "34d632be67083590c0197b054237bb9a910ad73532064ec69928cf6b1da4ae85",
+    "texts/EXT-RCB-013.source.txt": "6212ec583772482ff0e535277cd903cacd8ee8a338347ba6e2b1a655025151df",
+    "texts/EXT-RCB-014.source.txt": "bd9c58e44c198e6353356810a3004093982e0a5d723e3463c7cc9a54703086c8",
+    "texts/EXT-RCB-015.source.txt": "a4f48bc52e3028ec740a85e1ab9752f451542b63c87d46e88d867f839bdad894",
+    "texts/EXT-RCB-016.source.txt": "8a1d57e4c7646052fd268bdb5f17e111805155b207a0c871073ae3be259a82a3",
+    "texts/EXT-RCB-017.source.txt": "fe494b6da59208fea57f27480588aea1c250853592e59f7851c2106e9bc188f3",
+    "texts/EXT-RCB-018.source.txt": "886f522e857d4014f7b14c9dd4d30b99514259e66e7ebb74b337f2a24dab2dd6",
+    "texts/EXT-RCB-019.source.txt": "3446410bd649999536d82486a1afe094e539be521c84280abe3959fe59810eb4",
+    "texts/EXT-RCB-020.source.txt": "4214b48f0d3245a111ea1f6911898d2aa3693baf075f77dabc4e2997c5665157",
+    "texts/EXT-RCB-021.source.txt": "d28b4c44d8d36936941f4721a61cceeee317505d20a6e99d2b8f5dd6b8340cb8",
+    "texts/EXT-RCB-022.source.txt": "32a6e3a7dc5f3c80f34fb53c9d4f3715aa9439bae77f0202607e399bb716b9f7",
+    "texts/EXT-RCB-023.source.txt": "a04a9ed3a203067dc33cda329d9b2916161a72a0cca545262243295f8b3ef703",
+    "texts/EXT-RCB-024.source.txt": "222fedd9f6473b5844d7fa3e424bc3254f58461efb1da5dcf190e4d5846aed73",
+    "texts/EXT-SUD-001.source.txt": "f94eadb708da25b98bebe3f8a0160a97b4bfeeaee4dc6d62997916d686c10066",
+    "texts/EXT-SUD-002.source.txt": "764cee1fc88d76f7eb9f42f8c8d4209318e7e59f9de4b9fa80e0a599c9209644",
+    "texts/EXT-SUD-003.source.txt": "f8a120f4b33278c237633f8276a939d460df51c24da8865029e201c0c4e6cc65",
+    "texts/EXT-SUD-004.source.txt": "5d92c6d3d8dab58df9e12053eba8e3dd1016ee51c5f7353a527a50e20d8452e6",
+    "texts/EXT-SUD-005.source.txt": "569289ce789191a1aaf26ed55b1ce629a1749645bc0cc9b8437e0ea78899f66b",
+    "texts/EXT-SUD-006.source.txt": "50fe16f2d7c5e2a11fbebdb0113acfaec00653f59fbfc766b2add4b9952928d8",
+    "texts/EXT-SUD-007.source.txt": "d93f32cae2a3e52a9de316b25386a43f4a14af01cd8bdf4d60ee746db941241f",
+    "texts/EXT-SUD-008.source.txt": "863f28161c3ffce757f69eeda62889c2adb776bd2ee826d941887d31ec986306",
+    "texts/EXT-SUD-009.source.txt": "257e70d9bc9763d819f2ee9503b2973c3032f92979eb3a13081a3279dd0c32ab",
+    "texts/EXT-SUD-010.source.txt": "46a3a9aa3012900caa6068bb80197172aa2da94a2859b68142bae44ef969fad2",
+    "texts/EXT-SUD-011.source.txt": "4513a389547c73405a4805f3539561270eefb056432805c129b7f656e2714a8a",
+    "texts/EXT-SUD-012.source.txt": "dbea4a84086fa8e90f425304e283f03ee49773a10e86faf0c88f04878f1b8434",
+    "upstream-sources.json": "779a514116c8a1832e19c5a7847b2691dd46aa68d3a31db1cfa7a09cd4f703e9",
+    "upstream/court-card.md": "163c6588263b0bf7dc988736d57f9ef194bea6288564acf10a6a43a952931474",
+    "upstream/rcb-card.md": "6aa1b1575697e05ccd57939cb2c9b337f4ccf886524c35492e3ad8319342ee10"
+  },
+  "records": [
+    {
+      "id": "EXT-RCB-001",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 135,
+      "upstreamRecordSha256": "d5260be98663d4c909f1c10431a48b57bd229324168516e9edb1d278f9f9dfa7",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "05649dccd33112d130936048ef0f7a218b3a7240dad2b389ffa5344ccd3ede67",
+      "candidateDigest": "fec3f8b82d7ca336cf23eb1d026a5968168376558ea97c2f1a4c066e95622449",
+      "exactTextGroup": "rcb:05649dccd33112d130936048ef0f7a218b3a7240dad2b389ffa5344ccd3ede67",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-001.source.txt"
+    },
+    {
+      "id": "EXT-RCB-002",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 291,
+      "upstreamRecordSha256": "4a7540970451b4d443986058b1ff16df4f0b3b6afd13958d16c7130a270ebd06",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "0d3a7c4c71e249483f667d7a73dbd904f330f3e7d750403331dae5741daef939",
+      "candidateDigest": "c7fa3fca2e4aef22dffe666fef0696f3482f9f1f7aec28ad67816580ef9f8d56",
+      "exactTextGroup": "rcb:0d3a7c4c71e249483f667d7a73dbd904f330f3e7d750403331dae5741daef939",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-002.source.txt"
+    },
+    {
+      "id": "EXT-RCB-003",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 264,
+      "upstreamRecordSha256": "e8f8a9a3043f4d675808af6c24c6ffae27b9243d74ccf442347f4725d664c658",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "d4cb1035837a2a5f83c27f23f9ab7d67fc474c851384fab2041645e36842cc16",
+      "candidateDigest": "927e9f874a5fccc20b7905576e0f5484431a49543afda1f48271af8b3eeeea60",
+      "exactTextGroup": "rcb:d4cb1035837a2a5f83c27f23f9ab7d67fc474c851384fab2041645e36842cc16",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-003.source.txt"
+    },
+    {
+      "id": "EXT-RCB-004",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 242,
+      "upstreamRecordSha256": "b522b25c2cfe4bf8e92bb0333ebf9aef2d16fe4b76978689af46cc99851cd7e7",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "5ade77eca4387dde7ffab2433d7596e5699fbcf2077760c883dd2e55c8ae3f5b",
+      "candidateDigest": "d0bc2015432b61eba3c84432b95c3a71e567d38c0cabd7dab3f4f9b658e12d33",
+      "exactTextGroup": "rcb:5ade77eca4387dde7ffab2433d7596e5699fbcf2077760c883dd2e55c8ae3f5b",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-004.source.txt"
+    },
+    {
+      "id": "EXT-RCB-005",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 116,
+      "upstreamRecordSha256": "fe107b0b90d1c10aaf2fce2aa6d97b974acf39dd3c3c16c0bf8735c2e0d7b2b1",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "1e1018add2fdb8f0b96b894ca2ab355d48093759c039828957aad215926c4bdb",
+      "candidateDigest": "aebae70bdcbca79e920c33ce556b47a8d6f47a3890707a99ee296888024b1436",
+      "exactTextGroup": "rcb:1e1018add2fdb8f0b96b894ca2ab355d48093759c039828957aad215926c4bdb",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-005.source.txt"
+    },
+    {
+      "id": "EXT-RCB-006",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 81,
+      "upstreamRecordSha256": "1069e0f6e914327e905ecbd665d42138d650cb1444b5fc8b45ef6dc9aee9eda9",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "ab48533f0fda9ee1c2509ed53fd28a8ae5171bfef779b2a69965cf2c9e095ac2",
+      "candidateDigest": "2fbf71222977c9860c88b0f093cee0838e212760c8f1da6aee4bee820a219366",
+      "exactTextGroup": "rcb:ab48533f0fda9ee1c2509ed53fd28a8ae5171bfef779b2a69965cf2c9e095ac2",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-006.source.txt"
+    },
+    {
+      "id": "EXT-RCB-007",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 20,
+      "upstreamRecordSha256": "6fa5f47afbc3e8a7cdc334d04f33aff76331ffee53b077d2120810f8690ac6ca",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "4b20e2150c553cf78003e8e69e1fb35285edca9ff3ed48377512eafd47725059",
+      "candidateDigest": "76c311887b9985eb0b371f53749e41db5b7a4703cd8b0248069e12d46f93381f",
+      "exactTextGroup": "rcb:4b20e2150c553cf78003e8e69e1fb35285edca9ff3ed48377512eafd47725059",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-007.source.txt"
+    },
+    {
+      "id": "EXT-RCB-008",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 136,
+      "upstreamRecordSha256": "8a80a3a638cd5f43a192f7028d46f5739e0eb94e35db50a3fac748dd725cb696",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "cea2131d54b1291f89e4340a9fe2a390469b6ba92324888d479b375a0b3e326f",
+      "candidateDigest": "d332829a1225df26f8bbcc993b0dbde3949fc8554794b26665f2fe4029f1a5b6",
+      "exactTextGroup": "rcb:cea2131d54b1291f89e4340a9fe2a390469b6ba92324888d479b375a0b3e326f",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-008.source.txt"
+    },
+    {
+      "id": "EXT-RCB-009",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 105,
+      "upstreamRecordSha256": "de3d20cbf2669e653b9268f3a967a09468bee3d020d05dddb2feabf7faf72117",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "0d2e8249bdf5da3e54169fc22916680e1884098cbef074bff84a0e2177013786",
+      "candidateDigest": "bc5e38861a2bb3c26809bc9618bf9ca6fe5a24aa83a888d3225fd8928acf3d38",
+      "exactTextGroup": "rcb:0d2e8249bdf5da3e54169fc22916680e1884098cbef074bff84a0e2177013786",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-009.source.txt"
+    },
+    {
+      "id": "EXT-RCB-010",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 70,
+      "upstreamRecordSha256": "730467202b28ac31ba9f01c35e3dc6324a9bd53a0f98789e03dad589ab227a4a",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "ed2ebc39735a3a45c4d386db982300d8ffecf40b6244577f3a803a1c0596bb43",
+      "candidateDigest": "1d869fe10c46276ab06840a96c4b5648d836f50b1952e21900ff207044ba6cf2",
+      "exactTextGroup": "rcb:ed2ebc39735a3a45c4d386db982300d8ffecf40b6244577f3a803a1c0596bb43",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-010.source.txt"
+    },
+    {
+      "id": "EXT-RCB-011",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 288,
+      "upstreamRecordSha256": "0692eab956974671e581c4de544a8901716b0f42acacbe5f997cb772809c92b1",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "4683d56c94c321967b31a1b04840616ddd33cb98c22f7d5f08f054f505efc1d3",
+      "candidateDigest": "efaba2b8db0205a4a81beeb0e8974c59c526bfbc6e37c2c70da7474714af559b",
+      "exactTextGroup": "rcb:4683d56c94c321967b31a1b04840616ddd33cb98c22f7d5f08f054f505efc1d3",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-011.source.txt"
+    },
+    {
+      "id": "EXT-RCB-012",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 69,
+      "upstreamRecordSha256": "79e2656020f546dc2aac506c3fd04cba7c6380f9687b50aee5b03ad1eb8a596c",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "34d632be67083590c0197b054237bb9a910ad73532064ec69928cf6b1da4ae85",
+      "candidateDigest": "e9b2e1a0704d92aae73902589e9329c5589d3f2963cf49b9d1c9ba415458825c",
+      "exactTextGroup": "rcb:34d632be67083590c0197b054237bb9a910ad73532064ec69928cf6b1da4ae85",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-012.source.txt"
+    },
+    {
+      "id": "EXT-RCB-013",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 183,
+      "upstreamRecordSha256": "c23d8e380035b44f558d8d80cd18a1f326ecbd93519c184a3a68f1fa8f2d0049",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "6212ec583772482ff0e535277cd903cacd8ee8a338347ba6e2b1a655025151df",
+      "candidateDigest": "5270c2826d6d00695ff1535657b7dd68a13c3abe5dc4a6abb629979ede4cf30e",
+      "exactTextGroup": "rcb:6212ec583772482ff0e535277cd903cacd8ee8a338347ba6e2b1a655025151df",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-013.source.txt"
+    },
+    {
+      "id": "EXT-RCB-014",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 232,
+      "upstreamRecordSha256": "4926d623a4432be9cec07bc2baf76a122a32ba76081795df9240c5822b8dbb16",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "bd9c58e44c198e6353356810a3004093982e0a5d723e3463c7cc9a54703086c8",
+      "candidateDigest": "8fe477b3336a5082e9a725c4bc8c5f4ed74adc378b36c8430bf248279bfe2609",
+      "exactTextGroup": "rcb:bd9c58e44c198e6353356810a3004093982e0a5d723e3463c7cc9a54703086c8",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-014.source.txt"
+    },
+    {
+      "id": "EXT-RCB-015",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 28,
+      "upstreamRecordSha256": "cafce419569e87aa77bfd8901cde4f4d2df09bca1aa7f2ced12684dd9ff01a54",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "a4f48bc52e3028ec740a85e1ab9752f451542b63c87d46e88d867f839bdad894",
+      "candidateDigest": "87bf25dcebbad36f49fde8b822d4ed90d64c348219902b21f11c74449cf94c56",
+      "exactTextGroup": "rcb:a4f48bc52e3028ec740a85e1ab9752f451542b63c87d46e88d867f839bdad894",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-015.source.txt"
+    },
+    {
+      "id": "EXT-RCB-016",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 358,
+      "upstreamRecordSha256": "85bc61554bf6be9c69ca0e89c746ab4cae17d97a67a8f470e02d26eb64989919",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "8a1d57e4c7646052fd268bdb5f17e111805155b207a0c871073ae3be259a82a3",
+      "candidateDigest": "e0135bba490e48c2c7325dd76de85bbf79fbe98200b54ec9cf33d7f3afe42cdc",
+      "exactTextGroup": "rcb:8a1d57e4c7646052fd268bdb5f17e111805155b207a0c871073ae3be259a82a3",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-016.source.txt"
+    },
+    {
+      "id": "EXT-RCB-017",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 346,
+      "upstreamRecordSha256": "d113db9fed6b09d2e465b27932770a6d635248556f26827437d085a6f1fa4c20",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "fe494b6da59208fea57f27480588aea1c250853592e59f7851c2106e9bc188f3",
+      "candidateDigest": "f53faafa011cca3541fb55584e0e7b6fe146a2854eb0fd501b290a3867fea13d",
+      "exactTextGroup": "rcb:fe494b6da59208fea57f27480588aea1c250853592e59f7851c2106e9bc188f3",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-017.source.txt"
+    },
+    {
+      "id": "EXT-RCB-018",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 229,
+      "upstreamRecordSha256": "b2f7e2fab160999cc9e12785d9f80a68bee69a96a1ba5a73b6df8baaa4df2abf",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "886f522e857d4014f7b14c9dd4d30b99514259e66e7ebb74b337f2a24dab2dd6",
+      "candidateDigest": "0aba6ddb9c314f8e509c5796db51469159645de02c3fca8fc67b3780b36df562",
+      "exactTextGroup": "rcb:886f522e857d4014f7b14c9dd4d30b99514259e66e7ebb74b337f2a24dab2dd6",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-018.source.txt"
+    },
+    {
+      "id": "EXT-RCB-019",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 279,
+      "upstreamRecordSha256": "e2079dd20a9e4e4f56eda40549e6d935be327900a47256a24b42ce24accebfa8",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "3446410bd649999536d82486a1afe094e539be521c84280abe3959fe59810eb4",
+      "candidateDigest": "c2cd71a82ece83543d2a657e5a9e698f9205036b2f7326e43a1cf0691aa68176",
+      "exactTextGroup": "rcb:3446410bd649999536d82486a1afe094e539be521c84280abe3959fe59810eb4",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-019.source.txt"
+    },
+    {
+      "id": "EXT-RCB-020",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 296,
+      "upstreamRecordSha256": "adf206235d34734bc11c022be72dd68eea68cffc2bdb0e4765c621651cf2fa2f",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "4214b48f0d3245a111ea1f6911898d2aa3693baf075f77dabc4e2997c5665157",
+      "candidateDigest": "c916177f27c9012cba5254321b755dd6b469d4fa51c8306102b608e3116655dd",
+      "exactTextGroup": "rcb:4214b48f0d3245a111ea1f6911898d2aa3693baf075f77dabc4e2997c5665157",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-020.source.txt"
+    },
+    {
+      "id": "EXT-RCB-021",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 402,
+      "upstreamRecordSha256": "c896bfaebf4e60b55e23d11c9e1313fb79985b3c862221859efc8f1ab408111b",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "d28b4c44d8d36936941f4721a61cceeee317505d20a6e99d2b8f5dd6b8340cb8",
+      "candidateDigest": "ac1c077686341e18e10c9589e575ecdb087b37d871d6b455aabde1b3c8b94c18",
+      "exactTextGroup": "rcb:d28b4c44d8d36936941f4721a61cceeee317505d20a6e99d2b8f5dd6b8340cb8",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-021.source.txt"
+    },
+    {
+      "id": "EXT-RCB-022",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 201,
+      "upstreamRecordSha256": "8a0da79fd92e10dab17850f0b649c5251aa582a63dbd0ebcbd5db6c2fdd83eb6",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "32a6e3a7dc5f3c80f34fb53c9d4f3715aa9439bae77f0202607e399bb716b9f7",
+      "candidateDigest": "3c81b81de68e771acd9d1aa9e227280629be746993d4df4ab524a9ed8b5c1f87",
+      "exactTextGroup": "rcb:32a6e3a7dc5f3c80f34fb53c9d4f3715aa9439bae77f0202607e399bb716b9f7",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-022.source.txt"
+    },
+    {
+      "id": "EXT-RCB-023",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 50,
+      "upstreamRecordSha256": "1abd1d19ed3728c619745cc8c2432cc48ce96dd002d65071ed8930d74348f149",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "a04a9ed3a203067dc33cda329d9b2916161a72a0cca545262243295f8b3ef703",
+      "candidateDigest": "937d4bb461c112b042e11d292767c4e7f64960cd81de75848f12614f92cf5998",
+      "exactTextGroup": "rcb:a04a9ed3a203067dc33cda329d9b2916161a72a0cca545262243295f8b3ef703",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-023.source.txt"
+    },
+    {
+      "id": "EXT-RCB-024",
+      "dataset": "rcb",
+      "task": "textual-entailment",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": 126,
+      "upstreamRecordSha256": "fa1cb06fdd5ced8720c4df4974e227fa7dd63f42a6e3b3b0dd2528c8e7a2c879",
+      "relatedUpstreamRows": null,
+      "sourceField": "premise",
+      "sourceDigest": "222fedd9f6473b5844d7fa3e424bc3254f58461efb1da5dcf190e4d5846aed73",
+      "candidateDigest": "14f7db115adb4fd1950d0430546f4b54cc22bac2186c61fd9c9be776b3124054",
+      "exactTextGroup": "rcb:222fedd9f6473b5844d7fa3e424bc3254f58461efb1da5dcf190e4d5846aed73",
+      "originDocumentUrl": null,
+      "category": null,
+      "license": "MIT",
+      "transformations": [],
+      "sourceFile": "texts/EXT-RCB-024.source.txt"
+    },
+    {
+      "id": "EXT-SUD-001",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "292300c4762b2e04ab14f79c38e403985f2e355ea0fae09396287ad182a0c31b",
+      "upstreamRecordSha256": "adc92d5f06a18e61c5771f5d0d8c699f93d0c6afec21d2817461ade4db2b9b9b",
+      "relatedUpstreamRows": [
+        {
+          "id": "a557c97bbee0dfc1ba1c4daeac827cdbcdd0a08ec66aa82171040b995d7389ee",
+          "jsonPointer": "/1428/source"
+        },
+        {
+          "id": "63df825d1c5d81a1fb32b6ff544ad673947ed877bdec22b53059da18c593141f",
+          "jsonPointer": "/1429/source"
+        },
+        {
+          "id": "d5b9859438ca6f98288c6ed53bdb6fabaa7e7a6b183ee4f4dcd6ce5eecedbf9b",
+          "jsonPointer": "/1430/source"
+        },
+        {
+          "id": "7b6896c79c52fa6eae0fdb0caa63d6e297c4472fcbedb95f2e1dcfea8d928533",
+          "jsonPointer": "/1431/source"
+        },
+        {
+          "id": "2e424b690e5824ccdb671e9819126305aac39bd6976797f027ce92293dc0ffb5",
+          "jsonPointer": "/1432/source"
+        },
+        {
+          "id": "48f4cdfeae2d0a573b13a9ff1c204333ad9879768423116d343df60eb248d418",
+          "jsonPointer": "/1433/source"
+        },
+        {
+          "id": "292300c4762b2e04ab14f79c38e403985f2e355ea0fae09396287ad182a0c31b",
+          "jsonPointer": "/1434/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "f94eadb708da25b98bebe3f8a0160a97b4bfeeaee4dc6d62997916d686c10066",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:f94eadb708da25b98bebe3f8a0160a97b4bfeeaee4dc6d62997916d686c10066",
+      "originDocumentUrl": null,
+      "category": "sud_resh_admin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/1434/source",
+      "sourceFile": "texts/EXT-SUD-001.source.txt"
+    },
+    {
+      "id": "EXT-SUD-002",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "0378692f617fd277beade612cda808ea949a33650e2d298a4b9db5eeaf561686",
+      "upstreamRecordSha256": "db145cf5d86ac66a232150fdd460c4205f50afde625aa80618e633a5db3053e5",
+      "relatedUpstreamRows": [
+        {
+          "id": "96a3fcf2dfc1a4642dfcfb60cd5cc5915baead121e7ab0566a26bca4c85897ab",
+          "jsonPointer": "/1988/source"
+        },
+        {
+          "id": "a358347d5e530a7389a180a876ce8b0d80d8784edaadbda26219f6ae581141d0",
+          "jsonPointer": "/1989/source"
+        },
+        {
+          "id": "0378692f617fd277beade612cda808ea949a33650e2d298a4b9db5eeaf561686",
+          "jsonPointer": "/1990/source"
+        },
+        {
+          "id": "a62edd11b3693f3edd80c72d9195166530649b3c184f31a1d7d3976132a03a39",
+          "jsonPointer": "/1991/source"
+        },
+        {
+          "id": "ed00fdb387a8ac45919d2164c2568511651521bf63b3727f79fc7e56c6452d4c",
+          "jsonPointer": "/1992/source"
+        },
+        {
+          "id": "a5b148719e3489f841e00c402edf74e9aca591bc3e578a83880ad67f0d3932ee",
+          "jsonPointer": "/1993/source"
+        },
+        {
+          "id": "21a501463185e73e5e184996ac5369eef05fb588bf3f6d3470724ca569e9033f",
+          "jsonPointer": "/1994/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "764cee1fc88d76f7eb9f42f8c8d4209318e7e59f9de4b9fa80e0a599c9209644",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:764cee1fc88d76f7eb9f42f8c8d4209318e7e59f9de4b9fa80e0a599c9209644",
+      "originDocumentUrl": null,
+      "category": "sud_resh_admin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/1990/source",
+      "sourceFile": "texts/EXT-SUD-002.source.txt"
+    },
+    {
+      "id": "EXT-SUD-003",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "140330246ebde203fd0d2501e36799dff46e18c5dfb7652e9436b02a48657ee5",
+      "upstreamRecordSha256": "abb9a70affd4026a379da28b16cf22044c102d0f4ff5dc0db8fd227d2f7c4d9b",
+      "relatedUpstreamRows": [
+        {
+          "id": "4d14635daf7dc33b6922a28298e745b146f5f272822f4d59949b1f44af0270a0",
+          "jsonPointer": "/2037/source"
+        },
+        {
+          "id": "d86994f16a697c3f1e2645a7d9cb336ea41c44f2ba7db9f71e98c5af293cc3be",
+          "jsonPointer": "/2038/source"
+        },
+        {
+          "id": "7dd3397fb6a564985264e675efddcd9a03beb8949fd69f8813438e081d6cf4f6",
+          "jsonPointer": "/2039/source"
+        },
+        {
+          "id": "70e594c53636b7c82cb0dca5ff99c044d33dbb9c1225cc83abd2e083a3178d2c",
+          "jsonPointer": "/2040/source"
+        },
+        {
+          "id": "aef620caa63cc04d30eb66db56e51d40ddf93f7aac587c32bd1caf22e73484ed",
+          "jsonPointer": "/2041/source"
+        },
+        {
+          "id": "140330246ebde203fd0d2501e36799dff46e18c5dfb7652e9436b02a48657ee5",
+          "jsonPointer": "/2042/source"
+        },
+        {
+          "id": "c5d46a06cef79dff08d6d1dde5b23bad4dd17bd0c69a247466ba2ea84c0e22e3",
+          "jsonPointer": "/2043/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "f8a120f4b33278c237633f8276a939d460df51c24da8865029e201c0c4e6cc65",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:f8a120f4b33278c237633f8276a939d460df51c24da8865029e201c0c4e6cc65",
+      "originDocumentUrl": null,
+      "category": "sud_resh_admin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/2042/source",
+      "sourceFile": "texts/EXT-SUD-003.source.txt"
+    },
+    {
+      "id": "EXT-SUD-004",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "0d9cc84f8ecca6f035aaf614ff584a680812f4fc9bf64d7fa2e501b689660257",
+      "upstreamRecordSha256": "2e512411ba4ef8078f220e23617b4c0fdcac12c627ac547ed498e2c2d6a73e12",
+      "relatedUpstreamRows": [
+        {
+          "id": "0dff77e4c7c8305b101924cd53e2f407931fc1f3b296119a8a7d05d017e1d5bc",
+          "jsonPointer": "/2044/source"
+        },
+        {
+          "id": "0d9cc84f8ecca6f035aaf614ff584a680812f4fc9bf64d7fa2e501b689660257",
+          "jsonPointer": "/2045/source"
+        },
+        {
+          "id": "6b3fcaffd1d0693634956d51de82502fcfb7c08f4f30891c5e92918dcdb74b8f",
+          "jsonPointer": "/2046/source"
+        },
+        {
+          "id": "271ec1f81e8cb2b057fecc0bb05890f97974f1aefb2f27cbd46783de037fb351",
+          "jsonPointer": "/2047/source"
+        },
+        {
+          "id": "dd13cc17e11a3ca1f6a3b4498619ab19e70a467b903b6f90f01c3c516ba29d79",
+          "jsonPointer": "/2048/source"
+        },
+        {
+          "id": "3a48d40ce2327be9e16ef1aa4bc7cf4e2a09a8fb1ddfa09b1605840d977079d8",
+          "jsonPointer": "/2049/source"
+        },
+        {
+          "id": "544766c8f57a339af7c6e0316ed66bb900fc4e738e64f662644cc647036822f7",
+          "jsonPointer": "/2050/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "5d92c6d3d8dab58df9e12053eba8e3dd1016ee51c5f7353a527a50e20d8452e6",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:5d92c6d3d8dab58df9e12053eba8e3dd1016ee51c5f7353a527a50e20d8452e6",
+      "originDocumentUrl": null,
+      "category": "sud_resh_admin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/2045/source",
+      "sourceFile": "texts/EXT-SUD-004.source.txt"
+    },
+    {
+      "id": "EXT-SUD-005",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "212c0ce332d93ebcbebb5fe1dc744bd6f551719bc60ab62d8139dda78a00050d",
+      "upstreamRecordSha256": "d7f9375962a3db0a7317a27e59861c4d0536b7a9ea6674ce310b357a92f8e57d",
+      "relatedUpstreamRows": [
+        {
+          "id": "683461eee0012cb5465159117b385efc5ed33a75277c8ba175d588ca3f9ccc01",
+          "jsonPointer": "/1799/source"
+        },
+        {
+          "id": "212c0ce332d93ebcbebb5fe1dc744bd6f551719bc60ab62d8139dda78a00050d",
+          "jsonPointer": "/1800/source"
+        },
+        {
+          "id": "b4bcc3f3dd4deee0c4c1305b1aecb24d990cdcc8185f0d71591775ac3925c95f",
+          "jsonPointer": "/1801/source"
+        },
+        {
+          "id": "873dbd58903ba1728f9a3411147eb5b61aa44c86919b4e4cb1fd0e61b42aa08f",
+          "jsonPointer": "/1802/source"
+        },
+        {
+          "id": "4c1f49fcc092a091d15aba7c4db3b37d94b6c5eedd32403c21c5b7d5243ce5d7",
+          "jsonPointer": "/1803/source"
+        },
+        {
+          "id": "fab1690bba042da41792122b8c18f83ab7c7814779713ed306d7ed7bd9bda740",
+          "jsonPointer": "/1804/source"
+        },
+        {
+          "id": "b94beaf5c33de7cf3747ffe4255b2de403621159ee3e4feaad0437d4b421feb3",
+          "jsonPointer": "/1805/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "569289ce789191a1aaf26ed55b1ce629a1749645bc0cc9b8437e0ea78899f66b",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:569289ce789191a1aaf26ed55b1ce629a1749645bc0cc9b8437e0ea78899f66b",
+      "originDocumentUrl": null,
+      "category": "sud_resh_admin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/1800/source",
+      "sourceFile": "texts/EXT-SUD-005.source.txt"
+    },
+    {
+      "id": "EXT-SUD-006",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "0f91a2fdbf63aae0f8d056fd23761037a0f7692981adc0c0c879e83d8872e1be",
+      "upstreamRecordSha256": "4b0c2092545f642887cfaaf92383f00ea9f50d1225d7174c6747bdbbba675fe7",
+      "relatedUpstreamRows": [
+        {
+          "id": "dc40e4d2676e60b1137829debe696dbdb2e6da22e6da64f368f7844bcd12d8b4",
+          "jsonPointer": "/1498/source"
+        },
+        {
+          "id": "54dff028af484cfb4f8b14c0dd15129286a177fc209de62aea73b761e4ad34d0",
+          "jsonPointer": "/1499/source"
+        },
+        {
+          "id": "b2b7c7978754ffbe4aab304b558b98cdb5cd3ae7179faf7465e804d7a61e5028",
+          "jsonPointer": "/1500/source"
+        },
+        {
+          "id": "0f91a2fdbf63aae0f8d056fd23761037a0f7692981adc0c0c879e83d8872e1be",
+          "jsonPointer": "/1501/source"
+        },
+        {
+          "id": "8330b846b0385fb850ac50837ab00df52887c1fa700815670d50ef58306ab384",
+          "jsonPointer": "/1502/source"
+        },
+        {
+          "id": "cfdc6f6b9b365a8c37a9e64efc1eba42fbb67c58155d72bdba495690db0f06d2",
+          "jsonPointer": "/1503/source"
+        },
+        {
+          "id": "cee0b7327623d8f25bab5ce46fbb0f4085f175182f3728dcf49d08e1b5c1fd03",
+          "jsonPointer": "/1504/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "50fe16f2d7c5e2a11fbebdb0113acfaec00653f59fbfc766b2add4b9952928d8",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:50fe16f2d7c5e2a11fbebdb0113acfaec00653f59fbfc766b2add4b9952928d8",
+      "originDocumentUrl": null,
+      "category": "sud_resh_admin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/1501/source",
+      "sourceFile": "texts/EXT-SUD-006.source.txt"
+    },
+    {
+      "id": "EXT-SUD-007",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "06ecbdd32a7da4bd00d910540bf9fc8c8ca6d228bed255030e3f0cda7e5a8bb1",
+      "upstreamRecordSha256": "28d239cd6603951d92f3adc5919c3ed81ef966ed1c34ceab51f0791e0f04ca41",
+      "relatedUpstreamRows": [
+        {
+          "id": "28e405659d8b36c9baa66be0acdae191673d4d53b6e9e911a6c9deb591bdceb3",
+          "jsonPointer": "/3010/source"
+        },
+        {
+          "id": "ca971464e4c12837c222de8cb64209a26b73fb4b26e7400c2efd89fc45f3a531",
+          "jsonPointer": "/3011/source"
+        },
+        {
+          "id": "6ad92d537a9efc401cc64176c1b55a3324a545fc4eaf7e9b0308668a533dd784",
+          "jsonPointer": "/3012/source"
+        },
+        {
+          "id": "6bad58851455b5849dffd66b056bfc2f69085e45022e36245d398436beb9cca4",
+          "jsonPointer": "/3013/source"
+        },
+        {
+          "id": "bf2515f42f202ca59accc41e3c845cf4a111792ab1eedbb70b8dc27c0d32252c",
+          "jsonPointer": "/3014/source"
+        },
+        {
+          "id": "06ecbdd32a7da4bd00d910540bf9fc8c8ca6d228bed255030e3f0cda7e5a8bb1",
+          "jsonPointer": "/3015/source"
+        },
+        {
+          "id": "26772d34db8673c9a01d49e9655f8263977ca23d08fabba0b7e89fd8edbf098c",
+          "jsonPointer": "/3016/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "d93f32cae2a3e52a9de316b25386a43f4a14af01cd8bdf4d60ee746db941241f",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:d93f32cae2a3e52a9de316b25386a43f4a14af01cd8bdf4d60ee746db941241f",
+      "originDocumentUrl": null,
+      "category": "sud_resh_grazhd_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/3015/source",
+      "sourceFile": "texts/EXT-SUD-007.source.txt"
+    },
+    {
+      "id": "EXT-SUD-008",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "35537fbaff3c6cd57cce0cbf0a013ac4443ccd5da1260cdd8a759890ae0c6efa",
+      "upstreamRecordSha256": "f61e16c8764a21f0b17905d7324348cf1dda8a3540df964ff161b974a5f580cc",
+      "relatedUpstreamRows": [
+        {
+          "id": "42c1722120518db88ccee29941b418201e2d1ed6dc93fd60e998b4c3727c6508",
+          "jsonPointer": "/3472/source"
+        },
+        {
+          "id": "35537fbaff3c6cd57cce0cbf0a013ac4443ccd5da1260cdd8a759890ae0c6efa",
+          "jsonPointer": "/3473/source"
+        },
+        {
+          "id": "fcc279eebe851368b093412910b4a7486fecbc7b2561b61dfda6016c22f7d5a9",
+          "jsonPointer": "/3474/source"
+        },
+        {
+          "id": "622d08df5dc020bd007734446cc695f6b3d20a469a0b30da3a596a187cb5d0b7",
+          "jsonPointer": "/3475/source"
+        },
+        {
+          "id": "fcd728e6c3c8f89d931e219b81a7a48b36f028fe1a9746b714ded61593a383d2",
+          "jsonPointer": "/3476/source"
+        },
+        {
+          "id": "eea79bf000591401b92670245e5ed5b8448578e958d1942088ab94794e2fbee0",
+          "jsonPointer": "/3477/source"
+        },
+        {
+          "id": "a869c64a93d1260e606da076e7a06b31484ca7859a98f51bccfda2724228a7fd",
+          "jsonPointer": "/3478/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "863f28161c3ffce757f69eeda62889c2adb776bd2ee826d941887d31ec986306",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:863f28161c3ffce757f69eeda62889c2adb776bd2ee826d941887d31ec986306",
+      "originDocumentUrl": null,
+      "category": "sud_resh_grazhd_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/3473/source",
+      "sourceFile": "texts/EXT-SUD-008.source.txt"
+    },
+    {
+      "id": "EXT-SUD-009",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "2d6870a0ef4ee5050da4c3f7f19a7dd057e6c6807e619c8da9620d816f6144af",
+      "upstreamRecordSha256": "05aadc61a765c1db8146173a2d11db08a26f44246b336c563c630b1fe17df2ac",
+      "relatedUpstreamRows": [
+        {
+          "id": "712d466465f667636742ead6d58910c9f8f9b97ceb853ba2eff282a515d7832a",
+          "jsonPointer": "/2919/source"
+        },
+        {
+          "id": "2d6870a0ef4ee5050da4c3f7f19a7dd057e6c6807e619c8da9620d816f6144af",
+          "jsonPointer": "/2920/source"
+        },
+        {
+          "id": "e37c9a11e3a243c408a4ec3193b593790e9f72bc89b1c8bf755e024991306edd",
+          "jsonPointer": "/2921/source"
+        },
+        {
+          "id": "3344501a51183083e3353e18e2e763d87a1a9e01002eb40655e09828b164da14",
+          "jsonPointer": "/2922/source"
+        },
+        {
+          "id": "8ee23e3f1129eb43e8a57d2d67a0549c6af79c803204deacc526ee0432dc3f84",
+          "jsonPointer": "/2923/source"
+        },
+        {
+          "id": "c0823436e5cbd6464b010c9c18b694e438700abebe16de1a48be4e124ab1fff8",
+          "jsonPointer": "/2924/source"
+        },
+        {
+          "id": "75bec6f204a7ee27b94b4488f2d2df5b20f8d5ec1885378b3ec912689016d37b",
+          "jsonPointer": "/2925/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "257e70d9bc9763d819f2ee9503b2973c3032f92979eb3a13081a3279dd0c32ab",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:257e70d9bc9763d819f2ee9503b2973c3032f92979eb3a13081a3279dd0c32ab",
+      "originDocumentUrl": null,
+      "category": "sud_resh_grazhd_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/2920/source",
+      "sourceFile": "texts/EXT-SUD-009.source.txt"
+    },
+    {
+      "id": "EXT-SUD-010",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "0e548c46bdb9bb70865eaac1af6a3b31166cab2de4324122021f52624d8fc8aa",
+      "upstreamRecordSha256": "ea43202a4a6ac7cee25999ec981e5b03bd4062ba53d7c952886a5409a37aaf28",
+      "relatedUpstreamRows": [
+        {
+          "id": "a6380908533f1572072d7fc0cec3e031dd20543afde6a1d69b86b939ab536271",
+          "jsonPointer": "/6825/source"
+        },
+        {
+          "id": "26659d72ba7ed028165e127f2bc2f19f6b6432e417b2ef9fcd83a827adfc5d0b",
+          "jsonPointer": "/6826/source"
+        },
+        {
+          "id": "90936cc3351515a0034268833ec33f348c3a4cd593e00cb75bb423fa9c594bb9",
+          "jsonPointer": "/6827/source"
+        },
+        {
+          "id": "51c6885eac961da83a3fcaf99ee92b171c91b71a41d0ebfb70ddce76ca570cd9",
+          "jsonPointer": "/6828/source"
+        },
+        {
+          "id": "41c02b6a247e7bfaa22bf19227878ba0286273e64490bfc9a09bd5a021d4ee8f",
+          "jsonPointer": "/6829/source"
+        },
+        {
+          "id": "0e548c46bdb9bb70865eaac1af6a3b31166cab2de4324122021f52624d8fc8aa",
+          "jsonPointer": "/6830/source"
+        },
+        {
+          "id": "7186aa2b6f14766d55c08088e31d07de60a9f9c88e177f54f21715915b8142b3",
+          "jsonPointer": "/6831/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "46a3a9aa3012900caa6068bb80197172aa2da94a2859b68142bae44ef969fad2",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:46a3a9aa3012900caa6068bb80197172aa2da94a2859b68142bae44ef969fad2",
+      "originDocumentUrl": null,
+      "category": "sud_resh_fin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/6830/source",
+      "sourceFile": "texts/EXT-SUD-010.source.txt"
+    },
+    {
+      "id": "EXT-SUD-011",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "0fec04030278defa4458b4bb8b2ac415d6ad17167cb1228ef691742b51fc1e5a",
+      "upstreamRecordSha256": "5ba5ae77a5c51429cf27effc32498bf5aa9bc6ef7937ee8ff3db32bb74e3a3ef",
+      "relatedUpstreamRows": [
+        {
+          "id": "25e29aff982ccd3c5f63de32dbeaabd3cd4016c31408220374006aca4a3d7032",
+          "jsonPointer": "/6853/source"
+        },
+        {
+          "id": "a126011582e285de91df6a92b2d093e29b3a69dd7918d951cca3fc95909b8b49",
+          "jsonPointer": "/6854/source"
+        },
+        {
+          "id": "0fec04030278defa4458b4bb8b2ac415d6ad17167cb1228ef691742b51fc1e5a",
+          "jsonPointer": "/6855/source"
+        },
+        {
+          "id": "0fece70ebc8bb3b3b276a6cf7faa3353de660c19598b8c5147a11d563430b3e5",
+          "jsonPointer": "/6856/source"
+        },
+        {
+          "id": "4dfc213956ee1e65bde88fbaf362028ff230ebbbea9ae942030fbdf7c8d09a21",
+          "jsonPointer": "/6857/source"
+        },
+        {
+          "id": "1a5191da9ead9b6835340f495b80e156d588fff476e8f1301aa9f4ebd519e965",
+          "jsonPointer": "/6858/source"
+        },
+        {
+          "id": "dde5b7517fe44a559a94838394be450131b385150be5cc36971cb0765193bf38",
+          "jsonPointer": "/6859/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "4513a389547c73405a4805f3539561270eefb056432805c129b7f656e2714a8a",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:4513a389547c73405a4805f3539561270eefb056432805c129b7f656e2714a8a",
+      "originDocumentUrl": null,
+      "category": "sud_resh_fin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/6855/source",
+      "sourceFile": "texts/EXT-SUD-011.source.txt"
+    },
+    {
+      "id": "EXT-SUD-012",
+      "dataset": "sud",
+      "task": "claim-extraction",
+      "split": "development-external-diagnostic",
+      "holdoutEligible": false,
+      "upstreamSplit": "train",
+      "upstreamId": "056951d6f71d3a33e45f3cc93212d075e134fafeffdef9443944c3292a3657cb",
+      "upstreamRecordSha256": "9cf9b8c634481db0db549919cd532dcbd4acd6099df54175218b27371e3fba7b",
+      "relatedUpstreamRows": [
+        {
+          "id": "32387aba4acaa0dcdd0744bf62350039e36fd010d205f3055ffd62f5d59ab73b",
+          "jsonPointer": "/6685/source"
+        },
+        {
+          "id": "056951d6f71d3a33e45f3cc93212d075e134fafeffdef9443944c3292a3657cb",
+          "jsonPointer": "/6686/source"
+        },
+        {
+          "id": "77ef0a779ab135df47ca471a420b1c09c9ceadf2868b75a28af963558d03175d",
+          "jsonPointer": "/6687/source"
+        },
+        {
+          "id": "f256d7797fc0152d5c6832e0c5c027d8f83ac580cefcc5c9c4aad7da92fe3989",
+          "jsonPointer": "/6688/source"
+        },
+        {
+          "id": "5c5fbc92617f2ab1bc4ea4ad8f202a7c113d8d112b49dacebc396ec03ab0b820",
+          "jsonPointer": "/6689/source"
+        },
+        {
+          "id": "250d88518097df084e4436101a1793e877ad49f072faa058cc02b7ccd7df26e0",
+          "jsonPointer": "/6690/source"
+        },
+        {
+          "id": "a4fa27938e6eab43df775338d5118555a341c7293cd51c44bba9f9e33d8f21f0",
+          "jsonPointer": "/6691/source"
+        }
+      ],
+      "sourceField": "source",
+      "sourceDigest": "dbea4a84086fa8e90f425304e283f03ee49773a10e86faf0c88f04878f1b8434",
+      "candidateDigest": null,
+      "exactTextGroup": "sud:dbea4a84086fa8e90f425304e283f03ee49773a10e86faf0c88f04878f1b8434",
+      "originDocumentUrl": null,
+      "category": "sud_resh_fin_pravo",
+      "license": "GPL-3.0",
+      "transformations": [],
+      "upstreamJsonPointer": "/6686/source",
+      "sourceFile": "texts/EXT-SUD-012.source.txt"
+    }
+  ]
+}

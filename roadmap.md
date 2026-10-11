@@ -371,6 +371,7 @@ strategy, общий runner фиксирует условия, MLflow храни
 
 - [x] [План development → freeze → holdout](docs/PIPELINE_QUALITY_PLAN.md): 30–50 разнообразных development-фабул, одна выбранная конфигурация, 100 новых holdout-фабул; 400 по необходимости. Цель — качество pipeline на доступных моделях, не их рейтинг.
 - [x] SDK-free [inventory](fixtures/parking-pilot/pipeline-quality-v1/corpus-inventory.json): 71 текст, 71 различный hash; независимость между families/sources ещё не проверена, eligible holdout 0. Partial candidate probes не объявляются полным case-level quality score.
+- [x] [External diagnostic set v1](fixtures/external-diagnostics-v1/README.md): 24 RCB пары и 12 полных судебных текстов с revisions, source IDs, hashes и лицензиями. Labels отдельно; exact source dedup, holdout 0, human review и semantic independence pending.
 - [ ] Полный каталог критических ошибок и reviewer rubric для выбранных 30–50 development-фабул.
 - [ ] Versioned S1.3 task-decomposition experiment на фиксированном provider/model; после diagnostics оценить необходимость extraction ablation. Не считать новый этап полезным заранее.
 - [ ] Freeze выбранной конфигурации и independent final evaluation на 100 новых фабулах. Ручные исправления, operational completion и semantic quality измерять отдельно.
