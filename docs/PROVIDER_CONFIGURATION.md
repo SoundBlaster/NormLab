@@ -3,7 +3,9 @@
 Prepared 2026-10-11. Configuration support is separate from live compatibility
 and semantic accuracy. The initial configuration update made no live calls. A subsequent authorized
 [local compatibility check](COREINFRA_LIVE_CHECK_2026-10-11.md) verified Jev
-Noul/Choice/Score and ordinary Luna Responses; the expected Decisions path returned 404.
+Noul/Choice/Score and ordinary Luna Responses. After correcting the application
+base to `/openai/api/v1`, all three Luna Decisions primitives also completed;
+one preceding Choice attempt failed before an HTTP status.
 
 ## API format and supplier
 
@@ -16,10 +18,14 @@ credential source and timeout. The hostname or model name does not select a prot
 | `typesafe` | `typesafe-systemone` | `https://api.typesafe.ai/v1/systemone` | `TYPESAFE_API_KEY` |
 | `openai` | `openai-decisions` | `https://api.openai.com/v1/decisions` | `OPENAI_API_KEY` |
 | `coreinfra-jev` | `typesafe-systemone` | `https://hub.coreinfra.ai/typesafe/api/v1/systemone` | `COREINFRA_API_KEY` |
-| `coreinfra-decisions` | `openai-decisions` | `https://hub.coreinfra.ai/codex/api/v1/decisions` | `COREINFRA_API_KEY` |
+| `coreinfra-decisions` | `openai-decisions` | `https://hub.coreinfra.ai/openai/api/v1/decisions` | `COREINFRA_API_KEY` |
 
-The CoreInfra Decisions path is an expected configuration, **not live-verified**
-by this update. Override it with the supplier-confirmed full URL when needed.
+The operator-provided CoreInfra documentation identifies `/openai/api/v1`
+as the application API base for Responses/Chat Completions; `/codex/api/v1`
+is the Codex agent route with agent-specific model catalogue. It does not
+explicitly list Decisions. The Decisions resource was subsequently live-checked under the application
+base: Noul/Choice/Score completed with HTTP 200 on the synthetic example.
+This verifies the checked calls, not every model/account or future availability. Override it with the supplier-confirmed full URL when needed.
 Native endpoints also require account/model access; presets do not prove access.
 `endpoint_url` is passed to the released adapter unchanged, without appending
 `/v1`, `/systemone` or `/decisions`. OpenAI Decisions is different from Responses

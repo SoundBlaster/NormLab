@@ -91,3 +91,65 @@ Next: confirm the exact CoreInfra Decisions route, then freeze the selected
 Jev/Responses configurations for the bounded Stage 1 live transport. This result
 supports continuing with Jev and ordinary Luna; it does not choose the better
 classification strategy.
+
+## Follow-up: application API route — 11:50–11:52 UTC
+
+The operator supplied CoreInfra documentation distinguishing:
+
+- Application Chat Completions/Responses: `https://hub.coreinfra.ai/openai/api/v1`.
+- Codex agent/model catalogue: `https://hub.coreinfra.ai/codex/api/v1`.
+- Both use the hub key with Bearer authorization.
+
+The quoted documentation does not explicitly promise Decisions. We tested that
+resource on the application base and it **works on the checked examples**.
+The earlier 404 remains valid evidence for the Codex-specific path, not the
+application path. The `coreinfra-decisions` preset now uses `/openai/api/v1/decisions`.
+
+### Decisions on the application route
+
+Requested/returned model: `gpt-6-luna`; same fixture and adapter 0.4.0.
+
+| Primitive | HTTP | Answer | Seconds | Request ID |
+| --- | --- | --- | --- | --- |
+| payment_claim | 200 | `1.0` | 3.002 | `req_d1c611a7eeac460ab58b258ca0ca31aa` |
+| certainty | 200 | `0.0` | 1.916 | `req_7138d752320a4293a0bdced6234b7296` |
+| vehicle_match | 200 | `unknown` | 1.867 | `req_14f611ca567d4c879776e46dc17f2b38` |
+
+Choice probabilities: `matched=0`, `mismatched=0`, `unknown=1`.
+Score probabilities on the original 0–2 rubric: `0=1`, `1=0`, `2=0`.
+All completed answers match the intended example. The successful Decisions
+requests report **546 input / 0 output tokens** in total. Zero reported output
+tokens is provider usage metadata, not proof of free inference.
+
+There were **four Decisions attempts, three successful**. The first Choice
+attempt failed before an HTTP status was obtained (`OpenAIProviderError`);
+Score in that run was not sent. Score was checked independently; Choice passed
+in one new explicit attempt. No automatic retry or provider fallback was used.
+The underlying transport exception was not captured for the failed attempt,
+so its specific cause remains undiagnosed. Recorder now retains a sanitized
+`transportError` class for future failures; regression tests exclude exception
+text and credentials. Keep the failed attempt in reliability accounting.
+
+### Responses on the application route
+
+`https://hub.coreinfra.ai/openai/api/v1/responses` returned **HTTP 200** with
+`gpt-6-luna`, Low reasoning, `stream=false`, `store=false`, strict JSON Schema
+and the same payment-claim question. Status `completed`, 3.301 seconds,
+output `{"payment_claim":true}`; exact required boolean shape validated.
+Response ID: `resp_085d64a0c2ce6ed2016acb77faccac87d2ae617b42b76a8722`.
+Reported usage: **71 input / 42 output**, including 26 reasoning tokens.
+Encrypted reasoning content was not retained.
+
+### Follow-up accounting and next step
+
+Five additional inference attempts: four HTTP 200 and one failure without an
+HTTP status. Successful usage: **617 input / 42 output tokens**. Failed-attempt
+usage and currency cost are unknown. No key was persisted and no deployment
+changed. Local captures under `.artifacts/coreinfra-openai-route-2026-10-11-1150/`
+retain `decisions`, `decisions-choice-score` (failed), `score`,
+`choice-new-attempt` and `responses-low` separately.
+
+The application route is now verified for the checked Decisions primitives and
+small Responses schema. Next: freeze these exact endpoints/models/dependencies
+for Stage 1, integrate bounded live transport, and compare on matched inputs.
+This does not measure general semantic accuracy or production reliability.

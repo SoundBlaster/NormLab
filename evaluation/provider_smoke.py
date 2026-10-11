@@ -156,7 +156,11 @@ def run(config, data, output, max_calls, *, key_file=None, transport=None):
             }
             report["requests"].append(entry)
             checkpoint()  # Reserve the slot before sending; never auto-resume.
-            response = self.inner.handle_request(request)
+            try:
+                response = self.inner.handle_request(request)
+            except Exception as exc:
+                entry["transportError"] = type(exc).__name__
+                raise
             entry["httpStatus"] = response.status_code
             chunks, size = [], 0
             try:

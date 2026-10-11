@@ -32,7 +32,7 @@ PRESETS = {
     ),
     "coreinfra-decisions": (
         "openai-decisions",
-        "https://hub.coreinfra.ai/codex/api/v1/decisions",
+        "https://hub.coreinfra.ai/openai/api/v1/decisions",
         "gpt-6-luna",
         "COREINFRA_API_KEY",
     ),

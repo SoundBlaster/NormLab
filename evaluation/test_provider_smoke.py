@@ -50,6 +50,43 @@ class ProviderSmokeTests(unittest.TestCase):
                 saved = json.loads((Path(temp) / "capture/report.json").read_text())
                 self.assertEqual(saved, report)
 
+    def test_transport_failure_retains_category_without_exception_text(self):
+        data = read_json(Path(__file__).parents[1] / "fixtures/providers/smoke.json")
+        key = "offline-placeholder-not-a-real-credential"
+        diagnostic = "sensitive-transport-diagnostic"
+        for preset in ("coreinfra-jev", "coreinfra-decisions"):
+            with self.subTest(preset=preset), tempfile.TemporaryDirectory() as temp:
+                config = configuration(preset, key_env="NORMLAB_OFFLINE_TEST_KEY")
+
+                def reject(request):
+                    raise httpx2.ConnectError(diagnostic, request=request)
+
+                with patch.dict(os.environ, {config.key_env: key}):
+                    report = run(
+                        config,
+                        data,
+                        Path(temp) / "capture",
+                        3,
+                        transport=httpx2.MockTransport(reject),
+                    )
+                self.assertEqual(report["calls"], 1)
+                self.assertIsNone(report["requests"][0]["httpStatus"])
+                self.assertEqual(
+                    report["requests"][0]["transportError"], "ConnectError"
+                )
+                self.assertEqual(report["records"]["payment_claim"]["status"], "failed")
+                self.assertEqual(
+                    report["records"]["certainty"]["status"], "not-executed"
+                )
+                self.assertNotIn(diagnostic, json.dumps(report))
+                self.assertNotIn(key, json.dumps(report))
+
+    def test_coreinfra_decisions_uses_application_api_route(self):
+        self.assertEqual(
+            configuration("coreinfra-decisions").endpoint_url,
+            "https://hub.coreinfra.ai/openai/api/v1/decisions",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

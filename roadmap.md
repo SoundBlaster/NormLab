@@ -266,14 +266,14 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [x] Настраивать API base для Responses/System One на сервере; сохранять path prefix.
 - [x] Передавать одинаковые base URLs в gateway и egress, выводить точный TLS allowlist из этих значений.
 - [x] Сохранять endpoint в артефактах inference; ключи остаются в отдельных secret-файлах.
-- [ ] Проверить CoreInfra (`https://hub.coreinfra.ai/codex/api/v1`) с его ключом: Responses, non-streaming JSON, strict Structured Outputs и выбранная модель. GET без авторизации вернул 404 и не подтверждает поддержку POST.
+- [x] Проверить CoreInfra application API (`https://hub.coreinfra.ai/openai/api/v1`): [один live Responses Low + strict JSON](docs/COREINFRA_LIVE_CHECK_2026-10-11.md) прошёл; полный hosted extraction contract ещё требует отдельной проверки. `/codex/api/v1` — адрес агента, не выбранный application API.
 - [ ] После проверки совместимости выполнить synthetic acceptance и evaluation corpus через выбранного поставщика.
 
 ### Decisions API — кандидат для сравнения
 
 [OpenAI changelog](https://developers.openai.com/api/docs/changelog) сообщает о beta-релизе Decisions API с `gpt-6-luna` 6 октября 2026. [Контракт](https://developers.openai.com/api/docs/guides/decisions) содержит `predicate`, `choice`, `score` и возможность отказа. Это отдельный протокол: настройка Responses base URL сама по себе его не подключает.
 
-- [ ] Подтвердить поддержку `/decisions` и модели у CoreInfra; официальный релиз не подтверждает доступность у посредника.
+- [x] Подтвердить на synthetic-примере Noul/Choice/Score с `gpt-6-luna` по CoreInfra `/openai/api/v1/decisions`; один предшествующий Choice attempt завершился без HTTP-статуса. Это compatibility, не quality/reliability benchmark.
 - [x] Подготовить отдельный classification adapter с `choice`, явными вариантами unknown/unsupported и обработкой refusal; сохранить source binding и обязательный human review. Mock-проверки не подтверждают доступность поставщика.
 - [x] Сохранять probabilities/confidence как оценки модели, без превращения их в подтверждение фактов.
 - [ ] Сравнить Decisions, Jev и Responses на одном фиксированном корпусе: критические ошибки, отрицания, противоречия, latency и стоимость. Discovery оставить отдельным этапом.
@@ -331,3 +331,5 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [ ] Подключить выбранную конфигурацию к bounded Stage 1 live transport, сохранив frozen protocol и независимые labels.
 
 - [x] Выполнить [CoreInfra local compatibility smoke](docs/COREINFRA_LIVE_CHECK_2026-10-11.md): Jev Noul/Choice/Score — 3 HTTP 200; Luna Responses Low + strict JSON — HTTP 200; ожидаемый Decisions endpoint — 404. Это не semantic benchmark.
+
+- [x] Уточнить CoreInfra application base `/openai/api/v1`: Luna Decisions Noul/Choice/Score и Responses Low + strict JSON успешно проверены. [Отчёт](docs/COREINFRA_LIVE_CHECK_2026-10-11.md) сохраняет также неуспешную попытку Choice и старый Codex-route 404.

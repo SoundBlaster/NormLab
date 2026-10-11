@@ -62,10 +62,11 @@ own outbound Bearer header. Registry/GitHub credentials have no role here.
 | `NORMLAB_TYPESAFE_BASE_URL` | `https://api.typesafe.ai/v1` | `/systemone` |
 
 An API base includes its complete path prefix; an optional trailing slash is
-removed. The user-supplied CoreInfra base
-`https://hub.coreinfra.ai/codex/api/v1` yields exactly
-`https://hub.coreinfra.ai/codex/api/v1/responses`, preserving `/codex/api` and
-adding no second `/v1`. It replaces the direct-OpenAI destination. Addresses
+removed. The CoreInfra application API base supplied by the operator
+`https://hub.coreinfra.ai/openai/api/v1` yields exactly
+`https://hub.coreinfra.ai/openai/api/v1/responses`, preserving `/openai/api` and
+adding no second `/v1`. The `/codex/api/v1` route is intended for the Codex agent and its model catalogue.
+The application API replaces the direct-OpenAI destination. Addresses
 are non-secret deployment settings, never browser inputs. Startup rejects HTTP,
 IP literals, single-label hosts, non-443 ports, userinfo, queries, fragments and
 ambiguous paths. The gateway and egress independently parse the same configured destinations;
