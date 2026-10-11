@@ -27,7 +27,12 @@ export function inferenceClientConfig(env: NodeJS.ProcessEnv) {
 }
 
 export function inferenceGatewayConfig(env: NodeJS.ProcessEnv) {
+  const decisionsSecrets: { decisionsKey?: string } =
+    env.NORMLAB_DECISIONS_API_KEY_FILE !== undefined
+      ? { decisionsKey: readInferenceSecret(env.NORMLAB_DECISIONS_API_KEY_FILE) }
+      : {};
   return {
+    ...decisionsSecrets,
     endpoints: inferenceEndpoints(env),
     token: readInferenceSecret(env.NORMLAB_INFERENCE_TOKEN_FILE),
     openaiKey: readInferenceSecret(env.NORMLAB_OPENAI_API_KEY_FILE),
@@ -40,7 +45,7 @@ export function inferenceGatewayConfig(env: NodeJS.ProcessEnv) {
       : undefined,
     typesafeModel: z
       .string()
-      .regex(/^jev-[a-z0-9.-]+$/)
+      .regex(/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/)
       .parse(env.NORMLAB_TYPESAFE_MODEL ?? 'jev-1.13.0'),
     decisionsModel: z
       .string()

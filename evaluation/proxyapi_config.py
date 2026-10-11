@@ -22,7 +22,12 @@ def provider_metadata():
 
 def build_proxyapi_provider(*, api_key=None, transport=None):
     """Construct a provider without a request; callers own close/deadline/budget."""
-    if importlib.metadata.version("mellea-jev-adapter") != ADAPTER_VERSION:
+    # Historical v1 metadata remains frozen; actual runtime is recorded separately
+    # in capture.dependencies. New experiments use provider_config.py instead.
+    if importlib.metadata.version("mellea-jev-adapter") not in {
+        ADAPTER_VERSION,
+        "0.4.0",
+    }:
         raise ValueError(
             "Install evaluation/requirements-providers.txt in a dedicated environment"
         )

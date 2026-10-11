@@ -1,0 +1,33 @@
+{
+  "state": {
+    "text": "I received a parking fine. I paid for parking, but do not know whether the payment covered the correct vehicle."
+  },
+  "questions": {
+    "payment_claim": {
+      "type": "noul",
+      "instructions": "Does the narrator claim to have paid for parking? This asks about the claim, not verified payment.",
+      "criteria": {
+        "true": "The narrator explicitly claims payment.",
+        "false": "The narrator does not claim payment."
+      }
+    },
+    "vehicle_match": {
+      "type": "choice",
+      "instructions": "What does the text establish about matching payment to the vehicle?",
+      "criteria": {
+        "matched": "The text explicitly establishes a match.",
+        "mismatched": "The text explicitly establishes a mismatch.",
+        "unknown": "The narrator explicitly does not know."
+      }
+    },
+    "certainty": {
+      "type": "score",
+      "instructions": "How certain is the narrator that payment covered the correct vehicle?",
+      "criteria": [
+        "Explicitly uncertain",
+        "Some confidence",
+        "Explicitly certain"
+      ]
+    }
+  }
+}

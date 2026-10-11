@@ -38,6 +38,7 @@ Compose bind mounts preserve host ownership/mode). No values go into `.env`.
 | Credential | Host file | Container file | Consumers |
 | --- | --- | --- | --- |
 | OpenAI API key | `/srv/0al/secrets/normlab-inference/openai-api-key` | `/run/secrets/normlab_openai_api_key` | Gateway only |
+| Optional separate Decisions key | `/srv/0al/secrets/normlab-inference/decisions-api-key` | `/run/secrets/normlab_decisions_api_key` | Gateway only, explicit optional mount |
 | TypeSafe API key | `/srv/0al/secrets/normlab-inference/typesafe-api-key` | `/run/secrets/normlab_typesafe_api_key` | Gateway only, TypeSafe overlay |
 | Internal random token | `/srv/0al/secrets/normlab-inference/gateway-token` | `/run/secrets/normlab_inference_token` | NormLab and gateway |
 | Existing operator password | `/srv/0al/secrets/normlab-operator-password` | `/run/secrets/normlab_operator_password` | NormLab only |
@@ -67,10 +68,16 @@ removed. The user-supplied CoreInfra base
 adding no second `/v1`. It replaces the direct-OpenAI destination. Addresses
 are non-secret deployment settings, never browser inputs. Startup rejects HTTP,
 IP literals, single-label hosts, non-443 ports, userinfo, queries, fragments and
-ambiguous paths. The gateway and egress independently parse the same two values;
+ambiguous paths. The gateway and egress independently parse the same configured destinations;
 the proxy allowlist derives only their exact DNS authorities on port 443.
 
-Recreate **both** services after changing an API base: mismatched settings fail
+Full endpoint overrides are now supported independently for Responses, Decisions
+and System One, with an optional separate Decisions secret. See
+[provider configuration](PROVIDER_CONFIGURATION.md) for exact environment variables
+and local smoke commands. Overrides take precedence over base URLs and can use
+different hosts.
+
+Recreate **both** services after changing a base or full endpoint: mismatched settings fail
 closed. NormLab does not receive provider addresses or keys. Replace the
 corresponding secret with that supplier's key when changing suppliers; never
 put it in a URL. Secret paths/mounts stay unchanged. Each inference call records
@@ -92,10 +99,11 @@ whether authenticated POST supports the required contract.
 
 Set `NORMLAB_INFERENCE_CLASSIFIER=decisions` and
 `NORMLAB_DECISIONS_MODEL=gpt-6-luna` in the gateway. Discovery still uses
-`NORMLAB_OPENAI_MODEL` through `/responses`. Classification uses `/decisions`
-under the **same validated API base**, with the same supplier key and TLS host.
-For CoreInfra this is `https://hub.coreinfra.ai/codex/api/v1/decisions`; no new
-egress host, secret or browser-selectable setting is introduced.
+`NORMLAB_OPENAI_MODEL` through `/responses`. Classification defaults to `/decisions`
+under the same API base and shares the discovery key. Override
+`NORMLAB_OPENAI_DECISIONS_ENDPOINT_URL` and optionally
+`NORMLAB_DECISIONS_API_KEY_FILE` to use a separate supplier/path/key. The full
+endpoint setting must also reach egress. Browser requests cannot select it.
 
 The Decisions request contains `model`, JSON-string `input` and named `choice`
 questions with value/description options. It has a different wire shape from
@@ -113,8 +121,9 @@ inference work; it does not prove the hosted adapter's non-streaming structured
 output contract. Full API compatibility is no longer a supported assumption.
 
 Use `NORMLAB_INFERENCE_CLASSIFIER=typesafe` with a separate TypeSafe secret for
-Jev classification while awaiting CoreInfra Decisions support. Do not enable
-the Decisions classifier for this gateway yet. A rejected/refused request fails
+Jev classification while awaiting CoreInfra Decisions support. That historical probe does not establish the current gateway contract. Confirm
+the supplier-confirmed Decisions URL/model with a new compatibility check before
+enabling this classifier in production. A rejected/refused request fails
 without switching providers or silently importing partial results.
 
 ### Visible API access failures
@@ -134,16 +143,16 @@ a live health check. Unknown failures retain the generic extraction message.
 | --- | --- | --- |
 | Authenticated browser | `https://managed.specgraph.tech/normlab/api/parking/extract` | Existing POST, operator authentication + Origin + CSRF |
 | NormLab | `http://normlab-inference-gateway:4318/v1/extract` | Authenticated POST with narrative and source digest only |
-| Gateway | `http://normlab-inference-egress:4319` | CONNECT to exactly two configured DNS authorities on port 443 |
-| Gateway via TLS tunnel | Responses API base + `/responses` | POST for discovery and optionally classification |
-| Gateway via TLS tunnel | OpenAI API base + `/decisions` | POST for optional Decisions Choice classification |
-| Gateway via TLS tunnel | System One API base + `/systemone` | POST for optional Jev classification |
+| Gateway | `http://normlab-inference-egress:4319` | CONNECT to the validated Responses/Decisions/System One DNS authorities on port 443 |
+| Gateway via TLS tunnel | Configured full Responses endpoint (or base + `/responses`) | POST for discovery and optionally classification |
+| Gateway via TLS tunnel | Configured full Decisions endpoint (or base + `/decisions`) | POST for optional Decisions Choice classification |
+| Gateway via TLS tunnel | Configured full System One endpoint (or base + `/systemone`) | POST for optional Jev classification |
 
 NormLab joins the existing `normlab-private` ingress network and the new
 `inference-private` network; both are internal. Gateway joins only
 `inference-private` and `inference-proxy-private`, also internal. Only the
 egress proxy joins `inference-egress`, a normal outbound Docker bridge.
-Docker's embedded DNS resolves the two provider names through the host resolver;
+Docker's embedded DNS resolves the configured provider names through the host resolver;
 the proxy needs that DNS path plus outgoing TCP 443. No incoming 4318/4319 port
 is opened on the VPS, and the browser never connects to the providers directly.
 

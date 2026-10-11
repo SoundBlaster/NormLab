@@ -92,3 +92,10 @@ Real narratives may contain personal data: run artifacts stay local by default.
 This runner currently supports only the pinned ProxyAPI batch bridge. It does not
 connect the production UI, sequential tactics, an MLflow importer, or a Mellea
 sampling loop. Those require subsequent experiments.
+
+## Configurable providers — adapter 0.4.0
+
+[Provider configuration](../docs/PROVIDER_CONFIGURATION.md) describes native
+TypeSafe/OpenAI and custom full endpoints. `provider_smoke.py` is dry-run by
+default; its separate smoke report is not a Stage 1 quality evaluation or replay
+capture. Historical v1 evidence and pinned source digests remain unchanged.

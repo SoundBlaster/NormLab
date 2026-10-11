@@ -321,3 +321,11 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [ ] Matrix Jev / Luna Responses Low / opt-in Luna Decisions с независимыми budget и context policies.
 - [ ] Расширить существующий MLflow importer: paired comparison, provenance и идемпотентный import.
 - [ ] Решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных.
+
+### Provider configuration — 2026-10-11
+
+- [x] Обновить Python adapter до 0.4.0; разделить supplier, API format, model, exact endpoint и источник ключа: [контракт и примеры](docs/PROVIDER_CONFIGURATION.md).
+- [x] Добавить dry-run/opt-in smoke CLI для Noul/Choice/Score с лимитом запросов и отдельным отчётом, без оценки качества.
+- [x] Настраивать полные Responses/Decisions/System One endpoints в hosted gateway/egress; допустить отдельный Decisions secret.
+- [ ] Подтвердить реальные пути и модели каждого поставщика авторизованным compatibility smoke. Пресеты не доказывают доступность.
+- [ ] Подключить выбранную конфигурацию к bounded Stage 1 live transport, сохранив frozen protocol и независимые labels.

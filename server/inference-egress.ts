@@ -45,10 +45,8 @@ export function inferenceTunnelHost(
   authority: string | undefined,
   endpoints: InferenceEndpoints = DEFAULT_INFERENCE_ENDPOINTS,
 ): string | undefined {
-  if (authority === endpoints.openai.authority) return new URL(endpoints.openai.baseUrl).hostname;
-  if (authority === endpoints.typesafe.authority)
-    return new URL(endpoints.typesafe.baseUrl).hostname;
-  return undefined;
+  const endpoint = Object.values(endpoints).find((entry) => authority === entry.authority);
+  return endpoint ? new URL(endpoint.url).hostname : undefined;
 }
 
 export function checkedLookup(addresses: LookupAddress[]): LookupFunction {
