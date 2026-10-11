@@ -66,6 +66,9 @@ jobs:
       - name: Check external diagnostic snapshots without network or inference
         run: python -B -S evaluation/collect_external_diagnostics.py --check
 
+      - name: Check candidate review hashes and exact source anchors
+        run: python -B -S evaluation/check_external_diagnostic_review.py
+
   architecture:
     name: FSD architecture
     runs-on: ubuntu-24.04

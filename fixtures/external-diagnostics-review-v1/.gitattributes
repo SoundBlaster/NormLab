@@ -1,0 +1,3 @@
+# Preserve bytes used by the candidate review manifest hashes.
+*.json -text
+*.jsonl -text
