@@ -366,3 +366,11 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Align pinned Node runtime, CI and package engines on Node 22.19.0 for Undici 8 (#50).
 - [x] Run the next explicitly budgeted live comparison with the v2 retry contract: [12-attempt partial capture](docs/STAGE1_RETRY_LIVE_2026-10-11.md).
 - [ ] Расширить matched live comparison на C008 и следующие contrast families с новым явно ограниченным бюджетом; отдельно исследовать TLS без платного inference.
+
+### Повышение качества pipeline — согласовано 2026-10-11
+
+- [x] [План development → freeze → holdout](docs/PIPELINE_QUALITY_PLAN.md): 30–50 разнообразных development-фабул, одна выбранная конфигурация, 100 новых holdout-фабул; 400 по необходимости. Цель — качество pipeline на доступных моделях, не их рейтинг.
+- [x] SDK-free [inventory](fixtures/parking-pilot/pipeline-quality-v1/corpus-inventory.json): 71 текст, 71 различный hash; независимость между families/sources ещё не проверена, eligible holdout 0. Partial candidate probes не объявляются полным case-level quality score.
+- [ ] Полный каталог критических ошибок и reviewer rubric для выбранных 30–50 development-фабул.
+- [ ] Versioned S1.3 task-decomposition experiment на фиксированном provider/model; после diagnostics оценить необходимость extraction ablation. Не считать новый этап полезным заранее.
+- [ ] Freeze выбранной конфигурации и independent final evaluation на 100 новых фабулах. Ручные исправления, operational completion и semantic quality измерять отдельно.

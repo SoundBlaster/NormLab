@@ -60,6 +60,9 @@ jobs:
       - name: Validate synthetic sources, candidate mutations and frozen contract
         run: python -m unittest discover -s evaluation -p 'test_stage1*.py'
 
+      - name: Check development corpus inventory without inference
+        run: python -B -S evaluation/audit_pipeline_corpus.py --check
+
   architecture:
     name: FSD architecture
     runs-on: ubuntu-24.04
