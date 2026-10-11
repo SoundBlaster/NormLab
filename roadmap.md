@@ -329,3 +329,5 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Настраивать полные Responses/Decisions/System One endpoints в hosted gateway/egress; допустить отдельный Decisions secret.
 - [ ] Подтвердить реальные пути и модели каждого поставщика авторизованным compatibility smoke. Пресеты не доказывают доступность.
 - [ ] Подключить выбранную конфигурацию к bounded Stage 1 live transport, сохранив frozen protocol и независимые labels.
+
+- [x] Выполнить [CoreInfra local compatibility smoke](docs/COREINFRA_LIVE_CHECK_2026-10-11.md): Jev Noul/Choice/Score — 3 HTTP 200; Luna Responses Low + strict JSON — HTTP 200; ожидаемый Decisions endpoint — 404. Это не semantic benchmark.

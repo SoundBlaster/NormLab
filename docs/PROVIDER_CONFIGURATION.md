@@ -1,7 +1,9 @@
 # Provider configuration
 
 Prepared 2026-10-11. Configuration support is separate from live compatibility
-and semantic accuracy. No live provider calls were made for this update.
+and semantic accuracy. The initial configuration update made no live calls. A subsequent authorized
+[local compatibility check](COREINFRA_LIVE_CHECK_2026-10-11.md) verified Jev
+Noul/Choice/Score and ordinary Luna Responses; the expected Decisions path returned 404.
 
 ## API format and supplier
 

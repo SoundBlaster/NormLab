@@ -44,7 +44,7 @@ jobs:
       - name: Install released adapter and offline test dependencies
         run: python -m pip install -r evaluation/requirements-provider-tests.txt
       - name: Check copied ProxyAPI bridge without inference
-        run: python -m pytest evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py -q
+        run: python -m pytest evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_provider_smoke.py -q
 
   stage1:
     name: Stage 1 dataset audit

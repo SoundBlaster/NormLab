@@ -142,7 +142,7 @@ def run(config, data, output, max_calls, *, key_file=None, transport=None):
                 request.method == "POST" and str(request.url) == config.endpoint_url,
                 "SDK request differs from configured endpoint",
             )
-            body = json.loads(request.content)
+            body = json.loads(request.read())
             require(
                 body.get("model") == config.model,
                 "SDK model differs from configuration",
