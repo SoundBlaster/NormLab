@@ -111,6 +111,12 @@ three-way Choice на русском, те же v2 source/candidate/conventions.
 
 ### S1.3 — диагностика постановки вопроса verifier
 
+Versioned offline contract: [S13_OFFLINE_CONTRACT](S13_OFFLINE_CONTRACT.md).
+Задача и актуальный статус: [#66](https://github.com/SoundBlaster/NormLab/issues/66).
+Подготовка contract не запускает live pilot; reference adjudication и inference
+имеют отдельные gates. В source-only arm сравнивается только восстановленный stance,
+без вывода о полной корректности candidate или completeness.
+
 **H3:** отдельные вопросы про polarity, attribution и support дают более локальные и надёжные ошибки, чем один общий вопрос.
 
 | Arm | Что проверяет сравнение |

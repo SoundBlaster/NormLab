@@ -1,0 +1,254 @@
+{
+  "schema": "normlab.s13-offline-capture/v1",
+  "evidenceKind": "offline-fixture",
+  "planDigest": "e2f78a7c8d5d3a95c630afa916de92f1cfa0f0098d8321d9e012932e9abdb071",
+  "manifestDigest": "3f499b79d39b0ea98b5a6b5b44b325e2f62859c10ad1220c1d45de8b854d017f",
+  "records": [
+    {
+      "jobId": "S13-1-046",
+      "requestDigest": "4804aa19ac47288215c0821bb1660fb6425178f09789305473b76b52a41d39c8",
+      "status": "completed",
+      "answers": {
+        "overall": {
+          "p_yes": 0.95
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-091",
+      "requestDigest": "cdf2853ec8618467d8110ffdd1aef97b67c706c7aa6873ffbf20f8993b20b0f9",
+      "status": "completed",
+      "answers": {
+        "overall": {
+          "p_yes": 0.95
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-056",
+      "requestDigest": "3230438425aa76f8c29f051abe6556e5fa2606e07eb748b8a3c507454d097344",
+      "status": "completed",
+      "answers": {
+        "overall": {
+          "p_yes": 0.5
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-143",
+      "requestDigest": "b5dad37f5fe1f19c42b59d8ba04bafaa3dc301a7446231f7d237c4104c750938",
+      "status": "completed",
+      "answers": {
+        "overall": {
+          "p_yes": 2
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-107",
+      "requestDigest": "d8a536ce3def9efbe668f5490e86879deb7e5a9e2ed21f2d5a0f9f16b9ffe953",
+      "status": "transport-failed",
+      "answers": {},
+      "inputTokens": null,
+      "outputTokens": null
+    },
+    {
+      "jobId": "S13-1-038",
+      "requestDigest": "00cab446deb4958335baab8b14fc32ac66f08fba928335de81dafd761d33202d",
+      "status": "completed",
+      "answers": {
+        "c1_content": {
+          "p_yes": 0.95
+        },
+        "c1_attribution": {
+          "p_yes": 0.95
+        },
+        "c1_scope": {
+          "p_yes": 0.95
+        },
+        "c1_projection": {
+          "p_yes": 0.95
+        },
+        "c2_content": {
+          "p_yes": 0.95
+        },
+        "c2_attribution": {
+          "p_yes": 0.05
+        },
+        "c2_scope": {
+          "p_yes": 0.95
+        },
+        "c2_projection": {
+          "p_yes": 0.05
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-130",
+      "requestDigest": "726d8c3f67689ac4bb72775dfdddac92a3c82ea4e55b102220347f7a7aa6821a",
+      "status": "completed",
+      "answers": {
+        "c1_content": {
+          "p_yes": 0.5
+        },
+        "c1_attribution": {
+          "p_yes": 0.95
+        },
+        "c1_scope": {
+          "p_yes": 0.95
+        },
+        "c1_projection": {
+          "p_yes": 0.5
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-100",
+      "requestDigest": "777b8eb258377b91108b8ac71cf92ba2a653d2184af9513b473fe1630422d54e",
+      "status": "completed",
+      "answers": {
+        "c1_content": {
+          "p_yes": 0.95
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-105",
+      "requestDigest": "233d546665c8a23fb2061f579e25ddbe7830f53c51c7f25861b72ad9d0960965",
+      "status": "deadline",
+      "answers": {},
+      "inputTokens": null,
+      "outputTokens": null
+    },
+    {
+      "jobId": "S13-1-061",
+      "requestDigest": "b1453ec5463c74c467aa42f9fb2f73b9256353fb72dbba7885226694aecc6ed5",
+      "status": "completed",
+      "answers": {
+        "overall": {
+          "choice": "yes"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-006",
+      "requestDigest": "4f43dbcabe6992b706039e97a5e18b2aa7bfbf1a60fe50e580795730ae7b05c8",
+      "status": "completed",
+      "answers": {
+        "overall": {
+          "choice": "no"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-090",
+      "requestDigest": "59cf3422e1198642f4fe25713509a900392da112116a82d46de6b179f1edc9ee",
+      "status": "completed",
+      "answers": {
+        "overall": {
+          "choice": "maybe"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-069",
+      "requestDigest": "9f00a7f7a1c6779d15efcfc414290272b3b3192c2e0bdac1b94ac1ef3944f683",
+      "status": "transport-failed",
+      "answers": {},
+      "inputTokens": null,
+      "outputTokens": null
+    },
+    {
+      "jobId": "S13-1-118",
+      "requestDigest": "1381919e56010ee9a416bde7b9d6c8273fc630301c13946ed2da10becaffe531",
+      "status": "completed",
+      "answers": {
+        "stance": {
+          "choice": "explicit_unknown"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-001",
+      "requestDigest": "df69e1d3b70a1a5eb13a11e087598fc2c4bf7344314133bbabd8d594b2e25243",
+      "status": "completed",
+      "answers": {
+        "stance": {
+          "choice": "not_mentioned"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-066",
+      "requestDigest": "aab5d2ddb020e1d331ab5bf2b8ef57a1453f9e203dc504890caa43a8c59b2ecc",
+      "status": "completed",
+      "answers": {
+        "stance": {
+          "choice": "ambiguous"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-110",
+      "requestDigest": "33a7a121867e38b0db233d868740265a327556a8948ed1bee22c3f3f31a7c764",
+      "status": "completed",
+      "answers": {
+        "stance": {
+          "choice": "multiple_positions"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-114",
+      "requestDigest": "e80165095e414a6ee2e81dc92a795ac9b01b13b17a7ec9887efc2936544f923f",
+      "status": "completed",
+      "answers": {
+        "stance": {
+          "choice": "verifier_uncertain"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    },
+    {
+      "jobId": "S13-1-135",
+      "requestDigest": "d5d2ef85f68f31b659a3902a72ee660397dc379ca409279d6a8b4108b51a72ad",
+      "status": "completed",
+      "answers": {
+        "stance": {
+          "choice": "asserted"
+        }
+      },
+      "inputTokens": 100,
+      "outputTokens": 10
+    }
+  ]
+}
