@@ -2,7 +2,9 @@
 
 Первый реализованный срез [плана](../docs/EVALUATION_HARNESS_PLAN.md). Общая live matrix, multi-turn execution, MLflow import нового формата и независимый case-level quality review пока не реализованы.
 
-[Inventory на 2026-10-12](../docs/HARNESS_GAP_INVENTORY_2026-10-12.md) связывает существующие classification, Stage 1/retry и S1.3 contracts и определяет следующий offline implementation slice [#77](https://github.com/SoundBlaster/NormLab/issues/77). Предложенный общий envelope ещё не реализован; команды ниже сохраняют свои contracts.
+[Inventory на 2026-10-12](../docs/HARNESS_GAP_INVENTORY_2026-10-12.md) связывает существующие classification, Stage 1/retry и S1.3 contracts и фиксирует состояние до первого envelope slice [#77](https://github.com/SoundBlaster/NormLab/issues/77). Команды ниже сохраняют свои contracts.
+
+[Offline envelope v1](../docs/OFFLINE_ENVELOPE_V1.md) добавляет отдельный SDK-free export/reader для classification v2 и frozen S1.3 fixture. Он сохраняет legacy evidence, derived run/score identities, planned denominators и unavailable attempt/context metadata. Runtime validation новых CLI paths ещё pending; comparison и MLflow import этого формата не реализованы.
 
 ## Запуск из корня репозитория
 

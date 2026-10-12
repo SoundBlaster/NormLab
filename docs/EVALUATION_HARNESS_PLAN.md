@@ -4,6 +4,8 @@
 
 Актуальный срез на 2026-10-12: [inventory существующих contracts и пробелов](HARNESS_GAP_INVENTORY_2026-10-12.md) для [#77](https://github.com/SoundBlaster/NormLab/issues/77). Он учитывает Stage 1 provider/retry и S1.3; historical пункты ниже сохраняют исходную дату. Следующий ограниченный результат — общий offline envelope и adapters harness v2 / S1.3.
 
+[Offline envelope v1](OFFLINE_ENVELOPE_V1.md) реализует первый additive export/reader для этих двух путей. Local runtime validation новых CLI paths остаётся pending; следующие slices — paired comparison, Stage 1 attempts и идемпотентный MLflow import.
+
 ## Задача
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
