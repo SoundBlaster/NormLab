@@ -105,7 +105,9 @@ cases/families; confidence intervals и case-level critical-error-free quality
 остаются null. Для comparison разных стратегий, меняющих inputs/context, потребуется
 отдельный frozen protocol; ослабление этих checks автоматически не выполняется.
 
-Markdown содержит counts, причины исключения и до 50 changed/unpaired events;
+Markdown содержит counts, причины исключения и до 50 changed/unpaired events.
+Глобальные несовместимости показываются отдельным разделом даже без matched tasks;
+`incompatible` в таблице counts относится только к matched rows.
 JSON сохраняет полные keys, reasons, исходные statuses и все arm/family slices.
 
 ## Выполненные сравнения

@@ -338,6 +338,15 @@ def markdown(report):
         "Full rows, reasons, family/arm slices and source bindings: `report.json`.",
         "",
     ]
+    if report["globalIncompatibilities"]:
+        lines += [
+            "## Global incompatibilities",
+            "",
+            "These apply to the entire comparison, including unmatched tasks. The incompatible count above counts matched rows only.",
+            "",
+        ]
+        lines += [f"- `{reason}`" for reason in report["globalIncompatibilities"]]
+        lines += [""]
     reasons = Counter(reason for row in report["rows"] for reason in row["reasons"])
     if reasons:
         lines += ["## Exclusion reasons", "", "| Reason | Rows |", "| --- | ---: |"]

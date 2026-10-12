@@ -76,6 +76,18 @@ absolute bundle paths; JSON совпал побайтово с repository compar
 dataset или автоматически публикуемые raw bundles. Report содержит source
 bundle digests и IDs, policy/code digests, per-row reasons и arm/family slices.
 
+## Исправление review: глобальные несовместимости
+
+Markdown теперь показывает `globalIncompatibilities` независимо от per-row
+reasons. Счётчик `incompatible` относится к matched rows: при отсутствии общих
+keys он остаётся 0, но больше не скрывает несовместимость целых наборов.
+
+Повторены два CLI comparison с теми же `-B -S`, credential-free environment и
+audit guard. Classification → S1.3: 0 matched, 0 evaluated; все **9 глобальных
+причин** видны в отдельном разделе Markdown. S1.3 self: 453 matched,
+13 evaluated; пустой раздел глобальных несовместимостей не выводится.
+Artifacts: `.artifacts/review86-global-markdown/`. Новые unit tests не добавлялись.
+
 ## Ограничения и следующий шаг
 
 - Новые unit tests не добавлялись; evidence здесь — выполненные CLI comparisons,
