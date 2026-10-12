@@ -1,0 +1,100 @@
+{
+  "schema": "normlab.s13-replay-report/v1",
+  "evidenceKind": "offline-fixture",
+  "planDigest": "e2f78a7c8d5d3a95c630afa916de92f1cfa0f0098d8321d9e012932e9abdb071",
+  "captureDigest": "f4e04c0398176cd6bf915f064d388e54418241867bc47829c9d5b239b1ba75c0",
+  "referenceDigest": "de517a58f96bda5c30d00465ce0d37413bb880378fadc845e969423bf5830ce9",
+  "referenceStatus": "candidate-not-independent",
+  "referenceRevision": "s13-candidate-v1",
+  "plannedCalls": 453,
+  "plannedQuestions": 909,
+  "statusCounts": {
+    "completed": 13,
+    "not-dispatched": 434,
+    "transport-failed": 2,
+    "invalid-schema": 3,
+    "deadline": 1
+  },
+  "questionAgreementCount": 18,
+  "questionDisagreementCount": 5,
+  "unevaluatedQuestionCount": 886,
+  "knownInputTokens": 1600,
+  "knownOutputTokens": 160,
+  "unknownUsageOutcomes": 3,
+  "providerQualityScore": null,
+  "wholeSourceCompleteness": "not-evaluated",
+  "arms": {
+    "A": {
+      "plannedCalls": 96,
+      "plannedQuestions": 96,
+      "statusCounts": {
+        "not-dispatched": 91,
+        "completed": 3,
+        "transport-failed": 1,
+        "invalid-schema": 1
+      },
+      "questionAgreementCount": 1,
+      "questionDisagreementCount": 2,
+      "unevaluatedQuestionCount": 93,
+      "selectedClaimVerdicts": {
+        "compatible": 2,
+        "indeterminate": 1
+      },
+      "falseAcceptanceCount": 1,
+      "falseRejectionCount": 0
+    },
+    "B": {
+      "plannedCalls": 96,
+      "plannedQuestions": 552,
+      "statusCounts": {
+        "not-dispatched": 92,
+        "completed": 2,
+        "invalid-schema": 1,
+        "deadline": 1
+      },
+      "questionAgreementCount": 10,
+      "questionDisagreementCount": 2,
+      "unevaluatedQuestionCount": 540,
+      "selectedClaimVerdicts": {
+        "incompatible": 1,
+        "indeterminate": 1
+      },
+      "falseAcceptanceCount": 0,
+      "falseRejectionCount": 0
+    },
+    "C": {
+      "plannedCalls": 96,
+      "plannedQuestions": 96,
+      "statusCounts": {
+        "completed": 2,
+        "not-dispatched": 92,
+        "transport-failed": 1,
+        "invalid-schema": 1
+      },
+      "questionAgreementCount": 2,
+      "questionDisagreementCount": 0,
+      "unevaluatedQuestionCount": 94,
+      "selectedClaimVerdicts": {
+        "incompatible": 1,
+        "compatible": 1
+      },
+      "falseAcceptanceCount": 0,
+      "falseRejectionCount": 0
+    },
+    "D": {
+      "plannedCalls": 165,
+      "plannedQuestions": 165,
+      "statusCounts": {
+        "completed": 6,
+        "not-dispatched": 159
+      },
+      "questionAgreementCount": 5,
+      "questionDisagreementCount": 1,
+      "unevaluatedQuestionCount": 159,
+      "selectedClaimVerdicts": {},
+      "falseAcceptanceCount": null,
+      "falseRejectionCount": null
+    }
+  },
+  "inferenceCalls": 0
+}
