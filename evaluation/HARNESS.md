@@ -2,6 +2,8 @@
 
 Первый реализованный срез [плана](../docs/EVALUATION_HARNESS_PLAN.md). Общая live matrix, multi-turn execution, MLflow import нового формата и независимый case-level quality review пока не реализованы.
 
+[Inventory на 2026-10-12](../docs/HARNESS_GAP_INVENTORY_2026-10-12.md) связывает существующие classification, Stage 1/retry и S1.3 contracts и определяет следующий offline implementation slice [#77](https://github.com/SoundBlaster/NormLab/issues/77). Предложенный общий envelope ещё не реализован; команды ниже сохраняют свои contracts.
+
 ## Запуск из корня репозитория
 
 Python 3.10+; внешние Python зависимости и ключи не нужны. Новые replay используют `harness_v2.py` и deterministic contracts из `mellea_candidate_v2.py`, `classification_v3.py`, `anchor.py`.
