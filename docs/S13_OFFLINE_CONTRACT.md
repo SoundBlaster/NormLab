@@ -6,6 +6,8 @@ This document specifies a diagnostic experiment. It does not report model qualit
 or authorize inference. Live pilot and reference review remain separate tasks:
 [#67](https://github.com/SoundBlaster/NormLab/issues/67) and
 [#64](https://github.com/SoundBlaster/NormLab/issues/64).
+Issue #64 currently reviews the external RCB/judicial corpus. It does not itself
+adjudicate the 16 development sources or new S1.3 axis/global labels used here.
 
 ## Hypothesis and comparison limits
 
@@ -206,7 +208,9 @@ is `s13-candidate-v1`, `candidate-not-independent`. It pins the historical
 reviewer-only file, adds proposed local/global labels and rationales, and covers
 all planned questions. It is never a provider input or held-out evaluation set.
 
-After #64 adjudication, add a **new file/revision** with the same plan binding,
+For human scoring of this plan, review these exact sources/targets/axis labels;
+completion of the external-corpus task #64 is not sufficient. After that
+plan-specific adjudication, add a **new file/revision** with the same plan binding,
 complete question coverage, status `human-adjudicated` and nonempty
 `adjudicationEvidence` links to actual review. Preserve the candidate reference
 and every capture unchanged. An evidence string is a traceability requirement;
