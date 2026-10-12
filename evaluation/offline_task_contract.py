@@ -257,6 +257,16 @@ def validate_legacy_turn(task, score, prediction, artifact, is_s13):
             "Original turn binding",
         )
         require(
+            score["error"] == original["error"]
+            and score["returnedModel"] == prediction["returnedModel"]
+            and (
+                score["status"] in {"completed", "invalid-output"}
+                if original["status"] == "completed"
+                else score["status"] == original["status"]
+            ),
+            "Classification scored turn metadata",
+        )
+        require(
             turn["usage"] is None and turn["questionIds"] is None,
             "Unavailable measurements/questions",
         )

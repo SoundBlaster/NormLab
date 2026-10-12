@@ -1,6 +1,6 @@
 # Offline evidence envelope v1
 
-Первый implementation slice [#77](https://github.com/SoundBlaster/NormLab/issues/77), после [inventory](HARNESS_GAP_INVENTORY_2026-10-12.md). Реализация: [IO](../evaluation/offline_bundle.py), [metadata contract](../evaluation/offline_contract.py), [task/turn contract](../evaluation/offline_task_contract.py), [adapters/CLI](../evaluation/offline_adapters.py).
+Первый implementation slice [#77](https://github.com/SoundBlaster/NormLab/issues/77), после [inventory](HARNESS_GAP_INVENTORY_2026-10-12.md). Реализация: [IO](../evaluation/offline_bundle.py), [metadata contract](../evaluation/offline_contract.py), [task/turn contract](../evaluation/offline_task_contract.py), [reference/report contract](../evaluation/offline_score_contract.py), [adapters/CLI](../evaluation/offline_adapters.py).
 
 ## Scope
 
@@ -79,7 +79,7 @@ Legacy manifest classification содержит ссылки на captures: ег
 
 | Field        | Содержание                                                                                           |
 | ------------ | ---------------------------------------------------------------------------------------------------- |
-| `adapter`    | ID/version и mapping module name to content-addressed copy четырёх новых modules                     |
+| `adapter`    | ID/version и mapping module name to content-addressed copy пяти новых modules                        |
 | `source`     | Original schema, manifest, ordered capture refs и role-labelled input artifact refs                  |
 | `dataset`    | ID/revision/digest, без invented release version                                                     |
 | `experiment` | ID/manifestDigest/strategy/tactic/provider/policy; неизвестные strategy/tactic versions null         |
@@ -108,6 +108,14 @@ Turn сохраняет stage, original/normalized statuses, prediction artifact
 - `knownInputTokens`/`knownOutputTokens` суммируют доступные значения по prediction rows один раз на task. `unknownUsageOutcomes` считает recorded rows с отсутствующим usage хотя бы в одном поле. Отсутствующие rows не получают fabricated usage и видны в planned/status denominator. Fixture usage не является доказательством оплаченных live tokens.
 - `attempts`, latency и cost остаются null в обоих adapters. Нулевой `inferenceCallsExecuted` относится к этой offline операции; он не доказывает, что исторический capture не требовал платного вызова.
 - Original report сохраняет native metrics/scopes: selected probes и S1.3 A/B/C/D не объединяются в общий quality score. Для D false acceptance/rejection остаются null; completeness и case-level critical-error-free quality не оцениваются.
+
+### Reference provenance и native summaries
+
+Reader повторно проверяет reference по исходной schema: classification допускает только `candidate`, требует experiment digest и полное покрытие записей валидными payment probes. S1.3 требует plan digest, полное покрытие jobs/questions и допустимые labels. Для `human-adjudicated` обязательны revision, отличная от `s13-candidate-v1`, и непустые текстовые `adjudicationEvidence`, как в frozen scorer. Эти поля заявляют provenance и не удостоверяют личность reviewer.
+
+Native report metadata и summaries пересчитываются из связанных строк: classification counts и candidate/not-evaluated status; S1.3 planned/status/question counts, agreement, verdicts, false acceptance/rejection по каждой arm и known/unknown usage из original predictions. S1.3 question predictions повторно нормализуются по frozen v1 response rules; expected answers связываются с reference. Изменение report вместе с его artifact ref и score ID не позволяет оставить противоречащие строкам сводные метрики. JSON booleans и integer counts различаются строго.
+
+Это проверка внутренней согласованности unsigned bundle, а не подтверждение подлинности источника или независимого semantic review. Reader не выполняет сохранённый scorer code и не повторяет classification parsing, S1.3 plan compilation, defect-location или candidate-stance derivation. Полный replay выполняет исходный adapter при экспорте; последующая coordinated замена source evidence не предотвращается цифровой подписью в v1.
 
 ## Validation scope этого изменения
 

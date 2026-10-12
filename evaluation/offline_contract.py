@@ -15,6 +15,7 @@ from offline_bundle import (
     require,
     sha,
 )
+from offline_score_contract import validate_score
 from offline_task_contract import validate_counts, validate_tasks
 
 
@@ -147,6 +148,7 @@ def validate(envelope, fetch):
     run, is_s13, report = validate_metadata(envelope, artifact)
     tasks = validate_tasks(envelope, artifact, refs, run, is_s13, report)
     validate_counts(envelope["counts"], tasks)
+    validate_score(envelope, tasks, artifact, is_s13, report)
     return envelope
 
 
@@ -263,11 +265,6 @@ def validate_metadata(envelope, artifact):
         require(
             reference["id"] == identity("reference", reference["artifact"]["sha256"]),
             "Reference identity",
-        )
-        require(
-            reference["status"]
-            in {"candidate", "candidate-not-independent", "human-adjudicated"},
-            "Reference status",
         )
     score = envelope["score"]
     object_keys(score, "id report referenceId scorer scope criticalErrorFreeRate")

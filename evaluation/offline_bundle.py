@@ -14,6 +14,7 @@ ADAPTER_FILES = (
     "offline_adapters.py",
     "offline_bundle.py",
     "offline_contract.py",
+    "offline_score_contract.py",
     "offline_task_contract.py",
 )
 
