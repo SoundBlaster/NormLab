@@ -119,6 +119,8 @@ Native report metadata и summaries пересчитываются из связ
 
 ## Validation scope этого изменения
 
-Локально: static Python syntax, Ruff lint/format, Markdown formatting, links и проверка неизменности legacy source pins. Новые tests не добавлялись; CLI export/verify и replay в этом implementation slice локально не запускались. Runtime-проверка двух exports и reader остаётся отдельным следующим validation шагом. Existing CI после публикации PR — отдельное evidence и не заменяет такую проверку новых CLI paths.
+До merge #84 выполнены static Python syntax, Ruff lint/format, Markdown formatting, links и проверка неизменности legacy source pins; runtime export/verify тогда оставался pending.
 
-После runtime validation следующий implementation slice #77 — portable paired comparison с compatibility checks, unmatched/not-evaluated rows и заданными denominator scopes.
+По отдельному поручению пользователя 2026-10-13 выполнен [runtime verification](OFFLINE_EXPORT_VERIFICATION_2026-10-13.md): 16 tests, включая 49 отрицательных mutation-сценариев, export/verify с labels и без них, S1.3, manifest v2 и portable reader вне repository. Все прошли; CLI subprocesses проверены с запрещёнными socket calls и без provider SDK. [Повторяемый suite](../evaluation/test_offline_bundle.py) добавлен в CI; его CI outcome учитывается отдельно от локального результата.
+
+Следующий implementation slice #77 — portable paired comparison с compatibility checks, unmatched/not-evaluated rows и заданными denominator scopes.
