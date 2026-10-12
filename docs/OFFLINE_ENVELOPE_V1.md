@@ -123,4 +123,4 @@ Native report metadata и summaries пересчитываются из связ
 
 По отдельному поручению пользователя 2026-10-13 выполнен [runtime verification](OFFLINE_EXPORT_VERIFICATION_2026-10-13.md): 16 tests, включая 49 отрицательных mutation-сценариев, export/verify с labels и без них, S1.3, manifest v2 и portable reader вне repository. Все прошли; CLI subprocesses проверены с запрещёнными socket calls и без provider SDK. [Повторяемый suite](../evaluation/test_offline_bundle.py) добавлен в CI; его CI outcome учитывается отдельно от локального результата.
 
-Следующий implementation slice #77 — portable paired comparison с compatibility checks, unmatched/not-evaluated rows и заданными denominator scopes.
+[Portable paired comparison v1](OFFLINE_PAIRED_COMPARISON_V1.md) добавляет compare/export двух проверенных score views с compatibility checks, unmatched/not-evaluated rows и явными denominator scopes. [Выполненные сравнения](OFFLINE_PAIRED_COMPARISON_2026-10-13.md) используют fixtures; live quality comparison этим не заявляется. Stage 1 attempts и MLflow import остаются следующими slices #77.

@@ -4,7 +4,7 @@
 
 Актуальный срез на 2026-10-12: [inventory существующих contracts и пробелов](HARNESS_GAP_INVENTORY_2026-10-12.md) для [#77](https://github.com/SoundBlaster/NormLab/issues/77). Он учитывает Stage 1 provider/retry и S1.3; historical пункты ниже сохраняют исходную дату. Следующий ограниченный результат — общий offline envelope и adapters harness v2 / S1.3.
 
-[Offline envelope v1](OFFLINE_ENVELOPE_V1.md) реализует первый additive export/reader для этих двух путей. Local runtime validation новых CLI paths остаётся pending; следующие slices — paired comparison, Stage 1 attempts и идемпотентный MLflow import.
+[Offline envelope v1](OFFLINE_ENVELOPE_V1.md) реализует additive export/reader для этих двух путей. [Runtime verification](OFFLINE_EXPORT_VERIFICATION_2026-10-13.md) пройдена; [paired comparison v1](OFFLINE_PAIRED_COMPARISON_V1.md) добавляет saved-view compare/export с compatibility checks и явными denominators. Его [fixture comparisons](OFFLINE_PAIRED_COMPARISON_2026-10-13.md) не являются model quality evaluation. Следующие slices — comparison regression coverage, Stage 1 attempts и идемпотентный MLflow import.
 
 ## Задача
 
