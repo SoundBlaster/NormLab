@@ -84,3 +84,19 @@ regeneration from the original corpus. No inference, resume or deployment.
 Next: review the adapter, then implement versioned seal/reference/score imports,
 followed by idempotent MLflow projection. #77 remains open until its complete
 acceptance criteria have evidence.
+
+## Review fix: malformed source text
+
+The P2 review finding on PR #87 identified a traceback when a saved JSON job
+contained non-string `task.state.sourceText`. The importer now validates its
+type before encoding or hashing it. It rejects malformed input with the fixed
+CLI validation diagnostic instead of an `AttributeError` traceback.
+
+A new CLI regression test covers null, number, boolean, list and object values,
+with the task digest and indexed artifact hash recomputed so validation reaches
+the source-text check. All five variants reproduced the traceback before the
+fix and passed after it. The common network-denied offline suite then passed
+**44 tests in 58.289 seconds** (16 bundle, 11 comparator, 17 Stage 1). Ruff lint
+and the format check for all 73 Python files passed. No new inference was made.
+The previous CI run passed all five jobs for `cfab579`; CI for this review fix
+must be checked separately after publication.

@@ -458,6 +458,26 @@ class OfflineStage1Tests(unittest.TestCase):
         self.assertEqual(envelope["counts"]["unknownUsageAttempts"], 1)
         self.assertIsNone(value(output, envelope["records"][0])["turn"]["usage"])
 
+    def test_non_string_source_text_has_fixed_diagnostic(self):
+        for source_text in (None, 1, True, [], {}):
+            with self.subTest(source_text=source_text):
+                source = Path(tempfile.mkdtemp(dir=self.root)) / "source"
+                shutil.copytree(self.sources["provider"], source)
+                plan = load(source / "plan.json")
+                job_path = source / plan["jobs"][0]["path"]
+                job = load(job_path)
+                job["task"]["state"]["sourceText"] = source_text
+                job["taskDigest"] = sha(job["task"])
+                plan["jobs"][0] = write_json(job_path, job)
+                write_json(source / "plan.json", plan)
+                result = self.cli("stage1", source)
+                self.assertEqual(result.returncode, 1)
+                self.assertEqual(result.stdout, "")
+                self.assertEqual(
+                    result.stderr.strip(),
+                    "Offline bundle contract validation/export failed",
+                )
+
     def test_unsupported_source_schema_has_fixed_diagnostic(self):
         source = Path(tempfile.mkdtemp(dir=self.root)) / "source"
         shutil.copytree(self.sources["recover"], source)

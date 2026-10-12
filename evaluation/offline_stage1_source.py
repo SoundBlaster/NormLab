@@ -154,9 +154,11 @@ def validate_plan(plan):
             "Matched task bindings",
         )
         require(type(job["repeat"]) is int and job["repeat"] > 0, "Repetition")
+        source_text = job["task"]["state"]["sourceText"]
+        require(isinstance(source_text, str), "Source text string")
         require(
             job["taskDigest"] == sha(canonical(job["task"]))
-            and job["sourceDigest"] == sha(job["task"]["state"]["sourceText"].encode()),
+            and job["sourceDigest"] == sha(source_text.encode()),
             "Logical source/task digest",
         )
         provider = plan["providers"][job["armId"]]
