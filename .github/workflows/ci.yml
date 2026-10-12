@@ -72,6 +72,9 @@ jobs:
       - name: Check S1.3 frozen offline plan and replay without inference
         run: python -B -S evaluation/s13_offline.py check
 
+      - name: Check offline export and portable reader with network denied
+        run: python -B -S -m unittest discover -s evaluation -p 'test_offline_bundle.py' -v
+
   architecture:
     name: FSD architecture
     runs-on: ubuntu-24.04
