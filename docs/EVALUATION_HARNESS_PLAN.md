@@ -2,6 +2,8 @@
 
 Дата: 2026-10-09. Статус: первый offline replay срез реализован; live/provider matrix и registry extension остаются планом. Связь: [roadmap экспериментов](EXTRACTION_EXPERIMENT_ROADMAP.md), [rubric](EVALUATION_PLAN.md).
 
+Актуальный срез на 2026-10-12: [inventory существующих contracts и пробелов](HARNESS_GAP_INVENTORY_2026-10-12.md) для [#77](https://github.com/SoundBlaster/NormLab/issues/77). Он учитывает Stage 1 provider/retry и S1.3; historical пункты ниже сохраняют исходную дату. Следующий ограниченный результат — общий offline envelope и adapters harness v2 / S1.3.
+
 ## Задача
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
