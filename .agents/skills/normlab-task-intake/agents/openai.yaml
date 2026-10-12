@@ -1,0 +1,4 @@
+interface:
+  display_name: "NormLab task intake"
+  short_description: "Find, scope and deduplicate NormLab ledger tasks"
+  default_prompt: "Use $normlab-task-intake to find or prepare the ledger task for this requested result."
