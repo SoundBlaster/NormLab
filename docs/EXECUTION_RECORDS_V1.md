@@ -34,6 +34,10 @@ python -B -S evaluation/execution_contract_cli.py resolution /path/to/records
 run/permit/resolution files. The Python helper `new_run()` allocates separate UUID4
 execution/invocation IDs in memory for a previously prepared plan. It accepts a
 clock declaration; it does not read or attest a clock or persist an intent.
+For live intents, allocate the UUID with `permit=None`, then bind a permit to that
+exact execution UUID and plan before replay. An unbound in-memory intent grants
+no authority; saved live-capture replay rejects a missing permit. Mock intents
+reject a live permit at both factory and replay boundaries.
 
 Every result has `authorizedDispatches: 0` and `inferenceCallsExecuted: 0`.
 `missingCapabilities` includes durable writer, dispatcher, clock attestation,
@@ -226,10 +230,13 @@ rejects leaf/parent symlinks and uses bounded nonblocking reads. This does not
 implement an atomic writer snapshot or protect against an adversary mutating
 parent directories while reading. Writer locking/commit/flush evidence is gate 5b.
 
-Local validation in this slice is static: syntax, import closure, record-field
-consistency, Ruff, Markdown links/format, whitespace and unchanged-native-source
-comparison. **No local tests or CLI/runtime scenarios have been run.** Existing
-GitHub CI is separate and does not supply dedicated 5a runtime coverage.
+Initial implementation validation was static: syntax, import closure,
+record-field consistency, Ruff, Markdown links/format, whitespace and
+unchanged-native-source comparison. Dedicated tests were added in the subsequent
+[offline runtime verification](EXECUTION_RECORD_VERIFICATION_2026-10-13.md).
+They run CLI positives and rehashed mutations with network/process/provider SDK
+and file-write guards, and are discovered by the existing Stage 1 CI offline step.
+Local runtime results and fresh GitHub CI are separate evidence.
 
 Static checks passed for all six new modules; all 81 existing evaluation Python
 files remain byte-identical to the base. The transient retry whitelist and
@@ -237,10 +244,8 @@ three-attempt ceiling match the frozen baseline. Ruff lint/format passed for all
 87 evaluation Python files. Documentation field tables match the validators.
 No fixture, dependency, code pin or existing native contract changed.
 
-Next: independently exercise valid and mutated plan/run/journal/resolution inputs
-offline, including duplicate keys, malformed tails, updated hashes/IDs, unknown
-suffixes, partial usage, cap/ordinal/settings drift, stale resolution head,
-unsupported clock declarations and expiry boundaries. After that evidence and
-review, proceed to 5b durable single-writer mock dispatch/fault injection. Gates
+The verification found and corrected the intent allocation/permit ordering bug;
+the live replay permit requirement remains enforced. After review of this
+evidence, proceed to 5b durable single-writer mock dispatch/fault injection. Gates
 5c–5e and the rest of #77 acceptance remain outstanding. Any later incompatible
 record/policy change needs an explicit version/migration boundary.

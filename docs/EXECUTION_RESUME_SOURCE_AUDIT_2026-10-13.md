@@ -54,9 +54,10 @@ SDK-free import remain observational; they cannot authorize a new network call.
 This is decomposition of the existing Issue, not a second ledger or new
 authorization. No live request follows from completing a schema or mock gate.
 The subsequent [5a implementation](EXECUTION_RECORDS_V1.md) freezes the closed
-record/reader subset. Its local runtime validation is still pending; this dated
-audit records the original proposal, not evidence that the gates passed. Later
-gates remain required before claiming a working common executor or completing #77.
+record/reader subset. Its later [offline runtime verification](EXECUTION_RECORD_VERIFICATION_2026-10-13.md)
+records dedicated positive/mutation evidence and the intent/permit ordering fix.
+This dated audit records the original proposal; gates 5b–5e remain required before
+claiming a working common executor or completing #77.
 
 ## Validation in this documentation slice
 

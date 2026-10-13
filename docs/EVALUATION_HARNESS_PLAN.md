@@ -11,8 +11,9 @@
 Следующий contract slice #77: [common execution/resume proposal](EXECUTION_RESUME_CONTRACT_V1.md)
 и [source audit / handoff](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
 Первый implementation slice [5a: execution records и offline reader](EXECUTION_RECORDS_V1.md)
-добавляет strict schemas, plan/dry-run и journal/resolution preflight; локальная
-runtime validation ещё pending. Далее: durable mock execution → bounded resume →
+добавляет strict schemas, plan/dry-run и journal/resolution preflight и
+прошёл [локальную offline runtime-проверку](EXECUTION_RECORD_VERIFICATION_2026-10-13.md).
+Далее: durable mock execution → bounded resume →
 capture-revision-aware export/registry → отдельный live smoke.
 Текущие native runners не получают resume автоматически.
 
