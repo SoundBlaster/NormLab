@@ -8,6 +8,12 @@
 
 ## Задача
 
+Следующий contract slice #77: [common execution/resume proposal](EXECUTION_RESUME_CONTRACT_V1.md)
+и [source audit / handoff](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
+Это дизайн до реализации: strict schemas/dry-run → durable mock execution →
+bounded resume → capture-revision-aware export/registry → отдельный live smoke.
+Текущие native runners не получают resume автоматически.
+
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
 Успех инфраструктуры: новый совместимый provider/model задаётся конфигурацией и проходит contract smoke; существующая матрица запускается без новых ad-hoc скриптов. Изменения wire contract, prompts или schema требуют новой версии адаптера/стратегии и явно помеченного comparison. Это не обещание автоматической совместимости с будущими API.

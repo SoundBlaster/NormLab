@@ -113,5 +113,6 @@ or deployment readiness. No evaluation predictions are recomputed by this path.
 
 [Executed local checks](OFFLINE_MLFLOW_IMPORT_2026-10-13.md).
 CI separates stdlib-only projection checks from real pinned MLflow/SQLite tests.
-Next: review the importer, then define the remaining execution/resume contract;
-resuming an import never authorizes resuming inference.
+[Execution/resume proposal](EXECUTION_RESUME_CONTRACT_V1.md) defines the next
+design slice, including the capture-revision boundary that this importer does
+not yet support. Resuming an import never authorizes resuming inference.
