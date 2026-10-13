@@ -1,9 +1,12 @@
 # Common execution and resume contract: proposal v1
 
 Date: 2026-10-13. Task: [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-Status: **design proposal, not an implemented executor or accepted runtime schema**.
-Schema/policy names below are reserved for the implementation PR. Existing CLI
-commands do not accept these documents. [Source audit](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
+Status: **execution/resume design; the 5a record/reader subset is implemented** in
+[Execution records v1](EXECUTION_RECORDS_V1.md). The dedicated offline CLI accepts
+that closed subset. Durable execution, current clock verification, provider
+normalization and resume/resolution application remain unimplemented. Existing
+native runners/importers do not accept these records.
+[Original source audit](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
 
 ## Scope and first capability
 
