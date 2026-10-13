@@ -199,6 +199,24 @@ class Registry:
                 if record["kind"] == "score":
                     shutil.copytree(snapshot, payload / "bundle")
                 destination = self.artifact_root(run) / "normlab"
+                expected_files = {
+                    path.relative_to(payload)
+                    for path in payload.rglob("*")
+                    if path.is_file()
+                }
+                actual_files = set()
+                require(not destination.is_symlink(), "Artifact entry type")
+                for path in destination.rglob("*"):
+                    require(
+                        not path.is_symlink() and (path.is_dir() or path.is_file()),
+                        "Artifact entry type",
+                    )
+                    if path.is_file():
+                        relative = path.relative_to(destination)
+                        require(relative in expected_files, "Unexpected artifact file")
+                        actual_files.add(relative)
+                if completed:
+                    require(actual_files == expected_files, "Completed artifact drift")
                 matches = True
                 for source in payload.rglob("*"):
                     if not source.is_file():

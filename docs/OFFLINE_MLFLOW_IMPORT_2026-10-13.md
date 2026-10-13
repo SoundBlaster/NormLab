@@ -87,3 +87,25 @@ model quality claim, deployment or execution/resume implementation is included.
 The archived unsigned evidence proves consistency within its stated contracts,
 not source authenticity or independent human gold. #77 remains open for its
 remaining acceptance. Next: review this slice, then execution/resume contract.
+
+## Review fix: audit the complete artifact inventory
+
+The P2 finding on PR #89 identified that completed imports checked expected file
+contents but ignored extra files under `normlab/`. Added full destination file-set
+validation, including the archived bundle. Unexpected files, symlinks and
+nonregular entries now reject; completed runs require the exact expected file set.
+Partial recovery still permits missing or partially written expected files.
+
+Two new real-SDK tests reproduced five pre-fix failures: extra files in capture
+parent/score roots, bundle root and nested artifact directory, plus a dangling
+symlink. After the fix all are rejected without deleting the extra evidence or
+changing completed ledger state. Removing the extra file restores a successful
+idempotent reimport. Existing partial-write/concurrent-import tests still pass.
+
+After-fix evidence: **15/15** actual MLflow 3.16.1 integration tests on Python
+3.10.19, **11.780 seconds**, with network transport guards. Ruff lint/format for
+81 Python files, changed-module syntax, documentation formatting and whitespace
+passed. The SDK-free projection/reader code is unchanged; the earlier 61-test
+offline result above is historical and was not rerun for this registry-only fix.
+No inference or deployment. Previous head c3ad107 had all six CI checks successful;
+CI for this review fix must be checked separately after publication.

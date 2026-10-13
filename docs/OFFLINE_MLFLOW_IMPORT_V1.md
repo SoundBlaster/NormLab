@@ -80,6 +80,10 @@ copies can be overwritten during recovery. Completed imports are audited and
 returned as `alreadyImported: true`; completed artifact/metric/parameter drift,
 deleted runs, mismatched tags or ambiguous duplicate runs are rejected for manual
 investigation. The importer does not delete or silently repair completed evidence.
+The audit compares the complete file inventory under `normlab/` with the expected
+payload, including the archived bundle. Unexpected files, symlinks and nonregular
+entries are rejected; completed imports also require every expected file. Pending
+recovery permits missing/partial expected files but does not accept undeclared ones.
 Guarantees require retaining both SQLite stores, artifacts and the lock path.
 
 ## Metrics and raw navigation

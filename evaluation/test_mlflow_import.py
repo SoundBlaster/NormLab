@@ -237,6 +237,44 @@ class MLflowImportTests(unittest.TestCase):
         with registry(self.storage) as store:
             self.assertEqual(len(store.client.get_metric_history(run_id, name)), 2)
 
+    def test_completed_unexpected_files_rejected_and_preserved(self):
+        first = self.import_bundle()
+        for record, relative in (
+            (first[0], "extra.json"),
+            (first[1], "extra.json"),
+            (first[1], "bundle/extra.json"),
+            (first[1], "bundle/artifacts/extra.blob"),
+        ):
+            with self.subTest(path=relative, kind=record["key"]):
+                with registry(self.storage) as store:
+                    run = store.client.get_run(record["mlflowRunId"])
+                    extra = local_path(run.info.artifact_uri) / "normlab" / relative
+                extra.write_text("undeclared evidence")
+                try:
+                    with self.assertRaisesRegex(ValueError, "Unexpected artifact file"):
+                        self.import_bundle()
+                    self.assertEqual(extra.read_text(), "undeclared evidence")
+                    with registry(self.storage) as store:
+                        state = store.db.execute(
+                            "SELECT state FROM imports WHERE key=?", (record["key"],)
+                        ).fetchone()[0]
+                        self.assertEqual(state, "completed")
+                finally:
+                    extra.unlink()
+                self.assertTrue(
+                    all(row["alreadyImported"] for row in self.import_bundle())
+                )
+
+    def test_completed_unexpected_dangling_symlink_is_rejected(self):
+        first = self.import_bundle()
+        with registry(self.storage) as store:
+            run = store.client.get_run(first[1]["mlflowRunId"])
+            extra = local_path(run.info.artifact_uri) / "normlab/bundle/extra-link"
+        extra.symlink_to(self.directory / "missing-target")
+        with self.assertRaisesRegex(ValueError, "Artifact entry type"):
+            self.import_bundle()
+        self.assertTrue(extra.is_symlink())
+
     def test_ambiguous_duplicate_runs_are_rejected(self):
         first = self.import_bundle()
         with registry(self.storage) as store:
