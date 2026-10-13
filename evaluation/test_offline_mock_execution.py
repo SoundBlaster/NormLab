@@ -394,6 +394,57 @@ class MockExecutionTests(ExecutionCase):
         self.assertEqual(report["taskOutcomes"][1]["final"]["status"], "model-rejected")
         self.assertEqual(report["stopReason"], "terminal-failure")
 
+    def test_unjustified_model_rejection_rejects_before_output_and_calls(self):
+        for case in (
+            "first",
+            "unchanged",
+            "transport-only",
+            "other-arm",
+            "unreachable",
+        ):
+            with self.subTest(case=case):
+                fixture = self.input(tasks=3 if case == "unreachable" else 2)
+                script = self.script(fixture)
+                rejected = self.failure("model-rejected")
+                if case == "first":
+                    script["tasks"][0]["attempts"] = [rejected]
+                elif case == "transport-only":
+                    script["tasks"][0]["attempts"] = [self.failure(), rejected]
+                elif case == "unreachable":
+                    script["tasks"][0]["attempts"] = [self.failure("unknown-outcome")]
+                    rejected["model"] = "other-model"
+                    script["tasks"][2]["attempts"] = [rejected]
+                else:
+                    script["tasks"][1]["attempts"] = [rejected]
+                    if case == "other-arm":
+                        second = copy.deepcopy(fixture.plan["arms"][0])
+                        second["id"] = "arm-b"
+                        fixture.plan["arms"].append(second)
+                        fixture.plan["tasks"][1]["armId"] = "arm-b"
+                        fixture.bind_plan()
+                        fixture.save()
+                        rejected["model"] = "other-model"
+                output = self.output("rejected-" + case)
+                transport = MockTransport()
+                with self.assertRaises(ValueError):
+                    run_mock(fixture.folder, output, script, transport=transport)
+                self.assertFalse(output.exists(), "Invalid script created an execution")
+                self.assertEqual(transport.calls, [])
+
+    def test_explicit_model_rejection_accepts_prior_drift(self):
+        fixture = self.input()
+        script = self.script(fixture)
+        rejected = self.failure("model-rejected")
+        rejected["model"] = "other-model"
+        script["tasks"][1]["attempts"] = [rejected]
+        transport = MockTransport()
+        report = run_mock(
+            fixture.folder, self.output("explicit-drift"), script, transport=transport
+        )
+        self.assertEqual(len(transport.calls), 2)
+        self.assertEqual(report["stopReason"], "terminal-failure")
+        self.assertEqual(report["taskOutcomes"][1]["final"]["status"], "model-rejected")
+
     def test_zero_and_exact_caps_preserve_unstarted_denominator(self):
         for key, charge in (
             ("dispatches", 1),

@@ -62,6 +62,9 @@ cannot silently end at a retryable failure or add attempts after completion.
 - Status: a 5a terminal category or `unknown-outcome`.
 - `model`: nonempty string. A completed response with an unaccepted/drifted model
   becomes `model-rejected`, retaining the original scripted response.
+  An explicit `model-rejected` status must already be justified during preflight:
+  the model is unaccepted or differs from a prior reachable completion in the
+  same arm. Transport failures and unexecuted suffixes do not establish drift.
 - `answers`: ordered 5a normalized Noul/Choice/Score answers only for completion;
   otherwise null. Types, labels, scale and order must match the pinned schema.
 - `errorClass`: one frozen sanitized class for transport failure, otherwise null.

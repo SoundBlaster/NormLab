@@ -89,3 +89,22 @@ export or runtime/capture-revision registry integration. #77 remains OPEN.
 
 Next after review: **5c bounded resume and explicit stop/adopt resolution**, with
 clock/authorization verification, remaining caps and original deadline preserved.
+
+## Review correction: preflight model-rejection evidence
+
+Addressed [P2](https://github.com/SoundBlaster/NormLab/pull/93#discussion_r4263701538).
+An accepted model without prior same-arm drift cannot be explicitly labelled
+`model-rejected`. Previously that inconsistency failed only during terminal
+replay, after output creation/reservation/mock dispatch. The regression reproduced
+four unexpected output directories before the correction.
+
+Preflight now shares the runtime model-rejection predicate and tracks only
+reachable completed models per arm. Five negative cases (first attempt, unchanged
+model, transport-only history, another arm and an unreachable suffix) reject with
+no output directory or mock calls. Explicit accepted-model drift remains valid;
+the existing unaccepted-model and automatic completed-response drift cases pass.
+Dedicated suite: 21/21 on Python 3.14.8 (3.711s) and 3.10.19 (2.467s).
+Complete SDK-free offline suite: 115/115 on Python 3.14.8 in 136.716s. Ruff
+lint/format all 94 Python files, syntax for both changed modules, Markdown
+formatting, six relative links and whitespace pass. These extend the original
+results above; fresh GitHub CI/review remain separate.

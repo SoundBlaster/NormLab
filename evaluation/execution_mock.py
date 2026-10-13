@@ -24,6 +24,12 @@ from offline_bundle import MAX_BYTES, canonical, object_keys, require, sha
 SCRIPT_SCHEMA = "normlab.mock-script/v1"
 
 
+def model_rejected(model, arm, models):
+    return model not in arm["acceptedModels"] or (
+        arm["id"] in models and models[arm["id"]] != model
+    )
+
+
 def validate_script(script, plan, store):
     object_keys(script, "schema clock tasks")
     require(script["schema"] == SCRIPT_SCHEMA, "Mock script schema")
@@ -35,6 +41,7 @@ def validate_script(script, plan, store):
     require(len(script["tasks"]) == len(plan["tasks"]), "Mock script task denominator")
     definitions = answer_schema(store.value(plan["pins"]["outputSchema"]))
     arms = {arm["id"]: arm for arm in plan["arms"]}
+    models, reachable = {}, True
     for scripted, task in zip(script["tasks"], plan["tasks"]):
         object_keys(scripted, "key attempts")
         require(scripted["key"] == task["key"], "Mock script task order")
@@ -94,6 +101,17 @@ def validate_script(script, plan, store):
                 eligible == (ordinal < len(scripted["attempts"])),
                 "Mock script must cover exactly the frozen retry path",
             )
+            rejected = model_rejected(spec["model"], arm, models)
+            if spec["status"] == "model-rejected":
+                require(
+                    rejected,
+                    "Mock model rejection requires unaccepted or drifted model",
+                )
+            if reachable:
+                if spec["status"] == "completed" and not rejected:
+                    models.setdefault(arm["id"], spec["model"])
+                elif not eligible:
+                    reachable = False
     return script
 
 
@@ -201,11 +219,10 @@ class MockExecution:
         task = self.plan["tasks"][index]
         arm = next(arm for arm in self.plan["arms"] if arm["id"] == task["armId"])
         status = spec["status"]
-        if status == "completed" and (
-            spec["model"] not in arm["acceptedModels"]
-            or self.models.setdefault(arm["id"], spec["model"]) != spec["model"]
-        ):
+        if status == "completed" and model_rejected(spec["model"], arm, self.models):
             status = "model-rejected"
+        elif status == "completed":
+            self.models.setdefault(arm["id"], spec["model"])
         response = None
         if status not in {"transport-failed", "unknown-outcome"}:
             response = self.writer.put(
