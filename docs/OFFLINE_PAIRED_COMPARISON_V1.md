@@ -119,7 +119,9 @@ JSON сохраняет полные keys, reasons, исходные statuses и
 exclusions, Markdown и portable output; [отчёт](OFFLINE_STAGE1_ADAPTER_2026-10-13.md).
 
 [Stage 1 transport adapter](OFFLINE_STAGE1_ADAPTER_V1.md) сохраняет first/final и
-attempts. Его reference не импортирована: comparison сохраняет статусы и явно
-оставляет quality `not-evaluated`. Stage 1 reader/native module digests и
-`readerAssetDigests` входят в comparison identity. Следующий slice — sealed
-reference/score import; MLflow projection остаётся отдельным шагом #77.
+attempts. Без scoring options reference отсутствует и quality остаётся
+`not-evaluated`. [Seal/reference/score import](OFFLINE_STAGE1_REFERENCE_V1.md)
+добавляет candidate provenance и final selected-reference result для сравнения;
+first/final native metrics сохраняются в отчёте. Stage 1 reader/native module
+и prompt asset digests включены в comparison evidence. MLflow projection
+остаётся отдельным шагом #77.

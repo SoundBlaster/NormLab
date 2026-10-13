@@ -390,6 +390,9 @@ def main():
     )
     stage1_parser = sub.add_parser("stage1")
     stage1_parser.add_argument("capture", type=Path)
+    stage1_parser.add_argument("--manifest", type=Path)
+    stage1_parser.add_argument("--seal", type=Path)
+    stage1_parser.add_argument("--native-score", type=Path)
     for command in (classification_parser, s13_parser, stage1_parser):
         command.add_argument("--output", type=Path)
     verify_parser = sub.add_parser("verify")
@@ -407,7 +410,9 @@ def main():
             else:
                 from offline_stage1 import export as export_stage1
 
-                envelope = export_stage1(builder, args.capture)
+                envelope = export_stage1(
+                    builder, args.capture, args.manifest, args.seal, args.native_score
+                )
             if args.output:
                 envelope = builder.export(envelope, args.output)
             else:

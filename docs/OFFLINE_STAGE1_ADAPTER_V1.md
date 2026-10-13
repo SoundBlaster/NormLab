@@ -96,7 +96,7 @@ and per-task first/final statuses and observed labels. Counts include:
 sum all attempts, not just final turns. Known zero is not an estimate of missing
 usage or cost. `cost` and case-level quality remain null.
 
-This transport slice does **not import candidate labels or native scored reports**.
+With no scoring options, this transport slice does **not import candidate labels or native scored reports**.
 `reference` is null, `referenceStatus` is `not-evaluated`, and selected-reference
 pass remains null. The comparator retains status/unmatched rows, but every
 otherwise compatible Stage 1 pair remains `not-evaluated` for quality. Importing
@@ -105,7 +105,7 @@ does not become evidence for the target quality percentage.
 
 ## Portable reader
 
-Use the exact trusted reader revision that produced the bundle. Copy the 18
+Use the exact trusted reader revision that produced the bundle. Copy the 22
 modules listed by `offline_stage1_source.READER_FILES` into `evaluation/`, and
 the asset listed by `READER_ASSETS` into `server/`, preserving that layout.
 Add `offline_compare.py` for comparison. No repository fixtures or SDK packages
@@ -120,5 +120,6 @@ comparison adds its own sixth module.
 ## Evidence and next step
 
 [Executed checks and historical imports](OFFLINE_STAGE1_ADAPTER_2026-10-13.md).
-Next: review this transport contract, then add independently versioned imports
-of Stage 1 seals/references/score views before MLflow projection.
+[Seal/reference/score import](OFFLINE_STAGE1_REFERENCE_V1.md) adds the optional
+scored path in adapter revision `stage1-2`. The transport-only defaults above
+remain available. Next: idempotent MLflow projection.

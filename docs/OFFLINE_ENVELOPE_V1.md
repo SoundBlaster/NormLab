@@ -4,7 +4,7 @@
 
 ## Scope
 
-Общий формат связывает dataset, experiment, derived run, logical tasks, turns, reference revision и score view. История transport attempts в classification/S1.3 неизвестна: `attempts: null`, а не пустой список или выдуманная попытка. [Stage 1 adapter](OFFLINE_STAGE1_ADAPTER_V1.md) добавляет отдельную source projection с сохранёнными attempts; его reference/score import, live execution/resume и MLflow остаются следующими slices #77.
+Общий формат связывает dataset, experiment, derived run, logical tasks, turns, reference revision и score view. История transport attempts в classification/S1.3 неизвестна: `attempts: null`, а не пустой список или выдуманная попытка. [Stage 1 adapter](OFFLINE_STAGE1_ADAPTER_V1.md) добавляет отдельную source projection с сохранёнными attempts; [reference/score import](OFFLINE_STAGE1_REFERENCE_V1.md) добавляет optional scored path. Live execution/resume и MLflow остаются следующими slices #77.
 
 Два поддержанных adapter paths:
 
@@ -123,4 +123,4 @@ Native report metadata и summaries пересчитываются из связ
 
 По отдельному поручению пользователя 2026-10-13 выполнен [runtime verification](OFFLINE_EXPORT_VERIFICATION_2026-10-13.md): 16 tests, включая 49 отрицательных mutation-сценариев, export/verify с labels и без них, S1.3, manifest v2 и portable reader вне repository. Все прошли; CLI subprocesses проверены с запрещёнными socket calls и без provider SDK. [Повторяемый suite](../evaluation/test_offline_bundle.py) добавлен в CI; его CI outcome учитывается отдельно от локального результата.
 
-[Portable paired comparison v1](OFFLINE_PAIRED_COMPARISON_V1.md) добавляет compare/export двух проверенных score views с compatibility checks, unmatched/not-evaluated rows и явными denominator scopes. [Выполненные сравнения](OFFLINE_PAIRED_COMPARISON_2026-10-13.md) используют fixtures; live quality comparison этим не заявляется. [Stage 1 attempts](OFFLINE_STAGE1_ADAPTER_V1.md) импортируются offline с неизвестной reference; versioned score import и MLflow остаются следующими slices #77.
+[Portable paired comparison v1](OFFLINE_PAIRED_COMPARISON_V1.md) добавляет compare/export двух проверенных score views с compatibility checks, unmatched/not-evaluated rows и явными denominator scopes. [Выполненные сравнения](OFFLINE_PAIRED_COMPARISON_2026-10-13.md) используют fixtures; live quality comparison этим не заявляется. [Stage 1 attempts](OFFLINE_STAGE1_ADAPTER_V1.md) импортируются offline; [versioned seal/reference/score import](OFFLINE_STAGE1_REFERENCE_V1.md) сохраняет candidate provenance и first/final scores. Следующий slice #77 — идемпотентный MLflow import.
