@@ -53,9 +53,10 @@ SDK-free import remain observational; they cannot authorize a new network call.
 
 This is decomposition of the existing Issue, not a second ledger or new
 authorization. No live request follows from completing a schema or mock gate.
-The next bounded implementation is **5a**. It should freeze field definitions
-and reject invalid resume plans before any SDK/credential activity. Later gates
-remain required before claiming a working common executor or completing #77.
+The subsequent [5a implementation](EXECUTION_RECORDS_V1.md) freezes the closed
+record/reader subset. Its local runtime validation is still pending; this dated
+audit records the original proposal, not evidence that the gates passed. Later
+gates remain required before claiming a working common executor or completing #77.
 
 ## Validation in this documentation slice
 
