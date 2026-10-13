@@ -1,0 +1,4 @@
+interface:
+  display_name: "NormLab task update"
+  short_description: "Update task evidence, status and completion safely"
+  default_prompt: "Use $normlab-task-update to record this task result and verify whether its acceptance criteria are complete."
