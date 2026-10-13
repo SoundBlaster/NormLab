@@ -1,28 +1,19 @@
 """Bounded Stage 1 candidate references, prediction seals and native score views."""
 
-import tempfile
-from pathlib import Path
-
 from offline_bundle import canonical, decode, identity, object_keys, read, require, sha
 from offline_stage1_scoring import provider_report, retry_report
-from offline_stage1_source import EVALUATION, native, restore, safe_path
+from offline_stage1_source import EVALUATION, safe_path
 from plan_stage1_comparison import LABELS
-from score_stage1_providers import capture_binding
-from score_stage1_retries_v2 import binding
 
 ROLES = ("manifest", "parent", "dataset", "sources", "labels", "seal", "score")
 REFERENCE_SCHEMA = "normlab.offline-stage1-reference/v1"
 
 
-def snapshot(manifest_path, seal_path, score_path, kind, capture_files):
+def snapshot(manifest_path, seal_path, score_path, kind, validated_binding):
     """Read only explicitly selected files and pinned provenance dependencies."""
     # Reject an unbound capture/seal before opening reviewer-only labels.
     seal_raw = read(seal_path)
-    with tempfile.TemporaryDirectory() as temporary:
-        capture_root = Path(temporary)
-        restore(capture_files, capture_root)
-        plan, _, _ = native(kind, capture_root)
-        validate_seal(kind, plan, capture_root, seal_raw)
+    validate_seal(kind, validated_binding, seal_raw)
     root = EVALUATION.parent
     files = {"manifest": read(manifest_path)}
 
@@ -97,12 +88,44 @@ def reference(files, parent):
     return rows, expected
 
 
-def validate_seal(kind, plan, root, raw):
+def native_binding(kind, plan, files):
+    """Derive native seal fields from the immutable snapshot after native replay."""
+    index = decode(files["capture.json"])
+    result = {
+        "planDigest": sha(canonical(plan)),
+        "captureDigest": sha(files["capture.json"]),
+    }
+    if kind == "provider-v1":
+        return {**result, "turnArtifacts": index["turnArtifacts"]}
+    children = []
+    for entry in index["attempts"]:
+        prefix = entry["path"] + "/"
+        capture = files.get(prefix + "capture.json")
+        child_plan = files.get(prefix + "plan.json")
+        children.append(
+            {
+                "path": entry["path"],
+                "captureDigest": sha(capture) if capture is not None else None,
+                "planDigest": sha(child_plan) if child_plan is not None else None,
+                "turnArtifacts": decode(capture)["turnArtifacts"]
+                if capture is not None
+                else None,
+            }
+        )
+    return {
+        **result,
+        "exportedPlanDigest": sha(files["plan.json"]),
+        "attemptArtifacts": children,
+        "scorerCodePins": {
+            name: sha(read(EVALUATION / name))
+            for name in ("score_stage1_retries_v2.py", "score_stage1_providers.py")
+        },
+    }
+
+
+def validate_seal(kind, validated_binding, raw):
     saved = decode(raw)
-    native_binding = (
-        capture_binding(plan, root) if kind == "provider-v1" else binding(plan, root)
-    )
-    object_keys(saved, "schema createdAt " + " ".join(native_binding))
+    object_keys(saved, "schema createdAt " + " ".join(validated_binding))
     require(
         saved["schema"]
         == (
@@ -111,17 +134,25 @@ def validate_seal(kind, plan, root, raw):
             else "normlab.stage1-retry-prediction-seal/v2"
         )
         and isinstance(saved["createdAt"], str)
-        and {key: saved[key] for key in native_binding} == native_binding,
+        and {key: saved[key] for key in validated_binding} == validated_binding,
         "Native prediction seal binding",
     )
 
 
-def evaluate(builder, kind, plan, parent, root, files):
+def evaluate(builder, kind, plan, parent, root, files, validated_binding, summary):
     """Validate seal first, then labels, then regenerate every native score field."""
-    validate_seal(kind, plan, root, files["seal"])
+    validate_seal(kind, validated_binding, files["seal"])
     labels, expected = reference(files, parent)
     regenerate = provider_report if kind == "provider-v1" else retry_report
-    report = regenerate(plan, root, files["seal"], labels, sha(files["labels"]))
+    report = regenerate(
+        plan,
+        root,
+        files["seal"],
+        labels,
+        sha(files["labels"]),
+        validated_binding,
+        summary,
+    )
     require(
         canonical(decode(files["score"])) == canonical(report), "Native score drift"
     )

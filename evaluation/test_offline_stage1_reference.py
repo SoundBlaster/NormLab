@@ -5,11 +5,14 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import score_stage1_providers as provider
 import score_stage1_retries_v2 as retry
 import test_offline_stage1 as fixtures
+from offline_bundle import Builder, verify
 from offline_stage1 import READER_ASSETS, READER_FILES
+from offline_stage1 import export as export_scored
 from test_offline_bundle import ROOT, canonical, identity, load, seal, store, value
 
 
@@ -116,6 +119,41 @@ class OfflineStage1ReferenceTests(unittest.TestCase):
             [value(folder, ref)["id"] for ref in scored["records"]],
             [value(unscored_folder, ref)["id"] for ref in unscored["records"]],
         )
+
+    def test_one_native_replay_per_projection_and_fresh_verification(self):
+        import stage1_provider_executor
+        import stage1_retry_executor_v2
+
+        for scenario, executor in (
+            ("provider", stage1_provider_executor),
+            ("recover", stage1_retry_executor_v2),
+        ):
+            with self.subTest(scenario=scenario):
+                capture, _, _ = self.sources[scenario]
+                seal_path, score_path = self.paths(scenario)
+                folder = Path(tempfile.mkdtemp(dir=self.root)) / "bundle"
+                with (
+                    patch.object(executor, "replay", wraps=executor.replay) as replay,
+                    patch.object(
+                        provider,
+                        "capture_binding",
+                        side_effect=AssertionError("Duplicate provider replay"),
+                    ),
+                    patch.object(
+                        retry,
+                        "binding",
+                        side_effect=AssertionError("Duplicate retry replay"),
+                    ),
+                ):
+                    builder = Builder()
+                    envelope = export_scored(
+                        builder, capture, fixtures.MANIFEST, seal_path, score_path
+                    )
+                    self.assertEqual(replay.call_count, 1)
+                    builder.export(envelope, folder)
+                    self.assertEqual(replay.call_count, 2)
+                    verify(folder)
+                    self.assertEqual(replay.call_count, 3)
 
     def test_scored_self_comparison_is_conditional_and_portable(self):
         folder, envelope = self.bundle("provider")

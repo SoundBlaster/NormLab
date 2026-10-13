@@ -100,3 +100,36 @@ Next: review this slice, then idempotent MLflow projection of verified bundles
 and multiple score views. #77 remains open for the remaining harness acceptance,
 including execution/resume contracts. No MLflow installation, inference, resume
 or deployment was performed in this slice.
+
+## Review fix: reuse validated replay results
+
+The P2 review finding identified repeated full capture replay in reference
+snapshot loading, seal validation and native score regeneration. The original
+Stage 1 CI job also failed on Python 3.13.16 because scored corpus import exceeded
+the existing 60-second CLI timeout:
+[failed job](https://github.com/SoundBlaster/NormLab/actions/runs/38372453327/job/115212522513).
+
+Each projection now replays its private snapshot once, derives the exact native
+binding from those immutable bytes and passes the binding/summary to seal and
+score verification. Labels are still opened only after replay/seal validation.
+There is no global/persistent replay cache. Independent export verification and
+later `verify` calls still replay their own snapshot. Native scorers/pins and the
+60-second test timeout are unchanged.
+
+A new regression test counts native replay calls for provider and retry imports:
+one for initial projection, a second for export validation, a third for a later
+independent verify. It also forbids calling native scoring binding helpers that
+would trigger duplicate replay. Existing score parity, mutation rejection and
+portable reader checks continue to pass.
+
+Local evidence after the fix:
+
+- Python **3.14.8**: full offline suite **55/55**, **117.308 seconds**, including
+  scored 288-task import/verify under the unchanged per-CLI 60-second timeout.
+- Python **3.10.19**: all **11 reference tests**, **47.387 seconds**.
+- Both historical capture/seal/score imports and independent verification passed
+  again with socket/process/provider-import guards; no new inference.
+- Ruff lint/format, documentation formatting, syntax and whitespace passed;
+  native scorers/planners/executors/fixtures/pins remain byte-unchanged.
+
+Fresh GitHub CI for the review fix must be checked separately after publication.

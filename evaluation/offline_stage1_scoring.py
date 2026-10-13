@@ -11,14 +11,11 @@ from pathlib import Path
 from harness import artifact, load_json
 from offline_bundle import require, sha
 from plan_stage1_comparison import LABELS
-from score_stage1_providers import capture_binding, ratio
-from score_stage1_retries_v2 import attempts, binding, metrics, paired
-from stage1_provider_executor import replay as provider_replay
-from stage1_provider_plan import sha as native_sha
-from stage1_retry_executor_v2 import replay as retry_replay
+from score_stage1_providers import ratio
+from score_stage1_retries_v2 import attempts, metrics, paired
 
 
-def provider_report(plan, folder, seal_raw, expected, labels_digest):
+def provider_report(plan, folder, seal_raw, expected, labels_digest, binding, summary):
     index, _ = load_json(folder / "capture.json")
     rows = []
     for job, entry in zip(plan["jobs"], index["turnArtifacts"]):
@@ -120,8 +117,8 @@ def provider_report(plan, folder, seal_raw, expected, labels_digest):
         )
     return {
         "schema": "normlab.stage1-provider-score/v1",
-        "planDigest": native_sha(plan),
-        "captureDigest": capture_binding(plan, folder)["captureDigest"],
+        "planDigest": binding["planDigest"],
+        "captureDigest": binding["captureDigest"],
         "sealDigest": sha(seal_raw),
         "labelsDigest": labels_digest,
         "scorerDigest": sha(
@@ -134,14 +131,14 @@ def provider_report(plan, folder, seal_raw, expected, labels_digest):
         "populationAccuracy": None,
         "statisticalSignificance": None,
         "scope": "selected-claim-support-on-diagnostic-development-cases",
-        "stopReason": provider_replay(plan, folder)["stopReason"],
+        "stopReason": summary["stopReason"],
         "arms": arms,
         "paired": paired,
         "rows": rows,
     }
 
 
-def retry_report(plan, folder, seal_raw, labels, labels_digest):
+def retry_report(plan, folder, seal_raw, labels, labels_digest, binding, summary):
     index, _ = load_json(folder / "capture.json")
     groups = attempts(plan, folder, index)
     rows = []
@@ -220,19 +217,18 @@ def retry_report(plan, folder, seal_raw, labels, labels_digest):
                 a["scheduledBackoffSeconds"] or 0 for a in history
             ),
         }
-    run_summary = retry_replay(plan, folder)
     require(
         sum(a["dispatches"] for a in arms.values())
-        == run_summary["networkCalls"] + run_summary["mockHttpCalls"],
+        == summary["networkCalls"] + summary["mockHttpCalls"],
         "Scored dispatch accounting",
     )
     return {
         "schema": "normlab.stage1-retry-score/v2",
-        **binding(plan, folder),
+        **binding,
         "sealDigest": sha(seal_raw),
         "labelsDigest": labels_digest,
         "mode": index["mode"],
-        "stopReason": run_summary["stopReason"],
+        "stopReason": summary["stopReason"],
         "annotationStatus": "candidate-not-independent",
         "semanticQualityEvidence": False,
         "populationAccuracy": None,

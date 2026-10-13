@@ -73,7 +73,7 @@ def attempt(
     }
 
 
-def project(builder, kind, files, scoring=None):
+def project(builder, kind, files, scoring=None, scoring_paths=None):
     require(kind in {"provider-v1", "retry-v2"}, "Stage 1 adapter kind")
     # Native replay reads only this bounded snapshot, with no access to its old paths.
     with tempfile.TemporaryDirectory() as temporary:
@@ -81,10 +81,17 @@ def project(builder, kind, files, scoring=None):
         restore(files, root)
         plan, parent, native_summary = native(kind, root)
         evaluated = None
-        if scoring is not None:
-            from offline_stage1_reference import evaluate
+        if scoring is not None or scoring_paths is not None:
+            from offline_stage1_reference import evaluate, native_binding
+            from offline_stage1_reference import snapshot as scoring_snapshot
 
-            evaluated = evaluate(builder, kind, plan, parent, root, scoring)
+            binding = native_binding(kind, plan, files)
+            if scoring_paths is not None:
+                require(scoring is None, "One scoring input source")
+                scoring = scoring_snapshot(*scoring_paths, kind, binding)
+            evaluated = evaluate(
+                builder, kind, plan, parent, root, scoring, binding, native_summary
+            )
     refs = {name: builder.add(raw) for name, raw in sorted(files.items())}
     source_manifest = {
         "schema": SOURCE_SCHEMA,
@@ -367,12 +374,7 @@ def export(builder, folder, manifest=None, seal=None, score=None):
     paths = (manifest, seal, score)
     require(all(paths) or not any(paths), "Complete scoring inputs required")
     kind, files = snapshot(folder)
-    scoring = None
-    if all(paths):
-        from offline_stage1_reference import snapshot as scoring_snapshot
-
-        scoring = scoring_snapshot(manifest, seal, score, kind, files)
-    return project(builder, kind, files, scoring)
+    return project(builder, kind, files, scoring_paths=paths if all(paths) else None)
 
 
 def validate(envelope, artifact):

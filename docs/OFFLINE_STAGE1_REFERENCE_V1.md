@@ -71,6 +71,13 @@ Parity checks compare with the unchanged native scorers; native code is neither
 patched nor loaded from bundle artifacts. Scorer and adapter dependencies are
 bound to the trusted reader revision.
 
+Each projection performs one complete native replay. Its binding is derived from
+the same immutable bounded snapshot; that binding and replay summary are passed
+to seal validation and score regeneration. No process-global or persistent replay
+cache is used. Import checks the seal before reading labels within that projection.
+Export's independent bundle validation performs a second projection, and every
+later `verify` performs a fresh replay. Frozen native scorers remain unchanged.
+
 The projected `normlab.offline-stage1-report/v2` retains the transport summary,
 references the original native score/seal, and includes `expected` plus nullable
 `selectedReferencePass` for first and final outcomes. An unexecuted/failed/unknown
