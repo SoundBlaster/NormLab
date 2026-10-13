@@ -29,7 +29,8 @@
     "parking:evaluate": "tsx scripts/parking-evaluate.ts",
     "parking:evaluate:synthetic": "tsx scripts/parking-synthetic-evaluate.ts",
     "lint:code": "oxlint --type-aware --deny-warnings --report-unused-disable-directives-severity error client server shared scripts tests vite.config.ts steiger.config.ts",
-    "lint:architecture": "steiger client --fail-on-warnings"
+    "lint:architecture": "tsx scripts/lint-architecture.ts client --fail-on-warnings",
+    "test:architecture": "tsx --test tests/steiger-braces-guard.test.ts tests/fsd-boundaries.test.ts"
   },
   "dependencies": {
     "react": "19.3.0",

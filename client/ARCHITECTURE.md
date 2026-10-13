@@ -27,7 +27,8 @@ client/
 
 ## Checks
 
-- `npm run lint:architecture` runs Steiger against `client` with `--fail-on-warnings`.
+- `npm run lint:architecture` runs Steiger against `client` with `--fail-on-warnings`, through the guarded launcher in `scripts/lint-architecture.ts`.
+- `npm run test:architecture` checks the glob guard and runs five forbidden-import probes against a disposable copy of the frontend. CI runs this in the dedicated FSD job. Probes must fail for their expected rule; a crash or timeout does not count as rejection.
 - `npm run lint` runs Oxlint and the architecture gate. CI exposes the dedicated `FSD architecture` check (`lint:architecture`) and runs `lint:code`, including public API re-export guards, in its main verification job. Both run on PRs to any base branch.
 - `npm run check` checks aliases/types; `npm run build` checks the production bundle.
 - `steiger.config.ts` uses recommended rules without exceptions, plus import-locality and no-wildcard-exports.

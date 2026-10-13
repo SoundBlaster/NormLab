@@ -27,7 +27,15 @@ docker compose config --quiet
 
 Steiger 0.7.0 named re-exports do not participate in its import-boundary checks; Oxlint restricts public `index.ts` to local modules. Negative probes confirmed rejection of Shared → Pages, Page → Page, deep public API bypass, higher-layer named re-export in a public API, and UI importing canonical root contracts directly.
 
-The pinned Steiger dev dependency currently brings npm audit advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) through braces/micromatch (5 high entries in the dependency chain). npm currently offers a downgrade rather than a patched braces release. This tooling reads repository glob patterns; it is not included in the browser production bundle. Track the upstream fix before accepting externally supplied glob patterns.
+### Temporary glob mitigation
+
+As checked on 2026-10-11, Steiger 0.7.0 and braces 3.0.3 are still the latest releases. [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) has no patched braces release. `npm audit` therefore still reports five high entries for this single dev-tool advisory; the production-only audit is clean. Downgrading Steiger is not a complete dependency-chain fix and would change the architecture checker.
+
+`npm run lint:architecture` now installs a temporary guard before loading Steiger. It resolves every braces instance used by Steiger's direct micromatch, globby and fast-glob consumers, then wraps the public parse/compile/expand/stringify entry points. It rejects strings longer than 65536 characters or with more than 64 opening brace/parenthesis delimiters before parsing, and checks AST depth, node count and cycles iteratively before recursive walkers. Counting escaped/quoted delimiters too is conservative: exceptionally elaborate valid patterns can be rejected. Ordinary project globs are unchanged.
+
+This is a scoped runtime mitigation, **not an upstream fix or a clean full audit**. It applies to the guarded npm command, not direct `npx steiger`, other tools, or private braces module imports. It does not make untrusted executable Steiger configuration safe. The dependency remains pinned; unexpected braces versions fail with a request to review/remove the guard. Once a patched release is available, update the dependency chain, remove the guard and rerun `npm run test:architecture` before merging. Do not suppress the advisory or disable FSD rules.
+
+`npm run test:architecture` verifies normal glob behavior, pathological strings/ASTs and five architecture violations in a temporary frontend copy. It runs in the dedicated FSD CI job, as well as the general Node test suite.
 
 GitHub CI runs on pull requests to any base branch, including stacked PRs. The dedicated `FSD architecture` job runs `npm run lint:architecture` with warnings treated as failures; the main verification job runs Oxlint, including public API re-export guards. Push-triggered CI remains limited to `main`.
 
