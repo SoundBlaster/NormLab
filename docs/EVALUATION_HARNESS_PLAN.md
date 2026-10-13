@@ -13,7 +13,9 @@
 Первый implementation slice [5a: execution records и offline reader](EXECUTION_RECORDS_V1.md)
 добавляет strict schemas, plan/dry-run и journal/resolution preflight и
 прошёл [локальную offline runtime-проверку](EXECUTION_RECORD_VERIFICATION_2026-10-13.md).
-Далее: durable mock execution → bounded resume →
+Следующий [implementation slice 5b](MOCK_EXECUTION_V1.md) добавляет durable mock
+execution с atomic checkpoint и [fault injection](MOCK_EXECUTION_VERIFICATION_2026-10-13.md).
+После review: bounded resume →
 capture-revision-aware export/registry → отдельный live smoke.
 Текущие native runners не получают resume автоматически.
 
