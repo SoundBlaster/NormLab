@@ -101,6 +101,11 @@ def outcome(value, task, arm, questions, store, *, observation, mock):
     for key, count in value["usage"].items():
         if count is not None:
             integer(count)
+    if value["dispatchObserved"] is False:
+        require(
+            value["usage"] == {"inputTokens": 0, "outputTokens": 0},
+            "Definitively unsent attempt requires explicit zero provider usage",
+        )
     if mock:
         require(
             value["dispatchObserved"] is False

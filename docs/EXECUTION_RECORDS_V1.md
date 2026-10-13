@@ -185,7 +185,9 @@ cancellation and exact wall-time termination are not claimed.
 Outcome `dispatchObserved` is bool/null; usage is `{inputTokens, outputTokens}`
 with nullable nonnegative integers. Known usage above a declared request ceiling
 is retained, marks `usageCeilingExceeded` and forbids later reservations; it cannot
-claim a normal complete stop. Mock
+claim a normal complete stop. `dispatchObserved: false` requires explicitly zero
+input/output usage; null or positive usage requires true/null dispatch evidence.
+The reader rejects inconsistent records instead of rewriting their usage. Mock
 outcomes explicitly contain false observed provider dispatch and zero provider
 usage. Response/result are nullable artifact refs, errors a bounded sanitized
 class list, backoff nullable nanoseconds and HTTP failure status 400–599 or null.
