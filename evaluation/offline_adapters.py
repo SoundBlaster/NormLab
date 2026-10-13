@@ -388,7 +388,9 @@ def main():
     s13_parser.add_argument(
         "--reference", type=Path, default=S13_FIXTURE / "reviewer-only.json"
     )
-    for command in (classification_parser, s13_parser):
+    stage1_parser = sub.add_parser("stage1")
+    stage1_parser.add_argument("capture", type=Path)
+    for command in (classification_parser, s13_parser, stage1_parser):
         command.add_argument("--output", type=Path)
     verify_parser = sub.add_parser("verify")
     verify_parser.add_argument("bundle", type=Path)
@@ -398,11 +400,14 @@ def main():
             envelope = verify(args.bundle)
         else:
             builder = Builder()
-            envelope = (
-                classification(builder, args.manifest, args.labels)
-                if args.command == "classification"
-                else s13(builder, args.capture, args.reference)
-            )
+            if args.command == "classification":
+                envelope = classification(builder, args.manifest, args.labels)
+            elif args.command == "s13":
+                envelope = s13(builder, args.capture, args.reference)
+            else:
+                from offline_stage1 import export as export_stage1
+
+                envelope = export_stage1(builder, args.capture)
             if args.output:
                 envelope = builder.export(envelope, args.output)
             else:

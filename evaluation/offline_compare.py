@@ -92,12 +92,20 @@ class SavedView:
     def outcome(self, task):
         row = self.value(task["scoreArtifact"])
         completed = task["turn"]["status"] == "completed"
-        if self.is_s13:
+        if self.family == "stage1":
+            passed = None  # Transport projection has no imported reference labels.
+        elif self.is_s13:
             agreements = [q["agreement"] for q in row["questions"]]
             passed = all(agreements) if completed and agreements else None
         else:
             passed = row["probePass"] if completed else None
         return {"status": task["turn"]["status"], "selectedReferencePass": passed}
+
+    @property
+    def family(self):
+        if self.envelope["source"]["schema"] == "normlab.offline-stage1-source/v1":
+            return "stage1"
+        return "s13" if self.is_s13 else "classification"
 
 
 def same(left, right):
@@ -107,7 +115,7 @@ def same(left, right):
 def global_reasons(baseline, candidate, policy):
     left, right = baseline.envelope, candidate.envelope
     reasons = []
-    if baseline.is_s13 != candidate.is_s13:
+    if baseline.family != candidate.family:
         reasons.append("source-family-differs")
     for field in ("dataset",):
         if not same(left[field], right[field]):
@@ -262,15 +270,27 @@ def compare(baseline, candidate, context="strict", vary=()):
     global_errors = global_reasons(baseline, candidate, policy)
     keys = sorted(set(baseline.tasks) | set(candidate.tasks), key=canonical)
     rows = [paired_row(baseline, candidate, key, policy, global_errors) for key in keys]
+    reader_files = set(ADAPTER_FILES)
+    reader_assets = ()
+    if "stage1" in {baseline.family, candidate.family}:
+        from offline_stage1 import READER_ASSETS, READER_FILES
+
+        reader_files.update(READER_FILES)
+        reader_assets = READER_ASSETS
     report = {
         "schema": SCHEMA,
         "policy": policy,
         "policyDigest": sha(canonical(policy)),
         "comparatorDigest": sha(read(Path(__file__))),
         "readerCodeDigests": {
-            name: sha(read(Path(__file__).with_name(name))) for name in ADAPTER_FILES
+            name: sha(read(Path(__file__).with_name(name)))
+            for name in sorted(reader_files)
         },
         "baseline": baseline.binding(),
+        "readerAssetDigests": {
+            name: sha(read(Path(__file__).resolve().parents[1] / name))
+            for name in reader_assets
+        },
         "candidate": candidate.binding(),
         "sameRun": baseline.envelope["run"]["id"] == candidate.envelope["run"]["id"],
         "sameCaptureSet": baseline.envelope["run"]["captureDigest"]

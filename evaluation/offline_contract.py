@@ -145,6 +145,10 @@ def validate(envelope, fetch):
                 refs(child)
 
     refs(envelope)
+    if envelope["source"]["schema"] == "normlab.offline-stage1-source/v1":
+        from offline_stage1 import validate as validate_stage1
+
+        return validate_stage1(envelope, artifact)
     run, is_s13, report = validate_metadata(envelope, artifact)
     tasks = validate_tasks(envelope, artifact, refs, run, is_s13, report)
     validate_counts(envelope["counts"], tasks)

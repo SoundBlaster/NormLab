@@ -114,8 +114,12 @@ JSON сохраняет полные keys, reasons, исходные statuses и
 
 [Runtime report](OFFLINE_PAIRED_COMPARISON_2026-10-13.md): девять fixture/diagnostic
 сценариев и побайтово одинаковый portable результат, с запрещённой сетью.
-Новые unit tests в этом slice не добавлялись; предыдущий suite #85 проверяет
-export/reader, но не объявляется regression coverage нового comparator.
+Первоначальный slice #86 не добавлял unit tests. Последующий
+[regression suite](../evaluation/test_offline_compare.py) проверяет policies,
+exclusions, Markdown и portable output; [отчёт](OFFLINE_STAGE1_ADAPTER_2026-10-13.md).
 
-Следующий шаг после review — regression coverage comparison policies, затем
-adapter Stage 1 attempts/retries; MLflow projection остаётся отдельным slice #77.
+[Stage 1 transport adapter](OFFLINE_STAGE1_ADAPTER_V1.md) сохраняет first/final и
+attempts. Его reference не импортирована: comparison сохраняет статусы и явно
+оставляет quality `not-evaluated`. Stage 1 reader/native module digests и
+`readerAssetDigests` входят в comparison identity. Следующий slice — sealed
+reference/score import; MLflow projection остаётся отдельным шагом #77.
