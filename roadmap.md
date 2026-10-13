@@ -346,7 +346,7 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Отдельный SDK-free scorer: hash-снимок ответов, candidate-label agreement, полный planned denominator и сравнение matched contexts.
 - [x] Сохранить частичный live context: Jev и Decisions ответили, Responses завершился transport error.
 - [x] Сравнить четыре candidate inputs (12 новых dispatches): Jev 2/4, Decisions 2/4, Luna Low 2/2 при двух transport failures. Mixed-transport diagnostic, победитель не установлен.
-- [ ] Новая ревизия executor с sanitized transport exception class, затем новый отдельно разрешённый live-прогон.
+- [x] Новая ревизия executor с sanitized transport exception class реализована в retry-runner; новый live-прогон остаётся отдельным следующим шагом.
 
 Свидетельства: [scoring contract](docs/STAGE1_PROVIDER_SCORING.md), [live attempt](docs/STAGE1_LIVE_PILOT_2026-10-11.md).
 
@@ -355,8 +355,8 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] [Отдельная версия retry-runner](docs/STAGE1_NETWORK_RETRIES.md): до трёх попыток, exponential backoff + jitter, sanitized transport exceptions, общий dispatch cap и SDK-free replay.
 - [x] Локально проверить восстановление, исчерпание попыток/бюджета, отсутствие HTTP/schema retries и безопасную остановку при прерывании; zero live calls.
 - [x] [Добавить retry-aware scoring](docs/STAGE1_RETRY_SCORING.md) с отдельным учётом first-attempt completion, результата после повторов, candidate agreement и всех потраченных attempts.
-- [ ] Новая ревизия retry-runner со split-export: полный corpus-план сейчас превышает лимит JSON artifact в 2 MiB; pilot проверен.
-- [ ] Провести малый live-прогон новой стратегии с явно ограниченным общим числом попыток.
+- [x] Новая ревизия retry-runner v2 со split-export: полный план из 288 corpus-заданий экспортируется в digest-bound артефакты меньше 2 MiB каждый; offline execution/scoring проверены в PR #57. Историческая v1 сохраняет прежнее ограничение.
+- [x] Провести [малый live-прогон retry v2](docs/STAGE1_RETRY_LIVE_2026-10-11.md): 12 попыток, 6 ответов, 4 восстановленных задания; replay/sealing/scoring прошли. Два общих контекста не устанавливают победителя моделей.
 
 ### Stack merge review — 2026-10-11
 
@@ -364,4 +364,16 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Retry scorer v2: preserve known tokens for pending completed children; keep verdict unknown.
 - [x] Add offline regression coverage for both fixes to provider CI.
 - [x] Align pinned Node runtime, CI and package engines on Node 22.19.0 for Undici 8 (#50).
-- [ ] Run the next explicitly budgeted live comparison with the v2 retry contract.
+- [x] Run the next explicitly budgeted live comparison with the v2 retry contract: [12-attempt partial capture](docs/STAGE1_RETRY_LIVE_2026-10-11.md).
+- [ ] Расширить matched live comparison на C008 и следующие contrast families с новым явно ограниченным бюджетом; отдельно исследовать TLS без платного inference.
+
+### Повышение качества pipeline — согласовано 2026-10-11
+
+- [x] [План development → freeze → holdout](docs/PIPELINE_QUALITY_PLAN.md): 30–50 разнообразных development-фабул, одна выбранная конфигурация, 100 новых holdout-фабул; 400 по необходимости. Цель — качество pipeline на доступных моделях, не их рейтинг.
+- [x] SDK-free [inventory](fixtures/parking-pilot/pipeline-quality-v1/corpus-inventory.json): 71 текст, 71 различный hash; независимость между families/sources ещё не проверена, eligible holdout 0. Partial candidate probes не объявляются полным case-level quality score.
+- [x] [External diagnostic set v1](fixtures/external-diagnostics-v1/README.md): 24 RCB пары и 12 полных судебных текстов с revisions, source IDs, hashes и лицензиями. Labels отдельно; exact source dedup, holdout 0, human review и semantic independence pending.
+- [x] [Candidate semantic review внешнего набора](docs/EXTERNAL_DIAGNOSTIC_REVIEW_2026-10-12.md): 24 RCB пары, 50 attribution probes в 12 судебных текстах и 74 exact anchors. Upstream labels видимы, independent/human review и полная completeness не выполнены; quality score не рассчитывается.
+- [ ] Human adjudication спорных readings внешнего набора; отдельно проверить identity, privacy и semantic dependence до использования как reference/public demo.
+- [ ] Полный каталог критических ошибок и reviewer rubric для выбранных 30–50 development-фабул.
+- [ ] Versioned S1.3 task-decomposition experiment на фиксированном provider/model; после diagnostics оценить необходимость extraction ablation. Не считать новый этап полезным заранее.
+- [ ] Freeze выбранной конфигурации и independent final evaluation на 100 новых фабулах. Ручные исправления, operational completion и semantic quality измерять отдельно.

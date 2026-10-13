@@ -77,9 +77,9 @@ local integrity checks, not signatures or trusted timestamps.
 The previous candidate-label scorer accepts canonical no-retry captures only;
 do not feed it the wrapper index or discard failed attempts. Use the separate
 [retry-aware scorer](STAGE1_RETRY_SCORING.md) for first/final views and attempt costs.
-That document also records the current full-corpus plan export limitation.
+That document records the historical v1 export limitation and its v2 resolution.
 
-## CLI
+## Historical v1 CLI
 
 ```bash
 # New retry-plan digest, no SDK/key/network; authorized calls remain zero.
@@ -127,5 +127,7 @@ from subprocess environments. All nine captures were replayed with Python -B -S:
 
 These are local control-flow rehearsals, not a new automatic CI suite or live
 provider reliability/quality evidence. No paid calls were made for this change.
-Next: fix full-corpus plan export in a new revision, then authorize a small live
-comparison with an aggregate attempt cap and preserve first-attempt reliability.
+The full-corpus export fix and automated offline regression coverage landed in
+PR #57's v2 runner/scorer. Next: a small v2 live comparison with an explicitly
+confirmed external spending limit and aggregate attempt cap, preserving
+first-attempt reliability separately from recovery and candidate agreement.

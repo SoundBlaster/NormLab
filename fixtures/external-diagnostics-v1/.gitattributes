@@ -1,0 +1,6 @@
+# Preserve the bytes used by snapshot hashes, including upstream whitespace.
+*.json -text
+*.jsonl -text
+texts/*.source.txt -text -whitespace
+upstream/*.md -text -whitespace
+licenses/*.txt -text -whitespace

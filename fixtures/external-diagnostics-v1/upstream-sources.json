@@ -1,0 +1,69 @@
+{
+  "schema": "normlab.external-corpus-upstream-lock/v1",
+  "retrievedOn": "2026-10-11",
+  "datasets": {
+    "rcb": {
+      "repository": "RussianNLP/russian_super_glue",
+      "revision": "53cb9d7f38b34c308a2eea3f4797f9edc7947d8b",
+      "datasetUrl": "https://huggingface.co/datasets/RussianNLP/russian_super_glue",
+      "taskUrl": "https://russiansuperglue.com/tasks/task_info/RCB",
+      "licenseEvidenceUrl": "https://russiansuperglue.com/faq/",
+      "archiveMember": "RCB/train.jsonl",
+      "license": "MIT",
+      "attribution": "RussianNLP / Russian SuperGLUE contributors; upstream MIT notice retained verbatim",
+      "originDocumentUrlsProvided": false
+    },
+    "sud": {
+      "repository": "lawful-good-project/sud-resh-benchmark",
+      "revision": "b51684df64fbc13094fa0448c3ad27c3dcef950a",
+      "datasetUrl": "https://huggingface.co/datasets/lawful-good-project/sud-resh-benchmark",
+      "licenseEvidence": "upstream/court-card.md YAML license: gpl-3.0",
+      "license": "GPL-3.0",
+      "attribution": "lawful-good-project; dataset created with Yandex OpenSource compute grant per upstream card",
+      "originDocumentUrlsProvided": false,
+      "annotationOrigin": "LLM-generated; aggregate expert assessment reported by authors; no independent NormLab review"
+    }
+  },
+  "artifacts": [
+    {
+      "cacheFile": "rcb.zip",
+      "url": "https://huggingface.co/datasets/RussianNLP/russian_super_glue/resolve/53cb9d7f38b34c308a2eea3f4797f9edc7947d8b/data/RCB.zip",
+      "sha256": "9ecc0bd0cc04e04922349212452166404b5a75b67be9e6aa996c80c64beb6ddb",
+      "bytes": 136700
+    },
+    {
+      "cacheFile": "rcb-card.md",
+      "url": "https://huggingface.co/datasets/RussianNLP/russian_super_glue/resolve/53cb9d7f38b34c308a2eea3f4797f9edc7947d8b/README.md",
+      "sha256": "6aa1b1575697e05ccd57939cb2c9b337f4ccf886524c35492e3ad8319342ee10",
+      "bytes": 35831,
+      "snapshotFile": "upstream/rcb-card.md"
+    },
+    {
+      "cacheFile": "court.json",
+      "url": "https://huggingface.co/datasets/lawful-good-project/sud-resh-benchmark/resolve/b51684df64fbc13094fa0448c3ad27c3dcef950a/sud_resh_benchmark.json",
+      "sha256": "3a052f028ce6137b65a3c30560195c07037a05701dedc32a12c41a9dc27df8b2",
+      "bytes": 214972569
+    },
+    {
+      "cacheFile": "court-card.md",
+      "url": "https://huggingface.co/datasets/lawful-good-project/sud-resh-benchmark/resolve/b51684df64fbc13094fa0448c3ad27c3dcef950a/README.md",
+      "sha256": "163c6588263b0bf7dc988736d57f9ef194bea6288564acf10a6a43a952931474",
+      "bytes": 5234,
+      "snapshotFile": "upstream/court-card.md"
+    },
+    {
+      "cacheFile": "rcb-license.txt",
+      "url": "https://raw.githubusercontent.com/RussianNLP/RussianSuperGLUE/6fc9547910d894c6609bc39c65ea5e7e5f8991fd/LICENSE",
+      "sha256": "e69f12e8fa47f0568071cd6f6a472e01dcde4c183ecb89dfea86932bd8fe4107",
+      "bytes": 1075,
+      "snapshotFile": "licenses/RCB-MIT.txt"
+    },
+    {
+      "cacheFile": "court-license.txt",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/GPL-3.0-only.txt",
+      "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+      "bytes": 34674,
+      "snapshotFile": "licenses/SUD-GPL-3.0.txt"
+    }
+  ]
+}

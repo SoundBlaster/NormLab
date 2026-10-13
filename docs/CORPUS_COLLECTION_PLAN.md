@@ -30,6 +30,14 @@
 
 ## Правила источников
 
+[External diagnostic set v1](../fixtures/external-diagnostics-v1/README.md) добавляет
+24 RCB пары (MIT) и 12 полных судебных source texts (upstream GPL-3.0). Provenance,
+revisions, raw artifact hashes и per-record IDs закреплены; labels отделены от
+model inputs. Набор предназначен для development диагностики, не holdout и не
+замены 30–50 полностью размеченных доменных фабул. Primary publication URLs
+не предоставлены upstream и помечены как неизвестные. Incident/semantic dedup
+и human rubric review остаются обязательными следующими шагами.
+
 - Новости: полезны для natural language и необычных ситуаций, но дают selection bias в сторону споров и ошибок. По ним нельзя оценить частоту успеха на всех обращениях.
 - Судебные акты: case ID и официальный ресурс полезны для provenance и исследования права; официальная сверка не блокирует использование текста как extraction input. Отличать довод заявителя, установленное судом обстоятельство и правовую оценку. Решение суда не является gold label extraction автоматически.
 - Официальные сводки: проверка тем и масштабов, не индивидуальные фабулы. Число упомянутых нарушений нельзя превращать в размер нашей выборки без текстов каждого эпизода.
@@ -50,6 +58,13 @@
 Reviewer-only metadata: legal outcome, normative references и темы контроля не передаются extractor. В input только source narrative и общий contract. Редакционный пересказ и оригинальная фабула получают разные textOrigin; их scores не смешиваются без явно определённой population.
 
 ## Статистический план
+
+Текущий согласованный порядок: [30–50 development-фабул → freeze → 100 новых
+holdout-фабул](PIPELINE_QUALITY_PLAN.md), ориентир 400 только при необходимости
+повысить точность. При доле около 50% планировочная погрешность 95% interval —
+примерно ±10 pp для 100 и ±5 pp для 400 при независимой репрезентативной выборке.
+100 не является универсальным числом для statistical significance. Пример с
+0.8 ниже относится к дальнейшему ориентиру, а не к нынешней цели демо.
 
 При независимой репрезентативной binomial выборке и ожидаемой доле 0.8 приближённое планирование двустороннего 95% interval даёт около 62 случаев для ±10 pp и 246 для ±5 pp (`n ≈ 1.96² × 0.8 × 0.2 / margin²`). Это ориентир **точности оценки**, не универсальное число для statistical significance и не доказательство достижения порога 80%. [NIST: confidence intervals](https://itl.nist.gov/div898/handbook/prc/section2/prc241.htm), [sample size planning](https://www.itl.nist.gov/div898/handbook/prc/section2/prc242.htm).
 

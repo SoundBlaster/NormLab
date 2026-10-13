@@ -1,0 +1,66 @@
+{
+  "schema": "normlab.s13-offline/v1",
+  "experimentId": "s13-selected-claim-decomposition-v1",
+  "mode": "offline-only",
+  "authorizedLiveCalls": 0,
+  "providerBinding": {
+    "supplier": null,
+    "model": null,
+    "modelVersion": null
+  },
+  "repetitions": 3,
+  "orderSeed": "normlab-s13-v1-2026-10-12",
+  "artifacts": {
+    "sources": {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/sources.json",
+      "sha256": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c"
+    },
+    "candidates": {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+      "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+    },
+    "definitions": {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/definitions.json",
+      "sha256": "0b9be80b864f3563de2af79d4b160c266362906efafdb264cffd40c98ff7a224"
+    },
+    "conventions": {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/conventions.json",
+      "sha256": "8673b5c4d2e1257b470e256f47a183963913975754755ba0a8e5ea284c08f9f8"
+    },
+    "prompts": {
+      "path": "fixtures/parking-pilot/s13-offline-v1/prompts.json",
+      "sha256": "4fd2a9e676d91545ef6401c1219c8fa979374badd3482f23440694a5d50b0842"
+    }
+  },
+  "codePins": {
+    "evaluation/s13_offline.py": "b407265e809bd1d247a8d4a567f39049da636bb9e0612fd2ce26c2c4c3337091"
+  },
+  "caps": {
+    "maxLogicalCalls": 453,
+    "maxSemanticQuestions": 909,
+    "maxAttempts": 453,
+    "retries": 0,
+    "maxQuestionsPerRequest": 8,
+    "maxRequestUtf8Bytes": 65536,
+    "maxInputTokens": 8192,
+    "maxOutputTokens": 1024,
+    "maxTotalTokens": 4174848,
+    "maxRequestSeconds": 60,
+    "maxRunSeconds": 27180
+  },
+  "noulDecision": {
+    "yesAtOrAbove": 0.8,
+    "noAtOrBelow": 0.2,
+    "otherwise": "uncertain"
+  },
+  "transport": "provider-neutral logical tasks; not an SDK request body",
+  "completeness": "not-evaluated; local questions cannot measure missing claims",
+  "referencePolicy": "separate versioned candidate references; human adjudication requires evidence and a new reference revision",
+  "deadlinePolicy": "future dispatcher must use one monotonic run deadline and min(remaining run time, 60s) per attempt; offline replay records deadlines, does not execute timers",
+  "comparisonPolicy": {
+    "A-C": "same source/candidate/whole instruction; binary task matched, answer formats and abstention differ",
+    "A-B": "decomposition plus granularity, aggregation and question count change together",
+    "A-D": "task, target selection and answer space change together; no primitive-only causal conclusion",
+    "quality": "no provider quality or case-level correctness claim from these offline fixtures"
+  }
+}

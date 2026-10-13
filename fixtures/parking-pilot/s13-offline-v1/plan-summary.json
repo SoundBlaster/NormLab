@@ -1,0 +1,17 @@
+{
+  "schema": "normlab.s13-plan-summary/v1",
+  "manifestDigest": "3f499b79d39b0ea98b5a6b5b44b325e2f62859c10ad1220c1d45de8b854d017f",
+  "planDigest": "e2f78a7c8d5d3a95c630afa916de92f1cfa0f0098d8321d9e012932e9abdb071",
+  "calls": 453,
+  "questions": 909,
+  "arms": {
+    "A": 96,
+    "B": 96,
+    "C": 96,
+    "D": 165
+  },
+  "sourceOnlyTargets": 55,
+  "authorizedLiveCalls": 0,
+  "sourceCount": 16,
+  "candidateCount": 32
+}
