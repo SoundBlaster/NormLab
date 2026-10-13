@@ -69,6 +69,31 @@ jobs:
       - name: Check candidate review hashes and exact source anchors
         run: python -B -S evaluation/check_external_diagnostic_review.py
 
+      - name: Check S1.3 frozen offline plan and replay without inference
+        run: python -B -S evaluation/s13_offline.py check
+
+      - name: Check offline export, comparison and portable reader with network denied
+        run: python -B -S -m unittest discover -s evaluation -p 'test_offline_*.py' -v
+
+  mlflow:
+    name: Local MLflow import contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Install pinned MLflow runtime
+        run: python -m pip install mlflow==3.16.1
+      - name: Check local SQLite import and concurrent recovery with network denied
+        env:
+          MLFLOW_DISABLE_AGENT_HINT: '1'
+          MLFLOW_DISABLE_TELEMETRY: 'true'
+        run: python -B -m unittest discover -s evaluation -p 'test_mlflow_import.py' -v
+
   architecture:
     name: FSD architecture
     runs-on: ubuntu-24.04

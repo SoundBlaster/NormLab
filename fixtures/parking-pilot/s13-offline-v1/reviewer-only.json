@@ -1,0 +1,1840 @@
+{
+  "schema": "normlab.s13-reference/v1",
+  "revision": "s13-candidate-v1",
+  "status": "candidate-not-independent",
+  "adjudicationEvidence": [],
+  "planDigest": "e2f78a7c8d5d3a95c630afa916de92f1cfa0f0098d8321d9e012932e9abdb071",
+  "upstreamReference": {
+    "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+    "sha256": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91"
+  },
+  "authoring": "Derived from historical candidate conventions; added axis and query-frame labels are author proposals, not independent gold.",
+  "rationales": {
+    "local": "Only the mutated field marks its axis; epistemic upgrade also marks projection. Axes overlap and are not independent defects.",
+    "C007:global:payment": "Necessity allows factual and merely modal readings; selected necessity claim can still be supported.",
+    "C008:global:payment": "Denied assertion is not a commitment to an actual payment or non-payment.",
+    "C009-C011:global:payment": "Obligation/conditional/hypothetical content does not assert an actual payment; not_mentioned is query-frame absence.",
+    "C012:global:payment": "Friend payment is affirmed; denial of narrator participation is attribution, not event non-payment.",
+    "C005-C006:global:payment": "Distinct narrator/letter positions; not a verdict on who is right.",
+    "C013-C014:global:payment": "Distinct vehicles/sessions; multiple_positions does not assert contradiction.",
+    "C016:global:paidRegime": "Raw abbreviation ПП has unresolved readings; no paid-regime fact is inferred. Proposed ambiguous label requires adjudication.",
+    "C015-C016:global:payment": "Denial is explicitly attributed to letter/order, not independently proven world truth."
+  },
+  "expected": {
+    "S13-1-001": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-002": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-003": {
+      "overall": "yes"
+    },
+    "S13-1-004": {
+      "stance": "denied"
+    },
+    "S13-1-005": {
+      "stance": "asserted"
+    },
+    "S13-1-006": {
+      "overall": "no"
+    },
+    "S13-1-007": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-008": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-009": {
+      "overall": "yes"
+    },
+    "S13-1-010": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-011": {
+      "stance": "denied"
+    },
+    "S13-1-012": {
+      "overall": "no"
+    },
+    "S13-1-013": {
+      "overall": "yes"
+    },
+    "S13-1-014": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-015": {
+      "stance": "denied"
+    },
+    "S13-1-016": {
+      "overall": "no"
+    },
+    "S13-1-017": {
+      "overall": "yes"
+    },
+    "S13-1-018": {
+      "overall": "yes"
+    },
+    "S13-1-019": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-020": {
+      "overall": "no"
+    },
+    "S13-1-021": {
+      "overall": "no"
+    },
+    "S13-1-022": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-023": {
+      "overall": "no"
+    },
+    "S13-1-024": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-025": {
+      "stance": "denied"
+    },
+    "S13-1-026": {
+      "overall": "yes"
+    },
+    "S13-1-027": {
+      "overall": "yes"
+    },
+    "S13-1-028": {
+      "overall": "yes"
+    },
+    "S13-1-029": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-030": {
+      "overall": "no"
+    },
+    "S13-1-031": {
+      "overall": "no"
+    },
+    "S13-1-032": {
+      "overall": "yes"
+    },
+    "S13-1-033": {
+      "overall": "no"
+    },
+    "S13-1-034": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-035": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-036": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-037": {
+      "overall": "no"
+    },
+    "S13-1-038": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "no",
+      "c2_scope": "yes",
+      "c2_projection": "no"
+    },
+    "S13-1-039": {
+      "overall": "yes"
+    },
+    "S13-1-040": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-041": {
+      "overall": "yes"
+    },
+    "S13-1-042": {
+      "stance": "asserted"
+    },
+    "S13-1-043": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-044": {
+      "stance": "asserted"
+    },
+    "S13-1-045": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-046": {
+      "overall": "yes"
+    },
+    "S13-1-047": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-048": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-049": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "no",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-050": {
+      "overall": "no"
+    },
+    "S13-1-051": {
+      "overall": "yes"
+    },
+    "S13-1-052": {
+      "overall": "no"
+    },
+    "S13-1-053": {
+      "overall": "yes"
+    },
+    "S13-1-054": {
+      "overall": "yes"
+    },
+    "S13-1-055": {
+      "overall": "no"
+    },
+    "S13-1-056": {
+      "overall": "yes"
+    },
+    "S13-1-057": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-058": {
+      "overall": "no"
+    },
+    "S13-1-059": {
+      "stance": "asserted"
+    },
+    "S13-1-060": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-061": {
+      "overall": "yes"
+    },
+    "S13-1-062": {
+      "overall": "yes"
+    },
+    "S13-1-063": {
+      "overall": "no"
+    },
+    "S13-1-064": {
+      "stance": "denied"
+    },
+    "S13-1-065": {
+      "overall": "yes"
+    },
+    "S13-1-066": {
+      "stance": "ambiguous"
+    },
+    "S13-1-067": {
+      "overall": "no"
+    },
+    "S13-1-068": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-069": {
+      "overall": "yes"
+    },
+    "S13-1-070": {
+      "overall": "yes"
+    },
+    "S13-1-071": {
+      "stance": "multiple_positions"
+    },
+    "S13-1-072": {
+      "stance": "denied"
+    },
+    "S13-1-073": {
+      "overall": "no"
+    },
+    "S13-1-074": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "no",
+      "c1_projection": "no"
+    },
+    "S13-1-075": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-076": {
+      "overall": "no"
+    },
+    "S13-1-077": {
+      "stance": "multiple_positions"
+    },
+    "S13-1-078": {
+      "stance": "denied"
+    },
+    "S13-1-079": {
+      "stance": "asserted"
+    },
+    "S13-1-080": {
+      "stance": "explicit_unknown"
+    },
+    "S13-1-081": {
+      "overall": "no"
+    },
+    "S13-1-082": {
+      "overall": "yes"
+    },
+    "S13-1-083": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-084": {
+      "stance": "asserted"
+    },
+    "S13-1-085": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-086": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-087": {
+      "overall": "no"
+    },
+    "S13-1-088": {
+      "stance": "ambiguous"
+    },
+    "S13-1-089": {
+      "overall": "yes"
+    },
+    "S13-1-090": {
+      "overall": "no"
+    },
+    "S13-1-091": {
+      "overall": "no"
+    },
+    "S13-1-092": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-093": {
+      "overall": "yes"
+    },
+    "S13-1-094": {
+      "overall": "no"
+    },
+    "S13-1-095": {
+      "stance": "asserted"
+    },
+    "S13-1-096": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "no",
+      "c2_projection": "yes"
+    },
+    "S13-1-097": {
+      "overall": "yes"
+    },
+    "S13-1-098": {
+      "stance": "denied"
+    },
+    "S13-1-099": {
+      "overall": "no"
+    },
+    "S13-1-100": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-101": {
+      "overall": "no"
+    },
+    "S13-1-102": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-103": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-104": {
+      "overall": "yes"
+    },
+    "S13-1-105": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-106": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-107": {
+      "overall": "yes"
+    },
+    "S13-1-108": {
+      "overall": "yes"
+    },
+    "S13-1-109": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "no",
+      "c2_scope": "yes",
+      "c2_projection": "no"
+    },
+    "S13-1-110": {
+      "stance": "multiple_positions"
+    },
+    "S13-1-111": {
+      "stance": "asserted"
+    },
+    "S13-1-112": {
+      "overall": "no"
+    },
+    "S13-1-113": {
+      "stance": "asserted"
+    },
+    "S13-1-114": {
+      "stance": "asserted"
+    },
+    "S13-1-115": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-116": {
+      "stance": "denied"
+    },
+    "S13-1-117": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-118": {
+      "stance": "explicit_unknown"
+    },
+    "S13-1-119": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "no",
+      "c1_projection": "no"
+    },
+    "S13-1-120": {
+      "stance": "denied"
+    },
+    "S13-1-121": {
+      "overall": "yes"
+    },
+    "S13-1-122": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-123": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-124": {
+      "stance": "asserted"
+    },
+    "S13-1-125": {
+      "overall": "no"
+    },
+    "S13-1-126": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-127": {
+      "overall": "no"
+    },
+    "S13-1-128": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-129": {
+      "stance": "denied"
+    },
+    "S13-1-130": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "no"
+    },
+    "S13-1-131": {
+      "overall": "yes"
+    },
+    "S13-1-132": {
+      "stance": "denied"
+    },
+    "S13-1-133": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-134": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "no",
+      "c2_projection": "yes"
+    },
+    "S13-1-135": {
+      "stance": "asserted"
+    },
+    "S13-1-136": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-137": {
+      "overall": "no"
+    },
+    "S13-1-138": {
+      "overall": "yes"
+    },
+    "S13-1-139": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-1-140": {
+      "overall": "no"
+    },
+    "S13-1-141": {
+      "overall": "yes"
+    },
+    "S13-1-142": {
+      "stance": "asserted"
+    },
+    "S13-1-143": {
+      "overall": "no"
+    },
+    "S13-1-144": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-145": {
+      "stance": "asserted"
+    },
+    "S13-1-146": {
+      "stance": "asserted"
+    },
+    "S13-1-147": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-1-148": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "no"
+    },
+    "S13-1-149": {
+      "stance": "not_mentioned"
+    },
+    "S13-1-150": {
+      "stance": "multiple_positions"
+    },
+    "S13-1-151": {
+      "overall": "no"
+    },
+    "S13-2-001": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-002": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-003": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-004": {
+      "overall": "no"
+    },
+    "S13-2-005": {
+      "stance": "ambiguous"
+    },
+    "S13-2-006": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "no"
+    },
+    "S13-2-007": {
+      "stance": "denied"
+    },
+    "S13-2-008": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-009": {
+      "overall": "no"
+    },
+    "S13-2-010": {
+      "overall": "no"
+    },
+    "S13-2-011": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-012": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-013": {
+      "overall": "yes"
+    },
+    "S13-2-014": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "no",
+      "c2_scope": "yes",
+      "c2_projection": "no"
+    },
+    "S13-2-015": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-016": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-017": {
+      "overall": "yes"
+    },
+    "S13-2-018": {
+      "stance": "ambiguous"
+    },
+    "S13-2-019": {
+      "stance": "asserted"
+    },
+    "S13-2-020": {
+      "stance": "asserted"
+    },
+    "S13-2-021": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "no"
+    },
+    "S13-2-022": {
+      "overall": "yes"
+    },
+    "S13-2-023": {
+      "overall": "no"
+    },
+    "S13-2-024": {
+      "stance": "multiple_positions"
+    },
+    "S13-2-025": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-026": {
+      "overall": "no"
+    },
+    "S13-2-027": {
+      "overall": "no"
+    },
+    "S13-2-028": {
+      "overall": "yes"
+    },
+    "S13-2-029": {
+      "stance": "denied"
+    },
+    "S13-2-030": {
+      "overall": "yes"
+    },
+    "S13-2-031": {
+      "overall": "yes"
+    },
+    "S13-2-032": {
+      "overall": "no"
+    },
+    "S13-2-033": {
+      "stance": "asserted"
+    },
+    "S13-2-034": {
+      "overall": "no"
+    },
+    "S13-2-035": {
+      "overall": "no"
+    },
+    "S13-2-036": {
+      "stance": "asserted"
+    },
+    "S13-2-037": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-038": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-039": {
+      "stance": "multiple_positions"
+    },
+    "S13-2-040": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-041": {
+      "overall": "no"
+    },
+    "S13-2-042": {
+      "overall": "no"
+    },
+    "S13-2-043": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "no",
+      "c1_projection": "no"
+    },
+    "S13-2-044": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-045": {
+      "stance": "denied"
+    },
+    "S13-2-046": {
+      "stance": "asserted"
+    },
+    "S13-2-047": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-048": {
+      "stance": "asserted"
+    },
+    "S13-2-049": {
+      "overall": "no"
+    },
+    "S13-2-050": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-051": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-052": {
+      "overall": "no"
+    },
+    "S13-2-053": {
+      "stance": "denied"
+    },
+    "S13-2-054": {
+      "overall": "yes"
+    },
+    "S13-2-055": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-056": {
+      "overall": "yes"
+    },
+    "S13-2-057": {
+      "overall": "yes"
+    },
+    "S13-2-058": {
+      "stance": "denied"
+    },
+    "S13-2-059": {
+      "overall": "yes"
+    },
+    "S13-2-060": {
+      "overall": "yes"
+    },
+    "S13-2-061": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-062": {
+      "overall": "yes"
+    },
+    "S13-2-063": {
+      "stance": "denied"
+    },
+    "S13-2-064": {
+      "stance": "asserted"
+    },
+    "S13-2-065": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-066": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-067": {
+      "overall": "no"
+    },
+    "S13-2-068": {
+      "overall": "no"
+    },
+    "S13-2-069": {
+      "overall": "yes"
+    },
+    "S13-2-070": {
+      "overall": "yes"
+    },
+    "S13-2-071": {
+      "stance": "asserted"
+    },
+    "S13-2-072": {
+      "overall": "yes"
+    },
+    "S13-2-073": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "no",
+      "c2_scope": "yes",
+      "c2_projection": "no"
+    },
+    "S13-2-074": {
+      "stance": "explicit_unknown"
+    },
+    "S13-2-075": {
+      "stance": "explicit_unknown"
+    },
+    "S13-2-076": {
+      "overall": "yes"
+    },
+    "S13-2-077": {
+      "overall": "no"
+    },
+    "S13-2-078": {
+      "overall": "yes"
+    },
+    "S13-2-079": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "no",
+      "c1_projection": "no"
+    },
+    "S13-2-080": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "no",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-081": {
+      "overall": "yes"
+    },
+    "S13-2-082": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-083": {
+      "stance": "denied"
+    },
+    "S13-2-084": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-085": {
+      "stance": "denied"
+    },
+    "S13-2-086": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-087": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-088": {
+      "overall": "no"
+    },
+    "S13-2-089": {
+      "stance": "asserted"
+    },
+    "S13-2-090": {
+      "stance": "asserted"
+    },
+    "S13-2-091": {
+      "overall": "no"
+    },
+    "S13-2-092": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-093": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-094": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-095": {
+      "overall": "yes"
+    },
+    "S13-2-096": {
+      "overall": "yes"
+    },
+    "S13-2-097": {
+      "overall": "no"
+    },
+    "S13-2-098": {
+      "overall": "yes"
+    },
+    "S13-2-099": {
+      "stance": "asserted"
+    },
+    "S13-2-100": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-101": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-102": {
+      "overall": "no"
+    },
+    "S13-2-103": {
+      "overall": "no"
+    },
+    "S13-2-104": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-105": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-106": {
+      "overall": "no"
+    },
+    "S13-2-107": {
+      "stance": "asserted"
+    },
+    "S13-2-108": {
+      "overall": "yes"
+    },
+    "S13-2-109": {
+      "overall": "no"
+    },
+    "S13-2-110": {
+      "stance": "denied"
+    },
+    "S13-2-111": {
+      "overall": "yes"
+    },
+    "S13-2-112": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-113": {
+      "overall": "yes"
+    },
+    "S13-2-114": {
+      "stance": "denied"
+    },
+    "S13-2-115": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-116": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "no",
+      "c2_projection": "yes"
+    },
+    "S13-2-117": {
+      "stance": "multiple_positions"
+    },
+    "S13-2-118": {
+      "overall": "no"
+    },
+    "S13-2-119": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-120": {
+      "overall": "yes"
+    },
+    "S13-2-121": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-122": {
+      "stance": "multiple_positions"
+    },
+    "S13-2-123": {
+      "overall": "yes"
+    },
+    "S13-2-124": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-125": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-126": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-127": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-128": {
+      "overall": "no"
+    },
+    "S13-2-129": {
+      "overall": "no"
+    },
+    "S13-2-130": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "no",
+      "c2_projection": "yes"
+    },
+    "S13-2-131": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-132": {
+      "overall": "no"
+    },
+    "S13-2-133": {
+      "overall": "yes"
+    },
+    "S13-2-134": {
+      "overall": "yes"
+    },
+    "S13-2-135": {
+      "stance": "denied"
+    },
+    "S13-2-136": {
+      "stance": "asserted"
+    },
+    "S13-2-137": {
+      "overall": "no"
+    },
+    "S13-2-138": {
+      "overall": "yes"
+    },
+    "S13-2-139": {
+      "overall": "yes"
+    },
+    "S13-2-140": {
+      "stance": "denied"
+    },
+    "S13-2-141": {
+      "stance": "not_mentioned"
+    },
+    "S13-2-142": {
+      "overall": "no"
+    },
+    "S13-2-143": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-2-144": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-2-145": {
+      "stance": "asserted"
+    },
+    "S13-2-146": {
+      "stance": "asserted"
+    },
+    "S13-2-147": {
+      "overall": "no"
+    },
+    "S13-2-148": {
+      "overall": "no"
+    },
+    "S13-2-149": {
+      "overall": "no"
+    },
+    "S13-2-150": {
+      "overall": "yes"
+    },
+    "S13-2-151": {
+      "overall": "yes"
+    },
+    "S13-3-001": {
+      "stance": "asserted"
+    },
+    "S13-3-002": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-003": {
+      "stance": "explicit_unknown"
+    },
+    "S13-3-004": {
+      "overall": "yes"
+    },
+    "S13-3-005": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "no",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-006": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-007": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "no",
+      "c1_projection": "no"
+    },
+    "S13-3-008": {
+      "stance": "denied"
+    },
+    "S13-3-009": {
+      "overall": "no"
+    },
+    "S13-3-010": {
+      "overall": "yes"
+    },
+    "S13-3-011": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-012": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-013": {
+      "overall": "no"
+    },
+    "S13-3-014": {
+      "overall": "yes"
+    },
+    "S13-3-015": {
+      "overall": "yes"
+    },
+    "S13-3-016": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-017": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-018": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-019": {
+      "stance": "denied"
+    },
+    "S13-3-020": {
+      "overall": "no"
+    },
+    "S13-3-021": {
+      "overall": "yes"
+    },
+    "S13-3-022": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-023": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-024": {
+      "overall": "yes"
+    },
+    "S13-3-025": {
+      "overall": "yes"
+    },
+    "S13-3-026": {
+      "overall": "yes"
+    },
+    "S13-3-027": {
+      "stance": "asserted"
+    },
+    "S13-3-028": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-029": {
+      "overall": "no"
+    },
+    "S13-3-030": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-031": {
+      "stance": "multiple_positions"
+    },
+    "S13-3-032": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-033": {
+      "stance": "denied"
+    },
+    "S13-3-034": {
+      "overall": "yes"
+    },
+    "S13-3-035": {
+      "overall": "no"
+    },
+    "S13-3-036": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "no",
+      "c2_scope": "yes",
+      "c2_projection": "no"
+    },
+    "S13-3-037": {
+      "overall": "yes"
+    },
+    "S13-3-038": {
+      "stance": "asserted"
+    },
+    "S13-3-039": {
+      "overall": "yes"
+    },
+    "S13-3-040": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-041": {
+      "stance": "asserted"
+    },
+    "S13-3-042": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-043": {
+      "stance": "denied"
+    },
+    "S13-3-044": {
+      "overall": "yes"
+    },
+    "S13-3-045": {
+      "overall": "no"
+    },
+    "S13-3-046": {
+      "overall": "yes"
+    },
+    "S13-3-047": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-048": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-049": {
+      "overall": "no"
+    },
+    "S13-3-050": {
+      "stance": "explicit_unknown"
+    },
+    "S13-3-051": {
+      "stance": "asserted"
+    },
+    "S13-3-052": {
+      "overall": "no"
+    },
+    "S13-3-053": {
+      "overall": "yes"
+    },
+    "S13-3-054": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-055": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-056": {
+      "overall": "yes"
+    },
+    "S13-3-057": {
+      "overall": "no"
+    },
+    "S13-3-058": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "no",
+      "c2_projection": "yes"
+    },
+    "S13-3-059": {
+      "overall": "yes"
+    },
+    "S13-3-060": {
+      "overall": "no"
+    },
+    "S13-3-061": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-062": {
+      "overall": "yes"
+    },
+    "S13-3-063": {
+      "stance": "asserted"
+    },
+    "S13-3-064": {
+      "stance": "ambiguous"
+    },
+    "S13-3-065": {
+      "stance": "asserted"
+    },
+    "S13-3-066": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-067": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "no",
+      "c2_scope": "yes",
+      "c2_projection": "no"
+    },
+    "S13-3-068": {
+      "overall": "yes"
+    },
+    "S13-3-069": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-070": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "no",
+      "c1_projection": "no"
+    },
+    "S13-3-071": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-072": {
+      "stance": "asserted"
+    },
+    "S13-3-073": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-074": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-075": {
+      "overall": "yes"
+    },
+    "S13-3-076": {
+      "overall": "yes"
+    },
+    "S13-3-077": {
+      "overall": "yes"
+    },
+    "S13-3-078": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-079": {
+      "stance": "denied"
+    },
+    "S13-3-080": {
+      "overall": "no"
+    },
+    "S13-3-081": {
+      "stance": "multiple_positions"
+    },
+    "S13-3-082": {
+      "overall": "no"
+    },
+    "S13-3-083": {
+      "overall": "yes"
+    },
+    "S13-3-084": {
+      "stance": "multiple_positions"
+    },
+    "S13-3-085": {
+      "overall": "no"
+    },
+    "S13-3-086": {
+      "overall": "no"
+    },
+    "S13-3-087": {
+      "overall": "no"
+    },
+    "S13-3-088": {
+      "stance": "denied"
+    },
+    "S13-3-089": {
+      "overall": "no"
+    },
+    "S13-3-090": {
+      "stance": "denied"
+    },
+    "S13-3-091": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-092": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-093": {
+      "overall": "no"
+    },
+    "S13-3-094": {
+      "stance": "denied"
+    },
+    "S13-3-095": {
+      "overall": "no"
+    },
+    "S13-3-096": {
+      "overall": "yes"
+    },
+    "S13-3-097": {
+      "stance": "multiple_positions"
+    },
+    "S13-3-098": {
+      "overall": "yes"
+    },
+    "S13-3-099": {
+      "overall": "no"
+    },
+    "S13-3-100": {
+      "stance": "asserted"
+    },
+    "S13-3-101": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-102": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-103": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "no",
+      "c2_projection": "yes"
+    },
+    "S13-3-104": {
+      "overall": "no"
+    },
+    "S13-3-105": {
+      "stance": "asserted"
+    },
+    "S13-3-106": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "no"
+    },
+    "S13-3-107": {
+      "stance": "denied"
+    },
+    "S13-3-108": {
+      "stance": "asserted"
+    },
+    "S13-3-109": {
+      "stance": "ambiguous"
+    },
+    "S13-3-110": {
+      "stance": "asserted"
+    },
+    "S13-3-111": {
+      "overall": "no"
+    },
+    "S13-3-112": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-113": {
+      "overall": "yes"
+    },
+    "S13-3-114": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-115": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-116": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-117": {
+      "overall": "no"
+    },
+    "S13-3-118": {
+      "stance": "denied"
+    },
+    "S13-3-119": {
+      "stance": "asserted"
+    },
+    "S13-3-120": {
+      "overall": "yes"
+    },
+    "S13-3-121": {
+      "stance": "denied"
+    },
+    "S13-3-122": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-123": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-124": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-125": {
+      "overall": "yes"
+    },
+    "S13-3-126": {
+      "stance": "asserted"
+    },
+    "S13-3-127": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-128": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-129": {
+      "overall": "no"
+    },
+    "S13-3-130": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "no"
+    },
+    "S13-3-131": {
+      "overall": "no"
+    },
+    "S13-3-132": {
+      "overall": "no"
+    },
+    "S13-3-133": {
+      "c1_content": "no",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-134": {
+      "c1_content": "yes",
+      "c1_attribution": "yes",
+      "c1_scope": "yes",
+      "c1_projection": "yes",
+      "c2_content": "yes",
+      "c2_attribution": "yes",
+      "c2_scope": "yes",
+      "c2_projection": "yes"
+    },
+    "S13-3-135": {
+      "overall": "yes"
+    },
+    "S13-3-136": {
+      "overall": "no"
+    },
+    "S13-3-137": {
+      "overall": "no"
+    },
+    "S13-3-138": {
+      "c1_content": "yes",
+      "c1_attribution": "no",
+      "c1_scope": "yes",
+      "c1_projection": "yes"
+    },
+    "S13-3-139": {
+      "overall": "no"
+    },
+    "S13-3-140": {
+      "overall": "no"
+    },
+    "S13-3-141": {
+      "stance": "asserted"
+    },
+    "S13-3-142": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-143": {
+      "overall": "yes"
+    },
+    "S13-3-144": {
+      "overall": "yes"
+    },
+    "S13-3-145": {
+      "stance": "denied"
+    },
+    "S13-3-146": {
+      "overall": "no"
+    },
+    "S13-3-147": {
+      "overall": "no"
+    },
+    "S13-3-148": {
+      "stance": "not_mentioned"
+    },
+    "S13-3-149": {
+      "overall": "yes"
+    },
+    "S13-3-150": {
+      "overall": "no"
+    },
+    "S13-3-151": {
+      "overall": "yes"
+    }
+  }
+}

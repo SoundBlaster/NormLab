@@ -2,7 +2,17 @@
 
 Дата: 2026-10-09. Статус: первый offline replay срез реализован; live/provider matrix и registry extension остаются планом. Связь: [roadmap экспериментов](EXTRACTION_EXPERIMENT_ROADMAP.md), [rubric](EVALUATION_PLAN.md).
 
+Актуальный срез на 2026-10-12: [inventory существующих contracts и пробелов](HARNESS_GAP_INVENTORY_2026-10-12.md) для [#77](https://github.com/SoundBlaster/NormLab/issues/77). Он учитывает Stage 1 provider/retry и S1.3; historical пункты ниже сохраняют исходную дату. Следующий ограниченный результат — общий offline envelope и adapters harness v2 / S1.3.
+
+[Offline envelope v1](OFFLINE_ENVELOPE_V1.md) реализует additive export/reader для этих двух путей. [Runtime verification](OFFLINE_EXPORT_VERIFICATION_2026-10-13.md) пройдена; [paired comparison v1](OFFLINE_PAIRED_COMPARISON_V1.md) добавляет saved-view compare/export с compatibility checks и явными denominators. Его [fixture comparisons](OFFLINE_PAIRED_COMPARISON_2026-10-13.md) не являются model quality evaluation. [Regression coverage и Stage 1 transport adapter](OFFLINE_STAGE1_ADAPTER_2026-10-13.md) добавляют offline first/final/attempt evidence. [Stage 1 seal/reference/score import](OFFLINE_STAGE1_REFERENCE_V1.md) сохраняет candidate provenance и проверяет native score views. [Идемпотентный local MLflow import](OFFLINE_MLFLOW_IMPORT_V1.md) добавляет capture parents, отдельные score views и recovery частичной записи. Следующий slice — execution/resume contract.
+
 ## Задача
+
+Следующий contract slice #77: [common execution/resume proposal](EXECUTION_RESUME_CONTRACT_V1.md)
+и [source audit / handoff](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
+Это дизайн до реализации: strict schemas/dry-run → durable mock execution →
+bounded resume → capture-revision-aware export/registry → отдельный live smoke.
+Текущие native runners не получают resume автоматически.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
@@ -10,13 +20,13 @@
 
 ## Роли инструментов и текущий статус
 
-| Компонент                   | Роль                                                                                  | Что есть / что требуется                                                                                                                             |
-| --------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mellea                      | Generation/sampling, requirements, bounded repair выбранного candidate                | Есть classification runner; не заменяет независимые labels и scorer                                                                                  |
-| NormLab evaluation runner   | Dataset × strategy × tactic × provider; budgets, captures, replay и paired comparison | Есть отдельные runners/scorers; общий manifest/control plane ещё нужно собрать                                                                       |
-| MLflow                      | Registry runs, configuration, metrics/artifacts, этапные traces и human feedback      | `mlflow==3.16.1`, `evaluation/import_mlflow.py`: локальный SQLite registry и offline import уже в коде; новые форматы и tracing ещё не интегрированы |
-| Evidently                   | Опциональные visual reports, сравнение распределений/срезов, позже monitoring         | Не подключён; добавить только при конкретной пользе сверх текущих отчётов и MLflow                                                                   |
-| Независимый reviewer/scorer | Ground truth и оценка критических ошибок                                              | Candidate expectations и partial probes уже есть; independent review/holdout остаются открытыми                                                      |
+| Компонент                   | Роль                                                                                  | Что есть / что требуется                                                                                                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mellea                      | Generation/sampling, requirements, bounded repair выбранного candidate                | Есть classification runner; не заменяет независимые labels и scorer                                                                                                              |
+| NormLab evaluation runner   | Dataset × strategy × tactic × provider; budgets, captures, replay и paired comparison | Есть отдельные runners/scorers; общий manifest/control plane ещё нужно собрать                                                                                                   |
+| MLflow                      | Registry runs, configuration, metrics/artifacts, этапные traces и human feedback      | `mlflow==3.16.1`: legacy importer сохранён; [новый local importer](OFFLINE_MLFLOW_IMPORT_V1.md) принимает verified bundles и отдельные score views; live tracing остаётся планом |
+| Evidently                   | Опциональные visual reports, сравнение распределений/срезов, позже monitoring         | Не подключён; добавить только при конкретной пользе сверх текущих отчётов и MLflow                                                                                               |
+| Независимый reviewer/scorer | Ground truth и оценка критических ошибок                                              | Candidate expectations и partial probes уже есть; independent review/holdout остаются открытыми                                                                                  |
 
 MLflow и Evidently поддерживают evaluation/monitoring, но не определяют, какой разбор текста правильный. Их LLM judges не заменяют независимую разметку. Модель, которую исследуем как verifier, не должна единолично выставлять себе итоговый quality score.
 
