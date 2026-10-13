@@ -282,7 +282,7 @@ def dry_run(plan):
 
 
 def new_run(plan, clock, *, evidence_kind, permit=None, predecessor=None):
-    """Allocate an intent for a prepared plan; no files, clock reads or SDK access."""
+    """Allocate an intent; bind its live permit after UUID allocation, before replay."""
     plan_shape(plan)
     identifier = str(uuid4())
     zero = {key: 0 for key in CAP_FIELDS.split()}
@@ -314,9 +314,8 @@ def new_run(plan, clock, *, evidence_kind, permit=None, predecessor=None):
         },
     }
     run_shape(run, plan)
-    require(
-        (evidence_kind == "mock") == (permit is None), "Mock/live permit separation"
-    )
+    if evidence_kind == "mock":
+        require(permit is None, "Mocks cannot consume a live permit")
     if permit is not None:
         check_ref(permit)
     # No state is persisted and this declaration cannot establish clock support.
