@@ -7,18 +7,18 @@ Source snapshot: `0cd4fcd2344b0233b870c7fbe0bcd65291b4f005` (#89 merge).
 
 ## Current behavior vs proposed common runtime
 
-| Area                    | Source-backed current behavior                                                                                                             | Required delta; not implemented here                                                                                                   |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Permit                  | [Native permit validator][permit] binds plan digest, call cap, expiry and operator-confirmed external spending                             | Common permit additionally binds runtime run ID/provider scope; no approval inherited from old runs                                    |
-| Before dispatch         | [Outer checkpoint][reserve] records unfinished attempt before invoking child; provider also checkpoints `sent` before transport            | Durable common journal/atomic artifact publication, writer lock and explicit commit-failure gate                                       |
-| Writer durability       | [Native JSON writer][writer] bounds bytes and replaces a temporary file                                                                    | No fsync/directory flush or general append journal is established by this helper; implement/prove durability separately                |
-| Unknown suffix          | [Retry replay][unknown] forbids attempts after pending outcome; missing child consumes one possible dispatch                               | Keep default stop; explicit stop/adopt resolution must preserve original unknown checkpoint and charge                                 |
-| Known transport failure | [Retry eligibility][retry] whitelists transient classes and rejects certificate failures                                                   | Reuse that policy as a versioned baseline; broader retries are different experiment semantics                                          |
-| Deadlines               | Native run uses one process-local monotonic deadline, including backoff                                                                    | Resume needs provable same-host/boot clock continuity; no deadline reset across invocations                                            |
-| Context                 | [Stage 1 adapter][adapter] preserves native logical task/request and unavailable language; [comparison][compare] checks context/provenance | Strict new dispatch requires exact public context; sequential/repair remain unsupported until separately implemented                   |
-| Identity                | [Offline contract][identity] accepts derived legacy run identity; captures and score views have distinct bindings                          | Runtime UUID + capture revision needs a new verified source adapter, not relabeling old evidence                                       |
-| S1.3                    | [Compiler][s13plan] produces logical jobs; [replay][s13replay] seals predictions before reference reads                                    | Logical question batches are not transport dispatch evidence; common attempt writer is still needed                                    |
-| Registry                | [Projection][projection] excludes reference/view changes from capture parent; [intent ledger][registry] rejects ID/digest conflicts        | A changed journal/capture for the same execution needs versioned capture-revision keys; current importer must keep rejecting overwrite |
+| Area                    | Source-backed current behavior                                                                                                             | Required delta; not implemented here                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Permit                  | [Native permit validator][permit] binds plan digest, call cap, expiry and operator-confirmed external spending                             | Common permit additionally binds runtime run ID/provider scope; no approval inherited from old runs                                          |
+| Before dispatch         | [Outer checkpoint][reserve] records unfinished attempt before invoking child; provider also checkpoints `sent` before transport            | Durable common journal/atomic artifact publication, writer lock and explicit commit-failure gate                                             |
+| Writer durability       | [Native JSON writer][writer] bounds bytes and replaces a temporary file                                                                    | No fsync/directory flush or general append journal is established by this helper; implement/prove durability separately                      |
+| Unknown suffix          | [Retry replay][unknown] forbids attempts after pending outcome; missing child consumes one possible dispatch                               | Keep default stop; explicit stop/adopt resolution must preserve original unknown checkpoint and charge                                       |
+| Known transport failure | [Retry eligibility][retry] whitelists transient classes and rejects certificate failures                                                   | Reuse that policy as a versioned baseline; broader retries are different experiment semantics                                                |
+| Deadlines               | Native run uses one process-local monotonic deadline, including backoff; suspend-aware behavior is not established here                    | Require verified suspend-aware clock capability, same host/boot/source/units and original deadline; reject unsupported continuity before I/O |
+| Context                 | [Stage 1 adapter][adapter] preserves native logical task/request and unavailable language; [comparison][compare] checks context/provenance | Strict new dispatch requires exact public context; sequential/repair remain unsupported until separately implemented                         |
+| Identity                | [Offline contract][identity] accepts derived legacy run identity; captures and score views have distinct bindings                          | Runtime UUID + capture revision needs a new verified source adapter, not relabeling old evidence                                             |
+| S1.3                    | [Compiler][s13plan] produces logical jobs; [replay][s13replay] seals predictions before reference reads                                    | Logical question batches are not transport dispatch evidence; common attempt writer is still needed                                          |
+| Registry                | [Projection][projection] excludes reference/view changes from capture parent; [intent ledger][registry] rejects ID/digest conflicts        | A changed journal/capture for the same execution needs versioned capture-revision keys; current importer must keep rejecting overwrite       |
 
 The proposal does not grant existing runners new resume capability. It does not
 claim HTTP idempotency, distributed execution, durable power-loss recovery,
@@ -43,13 +43,13 @@ SDK-free import remain observational; they cannot authorize a new network call.
 
 ## Ordered implementation handoff within #77
 
-| Slice | Deliverable                                                                                     | Required evidence before progressing                                                                                                                          |
-| ----- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 5a    | Strict plan/run/event/resolution schemas, capability checks and SDK-free dry-run/journal replay | Reject unsupported policies, wrong identity/context bindings, corrupt tails, counter/ordinal drift and stale decision head; authorized dispatches remain zero |
-| 5b    | Single-writer durable mock executor, reservation accounting and exact public request capture    | Fault injection around commit/dispatch/response/finalization/backoff; no hidden SDK retry, budget refund or event loss; usage once per attempt                |
-| 5c    | Bounded resume and explicit stop/adopt resolution                                               | No unknown redispatch; limits/expiry/clock epoch preserved; saved response adoption validates original evidence; failed invariants stop before I/O            |
-| 5d    | Runtime/capture-revision adapter and registry projection version                                | Two sealed revisions preserve one execution lineage, remain distinct and cannot overwrite raw evidence; portable replay/compare/import work without network   |
-| 5e    | Separately authorized live smoke                                                                | Exact plan/run/provider permit, external spending declaration, calls/deadline/stop caps; capture and usage/unknown outcomes retained                          |
+| Slice | Deliverable                                                                                     | Required evidence before progressing                                                                                                                                                                                 |
+| ----- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5a    | Strict plan/run/event/resolution schemas, capability checks and SDK-free dry-run/journal replay | Reject unsupported policies, missing suspend-aware clock capability, wrong identity/context bindings, corrupt tails, counter/ordinal drift and stale decision head; authorized dispatches remain zero                |
+| 5b    | Single-writer durable mock executor, reservation accounting and exact public request capture    | Fault injection around commit/dispatch/response/finalization/backoff; no hidden SDK retry, budget refund or event loss; usage once per attempt                                                                       |
+| 5c    | Bounded resume and explicit stop/adopt resolution                                               | No unknown redispatch; limits/expiry preserved; suspension counts toward original deadline; expiry during sleep and clock source/epoch/units drift or regression stop dispatch; adoption validates original evidence |
+| 5d    | Runtime/capture-revision adapter and registry projection version                                | Two sealed revisions preserve one execution lineage, remain distinct and cannot overwrite raw evidence; portable replay/compare/import work without network                                                          |
+| 5e    | Separately authorized live smoke                                                                | Exact plan/run/provider permit, external spending declaration, calls/deadline/stop caps; capture and usage/unknown outcomes retained                                                                                 |
 
 This is decomposition of the existing Issue, not a second ledger or new
 authorization. No live request follows from completing a schema or mock gate.
@@ -71,6 +71,23 @@ separate and pending at publication.
 The MLflow acceptance criterion in #77 was checked after #89 merged with six
 successful CI checks. Other acceptance remains open. This proposal records the
 remaining protocol rather than claiming it has already been implemented.
+
+## Review correction: suspension and resumed deadlines
+
+Addressed [P2 review](https://github.com/SoundBlaster/NormLab/pull/90#discussion_r4260073708)
+on 2026-10-13. Same-boot continuity alone does not guarantee elapsed suspension
+is counted: the [Linux clock manual](https://man7.org/linux/man-pages/man3/clock_gettime.3.html)
+distinguishes `CLOCK_MONOTONIC` from suspend-aware `CLOCK_BOOTTIME`.
+The proposal now requires `same-host-boot-suspend-aware/v1`, binds clock
+source/units/capability and readings, and rejects unsupported or changed clocks
+before execution/resume. Gates 5a/5c explicitly require capability rejection and
+suspension/deadline evidence. This updates the proposed contract only; no native
+clock, executor or platform support was implemented or tested here.
+
+Correction checks passed: Prettier/whitespace, all 32 relative links and 12
+commit-pinned source anchors/byte comparisons; the PR still changes only its four
+documentation files. The preceding head `1c74e4659f0b3b636e9df2817c1f9ca23dfdcdc2`
+passed all six CI checks. Fresh CI/review of this correction remains separate.
 
 [permit]: https://github.com/SoundBlaster/NormLab/blob/0cd4fcd2344b0233b870c7fbe0bcd65291b4f005/evaluation/stage1_provider_executor.py#L44
 [reserve]: https://github.com/SoundBlaster/NormLab/blob/0cd4fcd2344b0233b870c7fbe0bcd65291b4f005/evaluation/stage1_retry_executor_v2.py#L224

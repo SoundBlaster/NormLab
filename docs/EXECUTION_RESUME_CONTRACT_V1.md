@@ -155,13 +155,28 @@ Run control state is `created`, `running`, `paused-unknown` or `finished`, with 
 separate stop reason/completeness derived from all planned tasks. `finished` does
 not mean every task completed or any semantic quality threshold passed. Wall-time
 includes attempts/backoff and elapsed time between restarts; a resumed run cannot
-reset its deadline. Proposed clock policy `same-host-boot-monotonic/v1` persists
-the monotonic start/deadline and an opaque host/boot epoch; resume must verify the
-same epoch before comparing that clock. Reboot/migration or unprovable continuity
-rejects resume; UTC timestamps alone cannot reconstruct elapsed time. UTC permit
-expiry is checked separately, with backward wall-clock movement treated as a
-clock ambiguity rather than extra authorized time. Synchronous operation timeouts
-are bounded, but hard in-flight
+reset its deadline.
+
+Proposed clock policy `same-host-boot-suspend-aware/v1` requires a verified
+monotonic source that advances during system suspension. Persist its source ID,
+units, verified suspend-aware capability, start/deadline readings, last observed
+reading and opaque host/boot epoch. Every invocation, including the first, checks
+that capability before reservation. Resume verifies the same epoch/source/units
+and nondecreasing readings before using the original deadline; it includes both
+restart downtime and suspension time. A deadline reached while suspended stops
+further reservations/dispatch after wake. Unsupported capability, source changes,
+reboot/migration or unprovable continuity reject execution/resume before provider
+I/O; never silently fall back to a clock that excludes suspension or reset the
+deadline. A saved capability declaration alone is not proof of current support.
+
+For Linux, the intended source is `CLOCK_BOOTTIME`: the
+[Linux clock manual](https://man7.org/linux/man-pages/man3/clock_gettime.3.html)
+states that it includes suspension time, whereas `CLOCK_MONOTONIC` does not.
+Other platforms need a separately verified implementation of this capability;
+the generic Python monotonic API name is insufficient. UTC timestamps alone
+cannot reconstruct elapsed time. UTC permit expiry is checked separately, with
+backward wall-clock movement treated as a clock ambiguity rather than extra
+authorized time. Synchronous operation timeouts are bounded, but hard in-flight
 cancellation and exact wall-time termination are not claimed.
 
 ## Resume and unknown-outcome decisions
@@ -197,12 +212,16 @@ these inference decisions.
 ## Implementation gates
 
 1. Implement strict schemas, SDK-free plan/dry-run and journal replay. Check
-   identity/context/question/budget bindings, corrupt tails and unsupported policies.
+   identity/context/question/budget bindings, corrupt tails, unsupported policies
+   and missing/unverified suspend-aware clock capabilities.
 2. Implement durable writer/reservations and mock dispatch. Inject interruption
    before/after reserve, after response, before terminal commit and during backoff;
    prove no dispatch before durable reservation and no hidden retry/refund.
 3. Implement resume/resolution replay with remaining caps, expiry/deadline, model
-   drift and unknown suffix rejection. Preserve first/final and all attempts.
+   drift and unknown suffix rejection. Verify suspension across restarts counts
+   against the original deadline, expiry during suspension stops dispatch, and
+   changed clock source/epoch/units or regressing readings reject. Preserve
+   first/final and all attempts.
 4. Add a separately versioned runtime-source → offline-envelope adapter and
    capture-revision-aware registry projection, then compare/export/MLflow round
    trips without network. Prove that two capture revisions share execution lineage
