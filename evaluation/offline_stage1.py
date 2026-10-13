@@ -73,13 +73,18 @@ def attempt(
     }
 
 
-def project(builder, kind, files):
+def project(builder, kind, files, scoring=None):
     require(kind in {"provider-v1", "retry-v2"}, "Stage 1 adapter kind")
     # Native replay reads only this bounded snapshot, with no access to its old paths.
     with tempfile.TemporaryDirectory() as temporary:
         root = Path(temporary)
         restore(files, root)
         plan, parent, native_summary = native(kind, root)
+        evaluated = None
+        if scoring is not None:
+            from offline_stage1_reference import evaluate
+
+            evaluated = evaluate(builder, kind, plan, parent, root, scoring)
     refs = {name: builder.add(raw) for name, raw in sorted(files.items())}
     source_manifest = {
         "schema": SOURCE_SCHEMA,
@@ -167,6 +172,15 @@ def project(builder, kind, files):
             for phase, a in (("first", first), ("final", final))
         }
         row = {"jobId": job["jobId"], **phases, "selectedReferencePass": None}
+        if evaluated:
+            row["expected"] = evaluated["expected"][job["jobId"]]
+            for phase in phases.values():
+                phase["selectedReferencePass"] = (
+                    phase["observed"] == row["expected"]
+                    if phase["observed"] is not None
+                    else None
+                )
+            row["selectedReferencePass"] = phases["final"]["selectedReferencePass"]
         rows.append(row)
         tasks.append(
             {
@@ -252,7 +266,7 @@ def project(builder, kind, files):
     )
     adapter = {
         "id": "offline-envelope",
-        "version": "stage1-1",
+        "version": "stage1-2",
         "code": {name: builder.file(EVALUATION / name) for name in READER_FILES},
         "assets": {
             name: builder.file(EVALUATION.parent / name) for name in READER_ASSETS
@@ -269,19 +283,44 @@ def project(builder, kind, files):
         "criticalErrorFreeRate": None,
         "inferenceCallsExecuted": 0,
     }
+    reference = evaluated["reference"] if evaluated else None
+    if evaluated:
+        report.update(
+            schema="normlab.offline-stage1-report/v2",
+            referenceStatus=reference["status"],
+            nativeScoreArtifact=evaluated["nativeReport"],
+            nativeScoreSchema=evaluated["nativeSchema"],
+            nativeSealArtifact=evaluated["seal"],
+        )
     report_ref = builder.json(report)
     score = {
         "report": report_ref,
-        "referenceId": None,
+        "referenceId": reference["id"] if reference else None,
         "scorer": {
-            "id": "stage1-transport-projection/v1",
+            "id": "stage1-selected-reference-projection/v1"
+            if reference
+            else "stage1-transport-projection/v1",
             "code": adapter["code"]["offline_stage1.py"],
-            "dependencies": {name: adapter["code"][name] for name in NATIVE_FILES},
+            "dependencies": {
+                name: adapter["code"][name]
+                for name in (
+                    *NATIVE_FILES,
+                    *(
+                        ("offline_stage1_reference.py", "offline_stage1_scoring.py")
+                        if reference
+                        else ()
+                    ),
+                )
+            },
         },
-        "scope": "stage1-transport-first-final-no-reference",
+        "scope": "stage1-selected-claim-candidate-first-final"
+        if reference
+        else "stage1-transport-first-final-no-reference",
         "criticalErrorFreeRate": None,
     }
-    score["id"] = identity("score", [run_id, report_ref["sha256"], None, adapter])
+    score["id"] = identity(
+        "score", [run_id, report_ref["sha256"], score["referenceId"], adapter]
+    )
     return {
         "schema": "normlab.offline-bundle/v1",
         "adapter": adapter,
@@ -289,7 +328,7 @@ def project(builder, kind, files):
             "schema": SOURCE_SCHEMA,
             "manifest": manifest_ref,
             "captures": capture_refs,
-            "inputs": [],
+            "inputs": evaluated["inputs"] if evaluated else [],
         },
         "dataset": {
             "id": parent["datasetId"],
@@ -317,16 +356,23 @@ def project(builder, kind, files):
             "predictionSealDigest": sha(canonical(binding)),
             "inferenceCallsExecuted": 0,
         },
-        "reference": None,
+        "reference": reference,
         "score": score,
         "records": [builder.json(t) for t in tasks],
         "counts": counts,
     }
 
 
-def export(builder, folder):
+def export(builder, folder, manifest=None, seal=None, score=None):
+    paths = (manifest, seal, score)
+    require(all(paths) or not any(paths), "Complete scoring inputs required")
     kind, files = snapshot(folder)
-    return project(builder, kind, files)
+    scoring = None
+    if all(paths):
+        from offline_stage1_reference import snapshot as scoring_snapshot
+
+        scoring = scoring_snapshot(manifest, seal, score, kind, files)
+    return project(builder, kind, files, scoring)
 
 
 def validate(envelope, artifact):
@@ -345,7 +391,14 @@ def validate(envelope, artifact):
         require(name not in files, "Duplicate snapshot path")
         files[name] = artifact(entry["artifact"])
     builder = Builder()
-    expected = project(builder, manifest["kind"], files)
+    inputs = envelope["source"]["inputs"]
+    require(isinstance(inputs, list), "Scoring inputs")
+    scoring = {}
+    for entry in inputs:
+        object_keys(entry, "role artifact")
+        require(entry["role"] not in scoring, "Duplicate scoring input")
+        scoring[entry["role"]] = artifact(entry["artifact"])
+    expected = project(builder, manifest["kind"], files, scoring or None)
     expected["artifacts"] = [
         {"path": path, "sha256": sha(raw), "bytes": len(raw)}
         for path, raw in sorted(builder.files.items())

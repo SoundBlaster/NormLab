@@ -74,16 +74,24 @@ class SavedView:
     def expected(self, task):
         if self.reference is None:
             return None
-        field = "expected" if self.is_s13 else "expectations"
+        field = "expected" if self.family in {"s13", "stage1"} else "expectations"
         expected = self.reference[field][task["originalId"]]
-        if not self.is_s13:
+        if self.family == "classification":
             expected = sorted(expected, key=canonical)
-        return {
+        result = {
             "schema": self.reference["schema"],
             "status": self.reference["status"],
             "revision": self.reference.get("revision"),
             "expected": expected,
         }
+        if self.family == "stage1":
+            result["labelsDigest"] = self.reference["labelsDigest"]
+            # Experiment/provider manifests bind the run, not the label meaning.
+            result["provenance"] = {
+                role: self.reference["provenance"][role]
+                for role in ("dataset", "sources", "labels")
+            }
+        return result
 
     @property
     def is_s13(self):
@@ -93,7 +101,7 @@ class SavedView:
         row = self.value(task["scoreArtifact"])
         completed = task["turn"]["status"] == "completed"
         if self.family == "stage1":
-            passed = None  # Transport projection has no imported reference labels.
+            passed = row["selectedReferencePass"] if completed else None
         elif self.is_s13:
             agreements = [q["agreement"] for q in row["questions"]]
             passed = all(agreements) if completed and agreements else None

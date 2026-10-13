@@ -28,11 +28,15 @@ NATIVE_FILES = (
     "stage1_provider_wire.py",
     "stage1_wire_v2.py",
     "stage1_retry_executor_v2.py",
+    "score_stage1_providers.py",
+    "score_stage1_retries_v2.py",
 )
 READER_FILES = (
     *ADAPTER_FILES,
     "offline_stage1.py",
     "offline_stage1_source.py",
+    "offline_stage1_reference.py",
+    "offline_stage1_scoring.py",
     *NATIVE_FILES,
 )
 EVALUATION = Path(__file__).resolve().parent
