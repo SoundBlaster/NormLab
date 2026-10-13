@@ -119,4 +119,5 @@ revision that produced the bundle; do not execute archived code. Bounds remain
 2 MiB per artifact, 64 MiB total, 4096 artifacts and 1024 tasks.
 
 [Executed checks](OFFLINE_STAGE1_REFERENCE_2026-10-13.md).
-Next slice: idempotent MLflow projection of verified bundles and score views.
+[Idempotent local MLflow projection](OFFLINE_MLFLOW_IMPORT_V1.md) accepts verified
+bundles and preserves separate score views. Next slice: execution/resume contract.
