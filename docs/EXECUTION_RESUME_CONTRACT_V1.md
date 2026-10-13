@@ -5,8 +5,10 @@ Status: **execution/resume design; the 5a record/reader subset is implemented** 
 [Execution records v1](EXECUTION_RECORDS_V1.md). The dedicated offline CLI accepts
 that closed subset. [Slice 5b](MOCK_EXECUTION_V1.md) adds a durable single-writer
 scripted mock path with simulated time and offline fault-injection coverage.
-Live execution, current clock verification, provider normalization and
-resume/resolution application remain unimplemented. Existing
+[Slice 5c](MOCK_RESUME_V1.md) adds explicit mock continuation and stop/adopt
+resolution with simulated clock continuity and head-bound authorization records.
+Live execution, host clock/current authorization attestation and native provider
+normalization remain unimplemented. Existing
 native runners/importers do not accept these records.
 [Original source audit](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
 

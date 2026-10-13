@@ -155,7 +155,8 @@ local processes, not an adversary rewriting directories under the reader.
 results and fault-injection scope. The existing Stage 1 offline CI command
 discovers the new test module.
 
-Next is **5c**, bounded resume and explicit unknown-outcome stop/adopt decisions,
-with current authorization/clock checks and unchanged budgets/deadline. No resume,
-adoption, prediction-seal/export adapter, current clock/code attestation or live
-transport is implemented by 5b. #77 remains open.
+[Slice 5c](MOCK_RESUME_V1.md) extends this path through a new versioned reader and
+explicit mock continuation/stop/adopt requests, preserving budgets/deadline.
+The v1 5b command itself still never reopens an execution. Prediction-seal/export,
+host clock/current authorization/code attestation and live transport remain
+unimplemented. Next is **5d runtime export/registry integration**. #77 remains open.
