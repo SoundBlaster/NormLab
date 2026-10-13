@@ -3,8 +3,10 @@
 Date: 2026-10-13. Task: [#77](https://github.com/SoundBlaster/NormLab/issues/77).
 Status: **execution/resume design; the 5a record/reader subset is implemented** in
 [Execution records v1](EXECUTION_RECORDS_V1.md). The dedicated offline CLI accepts
-that closed subset. Durable execution, current clock verification, provider
-normalization and resume/resolution application remain unimplemented. Existing
+that closed subset. [Slice 5b](MOCK_EXECUTION_V1.md) adds a durable single-writer
+scripted mock path with simulated time and offline fault-injection coverage.
+Live execution, current clock verification, provider normalization and
+resume/resolution application remain unimplemented. Existing
 native runners/importers do not accept these records.
 [Original source audit](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
 

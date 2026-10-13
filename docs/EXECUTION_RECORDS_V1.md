@@ -6,8 +6,10 @@ Base: `b3fab570e95d356bd6c177ebad0142ba84be4b41` (#90).
 Implements the closed record/reader subset of the
 [execution/resume design](EXECUTION_RESUME_CONTRACT_V1.md). These are executable
 Python validators, with exact required fields and no additional fields, rather
-than a dependency on a general JSON Schema engine. No common executor, durable
-writer, provider normalizer, current clock attestation or resume exists here.
+than a dependency on a general JSON Schema engine. This read-only path has no
+executor, durable writer, provider normalizer, current clock attestation or resume.
+The separate [5b mock path](MOCK_EXECUTION_V1.md) adds local writer/reservation
+behavior under simulated time; it grants no live execution capability.
 Existing native readers/scorers/pins and offline-envelope/MLflow formats are
 unchanged. Their adapters still reject these new runtime records.
 
@@ -245,7 +247,9 @@ three-attempt ceiling match the frozen baseline. Ruff lint/format passed for all
 No fixture, dependency, code pin or existing native contract changed.
 
 The verification found and corrected the intent allocation/permit ordering bug;
-the live replay permit requirement remains enforced. After review of this
-evidence, proceed to 5b durable single-writer mock dispatch/fault injection. Gates
+the live replay permit requirement remains enforced. The subsequent
+[5b implementation](MOCK_EXECUTION_V1.md) and its
+[fault-injection report](MOCK_EXECUTION_VERIFICATION_2026-10-13.md) cover durable
+single-writer mock checkpoints. Review of that slice and gates
 5c–5e and the rest of #77 acceptance remain outstanding. Any later incompatible
 record/policy change needs an explicit version/migration boundary.
