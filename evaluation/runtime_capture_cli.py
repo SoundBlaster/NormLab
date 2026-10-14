@@ -8,6 +8,7 @@ from execution_checkpoint import bounded_read
 from execution_plan import Store
 from offline_bundle import MAX_BYTES, canonical
 from runtime_capture import capture_runtime, verify_capture_manifest
+from runtime_export import prepare_export
 
 
 def main():
@@ -15,13 +16,17 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     snapshot = commands.add_parser("snapshot")
     snapshot.add_argument("directory", type=Path)
+    project = commands.add_parser("project")
+    project.add_argument("directory", type=Path)
     verify = commands.add_parser("verify")
     verify.add_argument("directory", type=Path)
     verify.add_argument("manifest", type=Path)
     args = parser.parse_args()
     try:
         result = (
-            capture_runtime(args.directory)
+            prepare_export(capture_runtime(args.directory))
+            if args.command == "project"
+            else capture_runtime(args.directory)
             if args.command == "snapshot"
             else verify_capture_manifest(
                 args.directory,
