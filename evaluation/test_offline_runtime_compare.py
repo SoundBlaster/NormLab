@@ -56,17 +56,26 @@ class CompareTests(ExecutionCase):
             task["context"] = fixture.put(context)
         (fixture.folder / "plan.json").write_bytes(canonical(fixture.plan))
         script = self.script(fixture)
+        questions = {t["key"]: set(t["questionIds"]) for t in fixture.plan["tasks"]}
         for entry in script["tasks"]:
             entry["attempts"][0]["model"] = model
-            entry["attempts"][0]["answers"][0]["value"] = answer
+            values = entry["attempts"][0]["answers"]
+            entry["attempts"][0]["answers"] = [
+                v for v in values if v["questionId"] in questions[entry["key"]]
+            ]
+            for value in entry["attempts"][0]["answers"]:
+                if value["questionId"] == "supported":
+                    value["value"] = answer
         runtime = self.output(name + "-runtime")
         run_mock(fixture.folder, runtime, script)
         target = self.output(name + "-archive")
         export_runtime_archive(runtime, target)
         archive = read_archive(target)
-        saved = score(
-            archive, reference(archive, canonical(references.source(archive)))
-        )
+        labels = references.source(archive)
+        labels["expected"] = [
+            v for v in labels["expected"] if v["questionId"] in questions[v["taskKey"]]
+        ]
+        saved = score(archive, reference(archive, canonical(labels)))
         return target, archive, saved
 
     def test_self_compare_partial_retains_unevaluated_and_task_counts(self):
@@ -216,6 +225,56 @@ class CompareTests(ExecutionCase):
             "execution-conditions-differ",
             result["operational"]["deltaUnavailableReasons"],
         )
+
+    def test_disjoint_question_batches_never_share_operational_denominators(self):
+        def subset(ids):
+            def configure(fixture):
+                task = fixture.plan["tasks"][0]
+                task["questionIds"] = ids
+                request = fixture.value(task["request"])
+                request["body"]["questions"] = {
+                    k: v for k, v in request["body"]["questions"].items() if k in ids
+                }
+                task["request"] = fixture.put(request, ordered=True)
+                context = fixture.value(task["context"])
+                context["questionIds"] = ids
+                context["requestDigest"] = task["request"]["sha256"]
+                task["context"] = fixture.put(context)
+
+            return configure
+
+        _, a, av = self.capture("subset-a", configure=subset(["supported"]))
+        _, b, bv = self.capture("subset-b", configure=subset(["team", "urgency"]))
+        result = compare(a, av, b, bv)
+        self.assertEqual(result["summary"]["matchedQuestions"], 0)
+        self.assertFalse(result["operational"]["samePlannedTaskTargets"])
+        self.assertIsNone(result["operational"]["completionDelta"])
+        self.assertIn(
+            "planned-task-targets-differ",
+            result["operational"]["deltaUnavailableReasons"],
+        )
+
+    def test_declared_provider_variation_does_not_hide_arm_limits(self):
+        _, a, av = self.capture("arm-limits-a")
+        for field in ("timeoutNs", "requestCaps"):
+
+            def configure(fixture):
+                arm = fixture.plan["arms"][0]
+                if field == "timeoutNs":
+                    arm[field] += 1000
+                else:
+                    arm[field]["inputTokens"] += 1
+
+            _, b, bv = self.capture("arm-" + field, configure=configure)
+            result = compare(a, av, b, bv, vary=["provider"])
+            with self.subTest(field=field):
+                self.assertEqual(result["summary"]["final"]["denominator"], 3)
+                self.assertFalse(result["executionConditionsMatch"])
+                self.assertIsNone(result["operational"]["completionDelta"])
+                self.assertIn(
+                    "execution-conditions-differ",
+                    result["operational"]["deltaUnavailableReasons"],
+                )
 
 
 if __name__ == "__main__":

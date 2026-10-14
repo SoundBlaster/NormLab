@@ -80,6 +80,32 @@ def paired_summary(rows):
     }
 
 
+def execution_conditions(view):
+    return {
+        **view.binding()["executionConditions"],
+        "armLimits": {
+            arm["id"]: {k: arm[k] for k in ("timeoutNs", "requestCaps")}
+            for arm in view.plan["arms"]
+        },
+    }
+
+
+def task_targets(view):
+    # Full batch membership must match before row compatibility can establish
+    # request/context equality for every task. IDs may differ between executions.
+    return sorted(
+        canonical(
+            {
+                **{k: task[k] for k in ("caseId", "armId", "repeat", "stage")},
+                "source": task["source"]["sha256"],
+                "candidate": task["candidate"]["sha256"],
+                "questionIds": sorted(task["questionIds"]),
+            }
+        )
+        for task in view.plan["tasks"]
+    )
+
+
 def operational(left, right, compatible):
     def counts(view):
         saved = view.score["summary"]
@@ -102,10 +128,8 @@ def operational(left, right, compatible):
         }
 
     a, b = counts(left), counts(right)
-    same_tasks = {key[:-1] for key in left.rows} == {key[:-1] for key in right.rows}
-    same_conditions = same(
-        left.binding()["executionConditions"], right.binding()["executionConditions"]
-    )
+    same_tasks = task_targets(left) == task_targets(right)
+    same_conditions = same(execution_conditions(left), execution_conditions(right))
     return {
         "scope": "all-planned-tasks-per-side",
         "baseline": a,
@@ -204,7 +228,7 @@ def compare(
         "sameCapture": lb["captureRevisionId"] == rb["captureRevisionId"],
         "sameScore": lb["scoreId"] == rb["scoreId"],
         "executionConditionsMatch": same(
-            lb["executionConditions"], rb["executionConditions"]
+            execution_conditions(left), execution_conditions(right)
         ),
         "executionIndependence": "not-established",
         "contextEvidence": selected_policy["context"],
