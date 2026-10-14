@@ -7,6 +7,7 @@ import sys
 import unittest
 from datetime import timedelta
 from unittest.mock import patch
+from uuid import uuid4
 
 import test_offline_live_wire as wire_fixtures
 from execution_live_kernel import inspect_live, requirements, run_once
@@ -19,6 +20,8 @@ from test_offline_runtime_mlflow_cli import GUARD
 class LiveKernelTests(ExecutionCase):
     def prepared(self, *, tasks=2, protocol="typesafe-systemone/v1"):
         fixture = self.fixture(mock=False, tasks=tasks, protocol=protocol)
+        fixture.run["id"] = str(uuid4())
+        fixture.permit["runId"] = fixture.run["id"]
         pins = requirements()
         fixture.plan["pins"].update(
             code=pins["code"], dependencies=pins["dependencies"]
@@ -98,6 +101,10 @@ class LiveKernelTests(ExecutionCase):
         with (
             patch("execution_live_kernel.LinuxClock", Clock),
             patch("execution_live_kernel.NativeHTTP", Transport),
+            patch(
+                "execution_live_authority.AUTHORITY_ROOT",
+                self.root.resolve() / "authority",
+            ),
             patch(
                 "socket.create_connection", side_effect=AssertionError("network denied")
             ),
@@ -203,6 +210,7 @@ class LiveKernelTests(ExecutionCase):
         self.assertEqual(self.last_calls, [])
         self.assertEqual(len(inspect_live(output)["unknownAttemptIds"]), 1)
         output = self.root / "missing-key"
+        fixture, confirmation = self.prepared()
         with self.assertRaises(ValueError):
             self.execute(fixture, confirmation, output, with_key=False)
         self.assertEqual(self.last_calls, [])
@@ -298,6 +306,26 @@ class LiveKernelTests(ExecutionCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             if args[0] == "inspect":
                 self.assertEqual(json.loads(result.stdout), expected)
+
+    def test_run_id_cannot_be_reused_in_another_output_after_success_or_crash(self):
+        for crash in (False, True):
+            fixture, confirmation = self.prepared()
+            original = self.root / ("claim-original-" + str(crash))
+
+            def hook(point):
+                if crash and point == "after-reservation":
+                    raise KeyboardInterrupt
+
+            if crash:
+                with self.assertRaises(KeyboardInterrupt):
+                    self.execute(fixture, confirmation, original, hook=hook)
+            else:
+                self.execute(fixture, confirmation, original)
+            another = self.root / ("claim-another-" + str(crash))
+            with self.assertRaises(FileExistsError):
+                self.execute(fixture, confirmation, another)
+            self.assertFalse(another.exists())
+            self.assertEqual(self.last_calls, [])
 
 
 if __name__ == "__main__":

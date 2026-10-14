@@ -65,6 +65,15 @@ plan construction are separate; no existing plan is silently rewritten.
 
 The output directory is fresh, outside the input tree, and holds an exclusive
 writer lock. Input/permit artifacts and intent are written before checkpoint.
+Before publication, the run UUID is exclusively claimed in the owner-private
+`~/.local/share/normlab/execution-authority/v1` directory. The claim binds run,
+plan, permit and output path and is flushed before any provider I/O. Reusing the
+same UUID in another output directory rejects. Partial claims are not refunded:
+even pre-dispatch failures require a new run/permit, until explicit resume exists.
+This protects one local user/authority store; it is not a distributed or
+tamper-resistant registry. Preserve that directory on a persistent volume in
+containers. Deleting/replacing it or operating under another authority namespace
+breaks continuity and is not supported as a way to reuse a run.
 The new `normlab.live-checkpoint/v1` atomically publishes run and journal together,
 using the existing POSIX durable writer and conservative replay derivation. The
 mock schema is never persisted or imported as a live checkpoint. Saved counters

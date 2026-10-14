@@ -15,6 +15,7 @@ from execution_checkpoint import (
     build_checkpoint,
     reader_lock,
 )
+from execution_live_authority import claim_run
 from execution_live_gate import LinuxClock, current_gate
 from execution_live_http import NativeHTTP
 from execution_live_wire import adapter_revision, metadata, normalized
@@ -25,6 +26,7 @@ from execution_replay import replay
 from offline_bundle import MAX_BYTES, canonical, object_keys, require, sha
 
 MODULES = (
+    "execution_live_authority.py",
     "execution_live_gate.py",
     "execution_live_http.py",
     "execution_live_wire.py",
@@ -196,6 +198,7 @@ def run_once(input_directory, output, confirmation, key_environment, *, hook=Non
     clock = LinuxClock()
     sample = clock.sample()
     current_gate(plan, intent, source, confirmation, sample)
+    claim_run(intent, source.root, output)
     events, run, last_sample = [], intent, sample
     task, arm = (
         plan["tasks"][0],

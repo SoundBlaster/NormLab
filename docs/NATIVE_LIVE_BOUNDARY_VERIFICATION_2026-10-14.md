@@ -14,10 +14,10 @@ visible; it implements no scheduler, automatic retry, native resume or fallback.
 
 ## Local evidence
 
-- Python 3.10.19 focused SDK-free suite: **16/16 passed**.
-- Python 3.14.8 full SDK-free discovery: **245/245 passed** in 139.597 s.
+- Initial Python 3.10.19 focused SDK-free suite: **16/16 passed**.
+- Initial Python 3.14.8 full SDK-free discovery: **245/245 passed** in 139.597 s.
 - Ruff 0.15.0 exact CI selection `E4,E7,E9,F,I`: passed.
-- Ruff formatting: **143** Python files passed.
+- Initial Ruff formatting: **143** Python files passed.
 - No package dependencies or CI jobs added. Existing discovery includes these tests.
 - All **144** pre-existing files under `evaluation/` are byte-identical to the base.
 
@@ -67,6 +67,22 @@ python -B -S -m unittest test_offline_live_gate test_offline_live_wire \
 - Source bytes are unchanged. Saved checkpoint counter edits reject regeneration;
   successful outputs contain no fixture key. Read-only reports retain false
   execution/semantic-quality flags and no cost estimate.
+
+## Final inspection correction
+
+Added a persistent, owner-private local authority claim to prevent reuse of one
+prepared run UUID in another fresh output directory. Claims are exclusive and
+never refunded, including partial/pre-dispatch failures. One regression checks
+duplicate output attempts after success and after a crash; neither constructs
+transport or publishes the second execution. The authority root is patched to a
+temporary canonical path in offline tests; no real user authority store is touched.
+The first fixture invocation rejected macOS `/var` symlink aliases; using the
+canonical temporary authority path corrected the test without relaxing runtime policy.
+
+Final focused suite: **17/17 passed** on Python 3.10.19. Final full offline suite
+is being rechecked after this addition. This local identity scope requires a
+persistent authority volume; it does not protect against operator deletion or
+independent authority namespaces.
 
 ## Limits and next work
 
