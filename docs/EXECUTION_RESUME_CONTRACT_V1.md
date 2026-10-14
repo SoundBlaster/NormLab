@@ -7,8 +7,10 @@ that closed subset. [Slice 5b](MOCK_EXECUTION_V1.md) adds a durable single-write
 scripted mock path with simulated time and offline fault-injection coverage.
 [Slice 5c](MOCK_RESUME_V1.md) adds explicit mock continuation and stop/adopt
 resolution with simulated clock continuity and head-bound authorization records.
-Live execution, host clock/current authorization attestation and native provider
-normalization remain unimplemented. Existing
+The additive [native live boundary](NATIVE_LIVE_BOUNDARY_V1.md) implements current
+Linux clock/operator-confirmation gates, native wire normalization and a fresh
+one-attempt dispatch kernel. Full scheduling/retries, live resume and live archive
+consumers remain unimplemented. Existing
 native runners/importers do not accept these records.
 [Original source audit](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
 

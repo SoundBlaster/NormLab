@@ -43,8 +43,10 @@ denominators; candidate agreement не становится case-level quality.
 planned-question pairing, strict-wire / explicit same-protocol-body compatibility,
 общие semantic denominators и отдельные operational counts. Его fresh JSON/Markdown
 export/verify проверены [offline](RUNTIME_PAIRED_COMPARISON_VERIFICATION_2026-10-14.md).
-Native live transport, host clock/current authorization и live capability gates
-остаются впереди; mock comparison не доказывает качество моделей.
+[Native live boundary](NATIVE_LIVE_BOUNDARY_V1.md) добавляет Linux clock/current
+operator-confirmation gate, native HTTP/normalization и fresh one-attempt kernel.
+Полный schedule/retry/resume, live archive/registry consumers и live smoke остаются
+впереди; offline fixtures не доказывают live interoperability или качество моделей.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 

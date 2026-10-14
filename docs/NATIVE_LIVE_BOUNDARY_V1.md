@@ -55,10 +55,57 @@ SDK or live interoperability evidence. In particular, existing plan v1's Decisio
 request representation is retained; an endpoint with a different request shape
 requires a versioned plan/adapter change, not automatic conversion.
 
-## Planned dispatch layer
+## Fresh one-attempt kernel
 
-1. Fresh one-attempt durable dispatch kernel and CLI. Exactly one task/request;
-   remaining planned tasks stay visible. No automatic retry, resume or fallback.
+`execution_live_kernel.py` validates a fresh live-shaped `run.json`, empty
+`journal.json`, prepared plan, bound permit and current explicit confirmation.
+Input plans must contain the exact installed code/runtime pins and native adapter
+revision returned by the offline `requirements` command. Pin generation and
+plan construction are separate; no existing plan is silently rewritten.
+
+The output directory is fresh, outside the input tree, and holds an exclusive
+writer lock. Input/permit artifacts and intent are written before checkpoint.
+The new `normlab.live-checkpoint/v1` atomically publishes run and journal together,
+using the existing POSIX durable writer and conservative replay derivation. The
+mock schema is never persisted or imported as a live checkpoint. Saved counters
+are derived again during read-only inspection; edited or rehashed counters reject.
+
+After a durable reservation, the kernel checks current bounds again, then reads
+the named credential environment variable and constructs transport. Exactly one
+attempt is permitted by this kernel, regardless of higher plan ceilings. A known
+terminal outcome is committed, then the run stops with `operator-stop`; remaining
+tasks retain no outcomes. Eligible network failures do not trigger retries here.
+Usage is charged once per attempt; missing values stay null, never zero.
+
+Failure after reservation leaves it charged and conservatively unknown unless
+the terminal checkpoint was committed. A saved response artifact alone does not
+complete it. Inspection grants no execution/resume authority. Current native
+archive/MLflow consumers remain mock-only and reject this new live checkpoint.
+
+### CLI
+
+```bash
+python3 -B -S evaluation/execution_live_cli.py requirements
+python3 -B -S evaluation/execution_live_cli.py inspect live-output
+```
+
+The opt-in command expects a separately prepared fresh input tree and run-bound
+permit, and all current confirmation values:
+
+```bash
+python3 -B -S evaluation/execution_live_cli.py run-once prepared-input fresh-output \
+  --confirm-run RUN_UUID --confirm-plan PLAN_DIGEST \
+  --confirm-permit PERMIT_DIGEST --confirm-invocation INVOCATION_UUID \
+  --confirm-external-ceiling-micros POSITIVE_CONFIRMED_USD_MICROS \
+  --key-environment COREINFRA_API_KEY
+```
+
+This command sends a potentially billable request on supported Linux hosts.
+Examples do not authorize execution. This stack has been checked with synthetic
+clocks/fake HTTP only; it has performed zero provider calls. The existing Stage 1
+plan builder has not been migrated to this runtime input format yet. On Mac,
+`run-once` rejects unsupported clock capability; requirements/inspection are offline.
+CLI errors print only exception types, not keys, input prose or provider errors.
 
 The complete scheduler, native resume, live archive/reference/registry consumers
 and a separately authorized bounded live smoke remain follow-up slices. Implementing
