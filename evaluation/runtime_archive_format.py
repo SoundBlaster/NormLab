@@ -30,6 +30,7 @@ PIN_MODULES = (
     "runtime_archive_format",
     "execution_checkpoint",
     "execution_continuation",
+    "execution_decisions",
     "execution_mock",
     "execution_mock_codec",
     "execution_outcomes",

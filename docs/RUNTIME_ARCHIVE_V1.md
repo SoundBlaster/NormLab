@@ -35,7 +35,7 @@ limit. Planned tree entries, including directories, index and lock, are at most 
 The index records content byte totals separately to avoid a self-size cycle.
 Unknown/partial captures can be planned without a fabricated prediction seal.
 
-The twelve `producerPins` refer to the exact trusted format/validation/projection
+The thirteen `producerPins` refer to the exact trusted format/validation/projection
 Python modules. They are metadata, not executable code embedded in the archive.
 A later reader must match its trusted installed producer modules to these pins
 and reject unsupported versions. This is version compatibility, not writer/source
