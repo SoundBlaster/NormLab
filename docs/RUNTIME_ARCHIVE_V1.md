@@ -72,8 +72,9 @@ the final directory barrier; any failure poisons the writer and aborts publicati
 
 Before the final rename, no commit marker exists and the later reader must reject
 the partial tree. After rename the complete index can be visible even if the
-writer did not receive durability acknowledgement. Tests establish ordering and
-process-crash visibility, not physical power-loss/controller safety, remote
+writer did not receive durability acknowledgement. This layer tests barrier
+ordering under simulated in-process faults, not abrupt process termination,
+physical power-loss/controller safety, remote
 filesystem guarantees or protection from hostile local rewriting.
 
 Four export methods cover exact saved bytes/barrier order, reader lock contention,
