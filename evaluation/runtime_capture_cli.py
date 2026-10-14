@@ -9,6 +9,7 @@ from execution_plan import Store
 from offline_bundle import MAX_BYTES, canonical
 from runtime_capture import capture_runtime, verify_capture_manifest
 from runtime_export import prepare_export
+from runtime_registry import registry_dry_run
 
 
 def main():
@@ -18,22 +19,32 @@ def main():
     snapshot.add_argument("directory", type=Path)
     project = commands.add_parser("project")
     project.add_argument("directory", type=Path)
+    registry = commands.add_parser("registry-plan")
+    registry.add_argument("directory", type=Path)
+    registry.add_argument("--receipts", type=Path)
     verify = commands.add_parser("verify")
     verify.add_argument("directory", type=Path)
     verify.add_argument("manifest", type=Path)
     args = parser.parse_args()
     try:
-        result = (
-            prepare_export(capture_runtime(args.directory))
-            if args.command == "project"
-            else capture_runtime(args.directory)
-            if args.command == "snapshot"
-            else verify_capture_manifest(
+        if args.command == "verify":
+            snapshot = verify_capture_manifest(
                 args.directory,
                 Store.decode_json(bounded_read(args.manifest, MAX_BYTES)),
             )
-        )
-        print(canonical(result.manifest).decode())
+        else:
+            snapshot = capture_runtime(args.directory)
+        if args.command == "registry-plan":
+            receipts = (
+                Store.decode_json(bounded_read(args.receipts, MAX_BYTES))
+                if args.receipts
+                else None
+            )
+            result = registry_dry_run(prepare_export(snapshot), receipts)
+            print(canonical(result).decode())
+        else:
+            result = prepare_export(snapshot) if args.command == "project" else snapshot
+            print(canonical(result.manifest).decode())
         return 0
     except Exception as error:
         print(
