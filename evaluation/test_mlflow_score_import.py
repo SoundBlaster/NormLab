@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 import test_offline_runtime_reference as references
 import test_offline_runtime_score as fixtures
+import test_offline_runtime_score_registry as arm_fixtures
 from execution_resume import continue_mock
 from execution_test_support import ROOT, ExecutionCase, canonical
 from import_runtime_mlflow import run
@@ -34,6 +35,7 @@ class MLflowScoreTests(ExecutionCase):
     orphan = fixtures.ScoreTests.orphan
     archive = fixtures.ScoreTests.archive
     view = fixtures.ScoreTests.view
+    unusual_arm = arm_fixtures.ScoreRegistryTests.unusual_arm
 
     @classmethod
     def setUpClass(cls):
@@ -275,6 +277,36 @@ class MLflowScoreTests(ExecutionCase):
             [r["mlflowRunId"] for r in results[1]],
         )
         self.assertTrue(all(r["alreadyImported"] for r in results[1]))
+
+    def test_punctuation_unicode_and_long_arm_ids_import_and_reimport(self):
+        for number, arm in enumerate(["provider:модель/arm", "a" * 4096]):
+            with self.subTest(arm_length=len(arm)):
+                directory, archive, view = self.unusual_arm(
+                    arm, "sdk-arm-" + str(number)
+                )
+                path = self.root / ("arm-score-" + str(number) + ".json")
+                path.write_bytes(canonical(view))
+                storage = self.root / ("arm-registry-" + str(number))
+                first = run(directory, storage, score_path=path)["imports"]
+                second = run(directory, storage, score_path=path)["imports"]
+                self.assertTrue(all(r["alreadyImported"] for r in second))
+                self.assertEqual(first[-1]["mlflowRunId"], second[-1]["mlflowRunId"])
+                with registry(storage) as store:
+                    saved = self.artifact(store, first[-1])
+                    projection = decode(read(saved / "projection.json"))
+                    self.assertIn(arm, projection["arms"])
+                    component = projection["armMetricKeys"][arm]
+                    item = store.client.get_run(first[-1]["mlflowRunId"])
+                    self.assertEqual(
+                        item.data.metrics["arms." + component + ".plannedQuestions"], 3
+                    )
+                    self.assertEqual(
+                        verify_score(
+                            read_archive(saved / "archive"),
+                            decode(read(saved / "score.json")),
+                        ),
+                        view,
+                    )
 
 
 if __name__ == "__main__":

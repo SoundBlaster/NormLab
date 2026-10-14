@@ -7,10 +7,10 @@ Contract: [score-child import](RUNTIME_SCORE_MLFLOW_V1.md).
 
 | Check                                                    | Result             |
 | -------------------------------------------------------- | ------------------ |
-| Complete SDK-free offline suite, Python 3.14.8           | 206/206, 131.474 s |
-| Dedicated projection/preparation, Python 3.10.19         | 3/3 + 2/2          |
-| Real pinned MLflow 3.16.1 / SQLite suite, Python 3.10.19 | 34/34, 30.628 s    |
-| New score-child SDK methods within that suite            | 7/7                |
+| Complete SDK-free offline suite, Python 3.14.8           | 207/207, 140.778 s |
+| Dedicated projection/preparation, Python 3.10.19         | 4/4 + 2/2          |
+| Real pinned MLflow 3.16.1 / SQLite suite, Python 3.10.19 | 35/35, 35.382 s    |
+| New score-child SDK methods within that suite            | 8/8                |
 | Ruff exact CI rules, format, AST, Prettier, whitespace   | Passed locally     |
 
 The existing CI MLflow discovery pattern includes the new SDK test module; the
@@ -37,6 +37,16 @@ change is required. Remote CI and independent review remain separate evidence.
   reject before registry creation. All runtime record comparisons use canonical
   bytes to distinguish booleans from integers.
 
+## Arm metric-key review correction
+
+PR113/114 P2 identified valid arm IDs that MLflow cannot use verbatim as metric
+name segments. The bottom-layer projection now uses `a-` plus SHA-256 of the
+original UTF-8 arm ID, with an explicit `armMetricKeys` mapping and unchanged
+original IDs in payload `arms`. Offline regression covers punctuation, Unicode,
+4096-character names and distinct aliases; keys are deterministic, ASCII-safe and
+within 250 characters. Real pinned SDK checks import and re-import punctuation/
+Unicode and long IDs, preserve original artifacts, and replay saved scores.
+
 ## Changes and limits
 
 SDK-free projection, additive local importer and real SDK checks form three
@@ -61,3 +71,12 @@ not atomic. Full Issue77 acceptance remains incomplete.
 
 Next after stack review: runtime paired comparison with explicit compatibility,
 partial denominators and separate operational versus selected-reference evidence.
+
+## CI availability
+
+User changed NormLab visibility to PUBLIC. After rerunning, all six checks
+passed on pre-correction heads PR113 33a18d4 / PR114 988c547 / PR115 07fc5dc.
+Earlier account billing failures occurred before any steps ran. This establishes
+CI startup availability for NormLab, not resolution of account-wide billing.
+Arm-key correction rewrites descendants; fresh checks on updated heads are
+required before merge.
