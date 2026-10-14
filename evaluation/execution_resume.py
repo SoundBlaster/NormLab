@@ -40,6 +40,7 @@ class ContinuationWriter(DurableWriter):
                 require(number <= MAX_FILES, "Continuation inventory entry cap")
                 require(not path.is_symlink(), "Continuation inventory symlink")
                 if path.is_dir():
+                    self.inventory[str(path.relative_to(self.root))] = 0
                     continue
                 info = path.stat()
                 require(stat.S_ISREG(info.st_mode), "Continuation regular inventory")

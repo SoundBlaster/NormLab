@@ -206,6 +206,13 @@ class Capture:
             all(request["caps"][key] <= value for key, value in limits.items()),
             "Continuation cannot increase effective caps",
         )
+        require(
+            all(
+                request["caps"][key] >= consumed
+                for key, consumed in report["counts"]["reserved"].items()
+            ),
+            "Continuation caps must cover already-reserved totals",
+        )
         if request["action"] == "resume":
             require(
                 request["attemptId"] is None and request["outcome"] is None,

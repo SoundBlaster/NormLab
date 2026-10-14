@@ -27,17 +27,17 @@ readers do not silently acquire v2 support.
 
 Closed request schema `normlab.mock-continuation-request/v1`:
 
-| Fields                            | Meaning                                                                                        |
-| --------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `schema`, `runId`, `planDigest`   | Same original execution and plan                                                               |
-| `checkpointDigest`, `journalHead` | Exact current checkpoint bytes and raw event head                                              |
-| `action`                          | `resume`, `stop` or `adopt-saved-outcome`                                                      |
-| `clock`                           | Original complete clock declaration, including epoch, units, source and deadline               |
-| `nowNs`, `observedAt`             | Nonregressing simulated elapsed observation and its exact UTC mapping                          |
-| `caps`                            | Absolute lifetime caps, each no greater than the previous effective cap                        |
-| `authorization`                   | 5a operator ID/reference/authorized-at record, explicitly supplied for this head               |
-| `expiresAt`                       | UTC expiration, later than observation; checked again before each reservation/dispatch         |
-| `attemptId`, `outcome`            | Null for resume; original unknown attempt for resolution; artifact reference only for adoption |
+| Fields                            | Meaning                                                                                                      |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `schema`, `runId`, `planDigest`   | Same original execution and plan                                                                             |
+| `checkpointDigest`, `journalHead` | Exact current checkpoint bytes and raw event head                                                            |
+| `action`                          | `resume`, `stop` or `adopt-saved-outcome`                                                                    |
+| `clock`                           | Original complete clock declaration, including epoch, units, source and deadline                             |
+| `nowNs`, `observedAt`             | Nonregressing simulated elapsed observation and its exact UTC mapping                                        |
+| `caps`                            | Absolute lifetime caps, each covering already-reserved totals and no greater than the previous effective cap |
+| `authorization`                   | 5a operator ID/reference/authorized-at record, explicitly supplied for this head                             |
+| `expiresAt`                       | UTC expiration, later than observation; checked again before each reservation/dispatch                       |
+| `attemptId`, `outcome`            | Null for resume; original unknown attempt for resolution; artifact reference only for adoption               |
 
 `authorizedAt <= observedAt < expiresAt`, with authorization no earlier than the
 previous committed observation. This validates supplied **data**, not a real
@@ -130,8 +130,9 @@ journal and public report retain `budget-exhaustion`. Stored evidence is never
 rewritten to fit that projection.
 
 Ordinary artifacts remain bounded at 2 MiB, checkpoints at 16 MiB, inventory at
-4096 published files/64 MiB, journal at 8192 events and continuation invocations at 128.
-Opening also bounds the inventory walk to 4096 entries, including directories.
+4096 retained/published entries including directories, 64 MiB file bytes, journal
+at 8192 events and continuation invocations at 128. Directory entries contribute
+zero bytes but occupy publication capacity throughout the writer lifetime.
 Symlinks, FIFO and oversized retained files reject before mutation. Process-crash
 checks establish atomic visibility and dispatch barriers, not physical power-loss
 guarantees or protection from adversarial local directory rewriting.

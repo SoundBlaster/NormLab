@@ -108,3 +108,19 @@ Next after review: **5d runtime export/registry integration with capture revisio
 identity**. Real host clock/epoch, current authorization attestation, provider
 normalization/transport and separately authorized live smoke remain later gates.
 The broader #77 task remains open with its full acceptance incomplete.
+
+## Review corrections - 2026-10-14
+
+Both P2 findings in [review 5511208804](https://github.com/SoundBlaster/NormLab/pull/96#pullrequestreview-5511208804)
+reproduced before the correction: a cap below consumed dispatches was accepted,
+and the writer inventory contained 12 files while the tree contained 14 entries.
+Every requested cap now covers its current reserved total. Directory entries are
+retained in publication accounting with zero byte size, so publication cannot
+create a tree that exceeds its reopen entry bound.
+
+The two regression methods cover all four cap dimensions and a near-cap tree
+with retained directories. Failed requests leave bytes unchanged; a rejected
+publication can preserve a bounded original snapshot but cannot exceed the cap
+or prevent the saved execution from reopening. Dedicated suites: 22/22 on Python
+3.14.8 (2.876s) and Python 3.10.19 (2.960s). Complete offline suite: 137/137 on
+Python 3.14.8 in 130.031s. Ruff lint/format and Markdown formatting passed.

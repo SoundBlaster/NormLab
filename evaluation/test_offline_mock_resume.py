@@ -7,13 +7,14 @@ import selectors
 import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
 import test_offline_mock_execution as previous
 from execution_checkpoint import inspect_checkpoint
 from execution_continuation import Capture, continuation_request, inspect_continuation
 from execution_mock import MockTransport, SimulatedClock, run_mock
 from execution_mock_codec import reference
-from execution_resume import continue_mock
+from execution_resume import ContinuationWriter, continue_mock
 from execution_test_support import NANO, ROOT, ExecutionCase, canonical, cli, sha
 
 
@@ -296,6 +297,34 @@ class ResumeTests(ExecutionCase):
         self.assertEqual(report["mockExecution"]["effectiveCaps"]["dispatches"], 1)
         self.assertEqual(transport.calls, [])
         self.rejected(output, self.request(output))
+
+    def test_requested_caps_cover_all_reserved_totals(self):
+        _, output, _, _ = self.paused("after-terminal")
+        capture = Capture(output)
+        for key, consumed in capture.report["counts"]["reserved"].items():
+            self.assertGreater(consumed, 0)
+            with self.subTest(cap=key):
+                limits = dict(capture.limits)
+                limits[key] = consumed - 1
+                self.rejected(output, self.request(output, limits=limits))
+
+    def test_publication_capacity_includes_directories(self):
+        _, output, _, _ = self.paused("before-reservation", tasks=1)
+        (output / "retained-directory").mkdir()
+        count = len(list(output.rglob("*")))
+        with ContinuationWriter(output) as writer:
+            self.assertEqual(len(writer.inventory), count)
+        request = self.request(output)
+        with (
+            patch("execution_resume.MAX_FILES", count + 1),
+            patch("execution_checkpoint.MAX_FILES", count + 1),
+        ):
+            with self.assertRaisesRegex(ValueError, "publication count cap"):
+                continue_mock(output, request)
+            self.assertLessEqual(len(list(output.rglob("*"))), count + 1)
+            with ContinuationWriter(output):
+                pass
+        self.assertEqual(inspect_continuation(output)["state"], "created")
 
     def test_adoption_rehashing_cannot_change_semantics(self):
         _, output, _, _ = self.paused("after-response", tasks=1)
