@@ -39,7 +39,12 @@ envelope. [Local integration evidence](RUNTIME_MLFLOW_VERIFICATION_2026-10-14.md
 denominators; candidate agreement не становится case-level quality.
 [MLflow score children](RUNTIME_SCORE_MLFLOW_V1.md) добавляют verified local import
 с capture/reference/policy lineage и отдельными immutable score artifacts.
-Runtime paired comparison и live capability gates остаются впереди.
+[Runtime paired comparison](RUNTIME_PAIRED_COMPARISON_V1.md) добавляет verified
+planned-question pairing, strict-wire / explicit same-protocol-body compatibility,
+общие semantic denominators и отдельные operational counts. Его fresh JSON/Markdown
+export/verify проверены [offline](RUNTIME_PAIRED_COMPARISON_VERIFICATION_2026-10-14.md).
+Native live transport, host clock/current authorization и live capability gates
+остаются впереди; mock comparison не доказывает качество моделей.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
