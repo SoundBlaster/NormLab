@@ -21,6 +21,10 @@ resolution с сохранением caps/deadline и [offline verification](MOC
 Host clock/current authorization attestation и native provider transport ещё не реализованы.
 Текущие native runners не получают resume автоматически.
 
+Подготовка 5d выполняется тремя последовательными слоями: [capture revision snapshot](RUNTIME_CAPTURE_PREPARATION_V1.md)
+→ bounded export projection → capture-revision-aware registry plan. Это read-only
+mock preparation; portable runtime export и запись в MLflow ещё не реализованы.
+
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
 Успех инфраструктуры: новый совместимый provider/model задаётся конфигурацией и проходит contract smoke; существующая матрица запускается без новых ad-hoc скриптов. Изменения wire contract, prompts или schema требуют новой версии адаптера/стратегии и явно помеченного comparison. Это не обещание автоматической совместимости с будущими API.
