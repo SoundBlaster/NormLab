@@ -48,7 +48,7 @@ def main():
     try:
         result = run(args.archive, args.storage, dry_run=args.dry_run)
         print(json.dumps(result, ensure_ascii=False))
-    except (OSError, ValueError, RuntimeError, ImportError) as error:
+    except Exception as error:
         print("Runtime MLflow import failed: " + type(error).__name__, file=sys.stderr)
         return 1
     return 0

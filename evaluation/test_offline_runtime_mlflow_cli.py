@@ -1,14 +1,18 @@
 """Dry-run projects verified archives without provider SDKs or registry writes."""
 
+import io
 import json
 import os
+import sqlite3
 import subprocess
 import sys
 import unittest
+from contextlib import redirect_stderr
+from unittest.mock import patch
 
 import test_offline_runtime_mlflow_projection as fixtures
 from execution_test_support import ROOT, ExecutionCase
-from import_runtime_mlflow import run
+from import_runtime_mlflow import main, run
 from runtime_archive_reader import read_archive
 from runtime_mlflow_projection import project
 
@@ -39,6 +43,33 @@ class RuntimeCLITests(ExecutionCase):
     request = fixtures.ConsumerTests.request
     orphan = fixtures.ConsumerTests.orphan
     archive = fixtures.ConsumerTests.archive
+
+    def test_backend_errors_sanitized_and_interruptions_preserved(self):
+        class BackendError(Exception):
+            pass
+
+        for error in (
+            sqlite3.OperationalError("PRIVATE-SENTINEL"),
+            BackendError("PRIVATE-SENTINEL"),
+        ):
+            with self.subTest(error=type(error).__name__):
+                stream = io.StringIO()
+                with (
+                    patch.object(sys, "argv", ["import-runtime", str(self.root)]),
+                    patch("import_runtime_mlflow.run", side_effect=error),
+                    redirect_stderr(stream),
+                ):
+                    self.assertEqual(main(), 1)
+                self.assertEqual(
+                    stream.getvalue(),
+                    "Runtime MLflow import failed: " + type(error).__name__ + "\n",
+                )
+        with (
+            patch.object(sys, "argv", ["import-runtime", str(self.root)]),
+            patch("import_runtime_mlflow.run", side_effect=KeyboardInterrupt()),
+        ):
+            with self.assertRaises(KeyboardInterrupt):
+                main()
 
     def test_dry_run_contract_and_no_storage(self):
         _, archive, _ = self.archive()
