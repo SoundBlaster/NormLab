@@ -62,7 +62,7 @@ retry first/final, adoption without a new attempt, edited metadata/records,
 write/network/SDK-denied preview and the large matrix. Python 3.10/3.14 and final
 combined-suite evidence are recorded in the stack handoff.
 
-Next: **5d.3 registry import planning** keyed by execution and capture revision.
+[5d.3 registry import planning](RUNTIME_REGISTRY_PREPARATION_V1.md) is keyed by execution and capture revision.
 Actual durable portable export, native offline-envelope adapter, reference/score
 consumer integration and MLflow writes remain outside preparation. No provider
 requests, credentials, network or deployment are used.
