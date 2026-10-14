@@ -6,7 +6,7 @@ from pathlib import Path
 from execution_outcomes import answers
 from execution_plan import Store, public
 from execution_records import integer, text
-from offline_bundle import MAX_BYTES, canonical, require, sha
+from offline_bundle import MAX_BYTES, require, sha
 
 
 def adapter_revision():
