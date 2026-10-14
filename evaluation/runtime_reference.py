@@ -65,7 +65,8 @@ def reference(archive, source_raw, review_raw=()):
         len({sha(raw) for raw in review_raw}) == len(review_raw),
         "Unique review artifacts",
     )
-    source = decode(source_raw)
+    # json.loads(bytes) also accepts UTF-16/32. Embedded inputs require UTF-8 JSON.
+    source = decode(source_raw.decode("utf-8"))
     object_keys(source, "schema revision status planDigest dataset expected")
     require(
         source["schema"] == SOURCE_SCHEMA and source["status"] in STATUSES,
@@ -122,7 +123,7 @@ def reference(archive, source_raw, review_raw=()):
         "Human review evidence required",
     )
     for raw in review_raw:
-        review = decode(raw)
+        review = decode(raw.decode("utf-8"))
         object_keys(
             review,
             "schema reviewer method sourceDigest planDigest dataset scope approved",

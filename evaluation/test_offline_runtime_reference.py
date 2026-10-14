@@ -143,6 +143,31 @@ class ReferenceTests(ExecutionCase):
         with self.assertRaises(ValueError):
             reference(archive, b" " * (2 * 1024 * 1024 + 1))
 
+    def test_only_utf8_json_source_and_review_accepted_before_projection(self):
+        _, root, _ = self.archive()
+        archive = read_archive(root)
+        candidate = canonical(source(archive)).decode()
+        human = source(archive, "human-adjudicated")
+        for encoding in [
+            "utf-16",
+            "utf-16-le",
+            "utf-16-be",
+            "utf-32",
+            "utf-32-le",
+            "utf-32-be",
+        ]:
+            with self.subTest(encoding=encoding), self.assertRaises(ValueError):
+                reference(archive, candidate.encode(encoding))
+            with self.subTest(review_encoding=encoding), self.assertRaises(ValueError):
+                reference(
+                    archive, canonical(human), [review(human).decode().encode(encoding)]
+                )
+        labels = source(archive)
+        labels["revision"] = "Синтетическая проверка"
+        raw = canonical(labels)
+        selected = reference(archive, raw)
+        self.assertEqual(selected.inputs["sourceUtf8"].encode(), raw)
+
 
 if __name__ == "__main__":
     unittest.main()
