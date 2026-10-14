@@ -17,6 +17,21 @@ def adapter_revision():
     }
 
 
+def contains_secret(value, secret, depth=0):
+    require(depth <= 32, "Credential projection nesting cap")
+    if isinstance(value, str):
+        return secret in value
+    if isinstance(value, dict):
+        return any(
+            contains_secret(k, secret, depth + 1)
+            or contains_secret(v, secret, depth + 1)
+            for k, v in value.items()
+        )
+    if isinstance(value, list):
+        return any(contains_secret(v, secret, depth + 1) for v in value)
+    return False
+
+
 def projection(status, raw, request_id, secret):
     """Retain replay fields only; error/invalid bytes retain digest and byte count."""
     require(
@@ -49,7 +64,7 @@ def projection(status, raw, request_id, secret):
                 ]
             public(payload)
             require(
-                secret not in canonical(payload).decode(),
+                not contains_secret(payload, secret),
                 "Response contains credential",
             )
     except (ValueError, TypeError, KeyError, UnicodeError, RecursionError):

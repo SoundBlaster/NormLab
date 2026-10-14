@@ -6,7 +6,7 @@ import socket
 import ssl
 from urllib.parse import urlsplit
 
-from execution_live_wire import projection
+from execution_live_wire import contains_secret, projection
 from execution_plan import Store
 from execution_records import endpoint
 from offline_bundle import MAX_BYTES, require
@@ -31,7 +31,7 @@ class NativeHTTP:
             request["body"], ensure_ascii=False, allow_nan=False, separators=(",", ":")
         ).encode()
         require(
-            secret.encode() not in body and len(body) <= MAX_BYTES,
+            not contains_secret(request["body"], secret) and len(body) <= MAX_BYTES,
             "No credential in public model input",
         )
         parts = urlsplit(request["url"])

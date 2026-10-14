@@ -232,6 +232,26 @@ class LiveWireTests(ExecutionCase):
         sent = json.loads(calls[0][1]["body"])
         self.assertEqual(list(sent["questions"]), task["questionIds"])
 
+    def test_json_escaped_credential_is_rejected_in_parsed_request_and_reply(self):
+        secret = 'fixture-key"with\\escaping'
+        _, _, _, store = self.wire("typesafe-systemone/v1")
+        task = store.json("plan.json")["tasks"][0]
+        request = store.value(task["request"])
+        request["body"]["state"] = {"nested": ["prefix " + secret + " suffix"]}
+        with patch(
+            "execution_live_http.http.client.HTTPSConnection",
+            side_effect=AssertionError("transport constructed"),
+        ):
+            with self.assertRaises(ValueError):
+                NativeHTTP().dispatch(canonical(request), secret, lambda: 1_000_000_000)
+        response = projection(
+            200,
+            canonical({"model": "mock-model", "answers": {"nested": [secret]}}),
+            "fixture-id",
+            secret,
+        )
+        self.assertIsNone(response["body"])
+
 
 if __name__ == "__main__":
     unittest.main()
