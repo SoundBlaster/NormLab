@@ -128,6 +128,10 @@ class Registry:
                 all(run.data.tags.get(k) == v for k, v in tags.items()),
                 "MLflow identity/tag conflict",
             )
+            require(
+                run.data.tags.get("mlflow.parentRunId") == parent,
+                "MLflow parent conflict",
+            )
         else:
             run = self.client.create_run(
                 self.experiment_id,
@@ -147,7 +151,48 @@ class Registry:
         )
         return target
 
-    def write(self, record, snapshot, parent=None):
+    def write(self, record, snapshot, parent=None, *, runtime_archive=None):
+        archive_payload = {}
+        if record["kind"].startswith("runtime-") or runtime_archive is not None:
+            from runtime_mlflow_projection import archive_files, project
+            from offline_bundle import MAX_BYTES
+
+            require(
+                record in project(runtime_archive), "Verified runtime record binding"
+            )
+            require(
+                len(canonical(record["payload"])) <= MAX_BYTES,
+                "Runtime consumer projection byte cap",
+            )
+            parent_key = record["parentKey"]
+            if parent_key is None:
+                require(parent is None, "Runtime execution has no parent")
+            else:
+                parent_row = self.db.execute(
+                    "SELECT mlflow_id, state FROM imports WHERE key=?", (parent_key,)
+                ).fetchone()
+                require(
+                    parent is not None and parent_row == (parent, "completed"),
+                    "Completed runtime parent binding required",
+                )
+            if record["kind"] == "runtime-projection":
+                archive_payload = archive_files(runtime_archive)
+        # Bound the entire import payload before creating a durable registry intent.
+        if archive_payload:
+            from offline_bundle import MAX_FILES, MAX_TOTAL_BYTES
+            from runtime_archive_format import directories
+
+            require(
+                len(archive_payload) + len(directories(archive_payload)) + 2
+                <= MAX_FILES,
+                "Runtime import entry cap",
+            )
+            require(
+                sum(map(len, archive_payload.values()))
+                + len(canonical(record["payload"]))
+                <= MAX_TOTAL_BYTES,
+                "Runtime import byte cap",
+            )
         run, completed = self.intent(record, parent)
         run_id, key = run.info.run_id, record["key"]
         try:
@@ -198,6 +243,10 @@ class Registry:
                 (payload / "projection.json").write_bytes(canonical(record["payload"]))
                 if record["kind"] == "score":
                     shutil.copytree(snapshot, payload / "bundle")
+                for name, raw in archive_payload.items():
+                    target = payload / "archive" / name
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(raw)
                 destination = self.artifact_root(run) / "normlab"
                 expected_files = {
                     path.relative_to(payload)
@@ -226,7 +275,26 @@ class Registry:
                         target.resolve().is_relative_to(self.root / "artifacts"),
                         "Artifact path escape",
                     )
-                    if not target.is_file() or read(target) != read(source):
+                    relative = source.relative_to(payload)
+                    if archive_payload and relative.parts[0] == "archive":
+                        from execution_checkpoint import bounded_read
+                        from runtime_archive_format import file_limit
+
+                        name = str(relative.relative_to("archive"))
+                        limit = (
+                            len(archive_payload[name])
+                            if name in {"archive.json", ".writer.lock"}
+                            else file_limit(name)
+                        )
+                        content_matches = (
+                            target.is_file()
+                            and bounded_read(target, limit) == archive_payload[name]
+                        )
+                    else:
+                        content_matches = target.is_file() and read(target) == read(
+                            source
+                        )
+                    if not content_matches:
                         matches = False
                 if completed:
                     require(matches, "Completed artifact drift")
