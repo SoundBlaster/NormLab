@@ -6,15 +6,15 @@ Contracts: [reference](RUNTIME_REFERENCE_V1.md),
 
 ## Local evidence
 
-| Check                                                       | Result                            |
-| ----------------------------------------------------------- | --------------------------------- |
-| Complete SDK-free offline suite, Python 3.14.8              | 200/200, 128.916 s                |
-| Dedicated reference checks, Python 3.10.19                  | 6/6                               |
-| Dedicated scorer and CLI checks, Python 3.10.19             | 11/11, 3.911 s                    |
-| Ruff with CI rules including I and format                   | Passed; 124 Python files          |
-| AST / unchanged base evaluation files / relative docs links | Passed / 127 unchanged / 41 valid |
+| Check                                                       | Result                                |
+| ----------------------------------------------------------- | ------------------------------------- |
+| Complete SDK-free offline suite, Python 3.14.8              | 201/201, 119.592 s                    |
+| Dedicated reference checks, Python 3.10.19                  | 6/6                                   |
+| Dedicated scorer and CLI checks, Python 3.10.19             | 12/12, 3.929 s; final containment fix |
+| Ruff with CI rules including I and format                   | Passed; 124 Python files              |
+| AST / unchanged base evaluation files / relative docs links | Passed / 127 unchanged / 44 valid     |
 
-The 17 new checks cover source/review binding, source SHA-256 and exact bytes,
+The 18 new checks cover source/review binding, source SHA-256 and exact bytes,
 candidate/declaration distinction, repeat identity, defensive copies, continuation
 reuse, wrong plan/dataset, invalid/duplicate selections, label types, wrong review
 scope/digest, duplicate reviews and byte caps.
@@ -41,6 +41,12 @@ to both descendants. The regression rejects UTF-16/32, with/without BOMs, for
 source and review artifacts before projection and preserves exact Cyrillic
 UTF-8 bytes. Replied/reacted and resolved the original review thread. Fresh CI
 on rewritten heads remains separate evidence.
+
+PR111 P2 identified score output paths inside the closed archive tree. Added
+resolved output/parent containment rejection before labels/publication. Root,
+source-subdirectory and symlink-alias output regressions preserve exact archive
+bytes, readable inventory and no temporary files after rejection. Replied/reacted
+and resolved the source review thread.
 
 ## Scope and limits
 
