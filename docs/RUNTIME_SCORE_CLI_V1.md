@@ -14,7 +14,8 @@ at least one source-bound review. The command never invokes a provider SDK,
 launches inference or imports into MLflow.
 
 `score` creates a separate [score view](RUNTIME_SCORE_VIEW_V1.md); no archive
-files change. Output must be a fresh filename in an existing directory. The CLI
+files change. Output must be a fresh filename in an existing directory outside
+the archive tree; resolved archive aliases are also rejected. The CLI
 flushes a temporary file before linking it to the output name without overwrite.
 A failure before publication creates no output marker. If an error occurs after
 publication, the complete file may remain: run `verify` rather than assuming

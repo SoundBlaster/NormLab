@@ -135,6 +135,27 @@ class ScoreCLITests(ExecutionCase):
         checked = self.command("verify", root, output)
         self.assertEqual(checked.returncode, 0, checked.stderr)
 
+    def test_output_inside_archive_or_symlink_alias_rejected_without_changes(self):
+        _, root, _ = self.archive()
+        archive = read_archive(root)
+        original = dict(archive.files)
+        labels = self.root / "outside-labels.json"
+        labels.write_bytes(canonical(references.source(archive)))
+        alias = self.root / "archive-alias"
+        alias.symlink_to(root, target_is_directory=True)
+        for output in [
+            root / "score.json",
+            root / "source/score.json",
+            alias / "score.json",
+        ]:
+            with self.subTest(output=str(output)):
+                result = self.command("score", root, labels, "--output", output)
+                self.assertEqual(result.returncode, 1)
+                self.assertEqual(result.stderr, "Runtime score failed: ValueError\n")
+                self.assertFalse(output.exists())
+                self.assertEqual(dict(read_archive(root).files), original)
+                self.assertFalse(list(root.rglob(".runtime-score-*")))
+
 
 if __name__ == "__main__":
     unittest.main()

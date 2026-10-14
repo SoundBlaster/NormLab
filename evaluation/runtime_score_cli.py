@@ -73,6 +73,12 @@ def main():
         if args.command == "score":
             from offline_bundle import require
 
+            archive_root = args.archive.resolve(strict=True)
+            require(
+                not args.output.parent.resolve(strict=True).is_relative_to(archive_root)
+                and not args.output.resolve().is_relative_to(archive_root),
+                "Score output must be outside archive",
+            )
             require(len(args.review) <= 16, "Review inventory cap")
             selected = reference(
                 archive, read(args.labels), [read(path) for path in args.review]
