@@ -54,3 +54,32 @@ Layer 3 adds read-only portable replay, exact inventory/projection validation,
 corruption/process-fault coverage and original-source deletion round trips.
 Until those dependent layers land, this format module does not publish or read
 archives. Existing offline-envelope/native/MLflow schemas remain unchanged.
+
+## Layer 2: fresh durable export
+
+`export_archive(plan, output)` and `export_runtime_archive(source, output)` publish
+into a fresh private local directory. Plan shape, all hashes/bytes and current
+trusted producer pins are checked before directory creation. Existing or partial
+output directories reject; no overwrite, cleanup or export recovery occurs.
+
+The writer flushes the new parent entry, creates/flocks/fsyncs the archive lock,
+creates and flushes the fixed directories, then writes every content file with
+exclusive creation, full-write check, file fsync and containing-directory fsync.
+The final index is fully written/flushed to a root temporary name, atomically
+renamed to `archive.json`, then the root directory is flushed. No further writes
+follow the committed marker. A healthy writer acknowledges durability only after
+the final directory barrier; any failure poisons the writer and aborts publication.
+
+Before the final rename, no commit marker exists and the later reader must reject
+the partial tree. After rename the complete index can be visible even if the
+writer did not receive durability acknowledgement. This layer tests barrier
+ordering under simulated in-process faults, not abrupt process termination,
+physical power-loss/controller safety, remote
+filesystem guarantees or protection from hostile local rewriting.
+
+Four export methods cover exact saved bytes/barrier order, reader lock contention,
+no overwrite/second publication, ten interruption points and real fsync OSError.
+The combined format/export suite passes eight methods on Python 3.10/3.14. A
+dependent portable reader will validate exact tree inventory and regenerate the
+capture/projection rather than trusting the index alone. No archive reader,
+registry write, provider call or deployment is implemented by this second layer.
