@@ -257,14 +257,16 @@ def run_once(input_directory, output, confirmation, key_environment, *, hook=Non
             return checked["timeoutNs"]
 
         writer.hook("before-reservation")
+        fresh = clock.sample()
         current_gate(
             plan,
             run,
             Store(writer.root),
             confirmation,
-            clock.sample(),
+            fresh,
             last_sample=last_sample,
         )
+        last_sample = fresh
         commit("attempt-reserved")
         writer.hook("after-reservation")
         check()
@@ -288,6 +290,11 @@ def run_once(input_directory, output, confirmation, key_environment, *, hook=Non
     report = inspect_live(output)
     report["operation"] = "run-once"
     report["dispatchAttemptsInvoked"] = 1
-    # HTTP dispatch is observable; backend inference/billing is not attested.
-    report["inferenceCallsExecuted"] = None
+    # Count observed model-API dispatches, not unobservable backend work/billing.
+    report["inferenceCallsExecuted"] = (
+        None
+        if report["unknownDispatchAttempts"]
+        else report["counts"]["observedDispatches"]
+    )
+    report["authorizedDispatches"] = report["counts"]["reserved"]["dispatches"]
     return report

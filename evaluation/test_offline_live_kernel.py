@@ -152,7 +152,8 @@ class LiveKernelTests(ExecutionCase):
                 self.assertFalse(report["semanticQualityEvidence"])
                 self.assertEqual(report["operation"], "run-once")
                 self.assertEqual(report["dispatchAttemptsInvoked"], 1)
-                self.assertIsNone(report["inferenceCallsExecuted"])
+                self.assertEqual(report["inferenceCallsExecuted"], 1)
+                self.assertEqual(report["authorizedDispatches"], 1)
                 self.assertEqual(
                     before,
                     {
@@ -331,6 +332,23 @@ class LiveKernelTests(ExecutionCase):
                 self.execute(fixture, confirmation, another)
             self.assertFalse(another.exists())
             self.assertEqual(self.last_calls, [])
+
+    def test_backward_utc_between_preflight_and_commit_blocks_billable_dispatch(self):
+        fixture, confirmation = self.prepared()
+        calls = [0]
+
+        def rollback(value):
+            calls[0] += 1
+            if calls[0] == 2:
+                value["observedAt"] = "2026-01-01T00:00:00.000020Z"
+            elif calls[0] == 3:
+                value["observedAt"] = "2026-01-01T00:00:00.000010Z"
+
+        output = self.root / "utc-rollback"
+        with self.assertRaises(ValueError):
+            self.execute(fixture, confirmation, output, change_clock=rollback)
+        self.assertEqual(self.last_calls, [])
+        self.assertEqual(inspect_live(output)["counts"]["reserved"]["dispatches"], 0)
 
 
 if __name__ == "__main__":

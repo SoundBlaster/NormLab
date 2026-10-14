@@ -79,10 +79,30 @@ temporary canonical path in offline tests; no real user authority store is touch
 The first fixture invocation rejected macOS `/var` symlink aliases; using the
 canonical temporary authority path corrected the test without relaxing runtime policy.
 
-Final focused suite: **17/17 passed** on Python 3.10.19. Final full offline suite
-is being rechecked after this addition. This local identity scope requires a
+Authority-only focused suite: **17/17 passed** on Python 3.10.19; full offline
+discovery **246/246 passed** in 132.668 s. This local identity scope requires a
 persistent authority volume; it does not protect against operator deletion or
 independent authority namespaces.
+
+## Review corrections
+
+Two P2 and two P1 findings were addressed in their own stack layers:
+
+- Post-reservation gate requires the prior clock sample. A missing baseline and
+  backward UTC within otherwise valid permit bounds reject.
+- Credentials are checked recursively in parsed strings/keys, so JSON escaping
+  cannot hide an echoed key in requests or projected replies. A quoted/backslash
+  fixture rejects before transport and never persists its reply payload.
+- Live-operation counters are separated from read-only replay. One observed HTTP
+  model-API dispatch reports one; ambiguous transport outcomes remain null. This
+  is dispatch evidence, not backend inference/billing attestation.
+- The pre-reservation sample is retained as the next baseline before commit. A
+  UTC rollback still later than the original sample now rejects before any
+  reservation or transport construction.
+
+Final Python 3.10 focused suite: **20/20 passed**. Final Python 3.14.8 full offline
+discovery: **249/249 passed** in 140.796 s. Exact Ruff/formatter checks passed (**144** files).
+CI/review on rewritten heads is separate and must not inherit old-head results.
 
 ## Limits and next work
 

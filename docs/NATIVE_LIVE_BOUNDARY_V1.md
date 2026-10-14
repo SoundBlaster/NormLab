@@ -26,6 +26,8 @@ regression or backward UTC, checks permit validity and the original deadline,
 and applies effective plan/permit reservation ceilings. Request timeout is bounded
 by arm timeout, remaining run time and remaining permit validity. The dispatch
 boundary must check again after durable reservation and before key lookup/transport.
+Post-reservation checks require the preceding sample. Every accepted pre-reservation
+sample becomes the next baseline before commit, so rollback in that window rejects.
 Checking a serialized sample in offline tests is not evidence of current host capability.
 
 ## Native wire transport
@@ -92,6 +94,13 @@ complete it. Inspection grants no execution/resume authority. Current native
 archive/MLflow consumers remain mock-only and reject this new live checkpoint.
 
 ### CLI
+
+Results identify `operation`. `inspect` performs zero new dispatches. `run-once`
+reports one invoked transport attempt and the journal's reserved/observed dispatch
+counts; `inferenceCallsExecuted` means observed model-API dispatches, and is null
+when transport outcome is unknown. It does not attest backend workload or billing.
+`authorizedDispatches` describes this invocation's granted reservation, not permission
+to send more requests. Cost stays null; replay readiness/quality flags stay false.
 
 ```bash
 python3 -B -S evaluation/execution_live_cli.py requirements
