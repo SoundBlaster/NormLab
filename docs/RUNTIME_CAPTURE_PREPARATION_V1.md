@@ -60,7 +60,7 @@ Python 3.14 dedicated suite: 5/5. The existing Stage 1 offline CI discovers it.
 Python 3.10, style and final combined suite evidence are recorded in the stack
 handoff after the remaining preparation layers.
 
-Next: **5d.2 export projection preparation**, retaining all planned tasks and
+[5d.2 export projection preparation](RUNTIME_EXPORT_PREPARATION_V1.md) retains all planned tasks and
 first/final/attempt evidence without claiming an actual envelope export.
 Then **5d.3 registry import plan**, binding execution/revision identities without
 registry writes. Actual portable runtime export, prediction/reference scoring,
