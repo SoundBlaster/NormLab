@@ -6,18 +6,18 @@ Contract: [runtime consumer v1](RUNTIME_MLFLOW_CONSUMER_V1.md).
 
 ## Scope and local evidence
 
-| Check                                                                | Result                                        |
-| -------------------------------------------------------------------- | --------------------------------------------- |
-| Complete SDK-free offline suite, Python 3.14.8                       | 182/182, 144.725 s                            |
-| Dedicated consumer/dry-run suite, Python 3.14.8                      | 6/6; repeated after import sorting correction |
-| Dedicated consumer/dry-run suite, Python 3.10.19                     | 6/6, 0.504 s                                  |
-| Real MLflow 3.16.1 / SQLite suite, Python 3.10.19                    | 27/27, 18.237 s; final importer bytes         |
-| Runtime integration portion of that suite                            | 12/12                                         |
-| Legacy MLflow integration portion                                    | 15/15                                         |
-| Ruff including CI import rule `I`, format, AST, Prettier, whitespace | Passed locally                                |
+| Check                                                                | Result                                           |
+| -------------------------------------------------------------------- | ------------------------------------------------ |
+| Complete SDK-free offline suite, Python 3.14.8                       | 182/182, 144.725 s                               |
+| Dedicated consumer/dry-run suite, Python 3.14.8                      | 7/7; repeated after CLI backend-error correction |
+| Dedicated consumer/dry-run suite, Python 3.10.19                     | 7/7; repeated after CLI backend-error correction |
+| Real MLflow 3.16.1 / SQLite suite, Python 3.10.19                    | 27/27, 19.578 s; final reviewed importer bytes   |
+| Runtime integration portion of that suite                            | 12/12                                            |
+| Legacy MLflow integration portion                                    | 15/15                                            |
+| Ruff including CI import rule `I`, format, AST, Prettier, whitespace | Passed locally                                   |
 
 The complete offline suite preceded the final import-order correction and SDK
-directory-drift guard. Its six affected consumer checks were repeated; the final
+directory-drift guard. Its affected consumer checks and the new backend-error regression were repeated; the final
 27-test SDK suite exercises the directory guard. New runtime checks are wired
 into the pinned MLflow CI job; offline consumer checks use the existing
 `test_offline_*.py` discovery. GitHub CI and independent review remain separate
@@ -45,6 +45,12 @@ from these local results.
 - Dry-run runs with network and SDK imports forbidden and creates no registry
   storage. Real SDK checks forbid network transport; storage is temporary local
   SQLite and file artifacts. No persistent production registry is changed.
+
+The #106 P2 review identified SQLite/MLflow backend exceptions escaping the CLI
+error handler. The importer now sanitizes ordinary `Exception` failures while
+letting `BaseException` interruptions through. A regression check injects SQLite
+and custom backend exceptions and verifies the one-line, content-free message,
+plus propagation of `KeyboardInterrupt`.
 
 ## Changes and limits
 
