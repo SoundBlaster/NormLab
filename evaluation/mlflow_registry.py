@@ -151,14 +151,31 @@ class Registry:
         )
         return target
 
-    def write(self, record, snapshot, parent=None, *, runtime_archive=None):
+    def write(
+        self, record, snapshot, parent=None, *, runtime_archive=None, runtime_score=None
+    ):
         archive_payload = {}
-        if record["kind"].startswith("runtime-") or runtime_archive is not None:
+        extra_payload = {}
+        if (
+            record["kind"].startswith("runtime-")
+            or runtime_archive is not None
+            or runtime_score is not None
+        ):
             from offline_bundle import MAX_BYTES
             from runtime_mlflow_projection import archive_files, project
 
+            if record["kind"] == "runtime-score" or runtime_score is not None:
+                from runtime_score import verify_score
+                from runtime_score_mlflow_projection import project_score
+
+                verified_score = verify_score(runtime_archive, runtime_score)
+                allowed = [project_score(runtime_archive, verified_score)]
+                extra_payload = {"score.json": canonical(verified_score)}
+            else:
+                allowed = project(runtime_archive)
             require(
-                record in project(runtime_archive), "Verified runtime record binding"
+                any(canonical(record) == canonical(candidate) for candidate in allowed),
+                "Verified runtime record binding",
             )
             require(
                 len(canonical(record["payload"])) <= MAX_BYTES,
@@ -175,7 +192,7 @@ class Registry:
                     parent is not None and parent_row == (parent, "completed"),
                     "Completed runtime parent binding required",
                 )
-            if record["kind"] == "runtime-projection":
+            if record["kind"] in {"runtime-projection", "runtime-score"}:
                 archive_payload = archive_files(runtime_archive)
         # Bound the entire import payload before creating a durable registry intent.
         if archive_payload:
@@ -183,13 +200,17 @@ class Registry:
             from runtime_archive_format import directories
 
             require(
-                len(archive_payload) + len(directories(archive_payload)) + 2
+                len(archive_payload)
+                + len(directories(archive_payload))
+                + 2
+                + len(extra_payload)
                 <= MAX_FILES,
                 "Runtime import entry cap",
             )
             require(
                 sum(map(len, archive_payload.values()))
                 + len(canonical(record["payload"]))
+                + sum(map(len, extra_payload.values()))
                 <= MAX_TOTAL_BYTES,
                 "Runtime import byte cap",
             )
@@ -247,6 +268,8 @@ class Registry:
                     target = payload / "archive" / name
                     target.parent.mkdir(parents=True, exist_ok=True)
                     target.write_bytes(raw)
+                for name, raw in extra_payload.items():
+                    (payload / name).write_bytes(raw)
                 destination = self.artifact_root(run) / "normlab"
                 expected_files = {
                     path.relative_to(payload)

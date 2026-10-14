@@ -37,3 +37,21 @@ Artifacts will include the complete portable archive plus `score.json`; the
 registry projection is separate `projection.json`. All import bounds include
 these files. Near-limit views/archives may be rejected rather than truncated.
 No live inference, quality promotion or deployment follows from import.
+
+## Local CLI
+
+```bash
+python evaluation/import_runtime_mlflow.py ARCHIVE --score score.json --dry-run
+python evaluation/import_runtime_mlflow.py ARCHIVE --score score.json --storage .data/mlflow-offline
+```
+
+The archive is privately snapshotted and both score and projection regenerated
+before opening registry storage. The writer rechecks canonical record binding
+and the completed capture parent before creating an intent. Score children save
+the verified archive, exact canonical `score.json` and registry projection.
+These files fit the existing 64 MiB / 4096-entry whole-payload caps; score and
+projection individually fit 2 MiB. Archive checkpoints retain their 16 MiB cap.
+
+Legacy import and score-free runtime import stay supported. Repeated import
+reuses IDs, validates metric histories and exact artifacts, and rejects completed
+drift. Multiple records are resumable, not an atomic registry transaction.
