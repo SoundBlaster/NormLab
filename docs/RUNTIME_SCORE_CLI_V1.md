@@ -31,6 +31,7 @@ Successful stdout contains IDs, summary and evidence flags. Input/storage errors
 print only an error type, with no labels, raw responses or paths. Each view is
 bounded by 2 MiB; over-limit inputs/views fail without truncation. There is no
 automatic fallback, label generation, score upload, quality claim or release
-approval. MLflow score-child integration remains a later independent slice.
+approval. [MLflow score-child import](RUNTIME_SCORE_MLFLOW_V1.md) is available
+through a separate explicit local importer; this CLI does not upload scores.
 
 Canonical task: [Issue 77](https://github.com/SoundBlaster/NormLab/issues/77).

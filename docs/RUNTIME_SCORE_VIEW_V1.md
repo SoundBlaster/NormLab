@@ -47,6 +47,7 @@ Partial captures can be scored without acquiring a fabricated prediction seal.
 The view preserves the existing sealed/unsealed state. All current captures are
 unsigned mock evidence: cost and critical-error-free rate remain null;
 readiness, semantic quality and release approval remain false even with a
-declared human reference. Import into MLflow as score children is a later slice.
+declared human reference. [Local score-child import](RUNTIME_SCORE_MLFLOW_V1.md)
+is a separate explicit command; scoring itself never opens registry storage.
 
 Canonical task: [Issue 77](https://github.com/SoundBlaster/NormLab/issues/77).

@@ -36,8 +36,10 @@ envelope. [Local integration evidence](RUNTIME_MLFLOW_VERIFICATION_2026-10-14.md
 сети. Runtime reference/score реализованы отдельными [reference](RUNTIME_REFERENCE_V1.md),
 [score view](RUNTIME_SCORE_VIEW_V1.md) и [offline CLI](RUNTIME_SCORE_CLI_V1.md).
 Они сохраняют selected-question scope, source/review provenance и partial
-denominators; candidate agreement не становится case-level quality. MLflow
-score-child integration и live capability gates остаются впереди.
+denominators; candidate agreement не становится case-level quality.
+[MLflow score children](RUNTIME_SCORE_MLFLOW_V1.md) добавляют verified local import
+с capture/reference/policy lineage и отдельными immutable score artifacts.
+Runtime paired comparison и live capability gates остаются впереди.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
