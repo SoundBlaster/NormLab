@@ -52,6 +52,10 @@ def current_gate(
     Call again immediately after durable reservation, before transport/key lookup.
     """
     run_shape(run, plan)
+    require(type(reserve) is bool, "Reservation gate mode")
+    require(
+        reserve or last_sample is not None, "Post-reservation clock baseline required"
+    )
     require(run["evidenceKind"] == "live-capture", "Live gate cannot authorize mock")
     limits, permit = permit_caps(plan, run, store)
     object_keys(

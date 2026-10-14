@@ -80,6 +80,29 @@ class LiveGateTests(ExecutionCase):
             with self.assertRaises(ValueError):
                 LinuxClock().sample()
 
+    def test_post_reservation_recheck_requires_baseline_and_rejects_backward_utc(self):
+        plan, run, store, confirmation, sample = self.setup_gate()
+        with self.assertRaises(ValueError):
+            current_gate(plan, run, store, confirmation, sample, reserve=False)
+        last = {**sample, "observedAt": "2026-01-01T00:00:00.000010Z"}
+        rolled_back = {**sample, "observedAt": "2026-01-01T00:00:00.000005Z"}
+        with self.assertRaises(ValueError):
+            current_gate(
+                plan,
+                run,
+                store,
+                confirmation,
+                rolled_back,
+                last_sample=last,
+                reserve=False,
+            )
+        self.assertGreater(
+            current_gate(
+                plan, run, store, confirmation, last, last_sample=sample, reserve=False
+            )["timeoutNs"],
+            0,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
