@@ -154,8 +154,8 @@ class Registry:
     def write(self, record, snapshot, parent=None, *, runtime_archive=None):
         archive_payload = {}
         if record["kind"].startswith("runtime-") or runtime_archive is not None:
-            from runtime_mlflow_projection import archive_files, project
             from offline_bundle import MAX_BYTES
+            from runtime_mlflow_projection import archive_files, project
 
             require(
                 record in project(runtime_archive), "Verified runtime record binding"
@@ -253,7 +253,13 @@ class Registry:
                     for path in payload.rglob("*")
                     if path.is_file()
                 }
+                expected_directories = {
+                    path.relative_to(payload)
+                    for path in payload.rglob("*")
+                    if path.is_dir()
+                }
                 actual_files = set()
+                actual_directories = set()
                 require(not destination.is_symlink(), "Artifact entry type")
                 for path in destination.rglob("*"):
                     require(
@@ -264,8 +270,20 @@ class Registry:
                         relative = path.relative_to(destination)
                         require(relative in expected_files, "Unexpected artifact file")
                         actual_files.add(relative)
+                    elif archive_payload:
+                        relative = path.relative_to(destination)
+                        require(
+                            relative in expected_directories,
+                            "Unexpected runtime artifact directory",
+                        )
+                        actual_directories.add(relative)
                 if completed:
                     require(actual_files == expected_files, "Completed artifact drift")
+                    if archive_payload:
+                        require(
+                            actual_directories == expected_directories,
+                            "Completed runtime directory drift",
+                        )
                 matches = True
                 for source in payload.rglob("*"):
                     if not source.is_file():
