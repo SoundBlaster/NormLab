@@ -92,7 +92,7 @@ jobs:
         env:
           MLFLOW_DISABLE_AGENT_HINT: '1'
           MLFLOW_DISABLE_TELEMETRY: 'true'
-        run: python -B -m unittest discover -s evaluation -p 'test_mlflow_import.py' -v
+        run: python -B -m unittest discover -s evaluation -p 'test_mlflow*import.py' -v
 
   architecture:
     name: FSD architecture
