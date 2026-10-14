@@ -23,12 +23,17 @@ Host clock/current authorization attestation и native provider transport ещё
 
 Подготовка 5d выполняется тремя последовательными слоями: [capture revision snapshot](RUNTIME_CAPTURE_PREPARATION_V1.md)
 → bounded export projection → capture-revision-aware registry plan. Это read-only
-mock preparation; portable runtime export и запись в MLflow ещё не реализованы.
+mock preparation; сами эти preparation APIs не пишут archive или MLflow.
 
 [Runtime archive](RUNTIME_ARCHIVE_V1.md) добавляет закрытый формат, fresh durable export
 и portable read-only replay для mock captures. [Offline evidence](RUNTIME_ARCHIVE_VERIFICATION_2026-10-14.md)
 отдельно проверяет сохранение ревизий и process-crash boundaries. Подключение
-runtime archive к existing envelope/MLflow consumers остаётся следующим шагом.
+runtime archive к общему local registry добавлено отдельным
+[consumer/import contract](RUNTIME_MLFLOW_CONSUMER_V1.md). Он сохраняет runtime
+execution/capture/projection lineage и не превращает mock archive в legacy score
+envelope. [Local integration evidence](RUNTIME_MLFLOW_VERIFICATION_2026-10-14.md)
+проверяет pinned MLflow, repeat import, capture revisions и fault recovery без
+сети. Runtime reference/score consumers и live capability gates остаются впереди.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
