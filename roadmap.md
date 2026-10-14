@@ -322,6 +322,31 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [ ] Расширить существующий MLflow importer: paired comparison, provenance и идемпотентный import.
 - [ ] Решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных.
 
+### Универсальный evaluation framework — будущая модуляризация, 2026-10-14
+
+Условие начала extraction: завершить сквозной путь
+[harness #77](https://github.com/SoundBlaster/NormLab/issues/77), затем проверить
+повторное использование на небольшом втором пилоте вне права, например
+классификации обращений. Это будущий этап, не дополнительный acceptance #77.
+
+- [ ] Вынести подтверждённые общие contracts: experiment/data versions, budgets,
+      attempts/retries/resume/unknown outcomes, immutable captures/archives,
+      references/scorers, paired comparison и storage adapters.
+- [ ] Оставить в NormLab юридическую онтологию, prompts, extractor strategies,
+      domain rubric и юридические scorers; подключать их через явные adapters.
+- [ ] До переноса проверить, что generic core не зависит от NormLab fixture paths,
+      parking predicates, конкретного provider или обязательного MLflow SDK.
+- [ ] Зафиксировать package API/versioning и сохранить воспроизводимость старых
+      evidence: миграция не должна незаметно менять hashes, scorer policies или
+      denominators. Переход оформляется явно, с compatibility checks.
+- [ ] Вторым пилотом подтвердить одинаковый run → capture → score → comparison
+      путь без копирования control flow; только после этого выделить отдельный
+      пакет/repository с согласованной лицензией.
+
+Сейчас сохраняем границы модулей. Не строим абстракции заранее и не считаем
+переименование модулей доказательством повторного использования. При начале
+этого этапа создать отдельную ledger Issue, предварительно проверив дубли.
+
 ### Provider configuration — 2026-10-11
 
 - [x] Обновить Python adapter до 0.4.0; разделить supplier, API format, model, exact endpoint и источник ключа: [контракт и примеры](docs/PROVIDER_CONFIGURATION.md).
