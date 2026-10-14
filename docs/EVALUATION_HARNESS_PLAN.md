@@ -33,7 +33,11 @@ runtime archive к общему local registry добавлено отдельн
 execution/capture/projection lineage и не превращает mock archive в legacy score
 envelope. [Local integration evidence](RUNTIME_MLFLOW_VERIFICATION_2026-10-14.md)
 проверяет pinned MLflow, repeat import, capture revisions и fault recovery без
-сети. Runtime reference/score consumers и live capability gates остаются впереди.
+сети. Runtime reference/score реализованы отдельными [reference](RUNTIME_REFERENCE_V1.md),
+[score view](RUNTIME_SCORE_VIEW_V1.md) и [offline CLI](RUNTIME_SCORE_CLI_V1.md).
+Они сохраняют selected-question scope, source/review provenance и partial
+denominators; candidate agreement не становится case-level quality. MLflow
+score-child integration и live capability gates остаются впереди.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
