@@ -3,11 +3,11 @@
 import shutil
 import unittest
 
+import test_offline_runtime_archive_reader as fixtures
 from execution_resume import continue_mock
 from execution_test_support import ExecutionCase, canonical, sha
 from runtime_archive_reader import read_archive
 from runtime_mlflow_projection import archive_files, project, snapshot
-import test_offline_runtime_archive_reader as fixtures
 
 
 class ConsumerTests(ExecutionCase):
