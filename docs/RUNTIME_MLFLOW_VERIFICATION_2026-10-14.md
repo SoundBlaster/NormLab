@@ -8,7 +8,7 @@ Contract: [runtime consumer v1](RUNTIME_MLFLOW_CONSUMER_V1.md).
 
 | Check                                                                | Result                                           |
 | -------------------------------------------------------------------- | ------------------------------------------------ |
-| Complete SDK-free offline suite, Python 3.14.8                       | 182/182, 144.725 s                               |
+| Complete SDK-free offline suite, Python 3.14.8                       | 183/183, 128.366 s                               |
 | Dedicated consumer/dry-run suite, Python 3.14.8                      | 7/7; repeated after CLI backend-error correction |
 | Dedicated consumer/dry-run suite, Python 3.10.19                     | 7/7; repeated after CLI backend-error correction |
 | Real MLflow 3.16.1 / SQLite suite, Python 3.10.19                    | 27/27, 19.578 s; final reviewed importer bytes   |
@@ -16,9 +16,8 @@ Contract: [runtime consumer v1](RUNTIME_MLFLOW_CONSUMER_V1.md).
 | Legacy MLflow integration portion                                    | 15/15                                            |
 | Ruff including CI import rule `I`, format, AST, Prettier, whitespace | Passed locally                                   |
 
-The complete offline suite preceded the final import-order correction and SDK
-directory-drift guard. Its affected consumer checks and the new backend-error regression were repeated; the final
-27-test SDK suite exercises the directory guard. New runtime checks are wired
+The complete offline suite and 27-test SDK suite were repeated after the CLI
+backend-error correction and directory-drift guard. New runtime checks are wired
 into the pinned MLflow CI job; offline consumer checks use the existing
 `test_offline_*.py` discovery. GitHub CI and independent review remain separate
 from these local results.
