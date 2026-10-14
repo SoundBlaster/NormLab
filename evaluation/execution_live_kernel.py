@@ -117,6 +117,8 @@ def inspect_live(output):
             "resumeSupported": False,
             "historicalReplayOnly": True,
         }
+        report["operation"] = "inspect"
+        report["dispatchAttemptsInvoked"] = 0
         return report
 
 
@@ -283,4 +285,9 @@ def run_once(input_directory, output, confirmation, key_environment, *, hook=Non
         # This capability deliberately stops after one attempt, including an
         # eligible transport failure. A future scheduler may implement retries.
         commit("run-stopped", reason="operator-stop")
-    return inspect_live(output)
+    report = inspect_live(output)
+    report["operation"] = "run-once"
+    report["dispatchAttemptsInvoked"] = 1
+    # HTTP dispatch is observable; backend inference/billing is not attested.
+    report["inferenceCallsExecuted"] = None
+    return report

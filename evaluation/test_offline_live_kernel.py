@@ -150,6 +150,9 @@ class LiveKernelTests(ExecutionCase):
                 self.assertEqual(report["taskOutcomes"][1]["attemptIds"], [])
                 self.assertFalse(report["executionReady"])
                 self.assertFalse(report["semanticQualityEvidence"])
+                self.assertEqual(report["operation"], "run-once")
+                self.assertEqual(report["dispatchAttemptsInvoked"], 1)
+                self.assertIsNone(report["inferenceCallsExecuted"])
                 self.assertEqual(
                     before,
                     {
@@ -286,7 +289,9 @@ class LiveKernelTests(ExecutionCase):
     def test_offline_requirements_and_inspect_cli_deny_network_and_sdks(self):
         fixture, confirmation = self.prepared()
         output = self.root / "cli-report"
-        expected = self.execute(fixture, confirmation, output)
+        self.execute(fixture, confirmation, output)
+        expected = inspect_live(output)
+        self.assertEqual(expected["dispatchAttemptsInvoked"], 0)
         for args in (("requirements",), ("inspect", str(output))):
             result = subprocess.run(
                 [
