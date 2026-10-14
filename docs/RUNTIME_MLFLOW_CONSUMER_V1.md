@@ -45,3 +45,27 @@ MLflow SDK, network or registry writes.
 
 Canonical task: [Issue 77](https://github.com/SoundBlaster/NormLab/issues/77).
 These slices do not complete the full evaluation harness acceptance.
+
+## Local import
+
+```bash
+# SDK-free projection; creates no registry storage.
+python evaluation/import_runtime_mlflow.py ARCHIVE --dry-run
+# Explicit pinned MLflow 3.16.1, local SQLite and file artifacts only.
+python evaluation/import_runtime_mlflow.py ARCHIVE --storage .data/mlflow-offline
+```
+
+The importer uses the existing serialized registry and durable import intents.
+Each runtime record is checked against the verified archive before any intent is
+written. Only the projection run contains the complete `normlab/archive` tree;
+its marker can be passed directly to the portable archive reader. Checkpoints
+retain their 16 MiB file limit; ordinary files retain their archive limits.
+The complete import payload, including its consumer projection, is bounded by
+64 MiB and 4096 entries. An archive near that limit may be rejected for import
+because the consumer projection adds bytes. Nothing is truncated.
+
+Repeated imports reuse matching run IDs, metric histories and exact artifacts.
+Pending writes may resume; already-completed artifact, parameter, parent or
+metric drift is rejected. New capture revisions add children and do not replace
+older captures. A partial multi-record import remains visible and can resume;
+this is not an atomic transaction across all MLflow runs.
