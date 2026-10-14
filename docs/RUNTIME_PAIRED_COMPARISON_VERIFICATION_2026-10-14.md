@@ -74,3 +74,25 @@ evidence, recorded on the PRs and in the ledger after publication.
 
 Next: review the three-layer stack, then implement native live transport and
 runtime clock/current-authorization capability gates before a bounded live smoke.
+
+## Review corrections
+
+Four P2 findings on PR118/119 led to targeted changes and four new regression
+checks. Operational task targets now include source/candidate identities and
+complete question batch membership. Request/context checks still apply to every
+matched question; disjoint batches cannot publish completion delta. Conditions
+include arm-level `timeoutNs` and `requestCaps`, even when provider metadata
+variation is declared. Comparator checks: **10/10 passed** on Python 3.14.8.
+
+Publication follows the existing archive reader's **fail-fast** policy, rather
+than the original documentation's incorrect promise to wait for writers. Readers
+reject missing locks, unlocked incomplete inventories and active exclusive locks;
+after publication/lock release, verification succeeds. A malformed inventory
+scan stops at four entries. Export/CLI checks: **9/9 passed** on Python 3.14.8.
+This deliberately preserves rejection of active/incomplete exports; no retries,
+waiting loop or partial-report acceptance is introduced.
+
+Post-correction Python 3.14.8 full offline discovery: **229/229 passed** in
+123.580 s. Python 3.10.19 focused suite: **22/22 passed**. Ruff exact CI selection,
+formatting and Prettier passed. Initial 225/18 results above describe the first
+published implementation; rewritten heads require fresh CI separately.

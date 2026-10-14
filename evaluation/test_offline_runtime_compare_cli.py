@@ -1,6 +1,7 @@
 """Bounded closed report export/replay, no SDK/network or archive mutation."""
 
 import copy
+import fcntl
 import io
 import json
 import os
@@ -8,6 +9,7 @@ import subprocess
 import sys
 import unittest
 from contextlib import redirect_stderr
+from pathlib import Path
 from unittest.mock import patch
 
 import test_offline_runtime_compare as fixtures
@@ -129,6 +131,58 @@ class ComparisonCLITests(ExecutionCase):
         self.assertFalse((directory / "report.json").exists())
         with self.assertRaises(FileExistsError):
             export(compare(a, av, b, bv), directory)
+
+    def test_readers_fail_fast_during_all_publication_windows(self):
+        from runtime_compare_report import flush_directory
+
+        a, av, b, bv, _, _ = self.paths()
+        directory = self.root / "concurrent-report"
+        failures = []
+        real_flock = fcntl.flock
+
+        def inspect():
+            try:
+                verify_export(directory, a, av, b, bv)
+            except (FileNotFoundError, BlockingIOError, ValueError) as error:
+                failures.append(type(error).__name__)
+            else:
+                self.fail("Unfinished publication accepted")
+
+        def flush(path):
+            inspect()
+            flush_directory(path)
+
+        def acquire(fd, operation):
+            if operation == fcntl.LOCK_EX:
+                # A shared reader can win before LOCK_EX but must reject the
+                # still-incomplete inventory and release its lock immediately.
+                inspect()
+            return real_flock(fd, operation)
+
+        with (
+            patch("runtime_compare_report.flush_directory", side_effect=flush),
+            patch("runtime_compare_report.fcntl.flock", side_effect=acquire),
+        ):
+            export(compare(a, av, b, bv), directory)
+        self.assertIn("FileNotFoundError", failures)
+        self.assertIn("ValueError", failures)
+        self.assertIn("BlockingIOError", failures)
+        self.assertEqual(verify_export(directory, a, av, b, bv), compare(a, av, b, bv))
+
+    def test_malformed_inventory_scan_stops_after_four_entries(self):
+        a, av, b, bv, _, _ = self.paths()
+        directory = self.root / "bounded-inventory"
+        export(compare(a, av, b, bv), directory)
+        visited = []
+
+        def entries(path):
+            for number in range(100000):
+                visited.append(number)
+                yield path / ("extra-" + str(number))
+
+        with patch.object(Path, "iterdir", entries), self.assertRaises(ValueError):
+            verify_export(directory, a, av, b, bv)
+        self.assertEqual(visited, [0, 1, 2, 3])
 
     def test_invalid_archive_rejected_before_any_score_file_read(self):
         a, av, b, bv, ap, bp = self.paths()

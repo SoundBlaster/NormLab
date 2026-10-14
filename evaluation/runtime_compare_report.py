@@ -3,6 +3,7 @@
 import fcntl
 import html
 import os
+from itertools import islice
 from pathlib import Path
 
 from execution_checkpoint import bounded_read, reader_lock
@@ -137,7 +138,8 @@ def export(result, output):
                 stream.write(content)
                 stream.flush()
                 os.fsync(stream.fileno())
-        # Readers wait on the lock while the fresh, non-overwriting marker is published.
+        # Readers reject active or incomplete publication; they never inspect it
+        # as a committed report or obtain execution authority.
         os.link(root / ".report.tmp", root / "report.json")
         (root / ".report.tmp").unlink()
         flush_directory(root)
@@ -148,13 +150,14 @@ def verify_export(
 ):
     root = Path(output).resolve(strict=True)
     with reader_lock(root):
-        names = {p.name for p in root.iterdir()}
+        entries = list(islice(root.iterdir(), 4))
+        names = {p.name for p in entries}
         require(
-            names == {"report.json", "report.md", ".writer.lock"},
+            len(entries) == 3 and names == {"report.json", "report.md", ".writer.lock"},
             "Closed comparison report inventory",
         )
         require(
-            all(not p.is_symlink() and p.is_file() for p in root.iterdir()),
+            all(not p.is_symlink() and p.is_file() for p in entries),
             "Regular comparison report files",
         )
         require(bounded_read(root / ".writer.lock", 0) == b"", "Empty comparison lock")

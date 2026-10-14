@@ -26,8 +26,10 @@ which each side validates independently against its own reference source.
 `--vary provider|strategy|tactic` declares metadata variation; it does not relax
 source, prompt, question or request checks or establish causality. Provider
 variation covers the planned arm metadata, including model/settings/adapter;
-all raw conditions remain in the source binding. Different caps/deadlines are
-disclosed and operational differences do not imply semantic improvements.
+all raw conditions remain in the source binding. Different caps/deadlines,
+including arm `timeoutNs` and `requestCaps`, are disclosed and suppress
+operational completion delta. Complete task batch membership must agree;
+row compatibility checks request/context bindings for every paired question.
 
 - Default `strict-wire`: exact request and context digests must agree.
 - Explicit `same-protocol-body`: same protocol, identical request body except
@@ -84,7 +86,11 @@ are bounded to 2 MiB. Markdown previews the first 50 changed/excluded rows;
 JSON retains the full union. Source archives and score files remain unchanged.
 
 Export uses exclusive creation, file/directory fsync and a non-overwriting JSON
-commit marker under a writer lock. Readers take a shared lock. Failed partial
+commit marker under a writer lock. Readers use a non-blocking shared lock and
+reject active or incomplete publication, including the initial directory/lock
+creation window; they do not wait or retry. Reading succeeds after publication
+and lock release. Inventory scanning stops after at most four entries.
+Failed partial
 exports remain visible and cannot be resumed or overwritten. This is a POSIX
 local publication protocol, not a power-loss durability guarantee.
 
