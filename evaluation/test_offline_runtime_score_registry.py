@@ -5,8 +5,11 @@ import unittest
 
 import test_offline_runtime_reference as references
 import test_offline_runtime_score as fixtures
+from execution_mock import run_mock
 from execution_test_support import ExecutionCase, canonical
 from offline_bundle import identity
+from runtime_archive_export import export_runtime_archive
+from runtime_archive_reader import read_archive
 from runtime_mlflow_projection import project
 from runtime_reference import reference
 from runtime_score import score
@@ -57,6 +60,41 @@ class ScoreRegistryTests(ExecutionCase):
         _, _, other, _ = self.view("after-response", tasks=1)
         with self.assertRaises(ValueError):
             project_score(other, view)
+
+    def unusual_arm(self, identifier, name):
+        fixture = self.input(tasks=1)
+        fixture.plan["arms"][0]["id"] = identifier
+        fixture.plan["tasks"][0]["armId"] = identifier
+        (fixture.folder / "plan.json").write_bytes(canonical(fixture.plan))
+        runtime = self.output(name + "-runtime")
+        run_mock(fixture.folder, runtime, self.script(fixture))
+        target = self.output(name + "-archive")
+        export_runtime_archive(runtime, target)
+        archive = read_archive(target)
+        view = score(archive, reference(archive, canonical(references.source(archive))))
+        return target, archive, view
+
+    def test_arbitrary_arm_ids_encode_into_bounded_backend_safe_metric_names(self):
+
+        keys = []
+        for number, arm in enumerate(
+            ["provider:модель/arm", "a" * 4096, "arm-a", "arm_a"]
+        ):
+            _, archive, view = self.unusual_arm(arm, "arm-" + str(number))
+            row = project_score(archive, view)
+            component = row["payload"]["armMetricKeys"][arm]
+            keys.append(component)
+            self.assertIn(arm, row["payload"]["arms"])
+            self.assertEqual(
+                row["metrics"]["arms." + component + ".plannedQuestions"], 3
+            )
+            for key in row["metrics"]:
+                self.assertLessEqual(len(key), 250)
+                self.assertRegex(key, r"^[A-Za-z0-9_.-]+$")
+            self.assertEqual(
+                component, project_score(archive, view)["payload"]["armMetricKeys"][arm]
+            )
+        self.assertEqual(len(set(keys)), len(keys))
 
 
 if __name__ == "__main__":

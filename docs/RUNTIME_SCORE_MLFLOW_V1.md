@@ -20,6 +20,9 @@ would naturally produce different score IDs; v1 supports only its fixed policy.
 The projection retains reference status, exact score artifact digest/length,
 summary, arm summaries and navigation. Metrics are explicitly prefixed
 `selected.*` / `arms.*`; null quality values are never converted to zero.
+Arm components use `a-` plus SHA-256 of the UTF-8 arm ID, keeping metric names
+bounded and backend-safe even for punctuation, Unicode or long IDs. The exact
+original IDs remain in `arms`, with the explicit `armMetricKeys` mapping.
 Params pin execution/capture/reference/policy/scorer identities. Candidate or
 unsigned human declarations do not become authenticated gold through import.
 
