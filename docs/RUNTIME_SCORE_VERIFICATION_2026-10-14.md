@@ -8,13 +8,13 @@ Contracts: [reference](RUNTIME_REFERENCE_V1.md),
 
 | Check                                                       | Result                            |
 | ----------------------------------------------------------- | --------------------------------- |
-| Complete SDK-free offline suite, Python 3.14.8              | 199/199, 124.122 s                |
-| Dedicated reference checks, Python 3.10.19                  | 5/5                               |
-| Dedicated scorer and CLI checks, Python 3.10.19             | 11/11, 3.932 s                    |
+| Complete SDK-free offline suite, Python 3.14.8              | 200/200, 128.916 s                |
+| Dedicated reference checks, Python 3.10.19                  | 6/6                               |
+| Dedicated scorer and CLI checks, Python 3.10.19             | 11/11, 3.911 s                    |
 | Ruff with CI rules including I and format                   | Passed; 124 Python files          |
 | AST / unchanged base evaluation files / relative docs links | Passed / 127 unchanged / 41 valid |
 
-The 16 new checks cover source/review binding, source SHA-256 and exact bytes,
+The 17 new checks cover source/review binding, source SHA-256 and exact bytes,
 candidate/declaration distinction, repeat identity, defensive copies, continuation
 reuse, wrong plan/dataset, invalid/duplicate selections, label types, wrong review
 scope/digest, duplicate reviews and byte caps.
@@ -34,6 +34,13 @@ sanitize errors, reject invalid archives before opening labels, and reject
 rehashed score-summary edits. The full 288-task / 864-question unstarted plan
 exports within 2 MiB, verifies again, and keeps all 864 selected questions
 unevaluated with null agreement rate.
+
+PR109 P2 found JSON byte encoding autodetection accepting UTF-16/32 before
+UTF-8-only embedded inputs. Fixed in the bottom reference layer and propagated
+to both descendants. The regression rejects UTF-16/32, with/without BOMs, for
+source and review artifacts before projection and preserves exact Cyrillic
+UTF-8 bytes. Replied/reacted and resolved the original review thread. Fresh CI
+on rewritten heads remains separate evidence.
 
 ## Scope and limits
 
