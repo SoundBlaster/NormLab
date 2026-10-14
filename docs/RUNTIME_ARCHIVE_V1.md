@@ -83,3 +83,52 @@ The combined format/export suite passes eight methods on Python 3.10/3.14. A
 dependent portable reader will validate exact tree inventory and regenerate the
 capture/projection rather than trusting the index alone. No archive reader,
 registry write, provider call or deployment is implemented by this second layer.
+
+## Layer 3: portable read-only replay
+
+```bash
+python -B -S evaluation/runtime_archive_cli.py export /path/to/mock-execution /path/to/fresh-archive
+python -B -S evaluation/runtime_archive_cli.py verify /path/to/archive
+```
+
+`read_archive(root)` holds the archive's shared reader lock, requires the commit
+marker, validates its closed schema/pins/limits and checks the **exact complete
+tree**, including regular empty lock and expected directories. Missing/extra
+entries, symlinks, FIFO, temporary tails, wrong sizes/hashes and unsupported pins
+reject. Source checkpoints retain their 16 MiB limit rather than the ordinary
+2 MiB limit. The reader never repairs, resumes or dispatches anything.
+
+The reader runs unchanged strict checkpoint/continuation replay against archived
+`source/`, reconstructs `RuntimeSnapshot` and export projection, then regenerates
+the whole archive plan. Index and content must exactly match that regenerated
+plan. Coordinately rehashed capture/projection summaries and source counters
+cannot bypass replay. Replacing a whole unsigned source consistently is not
+detected as an authorship forgery; `sourceAuthenticated` stays false.
+
+Verification needs no original runtime directory, repository fixtures, registry,
+provider SDK or credentials. The archive does not contain executable reader code.
+For a standalone trusted reader distribution, copy the thirteen `PIN_MODULES`
+listed in `runtime_archive_format.py` plus `runtime_archive_export.py`,
+`runtime_archive_reader.py` and `runtime_archive_cli.py` into a separate tools
+directory. Invoke its CLI with Python 3.10+. Their exact bytes must match the
+saved producer pins; use the known Git revision for older archives rather than
+silently updating modules or executing untrusted code from an archive.
+
+`VerifiedArchive` exposes original snapshot, generated projection and immutable
+archive bytes for future consumers. CLI output is a verification summary without
+raw source/response prose: IDs, state, denominators, unknown attempts and mock seal
+status; zero inference/registry writes and false semantic/live-readiness flags.
+Successful export additionally reports final durability acknowledgement. The
+original projection's `exportWritten: false` remains unchanged: this archive is
+not an offline-envelope export, and that historical plan is not rewritten.
+
+Original and continued archives share execution lineage but retain distinct
+capture/archive IDs and both historical byte sets. Tests delete the original
+runtime source and replay both archives, including unknown → adopted and retry
+history, from separate trusted tools under write/network/SDK denial.
+
+See [archive verification](RUNTIME_ARCHIVE_VERIFICATION_2026-10-14.md). Existing
+native/envelope/MLflow consumers remain unchanged; integrating these runtime
+schemas and validating real registry round trips is the next result. No live
+clock/code/provider attestation, semantic quality, inference or deployment is
+established by this archive implementation.

@@ -25,6 +25,11 @@ Host clock/current authorization attestation и native provider transport ещё
 → bounded export projection → capture-revision-aware registry plan. Это read-only
 mock preparation; portable runtime export и запись в MLflow ещё не реализованы.
 
+[Runtime archive](RUNTIME_ARCHIVE_V1.md) добавляет закрытый формат, fresh durable export
+и portable read-only replay для mock captures. [Offline evidence](RUNTIME_ARCHIVE_VERIFICATION_2026-10-14.md)
+отдельно проверяет сохранение ревизий и process-crash boundaries. Подключение
+runtime archive к existing envelope/MLflow consumers остаётся следующим шагом.
+
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
 Успех инфраструктуры: новый совместимый provider/model задаётся конфигурацией и проходит contract smoke; существующая матрица запускается без новых ad-hoc скриптов. Изменения wire contract, prompts или schema требуют новой версии адаптера/стратегии и явно помеченного comparison. Это не обещание автоматической совместимости с будущими API.
