@@ -64,6 +64,14 @@ class SnapshotStore(Store):
         return super().read(name)
 
 
+def replay_snapshot(store, run, events):
+    snapshot = SnapshotStore(store.root, run, events)
+    snapshot.files, snapshot.total = store.files, store.total
+    result = replay(snapshot)
+    store.total = snapshot.total
+    return result
+
+
 def build_checkpoint(intent, events, store, script_digest):
     """Build a candidate view, then use the strict 5a reader before publication."""
     run = copy.deepcopy(intent)
@@ -114,7 +122,7 @@ def build_checkpoint(intent, events, store, script_digest):
         stopReason=stopped or ("unknown-outcome" if active else None),
         counts=counts,
     )
-    replay(SnapshotStore(store.root, run, events))
+    replay_snapshot(store, run, events)
     return {
         "schema": CHECKPOINT,
         "intentDigest": sha(canonical(intent)),
@@ -124,17 +132,20 @@ def build_checkpoint(intent, events, store, script_digest):
     }
 
 
-def load_checkpoint(root):
+def load_checkpoint(root, *, snapshot_raw=None):
     """Caller must hold the writer or shared reader lock; no repair or resume."""
     root = Path(root)
     raw = {
-        name: bounded_read(root / name, limit)
+        name: snapshot_raw
+        if name == "checkpoint.json" and snapshot_raw is not None
+        else bounded_read(root / name, limit)
         for name, limit in (
             ("intent.json", MAX_BYTES),
             ("mock-script.json", MAX_BYTES),
             ("checkpoint.json", MAX_JOURNAL_BYTES),
         )
     }
+    require(len(raw["checkpoint.json"]) <= MAX_JOURNAL_BYTES, "Mock snapshot size cap")
     intent = Store.decode_json(raw["intent.json"])
     checkpoint = Store.decode_json(raw["checkpoint.json"])
     object_keys(checkpoint, "schema intentDigest scriptDigest run journal")
@@ -236,14 +247,25 @@ class DurableWriter:
             self.lock is not None and not self.poisoned, "Healthy exclusive mock writer"
         )
         require(
-            name in {"plan.json", "intent.json", "mock-script.json", "checkpoint.json"}
+            name
+            in {
+                "plan.json",
+                "intent.json",
+                "mock-script.json",
+                "checkpoint.json",
+                "checkpoint-v1.json",
+            }
             or (name.startswith("artifacts/") and len(Path(name).parts) == 2),
             "Mock publication path",
         )
         require(
             replace == (name == "checkpoint.json"), "Only checkpoint can be replaced"
         )
-        limit = MAX_JOURNAL_BYTES if replace else MAX_BYTES
+        limit = (
+            MAX_JOURNAL_BYTES
+            if name in {"checkpoint.json", "checkpoint-v1.json"}
+            else MAX_BYTES
+        )
         require(len(raw) <= limit, "Mock publication size cap")
         require(
             name in self.inventory or len(self.inventory) < MAX_FILES,

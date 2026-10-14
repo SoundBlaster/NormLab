@@ -15,8 +15,10 @@
 прошёл [локальную offline runtime-проверку](EXECUTION_RECORD_VERIFICATION_2026-10-13.md).
 Следующий [implementation slice 5b](MOCK_EXECUTION_V1.md) добавляет durable mock
 execution с atomic checkpoint и [fault injection](MOCK_EXECUTION_VERIFICATION_2026-10-13.md).
-После review: bounded resume →
-capture-revision-aware export/registry → отдельный live smoke.
+[Slice 5c](MOCK_RESUME_V1.md) добавляет explicit mock continuation и stop/adopt
+resolution с сохранением caps/deadline и [offline verification](MOCK_RESUME_VERIFICATION_2026-10-14.md).
+После review: capture-revision-aware export/registry → отдельный live smoke.
+Host clock/current authorization attestation и native provider transport ещё не реализованы.
 Текущие native runners не получают resume автоматически.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.

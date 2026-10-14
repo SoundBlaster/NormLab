@@ -8,13 +8,13 @@ from execution_checkpoint import (
     build_checkpoint,
     inspect_checkpoint,
 )
+from execution_mock_codec import make_event, model_rejected, normalize_mock
 from execution_outcomes import TERMINAL, answer_schema, answers, retryable
 from execution_plan import Store, charge, new_run, prepare
 from execution_records import (
     ERROR_CLASSES,
     PREFIX,
     attempt_id,
-    backoff_bounds,
     integer,
     items,
     utc,
@@ -22,12 +22,6 @@ from execution_records import (
 from offline_bundle import MAX_BYTES, canonical, object_keys, require, sha
 
 SCRIPT_SCHEMA = "normlab.mock-script/v1"
-
-
-def model_rejected(model, arm, models):
-    return model not in arm["acceptedModels"] or (
-        arm["id"] in models and models[arm["id"]] != model
-    )
 
 
 def validate_script(script, plan, store):
@@ -155,32 +149,16 @@ class MockExecution:
         self.models = {}
 
     def commit(self, kind, *, task_index=0, ordinal=1, outcome=None, reason=None):
-        stop = kind == "run-stopped"
-        task, ids = self.plan["tasks"][task_index], self.intent["tasks"][task_index]
-        zero = {key: 0 for key in self.plan["caps"]}
-        event = {
-            "schema": PREFIX + "event/v1",
-            "id": None,
-            "runId": self.intent["id"],
-            "invocationId": self.intent["initialInvocationId"],
-            "sequence": len(self.events) + 1,
-            "previousDigest": self.events[-1]["id"] if self.events else None,
-            "type": kind,
-            "taskId": None if stop else ids["taskId"],
-            "turnId": None if stop else ids["turnId"],
-            "attemptId": None if stop else attempt_id(ids["turnId"], ordinal),
-            "ordinal": None if stop else ordinal,
-            "clockNs": self.clock.value,
-            "observedAt": self.clock.timestamp(),
-            "request": None if stop else task["request"],
-            "budgetDelta": charge(self.plan, task)
-            if kind == "attempt-reserved"
-            else zero,
-            "outcome": outcome,
-            "stopReason": reason,
-        }
-        event["id"] = sha(
-            canonical({key: value for key, value in event.items() if key != "id"})
+        event = make_event(
+            self.intent,
+            self.events,
+            self.clock,
+            self.plan,
+            kind,
+            task_index=task_index,
+            ordinal=ordinal,
+            outcome=outcome,
+            reason=reason,
         )
         events = [*self.events, event]
         checkpoint = build_checkpoint(
@@ -218,58 +196,29 @@ class MockExecution:
     def save_outcome(self, spec, index, ordinal):
         task = self.plan["tasks"][index]
         arm = next(arm for arm in self.plan["arms"] if arm["id"] == task["armId"])
-        status = spec["status"]
-        if status == "completed" and model_rejected(spec["model"], arm, self.models):
-            status = "model-rejected"
-        elif status == "completed":
+        saved, blobs = normalize_mock(
+            spec,
+            task,
+            arm,
+            attempt_id(self.intent["tasks"][index]["turnId"], ordinal),
+            ordinal,
+            self.models,
+        )
+        if saved["status"] == "completed":
             self.models.setdefault(arm["id"], spec["model"])
-        response = None
-        if status not in {"transport-failed", "unknown-outcome"}:
-            response = self.writer.put(
-                canonical(
-                    {
-                        "schema": "normlab.mock-response/v1",
-                        "attemptId": attempt_id(
-                            self.intent["tasks"][index]["turnId"], ordinal
-                        ),
-                        "scripted": spec,
-                    }
-                ),
-                phase="response",
-            )
-        result = None
-        if status == "completed":
-            result = self.writer.put(
-                canonical(
-                    {
-                        "schema": PREFIX + "answers/v1",
-                        "normalizer": arm["adapter"],
-                        "answers": spec["answers"],
-                    }
-                ),
-                phase="result",
-            )
-        saved = {
-            "schema": PREFIX + "outcome/v1",
-            "status": status,
-            "requestDigest": task["request"]["sha256"],
-            "contextDigest": task["context"]["sha256"],
-            "model": spec["model"],
-            "providerRequestId": "mock-"
-            + attempt_id(self.intent["tasks"][index]["turnId"], ordinal),
-            "dispatchObserved": False,
-            "usage": {"inputTokens": 0, "outputTokens": 0},
-            "response": response,
-            "result": result,
-            "errorClasses": [spec["errorClass"]]
-            if status == "transport-failed"
-            else [],
-            "backoffNs": None,
-            "statusCode": spec["statusCode"],
-        }
-        if retryable(saved, ordinal):
-            saved["backoffNs"] = backoff_bounds(ordinal)[0]
+        for phase, raw in blobs:
+            self.writer.put(raw, phase=phase)
         return saved, self.writer.put(canonical(saved), phase="outcome")
+
+    def dispatch_allowed(self):
+        return self.clock.value < self.intent["clock"]["deadlineNs"]
+
+    def wait_backoff(self, delay):
+        self.writer.hook("before-backoff")
+        self.clock.advance(delay // 2)
+        self.writer.hook("during-backoff")
+        self.clock.advance(delay - delay // 2)
+        self.writer.hook("after-backoff")
 
     def execute(self):
         initial = build_checkpoint(
@@ -285,10 +234,17 @@ class MockExecution:
             type(self.transport) is MockTransport,
             "Only built-in mock transport is supported",
         )
+        self.execute_schedule()
+
+    def execute_schedule(self, start_index=0, start_ordinal=1):
         for index, (task, scripted) in enumerate(
             zip(self.plan["tasks"], self.script["tasks"])
         ):
+            if index < start_index:
+                continue
             for ordinal, spec in enumerate(scripted["attempts"], 1):
+                if index == start_index and ordinal < start_ordinal:
+                    continue
                 reason = self.stop_before_reservation(task)
                 if reason:
                     self.commit("run-stopped", reason=reason)
@@ -296,7 +252,7 @@ class MockExecution:
                 self.writer.hook("before-reservation")
                 self.commit("attempt-reserved", task_index=index, ordinal=ordinal)
                 self.writer.hook("after-reservation")
-                if self.clock.value >= self.intent["clock"]["deadlineNs"]:
+                if not self.dispatch_allowed():
                     return  # Charged reservation remains unknown; never dispatch after deadline.
                 self.writer.hook("before-dispatch")
                 request_bytes = Store(self.writer.root).artifact(task["request"])
@@ -327,12 +283,7 @@ class MockExecution:
                 if not retryable(saved, ordinal):
                     self.commit("run-stopped", reason="terminal-failure")
                     return
-                self.writer.hook("before-backoff")
-                delay = saved["backoffNs"]
-                self.clock.advance(delay // 2)
-                self.writer.hook("during-backoff")
-                self.clock.advance(delay - delay // 2)
-                self.writer.hook("after-backoff")
+                self.wait_backoff(saved["backoffNs"])
         self.writer.hook("before-finalization")
         self.commit("run-stopped", reason="complete")
         self.writer.hook("after-finalization")
