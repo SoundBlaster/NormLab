@@ -84,9 +84,10 @@ class RuntimeExportProjection:
         require(
             type(snapshot) is RuntimeSnapshot, "Validated runtime snapshot required"
         )
+        evidence_kind = snapshot.manifest["evidenceKind"]
         require(
-            snapshot.manifest["evidenceKind"] == "mock",
-            "Mock projection requires mock capture",
+            evidence_kind in {"mock", "live-capture"},
+            "Runtime projection evidence kind",
         )
         self._snapshot = snapshot
         blobs = {}
@@ -124,7 +125,13 @@ class RuntimeExportProjection:
             "knownOutputTokens": report["counts"]["knownOutputTokens"],
             "unknownUsageAttempts": report["counts"]["unknownUsageAttempts"],
         }
+        if evidence_kind == "live-capture":
+            counts.update(
+                observedDispatches=report["counts"]["observedDispatches"],
+                unknownDispatchAttempts=report["unknownDispatchAttempts"],
+            )
         complete = (
+            # A prediction seal binds completed predictions, not billing completeness.
             report["state"] == "finished"
             and report["stopReason"] == "complete"
             and statuses == {"completed": len(records)}
@@ -147,7 +154,9 @@ class RuntimeExportProjection:
                 "artifact": put(binding),
             }
         manifest = {
-            "schema": "normlab.runtime-export-plan/v1",
+            "schema": "normlab.runtime-export-plan/v1"
+            if evidence_kind == "mock"
+            else "normlab.runtime-export-plan/v2",
             "projectionId": None,
             "executionId": intent["id"],
             "captureRevisionId": snapshot.manifest["captureRevisionId"],
@@ -160,7 +169,7 @@ class RuntimeExportProjection:
             "predictionSeal": seal,
             "reference": None,
             "score": None,
-            "evidenceKind": "mock",
+            "evidenceKind": evidence_kind,
             "actualCost": None,
             "criticalErrorFreeRate": None,
             "inferenceCallsExecuted": 0,

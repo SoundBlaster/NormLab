@@ -22,7 +22,8 @@ def validate_plan(plan):
     require(type(plan) is ArchivePlan, "Validated archive plan required")
     inventory = check_index(plan.index)
     require(
-        plan.index["producerPins"] == producer_pins(), "Current trusted producer pins"
+        plan.index["producerPins"] == producer_pins(plan.index["evidenceKind"]),
+        "Current trusted producer pins",
     )
     require(set(plan.files) == set(inventory), "Complete archive publication inventory")
     for name, raw in plan.files.items():
@@ -137,7 +138,11 @@ def export_archive(plan, output, *, hook=None):
     }
 
 
-def export_runtime_archive(source, output, *, hook=None):
+def export_runtime_archive(source, output, *, hook=None, evidence_kind="mock"):
     return export_archive(
-        prepare_archive(prepare_export(capture_runtime(source))), output, hook=hook
+        prepare_archive(
+            prepare_export(capture_runtime(source, evidence_kind=evidence_kind))
+        ),
+        output,
+        hook=hook,
     )

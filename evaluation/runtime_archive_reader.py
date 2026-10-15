@@ -21,7 +21,7 @@ from runtime_export import prepare_export
 def read_inventory(root, index, index_raw):
     inventory = check_index(index)
     require(
-        index["producerPins"] == producer_pins(),
+        index["producerPins"] == producer_pins(index["evidenceKind"]),
         "Supported trusted archive producer revision",
     )
     folder_names = directories(inventory)
@@ -87,7 +87,7 @@ class VerifiedArchive:
 
     def summary(self):
         report = self.snapshot.report
-        return {
+        result = {
             "schema": "normlab.runtime-archive-verification/v1",
             "archiveId": self.index["archiveId"],
             "executionId": self.index["executionId"],
@@ -107,6 +107,11 @@ class VerifiedArchive:
             "registryWritesExecuted": 0,
             "actualCost": None,
         }
+        if self.index["evidenceKind"] == "live-capture":
+            result["schema"] = "normlab.runtime-archive-verification/v2"
+            result["evidenceKind"] = "live-capture"
+            result["nativeBoundary"] = report["nativeBoundary"]
+        return result
 
 
 def read_archive(directory):
@@ -116,7 +121,12 @@ def read_archive(directory):
         raw = bounded_read(root / "archive.json", MAX_BYTES)
         index = Store.decode_json(raw)
         files = read_inventory(root, index, raw)
-        snapshot = RuntimeSnapshot(Capture(root / "source"))
+        if index["evidenceKind"] == "live-capture":
+            from runtime_live_capture import NativeCapture
+
+            snapshot = RuntimeSnapshot(NativeCapture(root / "source"))
+        else:
+            snapshot = RuntimeSnapshot(Capture(root / "source"))
         projection = prepare_export(snapshot)
         expected = prepare_archive(projection)
         require(raw == expected.index_bytes, "Regenerated archive index binding")

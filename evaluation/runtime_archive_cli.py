@@ -15,12 +15,17 @@ def main():
     export = commands.add_parser("export")
     export.add_argument("source", type=Path)
     export.add_argument("output", type=Path)
+    export.add_argument(
+        "--evidence-kind", choices=("mock", "live-capture"), default="mock"
+    )
     verify = commands.add_parser("verify")
     verify.add_argument("directory", type=Path)
     args = parser.parse_args()
     try:
         receipt = (
-            export_runtime_archive(args.source, args.output)
+            export_runtime_archive(
+                args.source, args.output, evidence_kind=args.evidence_kind
+            )
             if args.command == "export"
             else None
         )

@@ -67,6 +67,7 @@ def score(archive, selected):
         type(archive) is VerifiedArchive and type(selected) is RuntimeReference,
         "Verified archive/reference required",
     )
+    require(archive.index["evidenceKind"] == "mock", "Mock-only score consumer")
     inputs = selected.inputs
     checked = reference(
         archive,

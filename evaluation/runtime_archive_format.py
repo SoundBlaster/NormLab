@@ -43,9 +43,30 @@ PIN_MODULES = (
 )
 
 
-def producer_pins():
+def pin_modules(evidence_kind="mock"):
+    require(evidence_kind in {"mock", "live-capture"}, "Archive evidence kind")
+    if evidence_kind == "mock":
+        return PIN_MODULES
+    from execution_live_kernel import MODULES
+
+    return tuple(
+        dict.fromkeys(
+            (
+                *PIN_MODULES,
+                "runtime_live_capture",
+                "runtime_live_stage1",
+                *(Path(name).stem for name in MODULES),
+            )
+        )
+    )
+
+
+def producer_pins(evidence_kind="mock"):
     root = Path(__file__).parent
-    return {name: sha((root / (name + ".py")).read_bytes()) for name in PIN_MODULES}
+    return {
+        name: sha((root / (name + ".py")).read_bytes())
+        for name in pin_modules(evidence_kind)
+    }
 
 
 def file_limit(name):
@@ -82,9 +103,11 @@ def check_index(index):
         index,
         "schema archiveId executionId captureRevisionId projectionId producerPins capture projection inventory totals evidenceKind inferenceCallsExecuted executionReady semanticQualityEvidence",
     )
+    kind = index["evidenceKind"]
     require(
-        index["schema"] == SCHEMA and index["evidenceKind"] == "mock",
-        "Mock archive schema",
+        (index["schema"], kind)
+        in {(SCHEMA, "mock"), ("normlab.runtime-archive/v2", "live-capture")},
+        "Explicit archive schema/evidence kind",
     )
     run_id(index["executionId"])
     for field, prefix in (
@@ -105,7 +128,7 @@ def check_index(index):
     )
     require(
         type(index["producerPins"]) is dict
-        and set(index["producerPins"]) == set(PIN_MODULES),
+        and set(index["producerPins"]) == set(pin_modules(kind)),
         "Archive producer pin set",
     )
     for value in index["producerPins"].values():
@@ -131,16 +154,18 @@ def check_index(index):
     require(list(inventory) == sorted(inventory), "Sorted archive inventory")
     for key, name in (("capture", "capture.json"), ("projection", "projection.json")):
         require(index[key] == inventory.get(name), "Archive metadata reference")
-    require(
-        {
-            "source/plan.json",
-            "source/intent.json",
-            "source/mock-script.json",
-            "source/checkpoint.json",
-        }
-        <= set(inventory),
-        "Archive source roots",
-    )
+    roots = {"source/plan.json", "source/intent.json", "source/checkpoint.json"}
+    if kind == "mock":
+        roots.add("source/mock-script.json")
+    else:
+        require(
+            not (
+                {"source/mock-script.json", "source/checkpoint-v1.json"}
+                & set(inventory)
+            ),
+            "Native archive cannot claim a mock script or continuation",
+        )
+    require(roots <= set(inventory), "Archive source roots")
     expected_totals = {
         "contentFiles": len(inventory),
         "contentBytes": sum(ref["bytes"] for ref in inventory.values()),
@@ -183,12 +208,14 @@ class ArchivePlan:
         files["capture.json"] = canonical(projection.snapshot.manifest)
         files["projection.json"] = canonical(projection.manifest)
         index = {
-            "schema": SCHEMA,
+            "schema": SCHEMA
+            if projection.manifest["evidenceKind"] == "mock"
+            else "normlab.runtime-archive/v2",
             "archiveId": None,
             "executionId": projection.manifest["executionId"],
             "captureRevisionId": projection.manifest["captureRevisionId"],
             "projectionId": projection.manifest["projectionId"],
-            "producerPins": producer_pins(),
+            "producerPins": producer_pins(projection.manifest["evidenceKind"]),
             "capture": file_ref("capture.json", files["capture.json"]),
             "projection": file_ref("projection.json", files["projection.json"]),
             "inventory": [file_ref(name, raw) for name, raw in sorted(files.items())],
@@ -197,7 +224,7 @@ class ArchivePlan:
                 "contentBytes": sum(map(len, files.values())),
                 "publishedEntries": len(files) + len(directories(files)) + 2,
             },
-            "evidenceKind": "mock",
+            "evidenceKind": projection.manifest["evidenceKind"],
             "inferenceCallsExecuted": 0,
             "executionReady": False,
             "semanticQualityEvidence": False,
