@@ -1,26 +1,20 @@
-"""Fresh one-attempt durable native boundary; no scheduler, retry or resume."""
+"""Native checkpoint/normalization kernel and one-attempt compatibility entrypoint."""
 
-import copy
-import os
 import platform
-import re
 import sys
 from pathlib import Path
-from types import SimpleNamespace
 
 from execution_checkpoint import (
-    DurableWriter,
     SnapshotStore,
     bounded_read,
     build_checkpoint,
     reader_lock,
 )
-from execution_live_authority import claim_run
-from execution_live_gate import LinuxClock, current_gate
-from execution_live_http import NativeHTTP
+from execution_live_authority import claim_run as claim_run
+from execution_live_gate import LinuxClock as LinuxClock
+from execution_live_gate import current_gate as current_gate
+from execution_live_http import NativeHTTP as NativeHTTP
 from execution_live_wire import adapter_revision, metadata, normalized
-from execution_mock_codec import make_event
-from execution_outcomes import answer_schema
 from execution_plan import MAX_JOURNAL_BYTES, Store, prepare
 from execution_replay import replay
 from offline_bundle import MAX_BYTES, canonical, object_keys, require, sha
@@ -32,6 +26,12 @@ MODULES = (
     "execution_live_wire.py",
     "execution_stage1_protocol.py",
     "execution_stage1_plan.py",
+    "execution_stage1_bind.py",
+    "execution_live_scheduler.py",
+    "stage1_provider_plan.py",
+    "plan_stage1_comparison.py",
+    "harness.py",
+    "provider_config.py",
     "execution_live_kernel.py",
     "execution_live_cli.py",
     "execution_checkpoint.py",
@@ -77,16 +77,22 @@ def installed_pins(plan):
     )
 
 
-def checkpoint(intent, events, store):
+def checkpoint(intent, events, store, *, mode=None):
     # Reuse its state derivation/replay validation, never persist mock schema/flags.
     derived = build_checkpoint(intent, events, store, sha(canonical(requirements())))
-    return {
-        "schema": "normlab.live-checkpoint/v1",
+    result = {
+        "schema": "normlab.live-checkpoint/v1"
+        if mode is None
+        else "normlab.live-checkpoint/v2",
         "intentDigest": sha(canonical(intent)),
         "codePins": requirements(),
         "run": derived["run"],
         "journal": derived["journal"],
     }
+    if mode is not None:
+        require(mode == "stage1-bounded-schedule/v1", "Native schedule mode")
+        result["mode"] = mode
+    return result
 
 
 def inspect_live(output):
@@ -96,9 +102,19 @@ def inspect_live(output):
         saved = Store.decode_json(
             bounded_read(Path(output) / "checkpoint.json", MAX_JOURNAL_BYTES)
         )
-        object_keys(saved, "schema intentDigest codePins run journal")
+        mode = saved.get("mode")
+        object_keys(
+            saved,
+            "schema intentDigest codePins run journal"
+            + (" mode" if mode is not None else ""),
+        )
         require(
-            saved["schema"] == "normlab.live-checkpoint/v1"
+            saved["schema"]
+            == (
+                "normlab.live-checkpoint/v1"
+                if mode is None
+                else "normlab.live-checkpoint/v2"
+            )
             and saved["intentDigest"] == sha(raw_intent),
             "Live checkpoint/intent binding",
         )
@@ -109,13 +125,23 @@ def inspect_live(output):
         )
         store = Store(output)
         plan = prepare(store)
+        if mode is not None:
+            from execution_stage1_plan import verify_stage1
+
+            verify_stage1(store)
         installed_pins(plan)
         replay(SnapshotStore(output, intent, []))
-        expected = checkpoint(intent, saved["journal"], store)
+        expected = checkpoint(intent, saved["journal"], store, mode=mode)
         require(canonical(saved) == canonical(expected), "Regenerated live checkpoint")
+        require(
+            mode is not None
+            or sum(e["type"] == "attempt-reserved" for e in saved["journal"]) <= 1,
+            "One-attempt checkpoint denominator",
+        )
+        verify_normalization(plan, intent, saved["journal"], store, mode=mode)
         report = replay(SnapshotStore(output, saved["run"], saved["journal"]))
         report["nativeBoundary"] = {
-            "mode": "fresh-one-attempt/v1",
+            "mode": mode or "fresh-one-attempt/v1",
             "resumeSupported": False,
             "historicalReplayOnly": True,
         }
@@ -174,129 +200,67 @@ def classify(reply, task, arm, questions):
     return saved, blobs
 
 
-def run_once(input_directory, output, confirmation, key_environment, *, hook=None):
-    """Real entrypoint. Tests patch factories; production exposes no fake-clock option."""
-    require(
-        isinstance(key_environment, str)
-        and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key_environment),
-        "Credential environment reference",
-    )
-    source = Store(input_directory)
-    require(
-        not Path(output).resolve().is_relative_to(source.root),
-        "Live output outside immutable input",
-    )
-    plan = prepare(source)
-    installed_pins(plan)
-    intent = source.json("run.json")
-    require(
-        intent["evidenceKind"] == "live-capture" and intent["predecessor"] is None,
-        "Fresh live run",
-    )
-    require(
-        source.json("journal.json") == [] and intent["state"] == "created",
-        "Fresh empty journal; no resume",
-    )
-    replay(source)
-    confirmation = copy.deepcopy(confirmation)
-    clock = LinuxClock()
-    sample = clock.sample()
-    current_gate(plan, intent, source, confirmation, sample)
-    claim_run(intent, source.root, output)
-    events, run, last_sample = [], intent, sample
-    task, arm = (
-        plan["tasks"][0],
-        next(a for a in plan["arms"] if a["id"] == plan["tasks"][0]["armId"]),
-    )
-    questions = answer_schema(source.value(plan["pins"]["outputSchema"]))
-    with DurableWriter(output, hook) as writer:
-        writer.publish("plan.json", source.read("plan.json"), phase="plan")
-        for name, raw in source.files.items():
-            if name.startswith("artifacts/"):
-                writer.put(raw, phase="input")
-        writer.publish("intent.json", canonical(intent), phase="intent")
-        writer.publish(
-            "checkpoint.json",
-            canonical(checkpoint(intent, events, Store(writer.root))),
-            phase="initial",
-            replace=True,
-        )
+def verify_normalization(plan, intent, events, store, *, mode):
+    """Re-derive response-backed outcomes; unsigned consistency, not API authenticity."""
+    from execution_outcomes import answer_schema, retryable
+    from execution_records import backoff_bounds
 
-        def commit(kind, outcome=None, reason=None):
-            nonlocal run, events, last_sample
-            fresh = clock.sample()
+    questions = answer_schema(store.value(plan["pins"]["outputSchema"]))
+    tasks = {ids["taskId"]: task for ids, task in zip(intent["tasks"], plan["tasks"])}
+    models = {}
+    for event in events:
+        if event["type"] != "attempt-terminal":
+            continue
+        saved = store.value(event["outcome"])
+        task = tasks[event["taskId"]]
+        arm = next(a for a in plan["arms"] if a["id"] == task["armId"])
+        if saved["response"] is None:
             require(
-                fresh["epoch"] == intent["clock"]["epoch"]
-                and fresh["clockNs"] >= last_sample["clockNs"]
-                and fresh["observedAt"] >= last_sample["observedAt"],
-                "Commit clock continuity",
+                saved["status"] == "transport-failed"
+                and saved["dispatchObserved"] is None
+                and saved["model"] is None
+                and saved["providerRequestId"] is None
+                and saved["usage"] == {"inputTokens": None, "outputTokens": None},
+                "Native transport observation shape",
             )
-            event_clock = SimpleNamespace(
-                value=fresh["clockNs"], timestamp=lambda: fresh["observedAt"]
+            expected_delay = (
+                backoff_bounds(event["ordinal"])[0]
+                if mode is not None and retryable(saved, event["ordinal"])
+                else None
             )
-            event = make_event(
-                intent, events, event_clock, plan, kind, outcome=outcome, reason=reason
+            require(
+                saved["backoffNs"] == expected_delay, "Native retry delay derivation"
             )
-            candidate = checkpoint(intent, [*events, event], Store(writer.root))
-            writer.publish(
-                "checkpoint.json", canonical(candidate), phase=kind, replace=True
-            )
-            run, events, last_sample = candidate["run"], candidate["journal"], fresh
-
-        def check():
-            nonlocal last_sample
-            fresh = clock.sample()
-            checked = current_gate(
-                plan,
-                run,
-                Store(writer.root),
-                confirmation,
-                fresh,
-                last_sample=last_sample,
-                reserve=False,
-            )
-            last_sample = fresh
-            return checked["timeoutNs"]
-
-        writer.hook("before-reservation")
-        fresh = clock.sample()
-        current_gate(
-            plan,
-            run,
-            Store(writer.root),
-            confirmation,
-            fresh,
-            last_sample=last_sample,
+            continue
+        expected, _ = classify(
+            {"response": store.value(saved["response"]), "errorClass": None},
+            task,
+            arm,
+            questions,
         )
-        last_sample = fresh
-        commit("attempt-reserved")
-        writer.hook("after-reservation")
-        check()
-        secret = os.environ.get(key_environment)
-        require(isinstance(secret, str) and secret, "Credential unavailable")
-        writer.hook("before-transport-construction")
-        transport = NativeHTTP()
-        writer.hook("before-dispatch")
-        reply = transport.dispatch(source.artifact(task["request"]), secret, check)
-        writer.hook("after-dispatch")
-        saved, blobs = classify(reply, task, arm, questions)
-        for raw in blobs:
-            writer.put(raw, phase="response")
-        ref = writer.put(canonical(saved), phase="outcome")
-        writer.hook("after-response")
-        commit("attempt-terminal", outcome=ref)
-        writer.hook("after-terminal")
-        # This capability deliberately stops after one attempt, including an
-        # eligible transport failure. A future scheduler may implement retries.
-        commit("run-stopped", reason="operator-stop")
-    report = inspect_live(output)
-    report["operation"] = "run-once"
-    report["dispatchAttemptsInvoked"] = 1
-    # Count observed model-API dispatches, not unobservable backend work/billing.
-    report["inferenceCallsExecuted"] = (
-        None
-        if report["unknownDispatchAttempts"]
-        else report["counts"]["observedDispatches"]
+        if (
+            expected["status"] in {"completed", "invalid-output"}
+            and expected["model"] is not None
+            and arm["id"] in models
+            and models[arm["id"]] != expected["model"]
+        ):
+            expected.update(status="model-rejected", result=None)
+        require(
+            canonical(saved) == canonical(expected),
+            "Re-derived native response normalization",
+        )
+        if expected["status"] == "completed":
+            models[arm["id"]] = expected["model"]
+
+
+def run_once(input_directory, output, confirmation, key_environment, *, hook=None):
+    """One-attempt compatibility entrypoint over the shared durable boundary."""
+    from execution_live_scheduler import run_boundary
+
+    return run_boundary(
+        input_directory,
+        output,
+        confirmation,
+        key_environment=key_environment,
+        hook=hook,
     )
-    report["authorizedDispatches"] = report["counts"]["reserved"]["dispatches"]
-    return report
