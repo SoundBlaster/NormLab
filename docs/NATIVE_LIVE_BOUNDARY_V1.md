@@ -28,11 +28,36 @@ by arm timeout, remaining run time and remaining permit validity. The dispatch
 boundary must check again after durable reservation and before key lookup/transport.
 Checking a serialized sample in offline tests is not evidence of current host capability.
 
-## Planned dependent layers
+## Native wire transport
 
-1. Native public-wire transport and deterministic normalization, with SDK retries,
-   redirects and environment proxies disabled.
-2. Fresh one-attempt durable dispatch kernel and CLI. Exactly one task/request;
+`execution_live_http.py` sends the prepared HTTPS route and ordered body using
+stdlib `http.client`, with TLS verification and a bounded response. It consults
+the gate before connect, before request and between response chunks. It follows
+no redirects, reads no environment proxy configuration and performs no retry.
+Socket timeouts are bounded by the current gate; DNS and in-flight cancellation
+are not guaranteed to terminate exactly at the wall deadline.
+
+The key stays in memory and the Authorization header. Saved responses retain only
+public replay fields; provider error/invalid bytes retain a digest and size.
+Reasoning blocks are omitted. Payloads containing the actual key or structured
+credential fields are discarded. HTTP/network exceptions retain sanitized classes.
+
+`execution_live_wire.py` binds an installed normalizer revision and supports
+four existing public protocols. TypeSafe Noul uses `noul`; OpenAI Decisions
+predicate uses `probability` and is normalized to Noul. Choice/Score validate
+labels, finite distributions and score rubric. Chat/Responses require exactly
+one completed text message containing `{"answers": [...]}` in task question order.
+Partial, extra or malformed answers reject. The plan must supply that output
+contract in its public prompt/schema; the transport never rewrites the request.
+
+These are representative protocol contracts checked with offline fixtures, not
+SDK or live interoperability evidence. In particular, existing plan v1's Decisions
+request representation is retained; an endpoint with a different request shape
+requires a versioned plan/adapter change, not automatic conversion.
+
+## Planned dispatch layer
+
+1. Fresh one-attempt durable dispatch kernel and CLI. Exactly one task/request;
    remaining planned tasks stay visible. No automatic retry, resume or fallback.
 
 The complete scheduler, native resume, live archive/reference/registry consumers
