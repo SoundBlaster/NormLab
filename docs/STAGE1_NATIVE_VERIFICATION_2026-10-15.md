@@ -33,6 +33,27 @@ removed the kernel's clock/transport re-exports used by the shared boundary. Exp
 re-exports restored the compatibility seam; the existing nine kernel checks passed.
 This was an implementation failure found locally, not a provider or network result.
 
+## Review correction and final validation
+
+PR #125 review found that standalone Responses validation checked only the encoded
+state/outer keys. Fixed in `9621b228f8df2fcdae91d56cc677e8a9ed3c91a0`:
+both Stage1 protocols now bind question instructions and criterion descriptions to
+the pinned prompt. Responses also validates encoded `questions.overall`, type,
+labels and order. Fully rehashed null/question/prompt/criterion/order/type mutations
+reject. The review thread was replied to and verified resolved; descendants were
+rebased onto the correction without changing historical producers/fixtures.
+
+Final checked tree after the correction:
+
+- Python **3.14.8**, `-B -S` full offline discovery: **269/269**, **148.752 s**.
+- Python **3.10.19**, focused wire/compiler/scheduler/gate/kernel: **34/34**,
+  **10.393 s**.
+- Exact CI Ruff selection `E4,E7,E9,F,I`: passed; format check **151 Python files**.
+- Prettier passed; **136 relative links** resolved across changed documentation.
+- Four original Stage1 producer modules and all `fixtures/` byte-identical to base.
+- Native stack **#128**: PR **#125 → #126 → #127**. Current-head CI/review is
+  separate from local checks; publication does not claim merge or live evidence.
+
 ## Limits
 
 All clock/HTTP observations here are synthetic, including live-shaped checkpoints.
