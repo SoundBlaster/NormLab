@@ -17,6 +17,8 @@ PROTOCOL_FIELDS = {
     "openai-decisions/v1": {"state", "questions"},
     "openai-chat-completions/v1": {"messages", "response_format"},
     "openai-responses/v1": {"input", "text"},
+    "openai-decisions-input/v1": {"input", "questions"},
+    "openai-responses-stage1/v1": {"input", "text", "store", "stream"},
 }
 MAX_ITEMS = 1024
 MAX_ATTEMPTS = 3
@@ -251,7 +253,11 @@ def wire_settings(arm):
     """The initial supported subset, exact public fields; not an SDK adapter."""
     settings = arm["settings"]
     expected = {"model": arm["model"]}
-    if arm["protocol"] in {"typesafe-systemone/v1", "openai-decisions/v1"}:
+    if arm["protocol"] in {
+        "typesafe-systemone/v1",
+        "openai-decisions/v1",
+        "openai-decisions-input/v1",
+    }:
         require(
             settings["temperature"] is None and settings["reasoningEffort"] is None,
             "Decision sampling settings unsupported",

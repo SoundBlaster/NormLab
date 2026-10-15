@@ -192,7 +192,20 @@ def prepare(store):
             ),
             "Exact public wire settings; unplanned fields forbidden",
         )
-        if arm["protocol"] in {"typesafe-systemone/v1", "openai-decisions/v1"}:
+        if arm["protocol"] in {
+            "openai-decisions-input/v1",
+            "openai-responses-stage1/v1",
+        }:
+            from execution_stage1_protocol import validate
+
+            validate(
+                body,
+                task,
+                questions,
+                store.decode_json,
+                store.value(plan["pins"]["prompt"]),
+            )
+        elif arm["protocol"] in {"typesafe-systemone/v1", "openai-decisions/v1"}:
             require(
                 isinstance(body.get("state"), (str, dict))
                 and body["state"]
