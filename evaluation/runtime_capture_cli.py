@@ -25,15 +25,20 @@ def main():
     verify = commands.add_parser("verify")
     verify.add_argument("directory", type=Path)
     verify.add_argument("manifest", type=Path)
+    for command in (snapshot, project, registry, verify):
+        command.add_argument(
+            "--evidence-kind", choices=("mock", "live-capture"), default="mock"
+        )
     args = parser.parse_args()
     try:
         if args.command == "verify":
             snapshot = verify_capture_manifest(
                 args.directory,
                 Store.decode_json(bounded_read(args.manifest, MAX_BYTES)),
+                evidence_kind=args.evidence_kind,
             )
         else:
-            snapshot = capture_runtime(args.directory)
+            snapshot = capture_runtime(args.directory, evidence_kind=args.evidence_kind)
         if args.command == "registry-plan":
             receipts = (
                 Store.decode_json(bounded_read(args.receipts, MAX_BYTES))
