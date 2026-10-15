@@ -31,6 +31,7 @@ MODULES = (
     "execution_live_http.py",
     "execution_live_wire.py",
     "execution_stage1_protocol.py",
+    "execution_stage1_plan.py",
     "execution_live_kernel.py",
     "execution_live_cli.py",
     "execution_checkpoint.py",
