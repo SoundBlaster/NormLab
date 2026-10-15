@@ -37,6 +37,16 @@ def verify(store, plan):
         "Source plan/manifest lineage",
     )
     options, budget, jobs = lineage["options"], source["budget"], source["jobs"]
+    manifest = store.value(lineage["manifest"])
+    object_keys(manifest, "schema experimentId parent codePins providers")
+    object_keys(manifest["parent"], "path sha256")
+    require(
+        manifest["schema"] == "normlab.stage1-provider-experiment/v1"
+        and manifest["experimentId"] == source["experimentId"]
+        and manifest["parent"]["sha256"] == source["parentManifestDigest"]
+        and canonical(manifest["providers"]) == canonical(source["providers"]),
+        "Source provider manifest binding",
+    )
     object_keys(options, "acceptedModels inputTokenCap decisionOutputTokenCap")
     object_keys(options["acceptedModels"], " ".join(ARMS))
     integer(options["inputTokenCap"], 1)

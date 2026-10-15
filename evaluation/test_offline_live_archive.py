@@ -189,7 +189,7 @@ class LiveArchiveTests(ExecutionCase):
         plan = store.json("plan.json")
         original = store.value(plan["pins"]["definitions"])
         verify(store, plan)
-        for kind in ("format", "settings", "low-settings", "key", "extra"):
+        for kind in ("format", "settings", "low-settings", "key", "valid-key", "extra"):
             lineage = copy.deepcopy(original)
             providers = lineage["metadata"]["providers"]
             if kind == "format":
@@ -202,6 +202,10 @@ class LiveArchiveTests(ExecutionCase):
                 )
             elif kind == "key":
                 providers["jev-coreinfra"]["keyEnvironment"] = "not-a-variable"
+            elif kind == "valid-key":
+                providers["jev-coreinfra"]["keyEnvironment"] = (
+                    "ANOTHER_VALID_ENVIRONMENT"
+                )
             else:
                 providers["jev-coreinfra"]["unexpected"] = True
             source = {
