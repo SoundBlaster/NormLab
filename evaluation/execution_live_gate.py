@@ -44,7 +44,15 @@ class LinuxClock:
 
 
 def current_gate(
-    plan, run, store, confirmation, sample, *, last_sample=None, reserve=True
+    plan,
+    run,
+    store,
+    confirmation,
+    sample,
+    *,
+    last_sample=None,
+    reserve=True,
+    task_index=0,
 ):
     """An explicit invocation confirmation is required in addition to saved permit.
 
@@ -108,7 +116,9 @@ def current_gate(
         < utc(permit["expiresAt"]),
         "Current permit expired or not yet valid",
     )
-    task = plan["tasks"][0]
+    integer(task_index)
+    require(task_index < len(plan["tasks"]), "Current scheduled task index")
+    task = plan["tasks"][task_index]
     required = charge(plan, task) if reserve else {k: 0 for k in limits}
     require(
         all(run["counts"]["reserved"][k] + n <= limits[k] for k, n in required.items()),

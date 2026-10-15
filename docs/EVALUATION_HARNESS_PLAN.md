@@ -18,7 +18,8 @@ execution с atomic checkpoint и [fault injection](MOCK_EXECUTION_VERIFICATION_
 [Slice 5c](MOCK_RESUME_V1.md) добавляет explicit mock continuation и stop/adopt
 resolution с сохранением caps/deadline и [offline verification](MOCK_RESUME_VERIFICATION_2026-10-14.md).
 После review: capture-revision-aware export/registry → отдельный live smoke.
-Host clock/current authorization attestation и native provider transport ещё не реализованы.
+Linux host clock/current authorization и native provider transport реализованы
+последующим [native boundary](NATIVE_LIVE_BOUNDARY_V1.md); live evidence остаётся отдельной проверкой.
 Текущие native runners не получают resume автоматически.
 
 Подготовка 5d выполняется тремя последовательными слоями: [capture revision snapshot](RUNTIME_CAPTURE_PREPARATION_V1.md)
@@ -45,8 +46,11 @@ planned-question pairing, strict-wire / explicit same-protocol-body compatibilit
 export/verify проверены [offline](RUNTIME_PAIRED_COMPARISON_VERIFICATION_2026-10-14.md).
 [Native live boundary](NATIVE_LIVE_BOUNDARY_V1.md) добавляет Linux clock/current
 operator-confirmation gate, native HTTP/normalization и fresh one-attempt kernel.
-Полный schedule/retry/resume, live archive/registry consumers и live smoke остаются
-впереди; offline fixtures не доказывают live interoperability или качество моделей.
+[Stage1 native schedule](STAGE1_NATIVE_SCHEDULE_V1.md) добавляет offline compiler
+с сохранением исходных запросов, fresh Linux intent binding и последовательный
+scheduler с общей квотой, bounded retries и остановкой при неизвестной резервации.
+Native resume, live archive/registry consumers и live smoke остаются впереди;
+offline fixtures не доказывают live interoperability или качество моделей.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 

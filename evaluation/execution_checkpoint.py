@@ -250,6 +250,8 @@ class DurableWriter:
             name
             in {
                 "plan.json",
+                "run.json",
+                "journal.json",
                 "intent.json",
                 "mock-script.json",
                 "checkpoint.json",

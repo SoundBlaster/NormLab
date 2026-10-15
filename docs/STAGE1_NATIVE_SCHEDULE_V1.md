@@ -50,6 +50,100 @@ It rejects changed task metadata, contexts, request bodies and lineage. This is
 unsigned consistency evidence; it does not authenticate an attacker-replaced
 source manifest or establish human reference labels.
 
+## Native scheduler
+
+`run-schedule` accepts a fresh compiler-produced plan and bound live intent only.
+The one-worker loop uses the same durable boundary as `run-once`. Checkpoint v2
+binds `stage1-bounded-schedule/v1`; the inspector still accepts v1 one-attempt
+checkpoints and regenerates both versions read-only. Updated installed-code pins
+remain mandatory. Mock archive/MLflow consumers still reject these live records.
+The inspector also re-derives response-backed normalized outcomes from saved public
+response projections and rejects result-only changes even after hashes are updated.
+Raw-response digests are retained; missing raw bytes cannot be reconstructed or
+authenticated by this unsigned reader.
+
+Before every reservation the gate uses the actual scheduled task's arm, caps and
+timeout. One run UUID, invocation, original deadline, permit and aggregate budget
+cover the whole schedule. Each retry retains its task/turn and gets the next
+attempt ordinal. Original per-attempt timeout decreases across transport callbacks;
+it is not restarted for each response chunk. Kernel BOOTTIME and UTC continuity
+are checked across reservations, publication, waits and transport callbacks.
+
+The frozen retry policy allows at most three attempts for terminal transient
+transport failures, with deterministic lower-bound delays of 1 and 2 seconds.
+HTTP errors (including 429/503), certificate failures, invalid output, refusals
+and model rejection stop the suffix. Returned-model drift within an arm rejects
+even when the new model belongs to its explicit acceptance list. Known usage above
+a per-request reservation ceiling stops further work; absent usage stays unknown.
+
+A saved reservation without a committed terminal outcome remains unknown and
+cannot be automatically retried or resumed. The persistent local UUID authority
+also rejects using its immutable input again in a different output directory.
+This requires preserving that authority directory in containers. A terminal
+transport failure may have unknown dispatch/usage despite being eligible for the
+explicit retry policy; all such attempts remain visible and prevent reporting an
+exact observed inference total. No exactly-once provider execution is promised.
+
+Budget exhaustion and deadline expiry append their corresponding stop events.
+Permit expiry between known attempts uses the existing `operator-stop` reason;
+saved permit and event UTC expose expiry. A gate failure after reservation leaves
+the reservation unknown. Inspection itself reports zero invoked/authorized calls.
+
+## CLI workflow
+
+Compile and bind on the Linux execution host, using the same Python installation
+and code revision as dispatch. Mac supports compilation/inspection only; a plan
+compiled on Mac normally has different runtime pins and must be rebuilt on Linux.
+
+```bash
+python3 -B -S evaluation/execution_live_cli.py compile-stage1 \
+  fixtures/parking-pilot/stage1-coreinfra-v1/experiment.json \
+  /private/run-parent/compiled --profile pilot --options /private/options.json
+python3 -B -S evaluation/execution_live_cli.py verify-stage1 /private/run-parent/compiled
+```
+
+`options.json` contains public configuration, never credentials:
+
+```json
+{
+  "acceptedModels": {
+    "jev-coreinfra": ["jev-1.13.0"],
+    "luna-decisions-coreinfra": ["gpt-6-luna"],
+    "luna-low-coreinfra": ["gpt-6-luna"]
+  },
+  "inputTokenCap": 20000,
+  "decisionOutputTokenCap": 1024
+}
+```
+
+These example model strings are requested-model spellings, not a newly confirmed
+catalog of returned aliases. The operator must explicitly select acceptance sets.
+Compiler output is a zero-authority dry-run, not permission to spend.
+
+`bind-stage1 compiled input --authorization authorization.json` allocates a fresh
+UUID and Linux clock origin without dispatch. Its authorization object has exactly:
+
+```text
+schema = normlab.stage1-native-authorization/v1
+planDigest = exact compiled plan digest
+caps = {dispatches, questions, inputTokens, outputTokens} integer ceilings
+expiresAt = UTC with microseconds
+authorization = {operatorId, authorizationRef: SHA-256, authorizedAt: UTC}
+externalSpending = {currency: USD, ceilingMicros: positive integer,
+                   confirmationRef: SHA-256, provenance: operator-asserted}
+```
+
+The externally enforced spending limit must actually exist; the local declaration
+does not enforce a dollar ceiling. Binding returns the exact confirmation values.
+The separate `run-schedule input output` command requires `--confirm-run`,
+`--confirm-plan`, `--confirm-permit`, `--confirm-invocation` and
+`--confirm-external-ceiling-micros`. Source manifest environment references select
+credentials only after durable attempt reservation. Credentials are not CLI args,
+saved artifacts or prompts. No SDK, network, key read or run authority is needed
+for `verify-stage1`; `inspect output` is also read-only.
+
+Only a separately authorized bounded live invocation establishes provider evidence.
+
 ## Evidence boundary
 
 These contracts are implemented and checked with local synthetic responses.
