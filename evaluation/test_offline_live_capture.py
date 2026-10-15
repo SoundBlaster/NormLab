@@ -78,10 +78,9 @@ class LiveCaptureTests(ExecutionCase):
         )
         with self.assertRaises((ValueError, FileNotFoundError)):
             capture_runtime(root)
-        with self.assertRaises(ValueError):
-            prepare_export(
-                snapshot
-            )  # Mock-only until the archive extension is installed.
+        self.assertEqual(
+            prepare_export(snapshot).manifest["evidenceKind"], "live-capture"
+        )
 
     def test_unknown_reservation_and_orphans_preserved_without_adoption(self):
         root = self.capture(phase="after-response")

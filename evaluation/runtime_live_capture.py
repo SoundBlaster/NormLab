@@ -16,30 +16,9 @@ def stage1_lineage(store, plan):
     Same trusted code is mandatory; a different reader Python is not a new source
     runtime attestation and cannot replace the immutable plan's dependency digest.
     """
-    from execution_stage1_plan import build
+    from runtime_live_stage1 import verify
 
-    lineage = store.value(plan["pins"]["definitions"])
-    object_keys(lineage, "schema sourcePlanDigest manifest metadata jobs options")
-    require(
-        lineage["schema"] == "normlab.stage1-native-lineage/v1", "Native Stage1 lineage"
-    )
-    source = {
-        **lineage["metadata"],
-        "jobs": [store.value(ref) for ref in lineage["jobs"]],
-    }
-    require(
-        sha(canonical(source)) == lineage["sourcePlanDigest"],
-        "Stage1 source plan digest",
-    )
-    expected, files = build(
-        source, lineage["options"], store.artifact(lineage["manifest"])
-    )
-    expected["pins"]["dependencies"] = plan["pins"]["dependencies"]
-    require(
-        canonical(plan) == canonical(expected), "Recorded-runtime Stage1 projection"
-    )
-    for name, raw in files.items():
-        require(store.read(name) == raw, "Exact Stage1 lineage bytes")
+    verify(store, plan)
 
 
 class NativeCapture:
