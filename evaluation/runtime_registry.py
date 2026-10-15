@@ -18,6 +18,9 @@ KINDS = {"execution", "capture", "projection", "prediction-seal"}
 
 
 def registry_nodes(projection):
+    require(
+        projection.manifest["evidenceKind"] == "mock", "Mock-only registry consumer"
+    )
     manifest, snapshot = projection.manifest, projection.snapshot
     execution = {
         "executionId": manifest["executionId"],

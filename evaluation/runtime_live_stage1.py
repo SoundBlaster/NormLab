@@ -1,6 +1,7 @@
 """Independent read-only Stage1 lineage checks, without legacy producer imports."""
 
 import json
+import re
 
 from execution_records import integer
 from offline_bundle import canonical, object_keys, require, sha
@@ -72,8 +73,29 @@ def verify(store, plan):
         },
     )
     require([a["id"] for a in plan["arms"]] == list(ARMS), "Stage1 arm order")
+    object_keys(source["providers"], " ".join(ARMS))
     for arm, identifier, protocol in zip(plan["arms"], ARMS, PROTOCOLS):
         provider = source["providers"][identifier]
+        object_keys(provider, "apiFormat endpoint model keyEnvironment settings")
+        expected_format = {
+            PROTOCOLS[0]: "typesafe-systemone",
+            PROTOCOLS[1]: "openai-decisions",
+            PROTOCOLS[2]: "openai-responses",
+        }[protocol]
+        expected_settings = (
+            {"reasoning": {"effort": "low"}, "max_output_tokens": 1024, "store": False}
+            if expected_format == "openai-responses"
+            else {}
+        )
+        require(
+            provider["apiFormat"] == expected_format
+            and canonical(provider["settings"]) == canonical(expected_settings)
+            and isinstance(provider["model"], str)
+            and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._/:-]{0,199}", provider["model"])
+            and isinstance(provider["keyEnvironment"], str)
+            and re.fullmatch(r"[A-Z][A-Z0-9_]{0,127}", provider["keyEnvironment"]),
+            "Stage1 complete provider format/settings/configuration",
+        )
         output_cap = (
             1024 if identifier == ARMS[2] else options["decisionOutputTokenCap"]
         )
@@ -137,7 +159,7 @@ def verify(store, plan):
             "Source request route",
         )
         body = original["body"]
-        if job["armId"] == ARMS[0]:
+        if provider["apiFormat"] == "typesafe-systemone":
             require(
                 ordered(body)
                 == ordered(
@@ -149,7 +171,7 @@ def verify(store, plan):
                 ),
                 "Stage1 TypeSafe body",
             )
-        elif job["armId"] == ARMS[1]:
+        elif provider["apiFormat"] == "openai-decisions":
             require(
                 ordered(body)
                 == ordered(

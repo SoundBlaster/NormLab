@@ -145,6 +145,86 @@ class LiveArchiveTests(ExecutionCase):
                     else:
                         read_archive(root)
 
+    def test_unadapted_consumers_reject_live_archives_explicitly(self):
+        from runtime_mlflow_projection import project
+        from runtime_reference import reference
+        from runtime_registry import registry_nodes
+        from runtime_score import score
+
+        _, folder = self.archive()
+        archive = read_archive(folder)
+        selected = reference(
+            archive,
+            canonical(
+                {
+                    "schema": "normlab.runtime-reference-source/v1",
+                    "revision": "synthetic/v1",
+                    "status": "candidate-not-independent",
+                    "planDigest": archive.snapshot.intent["planDigest"],
+                    "dataset": archive.snapshot.plan["dataset"],
+                    "expected": [
+                        {
+                            "taskKey": archive.snapshot.plan["tasks"][0]["key"],
+                            "questionId": "supported",
+                            "label": "yes",
+                        }
+                    ],
+                }
+            ),
+        )
+        for action in (
+            lambda: score(archive, selected),
+            lambda: registry_nodes(archive.projection),
+            lambda: project(archive),
+        ):
+            with self.assertRaisesRegex(ValueError, "Mock-only"):
+                action()
+
+    def test_rehashed_provider_format_settings_and_configuration_changes_reject(self):
+        from execution_plan import Store
+        from runtime_live_stage1 import verify
+
+        root = self.scheduled()
+        store = Store(root)
+        plan = store.json("plan.json")
+        original = store.value(plan["pins"]["definitions"])
+        verify(store, plan)
+        for kind in ("format", "settings", "low-settings", "key", "extra"):
+            lineage = copy.deepcopy(original)
+            providers = lineage["metadata"]["providers"]
+            if kind == "format":
+                providers["jev-coreinfra"]["apiFormat"] = "openai-responses"
+            elif kind == "settings":
+                providers["jev-coreinfra"]["settings"] = {"temperature": 1}
+            elif kind == "low-settings":
+                providers["luna-low-coreinfra"]["settings"]["reasoning"]["effort"] = (
+                    "high"
+                )
+            elif kind == "key":
+                providers["jev-coreinfra"]["keyEnvironment"] = "not-a-variable"
+            else:
+                providers["jev-coreinfra"]["unexpected"] = True
+            source = {
+                **lineage["metadata"],
+                "jobs": [store.value(ref) for ref in lineage["jobs"]],
+            }
+            lineage["sourcePlanDigest"] = sha(canonical(source))
+            raw = canonical(lineage)
+            edited = copy.deepcopy(plan)
+            ref = {
+                "path": f"artifacts/{sha(raw)}.blob",
+                "sha256": sha(raw),
+                "bytes": len(raw),
+            }
+            (root / ref["path"]).write_bytes(raw)
+            edited["pins"]["definitions"] = ref
+            edited["tactic"]["sha256"] = lineage["sourcePlanDigest"]
+            with (
+                self.subTest(kind=kind),
+                self.assertRaisesRegex(ValueError, "provider|fields"),
+            ):
+                verify(Store(root), edited)
+
 
 if __name__ == "__main__":
     unittest.main()
