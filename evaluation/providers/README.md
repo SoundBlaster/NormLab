@@ -14,6 +14,11 @@ The source branch's full LICENSE is preserved verbatim as [LICENSE.proxyapi](LIC
 
 Use Python 3.11+ in a dedicated environment with [requirements-providers.txt](../requirements-providers.txt). Exact top-level release pins are not a complete transitive dependency lock. Existing evaluation and historical 0.2.1 environment are not modified by copying this file.
 
+This copied bridge remains on the historical 0.4.0 environment. The current
+0.7.0 TypeSafe/OpenAI smoke CLI uses
+[requirements-providers-current.txt](../requirements-providers-current.txt) in a
+separate environment; see [provider configuration](../../docs/PROVIDER_CONFIGURATION.md).
+
 ```python
 # With evaluation/ on sys.path (as for existing evaluation entry points):
 from proxyapi_config import build_proxyapi_provider, provider_metadata

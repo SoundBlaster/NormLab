@@ -8,11 +8,19 @@ from pathlib import Path
 from unittest.mock import patch
 
 import httpx2
-from provider_config import configuration
+from provider_runtime import configuration
 from provider_smoke import read_json, run
 
 
 class ProviderSmokeTests(unittest.TestCase):
+    def setUp(self):
+        network = patch(
+            "httpx2.HTTPTransport.handle_request",
+            side_effect=AssertionError("Network forbidden"),
+        )
+        network.start()
+        self.addCleanup(network.stop)
+
     def test_streamed_requests_are_captured_and_http_failure_stops_both_formats(self):
         data = read_json(Path(__file__).parents[1] / "fixtures/providers/smoke.json")
         key = "offline-placeholder-not-a-real-credential"

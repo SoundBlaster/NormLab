@@ -43,8 +43,26 @@ jobs:
           python-version: '3.13'
       - name: Install released adapter and offline test dependencies
         run: python -m pip install -r evaluation/requirements-provider-tests.txt
-      - name: Check copied ProxyAPI bridge without inference
-        run: python -m pytest evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_provider_smoke.py evaluation/test_retry_contracts_v2.py -q
+      - name: Check historical ProxyAPI bridge and Stage 1 without inference
+        run: python -m pytest evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_retry_contracts_v2.py -q
+
+  providers-current:
+    name: Current adapter contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Install current released adapter
+        run: python -m pip install -r evaluation/requirements-providers-current.txt pytest==8.4.2
+      - name: Verify installed dependency compatibility
+        run: python -m pip check
+      - name: Check current SDK requests and Mellea hooks with network denied
+        run: python -m pytest evaluation/test_provider_runtime.py evaluation/test_provider_smoke.py -q
 
   stage1:
     name: Stage 1 dataset audit

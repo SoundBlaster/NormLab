@@ -9,16 +9,30 @@ one preceding Choice attempt failed before an HTTP status.
 
 ## API format and supplier
 
-The Python evaluation dependency is pinned to `mellea-jev-adapter==0.4.0`.
+The current smoke integration uses `mellea-jev-adapter==0.7.0` (Python 3.11+)
+through `evaluation/provider_runtime.py` and
+[`requirements-providers-current.txt`](../evaluation/requirements-providers-current.txt).
+Mellea remains 0.8.0; TypeSafe SDK 0.7.5, OpenAI 3.31.0 and httpx2 2.13.1
+are pinned to the checked revisions. These are selected package pins, not a
+complete transitive dependency lock. Existing models/presets are unchanged;
+`--model` selects another operator-approved model explicitly.
+
+The historical Stage 1 environment remains on adapter **0.4.0** using
+[`requirements-providers.txt`](../evaluation/requirements-providers.txt).
+Its source-pinned `provider_config.py`, plans, captures and fixtures are unchanged.
+The SDK-free native execution runner uses its own wire adapter and does not
+load Jev4Mellea. Updating this SDK integration does not change native normalization
+or upgrade historical runs.
+
 A provider is an explicit combination of API format, full HTTPS endpoint, model,
 credential source and timeout. The hostname or model name does not select a protocol.
 
-| Python preset | API format | Full endpoint | Key environment variable |
-| --- | --- | --- | --- |
-| `typesafe` | `typesafe-systemone` | `https://api.typesafe.ai/v1/systemone` | `TYPESAFE_API_KEY` |
-| `openai` | `openai-decisions` | `https://api.openai.com/v1/decisions` | `OPENAI_API_KEY` |
-| `coreinfra-jev` | `typesafe-systemone` | `https://hub.coreinfra.ai/typesafe/api/v1/systemone` | `COREINFRA_API_KEY` |
-| `coreinfra-decisions` | `openai-decisions` | `https://hub.coreinfra.ai/openai/api/v1/decisions` | `COREINFRA_API_KEY` |
+| Python preset         | API format           | Full endpoint                                        | Key environment variable |
+| --------------------- | -------------------- | ---------------------------------------------------- | ------------------------ |
+| `typesafe`            | `typesafe-systemone` | `https://api.typesafe.ai/v1/systemone`               | `TYPESAFE_API_KEY`       |
+| `openai`              | `openai-decisions`   | `https://api.openai.com/v1/decisions`                | `OPENAI_API_KEY`         |
+| `coreinfra-jev`       | `typesafe-systemone` | `https://hub.coreinfra.ai/typesafe/api/v1/systemone` | `COREINFRA_API_KEY`      |
+| `coreinfra-decisions` | `openai-decisions`   | `https://hub.coreinfra.ai/openai/api/v1/decisions`   | `COREINFRA_API_KEY`      |
 
 The operator-provided CoreInfra documentation identifies `/openai/api/v1`
 as the application API base for Responses/Chat Completions; `/codex/api/v1`
@@ -36,8 +50,9 @@ and Chat Completions. A different URL cannot convert protocols.
 Create a separate environment; preserve environments used for historical runs:
 
 ```bash
-python3 -m venv .tools/provider-evaluation-0.4
-.tools/provider-evaluation-0.4/bin/python -m pip install -r evaluation/requirements-providers.txt
+python3.13 -m venv .tools/provider-evaluation-0.7
+.tools/provider-evaluation-0.7/bin/python -m pip install -r evaluation/requirements-providers-current.txt
+.tools/provider-evaluation-0.7/bin/python -m pip check
 ```
 
 Dry-run validates public configuration and input without importing the SDK,
@@ -60,7 +75,7 @@ only schema/id/api_format/endpoint_url/model/key_env and optional timeout.
 After separately authorizing the supplier, input and spending, run explicitly:
 
 ```bash
-.tools/provider-evaluation-0.4/bin/python evaluation/provider_smoke.py \
+.tools/provider-evaluation-0.7/bin/python evaluation/provider_smoke.py \
   fixtures/providers/smoke.json --provider coreinfra-jev --max-calls 3 \
   --live --output .artifacts/coreinfra-jev-smoke
 ```
@@ -79,14 +94,18 @@ ambient environment proxy. Timeout is per SDK HTTP operation, not an end-to-end
 deadline. A request cap is not a currency cap. Set a supplier spending limit.
 
 Every attempt reserves its slot before sending. The new private output directory
-contains checkpointed `report.json`: actual request bodies, HTTP status, timing,
+contains checkpointed `report.json` (`normlab.provider-smoke/v2`): actual request bodies, HTTP status, timing,
 normalized results, returned model, request ID, usage and dependency versions.
 Headers, keys and error bodies are excluded. Input narratives and model results
 are sensitive; use synthetic inputs and protect output. On the first failure,
 remaining questions stay `not-executed`; there is no automatic resume. A crashed
 attempt can remain `sent`. Exit 0 means all primitives completed, 3 means incomplete
 execution. This smoke report has no semantic labels or quality score and does not
-replace the frozen Stage 1 executor/capture/replay protocol.
+replace the frozen Stage 1 executor/capture/replay protocol. Version 2 retains
+the 0.7 typed usage metadata, including `cost_usd` when supplied; unknown cost
+remains null. The top-level `cost` is not an inferred total. Existing v1 reports
+stay historical. Images are not accepted by this text-only CLI, despite optional
+image support in the upstream adapter.
 
 ## Historical evaluation compatibility
 
@@ -95,7 +114,14 @@ The legacy ProxyAPI factory accepts runtime adapter 0.3.0 or 0.4.0; its frozen
 provider metadata still describes the original 0.3.0 manifest. Actual runtime
 versions are recorded separately in `capture.dependencies`. Do not interpret
 new captures as identical experimental conditions. New provider exploration uses
-this CLI and its distinct `normlab.provider-smoke/v1` report.
+this CLI and its distinct `normlab.provider-smoke/v2` report. Construct current
+configs with `provider_runtime.configuration`; the current factory rejects a
+historical config rather than misreporting its adapter version. Historical
+executors intentionally reject 0.7.0 and require their separate 0.4.0 environment.
+
+CI runs the legacy provider contracts in the historical environment and the
+current smoke/SDK/Mellea contracts in a separate job with network denied.
+See the [0.7.0 compatibility report](JEV_ADAPTER_0_7_UPGRADE_2026-10-15.md).
 
 The copied ProxyAPI bridge remains: besides routing it normalizes a body response
 ID into the TypeSafe request-ID header. A generic System One endpoint setting
@@ -106,11 +132,11 @@ alone does not reproduce that compatibility layer.
 The hosted path uses TypeScript adapters, independently of the Python package.
 Set these public values **identically in gateway and egress**:
 
-| Full endpoint variable | Fallback when absent |
-| --- | --- |
-| `NORMLAB_OPENAI_RESPONSES_ENDPOINT_URL` | `NORMLAB_OPENAI_BASE_URL` + `/responses` |
-| `NORMLAB_OPENAI_DECISIONS_ENDPOINT_URL` | `NORMLAB_OPENAI_BASE_URL` + `/decisions` |
-| `NORMLAB_TYPESAFE_ENDPOINT_URL` | `NORMLAB_TYPESAFE_BASE_URL` + `/systemone` |
+| Full endpoint variable                  | Fallback when absent                       |
+| --------------------------------------- | ------------------------------------------ |
+| `NORMLAB_OPENAI_RESPONSES_ENDPOINT_URL` | `NORMLAB_OPENAI_BASE_URL` + `/responses`   |
+| `NORMLAB_OPENAI_DECISIONS_ENDPOINT_URL` | `NORMLAB_OPENAI_BASE_URL` + `/decisions`   |
+| `NORMLAB_TYPESAFE_ENDPOINT_URL`         | `NORMLAB_TYPESAFE_BASE_URL` + `/systemone` |
 
 Base URL defaults remain native OpenAI and TypeSafe. Explicit full endpoints
 have precedence and can use different hosts. These settings are operator-only;

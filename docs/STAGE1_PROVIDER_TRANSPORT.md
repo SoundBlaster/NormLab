@@ -15,11 +15,11 @@ The new manifest is
 [`stage1-coreinfra-v1/experiment.json`](../fixtures/parking-pilot/stage1-coreinfra-v1/experiment.json).
 Each source/candidate/repeat supplies exactly the same semantic task to:
 
-| Arm | Exact endpoint | Client |
-| --- | --- | --- |
-| Jev `jev-1.13.0` | `https://hub.coreinfra.ai/typesafe/api/v1/systemone` | TypeSafeProvider, adapter 0.4.0 |
-| Luna Decisions `gpt-6-luna` | `https://hub.coreinfra.ai/openai/api/v1/decisions` | OpenAIProvider, adapter 0.4.0 |
-| Ordinary Luna `gpt-6-luna` | `https://hub.coreinfra.ai/openai/api/v1/responses` | Direct httpx2, Low + strict JSON Schema |
+| Arm                         | Exact endpoint                                       | Client                                  |
+| --------------------------- | ---------------------------------------------------- | --------------------------------------- |
+| Jev `jev-1.13.0`            | `https://hub.coreinfra.ai/typesafe/api/v1/systemone` | TypeSafeProvider, adapter 0.4.0         |
+| Luna Decisions `gpt-6-luna` | `https://hub.coreinfra.ai/openai/api/v1/decisions`   | OpenAIProvider, adapter 0.4.0           |
+| Ordinary Luna `gpt-6-luna`  | `https://hub.coreinfra.ai/openai/api/v1/responses`   | Direct httpx2, Low + strict JSON Schema |
 
 One Choice is asked per request. The SDK question name `classification` maps to
 the semantic `overall` verdict. Responses gets the complete canonical task and
@@ -35,16 +35,24 @@ The historical case/record/repeat order is retained. The three-arm order rotates
 per semantic context, balancing each position: four appearances per position per
 arm in pilot; 32 in corpus. All three contexts are fresh, even for identical input.
 
-| Profile | Cases / records | Repeats | Calls per arm | Total cap | Wall budget |
-| --- | --- | --- | --- | --- | --- |
-| `pilot` | C002, C008 / 4 | 3 | 12 | **36** | 1350 s |
-| `corpus` | 16 / 32 | 3 | 96 | **288** | 10800 s |
+| Profile  | Cases / records | Repeats | Calls per arm | Total cap | Wall budget |
+| -------- | --------------- | ------- | ------------- | --------- | ----------- |
+| `pilot`  | C002, C008 / 4  | 3       | 12            | **36**    | 1350 s      |
+| `corpus` | 16 / 32         | 3       | 96            | **288**   | 10800 s     |
 
 Corpus includes pilot cases; these are not additional independent observations.
 Repeats measure variability and are not independent cases. Shared semantic input
 limit is 32768 UTF-8 bytes. Concurrency is one. Plans authorize zero paid calls.
 
 ## CLI
+
+Use the historical adapter environment for these frozen commands. The current
+0.7.0 smoke environment is separate:
+
+```bash
+python3.13 -m venv .tools/provider-evaluation-0.4
+.tools/provider-evaluation-0.4/bin/python -m pip install -r evaluation/requirements-providers.txt
+```
 
 ```bash
 # SDK-free planning, no keys/network/output.
