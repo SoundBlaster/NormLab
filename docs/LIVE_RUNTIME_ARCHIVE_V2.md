@@ -76,3 +76,45 @@ not authenticity of the source manifest or human reference labels.
 Only completed predictions receive a prediction seal. This seal does not certify
 provider execution, billing completeness or semantic correctness; earlier transport
 failures may still have unknown usage and dispatch status after a successful retry.
+
+## Reference, score and MLflow
+
+The existing reference source/review v1 contracts apply to verified native archives
+as well as mock archives. References bind the exact captured plan/dataset and
+selected task/question coordinates. Candidate references remain
+`candidate-not-independent`; declared human review remains unsigned and explicitly
+unauthenticated. Neither reference status establishes case-level correctness.
+
+Native score views use `normlab.runtime-score-view/v2` and retain
+`evidenceKind=live-capture`, first/final answers, all planned/selected denominators,
+unevaluated reasons, observed usage and usage gaps. The scorer policy is unchanged:
+selected-question agreement only, with no `criticalErrorFreeRate`. Repeated scoring
+does not invoke inference or consume run authority.
+
+```bash
+python3 -B -S evaluation/runtime_score_cli.py score /private/native-archive \
+  /private/reference.json --output /private/score.json
+python3 -B -S evaluation/runtime_score_cli.py verify /private/native-archive \
+  /private/score.json
+python3 -B -S evaluation/import_runtime_mlflow.py /private/native-archive \
+  --score /private/score.json --dry-run
+```
+
+MLflow live projection/score/import-result schemas use v2. Execution bindings retain
+the original intent digest and execution code/dependency/adapter pins; they have no
+mock script digest. The capture/projection/score parent structure and idempotent
+local registry protocol are reused. Changed reference revisions add distinct score
+children while reusing unchanged execution/capture records. Complete archives and
+score bytes remain navigable from imported artifacts, including after deletion of
+the original run/export directories.
+
+`--dry-run` is SDK-free and creates no registry. Removing it explicitly writes to
+the local registry selected by `--storage`; it still makes no provider calls.
+Repeated import verifies existing immutable artifacts/metrics before reuse.
+Recorded native usage/dispatch metrics are source evidence, while operation-side
+`inferenceCallsExecuted=0` describes replay/import itself. Missing usage/cost is not
+converted into a zero spend, and agreement is not semantic quality evidence.
+
+Native live resume and separately authorized bounded live smoke remain outside
+this consumer implementation. These readers cannot turn a saved permit into an
+execution grant or adopt an orphan response.

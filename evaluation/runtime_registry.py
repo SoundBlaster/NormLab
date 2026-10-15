@@ -17,17 +17,28 @@ NODE_FIELDS = "key kind parentKey bindingDigest"
 KINDS = {"execution", "capture", "projection", "prediction-seal"}
 
 
-def registry_nodes(projection):
-    require(
-        projection.manifest["evidenceKind"] == "mock", "Mock-only registry consumer"
-    )
+def execution_binding(projection):
     manifest, snapshot = projection.manifest, projection.snapshot
     execution = {
         "executionId": manifest["executionId"],
         "planDigest": manifest["planDigest"],
         "intentDigest": sha(snapshot.files["intent.json"]),
-        "scriptDigest": sha(snapshot.files["mock-script.json"]),
     }
+    if manifest["evidenceKind"] == "mock":
+        execution["scriptDigest"] = sha(snapshot.files["mock-script.json"])
+    else:
+        execution.update(
+            evidenceKind="live-capture",
+            codePins=snapshot.plan["pins"]["code"],
+            dependencyPins=snapshot.plan["pins"]["dependencies"],
+            adapterPins=[arm["adapter"] for arm in snapshot.plan["arms"]],
+        )
+    return execution
+
+
+def registry_nodes(projection):
+    manifest, snapshot = projection.manifest, projection.snapshot
+    execution = execution_binding(projection)
     parent = {
         "key": identity("execution-import", manifest["executionId"]),
         "kind": "execution",
@@ -120,6 +131,9 @@ def registry_dry_run(projection, receipts=None):
         "executionReady": False,
         "semanticQualityEvidence": False,
     }
+    if manifest["evidenceKind"] == "live-capture":
+        plan["schema"] = "normlab.runtime-registry-plan/v2"
+        plan["evidenceKind"] = "live-capture"
     plan["planId"] = identity(
         "registry-plan", {key: value for key, value in plan.items() if key != "planId"}
     )

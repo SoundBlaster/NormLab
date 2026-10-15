@@ -133,7 +133,9 @@ def score(archive, selected):
             }
         )
     result = {
-        "schema": "normlab.runtime-score-view/v1",
+        "schema": "normlab.runtime-score-view/v1"
+        if archive.index["evidenceKind"] == "mock"
+        else "normlab.runtime-score-view/v2",
         "scoreId": None,
         "archiveId": archive.index["archiveId"],
         "executionId": archive.index["executionId"],
@@ -154,7 +156,7 @@ def score(archive, selected):
             for arm in sorted({r["armId"] for r in rows})
         },
         "runtimeCounts": archive.projection.manifest["counts"],
-        "evidenceKind": "mock",
+        "evidenceKind": archive.index["evidenceKind"],
         "actualCost": None,
         "criticalErrorFreeRate": None,
         "semanticQualityEvidence": False,
