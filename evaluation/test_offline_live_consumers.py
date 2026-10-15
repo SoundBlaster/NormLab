@@ -136,6 +136,30 @@ class LiveConsumerTests(ExecutionCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(json.loads(result.stdout)["inferenceCallsExecuted"], 0)
 
+    def test_native_export_and_registry_plan_source_verification_roundtrip(self):
+        from runtime_export import verify_export_projection
+        from runtime_registry import registry_dry_run, verify_registry_plan
+
+        source, folder, archive, view, path = self.view()
+        projection = archive.projection
+        self.assertEqual(
+            verify_export_projection(
+                source, projection.manifest, projection.files
+            ).manifest,
+            projection.manifest,
+        )
+        for receipts in (None, registry_dry_run(projection)["nodes"][:1]):
+            plan = registry_dry_run(projection, receipts)
+            self.assertEqual(verify_registry_plan(source, plan, receipts), plan)
+            changed = copy.deepcopy(plan)
+            changed["evidenceKind"] = "mock"
+            with self.assertRaises(ValueError):
+                verify_registry_plan(source, changed, receipts)
+        changed = projection.manifest
+        changed["evidenceKind"] = "mock"
+        with self.assertRaises(ValueError):
+            verify_export_projection(source, changed, projection.files)
+
 
 if __name__ == "__main__":
     unittest.main()

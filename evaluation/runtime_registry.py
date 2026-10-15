@@ -142,6 +142,17 @@ def registry_dry_run(projection, receipts=None):
 
 
 def verify_registry_plan(root, plan, receipts=None):
-    expected = registry_dry_run(prepare_export(capture_runtime(root)), receipts)
+    kind = plan.get("evidenceKind", "mock")
+    require(
+        (plan.get("schema"), kind)
+        in {
+            ("normlab.runtime-registry-plan/v1", "mock"),
+            ("normlab.runtime-registry-plan/v2", "live-capture"),
+        },
+        "Registry plan schema/evidence kind",
+    )
+    expected = registry_dry_run(
+        prepare_export(capture_runtime(root, evidence_kind=kind)), receipts
+    )
     require(canonical(plan) == canonical(expected), "Runtime registry plan binding")
     return expected
