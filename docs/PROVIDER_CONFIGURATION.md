@@ -110,17 +110,24 @@ image support in the upstream adapter.
 ## Historical evaluation compatibility
 
 Existing v1 manifests, captures, labels and source SHA pins remain unchanged.
-The legacy ProxyAPI factory accepts runtime adapter 0.3.0 or 0.4.0; its frozen
+The legacy ProxyAPI factory accepts checked runtime adapters 0.3.0, 0.4.0 and 0.7.0; its frozen
 provider metadata still describes the original 0.3.0 manifest. Actual runtime
 versions are recorded separately in `capture.dependencies`. Do not interpret
 new captures as identical experimental conditions. New provider exploration uses
 this CLI and its distinct `normlab.provider-smoke/v2` report. Construct current
 configs with `provider_runtime.configuration`; the current factory rejects a
-historical config rather than misreporting its adapter version. Historical
-executors intentionally reject 0.7.0 and require their separate 0.4.0 environment.
+historical config rather than misreporting its adapter version. Frozen Stage 1
+executors intentionally retain their 0.4.0 version checks. That is an archived
+execution constraint, not evidence of an SDK wire incompatibility. An exact
+historical re-execution can use the archived profile; ordinary current use and CI
+need only 0.7.0.
 
-CI runs the legacy provider contracts in the historical environment and the
-current smoke/SDK/Mellea contracts in a separate job with network denied.
+CI installs one current 0.7.0 SDK environment for the current smoke, copied bridge,
+verifier replay and Mellea contracts. The frozen Stage 1 retry tests use an
+explicit mock-only compatibility probe: it substitutes the current factory and
+allows only the declared 0.4.0 / recorded 0.7.0 version pair in two version equalities.
+It retains actual dependency metadata and denies live execution/network. It does
+not make old captures/permits valid under a new execution runtime.
 See the [0.7.0 compatibility report](JEV_ADAPTER_0_7_UPGRADE_2026-10-15.md).
 
 The copied ProxyAPI bridge remains: besides routing it normalizes a body response
