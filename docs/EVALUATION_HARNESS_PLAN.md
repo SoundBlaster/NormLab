@@ -52,6 +52,10 @@ scheduler с общей квотой, bounded retries и остановкой п
 Native [capture/archive/score/MLflow consumers](LIVE_RUNTIME_ARCHIVE_V2.md) сохраняют
 recorded live observations и отдельные mock schemas; portable read-only replay
 не требует совпадения Python reader runtime и не выдаёт execution authority.
+[Native unknown stop](NATIVE_UNKNOWN_STOP_V1.md) добавляет первый reconciliation
+slice: явное stop-решение для paused unknown, immutable base archive и сохранение
+всех charges/unknowns без dispatch. Adoption отвергается без attempt-correlated
+receipt; safe suffix resume и resolution-aware consumers остаются следующими срезами.
 Native resume и live smoke остаются впереди;
 offline fixtures не доказывают live interoperability или качество моделей.
 

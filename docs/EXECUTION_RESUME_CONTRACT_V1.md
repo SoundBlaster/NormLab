@@ -14,6 +14,13 @@ consumers remain unimplemented. Existing
 native runners/importers do not accept these records.
 [Original source audit](EXECUTION_RESUME_SOURCE_AUDIT_2026-10-13.md).
 
+Current implementation update (2026-10-16): native scheduling and
+[capture/archive consumers](LIVE_RUNTIME_ARCHIVE_V2.md) are implemented;
+[native unknown stop](NATIVE_UNKNOWN_STOP_V1.md) adds a head-bound local stop
+decision without clearing unknowns or granting dispatch. Native safe suffix
+resume, attempt-correlated adoption and resolution-aware consumers remain open.
+Earlier implementation-status statements describe the original proposal date.
+
 ## Scope and first capability
 
 The common path will bind plan → runtime run → logical task → turn → transport
