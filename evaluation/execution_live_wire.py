@@ -12,8 +12,11 @@ from offline_bundle import MAX_BYTES, require, sha
 def adapter_revision():
     return {
         "id": "normlab-native-wire",
-        "revision": "v1",
-        "sha256": sha(Path(__file__).read_bytes()),
+        "revision": "v2-stage1",
+        "sha256": sha(
+            Path(__file__).read_bytes()
+            + Path(__file__).with_name("execution_stage1_protocol.py").read_bytes()
+        ),
     }
 
 
@@ -176,9 +179,13 @@ def normalized(response, task, arm, questions):
         "Successful projected response",
     )
     protocol = arm["protocol"]
-    if protocol in {"typesafe-systemone/v1", "openai-decisions/v1"}:
+    if protocol in {
+        "typesafe-systemone/v1",
+        "openai-decisions/v1",
+        "openai-decisions-input/v1",
+    }:
         supplied = body.get("answers")
-        openai = protocol == "openai-decisions/v1"
+        openai = protocol in {"openai-decisions/v1", "openai-decisions-input/v1"}
         if openai:
             require(
                 isinstance(supplied, list)
@@ -224,7 +231,8 @@ def normalized(response, task, arm, questions):
             output = message.get("content")
         else:
             require(
-                protocol == "openai-responses/v1" and body.get("status") == "completed",
+                protocol in {"openai-responses/v1", "openai-responses-stage1/v1"}
+                and body.get("status") == "completed",
                 "Completed Responses state",
             )
             messages = body.get("output")
@@ -250,11 +258,16 @@ def normalized(response, task, arm, questions):
             "Bounded structured output",
         )
         value = Store.decode_json(output.encode())
-        require(
-            isinstance(value, dict) and set(value) == {"answers"},
-            "Structured answer wrapper",
-        )
-        result = value["answers"]
+        if protocol == "openai-responses-stage1/v1":
+            from execution_stage1_protocol import overall
+
+            result = overall(value, task, questions)
+        else:
+            require(
+                isinstance(value, dict) and set(value) == {"answers"},
+                "Structured answer wrapper",
+            )
+            result = value["answers"]
     value = {
         "schema": "normlab.execution-answers/v1",
         "normalizer": arm["adapter"],
@@ -270,7 +283,11 @@ def metadata(response, protocol):
     if model is not None:
         text(model)
     request_id = response["requestId"]
-    if protocol in {"openai-responses/v1", "openai-chat-completions/v1"}:
+    if protocol in {
+        "openai-responses/v1",
+        "openai-chat-completions/v1",
+        "openai-responses-stage1/v1",
+    }:
         request_id = body.get("id")
         if request_id is not None:
             text(request_id)
