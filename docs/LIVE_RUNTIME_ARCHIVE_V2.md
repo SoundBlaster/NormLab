@@ -70,7 +70,8 @@ old code revisions require the corresponding trusted reader installation.
 Stage1 lineage uses an independent pure reader, avoiding the frozen producer's
 transitive extraction/`server` JSON imports. It checks revision, question,
 provider/settings/caps, complete schedule, source/candidate and exact wire request
-edges. As with the compiler, this establishes unsigned internal consistency,
+edges. Provider format/settings/variable names use a closed contract and bind to
+the retained source manifest. As with the compiler, this establishes unsigned internal consistency,
 not authenticity of the source manifest or human reference labels.
 
 Only completed predictions receive a prediction seal. This seal does not certify
@@ -114,6 +115,9 @@ Repeated import verifies existing immutable artifacts/metrics before reuse.
 Recorded native usage/dispatch metrics are source evidence, while operation-side
 `inferenceCallsExecuted=0` describes replay/import itself. Missing usage/cost is not
 converted into a zero spend, and agreement is not semantic quality evidence.
+Source verification of both export projections and registry plans selects its
+reader only after validating the saved schema/evidence-kind pair; a v2 plan is
+never silently passed to a mock reader. Partial receipt reuse is re-derived too.
 
 Native live resume and separately authorized bounded live smoke remain outside
 this consumer implementation. These readers cannot turn a saved permit into an

@@ -15,14 +15,14 @@ authority. No native execution producer or fixture was rewritten.
 
 ## Executed local checks
 
-| Check                                                         | Result                                                     |
-| ------------------------------------------------------------- | ---------------------------------------------------------- |
-| Python 3.14.8, `-B -S`, complete offline discovery            | **285/285**, 155.848 s                                     |
-| Python 3.10.19, native capture/archive/consumer suite         | **16/16**, 5.086 s                                         |
-| Python 3.13.15, pinned MLflow 3.16.1, all local import suites | **38/38**, 70.409 s                                        |
-| Exact Ruff `E4,E7,E9,F,I` and formatter                       | Passed, **157 Python files**                               |
-| Original native execution module and fixture comparison       | **22 modules** and all fixtures byte-identical to base     |
-| Documentation formatting and relative links                   | Prettier passed; **139 links** resolved before this report |
+| Check                                                         | Result                                                 |
+| ------------------------------------------------------------- | ------------------------------------------------------ |
+| Python 3.14.8, `-B -S`, complete offline discovery            | **288/288**, 151.611 s                                 |
+| Python 3.10.19, native capture/archive/consumer suite         | **19/19**, 6.529 s                                     |
+| Python 3.13.15, pinned MLflow 3.16.1, all local import suites | **38/38**, 48.137 s                                    |
+| Exact Ruff `E4,E7,E9,F,I` and formatter                       | Passed, **157 Python files**                           |
+| Original native execution module and fixture comparison       | **22 modules** and all fixtures byte-identical to base |
+| Documentation formatting and relative links                   | Prettier passed; Relative links checked after review   |
 
 A native Stage1 archive produced on Python 3.14 was additionally verified by a
 separate Python 3.10 process with SDK/network denied and credential-free environment.
@@ -52,6 +52,38 @@ provider run or physical clock attestation.
 MLflow's SQLAlchemy paths emitted `ResourceWarning` messages about unclosed SQLite
 connections during the suite; the 38 tests completed successfully. These warnings
 are retained in the local log and do not establish clean resource lifecycle.
+
+## Review corrections
+
+- PR #129 requested recorded test authorization evidence. The
+  [authorization record](EVALUATION_VERIFICATION_AUTHORIZATION.md) cites the existing
+  human requests from this conversation; no new permission or policy waiver was
+  invented. Unrelated/future work is outside that record.
+- PR #130: provider formats/settings/configuration now use a closed contract, are
+  tied to the corresponding protocol/arm and bind to the retained manifest.
+  Rehashed mutations include a syntactically valid changed environment reference.
+- PR #130: intermediate mock-only score/registry/MLflow consumers explicitly reject
+  live archives. The top consumer layer enables evidence-aware implementations and
+  verifies preservation instead. One scoped rebase conflict in the registry binding
+  was resolved with the separate native execution binding retained.
+- PR #131: registry-plan verification and the symmetric export-projection verifier
+  validate schema/evidence kind before selecting the native reader. Round-trip and
+  partial receipt reuse controls cover these public APIs, plus kind mismatch rejection.
+
+All four threads were replied/reacted/resolved after push and read back through
+GraphQL. The table above records final current-tree checks. The initial pre-review run
+had 285/285 offline checks and 16/16 focused checks. CI/review provenance is independent of local
+evidence and no fresh bot approval on rewritten heads is inferred.
+
+A manual large-corpus native check also passed: all 288 planned tasks survive an
+initial pre-reservation interruption with zero attempts/dispatches. Durable export
+and independent replay retain 827 content files / 833 published entries and
+5,142,021 content bytes within existing caps, without one oversized source-plan blob.
+
+One focused invocation after stack rebase initially ran on the intermediate branch,
+where top-layer test modules/evidence-aware consumers were absent. It failed as
+such; the narrow guard changes were moved to the intended top branch and the
+12-test focused run then passed. Final table results are on the corrected stack.
 
 ## Limits and next step
 
