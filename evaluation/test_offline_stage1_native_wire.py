@@ -21,6 +21,9 @@ class Stage1NativeWireTests(ExecutionCase):
         fixture = self.fixture(tasks=1)
         arm, task = fixture.plan["arms"][0], fixture.plan["tasks"][0]
         labels = list(job["task"]["questions"]["overall"]["criteria"])
+        fixture.plan["pins"]["prompt"] = fixture.put(
+            job["task"]["questions"]["overall"], ordered=True
+        )
         fixture.plan["pins"]["outputSchema"] = fixture.put(
             {
                 "schema": "normlab.execution-answer-schema/v1",
@@ -130,7 +133,55 @@ class Stage1NativeWireTests(ExecutionCase):
                 else:
                     value[kind] = True
                 with self.subTest(arm=i, mutation=kind), self.assertRaises(ValueError):
-                    validate(value, task, questions, Store.decode_json)
+                    validate(
+                        value,
+                        task,
+                        questions,
+                        Store.decode_json,
+                        fixture.value(fixture.plan["pins"]["prompt"]),
+                    )
+
+    def test_rehashed_embedded_questions_and_decision_prompt_changes_reject(self):
+        fixture, arm, task, labels = self.wire(2)
+        original = fixture.value(task["request"])
+        for kind in ("null", "instructions", "criteria", "order", "type"):
+            request = copy.deepcopy(original)
+            content = request["body"]["input"][0]["content"][0]
+            value = json.loads(content["text"])
+            if kind == "null":
+                value["questions"] = None
+            else:
+                question = value["questions"]["overall"]
+                if kind == "instructions":
+                    question["instructions"] = "Unrelated prompt"
+                elif kind == "criteria":
+                    question["criteria"][labels[0]] = "Changed criterion"
+                elif kind == "order":
+                    question["criteria"] = dict(
+                        reversed(list(question["criteria"].items()))
+                    )
+                else:
+                    question["type"] = "noul"
+            content["text"] = json.dumps(value, ensure_ascii=False)
+            task["request"] = fixture.put(request, ordered=True)
+            context = fixture.value(task["context"])
+            context["requestDigest"] = task["request"]["sha256"]
+            task["context"] = fixture.put(context)
+            fixture.save()
+            with self.subTest(kind=kind), self.assertRaises(ValueError):
+                prepare(Store(fixture.folder))
+        fixture, arm, task, labels = self.wire(1)
+        request = fixture.value(task["request"])
+        request["body"]["questions"][0]["instructions"] = "Changed prompt"
+        questions = {"classification": {"type": "choice", "labels": labels}}
+        with self.assertRaises(ValueError):
+            validate(
+                request["body"],
+                task,
+                questions,
+                Store.decode_json,
+                fixture.value(fixture.plan["pins"]["prompt"]),
+            )
 
 
 if __name__ == "__main__":

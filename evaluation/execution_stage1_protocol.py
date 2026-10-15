@@ -7,10 +7,20 @@ DECISIONS = "openai-decisions-input/v1"
 RESPONSES = "openai-responses-stage1/v1"
 
 
-def validate(body, task, questions, decode):
+def validate(body, task, questions, decode, prompt):
     require(task["questionIds"] == ["classification"], "Stage1 single classification")
     definition = questions["classification"]
     require(definition["type"] == "choice", "Stage1 choice definition")
+    object_keys(prompt, "type instructions criteria")
+    require(
+        prompt["type"] == "choice"
+        and isinstance(prompt["criteria"], dict)
+        and list(prompt["criteria"]) == definition["labels"],
+        "Pinned Stage1 criteria/order",
+    )
+    text(prompt["instructions"])
+    for description in prompt["criteria"].values():
+        text(description)
     if "questions" in body:
         require(isinstance(body["input"], str), "Decision string input")
         require(
@@ -27,6 +37,10 @@ def validate(body, task, questions, decode):
             "Decision classification question",
         )
         text(question["instructions"])
+        require(
+            question["instructions"] == prompt["instructions"],
+            "Pinned Decision instructions",
+        )
         choices = question["choices"]
         require(
             isinstance(choices, list) and len(choices) == len(definition["labels"]),
@@ -36,6 +50,10 @@ def validate(body, task, questions, decode):
             object_keys(choice, "value description")
             require(choice["value"] == label, "Decision choice order")
             text(choice["description"])
+            require(
+                choice["description"] == prompt["criteria"][label],
+                "Pinned Decision criteria",
+            )
     else:
         require(
             body.get("store") is False and body.get("stream") is False,
@@ -81,6 +99,15 @@ def validate(body, task, questions, decode):
         value = decode(content["text"].encode())
         object_keys(value, "state questions")
         require(isinstance(value["state"], dict), "Stage1 state object")
+        object_keys(value["questions"], "overall")
+        embedded = value["questions"]["overall"]
+        object_keys(embedded, "type instructions criteria")
+        require(
+            embedded == prompt
+            and isinstance(embedded["criteria"], dict)
+            and list(embedded["criteria"]) == definition["labels"],
+            "Pinned embedded Stage1 question/criteria/order",
+        )
 
 
 def overall(value, task, questions):
