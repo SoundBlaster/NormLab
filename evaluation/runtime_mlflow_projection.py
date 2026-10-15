@@ -37,7 +37,6 @@ def snapshot(directory):
 
 def project(archive):
     require(type(archive) is VerifiedArchive, "Verified runtime archive required")
-    require(archive.index["evidenceKind"] == "mock", "Mock-only MLflow consumer")
     projection = archive.projection
     manifest, capture = projection.manifest, projection.snapshot
     nodes = registry_nodes(projection)
