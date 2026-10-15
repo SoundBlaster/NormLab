@@ -29,6 +29,9 @@ def run(directory, storage, *, dry_run=False, score_path=None):
             "semanticQualityEvidence": False,
             "executionReady": False,
         }
+        if archive.index["evidenceKind"] == "live-capture":
+            result["schema"] = "normlab.runtime-mlflow-import-result/v2"
+            result["evidenceKind"] = "live-capture"
         if dry_run:
             return {**result, "records": records, "registryWritesExecuted": 0}
         from mlflow_registry import registry

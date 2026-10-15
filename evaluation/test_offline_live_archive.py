@@ -145,7 +145,7 @@ class LiveArchiveTests(ExecutionCase):
                     else:
                         read_archive(root)
 
-    def test_unadapted_consumers_reject_live_archives_explicitly(self):
+    def test_adapted_consumers_preserve_live_archive_evidence(self):
         from runtime_mlflow_projection import project
         from runtime_reference import reference
         from runtime_registry import registry_nodes
@@ -172,13 +172,14 @@ class LiveArchiveTests(ExecutionCase):
                 }
             ),
         )
-        for action in (
-            lambda: score(archive, selected),
-            lambda: registry_nodes(archive.projection),
-            lambda: project(archive),
-        ):
-            with self.assertRaisesRegex(ValueError, "Mock-only"):
-                action()
+        self.assertEqual(score(archive, selected)["evidenceKind"], "live-capture")
+        self.assertTrue(registry_nodes(archive.projection))
+        self.assertTrue(
+            all(
+                record["payload"]["evidenceKind"] == "live-capture"
+                for record in project(archive)
+            )
+        )
 
     def test_rehashed_provider_format_settings_and_configuration_changes_reject(self):
         from execution_plan import Store

@@ -7,7 +7,7 @@ from pathlib import Path
 from offline_bundle import canonical, decode, identity, require, sha
 from offline_mlflow_projection import numeric
 from runtime_archive_reader import VerifiedArchive, read_archive
-from runtime_registry import registry_nodes
+from runtime_registry import execution_binding, registry_nodes
 
 SCHEMA = "normlab.runtime-mlflow-projection/v1"
 
@@ -37,17 +37,12 @@ def snapshot(directory):
 
 def project(archive):
     require(type(archive) is VerifiedArchive, "Verified runtime archive required")
-    require(archive.index["evidenceKind"] == "mock", "Mock-only MLflow consumer")
     projection = archive.projection
     manifest, capture = projection.manifest, projection.snapshot
     nodes = registry_nodes(projection)
     keys = {node["key"]: identity("runtime-mlflow", node["key"]) for node in nodes}
-    execution = {
-        "executionId": manifest["executionId"],
-        "planDigest": manifest["planDigest"],
-        "intentDigest": sha(capture.files["intent.json"]),
-        "scriptDigest": sha(capture.files["mock-script.json"]),
-    }
+    execution = execution_binding(projection)
+    evidence_kind = manifest["evidenceKind"]
     values = {
         "execution": execution,
         "capture": capture.manifest,
@@ -64,11 +59,13 @@ def project(archive):
     for node in nodes:
         kind = node["kind"]
         payload = {
-            "schema": SCHEMA,
+            "schema": SCHEMA
+            if evidence_kind == "mock"
+            else "normlab.runtime-mlflow-projection/v2",
             "kind": "runtime-" + kind,
             "binding": node,
             "evidence": values[kind],
-            "evidenceKind": "mock",
+            "evidenceKind": evidence_kind,
             "reference": None,
             "score": None,
             "actualCost": None,
@@ -91,7 +88,7 @@ def project(archive):
                 if kind == "projection"
                 else {},
                 "params": {
-                    "evidence_kind": "mock",
+                    "evidence_kind": evidence_kind,
                     "execution_ready": "false",
                     "semantic_quality_evidence": "false",
                     "execution_id": manifest["executionId"],

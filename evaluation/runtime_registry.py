@@ -17,17 +17,28 @@ NODE_FIELDS = "key kind parentKey bindingDigest"
 KINDS = {"execution", "capture", "projection", "prediction-seal"}
 
 
-def registry_nodes(projection):
-    require(
-        projection.manifest["evidenceKind"] == "mock", "Mock-only registry consumer"
-    )
+def execution_binding(projection):
     manifest, snapshot = projection.manifest, projection.snapshot
     execution = {
         "executionId": manifest["executionId"],
         "planDigest": manifest["planDigest"],
         "intentDigest": sha(snapshot.files["intent.json"]),
-        "scriptDigest": sha(snapshot.files["mock-script.json"]),
     }
+    if manifest["evidenceKind"] == "mock":
+        execution["scriptDigest"] = sha(snapshot.files["mock-script.json"])
+    else:
+        execution.update(
+            evidenceKind="live-capture",
+            codePins=snapshot.plan["pins"]["code"],
+            dependencyPins=snapshot.plan["pins"]["dependencies"],
+            adapterPins=[arm["adapter"] for arm in snapshot.plan["arms"]],
+        )
+    return execution
+
+
+def registry_nodes(projection):
+    manifest, snapshot = projection.manifest, projection.snapshot
+    execution = execution_binding(projection)
     parent = {
         "key": identity("execution-import", manifest["executionId"]),
         "kind": "execution",
@@ -120,6 +131,9 @@ def registry_dry_run(projection, receipts=None):
         "executionReady": False,
         "semanticQualityEvidence": False,
     }
+    if manifest["evidenceKind"] == "live-capture":
+        plan["schema"] = "normlab.runtime-registry-plan/v2"
+        plan["evidenceKind"] = "live-capture"
     plan["planId"] = identity(
         "registry-plan", {key: value for key, value in plan.items() if key != "planId"}
     )
@@ -128,6 +142,17 @@ def registry_dry_run(projection, receipts=None):
 
 
 def verify_registry_plan(root, plan, receipts=None):
-    expected = registry_dry_run(prepare_export(capture_runtime(root)), receipts)
+    kind = plan.get("evidenceKind", "mock")
+    require(
+        (plan.get("schema"), kind)
+        in {
+            ("normlab.runtime-registry-plan/v1", "mock"),
+            ("normlab.runtime-registry-plan/v2", "live-capture"),
+        },
+        "Registry plan schema/evidence kind",
+    )
+    expected = registry_dry_run(
+        prepare_export(capture_runtime(root, evidence_kind=kind)), receipts
+    )
     require(canonical(plan) == canonical(expected), "Runtime registry plan binding")
     return expected

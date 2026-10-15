@@ -12,7 +12,9 @@ def project_score(archive, saved):
     reference = view["reference"]
     arm_keys = {arm: "a-" + sha(arm.encode("utf-8")) for arm in view["arms"]}
     payload = {
-        "schema": "normlab.runtime-mlflow-score/v1",
+        "schema": "normlab.runtime-mlflow-score/v1"
+        if view["evidenceKind"] == "mock"
+        else "normlab.runtime-mlflow-score/v2",
         "kind": "runtime-score",
         "scoreId": view["scoreId"],
         "archiveId": view["archiveId"],
@@ -30,7 +32,7 @@ def project_score(archive, saved):
         "arms": view["arms"],
         "armMetricKeys": arm_keys,
         "navigation": {"score": "score.json", "archiveIndex": "archive/archive.json"},
-        "evidenceKind": "mock",
+        "evidenceKind": view["evidenceKind"],
         "actualCost": None,
         "criticalErrorFreeRate": None,
         "semanticQualityEvidence": False,
@@ -53,7 +55,7 @@ def project_score(archive, saved):
             ),
         },
         "params": {
-            "evidence_kind": "mock",
+            "evidence_kind": view["evidenceKind"],
             "execution_ready": "false",
             "semantic_quality_evidence": "false",
             "execution_id": view["executionId"],

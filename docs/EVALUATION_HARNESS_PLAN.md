@@ -49,7 +49,10 @@ operator-confirmation gate, native HTTP/normalization и fresh one-attempt kerne
 [Stage1 native schedule](STAGE1_NATIVE_SCHEDULE_V1.md) добавляет offline compiler
 с сохранением исходных запросов, fresh Linux intent binding и последовательный
 scheduler с общей квотой, bounded retries и остановкой при неизвестной резервации.
-Native resume, live archive/registry consumers и live smoke остаются впереди;
+Native [capture/archive/score/MLflow consumers](LIVE_RUNTIME_ARCHIVE_V2.md) сохраняют
+recorded live observations и отдельные mock schemas; portable read-only replay
+не требует совпадения Python reader runtime и не выдаёт execution authority.
+Native resume и live smoke остаются впереди;
 offline fixtures не доказывают live interoperability или качество моделей.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.

@@ -210,7 +210,16 @@ def prepare_export(snapshot):
 
 
 def verify_export_projection(root, manifest, artifacts):
-    expected = prepare_export(capture_runtime(root))
+    kind = manifest.get("evidenceKind")
+    require(
+        (manifest.get("schema"), kind)
+        in {
+            ("normlab.runtime-export-plan/v1", "mock"),
+            ("normlab.runtime-export-plan/v2", "live-capture"),
+        },
+        "Export plan schema/evidence kind",
+    )
+    expected = prepare_export(capture_runtime(root, evidence_kind=kind))
     require(
         canonical(manifest) == canonical(expected.manifest),
         "Runtime projection manifest binding",
