@@ -55,8 +55,13 @@ recorded live observations и отдельные mock schemas; portable read-onl
 [Native unknown stop](NATIVE_UNKNOWN_STOP_V1.md) добавляет первый reconciliation
 slice: явное stop-решение для paused unknown, immutable base archive и сохранение
 всех charges/unknowns без dispatch. Adoption отвергается без attempt-correlated
-receipt; safe suffix resume и resolution-aware consumers остаются следующими срезами.
-Native resume и live smoke остаются впереди;
+receipt; resolution-aware consumers остаются следующим срезом.
+
+Update 2026-10-16: [native safe suffix resume](NATIVE_SAFE_RESUME_V1.md) реализует
+новую head-bound invocation, проверку существующего local claim, исходных
+clock/deadline/permit/caps и continuation replay. Unknown reservations остаются
+блокирующими. Continuation-aware archive/score/import consumers — следующий срез.
+Continuation-aware consumers и live smoke остаются впереди;
 offline fixtures не доказывают live interoperability или качество моделей.
 
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
