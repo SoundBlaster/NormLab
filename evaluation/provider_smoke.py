@@ -7,7 +7,8 @@ import time
 from dataclasses import asdict
 from pathlib import Path
 
-from provider_config import FORMATS, PRESETS, build_provider, configuration, require
+from provider_config import require
+from provider_runtime import FORMATS, PRESETS, build_provider, configuration
 
 MAX_BYTES = 2 * 1024 * 1024
 
@@ -101,7 +102,7 @@ def run(config, data, output, max_calls, *, key_file=None, transport=None):
     import httpx2
 
     report = {
-        "schema": "normlab.provider-smoke/v1",
+        "schema": "normlab.provider-smoke/v2",
         "provider": config.public(),
         "dependencies": {},
         "mode": "live" if transport is None else "mock-transport",
@@ -206,7 +207,10 @@ def run(config, data, output, max_calls, *, key_file=None, transport=None):
                         question=question["instructions"],
                         criteria=question["criteria"],
                     )
-                    record.update(status="completed", result=asdict(result))
+                    record.update(
+                        status="completed",
+                        result=json.loads(json.dumps(asdict(result), allow_nan=False)),
+                    )
                 except Exception as exc:
                     record.update(
                         status="failed",

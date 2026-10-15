@@ -115,6 +115,28 @@ def probability(value):
     return value
 
 
+def valid_usage(value):
+    """Legacy token metadata plus the adapter's optional reported USD cost."""
+    if value is None:
+        return True
+    if not isinstance(value, dict):
+        return False
+    tokens = {"input_tokens", "output_tokens"}
+    if not tokens <= set(value) <= tokens | {"cost_usd"}:
+        return False
+    if not all(type(value[k]) is int and value[k] >= 0 for k in tokens):
+        return False
+    cost = value.get("cost_usd")
+    return (
+        cost is None
+        or type(cost) is int
+        and cost >= 0
+        or type(cost) is float
+        and math.isfinite(cost)
+        and cost >= 0
+    )
+
+
 def replay_verifier(manifest, raw, capture):
     validate_manifest(manifest)
     require(
@@ -234,10 +256,7 @@ def replay_verifier(manifest, raw, capture):
             "Returned model/request identity",
         )
         require(
-            usage is None
-            or isinstance(usage, dict)
-            and set(usage) == {"input_tokens", "output_tokens"}
-            and all(type(v) is int and v >= 0 for v in usage.values()),
+            valid_usage(usage),
             "Usage contract",
         )
         for name, question in manifest["questions"].items():

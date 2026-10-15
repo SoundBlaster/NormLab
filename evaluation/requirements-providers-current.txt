@@ -1,0 +1,8 @@
+# Current smoke/SDK integration; frozen Stage 1 uses requirements-providers.txt.
+# Python >=3.11; keep historical environments separate.
+mellea-jev-adapter[openai,mellea]==0.7.0
+mellea==0.8.0
+# Pin the SDK/transport revisions used by the offline compatibility check.
+typesafe-sdk==0.7.5
+openai==3.31.0
+httpx2==2.13.1

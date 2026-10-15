@@ -43,8 +43,16 @@ jobs:
           python-version: '3.13'
       - name: Install released adapter and offline test dependencies
         run: python -m pip install -r evaluation/requirements-provider-tests.txt
-      - name: Check copied ProxyAPI bridge without inference
-        run: python -m pytest evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_provider_smoke.py evaluation/test_retry_contracts_v2.py -q
+      - name: Verify installed dependency compatibility
+        run: python -m pip check
+      - name: Check current SDK, previous bridge/captures and Mellea hooks without inference
+        run: python -m pytest evaluation/test_provider_runtime.py evaluation/test_provider_smoke.py evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_adapter_compatibility.py -q
+      - name: Check frozen Stage 1 SDK contracts with a mock-only version-gate probe
+        run: >-
+          python evaluation/check_legacy_sdk_compatibility.py
+          --report "$RUNNER_TEMP/legacy-sdk-compatibility.json"
+          --temp-dir "$RUNNER_TEMP/legacy-sdk-compatibility-tests"
+          --cache-dir "$RUNNER_TEMP/legacy-sdk-compatibility-cache"
 
   stage1:
     name: Stage 1 dataset audit
