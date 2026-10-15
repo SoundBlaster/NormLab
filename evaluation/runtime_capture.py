@@ -1,4 +1,4 @@
-"""Read-only mock capture revisions, retaining exact validated source bytes."""
+"""Read-only capture revisions with explicit mock/native evidence boundaries."""
 
 import copy
 from types import MappingProxyType
@@ -22,7 +22,16 @@ class RuntimeSnapshot:
     """Private validated state; callers receive copies and immutable byte inventory."""
 
     def __init__(self, capture):
-        require(type(capture) is Capture, "Validated mock capture required")
+        if type(capture) is Capture:
+            evidence_kind = "mock"
+        else:
+            from runtime_live_capture import NativeCapture
+
+            require(
+                type(capture) is NativeCapture,
+                "Validated native or mock capture required",
+            )
+            evidence_kind = "live-capture"
         # v1 replay and v2 replay may use separate caches. Explicitly collect every
         # journal-referenced artifact, including earlier unknown observations.
         for event in capture.events:
@@ -43,7 +52,9 @@ class RuntimeSnapshot:
         ]
         binding = {"executionId": capture.intent["id"], "sources": sources}
         manifest = {
-            "schema": SCHEMA,
+            "schema": SCHEMA
+            if evidence_kind == "mock"
+            else "normlab.runtime-capture/v2",
             "executionId": capture.intent["id"],
             "captureRevisionId": identity("capture", binding),
             "planDigest": capture.intent["planDigest"],
@@ -52,12 +63,18 @@ class RuntimeSnapshot:
             "journalHead": capture.report["journalHead"],
             "state": capture.report["state"],
             "stopReason": capture.report["stopReason"],
-            "evidenceKind": "mock",
+            "evidenceKind": evidence_kind,
             "sourceFiles": sources,
             "inferenceCallsExecuted": 0,
             "executionReady": False,
             "semanticQualityEvidence": False,
         }
+        if evidence_kind == "live-capture":
+            manifest["recordedDependencies"] = capture.plan["pins"]["dependencies"]
+            manifest["recordedDispatches"] = {
+                "observed": capture.report["counts"]["observedDispatches"],
+                "unknown": capture.report["unknownDispatchAttempts"],
+            }
         raw = canonical(manifest)
         require(len(raw) <= MAX_BYTES, "Runtime manifest size cap")
         require(
@@ -98,15 +115,22 @@ class RuntimeSnapshot:
         return copy.deepcopy(self._report)
 
 
-def capture_runtime(root):
+def capture_runtime(root, *, evidence_kind="mock"):
     """Lock and validate once, then retain immutable source bytes in memory."""
     with reader_lock(root):
+        require(
+            evidence_kind in {"mock", "live-capture"}, "Explicit capture evidence kind"
+        )
+        if evidence_kind == "live-capture":
+            from runtime_live_capture import NativeCapture
+
+            return RuntimeSnapshot(NativeCapture(root))
         return RuntimeSnapshot(Capture(root))
 
 
-def verify_capture_manifest(root, manifest):
+def verify_capture_manifest(root, manifest, *, evidence_kind="mock"):
     """Compare with the current saved root, not with an untrusted supplied summary."""
-    snapshot = capture_runtime(root)
+    snapshot = capture_runtime(root, evidence_kind=evidence_kind)
     require(
         canonical(manifest) == canonical(snapshot.manifest),
         "Runtime capture manifest binding",

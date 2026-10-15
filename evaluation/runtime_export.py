@@ -84,6 +84,10 @@ class RuntimeExportProjection:
         require(
             type(snapshot) is RuntimeSnapshot, "Validated runtime snapshot required"
         )
+        require(
+            snapshot.manifest["evidenceKind"] == "mock",
+            "Mock projection requires mock capture",
+        )
         self._snapshot = snapshot
         blobs = {}
 
