@@ -3,6 +3,8 @@
 Issue: [#77](https://github.com/SoundBlaster/NormLab/issues/77).
 Source: [native boundary](NATIVE_LIVE_BOUNDARY_V1.md) and
 [Stage1 schedule](STAGE1_NATIVE_SCHEDULE_V1.md).
+Verification follows the [recorded user authorization](EVALUATION_VERIFICATION_AUTHORIZATION.md)
+from the ongoing conversation.
 
 ## Read-only native capture
 
