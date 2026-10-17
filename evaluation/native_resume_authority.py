@@ -16,13 +16,17 @@ def verify_claim(intent, output):
         not root.is_relative_to(target) and not target.is_relative_to(root),
         "Authority outside native execution tree",
     )
-    for path in (root, root / (intent["id"] + ".json")):
+    for path in (target, root, root / (intent["id"] + ".json")):
         info = path.lstat()
         require(
-            (stat.S_ISDIR(info.st_mode) if path == root else stat.S_ISREG(info.st_mode))
+            (
+                stat.S_ISDIR(info.st_mode)
+                if path in (target, root)
+                else stat.S_ISREG(info.st_mode)
+            )
             and info.st_uid == os.geteuid()
             and info.st_mode & 0o077 == 0,
-            "Existing regular owner-private native run claim",
+            "Owner-private execution directory, authority directory and regular claim",
         )
     require(
         bounded_read(root / (intent["id"] + ".json"), MAX_BYTES)

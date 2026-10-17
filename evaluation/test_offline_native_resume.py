@@ -1,5 +1,6 @@
 """Native resume uses synthetic clocks, local claims and fake HTTP only."""
 
+import ast
 import copy
 import json
 import os
@@ -8,6 +9,8 @@ import subprocess
 import sys
 from contextlib import ExitStack
 from datetime import timedelta
+from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import execution_live_kernel as kernel
@@ -20,7 +23,13 @@ from execution_live_wire import projection
 from execution_records import utc
 from execution_test_support import GUARD as READONLY_GUARD
 from execution_test_support import ROOT, ExecutionCase, canonical, sha
-from native_resume_capture import BASE, ResumeCapture, inspect_resume, prepare_resume
+from native_resume_capture import (
+    BASE,
+    ResumeCapture,
+    code_pins,
+    inspect_resume,
+    prepare_resume,
+)
 from native_resume_execution import resume_native
 from runtime_archive_reader import read_archive
 from test_offline_runtime_mlflow_cli import GUARD as SDK_GUARD
@@ -685,6 +694,102 @@ class NativeResumeTests(ExecutionCase):
         claim.chmod(0o644)
         with self.assertRaises(ValueError):
             self.apply(root, request, clock)
+        self.assertEqual(before, self.files(root))
+
+    def test_nonprivate_or_foreign_output_rejects_before_publication_and_dispatch(self):
+        root = self.source()
+        _, request, clock = self.proposal(root)
+        before = self.files(root)
+        original_mode = root.stat().st_mode & 0o777
+        for mode in (0o770, 0o777):
+            try:
+                root.chmod(mode)
+                with self.assertRaises(ValueError):
+                    self.apply(root, request, clock)
+                self.assertEqual(self.calls, [])
+                self.assertEqual(before, self.files(root))
+            finally:
+                root.chmod(original_mode)
+        original_lstat = Path.lstat
+
+        def foreign(path, *args, **kwargs):
+            info = original_lstat(path, *args, **kwargs)
+            if path == root:
+                return SimpleNamespace(st_mode=info.st_mode, st_uid=os.geteuid() + 1)
+            return info
+
+        # Simulate chown without privileged filesystem mutation.
+        with patch.object(Path, "lstat", foreign), self.assertRaises(ValueError):
+            self.apply(root, request, clock)
+        self.assertEqual(self.calls, [])
+        self.assertEqual(before, self.files(root))
+
+    def test_output_permissions_rechecked_immediately_before_dispatch(self):
+        root = self.source()
+        _, request, clock = self.proposal(root)
+        original_mode = root.stat().st_mode & 0o777
+
+        def expose(point):
+            if point == "before-dispatch":
+                root.chmod(0o777)
+
+        try:
+            with self.assertRaises(ValueError):
+                self.apply(root, request, clock, hook=expose)
+            self.assertEqual(self.calls, [])
+        finally:
+            root.chmod(original_mode)
+        report = inspect_resume(root)
+        self.assertEqual(report["counts"]["reserved"]["dispatches"], 2)
+        self.assertEqual(len(report["unknownAttemptIds"]), 1)
+
+    def test_pin_set_covers_local_import_closure_and_dependency_drift(self):
+        root = self.source()
+        _, request, clock = self.proposal(root)
+        self.apply(root, request, clock)
+        pins = code_pins()
+        folder = ROOT / "evaluation"
+        pending, seen = ["native_resume_cli"], set()
+        while pending:
+            name = pending.pop()
+            if name in seen:
+                continue
+            seen.add(name)
+            tree = ast.parse((folder / (name + ".py")).read_text())
+            for node in ast.walk(tree):
+                imports = (
+                    [node.module]
+                    if isinstance(node, ast.ImportFrom)
+                    else [alias.name for alias in node.names]
+                    if isinstance(node, ast.Import)
+                    else []
+                )
+                pending.extend(
+                    value
+                    for value in imports
+                    if value
+                    and (folder / (value + ".py")).is_file()
+                    and value not in seen
+                )
+        self.assertTrue({name + ".py" for name in seen} <= set(pins))
+        original_read = Path.read_bytes
+        before = self.files(root)
+        for name in pins:
+
+            def changed(path):
+                raw = original_read(path)
+                return (
+                    raw + b"\n# synthetic dependency drift\n"
+                    if path == folder / name
+                    else raw
+                )
+
+            with self.subTest(module=name), patch.object(Path, "read_bytes", changed):
+                altered = code_pins()
+                self.assertEqual(set(altered), set(pins))
+                self.assertNotEqual(altered[name], pins[name])
+                with self.guarded(), self.assertRaises(ValueError):
+                    inspect_resume(root)
         self.assertEqual(before, self.files(root))
 
     def test_rehashed_wrong_event_and_control_binding_cannot_inspect(self):

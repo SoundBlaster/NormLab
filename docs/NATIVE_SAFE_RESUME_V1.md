@@ -54,7 +54,10 @@ not claimed.
 ## Existing claim, lock and immutable base
 
 Resume verifies the original owner-private local claim's exact UUID, plan, permit
-and canonical output path. Missing, partial, permissive, symlinked or mismatched
+and canonical output path. The resolved output root itself must also be a directory
+owned by the current effective user with no group/other permission bits; this is
+rechecked at every current authority gate, including immediately before dispatch.
+Missing, partial, permissive, symlinked or mismatched
 claims reject. It never creates, deletes, renews or resets a claim. A copied/moved
 directory cannot consume the original output's claim. The existing exclusive
 writer lock serializes local invocations; shared reader locks block mutation.
@@ -80,7 +83,10 @@ invocation commits, its old request rejects even if nothing was dispatched.
 Inspect the committed state after missing acknowledgement; nothing auto-restarts.
 
 Original native producer modules and fixtures remain unchanged. Continuation has
-separate code pins; execution also requires original runtime/dependency pins.
+separate code pins covering the complete local import closure, native producer
+dependencies and archive reader/export logic. A changed dependency rejects an
+existing continuation; incomplete earlier preview pin sets are not migrated or
+accepted implicitly. Execution also requires original runtime/dependency pins.
 Offline inspection does not attest the recorded producer runtime. Existing native
 export/archive/score/import readers reject the new checkpoint. Continuation-aware
 consumers and unknown-stop application to resumed captures remain subsequent work.
@@ -152,3 +158,28 @@ runs exposed an unsupported metadata-read path, a missing import and a missing
 test fixture helper; these were corrected before the recorded final runs.
 No provider calls, real credential lookup, production registry writes or deployment
 were performed. GitHub CI/review are separate evidence tracked in the PR/ledger.
+
+## Review follow-up — 2026-10-18
+
+Both P2 findings in PR #135 were confirmed and corrected. Current authority gates
+now require the resolved output directory itself to be owned by the effective user
+and have no group/other permission bits. Regression cases reject group/world
+write permissions, a simulated foreign owner and permission changes immediately
+before dispatch; an existing reservation remains charged and unknown.
+
+Continuation pins now cover 54 local modules: the native archive producer set,
+archive reader/export functions and the complete statically discovered local import
+closure. A regression checks closure coverage and simulates byte drift of every
+pinned module, verifying changed hashes and read-only rejection of an existing
+checkpoint. Original native producer files and fixtures remain unchanged.
+
+| Check                                          | Result                |
+| ---------------------------------------------- | --------------------- |
+| Focused SDK-free scenarios, Python 3.14.8      | 27 passed, 18.923 s   |
+| Focused SDK-free scenarios, Python 3.10.19     | 27 passed, 22.093 s   |
+| Complete SDK-free offline suite, Python 3.14.8 | 329 passed, 175.941 s |
+
+Ruff lint/format (169 Python files), Prettier, documentation links/digest example
+syntax and staged whitespace checks passed. Verification used TB5 per-checkout
+cache/temp/log paths; no provider requests or real credentials were used.
+Current-head CI/review remain separately tracked in PR #135 and Issue #77.

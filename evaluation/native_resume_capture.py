@@ -27,6 +27,7 @@ from execution_records import (
     utc,
 )
 from offline_bundle import MAX_BYTES, canonical, object_keys, require, sha
+from runtime_archive_format import pin_modules
 from runtime_archive_reader import read_archive
 from runtime_capture import RuntimeSnapshot
 from runtime_live_capture import NativeCapture
@@ -41,11 +42,36 @@ MODULES = (
     "native_resume_execution.py",
     "native_resume_cli.py",
     "native_stop_resolution.py",
+    # Transitive local dependencies of the frozen native Stage1/compiler imports.
+    "anchor.py",
+    "classification_v3.py",
+    "mellea_candidate.py",
+    "offline_contract.py",
+    "offline_score_contract.py",
+    "offline_stage1.py",
+    "offline_stage1_reference.py",
+    "offline_stage1_scoring.py",
+    "offline_stage1_source.py",
+    "offline_task_contract.py",
+    "proxyapi_config.py",
+    "score_stage1_providers.py",
+    "score_stage1_retries_v2.py",
+    "stage1_provider_executor.py",
+    "stage1_provider_wire.py",
+    "stage1_retry_executor_v2.py",
+    "stage1_wire_v2.py",
+    "verifier_capture.py",
 )
 
 
 def code_pins():
-    return {name: sha(Path(__file__).with_name(name).read_bytes()) for name in MODULES}
+    modules = (
+        *MODULES,
+        "runtime_archive_reader.py",
+        "runtime_archive_export.py",
+        *(name + ".py" for name in pin_modules("live-capture")),
+    )
+    return {name: sha(Path(__file__).with_name(name).read_bytes()) for name in modules}
 
 
 def cursor(report):
