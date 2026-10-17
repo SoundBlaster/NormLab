@@ -46,7 +46,7 @@
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "oxlint": "^1.87.0",
-    "oxlint-tsgolint": "^7.0.2003",
+    "oxlint-tsgolint": "^7.0.2004",
     "prettier": "3.9.9",
     "steiger": "0.7.0",
     "tsx": "^4.20.0",
