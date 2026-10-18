@@ -1,5 +1,9 @@
 # Native live evidence consumers
 
+Update 2026-10-18: [continuation consumers v3](CONTINUATION_CONSUMERS_V3.md)
+add a separate source/archive adapter for resumed captures. This document describes
+the original fresh-native v2 contract; its frozen readers still reject continuation.
+
 Issue: [#77](https://github.com/SoundBlaster/NormLab/issues/77).
 Source: [native boundary](NATIVE_LIVE_BOUNDARY_V1.md) and
 [Stage1 schedule](STAGE1_NATIVE_SCHEDULE_V1.md).

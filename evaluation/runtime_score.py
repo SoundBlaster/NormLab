@@ -4,7 +4,7 @@ from pathlib import Path
 
 from execution_outcomes import answer_schema
 from offline_bundle import MAX_BYTES, canonical, decode, identity, require, sha
-from runtime_archive_reader import VerifiedArchive
+from runtime_consumer import verified_archive, version
 from runtime_reference import RuntimeReference, reference
 
 POLICY = {
@@ -64,7 +64,7 @@ def summary(rows):
 
 def score(archive, selected):
     require(
-        type(archive) is VerifiedArchive and type(selected) is RuntimeReference,
+        verified_archive(archive) and type(selected) is RuntimeReference,
         "Verified archive/reference required",
     )
     inputs = selected.inputs
@@ -132,9 +132,7 @@ def score(archive, selected):
             }
         )
     result = {
-        "schema": "normlab.runtime-score-view/v1"
-        if archive.index["evidenceKind"] == "mock"
-        else "normlab.runtime-score-view/v2",
+        "schema": "normlab.runtime-score-view/v" + str(version(archive)),
         "scoreId": None,
         "archiveId": archive.index["archiveId"],
         "executionId": archive.index["executionId"],

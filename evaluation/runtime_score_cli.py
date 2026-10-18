@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 
 from offline_bundle import canonical, decode, read
-from runtime_archive_reader import read_archive
+from runtime_consumer import read_archive
 from runtime_reference import reference
 from runtime_score import score, verify_score
 

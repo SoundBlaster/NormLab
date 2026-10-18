@@ -26,12 +26,30 @@ def main():
     verify.add_argument("directory", type=Path)
     verify.add_argument("manifest", type=Path)
     for command in (snapshot, project, registry, verify):
+        command.add_argument("--native-continuation", action="store_true")
         command.add_argument(
             "--evidence-kind", choices=("mock", "live-capture"), default="mock"
         )
     args = parser.parse_args()
     try:
-        if args.command == "verify":
+        if args.native_continuation:
+            from offline_bundle import require
+            from runtime_resume_capture import ResumeExportProjection, capture_resume
+
+            require(
+                args.evidence_kind == "live-capture",
+                "Explicit live continuation evidence",
+            )
+            snapshot = capture_resume(args.directory)
+            if args.command == "verify":
+                require(
+                    canonical(snapshot.manifest)
+                    == canonical(
+                        Store.decode_json(bounded_read(args.manifest, MAX_BYTES))
+                    ),
+                    "Continuation capture manifest binding",
+                )
+        elif args.command == "verify":
             snapshot = verify_capture_manifest(
                 args.directory,
                 Store.decode_json(bounded_read(args.manifest, MAX_BYTES)),
@@ -45,10 +63,23 @@ def main():
                 if args.receipts
                 else None
             )
-            result = registry_dry_run(prepare_export(snapshot), receipts)
+            result = registry_dry_run(
+                ResumeExportProjection(snapshot)
+                if args.native_continuation
+                else prepare_export(snapshot),
+                receipts,
+            )
             print(canonical(result).decode())
         else:
-            result = prepare_export(snapshot) if args.command == "project" else snapshot
+            result = (
+                (
+                    ResumeExportProjection(snapshot)
+                    if args.native_continuation
+                    else prepare_export(snapshot)
+                )
+                if args.command == "project"
+                else snapshot
+            )
             print(canonical(result.manifest).decode())
         return 0
     except Exception as error:

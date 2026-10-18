@@ -12,6 +12,7 @@ from offline_bundle import (
 )
 from runtime_capture import capture_runtime
 from runtime_export import RuntimeExportProjection, prepare_export
+from runtime_resume_capture import ResumeExportProjection, capture_resume
 
 NODE_FIELDS = "key kind parentKey bindingDigest"
 KINDS = {"execution", "capture", "projection", "prediction-seal"}
@@ -101,7 +102,7 @@ def reconcile(nodes, receipts):
 
 def registry_dry_run(projection, receipts=None):
     require(
-        type(projection) is RuntimeExportProjection,
+        type(projection) in (RuntimeExportProjection, ResumeExportProjection),
         "Verified runtime projection required",
     )
     receipts = [] if receipts is None else receipts
@@ -134,6 +135,9 @@ def registry_dry_run(projection, receipts=None):
     if manifest["evidenceKind"] == "live-capture":
         plan["schema"] = "normlab.runtime-registry-plan/v2"
         plan["evidenceKind"] = "live-capture"
+    if type(projection) is ResumeExportProjection:
+        plan["schema"] = "normlab.runtime-registry-plan/v3"
+        plan["sourceFormat"] = manifest["sourceFormat"]
     plan["planId"] = identity(
         "registry-plan", {key: value for key, value in plan.items() if key != "planId"}
     )
@@ -148,11 +152,15 @@ def verify_registry_plan(root, plan, receipts=None):
         in {
             ("normlab.runtime-registry-plan/v1", "mock"),
             ("normlab.runtime-registry-plan/v2", "live-capture"),
+            ("normlab.runtime-registry-plan/v3", "live-capture"),
         },
         "Registry plan schema/evidence kind",
     )
-    expected = registry_dry_run(
-        prepare_export(capture_runtime(root, evidence_kind=kind)), receipts
+    projection = (
+        ResumeExportProjection(capture_resume(root))
+        if plan["schema"] == "normlab.runtime-registry-plan/v3"
+        else prepare_export(capture_runtime(root, evidence_kind=kind))
     )
+    expected = registry_dry_run(projection, receipts)
     require(canonical(plan) == canonical(expected), "Runtime registry plan binding")
     return expected

@@ -58,6 +58,16 @@ existing SDK-free offline regression. It makes no real provider calls. See
 [native resume contract](NATIVE_SAFE_RESUME_V1.md) and Issue #77's pre-implementation
 acceptance entry.
 
+## Continuation consumers verification
+
+Recorded: 2026-10-18 (Europe/Moscow), same conversation. After the native safe
+resume PR was merged and continuation archive/scorer/MLflow integration proposed,
+the user requested «Ок, подключай». The standing explicit testing/checking requests
+above cover focused/full SDK-free consumer checks and pinned local-only
+MLflow/SQLite integration with network denied and temporary storage. See
+[consumer contract](CONTINUATION_CONSUMERS_V3.md) and the pre-implementation
+acceptance entry in Issue #77. This does not authorize production registry writes.
+
 This record does not authorize paid inference, provider-key retrieval, deployment,
 production registry writes or merge. Those actions need their applicable user
 authorization. It is evidence for this conversation's current workflow, not a

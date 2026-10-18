@@ -5,6 +5,7 @@ import json
 import sys
 from pathlib import Path
 
+from runtime_consumer import version
 from runtime_mlflow_projection import project, snapshot
 
 
@@ -30,7 +31,9 @@ def run(directory, storage, *, dry_run=False, score_path=None):
             "executionReady": False,
         }
         if archive.index["evidenceKind"] == "live-capture":
-            result["schema"] = "normlab.runtime-mlflow-import-result/v2"
+            result["schema"] = "normlab.runtime-mlflow-import-result/v" + str(
+                version(archive)
+            )
             result["evidenceKind"] = "live-capture"
         if dry_run:
             return {**result, "records": records, "registryWritesExecuted": 0}

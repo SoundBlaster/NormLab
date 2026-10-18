@@ -319,13 +319,13 @@ class Registry:
                     relative = source.relative_to(payload)
                     if archive_payload and relative.parts[0] == "archive":
                         from execution_checkpoint import bounded_read
-                        from runtime_archive_format import file_limit
+                        from runtime_consumer import archive_file_limit
 
                         name = str(relative.relative_to("archive"))
                         limit = (
                             len(archive_payload[name])
                             if name in {"archive.json", ".writer.lock"}
-                            else file_limit(name)
+                            else archive_file_limit(runtime_archive, name)
                         )
                         content_matches = (
                             target.is_file()
