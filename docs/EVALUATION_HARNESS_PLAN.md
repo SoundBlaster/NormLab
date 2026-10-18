@@ -68,6 +68,11 @@ resume-pinned modules сохранены. Stop-control consumers/adoption и liv
 остаются впереди;
 offline fixtures не доказывают live interoperability или качество моделей.
 
+Update 2026-10-18: [resumed unknown-stop](RESUMED_UNKNOWN_STOP_V1.md) добавляет
+отдельное stop-решение после resume и immutable pre-stop v3 base, сохраняя unknown
+charges и все57 frozen v3 producer files. Final stop-control consumers остаются
+следующим versioned срезом; применение stop не разрешает redispatch/adoption.
+
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
 Успех инфраструктуры: новый совместимый provider/model задаётся конфигурацией и проходит contract smoke; существующая матрица запускается без новых ad-hoc скриптов. Изменения wire contract, prompts или schema требуют новой версии адаптера/стратегии и явно помеченного comparison. Это не обещание автоматической совместимости с будущими API.
