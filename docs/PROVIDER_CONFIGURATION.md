@@ -133,12 +133,13 @@ not make old captures/permits valid under a new execution runtime.
 See the [0.8.0 upgrade report](JEV_ADAPTER_0_8_UPGRADE_2026-10-18.md).
 The [0.7.0 compatibility report](JEV_ADAPTER_0_7_UPGRADE_2026-10-15.md) remains historical evidence.
 
-The 0.8.0 SDK additionally exports categorical tasks/results and
-`ResponsesChoiceProvider`. The current smoke factory/CLI still exposes only
-TypeSafe SystemOne and OpenAI Decisions primitives. Upgrading the dependency
-does not route ordinary Responses through this factory or migrate frozen native
-Stage1 execution. A categorical integration requires a separate explicit task
-contract; no label-only response is converted into probability-based evidence.
+The 0.8.0 SDK's `ResponsesChoiceProvider` is connected through the separate
+[`responses_smoke.py` entry point](CATEGORICAL_RESPONSES_INTEGRATION.md) for
+ordinary Luna and configurable Responses endpoints. It accepts unchanged Choice
+tasks with explicit independent/batch dispatch and label-only result metadata.
+The native `provider_smoke.py` CLI still exposes TypeSafe SystemOne and OpenAI
+Decisions primitives. Neither path migrates frozen native Stage1 execution or
+converts label-only responses into probability-based evidence.
 
 The copied ProxyAPI bridge remains: besides routing it normalizes a body response
 ID into the TypeSafe request-ID header. A generic System One endpoint setting
