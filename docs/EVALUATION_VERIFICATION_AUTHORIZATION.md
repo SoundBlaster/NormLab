@@ -73,3 +73,15 @@ production registry writes or merge. Those actions need their applicable user
 authorization. It is evidence for this conversation's current workflow, not a
 standalone grant for unrelated tasks or future sessions. AGENTS.md's rule against
 unsolicited tests remains in effect.
+
+## Resumed unknown-stop verification
+
+Recorded: 2026-10-18 (Europe/Moscow), same conversation. After checking the
+continuation consumer PR, the user requested «слей и делай далее задачи».
+The standing explicit testing/checking requests above cover the selected next
+bounded stop-control slice: focused/full SDK-free scenarios with synthetic
+original/resumed captures, fake HTTP/clocks, guards, preservation of unknown
+charges, locking, expiry/integrity checks, publication faults and process exits.
+See [contract](RESUMED_UNKNOWN_STOP_V1.md) and the pre-implementation acceptance
+entry in Issue #77. No provider calls, key retrieval or production writes are
+included in these tests.
