@@ -1,4 +1,4 @@
-"""Choice task + explicit policy through direct evaluate(). Dry-run by default."""
+"""Choice task + explicit policy; ordinary Luna Low, live execution opt-in."""
 
 import argparse
 import json
@@ -20,7 +20,11 @@ def main():
     parser.add_argument("input", type=Path)
     parser.add_argument("--policy", type=Path, required=True)
     source = parser.add_mutually_exclusive_group()
-    source.add_argument("--provider", choices=(*NATIVE_PRESETS, *RESPONSES_PRESETS))
+    source.add_argument(
+        "--provider",
+        choices=(*NATIVE_PRESETS, *RESPONSES_PRESETS),
+        help="Default: coreinfra-responses (ordinary Luna Low). Native routes are opt-in.",
+    )
     source.add_argument("--config", type=Path)
     parser.add_argument("--endpoint-url")
     parser.add_argument("--model")
@@ -45,7 +49,7 @@ def main():
             args.config is None or isinstance(document, dict),
             "Public config object required",
         )
-        preset = args.provider or "coreinfra-jev"
+        preset = args.provider or "coreinfra-responses"
         responses = (
             (
                 isinstance(document, dict)
@@ -73,7 +77,9 @@ def main():
                 args.reasoning_effort is None and args.max_output_tokens is None,
                 "Generation settings require Responses",
             )
-            config = native_configuration(preset, **options)
+            config = native_configuration(
+                preset if preset in NATIVE_PRESETS else "coreinfra-jev", **options
+            )
         data = validate_task(read_json(args.input))
         policy = validate_policy(data, read_json(args.policy))
         validate_tactic(config, data, args.tactic)

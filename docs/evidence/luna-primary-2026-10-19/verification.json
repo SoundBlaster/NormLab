@@ -1,0 +1,184 @@
+{
+  "schema": "normlab.primary-verifier-routing-verification/v1",
+  "dateMoscow": "2026-10-19",
+  "scope": "Default current categorical route and preserved opt-in providers; not semantic quality",
+  "primary": "coreinfra-responses",
+  "requestedModel": "gpt-6-luna",
+  "reasoningEffort": "low",
+  "inferenceCalls": 0,
+  "credentialAccess": false,
+  "focusedOfflineTests": {
+    "passed": 112,
+    "seconds": 2.41,
+    "modules": [
+      "test_categorical_runtime.py",
+      "test_responses_runtime.py",
+      "test_provider_runtime.py",
+      "test_provider_smoke.py"
+    ],
+    "realCredentialVariablesRemoved": true,
+    "networkAndDefaultTransportsDeniedByFixtures": true,
+    "syntheticHttpOnly": true
+  },
+  "sourceBindings": {
+    "evaluation/categorical_smoke.py": "a4236dd8f7c36c2b611f9cb835c4a16c750e60a4c5f42ee21c8ab2180842d7a6",
+    "evaluation/test_categorical_runtime.py": "ef1b91df75777ea7ad484fd0df2f6f16c6e7dabce9eb68322642ac3eef38bbb2",
+    "server/inference-config.ts": "317b75a8193c57290cc40eee2ec0c40db11e1b8af0eea2441e0cf36b6e2dd12b",
+    "server/inference-providers.ts": "99935217261375c42e044c1a2cc707969ed4746e5b209aa5f9b5aeeca50b71da"
+  },
+  "defaultDryRuns": [
+    {
+      "controlId": "T01",
+      "taskSha256": "9f5d8dc6e2e5da8cb67bfe099e2ad87b5127ae313470898b43191106e6385462",
+      "plan": {
+        "schema": "normlab.categorical-evaluation-plan/v1",
+        "mode": "dry-run",
+        "provider": {
+          "schema": "normlab.responses-config/v1",
+          "adapter_version": "0.9.0",
+          "id": "coreinfra-responses",
+          "api_format": "openai-responses",
+          "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/responses",
+          "model": "gpt-6-luna",
+          "key_env": "COREINFRA_API_KEY",
+          "timeout": 10.0,
+          "reasoning_effort": "low",
+          "max_output_tokens": 1024
+        },
+        "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8",
+        "questionOrder": ["overall"],
+        "policy": {
+          "schema": "normlab.categorical-policy/v1",
+          "questions": {
+            "overall": {
+              "compatible": "accept",
+              "incompatible": "reject",
+              "indeterminate": "review"
+            }
+          }
+        },
+        "evaluationMethod": "CategoricalRequirement.evaluate",
+        "tactic": "independent",
+        "calls": 0,
+        "plannedCalls": 1,
+        "maxCalls": 1
+      }
+    },
+    {
+      "controlId": "T02",
+      "taskSha256": "dcdb993c47b80e2642d64aa823b2bd0d244f4fe577e97df07d8f1372849fc03a",
+      "plan": {
+        "schema": "normlab.categorical-evaluation-plan/v1",
+        "mode": "dry-run",
+        "provider": {
+          "schema": "normlab.responses-config/v1",
+          "adapter_version": "0.9.0",
+          "id": "coreinfra-responses",
+          "api_format": "openai-responses",
+          "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/responses",
+          "model": "gpt-6-luna",
+          "key_env": "COREINFRA_API_KEY",
+          "timeout": 10.0,
+          "reasoning_effort": "low",
+          "max_output_tokens": 1024
+        },
+        "semanticTaskDigest": "ddf28672d2ed7ba978b8aef09c8342e0930933ff0ac48bfa29419efc89a388de",
+        "questionOrder": ["overall"],
+        "policy": {
+          "schema": "normlab.categorical-policy/v1",
+          "questions": {
+            "overall": {
+              "compatible": "accept",
+              "incompatible": "reject",
+              "indeterminate": "review"
+            }
+          }
+        },
+        "evaluationMethod": "CategoricalRequirement.evaluate",
+        "tactic": "independent",
+        "calls": 0,
+        "plannedCalls": 1,
+        "maxCalls": 1
+      }
+    },
+    {
+      "controlId": "T03",
+      "taskSha256": "d0665ce392b56a5845e95740fb64fb5f57e72846795e2b9b222b43f60944b1a4",
+      "plan": {
+        "schema": "normlab.categorical-evaluation-plan/v1",
+        "mode": "dry-run",
+        "provider": {
+          "schema": "normlab.responses-config/v1",
+          "adapter_version": "0.9.0",
+          "id": "coreinfra-responses",
+          "api_format": "openai-responses",
+          "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/responses",
+          "model": "gpt-6-luna",
+          "key_env": "COREINFRA_API_KEY",
+          "timeout": 10.0,
+          "reasoning_effort": "low",
+          "max_output_tokens": 1024
+        },
+        "semanticTaskDigest": "ccd321b4626ada1d1b6c962cc270226a998997a6742574cde289b9c8e8ae2e09",
+        "questionOrder": ["overall"],
+        "policy": {
+          "schema": "normlab.categorical-policy/v1",
+          "questions": {
+            "overall": {
+              "compatible": "accept",
+              "incompatible": "reject",
+              "indeterminate": "review"
+            }
+          }
+        },
+        "evaluationMethod": "CategoricalRequirement.evaluate",
+        "tactic": "independent",
+        "calls": 0,
+        "plannedCalls": 1,
+        "maxCalls": 1
+      }
+    },
+    {
+      "controlId": "T04",
+      "taskSha256": "0bdb002c11de9c9215fadc7363f8b3cd6469bfaa0b525be7ac6a1d7794c197e9",
+      "plan": {
+        "schema": "normlab.categorical-evaluation-plan/v1",
+        "mode": "dry-run",
+        "provider": {
+          "schema": "normlab.responses-config/v1",
+          "adapter_version": "0.9.0",
+          "id": "coreinfra-responses",
+          "api_format": "openai-responses",
+          "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/responses",
+          "model": "gpt-6-luna",
+          "key_env": "COREINFRA_API_KEY",
+          "timeout": 10.0,
+          "reasoning_effort": "low",
+          "max_output_tokens": 1024
+        },
+        "semanticTaskDigest": "14ec018001f8a6d95d80c1076dbb56185824f64aa5c8d2749adba69c853d126f",
+        "questionOrder": ["overall"],
+        "policy": {
+          "schema": "normlab.categorical-policy/v1",
+          "questions": {
+            "overall": {
+              "compatible": "accept",
+              "incompatible": "reject",
+              "indeterminate": "review"
+            }
+          }
+        },
+        "evaluationMethod": "CategoricalRequirement.evaluate",
+        "tactic": "independent",
+        "calls": 0,
+        "plannedCalls": 1,
+        "maxCalls": 1
+      }
+    }
+  ],
+  "explicitConfigsPreserved": ["coreinfra-jev", "coreinfra-decisions", "coreinfra-responses"],
+  "hostedDefault": "Already ordinary Responses; static source inspection, no hosted code change/deployment",
+  "populationAccuracy": null,
+  "liveDevelopmentQualityEvaluated": false,
+  "finalPipelineFrozen": false
+}

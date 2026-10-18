@@ -61,9 +61,19 @@ This is not a judgment about a fine or an independent human-gold annotation.
 
 ## SDK-free dry-run
 
+As of 2026-10-19, the default current categorical route is **ordinary Luna Low
+through CoreInfra Responses**. Native Jev and Decisions require an explicit
+provider or config. This is a provisional engineering choice; see
+[primary verifier](PRIMARY_VERIFIER.md) for evidence and remaining quality gates.
+
 From the repository root:
 
 ```bash
+# Primary route: ordinary Luna Low, no provider flag needed.
+python3 -B -S evaluation/categorical_smoke.py fixtures/providers/stage1-choice.json \
+  --policy fixtures/providers/choice-policy.json --max-calls 1
+
+# Explicit experimental native routes.
 python3 -B -S evaluation/categorical_smoke.py fixtures/providers/stage1-choice.json \
   --provider coreinfra-jev --policy fixtures/providers/choice-policy.json --max-calls 1
 
@@ -95,7 +105,7 @@ After separately authorizing input, provider and spending:
 
 ```bash
 "$PROVIDER_ENV/bin/python" evaluation/categorical_smoke.py \
-  fixtures/providers/stage1-choice.json --provider coreinfra-jev \
+  fixtures/providers/stage1-choice.json \
   --policy fixtures/providers/choice-policy.json --max-calls 1 \
   --live --output /absolute/private/new-categorical-capture
 ```
@@ -129,15 +139,15 @@ HTTP status, reserved calls and timings.
 
 Each completed result includes:
 
-| Field | Meaning |
-| --- | --- |
-| `answers` | Actual category labels for the unchanged task |
-| `decision.outcome` | Caller policy: accept, reject or review |
-| `decision.reason` | Identifies the explicit label policy; not an LLM rationale |
-| `decision.score` | Null; this consumer policy selects no numerical score |
-| `questionDecisions` | Label-policy outcome for every question |
-| `native_results` | Original normalized Choice evidence, or null for Responses |
-| Model / request ID / usage | Actual available SDK metadata; missing stays null |
+| Field                      | Meaning                                                    |
+| -------------------------- | ---------------------------------------------------------- |
+| `answers`                  | Actual category labels for the unchanged task              |
+| `decision.outcome`         | Caller policy: accept, reject or review                    |
+| `decision.reason`          | Identifies the explicit label policy; not an LLM rationale |
+| `decision.score`           | Null; this consumer policy selects no numerical score      |
+| `questionDecisions`        | Label-policy outcome for every question                    |
+| `native_results`           | Original normalized Choice evidence, or null for Responses |
+| Model / request ID / usage | Actual available SDK metadata; missing stays null          |
 
 For native models, `native_results` retains selected label, native confidence,
 distribution, model, request ID and usage without conflating confidence with

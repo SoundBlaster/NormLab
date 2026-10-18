@@ -148,6 +148,11 @@ alone does not reproduce that compatibility layer.
 
 ## Direct categorical evaluation
 
+The primary current categorical CLI route is ordinary **CoreInfra Luna Low
+Responses**; Jev and Decisions remain explicit experimental selections. See
+[primary verifier and operator profile](PRIMARY_VERIFIER.md). An explicit
+`--config` continues to select its own API family, endpoint and model.
+
 `evaluation/categorical_smoke.py` connects native TypeSafe/OpenAI Choice and
 ordinary Responses through the released 0.9.0 `CategoricalRequirement.evaluate()`
 bridge. An explicit caller policy maps every category to accept/reject/review;
