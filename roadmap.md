@@ -289,6 +289,11 @@ quality evaluation. Further Jev causal experiments are deferred; see
 [evidence synthesis #70](https://github.com/SoundBlaster/NormLab/issues/70) and
 [Jev investigation #145](https://github.com/SoundBlaster/NormLab/issues/145).
 
+Prepared next: [10 existing development narratives and correction protocol](fixtures/parking-pilot/luna-development-pilot-v1/README.md),
+tracked in [#79](https://github.com/SoundBlaster/NormLab/issues/79). The packet has
+candidate full-output readings and empty before/after worksheets; no new inference
+or observed quality/correction result is implied.
+
 [Утверждённый план](docs/MELLEA_EVALUATION_PLAN.md): три matched arms, сначала classification на одинаковом discovery, затем полный pipeline. Одна repair-попытка; фабула неизменна, подтверждения остаются ручными.
 
 - [x] Зафиксировать цель, arms, бюджет и границы доказательств.
