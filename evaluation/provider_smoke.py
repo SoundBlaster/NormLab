@@ -32,6 +32,7 @@ def run(
     transport=None,
     categorical=False,
     tactic="independent",
+    policy=None,
 ):
     """Native primitives are independent; categorical batching is explicit."""
     payload(data)
@@ -52,6 +53,15 @@ def run(
         factory = responses_factory
         if tactic == "batch":
             groups = {"batch": data["questions"]}
+    require(policy is None or categorical, "Policy requires categorical evaluation")
+    if policy is not None:
+        from categorical_runtime import build_provider as categorical_factory
+        from categorical_runtime import validate_policy, validate_tactic
+
+        validate_policy(data, policy)
+        validate_tactic(config, data, tactic)
+        policy = json.loads(json.dumps(policy, ensure_ascii=False, allow_nan=False))
+        factory = categorical_factory
     require(
         type(max_calls) is int and len(groups) <= max_calls <= 3,
         "Explicit call cap must cover questions and be at most three",
@@ -80,6 +90,12 @@ def run(
             tactic=tactic,
             semanticTaskDigest=task_digest(data),
             questionOrder=list(data["questions"]),
+        )
+    if policy is not None:
+        report.update(
+            schema="normlab.categorical-evaluation-smoke/v1",
+            evaluationMethod="CategoricalRequirement.evaluate",
+            policy=policy,
         )
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
 
@@ -171,7 +187,23 @@ def run(
 
                         group = {"state": data["state"], "questions": questions}
                         record["semanticTaskDigest"] = task_digest(group)
-                        result = result_document(provider.classify(task(group)))
+                        if policy is None:
+                            result = result_document(provider.classify(task(group)))
+                        else:
+                            from categorical_runtime import (
+                                evaluate,
+                                evaluation_document,
+                            )
+
+                            group_policy = {
+                                "schema": policy["schema"],
+                                "questions": {
+                                    key: policy["questions"][key] for key in questions
+                                },
+                            }
+                            result = evaluation_document(
+                                evaluate(provider, group, group_policy), group_policy
+                            )
                     else:
                         question = questions[name]
                         result = asdict(

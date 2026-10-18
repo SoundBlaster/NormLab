@@ -99,7 +99,8 @@ def test_probe_only_accepts_exact_planned_and_recorded_adapter_versions(message)
         ({}, False),
         ({"mellea-jev-adapter": "0.4.0"}, False),
         ({"mellea-jev-adapter": "0.7.0"}, False),
-        ({"mellea-jev-adapter": "0.8.0"}, True),
+        ({"mellea-jev-adapter": "0.8.0"}, False),
+        ({"mellea-jev-adapter": "0.9.0"}, True),
     ):
         values = {
             "plan": {"adapterVersion": "0.4.0"},
