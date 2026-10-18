@@ -1,0 +1,72 @@
+{
+  "schema": "normlab.one-off-hosted-replay/v1",
+  "status": "pass",
+  "liveCalls": 0,
+  "network": "global fetch forbidden; injected transport returns archived bytes only",
+  "replayRequests": 20,
+  "compared": "all result fields including calls/decisions/fragments; exclude only new statement UUIDs and latencyMs",
+  "quoteAnchors": 53,
+  "fragments": 22,
+  "records": [
+    {
+      "id": "DEV001",
+      "status": "replay-equal",
+      "statements": 4,
+      "fragments": 2
+    },
+    {
+      "id": "DEV002",
+      "status": "replay-equal",
+      "statements": 4,
+      "fragments": 2
+    },
+    {
+      "id": "DEV003",
+      "status": "replay-equal",
+      "statements": 4,
+      "fragments": 2
+    },
+    {
+      "id": "DEV006",
+      "status": "replay-equal",
+      "statements": 6,
+      "fragments": 2
+    },
+    {
+      "id": "DEV013",
+      "status": "replay-equal",
+      "statements": 6,
+      "fragments": 2
+    },
+    {
+      "id": "DEV017",
+      "status": "replay-equal",
+      "statements": 4,
+      "fragments": 2
+    },
+    {
+      "id": "DEV027",
+      "status": "replay-equal",
+      "statements": 10,
+      "fragments": 3
+    },
+    {
+      "id": "DEV028",
+      "status": "replay-equal",
+      "statements": 5,
+      "fragments": 3
+    },
+    {
+      "id": "DEV032",
+      "status": "replay-equal",
+      "statements": 5,
+      "fragments": 1
+    },
+    {
+      "id": "DEV044",
+      "status": "replay-equal",
+      "statements": 5,
+      "fragments": 3
+    }
+  ]
+}

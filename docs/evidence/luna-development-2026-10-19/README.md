@@ -54,3 +54,25 @@ including discarded fragments, before reporting candidate extraction results.
 Track clarification/scope contract limitations separately; a claim extraction
 pass cannot imply full assisted-task completion. Human correction and its timing
 require a later observed session.
+
+## Execution completed
+
+Execution commit `5d35e47`: ten cases completed, 20/20 HTTP 200 attempts, no
+retries/repair/judge, 70,035 ms, 16,382 input / 4,876 output tokens. No unknown
+usage; cost remains unknown. [Full report](../../LUNA_DEVELOPMENT_PILOT_2026-10-19.md)
+records every case and its expected/actual response characteristics.
+
+[evidence.zip](evidence.zip) contains 95 manifest-bound payloads: all requests,
+raw response bytes, immutable hosted results, original source snapshots and
+candidate review. It does not distribute the bundled runtime or dependencies.
+[verification.json](verification.json) records ZIP membership/CRC/hash and
+credential checks; [replay.json](replay.json) records exact processing replay of
+all ten cases with real network disabled. Only new UUIDs/latency are excluded
+from comparison. Failure/cancellation/multi-batch branches were not live-exercised.
+
+Whole-output candidate review: four provisional passes, three candidate critical
+findings, three unresolved representation decisions. No overall quality rate,
+human gold, observed correction timing or full assisted-task pass is claimed.
+Review findings distinguish narrowed/broadened meaning and typed episode/subject
+bindings from context that still survives in quotes. Human correction sessions
+remain zero, with unobserved duration/count metrics null.
