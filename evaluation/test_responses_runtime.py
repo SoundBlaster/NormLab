@@ -342,3 +342,61 @@ def test_null_public_fields_never_fall_back_to_native_defaults(field):
     document[field] = None
     with pytest.raises(ValueError):
         configuration(document=document)
+
+
+@pytest.mark.parametrize("tactic", ["independent", "batch"])
+def test_oversized_criteria_rejected_before_credentials_output_or_dispatch(
+    tmp_path, monkeypatch, tactic
+):
+    value = {
+        "state": {"sourceText": "Synthetic bounded input"},
+        "questions": {
+            name: {
+                "type": "choice",
+                "instructions": "Synthetic question",
+                "criteria": {f"label_{i}": '"' * 2048 for i in range(128)},
+            }
+            for name in ("first", "second")
+        },
+    }
+    # The input file fits read_json's 2 MiB bound, but the previous request
+    # checkpoint overflowed after instructions were escaped by the SDK.
+    assert len(json.dumps(value).encode()) < 2 * 1024 * 1024
+
+    def denied(*args, **kwargs):
+        pytest.fail("No credentials or dispatch before task validation")
+
+    monkeypatch.setattr("provider_config.credential", denied)
+    output = tmp_path / "capture"
+    with pytest.raises(ValueError, match="Complete Choice task"):
+        run(
+            configuration(key_env="NORMLAB_OFFLINE_TEST_KEY"),
+            value,
+            output,
+            2,
+            transport=httpx2.MockTransport(denied),
+            categorical=True,
+            tactic=tactic,
+        )
+    assert not output.exists()
+    source = tmp_path / "oversized.json"
+    source.write_text(json.dumps(value))
+    process = subprocess.run(
+        [
+            sys.executable,
+            "-B",
+            "-S",
+            str(ROOT / "evaluation/responses_smoke.py"),
+            str(source),
+            "--tactic",
+            tactic,
+            "--max-calls",
+            "2",
+        ],
+        env={},
+        capture_output=True,
+        text=True,
+    )
+    assert process.returncode == 2
+    assert "Invalid public Responses" in process.stderr
+    assert "Traceback" not in process.stderr

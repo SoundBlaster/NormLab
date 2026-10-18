@@ -11,6 +11,7 @@ from provider_runtime import configuration as native_configuration
 from provider_task import payload
 
 SCHEMA = "normlab.responses-config/v1"
+MAX_TASK_BYTES = 32768
 PRESETS = {
     "openai-responses": "https://api.openai.com/v1/responses",
     "coreinfra-responses": "https://hub.coreinfra.ai/openai/api/v1/responses",
@@ -102,6 +103,13 @@ def validate_task(data):
     require(
         all(q["type"] == "choice" for q in data["questions"].values()),
         "Responses accepts Choice questions only",
+    )
+    # Bound the complete task, including criteria. Escaped Responses instructions
+    # and repeated request captures can be larger than the source JSON file.
+    require(
+        len(json.dumps(data, ensure_ascii=False, allow_nan=False).encode())
+        <= MAX_TASK_BYTES,
+        "Complete Choice task exceeds 32768 UTF-8 bytes",
     )
     return data
 

@@ -13,7 +13,10 @@ contracts remain unchanged. This report format is not accepted by those readers.
 
 Input is the same `{state, questions}` object accepted by the native smoke CLI,
 restricted to one through three **Choice** questions. No Noul/Score conversion is
-performed. All source text, candidate claims, definitions, instructions, labels
+performed. The complete task, including questions/criteria, must fit 32,768 UTF-8
+bytes using ordinary JSON serialization with unescaped Unicode. Larger tasks
+are rejected during dry-run, before SDK construction, credential access or output
+creation; they are never truncated. All source text, candidate claims, definitions, instructions, labels
 and criteria are preserved; expected answers must not be added to the state.
 The SDK snapshots a task and places state in Responses input, question definitions
 in instructions, and the allowed labels in a strict output JSON Schema.
@@ -141,6 +144,14 @@ The shared task validator has the same AST as the previous native validator.
 Frozen/native source paths are unchanged. Full native archive/MLflow suites and
 live availability were not rechecked by this narrow integration; GitHub CI and
 independent review remain separate evidence.
+
+Review follow-up on 2026-10-18: an accepted 1,052,938-byte task with heavily
+escaped criteria reproduced `Smoke capture bound` before any mock dispatch.
+The complete 32,768-byte task limit above now rejects it during validation,
+without truncation. Added independent/batch regressions for rejection before
+credentials/output/dispatch and SDK-free CLI rejection. The focused selection
+now passes **151 tests in 1.90 seconds** (43 categorical plus 108 existing).
+No provider inference was used; CI on the amended head is separate.
 
 Next: freeze one bounded matched native Choice / ordinary Responses probe using
 the same task and record the new wire wrapper/settings. Reference quality and
