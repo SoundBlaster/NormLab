@@ -85,3 +85,14 @@ charges, locking, expiry/integrity checks, publication faults and process exits.
 See [contract](RESUMED_UNKNOWN_STOP_V1.md) and the pre-implementation acceptance
 entry in Issue #77. No provider calls, key retrieval or production writes are
 included in these tests.
+
+## Final stop-control consumers verification
+
+Recorded: 2026-10-18 (Europe/Moscow), same conversation. The user annotated
+«Следующий этап — подключить финальные stop-решения к archive/scorer/MLflow» with
+«делай». Standing testing/checking requests cover focused/full SDK-free native
+and resumed stop-control capture/archive/score tests, source deletion, copied
+readers, tampering, locks/publication/process exits and actual pinned local
+MLflow/temporary SQLite with network denied. See [v4 contract](STOP_CONTROL_CONSUMERS_V4.md)
+and Issue #77's pre-implementation acceptance. This does not authorize provider
+calls, credentials, production registry writes or deployment.

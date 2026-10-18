@@ -26,28 +26,36 @@ def main():
     verify.add_argument("directory", type=Path)
     verify.add_argument("manifest", type=Path)
     for command in (snapshot, project, registry, verify):
-        command.add_argument("--native-continuation", action="store_true")
+        modes = command.add_mutually_exclusive_group()
+        modes.add_argument("--native-continuation", action="store_true")
+        modes.add_argument("--native-stop", action="store_true")
         command.add_argument(
             "--evidence-kind", choices=("mock", "live-capture"), default="mock"
         )
     args = parser.parse_args()
     try:
-        if args.native_continuation:
+        if args.native_stop or args.native_continuation:
             from offline_bundle import require
-            from runtime_resume_capture import ResumeExportProjection, capture_resume
+
+            if args.native_stop:
+                from runtime_stop_capture import StopExportProjection as Projection
+                from runtime_stop_capture import capture_stop as capture
+            else:
+                from runtime_resume_capture import ResumeExportProjection as Projection
+                from runtime_resume_capture import capture_resume as capture
 
             require(
                 args.evidence_kind == "live-capture",
-                "Explicit live continuation evidence",
+                "Explicit live versioned native evidence",
             )
-            snapshot = capture_resume(args.directory)
+            snapshot = capture(args.directory)
             if args.command == "verify":
                 require(
                     canonical(snapshot.manifest)
                     == canonical(
                         Store.decode_json(bounded_read(args.manifest, MAX_BYTES))
                     ),
-                    "Continuation capture manifest binding",
+                    "Selected native capture manifest binding",
                 )
         elif args.command == "verify":
             snapshot = verify_capture_manifest(
@@ -64,8 +72,8 @@ def main():
                 else None
             )
             result = registry_dry_run(
-                ResumeExportProjection(snapshot)
-                if args.native_continuation
+                Projection(snapshot)
+                if args.native_continuation or args.native_stop
                 else prepare_export(snapshot),
                 receipts,
             )
@@ -73,8 +81,8 @@ def main():
         else:
             result = (
                 (
-                    ResumeExportProjection(snapshot)
-                    if args.native_continuation
+                    Projection(snapshot)
+                    if args.native_continuation or args.native_stop
                     else prepare_export(snapshot)
                 )
                 if args.command == "project"

@@ -319,7 +319,7 @@ class Registry:
                     relative = source.relative_to(payload)
                     if archive_payload and relative.parts[0] == "archive":
                         from execution_checkpoint import bounded_read
-                        from runtime_consumer import archive_file_limit
+                        from runtime_consumer_v4 import archive_file_limit
 
                         name = str(relative.relative_to("archive"))
                         limit = (

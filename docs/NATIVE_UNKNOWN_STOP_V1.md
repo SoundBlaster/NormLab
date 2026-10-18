@@ -3,6 +3,10 @@
 Date: 2026-10-16 (Europe/Moscow). Ledger:
 [#77](https://github.com/SoundBlaster/NormLab/issues/77).
 
+Update 2026-10-18: [final stop-control consumers v4](STOP_CONTROL_CONSUMERS_V4.md)
+add a separate portable archive/scorer/MLflow path for this control, preserving
+unknowns and the frozen v1 execution contract.
+
 This is the first native reconciliation slice after the
 [native checkpoint/archive consumers](LIVE_RUNTIME_ARCHIVE_V2.md). It implements
 an explicit local **stop** decision for a native capture paused on one unknown

@@ -16,6 +16,10 @@ def read_supported_archive(root):
     from offline_bundle import MAX_BYTES
 
     index = Store.decode_json(bounded_read(root / "archive.json", MAX_BYTES))
+    if index.get("schema") == "normlab.runtime-archive/v4":
+        from runtime_stop_archive import read_archive as read
+
+        return read(root)
     if index.get("schema") == "normlab.runtime-archive/v3":
         from runtime_resume_archive import read_archive as read
 
@@ -29,7 +33,9 @@ def main():
     export = commands.add_parser("export")
     export.add_argument("source", type=Path)
     export.add_argument("output", type=Path)
-    export.add_argument("--native-continuation", action="store_true")
+    modes = export.add_mutually_exclusive_group()
+    modes.add_argument("--native-continuation", action="store_true")
+    modes.add_argument("--native-stop", action="store_true")
     export.add_argument(
         "--evidence-kind", choices=("mock", "live-capture"), default="mock"
     )
@@ -37,13 +43,17 @@ def main():
     verify.add_argument("directory", type=Path)
     args = parser.parse_args()
     try:
-        if args.command == "export" and args.native_continuation:
+        if args.command == "export" and (args.native_continuation or args.native_stop):
             from offline_bundle import require
-            from runtime_resume_archive import export_archive
+
+            if args.native_stop:
+                from runtime_stop_archive import export_archive
+            else:
+                from runtime_resume_archive import export_archive
 
             require(
                 args.evidence_kind == "live-capture",
-                "Explicit live continuation export",
+                "Explicit live versioned native export",
             )
             receipt = export_archive(args.source, args.output)
             result = read_supported_archive(args.output).summary()

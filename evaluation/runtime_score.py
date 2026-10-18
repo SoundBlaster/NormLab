@@ -4,7 +4,7 @@ from pathlib import Path
 
 from execution_outcomes import answer_schema
 from offline_bundle import MAX_BYTES, canonical, decode, identity, require, sha
-from runtime_consumer import verified_archive, version
+from runtime_consumer_v4 import verified_archive, version
 from runtime_reference import RuntimeReference, reference
 
 POLICY = {
@@ -161,6 +161,12 @@ def score(archive, selected):
         "releaseApproved": False,
         "inferenceCallsExecuted": 0,
     }
+    if version(archive) == 4:
+        result.update(
+            stopControl=archive.snapshot.manifest["stopControl"],
+            controlState=archive.projection.manifest["controlState"],
+            controlMetrics=archive.projection.manifest["controlMetrics"],
+        )
     result["scoreId"] = identity(
         "runtime-score", {k: v for k, v in result.items() if k != "scoreId"}
     )
