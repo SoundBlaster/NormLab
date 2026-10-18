@@ -47,6 +47,17 @@ reported that the user authorization was absent from its review context. This
 section makes the existing authorization and its scope discoverable; it does not
 create a new permission or change the repository rule.
 
+## Native safe resume verification
+
+Recorded: 2026-10-16 (Europe/Moscow), same ongoing conversation. After PR #134 was
+merged and safe resume was proposed, the user requested «Хорошо, делай
+возобновление». The standing explicit testing/checking requests quoted above remain
+in effect. This slice's verification scope includes focused synthetic native
+continuation/claim/clock/caps/retry/model/failure/process-exit checks and the
+existing SDK-free offline regression. It makes no real provider calls. See
+[native resume contract](NATIVE_SAFE_RESUME_V1.md) and Issue #77's pre-implementation
+acceptance entry.
+
 This record does not authorize paid inference, provider-key retrieval, deployment,
 production registry writes or merge. Those actions need their applicable user
 authorization. It is evidence for this conversation's current workflow, not a

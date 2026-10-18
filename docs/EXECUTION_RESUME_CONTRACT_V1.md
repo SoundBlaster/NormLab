@@ -21,6 +21,12 @@ decision without clearing unknowns or granting dispatch. Native safe suffix
 resume, attempt-correlated adoption and resolution-aware consumers remain open.
 Earlier implementation-status statements describe the original proposal date.
 
+Further update: [native safe suffix resume](NATIVE_SAFE_RESUME_V1.md) implements
+continuation after a clean stop or eligible recorded transport failure, with
+current request confirmation, existing local claim and unchanged bounds/history.
+It never continues past an unknown reservation. Continuation-aware consumers and
+attempt-correlated adoption remain open.
+
 ## Scope and first capability
 
 The common path will bind plan → runtime run → logical task → turn → transport
