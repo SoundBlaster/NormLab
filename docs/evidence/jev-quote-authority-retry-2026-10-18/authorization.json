@@ -1,0 +1,18 @@
+{
+  "schema": "normlab.oneoff-probe-authorization/v1",
+  "date": "2026-10-18",
+  "issue": "https://github.com/SoundBlaster/NormLab/issues/145",
+  "userReply": "До12 запросов всего:8 плановых и максимум4 повтора протокольных сбоев; денежный потолок остаётся$4",
+  "planSha256": "e7898abbfb387e15e99474ffc9a0ec0a59f6bcba375a1c581f0d57b6152382bf",
+  "baselinePacketCommit": "265a1bb0592a9bd76b78270da24d2b90caceaf0f",
+  "authorizedRequests": 12,
+  "plannedJobs": 8,
+  "maximumProtocolRetries": 4,
+  "maximumAttemptsPerJob": 2,
+  "wallDeadlineSeconds": 300,
+  "externalAccountLimitUsd": 4,
+  "externalLimitUserReconfirmed": true,
+  "externalLimitIndependentlyVerified": false,
+  "pricingVerified": false,
+  "scope": "Fresh eight-job paired rerun; at most four protocol-only retries total, one per job. Stop globally on other failures/unknown, drift or repeated failure. No repair, escalation, semantic retry or automatic resumption. Earlier stopped series remains immutable."
+}
