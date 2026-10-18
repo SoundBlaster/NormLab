@@ -2,7 +2,7 @@
 
 from offline_bundle import MAX_BYTES, canonical, identity, require, sha
 from offline_mlflow_projection import numeric
-from runtime_consumer import version
+from runtime_consumer_v4 import version
 from runtime_mlflow_projection import project
 from runtime_score import verify_score
 
@@ -39,6 +39,12 @@ def project_score(archive, saved):
         "releaseApproved": False,
         "inferenceCallsExecuted": 0,
     }
+    if version(archive) == 4:
+        payload.update(
+            controlState=view["controlState"],
+            stopControl=view["stopControl"],
+            controlMetrics=view["controlMetrics"],
+        )
     require(len(canonical(payload)) <= MAX_BYTES, "MLflow score projection cap")
     return {
         "key": identity("runtime-score-import", view["scoreId"]),

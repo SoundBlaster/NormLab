@@ -3,6 +3,10 @@
 Date: 2026-10-18 (Europe/Moscow). Ledger:
 [#77](https://github.com/SoundBlaster/NormLab/issues/77).
 
+Update 2026-10-18: [final stop-control consumers v4](STOP_CONTROL_CONSUMERS_V4.md)
+provide a separate portable archive/scorer/MLflow path. This document retains
+the local v1 control contract; frozen generic v1/v2/v3 consumers remain closed.
+
 This additive control closes a resumed execution with exactly one reserved attempt
 without a committed terminal outcome. It does **not** learn that outcome, release
 its charge, adopt an orphan response or permit another dispatch. The original 57
@@ -141,8 +145,8 @@ Ruff lint/format for all 177 Python files pass. Full final SDK-free regression a
 new-head CI results are recorded separately in PR #142 and Issue #77.
 
 This slice supports local stop application/inspection and its portable embedded
-pre-stop base. The final control is **not yet** a runtime capture/archive/score or
-MLflow input. Generic v1/v2/v3 consumers still reject it. A new versioned
-stop-control consumer will preserve the exact control and stable execution parent.
+pre-stop base. The separate [v4 consumer](STOP_CONTROL_CONSUMERS_V4.md) now supports
+final-control archive/scorer/MLflow inputs with the exact control and stable
+execution parent. Generic v1/v2/v3 consumers still reject final controls.
 Correlated outcome adoption and bounded live smoke remain separate work; no real
 provider requests, credentials, production registry writes or deployment occur.

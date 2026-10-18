@@ -14,7 +14,7 @@ from offline_bundle import (
     require,
     sha,
 )
-from runtime_consumer import verified_archive
+from runtime_consumer_v4 import verified_archive
 
 SOURCE_SCHEMA = "normlab.runtime-reference-source/v1"
 REVIEW_SCHEMA = "normlab.runtime-reference-review/v1"

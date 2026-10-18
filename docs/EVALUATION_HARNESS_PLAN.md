@@ -73,6 +73,11 @@ Update 2026-10-18: [resumed unknown-stop](RESUMED_UNKNOWN_STOP_V1.md) добав
 charges и все57 frozen v3 producer files. Final stop-control consumers остаются
 следующим versioned срезом; применение stop не разрешает redispatch/adoption.
 
+Update 2026-10-18: [final stop-control consumers v4](STOP_CONTROL_CONSUMERS_V4.md)
+подключают оба stop-формата к portable archive, selected-question scorer и local
+MLflow, сохраняя execution parent, unknown charges, orphan bytes и все59 frozen
+producer files. Adoption/live smoke остаются отдельными задачами.
+
 При появлении Jev 2, новой Luna или нового способа разбора быстро выполнить один и тот же protocol, сохранить evidence и сравнить результаты с baseline. Проверять отдельно качество стратегии, отдельных тактик, verifier и всей цепочки. Замена модели не должна незаметно менять dataset, prompts, labels, thresholds или условия взаимодействия.
 
 Успех инфраструктуры: новый совместимый provider/model задаётся конфигурацией и проходит contract smoke; существующая матрица запускается без новых ad-hoc скриптов. Изменения wire contract, prompts или schema требуют новой версии адаптера/стратегии и явно помеченного comparison. Это не обещание автоматической совместимости с будущими API.

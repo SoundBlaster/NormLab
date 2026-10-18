@@ -5,7 +5,7 @@ import json
 import sys
 from pathlib import Path
 
-from runtime_consumer import version
+from runtime_consumer_v4 import version
 from runtime_mlflow_projection import project, snapshot
 
 

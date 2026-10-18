@@ -6,7 +6,7 @@ from pathlib import Path
 
 from offline_bundle import canonical, decode, identity, require, sha
 from offline_mlflow_projection import numeric
-from runtime_consumer import read_archive, verified_archive, version
+from runtime_consumer_v4 import read_archive, verified_archive, version
 from runtime_registry import execution_binding, registry_nodes
 
 SCHEMA = "normlab.runtime-mlflow-projection/v1"
@@ -86,7 +86,10 @@ def project(archive):
                 "kind": payload["kind"],
                 "digest": sha(canonical(payload)),
                 "payload": payload,
-                "metrics": numeric(manifest["counts"], "runtime")
+                "metrics": {
+                    **numeric(manifest["counts"], "runtime"),
+                    **numeric(manifest.get("controlMetrics", {}), "control"),
+                }
                 if kind == "projection"
                 else {},
                 "params": {
