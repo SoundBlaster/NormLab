@@ -1,0 +1,41 @@
+{
+  "schema": "normlab.source-language-references/v1",
+  "labelStatus": "candidate-not-independent-human-gold",
+  "independentHumanReviewCompleted": false,
+  "holdoutEligible": false,
+  "records": [
+    {
+      "controlId": "T01",
+      "taskIds": ["T01RU", "T01EN"],
+      "expectedAnswer": "incompatible",
+      "expectedPolicyOutcome": "reject",
+      "basis": "Exact existing C002/R003 task/reference. Source denies payment; typed candidate asserts actual payment, despite source-matching quote.",
+      "originalReference": {
+        "path": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json",
+        "sha256": "98a2ba8d3a8d86af7f262cd44f189369e892e5a418a53c0f02dfd94da9081024"
+      }
+    },
+    {
+      "controlId": "T02",
+      "taskIds": ["T02RU", "T02EN"],
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "basis": "Exact C002/R004. Only A01.stance changes from asserted in T01 to denied. Denied actual actor-payment matches source.",
+      "originalReference": {
+        "path": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json",
+        "sha256": "98a2ba8d3a8d86af7f262cd44f189369e892e5a418a53c0f02dfd94da9081024"
+      }
+    },
+    {
+      "controlId": "T03",
+      "taskIds": ["T03RU", "T03EN"],
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "basis": "Exact C003/R005. Explicit source uncertainty is correctly represented by stance=unknown. Compatible does not assert payment or nonpayment.",
+      "originalReference": {
+        "path": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json",
+        "sha256": "98a2ba8d3a8d86af7f262cd44f189369e892e5a418a53c0f02dfd94da9081024"
+      }
+    }
+  ]
+}
