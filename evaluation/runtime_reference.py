@@ -14,7 +14,7 @@ from offline_bundle import (
     require,
     sha,
 )
-from runtime_archive_reader import VerifiedArchive
+from runtime_consumer import verified_archive
 
 SOURCE_SCHEMA = "normlab.runtime-reference-source/v1"
 REVIEW_SCHEMA = "normlab.runtime-reference-review/v1"
@@ -44,7 +44,7 @@ class RuntimeReference:
 
 
 def reference(archive, source_raw, review_raw=()):
-    require(type(archive) is VerifiedArchive, "Verified archive before reference")
+    require(verified_archive(archive), "Verified archive before reference")
     require(
         type(source_raw) is bytes and 0 < len(source_raw) <= MAX_BYTES,
         "Reference source cap",

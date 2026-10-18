@@ -2,6 +2,7 @@
 
 from offline_bundle import MAX_BYTES, canonical, identity, require, sha
 from offline_mlflow_projection import numeric
+from runtime_consumer import version
 from runtime_mlflow_projection import project
 from runtime_score import verify_score
 
@@ -12,9 +13,7 @@ def project_score(archive, saved):
     reference = view["reference"]
     arm_keys = {arm: "a-" + sha(arm.encode("utf-8")) for arm in view["arms"]}
     payload = {
-        "schema": "normlab.runtime-mlflow-score/v1"
-        if view["evidenceKind"] == "mock"
-        else "normlab.runtime-mlflow-score/v2",
+        "schema": "normlab.runtime-mlflow-score/v" + str(version(archive)),
         "kind": "runtime-score",
         "scoreId": view["scoreId"],
         "archiveId": view["archiveId"],

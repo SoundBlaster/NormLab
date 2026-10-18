@@ -3,6 +3,10 @@
 Date: 2026-10-16 (Europe/Moscow). Ledger:
 [#77](https://github.com/SoundBlaster/NormLab/issues/77).
 
+Update 2026-10-18: [continuation consumers v3](CONTINUATION_CONSUMERS_V3.md)
+connect resumed captures to portable archives, selected-question scoring and local
+MLflow. The original execution/resume modules remain unchanged.
+
 Explicit single-worker continuation preserves the original UUID, task/turn/attempt
 identities, requests, model acceptance, reservations, deadline, permit and history.
 Implementation and offline checks do not authorize a live experiment.

@@ -6,14 +6,14 @@ from pathlib import Path
 
 from offline_bundle import canonical, decode, identity, require, sha
 from offline_mlflow_projection import numeric
-from runtime_archive_reader import VerifiedArchive, read_archive
+from runtime_consumer import read_archive, verified_archive, version
 from runtime_registry import execution_binding, registry_nodes
 
 SCHEMA = "normlab.runtime-mlflow-projection/v1"
 
 
 def archive_files(archive):
-    require(type(archive) is VerifiedArchive, "Verified runtime archive required")
+    require(verified_archive(archive), "Verified runtime archive required")
     return {
         **archive.files,
         "archive.json": canonical(archive.index),
@@ -36,7 +36,7 @@ def snapshot(directory):
 
 
 def project(archive):
-    require(type(archive) is VerifiedArchive, "Verified runtime archive required")
+    require(verified_archive(archive), "Verified runtime archive required")
     projection = archive.projection
     manifest, capture = projection.manifest, projection.snapshot
     nodes = registry_nodes(projection)
@@ -59,9 +59,11 @@ def project(archive):
     for node in nodes:
         kind = node["kind"]
         payload = {
-            "schema": SCHEMA
-            if evidence_kind == "mock"
-            else "normlab.runtime-mlflow-projection/v2",
+            # Execution parent stays byte-identical across v2/v3 capture revisions.
+            "schema": "normlab.runtime-mlflow-projection/v"
+            + str(
+                min(version(archive), 2) if kind == "execution" else version(archive)
+            ),
             "kind": "runtime-" + kind,
             "binding": node,
             "evidence": values[kind],
