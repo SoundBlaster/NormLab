@@ -315,19 +315,28 @@ See [frontend architecture](client/ARCHITECTURE.md).
 strategy, общий runner фиксирует условия, MLflow хранит runs/evidence. Исследуем
 обычную Luna Low с независимыми, пакетными и последовательными вопросами.
 
-- [ ] Общие versioned dataset/experiment/run/turn contracts и offline replay.
+**2026-10-18: инфраструктурный этап v1 завершён.**
+[Final pilot и audit #77](docs/EVALUATION_FRAMEWORK_V1_FINISH_2026-10-18.md):
+один реальный Jev response, отдельная сохранённая setup failure, portable
+archive/score/self-comparison и идемпотентный actual MLflow import с сетью под
+запретом. Все 36 planned tasks сохраняются; 35 не исполнялись. Качество всей
+цепочки и compatibility остальных моделей этим не объявляются.
+Adoption, Evidently, новые dialogue/repair стратегии и выделение пакета отложены.
+Следующий ход — ошибки разбора текста и bounded experiment изменения стратегии.
+
+- [x] Общие versioned dataset/experiment/run/turn contracts и offline replay.
   - [x] [Stage1 native compiler и bounded scheduler](docs/STAGE1_NATIVE_SCHEDULE_V1.md): сохранение 36/288 исходных задач, fresh Linux intent binding, durable attempts и общий budget; локальные offline checks не являются live/provider evidence.
   - [x] [Native capture/archive/score/MLflow consumers](docs/LIVE_RUNTIME_ARCHIVE_V2.md): перенос исходных requests, recorded usage и unknown outcomes, выбранные reference labels и идемпотентный local import; reader/import не получают права на inference.
-  - [x] [Native unknown stop](docs/NATIVE_UNKNOWN_STOP_V1.md): head-bound operator decision, immutable original checkpoint archive и сохранение unknown charges; без adoption, redispatch и новых provider calls. Resolution-aware consumers — следующий срез [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Native safe suffix resume](docs/NATIVE_SAFE_RESUME_V1.md): новая head-bound invocation, existing local claim, исходные clock/deadline/permit/caps и полная история attempts; unknown reservations блокируют продолжение. Continuation-aware archive/score/import consumers остаются следующим срезом [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Continuation consumers v3](docs/CONTINUATION_CONSUMERS_V3.md): portable archive, selected-reference scorer и idempotent local MLflow с сохранением одного execution parent и разных capture revisions; zero inference, все frozen native/resume modules неизменны. Stop-control/adoption и live smoke — последующие срезы [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Resumed unknown-stop](docs/RESUMED_UNKNOWN_STOP_V1.md): отдельное head-bound stop-решение после resume, immutable v3 base, сохранение unknown charges и истории без redispatch. Все57 v3 producer files неизменны; portable final-control consumers/adoption/live smoke остаются следующими срезами [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Final stop-control consumers v4](docs/STOP_CONTROL_CONSUMERS_V4.md): оба native/resumed stop-формата в portable archive/scorer/MLflow; сохранены execution parent, unknown outcomes/charges и orphan bytes без adoption; все59 frozen producer files неизменны. Correlated adoption и bounded live smoke остаются следующими срезами [#77](https://github.com/SoundBlaster/NormLab/issues/77).
+  - [x] [Native unknown stop](docs/NATIVE_UNKNOWN_STOP_V1.md): head-bound operator decision, immutable original checkpoint archive и сохранение unknown charges; без adoption, redispatch и новых provider calls. Resolution-aware consumers реализованы ниже.
+  - [x] [Native safe suffix resume](docs/NATIVE_SAFE_RESUME_V1.md): новая head-bound invocation, existing local claim, исходные clock/deadline/permit/caps и полная история attempts; unknown reservations блокируют продолжение. Continuation-aware consumers реализованы ниже.
+  - [x] [Continuation consumers v3](docs/CONTINUATION_CONSUMERS_V3.md): portable archive, selected-reference scorer и idempotent local MLflow с сохранением одного execution parent и разных capture revisions; zero inference, все frozen native/resume modules неизменны.
+  - [x] [Resumed unknown-stop](docs/RESUMED_UNKNOWN_STOP_V1.md): отдельное head-bound stop-решение после resume, immutable v3 base, сохранение unknown charges и истории без redispatch. Все57 v3 producer files неизменны; final-control consumers реализованы ниже.
+  - [x] [Final stop-control consumers v4](docs/STOP_CONTROL_CONSUMERS_V4.md): оба native/resumed stop-формата в portable archive/scorer/MLflow; сохранены execution parent, unknown outcomes/charges и orphan bytes без adoption; все59 frozen producer files неизменны. Correlated adoption отложена за границу v1.
   - [x] Первый offline classification replay и отдельный ProxyAPI verifier turn capture: один live batch Noul/Choice/Score, replay без SDK; [отчёт](docs/PROXYAPI_LIVE_CHECK_2026-10-09.md).
-  - [ ] Обобщить verifier runner на Jev и Luna Responses Low; добавить независимые semantic labels и paired comparison.
-- [ ] Matrix Jev / Luna Responses Low / opt-in Luna Decisions с независимыми budget и context policies.
-- [ ] Расширить существующий MLflow importer: paired comparison, provenance и идемпотентный import.
-- [ ] Решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных.
+  - [x] Общий native runner для Jev / Luna Responses Low / Luna Decisions; portable paired comparison и candidate reference provenance реализованы. Independent semantic labels остаются research-задачей [#64](https://github.com/SoundBlaster/NormLab/issues/64).
+- [x] Конфигурируемая matrix Jev / Luna Responses Low / opt-in Luna Decisions, budgets и independent context policy. Исполнение полной matrix и новые context policies — отдельные experiments.
+- [x] Portable paired comparison и отдельный MLflow import captures/scores: provenance, raw navigation и идемпотентность. Общий comparative report остаётся самостоятельным evidence.
+- [ ] Deferred: решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных. Не acceptance v1.
 
 ### Универсальный evaluation framework — будущая модуляризация, 2026-10-14
 
