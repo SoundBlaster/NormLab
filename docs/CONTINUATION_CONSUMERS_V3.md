@@ -152,6 +152,15 @@ reader installation; lazy schema dispatch preserves that installation. MLflow
 integration emits dependency deprecation/resource warnings; all assertions pass.
 No provider requests were made.
 
+### CI follow-up — 2026-10-18
+
+Codex review completed without findings at `f1692d1`. Five jobs passed in
+[CI run 39102182314](https://github.com/SoundBlaster/NormLab/actions/runs/39102182314).
+`Stage 1 dataset audit` was cancelled: its annotation explicitly reports that the
+job exceeded the five-minute timeout. The SDK-free suite was still progressing
+through passing tests. Increase that job's timeout to ten minutes, retaining the
+same commands and network guards; the new-head CI result is separate evidence.
+
 Unknown-stop application to resumed captures, portable stop-control consumers,
 attempt-correlated adoption and separately authorized live smoke remain open.
 Completion of this slice alone does not close broad #77 acceptance.
