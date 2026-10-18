@@ -1,0 +1,10 @@
+{
+  "schema": "normlab.categorical-policy/v1",
+  "questions": {
+    "overall": {
+      "compatible": "accept",
+      "incompatible": "reject",
+      "indeterminate": "review"
+    }
+  }
+}
