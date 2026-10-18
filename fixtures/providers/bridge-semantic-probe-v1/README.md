@@ -7,6 +7,11 @@ The reviewed packet commit supplies the new data; its executable runtime must
 still match that base. Later runtime/dependency changes require a new protocol
 revision, not an implicit switch to the newest main.
 
+**Later execution:** a separate user grant authorized the exact 12-request series.
+It completed on 2026-10-18; see the [results and sealed evidence](../../../docs/BRIDGE_SEMANTIC_PROBE_2026-10-18.md).
+The preparation state/budget below remains historical; authorization and execution
+are separately recorded. The 12-call grant is now exhausted.
+
 ## Question
 
 Can the current three provider paths distinguish a known typed-polarity defect,
