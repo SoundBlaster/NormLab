@@ -1,0 +1,500 @@
+{
+  "purpose": "pre-split-leakage-control-not-sample-independence",
+  "selectedCount": 45,
+  "uniqueSourceDigestCount": 45,
+  "exactDuplicates": [],
+  "sourceFamilyConnectionGroups": [
+    {
+      "id": "LINK01",
+      "caseIds": [
+        "DEV001",
+        "DEV002",
+        "DEV003",
+        "DEV004",
+        "DEV005",
+        "DEV006",
+        "DEV007",
+        "DEV008",
+        "DEV009",
+        "DEV010",
+        "DEV011",
+        "DEV012",
+        "DEV013",
+        "DEV014",
+        "DEV015",
+        "DEV016",
+        "DEV017",
+        "DEV018",
+        "DEV019",
+        "DEV020",
+        "DEV021",
+        "DEV022",
+        "DEV023",
+        "DEV024",
+        "DEV025",
+        "DEV026",
+        "DEV027",
+        "DEV028",
+        "DEV029",
+        "DEV030",
+        "DEV031",
+        "DEV032",
+        "DEV033",
+        "DEV034",
+        "DEV035",
+        "DEV036",
+        "DEV037",
+        "DEV038",
+        "DEV039",
+        "DEV040",
+        "DEV041",
+        "DEV042",
+        "DEV043"
+      ],
+      "independentIncidentCount": null
+    },
+    {
+      "id": "LINK02",
+      "caseIds": ["DEV044"],
+      "independentIncidentCount": null
+    },
+    {
+      "id": "LINK03",
+      "caseIds": ["DEV045"],
+      "independentIncidentCount": null
+    }
+  ],
+  "allRecordsSplitGroup": "DEV-ALL-SEEN",
+  "independentCaseCount": null,
+  "incidentDedupStatus": "No duplicate real incidents asserted. Synthetic records are authored controls, not incidents; editorial upstream incident IDs are retained but external incident equivalence was not independently established. Conservative all-development grouping prevents cross-split leakage.",
+  "crossDatasetRelatedReadings": [
+    {
+      "excludedStage1Ids": ["C001"],
+      "selectedIds": ["DEV001"],
+      "reason": "payment-positive contrast family; related semantics, not same incident"
+    },
+    {
+      "excludedStage1Ids": ["C002"],
+      "selectedIds": ["DEV002", "DEV031"],
+      "reason": "payment-denial family; Jev regression is tracked separately in issue145"
+    },
+    {
+      "excludedStage1Ids": ["C003"],
+      "selectedIds": ["DEV003"],
+      "reason": "uncertain payment, but memory vs knowledge wording differs"
+    },
+    {
+      "excludedStage1Ids": ["C005", "C006", "C015"],
+      "selectedIds": ["DEV028"],
+      "reason": "narrator vs letter/notice attribution; not exact duplicates"
+    },
+    {
+      "excludedStage1Ids": ["C008"],
+      "selectedIds": ["DEV029"],
+      "reason": "negated speech act, related but different tense/knowledge content"
+    },
+    {
+      "excludedStage1Ids": ["C014"],
+      "selectedIds": ["DEV027"],
+      "reason": "different episodes with different payment status"
+    }
+  ],
+  "coverageGaps": [
+    "No representative user sampling frame; all inputs previously exposed development material.",
+    "40 synthetic texts share eight families and interconnected source inspirations; 45 texts are not45 independent observations.",
+    "Only5 editorial paraphrases, not raw user narratives; long noisy inputs are underrepresented.",
+    "Conditional, hypothetical and obligation operators are not systematically covered in selected45; excluded Stage1 diagnostics C007/C009/C010/C011 remain separate.",
+    "Cross-publication incident dedup and paraphrase-to-publication fidelity remain pending; no validation/holdout split is created."
+  ],
+  "excludedInputs": [
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C001",
+      "sourceDigest": "2d2c737d92ab9b55cf14f68d479d2f65e7a6a5732543b8ed7f002b2efed51601",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C002",
+      "sourceDigest": "220fd92c89244d281c831a56ff487f00fb169eb888eaf781f651f58761cf0e97",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C003",
+      "sourceDigest": "281b8c4f1893954942830860952a09ca98e730e75b1d6882b40767d8b652e13a",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C004",
+      "sourceDigest": "1d7ccc3a971121b658551fc39d2e37e8967d60e161b9c89bab3a0462d4de8354",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C005",
+      "sourceDigest": "e2c7ce0cf61e3d4f696037e352824c1bc8d2fe0bf65693ce88355f361a38ce96",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C006",
+      "sourceDigest": "4ba5d3a31ea2c5274a3c0e259e66096b686969c36d2a4e42fce0ce04f1a6e4ff",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C007",
+      "sourceDigest": "be917aeed11c0e86ef2c722f7a7a2d08c5b65ee3b31d70e6f64128f8197b4020",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C008",
+      "sourceDigest": "932b07d586ed1d16f306a4e7243cb4c7fb17d56b1a1c0bef230870d1c8be50e8",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C009",
+      "sourceDigest": "d1e8ab6d63b2672e85103cd9579bf8591972a111b8be9adc19a204801a2e761b",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C010",
+      "sourceDigest": "e5e059c73bcd8281d768748661574ebefb6971887ecbd92ea06813efe3318290",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C011",
+      "sourceDigest": "e500fc9c849d245ed99b62683c79a664b72fb9beaac28dd814c9bd9db0836b41",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C012",
+      "sourceDigest": "3f4b9ce1e56799da3f0f408c8888c27a7887314b4346106b137940f1c43cabc3",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C013",
+      "sourceDigest": "979bfa0b721923412dec43d4a91f0ccf3922adad52a6e9890c80335a56614203",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C014",
+      "sourceDigest": "442849c7bbb728d401b717f83a9b10b62a3747bbc6aba9b859f8a7044401a3c3",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C015",
+      "sourceDigest": "4cf2be995dfc38043ee112918581aadc6b2d5e3005c12a75df59721729b7a81c",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "stage1-audit-v2",
+      "id": "C016",
+      "sourceDigest": "f91d4b7b22250e263c4463202e1c3fb7058258cb002eb6089c6a4084ac213005",
+      "reason": "Stage1 micro-probe diagnostics retained separately; not counted as additional whole narratives.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C02",
+      "sourceDigest": "262604b7b93e69beb7db9190f75047f39e40d94d650ed279f5880e726a4d9fa3",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C04",
+      "sourceDigest": "cf3a7c432321c8293a70abf216d84800458568799c9ec45d225af44b945f0b2a",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C05",
+      "sourceDigest": "fef3de7c42ebb1c3ea43f1ba7ce53ac17a67b916d36d1124783667072c8ab91f",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C06",
+      "sourceDigest": "90dd4e127219e80347e8673697f1434fa8dea8eb55377cfe47c128abcd8accc5",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C07",
+      "sourceDigest": "ae9d5bc2505c647547132acfd729d6de1efd4b6509c8ba18f61f7808ccb6a942",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C09",
+      "sourceDigest": "e835046cd0c10eb57e558ca2f537b13c8e9e542d5c39aeb7bf832279bf5190ff",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C10",
+      "sourceDigest": "0e05599b3cc94682a52e7355115e3d1d6a22eb5c1542ecd69af1631471244e86",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C12",
+      "sourceDigest": "0fbc89b8b73280fb330ce18a761e6562cea7d03852eff3a7a543dc8ca9fb9734",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C14",
+      "sourceDigest": "2546658e868b2020e2539e27e2818eba903db577da2af393563e3b6899521300",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    },
+    {
+      "dataset": "corpus",
+      "id": "C15",
+      "sourceDigest": "7d9505b2ce8e155987c36a31af894c0fc5f81fa291115799c1298f8389f819a7",
+      "reason": "Bounded first editorial selection; retained upstream for later corpus expansion.",
+      "split": "existing-development-only",
+      "holdoutEligible": false
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S01",
+      "caseIds": [
+        "DEV001",
+        "DEV002",
+        "DEV003",
+        "DEV004",
+        "DEV005",
+        "DEV006",
+        "DEV007",
+        "DEV008",
+        "DEV009",
+        "DEV010",
+        "DEV041"
+      ],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S02",
+      "caseIds": ["DEV006", "DEV007", "DEV008", "DEV009", "DEV010"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S03",
+      "caseIds": [
+        "DEV001",
+        "DEV002",
+        "DEV003",
+        "DEV004",
+        "DEV005",
+        "DEV006",
+        "DEV007",
+        "DEV008",
+        "DEV009",
+        "DEV010",
+        "DEV011",
+        "DEV012",
+        "DEV013",
+        "DEV014",
+        "DEV015",
+        "DEV026",
+        "DEV027",
+        "DEV028",
+        "DEV029",
+        "DEV030",
+        "DEV031",
+        "DEV032",
+        "DEV033",
+        "DEV034",
+        "DEV035",
+        "DEV036",
+        "DEV037",
+        "DEV038",
+        "DEV039",
+        "DEV040",
+        "DEV042"
+      ],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S04",
+      "caseIds": ["DEV011", "DEV012", "DEV013", "DEV014", "DEV015", "DEV043"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S05",
+      "caseIds": [
+        "DEV016",
+        "DEV017",
+        "DEV018",
+        "DEV019",
+        "DEV020",
+        "DEV026",
+        "DEV027",
+        "DEV028",
+        "DEV029",
+        "DEV030",
+        "DEV031",
+        "DEV032",
+        "DEV033",
+        "DEV034",
+        "DEV035"
+      ],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S06",
+      "caseIds": ["DEV016", "DEV017", "DEV018", "DEV019", "DEV020"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S12",
+      "caseIds": [
+        "DEV021",
+        "DEV022",
+        "DEV023",
+        "DEV024",
+        "DEV025",
+        "DEV036",
+        "DEV037",
+        "DEV038",
+        "DEV039",
+        "DEV040"
+      ],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S14",
+      "caseIds": ["DEV036", "DEV037", "DEV038", "DEV039", "DEV040"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S16",
+      "caseIds": ["DEV044"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "shared-source-inspiration",
+      "key": "S18",
+      "caseIds": ["DEV045"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "attribution-and-conflicts",
+      "caseIds": ["DEV026", "DEV027", "DEV028", "DEV029", "DEV030"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "jurisdiction-and-scope",
+      "caseIds": ["DEV031", "DEV032", "DEV033", "DEV034", "DEV035"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "outage-and-corrections",
+      "caseIds": ["DEV016", "DEV017", "DEV018", "DEV019", "DEV020"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "payment-polarity",
+      "caseIds": ["DEV001", "DEV002", "DEV003", "DEV004", "DEV005"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "payment-time",
+      "caseIds": ["DEV011", "DEV012", "DEV013", "DEV014", "DEV015"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "permits-and-gaps",
+      "caseIds": ["DEV021", "DEV022", "DEV023", "DEV024", "DEV025"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "regime-and-background",
+      "caseIds": ["DEV036", "DEV037", "DEV038", "DEV039", "DEV040"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    },
+    {
+      "kind": "synthetic-family",
+      "key": "vehicle-and-zone",
+      "caseIds": ["DEV006", "DEV007", "DEV008", "DEV009", "DEV010"],
+      "meaning": "leakage-constraint-not-incident-equivalence"
+    }
+  ]
+}
