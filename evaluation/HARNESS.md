@@ -97,7 +97,7 @@ This runner currently supports only the pinned ProxyAPI batch bridge. It does no
 connect the production UI, sequential tactics, an MLflow importer, or a Mellea
 sampling loop. Those require subsequent experiments.
 
-## Configurable providers — current adapter 0.7.0; historical Stage 1 0.4.0
+## Configurable providers — current adapter 0.8.0; historical Stage 1 0.4.0
 
 [Provider configuration](../docs/PROVIDER_CONFIGURATION.md) describes native
 TypeSafe/OpenAI and custom full endpoints. `provider_smoke.py` is dry-run by
@@ -105,7 +105,7 @@ default; its separate smoke report is not a Stage 1 quality evaluation or replay
 capture. Historical v1 evidence and pinned source digests remain unchanged.
 Use `requirements-providers-current.txt` for current smoke/SDK contracts and
 `requirements-providers.txt` only for exact archived Stage 1 execution. The
-copied ProxyAPI bridge also supports current 0.7.0. CI uses one current SDK
+copied ProxyAPI bridge also supports current 0.8.0. CI uses one current SDK
 environment and a mock-only Stage 1 compatibility probe; it does not disable
 production version checks. The native execution runner is SDK-free.
 

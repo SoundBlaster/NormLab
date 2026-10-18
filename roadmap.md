@@ -358,6 +358,7 @@ strategy, общий runner фиксирует условия, MLflow храни
 
 - [x] Обновить Python adapter до 0.4.0; разделить supplier, API format, model, exact endpoint и источник ключа: [контракт и примеры](docs/PROVIDER_CONFIGURATION.md).
 - [x] Подключить Jev4Mellea 0.7.0 к текущему text smoke CLI, сохранив исторический Stage 1 на 0.4.0 и SDK-free native runtime; единый current SDK в CI, offline SDK/Mellea checks и mock-only probe архивного Stage 1: [границы и проверка](docs/JEV_ADAPTER_0_7_UPGRADE_2026-10-15.md), [ledger #77](https://github.com/SoundBlaster/NormLab/issues/77).
+- [x] Обновить current SDK profile до Jev4Mellea 0.8.0: [upgrade и совместимость](docs/JEV_ADAPTER_0_8_UPGRADE_2026-10-18.md), [ledger #147](https://github.com/SoundBlaster/NormLab/issues/147). Categorical Responses exports доступны в SDK; их подключение к NormLab comparison — отдельный следующий шаг. Historical pins и native execution сохранены.
 - [x] Добавить dry-run/opt-in smoke CLI для Noul/Choice/Score с лимитом запросов и отдельным отчётом, без оценки качества.
 - [x] Настраивать полные Responses/Decisions/System One endpoints в hosted gateway/egress; допустить отдельный Decisions secret.
 - [ ] Подтвердить реальные пути и модели каждого поставщика авторизованным compatibility smoke. Пресеты не доказывают доступность.

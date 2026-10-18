@@ -1,4 +1,4 @@
-"""Released 0.7 SDK compatibility over synthetic HTTP; no provider inference."""
+"""Released 0.8 SDK compatibility over synthetic HTTP; no provider inference."""
 
 import asyncio
 import json
@@ -143,7 +143,7 @@ def test_all_primitives_capture_current_sdk_requests(tmp_path, monkeypatch, pres
     )
     assert "configurationError" not in report
     assert report["calls"] == len(seen) == 3
-    assert report["provider"]["adapter_version"] == ADAPTER_VERSION == "0.7.0"
+    assert report["provider"]["adapter_version"] == ADAPTER_VERSION == "0.8.0"
     assert report["dependencies"]["mellea-jev-adapter"] == ADAPTER_VERSION
     assert report["mode"] == "mock-transport"
     assert report["schema"] == "normlab.provider-smoke/v2"
