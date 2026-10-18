@@ -1,0 +1,18 @@
+{
+  "schema": "normlab.source-language-user-confirmation/v1",
+  "dateMoscow": "2026-10-19",
+  "userReply": "Да, переводы подходят. Запускай сравнение: 6 основных запросов и до 2 протокольных повторов, максимум 8 попыток. Лимит $4 остаётся в силе.",
+  "reviewMode": "human-confirmation-of-displayed-translation-pairs; nonblind project conversation",
+  "sourceTranslations": [
+    {
+      "ru": "Я не оплатил парковку.",
+      "en": "I did not pay for parking."
+    },
+    {
+      "ru": "Не помню, оплатил ли парковку.",
+      "en": "I don't remember whether I paid for parking."
+    }
+  ],
+  "independentWholeTaskHumanGold": false,
+  "scope": "Confirmation of displayed source translations, not independent reference adjudication or universal fidelity certification."
+}
