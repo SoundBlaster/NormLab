@@ -1,0 +1,19 @@
+{
+  "schema": "normlab.oneoff-probe-authorization/v1",
+  "date": "2026-10-18",
+  "issue": "https://github.com/SoundBlaster/NormLab/issues/145",
+  "userReply": "Разрешаю, лимит ещё в силе",
+  "packetCommit": "9b1d379db501593481a2abde556da93d7b0d7512",
+  "planSha256": "9f26b0ffa80aa0910a860b32c17d52c7fbd8b75074faa2e051aaec1db6b9f84d",
+  "authorizedRequests": 12,
+  "maximumQuestions": 12,
+  "maximumRequestsPerJob": 1,
+  "automaticRetries": 0,
+  "wallDeadlineSeconds": 420,
+  "externalAccountLimitUsd": 4,
+  "externalLimitUserReconfirmed": true,
+  "externalLimitIndependentlyVerified": false,
+  "pricingVerified": false,
+  "stopOnFirstOperationalFailureOrUnknown": true,
+  "scope": "Exactly the prepared four-task three-arm CoreInfra series. No repair, escalation, prompt edits, additional repeats or automatic resume."
+}
