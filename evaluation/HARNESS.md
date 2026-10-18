@@ -109,6 +109,12 @@ copied ProxyAPI bridge also supports current 0.8.0. CI uses one current SDK
 environment and a mock-only Stage 1 compatibility probe; it does not disable
 production version checks. The native execution runner is SDK-free.
 
+The separate [categorical Responses entry point](../docs/CATEGORICAL_RESPONSES_INTEGRATION.md)
+connects ordinary Luna to the released SDK with the same Choice task input,
+explicit independent/batch dispatch and label-only metadata. Its smoke report
+is a new versioned contract; it is not silently imported into frozen native
+archives/scorers or used as a quality score.
+
 ## Stage 1 provider execution
 
 [Three-arm Stage 1 transport](../docs/STAGE1_PROVIDER_TRANSPORT.md) connects Jev, native Luna Decisions and Responses Low through CoreInfra application endpoints. Dry-run/replay require no SDK; mock HTTP uses real SDK request construction. Paid execution requires a separate plan-bound permit and operator-confirmed external spending limit.
