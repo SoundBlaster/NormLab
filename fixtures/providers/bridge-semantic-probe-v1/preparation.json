@@ -2,7 +2,7 @@
   "schema": "normlab.bridge-probe-preparation/v1",
   "mode": "offline-only",
   "executableCommit": "9f296a277512e00fe91b4c318bf9437c86fda4cf",
-  "planSha256": "0ab69705d6c19979494b184eecddf941327f657df645f6ab4d43e1991cf65881",
+  "planSha256": "9f26b0ffa80aa0910a860b32c17d52c7fbd8b75074faa2e051aaec1db6b9f84d",
   "preparationPython": "3.13.15",
   "validatedJobs": 12,
   "boundReferencesChecked": 16,
@@ -160,5 +160,13 @@
       "sdkImported": false,
       "networkDenied": true
     }
-  ]
+  ],
+  "referenceReviewUpdate": {
+    "previousPacketCommit": "2c8e438ec0df32eb93ce86abbb083de5ce094e2f",
+    "previousPlanSha256": "0ab69705d6c19979494b184eecddf941327f657df645f6ab4d43e1991cf65881",
+    "scope": "Reviewer-side human semantic confirmations only; task/config/policy bytes and12 dry-run observations unchanged.",
+    "userSemanticPolicyConfirmation": true,
+    "independentHumanReferenceReview": false,
+    "inferenceAuthorized": false
+  }
 }

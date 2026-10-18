@@ -35,7 +35,8 @@
         "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
         "sha256": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91"
       },
-      "referenceBoundary": "Candidate-only, not independent human gold."
+      "referenceBoundary": "Candidate-only, not independent human gold.",
+      "userSemanticConfirmation": "Explicit unknown is a correct markup outcome, not evidence of payment or nonpayment."
     },
     {
       "id": "T04",
@@ -46,7 +47,38 @@
         "path": "fixtures/parking-pilot/stage1-independent-review/report.md",
         "sha256": "73ffdd0b9929246f3c84a352cc0a502cbe5aef1d03092bdfe37fb711113f0e69"
       },
-      "referenceBoundary": "New v2-derived task, not the compatible v2 R032 baseline or an exact replay of v1 R032. Historical IR-004 supports the ambiguity rationale, not automatic reference promotion. Adjudicate any semantic dispute before dispatch."
+      "referenceBoundary": "New v2-derived task, not the compatible v2 R032 baseline or exact v1 replay. User confirmed the clarify/review semantics in a nonblind guided discussion on2026-10-18. This is not independent whole-task gold; the original source abbreviation remains unresolved.",
+      "clarificationQuestion": "Что означает «ПП» в этом постановлении: платную парковку или пешеходный переход?",
+      "candidateAbbreviationExpansions": ["платная парковка", "пешеходный переход"],
+      "sourceAbbreviationResolved": false
     }
-  ]
+  ],
+  "userSemanticReview": {
+    "date": "2026-10-18",
+    "mode": "nonblind-guided-semantic-policy-confirmation",
+    "source": "Direct human replies in the NormLab project conversation; expected interpretations were visible.",
+    "confirmations": [
+      {
+        "id": "explicit-unknown",
+        "taskIds": ["T03"],
+        "userReply": "Да, это некий unknown",
+        "interpretation": "A correct unknown extraction is compatible/accept for markup, while the payment fact remains unknown."
+      },
+      {
+        "id": "pp-ambiguity",
+        "taskIds": ["T04"],
+        "userReply": "ПП это платная парковка, но требует уточнение - не Пешеходный ли Переход",
+        "interpretation": "Paid parking is the intended candidate expansion, but pedestrian crossing remains a competing reading requiring clarification. Keep indeterminate/review; the original source abbreviation is not resolved."
+      },
+      {
+        "id": "notice-attribution",
+        "taskIds": ["T04"],
+        "userReply": "Да",
+        "questionConfirmed": "Represent the notice as asserting nonpayment; the underlying nonpayment fact needs separate confirmation.",
+        "interpretation": "Preserve claimant=notice_1. Do not promote the attributed denial to an established episode fact."
+      }
+    ],
+    "independentWholeTaskReview": false,
+    "inferenceAuthorized": false
+  }
 }

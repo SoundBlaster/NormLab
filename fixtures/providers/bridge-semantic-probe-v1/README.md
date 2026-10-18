@@ -50,11 +50,32 @@ All are previously exposed diagnostic development materials; holdout eligibility
   supports this ambiguity rationale, but reviewed a different v1 task. T04 is a
   new derived candidate, not an exact replay or newly independently reviewed label.
 
-Before dispatch, review the four references, especially T04. If its interpretation
-is disputed, record adjudication and publish a new protocol revision or omit it
-under a newly declared schedule **before** observing model outputs. Do not change
-the label afterwards to fit an answer. No silent substitution with C003/R006:
-that existing wrong-stance candidate is labelled incompatible, not indeterminate.
+### User semantic confirmation — 2026-10-18
+
+In a guided discussion with the expected interpretations visible, the user confirmed:
+
+- T03: correctly representing explicit uncertainty is compatible/accept; payment
+  itself stays unknown and still needs human confirmation.
+- T04: the candidate expansion is paid parking, but the abbreviation might mean
+  **pedestrian crossing**. Ask: «Что означает “ПП” в этом постановлении: платную
+  парковку или пешеходный переход?» Parking-specific placement remains
+  indeterminate/review until clarified. The source abbreviation is still unresolved.
+- «В постановлении: оплаты нет» is an **attributed statement** by the notice.
+  Preserve `claimant=notice_1`; confirming markup does not establish nonpayment.
+
+These confirmations are recorded in `reviewer-only.json`; they do not change the
+four model inputs, category references, policy or budget. The extra abbreviation
+explanations and clarification question are not added to model prompts. This is
+nonblind semantic-policy review, not independent whole-task human gold or
+authorization to run inference. T01/T02 received no new whole-task human review.
+The earlier packet is preserved at commit `2c8e438`; updated reference/plan hashes
+and their previous binding are explicit in `preparation.json`.
+
+If an interpretation is subsequently disputed, record adjudication and publish
+a new protocol revision or omit it under a newly declared schedule **before**
+observing model outputs. Do not change labels afterwards to fit answers. No silent
+substitution with C003/R006: that existing wrong-stance candidate is labelled
+incompatible, not indeterminate.
 
 ## What is fixed
 
