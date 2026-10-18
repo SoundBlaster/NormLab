@@ -8,7 +8,7 @@ from provider_config import PRESETS as PRESETS
 from provider_config import SCHEMA, ProviderConfig, credential, require
 from provider_config import configuration as historical_configuration
 
-ADAPTER_VERSION = "0.7.0"
+ADAPTER_VERSION = "0.8.0"
 
 
 @dataclass(frozen=True)
