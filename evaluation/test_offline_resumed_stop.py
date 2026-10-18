@@ -24,9 +24,10 @@ from native_resumed_stop import (
     code_pins,
     inspect_stop,
     prepare_stop,
+    read_base,
 )
 from offline_bundle import identity
-from runtime_resume_archive import producer_pins, read_archive
+from runtime_resume_archive import producer_pins
 from runtime_resume_capture import capture_resume
 
 
@@ -107,7 +108,7 @@ class ResumedStopTests(ExecutionCase):
             for name, raw in before.items():
                 if name != "checkpoint.json":
                     self.assertEqual((root / name).read_bytes(), raw)
-            archive = read_archive(root / BASE)
+            archive = read_base(root / BASE)[0]
             self.assertEqual(
                 archive.files["source/checkpoint.json"], before["checkpoint.json"]
             )
@@ -381,7 +382,10 @@ class ResumedStopTests(ExecutionCase):
             with self.assertRaises(ValueError):
                 inspect_stop(root)
         checkpoint.write_bytes(original)
-        for target in (root / "plan.json", root / BASE / "source/checkpoint.json"):
+        for target in (
+            root / "plan.json",
+            root / BASE / "capture/source/checkpoint.json",
+        ):
             raw = target.read_bytes()
             target.write_bytes(raw + b" ")
             with self.assertRaises(ValueError):
@@ -399,7 +403,7 @@ class ResumedStopTests(ExecutionCase):
         with self.stop_guard():
             self.assertEqual(inspect_stop(copied), expected)
             self.assertEqual(
-                read_archive(copied / BASE).snapshot.report["unknownDispatchAttempts"],
+                read_base(copied / BASE)[0].snapshot.report["unknownDispatchAttempts"],
                 1,
             )
 
@@ -442,6 +446,91 @@ class ResumedStopTests(ExecutionCase):
                 self.assertRaises(ValueError),
             ):
                 inspect_stop(root)
+
+    def test_orphan_bytes_are_portable_but_never_adopted(self):
+        root = self.resumed(phase="after-response")
+        snapshot, request, sample = self.stop_proposal(root)
+        expected = {
+            name: raw
+            for name, raw in self.files(root).items()
+            if name.startswith("artifacts/") and name not in snapshot.files
+        }
+        self.assertGreater(len(expected), 0)
+        report = self.stop_apply(root, request, sample)
+        self.assertEqual(report["unknownDispatchAttempts"], 1)
+        self.assertFalse(report["orphanEvidence"]["adopted"])
+        self.assertEqual(report["taskOutcomes"], snapshot.report["taskOutcomes"])
+        portable = self.root / "portable-base-only"
+        shutil.copytree(root / BASE, portable)
+        shutil.rmtree(root)
+        with self.stop_guard():
+            archive, evidence, files = read_base(portable)
+        self.assertEqual(files, expected)
+        self.assertEqual(archive.snapshot.manifest, snapshot.manifest)
+        self.assertEqual(evidence["evidenceId"], report["orphanEvidence"]["evidenceId"])
+        self.assertEqual(evidence["association"], "unattributed-uncommitted-artifacts")
+        self.assertFalse(evidence["adopted"])
+
+    def test_original_and_archived_orphan_delete_modify_add_and_rehash_reject(self):
+        root = self.resumed(phase="after-response")
+        _, request, sample = self.stop_proposal(root)
+        report = self.stop_apply(root, request, sample)
+        _, evidence, files = read_base(root / BASE)
+        name, raw = next(iter(files.items()))
+        for target in (root / name, root / BASE / name):
+            target.unlink()
+            with self.assertRaises((ValueError, FileNotFoundError)):
+                inspect_stop(root)
+            target.write_bytes(raw + b" ")
+            with self.assertRaises(ValueError):
+                inspect_stop(root)
+            target.write_bytes(raw)
+        extra = b"uncommitted extra"
+        path = root / ("artifacts/" + sha(extra) + ".blob")
+        path.write_bytes(extra)
+        with self.assertRaises(ValueError):
+            inspect_stop(root)
+        path.unlink()
+        marker = root / BASE / "evidence.json"
+        original = marker.read_bytes()
+        changed = copy.deepcopy(evidence)
+        changed["orphanFiles"] = []
+        changed["evidenceId"] = identity(
+            "resumed-stop-evidence",
+            {k: v for k, v in changed.items() if k != "evidenceId"},
+        )
+        marker.write_bytes(canonical(changed))
+        with self.assertRaises(ValueError):
+            inspect_stop(root)
+        marker.write_bytes(original)
+        self.assertEqual(inspect_stop(root)["resolutionId"], report["resolutionId"])
+
+    def test_orphan_publication_faults_cannot_publish_a_partial_stop(self):
+        for phase, complete in (
+            ("orphan-content:before-file-flush", False),
+            ("orphan-evidence:before-marker", False),
+            ("orphan-evidence:after-replace", True),
+            ("orphan-evidence:after-directory-flush", True),
+        ):
+            root = self.resumed(phase="after-response")
+            _, request, sample = self.stop_proposal(root)
+            before = (root / "checkpoint.json").read_bytes()
+
+            def fault(point):
+                if point == phase:
+                    raise KeyboardInterrupt("synthetic orphan publication interruption")
+
+            with self.assertRaises(KeyboardInterrupt):
+                self.stop_apply(root, request, sample, fault)
+            self.assertEqual((root / "checkpoint.json").read_bytes(), before)
+            if complete:
+                self.assertGreater(len(read_base(root / BASE)[2]), 0)
+                self.assertEqual(
+                    self.stop_apply(root, request, sample)["unknownDispatchAttempts"], 1
+                )
+            else:
+                with self.assertRaises((ValueError, FileNotFoundError)):
+                    self.stop_apply(root, request, sample)
 
     def test_stage1_full_corpus_stop_preserves_288_tasks_and_cumulative_charges(self):
         schedule = fixtures.schedule

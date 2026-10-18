@@ -33,10 +33,18 @@ rejects both the unknown source and new stop checkpoint.
 
 ## Immutable history and durable decision
 
-Before replacing `checkpoint.json`, publish a complete immutable
-`normlab.runtime-archive/v3` under `native-resumed-stop-base/`. It retains the raw
-resumed checkpoint, every invocation/attempt and embedded original base. Root
-source bytes are preserved; orphan response files remain unadopted. Reservations,
+Before replacing `checkpoint.json`, publish a complete immutable package under
+`native-resumed-stop-base/`. Its `capture/` is an unchanged strict
+`normlab.runtime-archive/v3`, retaining the raw resumed checkpoint, every
+invocation/attempt and embedded original base. Its `artifacts/` separately copies
+all content-addressed root artifact blobs absent from that capture. A closed
+`normlab.resumed-stop-evidence/v1` manifest in `evidence.json` binds their exact
+paths, lengths, hashes, original capture/head and producer pins. These bytes are
+explicitly `unattributed-uncommitted-artifacts`, `adopted=false`: no attempt or
+provider provenance is inferred from orphan content. Unpublished `.pending-*`
+writer temporaries are excluded; the whole source inventory still bounds them.
+The confirmed stop-request artifact is separately bound by the final control.
+Root source bytes are preserved and archived orphan bytes remain unadopted. Reservations,
 cumulative charges, first/final outcomes, unknown usage and planned task denominator
 retain their original values.
 
@@ -48,17 +56,23 @@ before the control frame. The final checkpoint is atomically replaced and its
 directory flushed. Interruption before commit leaves the original unknown
 checkpoint; interruption after replacement leaves a verifiable stop decision.
 Process-exit checks do not establish arbitrary power-loss safety.
+The outer package marker commits only after the strict capture and orphan bytes
+are flushed. A complete inner capture without this outer marker is not reusable.
 
 `normlab.resumed-stop-checkpoint/v1` binds the request, original capture/head,
-immutable base archive ID, observed clock sample and all 59 producer pins: frozen
+immutable base archive ID and pre-stop evidence ID, observed clock sample and all 59 producer pins: frozen
 57 plus the two new control/CLI modules. Its resolution ID hashes those fields.
-Read-only `inspect` verifies the v3 archive, root source bytes, request, recorded
+Read-only `inspect` verifies the v3 archive, original and archived orphan inventories/bytes, root source bytes, request, recorded
 sample and regenerated frame. It retains `unknownAttemptIds` and
 `unknownDispatchAttempts`, reporting `controlState=stopped-with-unknown`, zero new
 dispatch/inference and no resume/adoption/execution capability. A copied tree can
 be inspected after deletion of its original path; saved fields grant no execution
 authority there. Unsigned hashes/pins establish consistency, not producer, clock
 or operator authenticity.
+`native_resumed_stop.read_base(path)` verifies the standalone package and returns
+its strict capture, evidence manifest and orphan bytes, even after deletion of
+the original run. Retaining only its inner `capture/` intentionally loses this
+extra uncommitted evidence; retain the entire pre-stop package instead.
 
 ## CLI
 
@@ -106,6 +120,25 @@ Tests include six publication fault boundaries, two actual child process exits,
 all 59 producer-pin drift cases, source deletion/copy inspection, clock and
 permission rechecks, and the full corpus denominator. Cache/temp/log output uses
 the verified per-checkout TB5 paths. No provider calls or real credentials.
+
+### Review follow-up — 2026-10-18
+
+P2 [4306185149](https://github.com/SoundBlaster/NormLab/pull/142#discussion_r4306185149)
+identified that strict v3 captures omit unreferenced response/outcome blobs.
+The pre-stop package now retains those bytes separately, binds them by an outer
+evidence manifest/ID and verifies both the source and archived inventories. A
+base-only copy remains readable after deletion of the original run; orphan data
+still grants no attempt correlation, outcome adoption or billing certainty.
+
+Focused final regression: 15/15 on Python 3.14.8 (28.760 s) and 15/15 on Python
+3.10.19 (32.212 s). New cases cover original/archived orphan deletion or mutation,
+added blobs, rehashed manifest changes, independent package portability and four
+outer publication faults. Existing fault checks caught unpublished stop-request
+temporaries interfering with matching-base reuse; only published content-addressed
+blobs enter the orphan inventory, with pending files still subject to aggregate
+writer bounds. All 57 frozen producers and the 59-file pin closure are preserved;
+Ruff lint/format for all 177 Python files pass. Full final SDK-free regression and
+new-head CI results are recorded separately in PR #142 and Issue #77.
 
 This slice supports local stop application/inspection and its portable embedded
 pre-stop base. The final control is **not yet** a runtime capture/archive/score or
