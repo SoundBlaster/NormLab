@@ -296,14 +296,21 @@ test('discovery rejects wrong bindings, hallucinated/repeated quotes, and missin
   );
 });
 
-test('discovery ID wire constraints match local validation, including boundary lengths', async () => {
+test('discovery IDs share syntax while unsupported length constraints remain local', async () => {
+  const idSchemas =
+    hostedDiscoverySchema.properties.extractions.items.properties.statement_attributes.properties;
+  for (const field of ['subject', 'aboutEpisode'] as const) {
+    assert.deepEqual(Object.keys(idSchemas[field]).sort(), ['pattern', 'type']);
+    assert.equal(idSchemas[field].type, 'string');
+    assert.equal(typeof idSchemas[field].pattern, 'string');
+  }
   const validate = new Ajv2020({ strict: true }).compile(hostedDiscoverySchema);
   const ids = [
     { field: 'subject', value: 'vehicle_1', valid: true },
     { field: 'subject', value: 'person_21', valid: true },
     { field: 'subject', value: `vehicle_${'9'.repeat(120)}`, valid: true },
     { field: 'subject', value: `person_${'9'.repeat(121)}`, valid: true },
-    { field: 'subject', value: `person_${'9'.repeat(122)}`, valid: false },
+    { field: 'subject', value: `person_${'9'.repeat(122)}`, valid: false, wireValid: true },
     { field: 'subject', value: 'Приложение и СМС', valid: false },
     { field: 'subject', value: 'narrator', valid: false },
     { field: 'subject', value: 'vehicle_0', valid: false },
@@ -314,17 +321,17 @@ test('discovery ID wire constraints match local validation, including boundary l
     { field: 'subject', value: ' person_1', valid: false },
     { field: 'aboutEpisode', value: 'episode_1', valid: true },
     { field: 'aboutEpisode', value: `episode_${'9'.repeat(120)}`, valid: true },
-    { field: 'aboutEpisode', value: `episode_${'9'.repeat(121)}`, valid: false },
+    { field: 'aboutEpisode', value: `episode_${'9'.repeat(121)}`, valid: false, wireValid: true },
     { field: 'aboutEpisode', value: 'episode_0', valid: false },
     { field: 'aboutEpisode', value: 'episode_01', valid: false },
     { field: 'aboutEpisode', value: 'vehicle_1', valid: false },
   ];
-  for (const { field, value, valid } of ids) {
+  for (const { field, value, valid, wireValid = valid } of ids) {
     const output = structuredClone(discoveryOutput);
     for (const extraction of output.extractions)
       Object.assign(extraction.statement_attributes, { [field]: value });
     const label = `${field}=${JSON.stringify(value)}`;
-    assert.equal(validate(output), valid, `provider schema: ${label}`);
+    assert.equal(validate(output), wireValid, `provider schema: ${label}`);
     const mock = mockFetch({ discovery: output });
     const run = runHostedExtraction(
       input,
@@ -735,7 +742,7 @@ test('OpenAI stages use their own output limits and the digest covers every beha
   // historical evaluation captures keep their original digest.
   assert.equal(
     HOSTED_PROMPT_DIGEST,
-    '38752d3eee1f47e199800cd438a94a90656c128f7519f81bb4d48649f198d19d',
+    '16ebf6180f0072481cffe984cf58699ef110a01282f66522bccd28a839020723',
   );
   assert.equal(result.promptDigest, HOSTED_PROMPT_DIGEST);
   assert.notEqual(HOSTED_PROMPT_DIGEST, sourceDigest(JSON.stringify(prompts)));

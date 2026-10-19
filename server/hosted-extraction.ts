@@ -85,18 +85,17 @@ const decision = z
     reason: z.string().max(2048),
   })
   .strict();
-const objectSchema = (properties: Record<string, unknown>) => ({
+const objectSchema = <T extends Record<string, unknown>>(properties: T) => ({
   type: 'object',
   properties,
   required: Object.keys(properties),
   additionalProperties: false,
 });
 const stringSchema = { type: 'string' };
-/** Keep provider ID constraints identical to local validation, without nested dialect headers. */
+/** Project supported strict-provider keywords; length bounds remain enforced locally. */
 function discoveryIdSchema(schema: z.ZodString) {
-  const result = z.toJSONSchema(schema);
-  delete result.$schema;
-  return result;
+  const { type, pattern } = z.toJSONSchema(schema);
+  return { type, pattern };
 }
 export const hostedDiscoverySchema = objectSchema({
   extractions: {

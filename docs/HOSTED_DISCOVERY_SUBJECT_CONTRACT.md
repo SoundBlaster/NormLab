@@ -25,14 +25,19 @@ Previously the provider schema described `subject` and `aboutEpisode` as arbitra
 strings while local Zod required ID patterns and a maximum128-unit length.
 The saved DEV017 response passed that loose provider type and failed locally.
 
-The provider ID-property schemas now come directly from the **same Zod fields**
-through `z.toJSONSchema`, with the nested dialect header removed. Patterns and
-length bounds are not manually duplicated:
+The provider ID-property schemas project only `type` and `pattern` from the
+**same Zod fields** through `z.toJSONSchema`. The pattern is not manually
+duplicated. The existing 128-unit maximum remains a **local-only** check:
 
-| Field        | Existing local pattern, now also sent to provider | Length bound |
-| ------------ | ------------------------------------------------- | ------------ |
-| subject      | `^(vehicle\|person)_[1-9][0-9]*$`                 | 128          |
-| aboutEpisode | `^episode_[1-9][0-9]*$`                           | 128          |
+| Field        | Shared wire/local pattern         | Local maximum |
+| ------------ | --------------------------------- | ------------- |
+| subject      | `^(vehicle\|person)_[1-9][0-9]*$` | 128           |
+| aboutEpisode | `^episode_[1-9][0-9]*$`           | 128           |
+
+The strict provider schema deliberately omits `maxLength` and nested dialect
+headers. A syntactically valid ID longer than 128 units passes the wire schema
+but is rejected locally before classification. This is syntax alignment, not
+complete equality of provider and local acceptance. No ID is truncated or repaired.
 
 The hosted discovery prefix explicitly separates thematic reference from grammar
 and retains channel names in the literal quote. The shared `inference-prompts.json`
@@ -43,7 +48,8 @@ finding. Other local constraints, speaker trimming, quote verification and
 classification rules are unchanged; this is not a claim that every local rule
 has become representable in provider JSON Schema.
 
-OpenAI documents `pattern` in the Structured Outputs subset:
+OpenAI lists `pattern` and `format` as supported string properties in the
+Structured Outputs subset; `maxLength` is not in that list:
 [official guide](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses).
 The exact updated CoreInfra request has **not** been live-tested. A provider
 ignoring/rejecting the schema must still fail normally; do not strip constraints
@@ -64,20 +70,23 @@ It is not an edited model result, replay success for the failed capture, human
 gold or evidence that a future LLM will choose the correct referent. The actual
 failed historical output is never relabelled as passed.
 
-The ID matrix checks19 allowed/forbidden/boundary values against Ajv and the
-actual hosted local parsing path. Existing OpenAI/Jev/Decisions hosted tests
+The ID matrix checks 19 allowed/forbidden/boundary values against Ajv and the
+actual hosted local parsing path, including the two deliberate oversized-ID
+wire/local differences. An exact keyword assertion permits only `type` and
+`pattern` in both ID-property schemas, preventing `maxLength` from leaking back.
+Existing OpenAI/Jev/Decisions hosted tests
 remain in the focused verification scope. New provider calls: **0**.
 
 ## Versioning and next step
 
 The output shape and default Low effort remain unchanged. Prompts and provider
 schema changed, so the computed hosted digest and its regression pin change to
-`38752d3eee1f47e199800cd438a94a90656c128f7519f81bb4d48649f198d19d`.
+`16ebf6180f0072481cffe984cf58699ef110a01282f66522bccd28a839020723`.
 The old low/medium source snapshots, digests, archives and findings are preserved.
 See [verification](evidence/hosted-subject-contract-2026-10-19/verification.json)
 for actual checks and limits.
 
-This fixes the **wire/local ID constraint mismatch** and clarifies instructions.
+This fixes the **wire/local ID syntax mismatch** and clarifies instructions.
 It does not prove semantic quality or fix the independent payer-scope,
 multi-episode scope or predicate/subject compatibility concerns. Review the change
 before a separately agreed live check. A fair new Low/Medium comparison must run
