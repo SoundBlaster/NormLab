@@ -1,0 +1,18 @@
+{
+  "schema": "normlab.oneoff-probe-authorization/v1",
+  "dateMoscow": "2026-10-19",
+  "issue": "https://github.com/SoundBlaster/NormLab/issues/68",
+  "userReply": "Да, переводы подходят. Запускай сравнение: 6 основных запросов и до 2 протокольных повторов, максимум 8 попыток. Лимит $4 остаётся в силе.",
+  "packetCommit": "a35978038cccd2c0977e4f330350a702c5031fa8",
+  "planSha256": "4cd992c3677f4ad8c17e6a71feef0cc181a1b87b756aa5dbdc16134cc2c4593a",
+  "authorizedRequests": 8,
+  "plannedJobs": 6,
+  "maximumProtocolRetries": 2,
+  "maximumAttemptsPerJob": 2,
+  "wallDeadlineSeconds": 300,
+  "externalAccountLimitUsd": 4,
+  "externalLimitUserReconfirmed": true,
+  "externalLimitIndependentlyVerified": false,
+  "pricingVerified": false,
+  "scope": "Fresh six-job source-language comparison; max two protocol-only retries overall, one per job, only knownHTTP200 JevProtocolError. Stop globally on other failure/unknown/drift/repeated failure. No semantic retries, repair, escalation or automatic resume."
+}
