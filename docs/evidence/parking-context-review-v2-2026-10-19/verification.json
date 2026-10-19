@@ -1,0 +1,110 @@
+{
+  "schema": "normlab.parking-context-review-verification/v1",
+  "date": "2026-10-19",
+  "baseCommit": "e52449bee5f68e1da77f1716be7af91b94286f47",
+  "ledger": "https://github.com/SoundBlaster/NormLab/issues/79",
+  "implementationSourceSha256": {
+    "shared/parking-context.ts": "ee45feab948c76a06211df50da653a9e7e5f68346166c4a0871b0364b348aeb2",
+    "shared/parking-review.ts": "67e1c1518b09427621ff62a109f7812c0bfd06df58b00c4c6902e636bd774654",
+    "server/parking-review-metadata.ts": "92740d2db29c3f3e1045a516d73e54db392112aea077781fb9e5a9eba43764aa",
+    "server/parking-review.ts": "43c50955074e3489ee89eca572014cb93229b6625f903c8a32e2e862527cb5f3",
+    "client/pages/parking-review/model/contracts.ts": "51d3ee479c16a36d9163fe1c00b30769b422a10a5b205a09c47c8b5d62711eb3",
+    "client/pages/parking-review/ui/Review.tsx": "0d84ba242968ad459f3e705b1d7002e436b35806bcea678cf1f1b28f5b838690",
+    "client/pages/parking-review/ui/ContextEditor.tsx": "5bbfa6bc25f5916fac057493837419091bd14d7edf9f2865b15f38d9d92483a2",
+    "client/pages/parking-review/ui/HypothesisEditor.tsx": "d7b8ad9867a3ad71e8000a8e64538732192efb135b95ab6ed61db00c160a9f8b",
+    "client/pages/parking-review/ui/review.css": "69130e47432674687404840cec01661ec376f725eb08d0545206bc090f5c547e",
+    "tests/parking-context-fixture.ts": "9735444a32d62947dd27342abb1139048bedf0b460a809ff97f9b7c4dcb77154",
+    "tests/parking-context.test.ts": "c2fd82ba252d5fee189b6df56b154a88a8dd7efe44a300f68257637ae9b893ad",
+    "tests/parking-review.test.ts": "baeeb21eecd0a151db9f75f457b731d7b3442368fac1a02a326c94548ac9937d",
+    "tests/inference.test.ts": "dfe27a7550dfe9e0b9a6e53593161f1c5db319e7d663bebd76adb0e1e067bfd7",
+    "tests/inference-errors.test.ts": "71c1c121dd30ea2d1af7568d5257481ec62e21071b80be50caf2943085c96911"
+  },
+  "checks": {
+    "nodeUnitApi": {
+      "command": "node --import <existing-tsx-loader> --test tests/*.test.ts",
+      "tests": 90,
+      "passed": 90,
+      "failed": 0,
+      "durationMs": 17369.9185
+    },
+    "lintCode": {
+      "command": "npm run lint:code",
+      "exitCode": 0
+    },
+    "fsd": {
+      "command": "node --import <existing-tsx-loader> scripts/lint-architecture.ts client --fail-on-warnings",
+      "exitCode": 0
+    },
+    "format": {
+      "command": "npm run format:check",
+      "exitCode": 0
+    },
+    "productionBuild": {
+      "command": "npm run build -- --configLoader runner --outDir <verified-TB5-worktree-build>/node/review-context-ui/dist --emptyOutDir",
+      "exitCode": 0,
+      "includesTypecheck": true
+    },
+    "schemaFreshness": {
+      "command": "node --import <existing-tsx-loader> scripts/export-contracts.ts --check",
+      "exitCode": 0
+    }
+  },
+  "browser": {
+    "startUtc": "2026-10-19T08:43:51Z",
+    "endUtc": "2026-10-19T08:46:38Z",
+    "maxCalls": 15,
+    "actualCalls": 15,
+    "inferenceMode": "disabled",
+    "syntheticNarrative": "Я припарковался.",
+    "completedPath": [
+      "create draft",
+      "select exact source quote",
+      "add transport-vehicle hypothesis",
+      "select bicycle",
+      "save revision",
+      "confirm hypothesis",
+      "save revision"
+    ],
+    "persistenceReadback": {
+      "revisions": 3,
+      "revision2HypothesisDecision": "pending",
+      "revision3HypothesisDecision": "confirmed",
+      "vehicleKind": "bicycle",
+      "sourceStatements": 0,
+      "contextDecision": "pending"
+    },
+    "layoutCheckpoint": {
+      "viewport": {
+        "width": 1403,
+        "height": 762
+      },
+      "horizontalOverflow": false,
+      "scope": "before final saves; DOM measurements only"
+    },
+    "screenshotAttempts": 1,
+    "inspectedScreenshots": 0,
+    "screenshotFailure": "TB5 output path outside browser tool allowed roots",
+    "notExercised": [
+      "manual context selection and confirmation in browser",
+      "final review completion in browser",
+      "narrow viewport",
+      "console error audit",
+      "screenshot visual audit",
+      "full accessibility audit"
+    ],
+    "finalOfflineOnlyRefinement": "Unsaved metadata status labels and generic transport checklist wording"
+  },
+  "providerAttempts": 0,
+  "deploymentPerformed": false,
+  "participantSessions": 0,
+  "correctionTime": null,
+  "criticalErrorRate": null,
+  "limits": [
+    "Manual routing and manually proposed hypotheses only",
+    "Hosted prompts and automatic extraction semantics unchanged",
+    "Legacy v1 files not rewritten",
+    "No legal calculation or automatic source-statement promotion",
+    "CI and independent review pending at publication",
+    "Issue79 broader human usability acceptance remains open"
+  ]
+}

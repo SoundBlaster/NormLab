@@ -4,17 +4,20 @@
 Parent: [DEV017 smoke / PR161](https://github.com/SoundBlaster/NormLab/pull/161),
 [observed output](HOSTED_SCHEMA_SMOKE_2026-10-19.md).
 
-**Status: policy and candidate reference packet.** Not connected to hosted runtime,
-UI, prompts, legal calculation or model scoring. User decisions are distinguished
-from authored examples. No new inference.
+**Status: policy and candidate reference packet.** The original packet did not
+change runtime, UI, prompts, legal calculation or scoring. A subsequent
+[manual draft/UI slice](PARKING_CONTEXT_REVIEW_V2.md) implements context and
+hypothesis metadata; automatic model routing and semantic policy evaluation
+remain separate work. User decisions are distinguished from authored examples.
+No new inference in either preparation or this manual implementation.
 
 ## 1. Classify the whole narrative before selecting a case pipeline
 
-### Current implementation
+### Hosted extraction baseline
 
 The hosted entry accepts narrative/sourceDigest, performs literal discovery and
 classifies its fragments with the parking predicate catalogue. There is no
-whole-text relevance/intent/episode-routing result before discovery. `cityParking`
+automatic whole-text relevance/intent/episode-routing result before discovery. `cityParking`
 and `paidRegime` are fragment predicates, not a topic router. See
 [hosted entry](../server/hosted-extraction.ts),
 [prompts](../server/inference-prompts.json),
@@ -104,11 +107,12 @@ are pending, so **pending alone cannot distinguish an inferred entity hypothesis
 from a source-supported proposition**. No unknown-subject ID, app-as-subject, fake
 vehicle or reused person ID should disguise a representability gap.
 
-A later small implementation needs an explicit hypothesis/clarification boundary
-with source provenance and user confirmation. Until then, retain the original
+The subsequent [review v2 implementation](PARKING_CONTEXT_REVIEW_V2.md) adds a
+separate manual hypothesis boundary with source provenance and confirmation.
+The hosted statement DTO still has the representation limit described above;
+no model-generated hypothesis is silently accepted. Retain the original
 text/quote and show that clarification is needed before calculation. Do not
-mislabel a relevant unrepresentable claim as `no-supported-predicate`. This
-packet does not silently extend either DTO or claim those UI behaviors exist.
+mislabel a relevant unrepresentable claim as `no-supported-predicate`.
 
 ## 3. Preserve the stated strength and source of causality
 

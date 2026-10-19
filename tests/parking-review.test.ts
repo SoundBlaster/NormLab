@@ -1,3 +1,4 @@
+import { confirmedParkingDraft } from './parking-context-fixture.js';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -18,9 +19,7 @@ test('manual review preserves revisions and invalidates edited attribution', asy
   try {
     const api = new ParkingReview(folder);
     const source = 'Я оплатил парковку.';
-    const initial = reviewDraftSchema.parse(
-      await api.handle('POST', '/api/parking/drafts', { narrative: source }),
-    );
+    const initial = await confirmedParkingDraft(api, source);
     const statement: ReviewStatement = {
       id: randomUUID(),
       predicate: 'nlinput:payment',
@@ -73,7 +72,7 @@ test('manual review preserves revisions and invalidates edited attribution', asy
       'GET',
       `/api/parking/history/${initial.draftId}`,
     )) as ReviewDraft[];
-    assert.equal(history.length, 4);
+    assert.equal(history.length, 6);
     assert.equal(history.find((r) => r.revisionId === reviewed.revisionId)?.status, 'reviewed');
     assert.equal(
       history.find((r) => r.revisionId === reviewed.revisionId)?.statements[0].speaker,
@@ -119,16 +118,14 @@ test('hosted review accepts both declared pipelines and preserves extraction ide
           },
         ],
       }));
-      const initial = reviewDraftSchema.parse(
-        await api.handle('POST', '/api/parking/drafts', { narrative }),
-      );
+      const initial = await confirmedParkingDraft(api, narrative);
       const result = reviewDraftSchema.parse(
         await api.handle('POST', '/api/parking/extract', {
           draftId: initial.draftId,
           expectedRevisionId: initial.revisionId,
         }),
       );
-      assert.equal(result.revision, 2);
+      assert.equal(result.revision, 4);
       assert.equal((result.originalExtraction as { pipeline: string }).pipeline, pipeline);
       assert.equal(result.statements[0].origin, 'model');
       assert.equal(result.statements[0].decision, 'pending');
@@ -140,9 +137,7 @@ test('hosted review accepts both declared pipelines and preserves extraction ide
         sourceDigest,
         statements: [],
       }));
-      const initial = reviewDraftSchema.parse(
-        await api.handle('POST', '/api/parking/drafts', { narrative }),
-      );
+      const initial = await confirmedParkingDraft(api, narrative);
       await assert.rejects(
         api.handle('POST', '/api/parking/extract', {
           draftId: initial.draftId,
@@ -151,7 +146,7 @@ test('hosted review accepts both declared pipelines and preserves extraction ide
         /прежняя ревизия сохранена/,
       );
       const history = await api.handle('GET', `/api/parking/history/${initial.draftId}`);
-      assert.equal((history as unknown[]).length, 1);
+      assert.equal((history as unknown[]).length, 3);
     }
   } finally {
     rmSync(folder, { recursive: true, force: true });
