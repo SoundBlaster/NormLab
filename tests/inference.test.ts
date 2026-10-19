@@ -1,3 +1,4 @@
+import { confirmedParkingDraft } from './parking-context-fixture.js';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { once } from 'node:events';
@@ -624,9 +625,7 @@ test('provider failures and model-confirmed proposals cannot overwrite a parking
     const api = new ParkingReview(folder, async () => {
       throw new Error(token);
     });
-    const initial = reviewDraftSchema.parse(
-      await api.handle('POST', '/api/parking/drafts', { narrative }),
-    );
+    const initial = await confirmedParkingDraft(api, narrative);
     await assert.rejects(
       api.handle('POST', '/api/parking/extract', {
         draftId: initial.draftId,
@@ -635,7 +634,7 @@ test('provider failures and model-confirmed proposals cannot overwrite a parking
       /прежняя ревизия сохранена/,
     );
     const history = await api.handle('GET', `/api/parking/history/${initial.draftId}`);
-    assert.equal((history as unknown[]).length, 1);
+    assert.equal((history as unknown[]).length, 3);
     const invalid = new ParkingReview(folder, async () => ({
       pipeline: HOSTED_PIPELINE,
       sourceDigest: initial.sourceDigest,
@@ -666,7 +665,7 @@ test('provider failures and model-confirmed proposals cannot overwrite a parking
     assert.equal(
       ((await invalid.handle('GET', `/api/parking/history/${initial.draftId}`)) as unknown[])
         .length,
-      1,
+      3,
     );
   } finally {
     rmSync(folder, { recursive: true, force: true });
@@ -687,9 +686,7 @@ test('extraction completing after a human edit preserves the newer review revisi
         finish = resolve;
       });
     });
-    const initial = reviewDraftSchema.parse(
-      await api.handle('POST', '/api/parking/drafts', { narrative }),
-    );
+    const initial = await confirmedParkingDraft(api, narrative);
     const extraction = api.handle('POST', '/api/parking/extract', {
       draftId: initial.draftId,
       expectedRevisionId: initial.revisionId,
@@ -717,7 +714,7 @@ test('extraction completing after a human edit preserves the newer review revisi
     const history = (await api.handle('GET', `/api/parking/history/${initial.draftId}`)) as {
       revisionId: string;
     }[];
-    assert.equal(history.length, 2);
+    assert.equal(history.length, initial.revision + 1);
     assert.equal(history[0].revisionId, updated.revisionId);
   } finally {
     rmSync(folder, { recursive: true, force: true });

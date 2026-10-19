@@ -24,9 +24,18 @@ import {
   reviewDraftSchema,
   reviewStatementSchema,
   reviewStatementIssues,
+  reviewDraftMetadata,
   type ReviewDraft,
   type ReviewStatement,
 } from '../shared/parking-review.js';
+import {
+  emptyNarrativeContext,
+  narrativeContextSchema,
+  narrativeRoute,
+  reviewMetadataIssues,
+  vehicleHypothesisSchema,
+} from '../shared/parking-context.js';
+import { reviseReviewMetadata } from './parking-review-metadata.js';
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex');
 export class ParkingReviewError extends Error {
@@ -50,6 +59,8 @@ const updateInput = z
     statements: z.array(reviewStatementSchema).max(256),
     checklist: reviewChecklistSchema,
     finishReview: z.boolean(),
+    context: narrativeContextSchema.optional(),
+    hypotheses: z.array(vehicleHypothesisSchema).max(64).optional(),
   })
   .strict();
 const extractInput = z
@@ -100,7 +111,9 @@ export class ParkingReview {
   private revise(draft: ReviewDraft, changes: Partial<ReviewDraft>) {
     return this.save({
       ...draft,
+      ...reviewDraftMetadata(draft),
       ...changes,
+      schema: 'normlab.parking-review/v2',
       revisionId: randomUUID(),
       revision: draft.revision + 1,
       createdAt: new Date().toISOString(),
@@ -141,7 +154,7 @@ export class ParkingReview {
       const input = createInput.parse(body);
       if (input.previousDraftId) this.current(input.previousDraftId);
       return this.save({
-        schema: 'normlab.parking-review/v1',
+        schema: 'normlab.parking-review/v2',
         draftId: randomUUID(),
         revisionId: randomUUID(),
         revision: 1,
@@ -151,6 +164,8 @@ export class ParkingReview {
         sourceDigest: digest(input.narrative),
         originalExtraction: null,
         statements: [],
+        context: emptyNarrativeContext(),
+        hypotheses: [],
         checklist: { ...emptyReviewChecklist },
         status: 'draft',
       });
@@ -158,6 +173,20 @@ export class ParkingReview {
     if (method === 'POST' && path === '/api/parking/review') {
       const input = updateInput.parse(body);
       const draft = this.expected(input.draftId, input.expectedRevisionId);
+      const priorMetadata = reviewDraftMetadata(draft);
+      let metadata;
+      try {
+        metadata = reviseReviewMetadata(
+          priorMetadata,
+          {
+            context: input.context ?? priorMetadata.context,
+            hypotheses: input.hypotheses ?? priorMetadata.hypotheses,
+          },
+          draft.narrative,
+        );
+      } catch (error) {
+        throw new ParkingReviewError(error instanceof Error ? error.message : 'Ошибка метаданных.');
+      }
       if (new Set(input.statements.map((s) => s.id)).size !== input.statements.length)
         throw new ParkingReviewError('Повторяются IDs утверждений.');
       let statementsChanged = false;
@@ -184,7 +213,7 @@ export class ParkingReview {
         const result = {
           ...statement,
           origin: changed ? ('human' as const) : prior.origin,
-          decision: changed ? ('pending' as const) : statement.decision,
+          decision: changed || metadata.changed ? ('pending' as const) : statement.decision,
         };
         const issues = reviewStatementIssues(result, draft.narrative);
         if (issues.length) throw new ParkingReviewError(issues.join(' '));
@@ -199,7 +228,11 @@ export class ParkingReview {
         (s) => s.origin === 'human' && s.decision === 'pending',
       );
       const checklistChanged = JSON.stringify(input.checklist) !== JSON.stringify(draft.checklist);
-      const checklist = contentChanged ? { ...emptyReviewChecklist } : input.checklist;
+      const checklist =
+        contentChanged || metadata.changed ? { ...emptyReviewChecklist } : input.checklist;
+      const metadataIssues = reviewMetadataIssues(metadata.context, metadata.hypotheses);
+      if (input.finishReview && metadataIssues.length)
+        throw new ParkingReviewError(metadataIssues.join(' '));
       if (
         input.finishReview &&
         (!statements.length ||
@@ -211,10 +244,17 @@ export class ParkingReview {
         );
       return this.revise(draft, {
         statements,
+        context: metadata.context,
+        hypotheses: metadata.hypotheses,
         checklist,
         status:
           input.finishReview ||
-          (draft.status === 'reviewed' && !statementsChanged && !checklistChanged)
+          (draft.status === 'reviewed' &&
+            !statementsChanged &&
+            !checklistChanged &&
+            !metadata.changed &&
+            !metadataIssues.length &&
+            statements.every((s) => s.decision !== 'pending'))
             ? 'reviewed'
             : 'draft',
       });
@@ -232,6 +272,14 @@ export class ParkingReview {
       if (this.extractor && draft.narrative.length > HOSTED_MAX_NARRATIVE)
         throw new ParkingReviewError(
           `Внешнее извлечение принимает фабулу до ${HOSTED_MAX_NARRATIVE} символов. Ручная разметка доступна.`,
+        );
+      const metadata = reviewDraftMetadata(draft);
+      if (
+        metadata.context.decision !== 'confirmed' ||
+        narrativeRoute(metadata.context) !== 'parking-review'
+      )
+        throw new ParkingReviewError(
+          'Сначала сохраните и подтвердите контекст парковочного эпизода.',
         );
       this.extracting = true;
       const folder = join(this.folder(draft.draftId), `extraction-${randomUUID()}`);
@@ -286,6 +334,10 @@ export class ParkingReview {
         return this.revise(draft, {
           originalExtraction: raw,
           statements: result.statements,
+          hypotheses: metadata.hypotheses.map((item) => ({
+            ...item,
+            decision: 'pending' as const,
+          })),
           checklist: { ...emptyReviewChecklist },
           status: 'draft',
         });

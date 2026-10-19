@@ -1,3 +1,4 @@
+import { confirmedParkingDraft } from './parking-context-fixture.js';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -125,9 +126,7 @@ test('provider failure crosses actual gateway and review API without changing th
     const api = new ParkingReview(folder, (input) =>
       inferencePost(url, token, input, signal(), fetch, 1000, undefined, true),
     );
-    const created = (await api.handle('POST', '/api/parking/drafts', {
-      narrative: 'Парковка не оплачена.',
-    })) as { draftId: string; revisionId: string };
+    const created = await confirmedParkingDraft(api, 'Парковка не оплачена.');
     await assert.rejects(
       api.handle('POST', '/api/parking/extract', {
         draftId: created.draftId,
@@ -146,7 +145,7 @@ test('provider failure crosses actual gateway and review API without changing th
     );
     assert.equal(
       ((await api.handle('GET', `/api/parking/history/${created.draftId}`)) as unknown[]).length,
-      1,
+      3,
     );
     const failure = new InferenceAccessError({
       ...context,

@@ -13,6 +13,18 @@
   font-size: var(--text-label);
   line-height: 1.75;
 }
+.parking-context {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.parking-context legend {
+  margin-bottom: var(--space-4);
+  font-weight: 600;
+}
 .parking-statement-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
