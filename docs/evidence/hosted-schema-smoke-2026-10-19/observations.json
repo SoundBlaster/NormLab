@@ -1,0 +1,105 @@
+{
+  "schema": "normlab.one-off-hosted-run/v1",
+  "status": "completed",
+  "startedAt": "2026-10-19T08:04:34.845Z",
+  "executionCommit": "292d8ccff525ffe4e4e8ecd4c946f3ddd8c89a4f",
+  "authoritySha256": "85f3505f073595e2f0c596ef9921f1abc50ad9d9989b1a70aa3cbd2ffb5986a1",
+  "runtime": {
+    "node": "v26.5.0",
+    "executableSha256": "19fa44ac565968cd4dbf38277854c829e441598f0872223881002efb471b40e9",
+    "esbuild": "0.28.2",
+    "bundleSha256": "34a0de8f7cef023a343f78e7f97b12ae0b2caf47e98440dff31aa4ac02e9c8bd",
+    "importsBundled": true,
+    "externalImports": [
+      {
+        "path": "node:crypto",
+        "kind": "import-statement",
+        "external": true
+      },
+      {
+        "path": "node:net",
+        "kind": "import-statement",
+        "external": true
+      }
+    ]
+  },
+  "promptDigest": "16ebf6180f0072481cffe984cf58699ef110a01282f66522bccd28a839020723",
+  "cases": [
+    {
+      "id": "DEV017",
+      "inputPath": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV017.json",
+      "status": "completed",
+      "resultPath": "DEV017.result.json",
+      "statements": 5,
+      "fragments": 2,
+      "providerAttempts": 2
+    }
+  ],
+  "attempts": [
+    {
+      "number": 1,
+      "caseId": "DEV017",
+      "stage": "discovery",
+      "outcome": "http-complete",
+      "startedAt": "2026-10-19T08:04:34.866Z",
+      "requestPath": "attempt-01.request.json",
+      "responsePath": "attempt-01.response.txt",
+      "httpStatus": 200,
+      "usage": {
+        "input_tokens": 514,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 363,
+        "output_tokens_details": {
+          "reasoning_tokens": 270
+        },
+        "total_tokens": 877
+      },
+      "providerRequestId": "req_df678a5de3b348de909e08bb33a3f84d",
+      "responseSha256": "91c2e26126017fc7961423f418db8298bd4a6e70eb2be2d56debeb29d167ff73",
+      "returnedModel": "gpt-6-luna",
+      "providerResponseId": "resp_0d0a6785fda4e9f5016ad5cf1505cc87d29b488e488b6a2cf7",
+      "finishedAt": "2026-10-19T08:04:42.138Z"
+    },
+    {
+      "number": 2,
+      "caseId": "DEV017",
+      "stage": "classification",
+      "outcome": "http-complete",
+      "startedAt": "2026-10-19T08:04:42.146Z",
+      "requestPath": "attempt-02.request.json",
+      "responsePath": "attempt-02.response.txt",
+      "httpStatus": 200,
+      "usage": {
+        "input_tokens": 1199,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 1196
+        },
+        "output_tokens": 369,
+        "output_tokens_details": {
+          "reasoning_tokens": 201
+        },
+        "total_tokens": 1568
+      },
+      "providerRequestId": "req_a12d654b01614f4e875631715885eb37",
+      "responseSha256": "744b51b36c645c3dcd643ab6eda1a82e0944b6b875a8ce8f5881137bf7c23b2c",
+      "returnedModel": "gpt-6-luna",
+      "providerResponseId": "resp_0ce58d1226de8551016ad5cf1a965487d2bfa01de725cbc05e",
+      "finishedAt": "2026-10-19T08:04:48.283Z"
+    }
+  ],
+  "stopReason": null,
+  "humanCorrectionSessions": 0,
+  "activeHumanReviewSeconds": null,
+  "costUsd": null,
+  "finishedAt": "2026-10-19T08:04:48.293Z",
+  "elapsedMs": 13448,
+  "knownTokens": {
+    "input": 1713,
+    "output": 732
+  },
+  "attemptsWithUnknownUsage": 0
+}
