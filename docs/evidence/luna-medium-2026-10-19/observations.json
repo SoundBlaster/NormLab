@@ -1,0 +1,103 @@
+{
+  "schema": "normlab.luna-medium-observations/v1",
+  "dateMsk": "2026-10-19",
+  "executionCommit": "35fc3b87f66d079679added0bc03cb4140b2617e",
+  "status": "stopped",
+  "requestedModel": "gpt-6-luna",
+  "providerEffortEchoes": ["medium"],
+  "plannedCases": 10,
+  "completedCases": 5,
+  "localContractFailures": 1,
+  "notExecutedCases": 4,
+  "providerAttempts": 11,
+  "http200": 11,
+  "retries": 0,
+  "repair": 0,
+  "judge": 0,
+  "unknownOutcomes": 0,
+  "attemptsWithUnknownUsage": 0,
+  "allKnownTokens": {
+    "input": 8379,
+    "output": 2890
+  },
+  "allReasoningTokens": 1484,
+  "elapsedMs": 44213,
+  "stopReason": "first-operational-protocol-unknown-or-authority-failure",
+  "liveRequestBodiesEffortOnlyDiffAgainstLow": 11,
+  "commonCompletedCases": ["DEV001", "DEV002", "DEV003", "DEV006", "DEV013"],
+  "matchedResourceComparison": {
+    "low": {
+      "attempts": 10,
+      "inputTokens": 7975,
+      "outputTokens": 1973,
+      "details": {
+        "reasoning_tokens": {
+          "knownSum": 744,
+          "unknownAttempts": 0
+        },
+        "cached_tokens": {
+          "knownSum": 4320,
+          "unknownAttempts": 0
+        },
+        "cache_write_tokens": {
+          "knownSum": 1640,
+          "unknownAttempts": 0
+        }
+      },
+      "caseLatencyMs": {
+        "DEV001": 7325,
+        "DEV002": 5181,
+        "DEV003": 5327,
+        "DEV006": 8552,
+        "DEV013": 6222
+      },
+      "sumCompletedCaseLatencyMs": 32607
+    },
+    "medium": {
+      "attempts": 10,
+      "inputTokens": 7975,
+      "outputTokens": 2354,
+      "details": {
+        "reasoning_tokens": {
+          "knownSum": 1045,
+          "unknownAttempts": 0
+        },
+        "cached_tokens": {
+          "knownSum": 4320,
+          "unknownAttempts": 0
+        },
+        "cache_write_tokens": {
+          "knownSum": 1640,
+          "unknownAttempts": 0
+        }
+      },
+      "caseLatencyMs": {
+        "DEV001": 7478,
+        "DEV002": 5847,
+        "DEV003": 6516,
+        "DEV006": 9849,
+        "DEV013": 7896
+      },
+      "sumCompletedCaseLatencyMs": 37586
+    }
+  },
+  "ratiosMediumOverLow": {
+    "completedLatency": 1.1526972735915602,
+    "outputTokens": 1.1931069437404966,
+    "reasoningTokens": 1.4045698924731183
+  },
+  "costUsd": null,
+  "userReportedExternalCeilingUsd": 4,
+  "externalCeilingIndependentlyVerified": false,
+  "humanCorrectionSessions": 0,
+  "activeCorrectionSeconds": null,
+  "overallCaseQualityRate": null,
+  "limitations": [
+    "Historical low versus one medium observation per case, related dev-seen sources, non-blind same-agent review.",
+    "Four suffix cases not executed. Only5 complete semantic pairs; no complete ten-case effort verdict.",
+    "Resource ratios use the same5 completed cases/10 calls per arm; failed medium discovery tracked separately, not silently omitted from total billable attempts.",
+    "Same observed input/cache counts on matched subset do not prove no hidden provider/model/runtime drift or isolate causal effort effect.",
+    "Returned model and effort echo are metadata, not attestation of hidden inference effort.",
+    "No UI, human session, production default change, deployment, MLflow import or extra live calls."
+  ]
+}

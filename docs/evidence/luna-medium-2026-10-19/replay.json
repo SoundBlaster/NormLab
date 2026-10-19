@@ -1,0 +1,44 @@
+{
+  "schema": "normlab.one-off-medium-replay/v1",
+  "mode": "medium-replay",
+  "status": "pass",
+  "liveCalls": 0,
+  "network": "Real fetch forbidden; archived responses only",
+  "requests": 10,
+  "statements": 27,
+  "fragments": 10,
+  "promptDigest": "af360da7a8e1ba633f7062943d24a61a41d10506a05a3771223c76f506734689",
+  "comparison": "Entire captured medium results equal; excludes only fresh statement UUIDs and measured latency.",
+  "records": [
+    {
+      "id": "DEV001",
+      "status": "equal",
+      "statements": 4,
+      "fragments": 2
+    },
+    {
+      "id": "DEV002",
+      "status": "equal",
+      "statements": 5,
+      "fragments": 2
+    },
+    {
+      "id": "DEV003",
+      "status": "equal",
+      "statements": 4,
+      "fragments": 2
+    },
+    {
+      "id": "DEV006",
+      "status": "equal",
+      "statements": 7,
+      "fragments": 2
+    },
+    {
+      "id": "DEV013",
+      "status": "equal",
+      "statements": 7,
+      "fragments": 2
+    }
+  ]
+}

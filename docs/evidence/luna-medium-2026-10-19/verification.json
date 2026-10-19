@@ -1,0 +1,27 @@
+{
+  "schema": "normlab.medium-evidence-verification/v1",
+  "status": "pass",
+  "liveCalls": 0,
+  "archiveSha256": "93e1564ed8d2583fe372f0deadaec6af5fac4cd8347a380027135266f7522a13",
+  "archiveBytes": 630833,
+  "manifestFiles": 92,
+  "checks": [
+    "133 source/input/config/dependency/supervisor/plan bindings match pre-dispatch authority.",
+    "Bundle, generated driver and effective provider source match recorded hashes; old low archive unchanged.",
+    "Exact original authority bytes preserved separately; capture authority object semantically equal after JSON serialization.",
+    "11 contiguous attempts all HTTP200 complete; requests and response echoes medium; only effort differs against corresponding low requests.",
+    "5 completed,1 local contract failure,4 not-executed; cap30/900s and no-retry stop respected; all known usage retained.",
+    "ZIP reopened: CRC, exact membership, sizes and SHA256 of every payload verified; nested original low ZIP hash/manifest verified.",
+    "Known environment secret values and standalone token-shaped strings absent from all uncompressed outer/nested payloads.",
+    "5 successful replay cases /10 saved responses equal;27 statement and10 fragment anchors exact,0 network calls.",
+    "Failed discovery separately reproduced from1 saved response with exact local invalid_format path;0 network calls.",
+    "All10 comparison records present; suffix not scored; monetary cost/human metrics/overall quality rate null."
+  ],
+  "credentialScan": "Available environment secret values including actual execution key, plus standalone token pattern; not an independent universal secret audit.",
+  "limitations": [
+    "No repeat/repair/fallback/fresh low/generation variance measurement; no claim of complete ten-case semantic comparison.",
+    "All live batches single; transport failure/cancellation/cap paths not live-exercised.",
+    "Same-agent non-blind candidate review, not human gold, causal effect proof or overall accuracy.",
+    "No UI/correction/full application test suite/install/deploy/merge/MLflow import."
+  ]
+}

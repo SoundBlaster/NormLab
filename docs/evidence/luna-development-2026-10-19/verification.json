@@ -1,0 +1,24 @@
+{
+  "schema": "normlab.one-off-evidence-verification/v1",
+  "status": "pass",
+  "liveCalls": 0,
+  "archiveSha256": "da81366eb21084af19183410210ae9f3e3d51e1b3a12163cd2502f6e915d295a",
+  "archiveBytes": 325571,
+  "manifestFiles": 95,
+  "checks": [
+    "All128 current source/input/config/dependency/driver hashes match pre-dispatch authority.",
+    "Captured authority and bundle digest match execution record.",
+    "20 contiguous attempts, all HTTP200 complete; response digests and caps match.",
+    "ZIP CRC, exact membership, byte sizes and SHA256 for every manifest entry verified by reopening ZIP.",
+    "Known environment credential values and token-shaped strings absent from every uncompressed archive payload.",
+    "All10 candidate review records present; all53 statements/22 fragments reviewed; finding UTF16 anchors exact.",
+    "Unobserved human correction times and overall quality rate remain null.",
+    "Offline replay10/10 equal,20 mocked responses,0 network calls; only fresh UUIDs/latency excluded."
+  ],
+  "credentialScan": "Exact execution credential plus available environment secret values and token-shape pattern; not an independent universal secret audit.",
+  "limitations": [
+    "SHA256/CRC detect inconsistent archive contents; not a signature or independent authenticity proof.",
+    "Failure, cancellation and multi-batch cap paths were not live-exercised; all cases used one classification batch.",
+    "No complete application test suite, UI correction session, deployment or MLflow import performed."
+  ]
+}

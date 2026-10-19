@@ -1,0 +1,481 @@
+{
+  "schema": "normlab.whole-output-candidate-review/v1",
+  "dateMsk": "2026-10-19",
+  "executionCommit": "5d35e4778321064f02fba5776fc43572f4fc3259",
+  "reviewer": "Codex /root; same agent prepared candidate references and reviewed outputs; not independent, blind, human or adjudicated gold",
+  "rubricPath": "fixtures/parking-pilot/luna-development-pilot-v1/rubric.json",
+  "unit": "all10 original assigned texts, all22 fragments/22 decisions/53 statements",
+  "interpretation": "Candidate pass means no identified extraction-critical concern in this source/output review; not full assisted-task success. Quote-only/contextual nuances remain visible; unresolved does not assert proven whole-text loss.",
+  "overallCaseQualityRate": null,
+  "statisticalGeneralization": false,
+  "humanReviewedCases": 0,
+  "adjudicatedCases": 0,
+  "counts": {
+    "candidatePass": 4,
+    "candidateCriticalError": 3,
+    "unresolved": 3,
+    "fullAssistedTaskPassesClaimed": 0
+  },
+  "records": [
+    {
+      "id": "DEV001",
+      "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+      "resultPath": "capture/DEV001.result.json",
+      "status": "candidate-pass",
+      "summary": "Москва, городской тип, размещение и оплата через приложение сохранены. Платный режим и личное использование не добавлены.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 4
+      },
+      "sourceToOutputCoverage": ["All3 candidate readings represented in statements0..3."],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": ["eventDate", "placementInterval", "paidRegime"],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV002",
+      "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5",
+      "resultPath": "capture/DEV002.result.json",
+      "status": "candidate-critical-error",
+      "summary": "Отрицание оплаты сохранено, но summary расширяет субъектный scope: «не оплачивал» становится «не была оплачена».",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 4
+      },
+      "sourceToOutputCoverage": ["Readings1/2 represented; reading3 broadened in summary."],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV002-POL-1",
+          "rubric": ["POL", "ROLE"],
+          "layer": "classification-summary",
+          "sourceQuote": "Парковку не оплачивал.",
+          "outputPaths": ["statements[3].valueText", "statements[3].stance"],
+          "actual": "Парковка не была оплачена. / denied",
+          "expected": "Сохранить отрицание собственной оплаты рассказчиком; не утверждать отсутствие оплаты любым лицом.",
+          "qualification": "Candidate critical scope broadening; original narrow quote and narrator provenance survive. Speaker identifies claimant, not necessarily payer. Human adjudication pending.",
+          "sourceSpan": {
+            "start": 53,
+            "end": 75,
+            "unit": "UTF-16-half-open"
+          }
+        }
+      ],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": ["eventDate", "placementInterval", "paidRegime"],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV003",
+      "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+      "resultPath": "capture/DEV003.result.json",
+      "status": "candidate-pass",
+      "summary": "Явное незнание результата сохранено как payment=unknown. Ни success, ни failure не добавлены.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 4
+      },
+      "sourceToOutputCoverage": ["All3 readings represented in statements0..3."],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": [
+          "eventDate",
+          "placementInterval",
+          "paidRegime",
+          "paymentOutcome"
+        ],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV006",
+      "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d",
+      "resultPath": "capture/DEV006.result.json",
+      "status": "unresolved",
+      "summary": "А и Б разделены: placement относится к vehicle_1, payment — к vehicle_2. Владение А, выраженное словом «тоже», осталось контекстом цитаты и не выражено отдельной связью.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 6
+      },
+      "sourceToOutputCoverage": [
+        "Readings1/2/3/5 preserved; reading4 partial in structured statements, complete source evidence retained."
+      ],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV006-OMIT-1",
+          "rubric": ["OMIT"],
+          "layer": "structured-coverage",
+          "sourceQuote": "Платёж прошёл за автомобиль Б, который тоже принадлежит мне.",
+          "outputPaths": ["statements[3]", "statements[5]", "fragments[1].quote"],
+          "actual": "A: говорящий припарковал; Б: принадлежит говорящему.",
+          "expected": "Проверить, нужно ли явно выразить владение обоими автомобилями, а не только Б.",
+          "qualification": "Not a proven whole-evidence loss: «тоже» remains in quote. Candidate relation-coverage concern, not a definitive fabricated payment for A.",
+          "sourceSpan": {
+            "start": 59,
+            "end": 119,
+            "unit": "UTF-16-half-open"
+          }
+        }
+      ],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": [
+          "eventDate",
+          "placementInterval",
+          "paidRegime",
+          "paymentForParkedVehicle"
+        ],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV013",
+      "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb",
+      "resultPath": "capture/DEV013.result.json",
+      "status": "candidate-pass",
+      "summary": "Интервал стоянки 12:00–12:30 отделён от paymentStart=12:05:01. Секунда не округлена; отсутствующая дата не придумана.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 6
+      },
+      "sourceToOutputCoverage": [
+        "All4 readings represented; departure is readable from eventTime interval and quote, no duplicate predicate required."
+      ],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": ["eventDate", "paidRegime"],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV017",
+      "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+      "resultPath": "capture/DEV017.result.json",
+      "status": "unresolved",
+      "summary": "Неудача оплаты сохранена без вывода о вине. Сбой приложения и СМС остался дословно в quote, но не получил отдельного структурного обстоятельства.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 4
+      },
+      "sourceToOutputCoverage": ["Readings1/2/4 structured; reading3 quote-only."],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV017-OMIT-1",
+          "rubric": ["OMIT"],
+          "layer": "structured-coverage",
+          "sourceQuote": "Приложение и СМС не работали, оплатить парковку не удалось.",
+          "outputPaths": ["statements[3].valueText", "statements[3].quote", "decisions[1]"],
+          "actual": "payment=denied; «Оплатить парковку не удалось.»",
+          "expected": "Сохранить доступную для дальнейшей обработки причину неудачи: не работали оба канала.",
+          "qualification": "Evidence survives intact; candidate coverage/contract question, not claimed complete text loss. No faultAndExclusions inferred.",
+          "sourceSpan": {
+            "start": 40,
+            "end": 99,
+            "unit": "UTF-16-half-open"
+          }
+        }
+      ],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": ["eventDate", "placementInterval", "paidRegime"],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV027",
+      "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531",
+      "resultPath": "capture/DEV027.result.json",
+      "status": "candidate-critical-error",
+      "summary": "Разные оплаты получили разные episode_1/episode_2. Однако общая фраза о двух московских городских стоянках привязана только к episode_1.",
+      "readAll": {
+        "fragments": 3,
+        "decisions": 3,
+        "statements": 10
+      },
+      "sourceToOutputCoverage": [
+        "Both parking episodes and opposite payment states retained; global claims not explicitly bound to episode2. Episode selection question absent at extractor-contract layer."
+      ],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV027-ROLE-1",
+          "rubric": ["ROLE"],
+          "layer": "discovery-episode-binding",
+          "sourceQuote": "В Москве я сделал две стоянки на городских парковках.",
+          "outputPaths": [
+            "fragments[0].attributes.aboutEpisode",
+            "statements[0].aboutEpisode",
+            "statements[1].aboutEpisode"
+          ],
+          "actual": "inMoscow/cityParking scoped only to episode_1, plural valueText refers to both.",
+          "expected": "Общие location/type assertions должны применяться к обоим эпизодам, без автоматического выбора одного.",
+          "qualification": "Candidate structured episode-scope defect. Whole quote and plural summaries preserve the human-readable evidence; payments are not collapsed. Existing schema can repeat a quote with different episode attributes, but has no multi-episode scope field.",
+          "sourceSpan": {
+            "start": 0,
+            "end": 53,
+            "unit": "UTF-16-half-open"
+          }
+        }
+      ],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": [
+          "eventDate",
+          "placementInterval",
+          "paidRegime",
+          "selectedEpisode"
+        ],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": true,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV028",
+      "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2",
+      "resultPath": "capture/DEV028.result.json",
+      "status": "candidate-pass",
+      "summary": "payment=asserted/narrator и payment=denied/notice_1 сохранены для одного эпизода. Победитель не выбран.",
+      "readAll": {
+        "fragments": 3,
+        "decisions": 3,
+        "statements": 5
+      },
+      "sourceToOutputCoverage": [
+        "All5 readings preserved across statements0..4 plus their shared episode/source layers; conflict is implicit in preserved pair, not a dedicated conflict flag."
+      ],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": [
+          "eventDate",
+          "placementInterval",
+          "paidRegime",
+          "reconcileNarratorAndNotice"
+        ],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV032",
+      "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3",
+      "resultPath": "capture/DEV032.result.json",
+      "status": "candidate-critical-error",
+      "summary": "Казань сохранена и Москва отрицается. Но subject=person_1 использован для placement, хотя определение predicate говорит об автомобиле.",
+      "readAll": {
+        "fragments": 1,
+        "decisions": 1,
+        "statements": 5
+      },
+      "sourceToOutputCoverage": [
+        "City/type/nonpayment preserved; vehicle-placement has wrong subject type. Known-outside-Moscow routing is absent from extractor payload, tracked separately."
+      ],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV032-ROLE-1",
+          "rubric": ["ROLE"],
+          "layer": "subject-predicate-type",
+          "sourceQuote": "Я стоял на городской парковке в Казани и не оплатил её.",
+          "outputPaths": [
+            "fragments[0].attributes.subject",
+            "statements[1].predicate",
+            "statements[1].subject",
+            "statements[1].valueText"
+          ],
+          "actual": "nlinput:placement asserted person_1; «Говорящий стоял на парковке.»",
+          "expected": "Не выдавать нахождение человека за vehicle-placement; автомобиль/субъект требует явного представления либо уточнения.",
+          "qualification": "Candidate ontology-role inconsistency accepted by current broad subject schema. City inMoscow=denied with Kazan summary is supported, not a geographic hallucination.",
+          "sourceSpan": {
+            "start": 0,
+            "end": 55,
+            "unit": "UTF-16-half-open"
+          }
+        }
+      ],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": [],
+        "optionalCandidateFollowups": ["eventDate", "placementInterval", "paidRegime"],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": "known-outside-moscow",
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    },
+    {
+      "id": "DEV044",
+      "sourceDigest": "5ec36a76239995697443bd1d33471877e32d410b1c2fd6e0e2c4f60ba0312807",
+      "resultPath": "capture/DEV044.result.json",
+      "status": "unresolved",
+      "summary": "Буквенная ошибка, машина супруги, процесс оплаты и редкое использование сохранены. «Пришёл штраф» остаётся отдельным no-supported-predicate fragment; вопрос о жалобе — в цитате. Успешное зачисление нужной машине не установлено.",
+      "readAll": {
+        "fragments": 3,
+        "decisions": 3,
+        "statements": 5
+      },
+      "sourceToOutputCoverage": [
+        "Reading1 represented; reading2 fine retained only as unclassified fragment and success not explicit; reading3 procedural question quote-only; reading4 no driver=owner substitution observed."
+      ],
+      "reverseOutputReview": "Every generated statement reviewed against its source quote and full narrative; material concerns listed, no additional legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV044-POL-1",
+          "rubric": ["POL", "UNKNOWN"],
+          "layer": "payment-modality-contract",
+          "sourceQuote": "Автор сообщает: оплачивал стоянку машины супруги через приложение и ошибся первой буквой номера.",
+          "outputPaths": [
+            "statements[1].predicate",
+            "statements[1].stance",
+            "statements[1].valueText",
+            "decisions[1]"
+          ],
+          "actual": "payment=asserted, valueText retains «оплачивал»; fine has no-supported-predicate.",
+          "expected": "Не трактовать процесс/попытку оплаты как подтверждённое зачисление нужному автомобилю. Сохранить штраф/процедурный вопрос для review без правового ответа.",
+          "qualification": "No definitive model critical error assigned: imperfective modality survives in summary/quote and fine is not deleted. Typed payment-success meaning and unsupported-context handling require adjudication/contract decision.",
+          "sourceSpan": {
+            "start": 0,
+            "end": 96,
+            "unit": "UTF-16-half-open"
+          }
+        }
+      ],
+      "assistedTask": {
+        "status": "not-complete-at-extractor-boundary",
+        "clarificationListPresent": false,
+        "requiredCandidateFollowups": [
+          "eventDate",
+          "placementInterval",
+          "paidRegime",
+          "city",
+          "parkingType",
+          "paymentOutcome",
+          "driverOwnerIdentity"
+        ],
+        "optionalCandidateFollowups": [],
+        "episodeSelectionRequired": false,
+        "unsupportedDemoScope": null,
+        "boundary": "Measures extractor payload only; downstream UI/checklist behavior not exercised. No followup/routing feature added or inferred absent in entire app."
+      },
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "logicalEdits": null,
+        "confirmations": null,
+        "afterCorrectionReview": null
+      }
+    }
+  ]
+}

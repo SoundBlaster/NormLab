@@ -1,0 +1,293 @@
+{
+  "schema": "normlab.luna-effort-paired-candidate-review/v1",
+  "dateMsk": "2026-10-19",
+  "mediumExecutionCommit": "35fc3b87f66d079679added0bc03cb4140b2617e",
+  "baselinePublicationCommit": "d157ef929c4d8eedca5fd0177981695291295fef",
+  "rubricPath": "fixtures/parking-pilot/luna-development-pilot-v1/rubric.json",
+  "reviewer": "Codex /root; same agent, non-blind candidate review, not independent human/adjudicated gold",
+  "denominator": {
+    "assignedOriginalCases": 10,
+    "completedPairedCases": 5,
+    "failedMediumCases": 1,
+    "notExecutedMediumCases": 4
+  },
+  "counts": {
+    "completedCandidatePass": 3,
+    "completedCandidateCriticalError": 1,
+    "completedUnresolved": 1,
+    "improvedWholeCasesClaimed": 0,
+    "unchanged": 4,
+    "unresolvedWithPartialDescriptiveGain": 1,
+    "operationalOrNotComparable": 5
+  },
+  "overallCaseQualityRate": null,
+  "humanReviewedCases": 0,
+  "adjudicatedCases": 0,
+  "records": [
+    {
+      "id": "DEV001",
+      "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+      "lowCandidateStatus": "candidate-pass",
+      "lowResultPath": "baseline/capture/DEV001.result.json",
+      "mediumOperationalStatus": "completed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumResultPath": "capture/DEV001.result.json",
+      "mediumCandidateStatus": "candidate-pass",
+      "transition": "unchanged",
+      "summary": "Оплата, размещение, Москва и городской тип сохранены; лишний paidRegime не добавлен.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 4
+      },
+      "sourceToOutputReview": "All3 source readings represented across statements0..3. No new unsupported fact or polarity/source/vehicle/episode drift found.",
+      "outputToSourceReview": "Every output statement reviewed with quote and whole source. Issues/context dependencies below; no additional generated legal/fault/paid-regime claims found.",
+      "findings": []
+    },
+    {
+      "id": "DEV002",
+      "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5",
+      "lowCandidateStatus": "candidate-critical-error",
+      "lowResultPath": "baseline/capture/DEV002.result.json",
+      "mediumOperationalStatus": "completed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumResultPath": "capture/DEV002.result.json",
+      "mediumCandidateStatus": "candidate-critical-error",
+      "transition": "unchanged",
+      "summary": "Low: «Парковка не была оплачена». Medium: «Парковку не оплачивали». Собственное действие рассказчика снова обобщено.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 5
+      },
+      "sourceToOutputReview": "Readings1/2 preserved. Reading3 still broadened in payment summary; added attribution statement concerns leaving vehicle, not payer identity.",
+      "outputToSourceReview": "Every output statement reviewed with quote and whole source. Issues/context dependencies below; no additional generated legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV002-POL-1",
+          "rubric": ["POL", "ROLE"],
+          "sourceQuote": "Парковку не оплачивал.",
+          "lowOutputPath": "statements[3].valueText",
+          "lowActual": "Парковка не была оплачена.",
+          "mediumOutputPath": "statements[4].valueText",
+          "mediumActual": "Парковку не оплачивали.",
+          "expected": "Сохранить отрицание собственной оплаты рассказчиком; не утверждать, что никто другой не оплатил.",
+          "status": "same candidate scope concern; quote remains, adjudication pending"
+        }
+      ]
+    },
+    {
+      "id": "DEV003",
+      "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+      "lowCandidateStatus": "candidate-pass",
+      "lowResultPath": "baseline/capture/DEV003.result.json",
+      "mediumOperationalStatus": "completed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumResultPath": "capture/DEV003.result.json",
+      "mediumCandidateStatus": "candidate-pass",
+      "transition": "unchanged",
+      "summary": "payment=unknown сохранился; неизвестность не превращена в отрицание или факт оплаты.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 4
+      },
+      "sourceToOutputReview": "All3 source readings represented; no invented date/regime/actor facts.",
+      "outputToSourceReview": "Every output statement reviewed with quote and whole source. Issues/context dependencies below; no additional generated legal/fault/paid-regime claims found.",
+      "findings": []
+    },
+    {
+      "id": "DEV006",
+      "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d",
+      "lowCandidateStatus": "unresolved",
+      "lowResultPath": "baseline/capture/DEV006.result.json",
+      "mediumOperationalStatus": "completed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumResultPath": "capture/DEV006.result.json",
+      "mediumCandidateStatus": "unresolved",
+      "transition": "unresolved",
+      "summary": "Новый paymentComplexity называет платёж за другой автомобиль Б; placement А/payment Б по-прежнему разделены. Владение А не стало явной связью.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 7
+      },
+      "sourceToOutputReview": "Readings1/2/3/5 preserved. Reading4 retains «тоже» in quote; B ownership structured but A ownership remains contextual. Additional wrong-vehicle description is useful partial gain, not full resolution.",
+      "outputToSourceReview": "Every output statement reviewed with quote and whole source. Issues/context dependencies below; no additional generated legal/fault/paid-regime claims found.",
+      "findings": [
+        {
+          "id": "DEV006-OMIT-1",
+          "rubric": ["OMIT"],
+          "sourceQuote": "Платёж прошёл за автомобиль Б, который тоже принадлежит мне.",
+          "lowOutputPath": "statements[5]",
+          "mediumOutputPaths": ["statements[5]", "statements[6]"],
+          "mediumActual": "paymentComplexity: «Платёж прошёл за другой автомобиль — Б.»; attribution states B ownership only.",
+          "expected": "Явно сохранить связь владения обоими автомобилями, если она требуется структурным контрактом; paymentComplexity alone does not encode A ownership.",
+          "status": "unresolved with partial descriptive gain; other-vehicle relation depends on both source fragments and remains tied to vehicle_2/episode_1"
+        }
+      ]
+    },
+    {
+      "id": "DEV013",
+      "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb",
+      "lowCandidateStatus": "candidate-pass",
+      "lowResultPath": "baseline/capture/DEV013.result.json",
+      "mediumOperationalStatus": "completed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumResultPath": "capture/DEV013.result.json",
+      "mediumCandidateStatus": "candidate-pass",
+      "transition": "unchanged",
+      "summary": "Интервал 12:00–12:30 и paymentStart=12:05:01 сохранены; добавлена поддержанная attribution оплаты.",
+      "readAll": {
+        "fragments": 2,
+        "decisions": 2,
+        "statements": 7
+      },
+      "sourceToOutputReview": "All4 readings preserved including exact seconds. Added payer-action attribution supported; no extra legal/date/paid-regime assertion.",
+      "outputToSourceReview": "Every output statement reviewed with quote and whole source. Issues/context dependencies below; no additional generated legal/fault/paid-regime claims found.",
+      "findings": []
+    },
+    {
+      "id": "DEV017",
+      "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+      "lowCandidateStatus": "unresolved",
+      "lowResultPath": "baseline/capture/DEV017.result.json",
+      "mediumOperationalStatus": "operational-or-protocol-failure",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumCandidateStatus": "schema-invalid",
+      "transition": "operational/not-comparable",
+      "mediumResultPath": null,
+      "summary": "Discovery returned subject «Приложение и СМС», rejected by local ID regex before classification. Two raw quotes remain exact; no accepted hosted result.",
+      "failure": {
+        "code": "schema-invalid",
+        "issues": [
+          {
+            "path": ["extractions", 1, "statement_attributes", "subject"],
+            "code": "invalid_format"
+          }
+        ]
+      },
+      "readAll": {
+        "acceptedFragments": 0,
+        "acceptedStatements": 0,
+        "rawDiscoveryExtractionsInspected": 2
+      },
+      "availabilityTransition": "low completed → medium local-contract failure",
+      "diagnosisPath": "review/failure-diagnosis.json",
+      "semanticPassClaimed": false
+    },
+    {
+      "id": "DEV027",
+      "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531",
+      "lowCandidateStatus": "candidate-critical-error",
+      "lowResultPath": "baseline/capture/DEV027.result.json",
+      "mediumOperationalStatus": "not-executed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumCandidateStatus": "not-run",
+      "transition": "operational/not-comparable",
+      "mediumResultPath": null,
+      "summary": "Not executed after first failure per stopping rule; no semantic judgment.",
+      "readAll": null
+    },
+    {
+      "id": "DEV028",
+      "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2",
+      "lowCandidateStatus": "candidate-pass",
+      "lowResultPath": "baseline/capture/DEV028.result.json",
+      "mediumOperationalStatus": "not-executed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumCandidateStatus": "not-run",
+      "transition": "operational/not-comparable",
+      "mediumResultPath": null,
+      "summary": "Not executed after first failure per stopping rule; no semantic judgment.",
+      "readAll": null
+    },
+    {
+      "id": "DEV032",
+      "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3",
+      "lowCandidateStatus": "candidate-critical-error",
+      "lowResultPath": "baseline/capture/DEV032.result.json",
+      "mediumOperationalStatus": "not-executed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumCandidateStatus": "not-run",
+      "transition": "operational/not-comparable",
+      "mediumResultPath": null,
+      "summary": "Not executed after first failure per stopping rule; no semantic judgment.",
+      "readAll": null
+    },
+    {
+      "id": "DEV044",
+      "sourceDigest": "5ec36a76239995697443bd1d33471877e32d410b1c2fd6e0e2c4f60ba0312807",
+      "lowCandidateStatus": "unresolved",
+      "lowResultPath": "baseline/capture/DEV044.result.json",
+      "mediumOperationalStatus": "not-executed",
+      "humanCorrection": {
+        "sessions": 0,
+        "activeSeconds": null,
+        "edits": null,
+        "postCorrectionReview": null
+      },
+      "assistedTask": "Same extractor contract; dedicated followup/episode-selection/out-of-scope fields not added. UI/correction not exercised.",
+      "mediumCandidateStatus": "not-run",
+      "transition": "operational/not-comparable",
+      "mediumResultPath": null,
+      "summary": "Not executed after first failure per stopping rule; no semantic judgment.",
+      "readAll": null
+    }
+  ],
+  "conclusion": "No basis to switch default or claim medium generally better/worse. Payer-scope concern persists; DEV006 partial descriptive gain; source-schema mismatch caused stop before remaining key probes."
+}

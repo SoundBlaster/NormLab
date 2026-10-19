@@ -102,6 +102,11 @@ small fixed development slice from the existing reviewed corpus, freeze the Luna
 configuration/task/rubric and propose a separate bounded live permit. Keep full
 output semantic review and manual correction burden separate from control agreement.
 
+The first [ten-case development/correction packet](../fixtures/parking-pilot/luna-development-pilot-v1/README.md)
+prepares that step using the existing hosted extraction strategy. Its source-only
+inputs, candidate whole-output cards and empty correction worksheet are separate;
+live calls remain unauthorized by the preparation.
+
 Actual local verification on 2026-10-19: **112 focused offline tests passed** on
 Python 3.13.15 / adapter 0.9.0, with real provider-key variables removed. Existing
 fixtures deny sockets and default HTTP transports; SDK HTTP uses synthetic responses.

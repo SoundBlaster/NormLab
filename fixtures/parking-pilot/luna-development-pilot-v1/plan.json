@@ -1,0 +1,174 @@
+{
+  "schema": "normlab.assisted-pilot-preparation/v1",
+  "id": "luna-development-pilot-v1",
+  "mode": "preparation-only-not-execution-ready",
+  "issue": "https://github.com/SoundBlaster/NormLab/issues/79",
+  "parentSourceCommit": "cd0a658e72b33a62275a9bdda0dab552e4a389a9",
+  "strategy": {
+    "entryPoint": "server/hosted-extraction.ts:runHostedExtraction",
+    "pipeline": "literal-discovery-then-classification/hosted-v1",
+    "classifier": "openai",
+    "api": "openai-responses",
+    "endpoint": "https://hub.coreinfra.ai/openai/api/v1/responses",
+    "requestedModel": "gpt-6-luna",
+    "reasoningEffort": "low",
+    "discoveryMaxOutputTokens": 16384,
+    "classificationMaxOutputTokens": 8192,
+    "classificationBatchSize": 8,
+    "classificationConcurrency": 3,
+    "generatedNativeConfidence": false,
+    "categoricalVerifierIsExtractionRunner": false,
+    "ontologyRequestHelperUsedByThisPath": false
+  },
+  "task": "Extract all source-backed parking-relevant claims through existing hosted pipeline, then assess complete output and assisted workflow against declared rubric. Preserve unknowns, source layers, vehicles and episodes. No legal conclusion.",
+  "inputs": [
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV001.json",
+      "sha256": "bd82382f8c65073631ca646454ac44aa627c2fd8d4781fd062e776c4a45a41f6"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV002.json",
+      "sha256": "f2f09e4bbdd8c4fa8a2894acd88d78e9168a39a618017d0e65de6b80bb72567a"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV003.json",
+      "sha256": "dcd7577213db4bfeb8d29c48def5042e6d638dee3350b86d40812c8986f75d4a"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV006.json",
+      "sha256": "0eb1e52a037b475c578c3ec4f3295f5aebb361ec3422ff9c9f605426ae44fd10"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV013.json",
+      "sha256": "50d20eccbf8554471d10eb944995cdc4c8f03dfa4c58be4e2b96974ec49a50cd"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV017.json",
+      "sha256": "6d662a94ed9a0ce2a8d8bc684dfae30de530e900fff6cb5051b8a17f780490e0"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV027.json",
+      "sha256": "a3a98711641331208e7bc6bff40d0cb49cd33628817eb7d306a16fffa13be1b4"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV028.json",
+      "sha256": "842a03990e5fe1d8503f3566485bab8d8550ea6a28a58bb0b30b03e42a386e78"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV032.json",
+      "sha256": "06a93396cec38baaf595c14388bf5fc878e2236daaf33bb2fb2ee353dbbd22dc"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV044.json",
+      "sha256": "acbb89765af73dd4a16fbface9d4a0e43e7cca04339e2c49b579547536515cd5"
+    }
+  ],
+  "sourceBindings": {
+    "server/hosted-extraction.ts": "6aac717f850531903c627b7724293a873dbc7786313b3ec7f15083c892bbe287",
+    "server/inference-providers.ts": "99935217261375c42e044c1a2cc707969ed4746e5b209aa5f9b5aeeca50b71da",
+    "server/inference-prompts.json": "3f3025d931c4f8460b9b73564f636a064d0261304c9f08f969bec6a1911a30cc",
+    "server/parking-review.ts": "2776356216bddc532ab29cfad679f16c600b419e52ba24032661cd059edace89",
+    "shared/parking-review.ts": "753f056e8a5d29e31175669575687b2a30fc51447f1ee42759c14c6ae79f2832",
+    "server/inference-http.ts": "90802f526d7f043bd34087644470afeeaeb9883abaafaf6e7f9b9a128243b49c",
+    "server/inference-config.ts": "317b75a8193c57290cc40eee2ec0c40db11e1b8af0eea2441e0cf36b6e2dd12b",
+    "server/inference-endpoints.ts": "891595575a95c96f4754247b9c3e477ff607974ef95e61ea33a2bc6bb7d4794a",
+    "server/inference-client.ts": "393715554a17677c84350f5e2c516b43576faf3a3b863dab1fa6de34a9e49238",
+    "package.json": "4ac74df82bd3e83b3b5c566b6aba439b71552cca9ca44edf639fbabf7a21f968",
+    "package-lock.json": "7ae60aa0bbd77e41b7b4f1d58629f00bb6571395c39cafdd2947e45cdfc50f53"
+  },
+  "bindingBoundary": "Source hashes identify inspected entry points/config/prompts/contracts, not an attested complete transitive closure or final runtime. Freeze actual runtime/dependencies before any authorized dispatch.",
+  "selection": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/selection.json",
+    "sha256": "ca3d425282201940f8123d976f493d28f53f6f01c2f0c24cfd06bfc30ea67d33"
+  },
+  "rubric": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/rubric.json",
+    "sha256": "d57154a8d763d2788189e0f9c79e6ad630d6904b8d76e968aea0df8cf4093682"
+  },
+  "reviewerOnly": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/reviewer-only.json",
+    "sha256": "b738e77ce3b50e1e1ba5675359d20da02188ea9faca6b3975828d4b35e1901ba"
+  },
+  "worksheet": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/review-log.template.json",
+    "sha256": "085c421cfaea2b667ed983c28b5667de3bbf5660cc3ed554d2fc5de23692dc20"
+  },
+  "scopeBoundary": {
+    "baselineExtraction": "Whole source/output claim faithfulness, completeness and evidence.",
+    "assistedTask": "Claims plus applicable clarification, episode/scope and uncertainty requirements. Missing workflow fields remain visible contract gaps; no full-task pass from claim-only success.",
+    "correction": "Separate human operations/timing and post-correction whole-output review. Human-supplied facts never credited as model extraction."
+  },
+  "formatLimitations": [
+    "Hosted-v1 exposes predicate/stance,subject,speaker,episode,evidence but not a dedicated clarification-question list.",
+    "No dedicated known-outside-demo-scope result or arbitrary grammatical/modality/relationship IR in the hosted statement schema.",
+    "Statement speaker/subject/valueText may retain source nuance; inspect whether it is semantically preserved before declaring a contract loss.",
+    "Question/gap absence and unrepresentable distinctions are tracked at contract/workflow layer, without silently passing the full task."
+  ],
+  "budgetProposal": {
+    "plannedCases": 10,
+    "estimatedRequestsIfOneClassificationBatchPerCase": 20,
+    "maximumTotalProviderAttempts": 30,
+    "actualCaseRequestsDependOnDiscovery": true,
+    "callCountGuaranteedByExistingGateway": false,
+    "authorizedRequests": 0,
+    "transportTimeoutSeconds": 120,
+    "perExtractionDeadlineSeconds": 300,
+    "proposedSeriesDeadlineSeconds": 900,
+    "automaticRetries": 0,
+    "repairCalls": 0,
+    "extraJudgeCalls": 0,
+    "lastUserReportedExternalAccountLimitUsd": 4,
+    "externalLimitIndependentlyVerified": false,
+    "pricingVerified": false,
+    "estimatedCostUsd": null
+  },
+  "executionGates": [
+    "Review selected sources/reference cards and protocol; references remain candidate until distinct review.",
+    "Freeze exact runtime/config/prompts/task/caps in an execution commit; resolve supplier/key placement privately.",
+    "Explicit user authorization for exact aggregate call/deadline/spending scope.",
+    "Use bounded whole-series pre-dispatch accounting/capture at actual provider transport; existing gateway quota/per-operation limits alone are insufficient.",
+    "Do not send reviewer-only cards, selection reasons, rubric answers or prior outputs into model input.",
+    "Preserve all sent/failed/unknown attempts, raw full output/bindings/usage and unexecuted suffix; no hidden truncation."
+  ],
+  "stoppingRuleProposal": {
+    "stopSeriesOn": [
+      "aggregate-budget/deadline-exhaustion",
+      "first-operational/protocol/unknown-outcome",
+      "task/config/source-drift"
+    ],
+    "stopOnSemanticError": false,
+    "remainingCases": "not-executed",
+    "unknown": "record and stop; no automatic replay",
+    "retry": "none"
+  },
+  "reviewProtocol": {
+    "reviewWholeOriginalOutputBeforeCorrection": true,
+    "baselineImmutable": true,
+    "sourceOnlyIndependentReferenceFirstWhereAvailable": true,
+    "candidateReferenceStatus": "not-independent-human-gold",
+    "humanCorrectionNotGold": true,
+    "sourceEditCreatesNewDraftAndResetsDependentConfirmations": true,
+    "contentEditRequiresSaveThenSeparateConfirmation": true,
+    "rejectedStatementsRetained": true,
+    "noAutomaticInferenceAfterEdits": true
+  },
+  "metrics": {
+    "fixedCaseDenominator": 10,
+    "separate": [
+      "operational completion and unknown outcomes",
+      "whole-source extraction critical errors by rubric/layer",
+      "full assisted-task gaps and contract limitations",
+      "pre/post correction whole-output review",
+      "active review/correction time, logical edits,field changes,confirmations,clarification answers",
+      "unresolved cases and human-added facts",
+      "all attempts, known/unknown tokens/cost/latency"
+    ],
+    "unobservedValues": "null, never invented zero rates",
+    "noQualityRateBeforeWholeOutputReview": true,
+    "statisticalGeneralization": false,
+    "automaticPassTarget": null,
+    "demoGoalContext": "50% before manual correction is a project aspiration, not a pass gate or estimate from this convenience slice."
+  },
+  "newInferenceCalls": 0,
+  "observedCorrectionSessions": 0
+}

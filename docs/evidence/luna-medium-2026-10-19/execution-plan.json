@@ -1,0 +1,65 @@
+{
+  "schema": "normlab.one-off-medium-plan/v1",
+  "strategy": {
+    "entryPoint": "server/hosted-extraction.ts:runHostedExtraction",
+    "pipeline": "literal-discovery-then-classification/hosted-v1",
+    "classifier": "openai",
+    "api": "openai-responses",
+    "endpoint": "https://hub.coreinfra.ai/openai/api/v1/responses",
+    "requestedModel": "gpt-6-luna",
+    "reasoningEffort": "medium",
+    "discoveryMaxOutputTokens": 16384,
+    "classificationMaxOutputTokens": 8192,
+    "classificationBatchSize": 8,
+    "classificationConcurrency": 3,
+    "generatedNativeConfidence": false,
+    "categoricalVerifierIsExtractionRunner": false,
+    "ontologyRequestHelperUsedByThisPath": false
+  },
+  "inputs": [
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV001.json",
+      "sha256": "bd82382f8c65073631ca646454ac44aa627c2fd8d4781fd062e776c4a45a41f6"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV002.json",
+      "sha256": "f2f09e4bbdd8c4fa8a2894acd88d78e9168a39a618017d0e65de6b80bb72567a"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV003.json",
+      "sha256": "dcd7577213db4bfeb8d29c48def5042e6d638dee3350b86d40812c8986f75d4a"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV006.json",
+      "sha256": "0eb1e52a037b475c578c3ec4f3295f5aebb361ec3422ff9c9f605426ae44fd10"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV013.json",
+      "sha256": "50d20eccbf8554471d10eb944995cdc4c8f03dfa4c58be4e2b96974ec49a50cd"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV017.json",
+      "sha256": "6d662a94ed9a0ce2a8d8bc684dfae30de530e900fff6cb5051b8a17f780490e0"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV027.json",
+      "sha256": "a3a98711641331208e7bc6bff40d0cb49cd33628817eb7d306a16fffa13be1b4"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV028.json",
+      "sha256": "842a03990e5fe1d8503f3566485bab8d8550ea6a28a58bb0b30b03e42a386e78"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV032.json",
+      "sha256": "06a93396cec38baaf595c14388bf5fc878e2236daaf33bb2fb2ee353dbbd22dc"
+    },
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV044.json",
+      "sha256": "acbb89765af73dd4a16fbface9d4a0e43e7cca04339e2c49b579547536515cd5"
+    }
+  ],
+  "comparisonProtocol": "docs/LUNA_EFFORT_COMPARISON_PLAN_2026-10-19.md",
+  "lowAuthorityPath": "docs/evidence/luna-development-2026-10-19/authority.json",
+  "lowArchiveSha256": "da81366eb21084af19183410210ae9f3e3d51e1b3a12163cd2502f6e915d295a",
+  "reviewerInputsSentToModel": false
+}
