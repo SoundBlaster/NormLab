@@ -4,7 +4,7 @@
   "baseCommit": "e52449bee5f68e1da77f1716be7af91b94286f47",
   "ledger": "https://github.com/SoundBlaster/NormLab/issues/79",
   "implementationSourceSha256": {
-    "shared/parking-context.ts": "ee45feab948c76a06211df50da653a9e7e5f68346166c4a0871b0364b348aeb2",
+    "shared/parking-context.ts": "22b681c24ff212b14185e8d438b52db058245192c4954065a06d2bfbcb890ffb",
     "shared/parking-review.ts": "67e1c1518b09427621ff62a109f7812c0bfd06df58b00c4c6902e636bd774654",
     "server/parking-review-metadata.ts": "92740d2db29c3f3e1045a516d73e54db392112aea077781fb9e5a9eba43764aa",
     "server/parking-review.ts": "43c50955074e3489ee89eca572014cb93229b6625f903c8a32e2e862527cb5f3",
@@ -14,7 +14,7 @@
     "client/pages/parking-review/ui/HypothesisEditor.tsx": "d7b8ad9867a3ad71e8000a8e64538732192efb135b95ab6ed61db00c160a9f8b",
     "client/pages/parking-review/ui/review.css": "69130e47432674687404840cec01661ec376f725eb08d0545206bc090f5c547e",
     "tests/parking-context-fixture.ts": "9735444a32d62947dd27342abb1139048bedf0b460a809ff97f9b7c4dcb77154",
-    "tests/parking-context.test.ts": "c2fd82ba252d5fee189b6df56b154a88a8dd7efe44a300f68257637ae9b893ad",
+    "tests/parking-context.test.ts": "490a9de5ac34b178d50dd74975852fe0874d98d9108215a50c481f854ef4668c",
     "tests/parking-review.test.ts": "baeeb21eecd0a151db9f75f457b731d7b3442368fac1a02a326c94548ac9937d",
     "tests/inference.test.ts": "dfe27a7550dfe9e0b9a6e53593161f1c5db319e7d663bebd76adb0e1e067bfd7",
     "tests/inference-errors.test.ts": "71c1c121dd30ea2d1af7568d5257481ec62e21071b80be50caf2943085c96911"
@@ -25,7 +25,7 @@
       "tests": 90,
       "passed": 90,
       "failed": 0,
-      "durationMs": 17369.9185
+      "durationMs": 19233.246
     },
     "lintCode": {
       "command": "npm run lint:code",
@@ -106,5 +106,13 @@
     "No legal calculation or automatic source-statement promotion",
     "CI and independent review pending at publication",
     "Issue79 broader human usability acceptance remains open"
-  ]
+  ],
+  "reviewFix": {
+    "thread": "https://github.com/SoundBlaster/NormLab/pull/163#discussion_r4312005184",
+    "timeUtc": "2026-10-19T11:27:33Z",
+    "change": "Parking topic without explicit parking subtype routes to clarification, not extraction/review completion. Explicit parking-unspecified remains admissible.",
+    "regressions": "Route assertions plus confirmed missing-subtype API extraction and finishReview rejection; extractor calls remain zero.",
+    "checks": "90/90 tests; typecheck/build, lint, FSD and formatting passed again.",
+    "browserRerun": false
+  }
 }

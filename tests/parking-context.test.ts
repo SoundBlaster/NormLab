@@ -55,6 +55,14 @@ test('whole-narrative routing does not turn paid-parking topic into a finding', 
   assert.equal(narrativeRoute({ ...context, topic: 'mixed' }), 'choose-episode');
   assert.equal(narrativeRoute({ ...context, topic: 'other' }), 'other-topic');
   assert.equal(narrativeRoute(emptyNarrativeContext()), 'clarify');
+  assert.equal(
+    narrativeRoute({ ...context, intent: 'incident', parkingContext: 'not-established' }),
+    'clarify',
+  );
+  assert.equal(
+    narrativeRoute({ ...context, intent: 'incident', parkingContext: 'parking-unspecified' }),
+    'parking-review',
+  );
   assert.equal('paidRegime' in context, false);
 });
 
@@ -93,7 +101,7 @@ test('unconfirmed, irrelevant and mixed context block extraction before any prov
       }),
       /контекст парковочного эпизода/,
     );
-    for (const topic of ['unclear', 'other', 'mixed'] as const) {
+    for (const topic of ['parking', 'unclear', 'other', 'mixed'] as const) {
       draft = await saveReviewMetadata(api, draft, {
         context: { ...emptyNarrativeContext(), topic, intent: 'incident' },
       });
@@ -106,6 +114,17 @@ test('unconfirmed, irrelevant and mixed context block extraction before any prov
           expectedRevisionId: draft.revisionId,
         }),
         /контекст парковочного эпизода/,
+      );
+      await assert.rejects(
+        api.handle('POST', '/api/parking/review', {
+          draftId: draft.draftId,
+          expectedRevisionId: draft.revisionId,
+          ...reviewDraftMetadata(draft),
+          statements: [],
+          checklist: complete,
+          finishReview: true,
+        }),
+        /Для парковочного разбора уточните тему/,
       );
     }
     assert.equal(calls, 0);

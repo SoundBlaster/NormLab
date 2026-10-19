@@ -14,7 +14,10 @@ prompt change or inference call.
 
 Extraction requires a saved, confirmed context whose route is `parking-review`.
 The server enforces this before invoking the extractor; a disabled button is not
-the sole gate. Out-of-scope and informational texts remain saved and visible.
+the sole gate. A parking topic with `parkingContext=not-established` routes to
+clarification, even if its context decision is confirmed. Select the explicit
+`parking-unspecified` value when parking is established but payment context is
+absent. Out-of-scope and informational texts remain saved and visible.
 Manual statement editing remains available while clarification is pending.
 
 ## Separate hypothesis review

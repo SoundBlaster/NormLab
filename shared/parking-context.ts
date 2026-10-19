@@ -29,6 +29,7 @@ export function narrativeRoute(context: NarrativeContext) {
   if (context.topic === 'mixed') return 'choose-episode';
   if (context.topic === 'other') return 'other-topic';
   if (context.topic === 'unclear' || context.intent === 'unclear') return 'clarify';
+  if (context.parkingContext === 'not-established') return 'clarify';
   if (context.intent === 'information') return 'not-a-case';
   return 'parking-review';
 }
