@@ -4,8 +4,13 @@
   "purpose": "Offline policy/reference cases; not an inference output contract, runtime gate, scorer or provider benchmark.",
   "policy": "docs/NARRATIVE_CONTEXT_POLICY_V1.md",
   "userDecision": {
-    "quote": "Автомобиль — отдельная гипотеза",
-    "scope": "Я припарковался; explicit confirmation before factual/calculation use. Я стоял на парковке alone does not introduce a car."
+    "quote": "для гипотез лучше не «автомобиль» а ТС - «транспортное средство»",
+    "scope": "For «Я припарковался», propose only a transport vehicle with unspecified kind; explicit confirmation and kind clarification required before domain-specific use. «Я стоял на парковке» alone introduces no vehicle.",
+    "priorDecision": {
+      "quote": "Автомобиль — отдельная гипотеза",
+      "scope": "Я припарковался; explicit confirmation before factual/calculation use. Я стоял на парковке alone does not introduce a car."
+    },
+    "refinement": "User retained separate-hypothesis confirmation but broadened car to transport vehicle; subtype must not be invented."
   },
   "parentEvidence": "https://github.com/SoundBlaster/NormLab/pull/161",
   "caseCount": 17,
@@ -54,7 +59,9 @@
         "Не выводить placement, платный режим, вину или освобождение.",
         "Не заменять соседство сообщений категоричным «из-за»."
       ],
-      "clarifyingQuestions": ["Речь о стоянке автомобиля или о нахождении человека на парковке?"]
+      "clarifyingQuestions": [
+        "Речь о стоянке транспортного средства или о нахождении человека на парковке?"
+      ]
     },
     {
       "id": "A02",
@@ -132,18 +139,20 @@
       "hypotheses": [
         {
           "id": "H01",
-          "claim": "В этом эпизоде речь об автомобиле.",
+          "claim": "В этом эпизоде речь о транспортном средстве.",
           "basisQuote": 0,
           "confirmation": "explicit-human-required",
           "acceptedByDefault": false,
-          "mayFeedCalculation": false
+          "mayFeedCalculation": false,
+          "vehicleKind": "unspecified",
+          "requiresVehicleKindClarification": true
         }
       ],
       "forbiddenPromotions": [
-        "Не превращать гипотезу об автомобиле в source assertion или placement.",
-        "Не устанавливать собственника и личность водителя автоматически."
+        "Не превращать гипотезу о ТС в source assertion, автомобиль или placement.",
+        "Не выводить вид ТС, личность водителя или собственника по умолчанию."
       ],
-      "clarifyingQuestions": ["Речь об автомобиле?"]
+      "clarifyingQuestions": ["О каком транспортном средстве идёт речь?"]
     },
     {
       "id": "A04",
@@ -249,7 +258,7 @@
         "paidRegimeSupport": "not-established",
         "actor": "unresolved",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Сообщается о неудавшейся оплате парковки; участник и автомобиль не названы.",
+        "sourceBoundSummary": "Сообщается о неудавшейся оплате парковки; участник и транспортное средство не названы.",
         "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
@@ -481,7 +490,7 @@
       },
       "hypotheses": [],
       "forbiddenPromotions": [
-        "Не добавлять неудавшуюся оплату, неоплату, автомобиль, причину, вину или платный режим по молчанию."
+        "Не добавлять неудавшуюся оплату, неоплату, транспортное средство, причину, вину или платный режим по молчанию."
       ],
       "clarifyingQuestions": []
     },
@@ -615,7 +624,7 @@
       },
       "hypotheses": [],
       "forbiddenPromotions": [
-        "Не создавать личный эпизод, участника, автомобиль или paidRegime конкретного события."
+        "Не создавать личный эпизод, участника, транспортное средство или paidRegime конкретного события."
       ],
       "clarifyingQuestions": []
     },

@@ -67,19 +67,29 @@ them. Pronouns/ellipsis may resolve against an explicit referent in the same
 relevant episode; the noun need not be repeated in every sentence. Do not infer
 an owner from payment or a driver from ownership.
 
-| Wording/context                            | Source-supported interpretation                                   | Hypothesis / next action                                           |
-| ------------------------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------ |
-| «Я стоял на городской парковке»            | Narrator's presence/place                                         | Do not create a car or placement; clarify event if necessary       |
-| «Мой автомобиль стоял на парковке»         | Explicit automobile and placement claim                           | Driver/payer remain separate questions                             |
-| «Я припарковался»                          | Narrator reports parking action                                   | **Separate car hypothesis**, explicit human confirmation required  |
-| «Автомобиль стоял… Его парковку я оплатил» | Vehicle referent from previous sentence; narrator reports payment | Preserve role boundaries; not an ungrounded new entity             |
-| «Оплатить парковку не удалось» alone       | Failed payment is reported; referent not supplied                 | Keep text, ask for scope; do not invent person/car to fill a field |
-| Friend driving / narrator paying           | Distinct reported roles                                           | Do not merge driver, payer and owner                               |
+| Wording/context                            | Source-supported interpretation                                   | Hypothesis / next action                                                                 |
+| ------------------------------------------ | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| «Я стоял на городской парковке»            | Narrator's presence/place                                         | Do not create a vehicle or placement; clarify event if necessary                         |
+| «Мой автомобиль стоял на парковке»         | Explicit automobile and placement claim                           | Driver/payer remain separate questions                                                   |
+| «Я припарковался»                          | Narrator reports parking action                                   | **Separate vehicle hypothesis (kind unspecified)**, explicit human confirmation required |
+| «Автомобиль стоял… Его парковку я оплатил» | Vehicle referent from previous sentence; narrator reports payment | Preserve role boundaries; not an ungrounded new entity                                   |
+| «Оплатить парковку не удалось» alone       | Failed payment is reported; referent not supplied                 | Keep text, ask for scope; do not invent person/vehicle to fill a field                   |
+| Friend driving / narrator paying           | Distinct reported roles                                           | Do not merge driver, payer and owner                                                     |
 
-User explicitly chose **«Автомобиль — отдельная гипотеза»** for «Я припарковался»
-in this conversation. This is a product policy decision, not human adjudication
-of the other fixtures or permission to treat every parking-related text as a car
-incident. «Я стоял на парковке» does not introduce that hypothesis.
+User first chose a separate hypothesis for «Я припарковался», then explicitly
+refined it to **ТС — транспортное средство**, rather than automobile. Preserve
+that correction: the hypothesis introduces only a possible vehicle, with
+`vehicleKind=unspecified`. Ask what kind of vehicle is involved; do not default
+to automobile or infer driver/owner status. This is a product policy decision,
+not adjudication of all examples or a legal definition of vehicle.
+«Я стоял на парковке» does not introduce that hypothesis.
+
+A generic vehicle hypothesis cannot automatically populate an automobile-only
+predicate such as the current `placement` definition. Confirm the hypothesis,
+clarify the vehicle kind, then check applicability of the relevant domain/rules.
+Existing examples that explicitly say «автомобиль» keep that narrower source
+wording. Existing hosted IDs/predicate meanings are not silently broadened by
+this policy correction.
 
 A hypothesis must carry its originating quote/context, proposed content and an
 explicit confirmation requirement. It is not accepted by default and cannot feed
@@ -142,7 +152,7 @@ vehicle/causality concerns. It is never replaced by A01's authored reference.
 
 ## 5. Small implementation sequence and acceptance
 
-1. Review these boundaries/examples, including implicit car hypothesis and topic
+1. Review these boundaries/examples, including implicit vehicle hypothesis and topic
    versus event fact. Preserve semantic disagreements explicitly.
 2. Implement explicit contextual/hypothesis metadata and confirmation boundary in
    one product slice; keep raw source and editable routing/episode choice.
@@ -153,7 +163,7 @@ vehicle/causality concerns. It is never replaced by A01's authored reference.
 4. Agree a bounded live comparison later. Extra classification calls/latency and
    correction effort must be visible; no guaranteed improvement is assumed.
 
-Acceptance for that future slice: no car in A01 source claims; A03 car appears
+Acceptance for that future slice: no invented vehicle in A01 source claims; A03 a vehicle of unspecified kind appears
 only as a separate unconfirmed hypothesis; no ownership/driver/payer collapse;
 no categorical cause in A01; preserve reported/hedged/denied causal source claims;
 T02 clarification, T03 unsupported topic, T04 no invented personal case, T05

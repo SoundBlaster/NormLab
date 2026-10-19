@@ -11,10 +11,11 @@
   "notEstablished": "Not semantic adjudication, model accuracy, application validation, actual runtime routing or hypothesis gate; candidate expectations only",
   "runtimeChanged": false,
   "providerPromptsChanged": false,
-  "fixtureSha256": "5f6c5bde2b7e5ed6d02cbeefba4f548b794309c5dcd65ea94209eaa9be54907b",
+  "fixtureSha256": "372bbd3fd2d6bf4b5b56b481ed562c35eb06497daf14afea99cf9b4f96f9ae69",
   "sharedPromptSha256": "3f3025d931c4f8460b9b73564f636a064d0261304c9f08f969bec6a1911a30cc",
   "corpusInventory": "Existing audit_pipeline_corpus.py --check passes:71 inputs, holdoutEligible0; policy references not registered as scored corpus",
   "parentPr": "PR161 f0e15c84c64fce2076e0b1272ef47b99225a7a0b:6/6 CI SUCCESS,0 unresolved review threads",
   "limitations": "No model inference, new application unit tests, runtime topic/hypothesis gate, semantic gold adjudication, deploy or merge",
-  "parkingContextCheck": "17 routing subtypes checked; T04 paid-parking topic with no paidRegime assertion for any episode"
+  "parkingContextCheck": "17 routing subtypes checked; T04 paid-parking topic with no paidRegime assertion for any episode",
+  "hypothesisRefinement": "A03 introduces only transport vehicle, kind unspecified; explicit confirmation and kind clarification required; no automatic automobile-specific applicability.17 source texts and28 quote anchors unchanged."
 }
