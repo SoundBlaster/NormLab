@@ -29,6 +29,7 @@ import { ContextEditor } from './ContextEditor.js';
 import { HypothesisEditor } from './HypothesisEditor.js';
 import { NewStatementEditor, type StatementSource } from './NewStatementEditor.js';
 import { reviewReferences, hasStatementChoices } from '../model/statement-fields.js';
+import { canPersistReview, type ReviewContent } from '../model/review-persistence.js';
 import './review.css';
 
 const checklistNames = {
@@ -57,21 +58,24 @@ export function ParkingReview({ token }: { token: string }) {
   const [metadataPendingSave, setMetadataPendingSave] = useState(false);
   const [checklist, setChecklist] = useState({ ...emptyReviewChecklist });
   const [busy, setBusy] = useState(false);
+  const inFlight = useRef(false);
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [dirty, setDirty] = useState(false);
   const [reviewDirty, setReviewDirty] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [newSourceApproved, setNewSourceApproved] = useState(false);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
-  async function request<T>(path: string, body?: unknown): Promise<T> {
+  async function request<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
     const response = await fetch(
       apiUrl(path),
       body === undefined
-        ? {}
+        ? { signal }
         : {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-NormLab-Token': token },
             body: JSON.stringify(body),
+            signal,
           },
     );
     const result = await response.json();
@@ -100,6 +104,7 @@ export function ParkingReview({ token }: { token: string }) {
     setHistory([]);
     setError('');
     setNotice('');
+    setSaveState('idle');
   }
   useEffect(() => {
     let active = true;
@@ -122,6 +127,8 @@ export function ParkingReview({ token }: { token: string }) {
     !!draft &&
     data?.drafts.find((d) => d.draftId === draft.draftId)?.revisionId !== draft.revisionId;
   async function act(action: () => Promise<void>) {
+    if (inFlight.current) return;
+    inFlight.current = true;
     setBusy(true);
     setError('');
     setNotice('');
@@ -130,10 +137,12 @@ export function ParkingReview({ token }: { token: string }) {
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
+      inFlight.current = false;
       setBusy(false);
     }
   }
   function change(id: string, patch: Partial<ReviewStatement>) {
+    if (inFlight.current) return;
     setStatements((items) =>
       items.map((s) =>
         s.id === id ? { ...s, ...patch, origin: 'human', decision: 'pending' } : s,
@@ -150,17 +159,20 @@ export function ParkingReview({ token }: { token: string }) {
     else setReviewDirty(true);
   }
   function changeContext(patch: Partial<NarrativeContext>) {
+    if (inFlight.current) return;
     setContext((value) => ({ ...value, ...patch, decision: 'pending' }));
     setHypotheses((items) => items.map((h) => ({ ...h, decision: 'pending' })));
     invalidateMetadata(true);
   }
   function changeHypothesis(id: string, patch: Partial<VehicleHypothesis>) {
+    if (inFlight.current) return;
     setHypotheses((items) =>
       items.map((h) => (h.id === id ? { ...h, ...patch, decision: 'pending' } : h)),
     );
     invalidateMetadata(true);
   }
   function addHypothesis() {
+    if (inFlight.current) return;
     if (!draft || !selection || selection.end <= selection.start) return;
     setHypotheses((items) => [
       ...items,
@@ -180,31 +192,124 @@ export function ParkingReview({ token }: { token: string }) {
     ]);
     invalidateMetadata(true);
     setNotice(
-      'Гипотеза о ТС добавлена отдельно от утверждений. Сохраните её, затем подтвердите или отклоните.',
+      'Гипотеза о ТС добавлена отдельно от утверждений. Дождитесь автосохранения, затем подтвердите или отклоните.',
     );
   }
-  async function save(finishReview: boolean) {
-    if (!draft) return;
-    if (newStatement)
-      throw new Error('Завершите или отмените создание нового утверждения перед сохранением.');
-    const result = await request<ReviewDraft>('/api/parking/review', {
-      draftId: draft.draftId,
-      expectedRevisionId: draft.revisionId,
+  async function save(
+    finishReview: boolean,
+    content: ReviewContent = { statements, context, hypotheses, checklist },
+  ) {
+    if (!draft || historical || newStatement || !canPersistReview(draft, content)) return;
+    setSaveState('saving');
+    try {
+      const result = await request<ReviewDraft>(
+        '/api/parking/review',
+        {
+          draftId: draft.draftId,
+          expectedRevisionId: draft.revisionId,
+          ...content,
+          finishReview,
+        },
+        // Aborting the wait does not prove that the server rejected the write.
+        // Preserve local intent and require explicit retry against the same revision.
+        AbortSignal.timeout(15_000),
+      );
+      // The POST response is the saved authority. Do not refresh bootstrap or
+      // reopen the page: both would risk discarding a locally edited narrative.
+      setDraft(result);
+      setStatements(result.statements);
+      const metadata = reviewDraftMetadata(result);
+      setContext(metadata.context);
+      setHypotheses(metadata.hypotheses);
+      setChecklist(result.checklist);
+      setMetadataPendingSave(false);
+      setDirty(false);
+      setReviewDirty(false);
+      setHistory([]);
+      setData(
+        (current) =>
+          current && {
+            ...current,
+            drafts: [result, ...current.drafts.filter((item) => item.draftId !== result.draftId)],
+          },
+      );
+      setSaveState('saved');
+      setNotice(
+        finishReview
+          ? 'Проверка человеком сохранена. Правовой расчёт ещё не выполнен.'
+          : 'Ревизия сохранена. Каждое решение проверяющего сохраняется сразу.',
+      );
+    } catch (failure) {
+      setSaveState('error');
+      throw failure;
+    }
+  }
+  function decide(content: ReviewContent) {
+    if (
+      !draft ||
+      inFlight.current ||
+      dirty ||
+      reviewDirty ||
+      metadataPendingSave ||
+      newStatement ||
+      historical ||
+      saveState === 'error' ||
+      !canPersistReview(draft, content)
+    )
+      return;
+    void act(async () => {
+      setStatements(content.statements);
+      setContext(content.context);
+      setHypotheses(content.hypotheses);
+      setChecklist(content.checklist);
+      setReviewDirty(true);
+      if (
+        JSON.stringify({ context, hypotheses }) !==
+        JSON.stringify({ context: content.context, hypotheses: content.hypotheses })
+      )
+        setMetadataPendingSave(true);
+      await save(false, content);
+    });
+  }
+  const persistable =
+    !!draft &&
+    !newStatement &&
+    canPersistReview(draft, {
       statements,
-      checklist,
-      finishReview,
       context,
       hypotheses,
+      checklist,
     });
-    await load();
-    open(result);
-    setNotice(
-      finishReview
-        ? 'Проверка человеком сохранена. Правовой расчёт ещё не выполнен.'
-        : 'Ревизия сохранена. Изменённые утверждения теперь можно подтвердить.',
-    );
-  }
+  useEffect(() => {
+    if (
+      !draft ||
+      historical ||
+      busy ||
+      !persistable ||
+      (!dirty && !reviewDirty) ||
+      saveState === 'error'
+    )
+      return;
+    const timer = window.setTimeout(() => {
+      void act(() => save(false));
+    }, 700);
+    return () => window.clearTimeout(timer);
+  }, [
+    draft,
+    historical,
+    busy,
+    persistable,
+    dirty,
+    reviewDirty,
+    saveState,
+    statements,
+    context,
+    hypotheses,
+    checklist,
+    newStatement,
+  ]);
   function addSelection() {
+    if (inFlight.current) return;
     if (!draft || !selection || selection.end <= selection.start) return;
     setNewStatement({
       quote: draft.narrative.slice(selection.start, selection.end),
@@ -228,6 +333,9 @@ export function ParkingReview({ token }: { token: string }) {
   const incompleteStatements = statements.some((statement) => !hasStatementChoices(statement));
   const incompleteHypotheses = hypotheses.some((hypothesis) => !hypothesis.aboutEpisode.trim());
   const metadataIssues = reviewMetadataIssues(context, hypotheses);
+  const savedMetadata = draft ? reviewDraftMetadata(draft) : undefined;
+  const contextPendingSave =
+    !!savedMetadata && JSON.stringify(context) !== JSON.stringify(savedMetadata.context);
   return (
     <section className="parking-review" aria-label="Проверка утверждений парковочного пилота">
       <Notice className="stale-note" tone="warning">
@@ -242,6 +350,31 @@ export function ParkingReview({ token }: { token: string }) {
       <Notice tone="success" role="status" aria-live="polite">
         {notice}
       </Notice>
+      {draft && (
+        <Notice
+          role="status"
+          aria-live="polite"
+          tone={
+            saveState === 'error'
+              ? 'danger'
+              : dirty || reviewDirty
+                ? 'warning'
+                : saveState === 'saved'
+                  ? 'success'
+                  : 'neutral'
+          }
+        >
+          {saveState === 'saving'
+            ? 'Сохранение ревизии…'
+            : saveState === 'error'
+              ? 'Сохранение не подтверждено. Локальные изменения сохранены в форме. Автосохранение остановлено; повторите сохранение вручную. При конфликте ревизий требуется сверка с сервером.'
+              : dirty || reviewDirty
+                ? persistable
+                  ? 'Есть изменения · автосохранение через короткую паузу.'
+                  : 'Есть изменения · заполните корректные значения для автосохранения.'
+                : `Сохранена ревизия ${draft.revision}.`}
+        </Notice>
+      )}
       <Panel>
         <SectionHeading
           step="01"
@@ -351,13 +484,29 @@ export function ParkingReview({ token }: { token: string }) {
               disabled={
                 busy || historical || !!newStatement || incompleteStatements || incompleteHypotheses
               }
-              canConfirm={!dirty && !metadataPendingSave}
-              pendingSave={metadataPendingSave}
+              canConfirm={
+                !dirty &&
+                !reviewDirty &&
+                !metadataPendingSave &&
+                !newStatement &&
+                saveState !== 'error' &&
+                persistable
+              }
+              canSave={persistable && (dirty || reviewDirty || saveState === 'error')}
+              pendingSave={contextPendingSave}
               onChange={changeContext}
               onSave={() => void act(() => save(false))}
               onConfirm={() => {
-                setContext((value) => ({ ...value, decision: 'confirmed' }));
-                invalidateMetadata(false);
+                if (context.decision === 'confirmed') return;
+                decide({
+                  context: { ...context, decision: 'confirmed' },
+                  hypotheses,
+                  statements: statements.map((statement) => ({
+                    ...statement,
+                    decision: 'pending',
+                  })),
+                  checklist: { ...emptyReviewChecklist },
+                });
               }}
             />
           </Panel>
@@ -383,6 +532,7 @@ export function ParkingReview({ token }: { token: string }) {
             {historical && (
               <Button
                 variant="secondary"
+                disabled={busy}
                 onClick={() => {
                   const latest = data?.drafts.find((d) => d.draftId === draft.draftId);
                   if (latest) open(latest);
@@ -401,6 +551,7 @@ export function ParkingReview({ token }: { token: string }) {
               <Textarea
                 ref={sourceRef}
                 readOnly
+                disabled={busy}
                 rows={4}
                 value={draft.narrative}
                 onSelect={() => {
@@ -487,7 +638,7 @@ export function ParkingReview({ token }: { token: string }) {
                   setChecklist({ ...emptyReviewChecklist });
                   setDirty(true);
                   setNotice(
-                    'Утверждение добавлено. Сохраните ревизию, затем подтвердите его отдельно.',
+                    'Утверждение добавлено. Дождитесь автосохранения, затем подтвердите его отдельно.',
                   );
                 }}
               />
@@ -522,8 +673,19 @@ export function ParkingReview({ token }: { token: string }) {
                       references={references}
                       narrative={draft.narrative}
                       disabled={busy || historical}
-                      dirty={dirty || metadataPendingSave}
-                      pendingSave={metadataPendingSave}
+                      dirty={
+                        dirty ||
+                        reviewDirty ||
+                        metadataPendingSave ||
+                        !!newStatement ||
+                        saveState === 'error'
+                      }
+                      pendingSave={
+                        JSON.stringify(hypothesis) !==
+                        JSON.stringify(
+                          savedMetadata?.hypotheses.find((item) => item.id === hypothesis.id),
+                        )
+                      }
                       canReplaceQuote={
                         !!selection &&
                         selection.end > selection.start &&
@@ -531,10 +693,18 @@ export function ParkingReview({ token }: { token: string }) {
                       }
                       onChange={(patch) => changeHypothesis(hypothesis.id, patch)}
                       onDecision={(decision) => {
-                        setHypotheses((items) =>
-                          items.map((h) => (h.id === hypothesis.id ? { ...h, decision } : h)),
-                        );
-                        invalidateMetadata(false);
+                        if (hypothesis.decision === decision) return;
+                        decide({
+                          context,
+                          hypotheses: hypotheses.map((item) =>
+                            item.id === hypothesis.id ? { ...item, decision } : item,
+                          ),
+                          statements: statements.map((statement) => ({
+                            ...statement,
+                            decision: 'pending',
+                          })),
+                          checklist: { ...emptyReviewChecklist },
+                        });
                       }}
                       onReplaceQuote={() => {
                         if (selection)
@@ -559,7 +729,7 @@ export function ParkingReview({ token }: { token: string }) {
             <SectionHeading
               step="04"
               title={`Проверка утверждений · ${statements.length}`}
-              description="Сопоставьте каждое утверждение с цитатой. Исправьте смысл, затем сохраните и подтвердите."
+              description="Сопоставьте каждое утверждение с цитатой. Исправьте смысл, дождитесь автосохранения и подтвердите."
             />
             <p className="parking-help">
               Проверьте полноту: время и место, автомобиль и участник, размещение, платный режим,
@@ -585,12 +755,13 @@ export function ParkingReview({ token }: { token: string }) {
             )}
             {dirty && (
               <Notice className="stale-note" tone="warning">
-                Есть несохранённые изменения. Сохраните ревизию перед подтверждением.
+                Есть несохранённые изменения. Корректная правка сохранится автоматически перед
+                подтверждением.
               </Notice>
             )}
             {reviewDirty && (
               <Notice className="stale-note" tone="warning">
-                Подтверждения и checklist ещё не сохранены.
+                Решения или checklist ожидают сохранения.
               </Notice>
             )}
             {!statements.length && (
@@ -601,19 +772,24 @@ export function ParkingReview({ token }: { token: string }) {
                 <StatementEditor
                   key={statement.id}
                   statement={statement}
+                  pendingSave={
+                    JSON.stringify(statement) !==
+                    JSON.stringify(draft.statements.find((item) => item.id === statement.id))
+                  }
                   references={references}
                   index={index}
                   narrative={draft.narrative}
                   disabled={busy || historical}
-                  dirty={dirty || metadataPendingSave}
+                  dirty={
+                    dirty ||
+                    reviewDirty ||
+                    metadataPendingSave ||
+                    !!newStatement ||
+                    saveState === 'error'
+                  }
                   canReplaceQuote={!!selection && selection.end > selection.start}
                   onChange={(patch) => change(statement.id, patch)}
-                  onRationaleChange={(rationale) => {
-                    setStatements((items) =>
-                      items.map((s) => (s.id === statement.id ? { ...s, rationale } : s)),
-                    );
-                    setDirty(true);
-                  }}
+                  onRationaleChange={(rationale) => change(statement.id, { rationale })}
                   onReplaceQuote={() => {
                     if (selection)
                       change(statement.id, {
@@ -623,11 +799,15 @@ export function ParkingReview({ token }: { token: string }) {
                       });
                   }}
                   onDecision={(decision) => {
-                    setStatements((items) =>
-                      items.map((s) => (s.id === statement.id ? { ...s, decision } : s)),
-                    );
-                    setChecklist({ ...emptyReviewChecklist });
-                    setReviewDirty(true);
+                    if (statement.decision === decision) return;
+                    decide({
+                      context,
+                      hypotheses,
+                      statements: statements.map((item) =>
+                        item.id === statement.id ? { ...item, decision } : item,
+                      ),
+                      checklist: { ...emptyReviewChecklist },
+                    });
                   }}
                 />
               ))}
@@ -651,6 +831,7 @@ export function ParkingReview({ token }: { token: string }) {
                   key={key}
                   checked={checklist[key as keyof typeof checklist]}
                   onChange={(e) => {
+                    if (inFlight.current) return;
                     setChecklist({ ...checklist, [key]: e.target.checked });
                     setReviewDirty(true);
                   }}
@@ -670,17 +851,22 @@ export function ParkingReview({ token }: { token: string }) {
                   historical ||
                   !!newStatement ||
                   incompleteStatements ||
-                  incompleteHypotheses
+                  incompleteHypotheses ||
+                  !persistable ||
+                  (!dirty && !reviewDirty && saveState !== 'error')
                 }
                 onClick={() => void act(() => save(false))}
               >
-                Сохранить ревизию
+                {saveState === 'error' ? 'Повторить сохранение' : 'Сохранить сейчас'}
               </Button>
               <Button
                 disabled={
                   busy ||
                   historical ||
                   dirty ||
+                  reviewDirty ||
+                  saveState === 'error' ||
+                  !persistable ||
                   !statements.length ||
                   !!newStatement ||
                   incompleteStatements ||

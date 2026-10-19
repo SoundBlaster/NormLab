@@ -17,6 +17,7 @@ type Props = {
   context: NarrativeContext;
   disabled: boolean;
   canConfirm: boolean;
+  canSave: boolean;
   pendingSave: boolean;
   onChange: (patch: Partial<NarrativeContext>) => void;
   onConfirm: () => void;
@@ -26,6 +27,7 @@ export function ContextEditor({
   context,
   disabled,
   canConfirm,
+  canSave,
   pendingSave,
   onChange,
   onConfirm,
@@ -100,8 +102,8 @@ export function ContextEditor({
               ? 'Контекст подтверждён'
               : 'Контекст не подтверждён'}
         </Status>
-        <Button variant="secondary" onClick={onSave}>
-          Сохранить ревизию
+        <Button variant="secondary" disabled={!canSave} onClick={onSave}>
+          Сохранить сейчас
         </Button>
         <Button
           variant="secondary"

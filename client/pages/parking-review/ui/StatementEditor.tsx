@@ -11,6 +11,7 @@ type Props = {
   narrative: string;
   disabled: boolean;
   dirty: boolean;
+  pendingSave: boolean;
   canReplaceQuote: boolean;
   onChange: (patch: Partial<ReviewStatement>) => void;
   onRationaleChange: (value: string) => void;
@@ -25,6 +26,7 @@ export function StatementEditor({
   narrative,
   disabled,
   dirty,
+  pendingSave,
   canReplaceQuote,
   onChange,
   onRationaleChange,
@@ -40,18 +42,20 @@ export function StatementEditor({
         </span>{' '}
         <Status
           tone={
-            statement.decision === 'confirmed'
-              ? 'success'
-              : statement.decision === 'rejected'
-                ? 'danger'
-                : 'warning'
+            pendingSave
+              ? 'warning'
+              : statement.decision === 'confirmed'
+                ? 'success'
+                : statement.decision === 'rejected'
+                  ? 'danger'
+                  : 'warning'
           }
         >
-          {
-            { pending: 'не проверено', confirmed: 'подтверждено', rejected: 'отклонено' }[
-              statement.decision
-            ]
-          }
+          {pendingSave
+            ? 'изменения не сохранены'
+            : { pending: 'не проверено', confirmed: 'подтверждено', rejected: 'отклонено' }[
+                statement.decision
+              ]}
         </Status>
       </legend>
       <Quote>{statement.quote}</Quote>
@@ -90,6 +94,7 @@ export function StatementEditor({
           variant="secondary"
           disabled={
             dirty ||
+            statement.decision === 'confirmed' ||
             !hasStatementChoices(statement) ||
             reviewStatementIssues(statement, narrative).length > 0
           }
@@ -99,7 +104,7 @@ export function StatementEditor({
         </Button>
         <Button
           variant="secondary"
-          disabled={!statement.rationale.trim() || dirty}
+          disabled={!statement.rationale.trim() || dirty || statement.decision === 'rejected'}
           onClick={() => onDecision('rejected')}
         >
           Отклонить с причиной

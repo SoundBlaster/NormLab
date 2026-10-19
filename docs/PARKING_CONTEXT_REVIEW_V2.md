@@ -52,7 +52,11 @@ hypotheses are not passed to the model as established facts.
 4. A changed source creates a fresh linked draft with empty context/hypotheses.
    Saved source text and old revisions are retained.
 
-The UI labels unsaved metadata explicitly. Human confirmation records a user's
+The UI labels unsaved metadata explicitly. Valid review edits now autosave after
+a pause, and explicit review decisions persist directly; see the
+[persistence UX boundary](MANUAL_REVIEW_UX.md#stage-2-draft-persistence-and-explicit-decisions).
+Content must still reach a saved revision before confirmation becomes available.
+Human confirmation records a user's
 decision; it is neither independent evidence nor expert adjudication.
 
 ## Storage compatibility

@@ -5,6 +5,7 @@ export {
   reviewPredicates,
   reviewStatementIssues,
   reviewDraftMetadata,
+  reviewDraftSchema,
 } from '../../../../shared/parking-review.js';
 export {
   emptyNarrativeContext,
