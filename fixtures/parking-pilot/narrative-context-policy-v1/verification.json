@@ -1,0 +1,19 @@
+{
+  "schema": "normlab.narrative-context-policy-verification/v1",
+  "cases": 17,
+  "uniqueNarratives": 17,
+  "authoredFamilyLabels": 15,
+  "independentCaseCount": null,
+  "exactSentenceAnchors": 28,
+  "hypothesesRequiringExplicitConfirmation": 1,
+  "liveCalls": 0,
+  "checked": "IDs/digests/UTF16 whole-sentence quote spans/source attribution labels/declaration consistency/exact DEV017 input/confirmation flags/preserved parent capture and runtime bytes",
+  "notEstablished": "Not semantic adjudication, model accuracy, application validation, actual runtime routing or hypothesis gate; candidate expectations only",
+  "runtimeChanged": false,
+  "providerPromptsChanged": false,
+  "fixtureSha256": "8e97a4b8171663f5201b86a3934ac25f525e217f2a0bd7475b889da893f36601",
+  "sharedPromptSha256": "3f3025d931c4f8460b9b73564f636a064d0261304c9f08f969bec6a1911a30cc",
+  "corpusInventory": "Existing audit_pipeline_corpus.py --check passes:71 inputs, holdoutEligible0; policy references not registered as scored corpus",
+  "parentPr": "PR161 f0e15c84c64fce2076e0b1272ef47b99225a7a0b:6/6 CI SUCCESS,0 unresolved review threads",
+  "limitations": "No model inference, new application unit tests, runtime topic/hypothesis gate, semantic gold adjudication, deploy or merge"
+}

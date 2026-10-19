@@ -317,6 +317,7 @@ or observed quality/correction result is implied.
   - [ ] Добавить реальный bounded transport, проверить его через mock HTTP client, затем после отдельного live opt-in проверить compatibility и выполнить pilot из frozen protocol.
 - [ ] По выходу Stage 1 выбрать следующий bounded эксперимент, не объявляя заранее правильную архитектуру.
 - [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
+- [x] Зафиксировать [offline policy контекста, участников и причинности](docs/NARRATIVE_CONTEXT_POLICY_V1.md): whole-text topic отдельно от paidRegime, автомобиль из «я припарковался» — отдельная подтверждаемая гипотеза;17 candidate contrasts,0 inference. Реализация routing/hypothesis metadata и её оценка остаются задачей [#70](https://github.com/SoundBlaster/NormLab/issues/70).
 - [x] Зафиксировать [идею augmentation synthetic narratives](docs/NARRATIVE_AUGMENTATION_EXPERIMENTS.md): смыслосохраняющее перефразирование отдельно от обогащения structured seed.
 - [ ] После independent review спланировать и выполнить bounded augmentation pilot с отдельной оценкой generator drift и extractor quality.
 - [ ] Сравнить mapping, bounded repair и полный pipeline на development/validation, зафиксировать выбор реализации и полный contract; затем оценить выбранный вариант на untouched final test. Настройка после final score требует нового test set.
