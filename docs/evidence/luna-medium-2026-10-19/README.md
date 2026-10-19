@@ -39,3 +39,33 @@ This is one bounded experiment on ten related development-seen texts, not a new
 framework or independent human gold. All outputs require whole-source/output
 candidate review; higher effort cannot add missing contract fields. No UI,
 human correction session, production default change, deployment or merge.
+
+## Completed attempt: stopped at first local-contract failure
+
+Execution commit `35fc3b8`: 11/11 HTTP200 responses, five completed cases, DEV017
+failed local discovery ID validation, four suffix cases not executed. No retry,
+repair, fallback or extra low call. All11 returned effort echo medium and their
+request bodies differ from paired low requests only in effort. Whole series
+44,213ms,8,379 input/2,890 output tokens, zero unknown usage; monetary cost unknown.
+
+On the same five completed cases, Medium used2,354 output tokens versus Low1,973,
+and37,586ms summed case latency versus32,607ms. Whole-output candidate review:
+three unchanged provisional passes, payer-scope concern still present, one
+unresolved ownership case with a useful new other-vehicle description. Not a
+complete effort comparison or an overall quality percentage.
+
+Raw DEV017 subject «Приложение и СМС» passes the provider schema string type but
+fails local `vehicle|person` ID regex. The exact failure is reproduced offline;
+no accepted statement result or classification was produced for this case.
+Higher effort is not a reason to silently repair the subject or bypass the stop.
+
+[Full report](../../LUNA_LOW_MEDIUM_COMPARISON_2026-10-19.md),
+[comparison](comparison.json), [observations](observations.json),
+[failed-response diagnosis](failure-diagnosis.json), [replay](replay.json),
+[verification](verification.json), [raw evidence](evidence.zip).
+The archive preserves all92 manifest payloads, including the original low ZIP,
+medium raw responses/results/suffix status, exact authority bytes and effective
+driver/source. Captured authority JSON is semantically equal to the original;
+the separately stored original authority bytes match the pre-dispatch hash.
+Runtime bundle/dependencies are not distributed. Successful replay5/5 plus one
+separate failed-response replay used no real network. Human metrics remain null.
