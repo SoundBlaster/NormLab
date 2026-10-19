@@ -27,6 +27,8 @@ import { apiUrl } from '@/shared/api';
 import { StatementEditor } from './StatementEditor.js';
 import { ContextEditor } from './ContextEditor.js';
 import { HypothesisEditor } from './HypothesisEditor.js';
+import { NewStatementEditor, type StatementSource } from './NewStatementEditor.js';
+import { reviewReferences, hasStatementChoices } from '../model/statement-fields.js';
 import './review.css';
 
 const checklistNames = {
@@ -48,6 +50,7 @@ export function ParkingReview({ token }: { token: string }) {
   const [history, setHistory] = useState<ReviewDraft[]>([]);
   const [narrative, setNarrative] = useState('');
   const [selection, setSelection] = useState<{ start: number; end: number }>();
+  const [newStatement, setNewStatement] = useState<StatementSource>();
   const [statements, setStatements] = useState<ReviewStatement[]>([]);
   const [context, setContext] = useState(emptyNarrativeContext);
   const [hypotheses, setHypotheses] = useState<VehicleHypothesis[]>([]);
@@ -90,6 +93,7 @@ export function ParkingReview({ token }: { token: string }) {
     setChecklist(item.checklist);
     setNarrative(item.narrative);
     setSelection(undefined);
+    setNewStatement(undefined);
     setDirty(false);
     setReviewDirty(false);
     setNewSourceApproved(false);
@@ -181,6 +185,8 @@ export function ParkingReview({ token }: { token: string }) {
   }
   async function save(finishReview: boolean) {
     if (!draft) return;
+    if (newStatement)
+      throw new Error('Завершите или отмените создание нового утверждения перед сохранением.');
     const result = await request<ReviewDraft>('/api/parking/review', {
       draftId: draft.draftId,
       expectedRevisionId: draft.revisionId,
@@ -200,28 +206,14 @@ export function ParkingReview({ token }: { token: string }) {
   }
   function addSelection() {
     if (!draft || !selection || selection.end <= selection.start) return;
-    const quote = draft.narrative.slice(selection.start, selection.end);
-    setStatements((items) => [
-      ...items,
-      {
-        id: crypto.randomUUID(),
-        predicate: 'nlinput:payment',
-        stance: 'asserted',
-        subject: 'vehicle_1',
-        aboutEpisode: 'episode_1',
-        valueText: quote,
-        quote,
-        startOffset: selection.start,
-        endOffset: selection.end,
-        origin: 'human',
-        decision: 'pending',
-        rationale: '',
-      },
-    ]);
-    setChecklist({ ...emptyReviewChecklist });
-    setDirty(true);
-    setNotice('Утверждение добавлено из выделенного текста. Выберите его смысл и сохраните.');
+    setNewStatement({
+      quote: draft.narrative.slice(selection.start, selection.end),
+      startOffset: selection.start,
+      endOffset: selection.end,
+    });
+    setNotice('Цитата выбрана. Задайте смысл нового утверждения перед добавлением к проверке.');
   }
+
   function exportDraft() {
     if (!draft) return;
     const blob = new Blob([JSON.stringify(draft, null, 2)], { type: 'application/json' });
@@ -232,6 +224,9 @@ export function ParkingReview({ token }: { token: string }) {
     link.click();
     URL.revokeObjectURL(url);
   }
+  const references = reviewReferences(draft?.originalExtraction, statements, hypotheses);
+  const incompleteStatements = statements.some((statement) => !hasStatementChoices(statement));
+  const incompleteHypotheses = hypotheses.some((hypothesis) => !hypothesis.aboutEpisode.trim());
   const metadataIssues = reviewMetadataIssues(context, hypotheses);
   return (
     <section className="parking-review" aria-label="Проверка утверждений парковочного пилота">
@@ -256,7 +251,7 @@ export function ParkingReview({ token }: { token: string }) {
         <Field label="Открыть сохранённый черновик">
           <Select
             value={draft?.draftId ?? ''}
-            disabled={busy || dirty || reviewDirty}
+            disabled={busy || dirty || reviewDirty || !!newStatement}
             onChange={(e) => {
               const item = data?.drafts.find((d) => d.draftId === e.target.value);
               if (item) open(item);
@@ -310,7 +305,12 @@ export function ParkingReview({ token }: { token: string }) {
         )}
         <Button
           disabled={
-            busy || dirty || reviewDirty || !narrative.trim() || (!!draft && !newSourceApproved)
+            busy ||
+            dirty ||
+            reviewDirty ||
+            !!newStatement ||
+            !narrative.trim() ||
+            (!!draft && !newSourceApproved)
           }
           onClick={() =>
             void act(async () => {
@@ -348,7 +348,9 @@ export function ParkingReview({ token }: { token: string }) {
             )}
             <ContextEditor
               context={context}
-              disabled={busy || historical}
+              disabled={
+                busy || historical || !!newStatement || incompleteStatements || incompleteHypotheses
+              }
               canConfirm={!dirty && !metadataPendingSave}
               pendingSave={metadataPendingSave}
               onChange={changeContext}
@@ -415,7 +417,9 @@ export function ParkingReview({ token }: { token: string }) {
                   historical ||
                   !selection ||
                   selection.end <= selection.start ||
-                  statements.length >= 256
+                  !!newStatement ||
+                  statements.length >= 256 ||
+                  selection.end - selection.start > 4096
                 }
                 onClick={addSelection}
               >
@@ -442,6 +446,7 @@ export function ParkingReview({ token }: { token: string }) {
                   reviewDirty ||
                   historical ||
                   narrative !== draft.narrative ||
+                  !!newStatement ||
                   !data?.extractorAvailable ||
                   context.decision !== 'confirmed' ||
                   narrativeRoute(context) !== 'parking-review'
@@ -470,6 +475,23 @@ export function ParkingReview({ token }: { token: string }) {
                 Скачать сохранённую ревизию
               </Button>
             </Actions>
+            {newStatement && (
+              <NewStatementEditor
+                source={newStatement}
+                references={references}
+                disabled={busy || historical}
+                onCancel={() => setNewStatement(undefined)}
+                onCreate={(statement) => {
+                  setStatements((items) => [...items, statement]);
+                  setNewStatement(undefined);
+                  setChecklist({ ...emptyReviewChecklist });
+                  setDirty(true);
+                  setNotice(
+                    'Утверждение добавлено. Сохраните ревизию, затем подтвердите его отдельно.',
+                  );
+                }}
+              />
+            )}
             {!data?.extractorAvailable && (
               <p>Автоматическое извлечение не настроено. Ручная разметка доступна.</p>
             )}
@@ -497,6 +519,7 @@ export function ParkingReview({ token }: { token: string }) {
                     <HypothesisEditor
                       key={hypothesis.id}
                       hypothesis={hypothesis}
+                      references={references}
                       narrative={draft.narrative}
                       disabled={busy || historical}
                       dirty={dirty || metadataPendingSave}
@@ -547,6 +570,19 @@ export function ParkingReview({ token }: { token: string }) {
               «Отрицается» сохраняет отрицательное утверждение. «Отклонить» исключает ошибочное
               предложение модели. Это разные действия.
             </p>
+            {newStatement && (
+              <Notice tone="warning">
+                Завершите или отмените создание нового утверждения перед сохранением ревизии.
+              </Notice>
+            )}
+            {incompleteStatements && (
+              <Notice tone="warning">
+                Заполните обстоятельство, предмет и эпизод каждого утверждения.
+              </Notice>
+            )}
+            {incompleteHypotheses && (
+              <Notice tone="warning">Выберите эпизод каждой гипотезы перед сохранением.</Notice>
+            )}
             {dirty && (
               <Notice className="stale-note" tone="warning">
                 Есть несохранённые изменения. Сохраните ревизию перед подтверждением.
@@ -565,6 +601,7 @@ export function ParkingReview({ token }: { token: string }) {
                 <StatementEditor
                   key={statement.id}
                   statement={statement}
+                  references={references}
                   index={index}
                   narrative={draft.narrative}
                   disabled={busy || historical}
@@ -601,6 +638,8 @@ export function ParkingReview({ token }: { token: string }) {
                 busy ||
                 historical ||
                 dirty ||
+                !!newStatement ||
+                incompleteStatements ||
                 statements.some((s) => s.decision === 'pending') ||
                 metadataIssues.length > 0 ||
                 metadataPendingSave
@@ -626,7 +665,13 @@ export function ParkingReview({ token }: { token: string }) {
             <Actions className="parking-review-footer">
               <Button
                 variant="secondary"
-                disabled={busy || historical}
+                disabled={
+                  busy ||
+                  historical ||
+                  !!newStatement ||
+                  incompleteStatements ||
+                  incompleteHypotheses
+                }
                 onClick={() => void act(() => save(false))}
               >
                 Сохранить ревизию
@@ -637,6 +682,8 @@ export function ParkingReview({ token }: { token: string }) {
                   historical ||
                   dirty ||
                   !statements.length ||
+                  !!newStatement ||
+                  incompleteStatements ||
                   statements.some((s) => s.decision === 'pending') ||
                   !Object.values(checklist).every(Boolean) ||
                   metadataIssues.length > 0 ||
@@ -656,7 +703,7 @@ export function ParkingReview({ token }: { token: string }) {
             />
             <Button
               variant="secondary"
-              disabled={busy || dirty || reviewDirty}
+              disabled={busy || dirty || reviewDirty || !!newStatement}
               onClick={() =>
                 void act(async () => {
                   setHistory(await request<ReviewDraft[]>(`/api/parking/history/${draft.draftId}`));
@@ -667,7 +714,12 @@ export function ParkingReview({ token }: { token: string }) {
             </Button>
             <Actions>
               {history.map((item) => (
-                <Button variant="secondary" key={item.revisionId} onClick={() => open(item)}>
+                <Button
+                  variant="secondary"
+                  key={item.revisionId}
+                  disabled={busy || dirty || reviewDirty || !!newStatement}
+                  onClick={() => open(item)}
+                >
                   Ревизия {item.revision} ·{' '}
                   {item.status === 'reviewed' ? 'проверена человеком' : 'черновик'}
                 </Button>
