@@ -1,30 +1,12 @@
-import {
-  reviewPredicates,
-  reviewStatementIssues,
-  type ReviewStatement,
-} from '../model/contracts.js';
-import { Actions, Button, Field, Input, Quote, Select, Status, Textarea } from '@/shared/ui';
+import { reviewStatementIssues, type ReviewStatement } from '../model/contracts.js';
+import { Actions, Button, Field, Quote, Status, Textarea } from '@/shared/ui';
 
-const predicateNames: Record<string, string> = {
-  eventTime: 'Время события',
-  inMoscow: 'Москва',
-  cityParking: 'Городская парковка',
-  placement: 'Размещение автомобиля',
-  paidRegime: 'Платный режим',
-  subjectScope: 'Участник и автомобиль',
-  attribution: 'Кто сообщил',
-  payment: 'Оплата',
-  paymentStart: 'Начало оплаты',
-  departure: 'Отъезд',
-  paymentComplexity: 'Ошибки, исправления и сложность оплаты',
-  permit: 'Разрешения и абонементы',
-  disabilityConditions: 'Условия для инвалидов',
-  specialTariff: 'Специальный тариф',
-  faultAndExclusions: 'Вина и исключения',
-};
+import { hasStatementChoices, type ReviewReferences } from '../model/statement-fields.js';
+import { StatementFields } from './StatementFields.js';
 
 type Props = {
   statement: ReviewStatement;
+  references: ReviewReferences;
   index: number;
   narrative: string;
   disabled: boolean;
@@ -36,54 +18,9 @@ type Props = {
   onDecision: (decision: 'confirmed' | 'rejected') => void;
 };
 
-function StatementFields({ statement, onChange }: Pick<Props, 'statement' | 'onChange'>) {
-  return (
-    <div className="parking-fields">
-      <Field label="Обстоятельство">
-        <Select
-          value={statement.predicate}
-          onChange={(e) => onChange({ predicate: e.target.value })}
-        >
-          {reviewPredicates.map((p) => (
-            <option key={p} value={p}>
-              {predicateNames[p.split(':')[1]] ?? p}
-            </option>
-          ))}
-        </Select>
-      </Field>
-      <Field label="Состояние утверждения">
-        <Select
-          value={statement.stance}
-          onChange={(e) => onChange({ stance: e.target.value as ReviewStatement['stance'] })}
-        >
-          <option value="asserted">Утверждается</option>
-          <option value="denied">Отрицается</option>
-          <option value="unknown">Неизвестно</option>
-        </Select>
-      </Field>
-      {(
-        [
-          ['subject', 'К кому или чему относится'],
-          ['speaker', 'Источник утверждения'],
-          ['aboutEpisode', 'Эпизод'],
-        ] as const
-      ).map(([key, label]) => (
-        <Field key={key} label={label}>
-          <Input
-            value={statement[key] ?? ''}
-            placeholder={key === 'speaker' ? 'Не указан' : undefined}
-            onChange={(e) =>
-              onChange({ [key]: key === 'speaker' ? e.target.value || undefined : e.target.value })
-            }
-          />
-        </Field>
-      ))}
-    </div>
-  );
-}
-
 export function StatementEditor({
   statement,
+  references,
   index,
   narrative,
   disabled,
@@ -118,7 +55,14 @@ export function StatementEditor({
         </Status>
       </legend>
       <Quote>{statement.quote}</Quote>
-      <StatementFields statement={statement} onChange={onChange} />
+      <StatementFields
+        value={statement}
+        references={references}
+        onChange={(patch) => {
+          if (patch.stance === '') return;
+          onChange(patch as Partial<ReviewStatement>);
+        }}
+      />
       <Field label="Содержание">
         <Textarea
           rows={2}
@@ -144,7 +88,11 @@ export function StatementEditor({
         </Button>
         <Button
           variant="secondary"
-          disabled={dirty || reviewStatementIssues(statement, narrative).length > 0}
+          disabled={
+            dirty ||
+            !hasStatementChoices(statement) ||
+            reviewStatementIssues(statement, narrative).length > 0
+          }
           onClick={() => onDecision('confirmed')}
         >
           Подтвердить

@@ -11,8 +11,12 @@ import {
   Textarea,
 } from '@/shared/ui';
 
+import type { ReviewReferences } from '../model/statement-fields.js';
+import { ReferenceSelect } from './ReferenceSelect.js';
+
 type Props = {
   hypothesis: VehicleHypothesis;
+  references: ReviewReferences;
   narrative: string;
   disabled: boolean;
   dirty: boolean;
@@ -24,6 +28,7 @@ type Props = {
 };
 export function HypothesisEditor({
   hypothesis,
+  references,
   narrative,
   disabled,
   dirty,
@@ -75,12 +80,13 @@ export function HypothesisEditor({
             <option value="other">Другое транспортное средство</option>
           </Select>
         </Field>
-        <Field label="Эпизод гипотезы">
-          <Input
-            value={hypothesis.aboutEpisode}
-            onChange={(e) => onChange({ aboutEpisode: e.target.value })}
-          />
-        </Field>
+        <ReferenceSelect
+          label="Эпизод гипотезы"
+          kind="episode"
+          value={hypothesis.aboutEpisode}
+          options={references.episodes}
+          onChange={(aboutEpisode) => onChange({ aboutEpisode })}
+        />
       </div>
       {hypothesis.vehicleKind === 'other' && (
         <Field label="Уточнение вида ТС">
@@ -111,6 +117,7 @@ export function HypothesisEditor({
           variant="secondary"
           disabled={
             dirty ||
+            !hypothesis.aboutEpisode.trim() ||
             vehicleHypothesisIssues({ ...hypothesis, decision: 'confirmed' }, narrative).length > 0
           }
           onClick={() => onDecision('confirmed')}

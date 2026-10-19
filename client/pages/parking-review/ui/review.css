@@ -39,6 +39,15 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
 }
+.parking-reference {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.parking-reference-value {
+  overflow-wrap: anywhere;
+}
 .parking-statement {
   display: grid;
   gap: var(--space-5);

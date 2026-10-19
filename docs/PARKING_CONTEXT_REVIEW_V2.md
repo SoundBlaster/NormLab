@@ -19,6 +19,8 @@ clarification, even if its context decision is confirmed. Select the explicit
 `parking-unspecified` value when parking is established but payment context is
 absent. Out-of-scope and informational texts remain saved and visible.
 Manual statement editing remains available while clarification is pending.
+The [manual review UX plan](MANUAL_REVIEW_UX.md) describes explicit semantic
+choices for new statements and the subsequent persistence/workspace improvements.
 
 ## Separate hypothesis review
 
