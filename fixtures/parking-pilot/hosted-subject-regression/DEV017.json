@@ -1,0 +1,35 @@
+{
+  "purpose": "Saved DEV017 discovery rejection regression; not a corrected output or human gold.",
+  "provenance": {
+    "archive": "docs/evidence/luna-medium-2026-10-19/evidence.zip",
+    "archiveSha256": "93e1564ed8d2583fe372f0deadaec6af5fac4cd8347a380027135266f7522a13",
+    "executionCommit": "35fc3b87f66d079679added0bc03cb4140b2617e",
+    "responsePath": "capture/attempt-11.response.txt",
+    "responseSha256": "f9fe3e3b4efcfeb8931e4720f1eb05eb54e69d0ef8d6ef2e0cf88dc22860f9c4",
+    "outputTextSha256": "7a917dfc1773c64613b3753839db578a26faa7fe390ebe0c8004147c0437f71e"
+  },
+  "input": {
+    "narrative": "В Москве я стоял на городской парковке. Приложение и СМС не работали, оплатить парковку не удалось.\n",
+    "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b"
+  },
+  "discovery": {
+    "extractions": [
+      {
+        "statement": "В Москве я стоял на городской парковке.",
+        "statement_attributes": {
+          "subject": "person_1",
+          "aboutEpisode": "episode_1",
+          "speaker": "narrator"
+        }
+      },
+      {
+        "statement": "Приложение и СМС не работали, оплатить парковку не удалось.",
+        "statement_attributes": {
+          "subject": "Приложение и СМС",
+          "aboutEpisode": "episode_1",
+          "speaker": "narrator"
+        }
+      }
+    ]
+  }
+}

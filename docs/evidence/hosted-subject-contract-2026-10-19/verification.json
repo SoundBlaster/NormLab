@@ -1,0 +1,63 @@
+{
+  "schema": "normlab.hosted-subject-contract-verification/v1",
+  "dateMsk": "2026-10-19",
+  "liveProviderCalls": 0,
+  "hostedPromptDigest": "16ebf6180f0072481cffe984cf58699ef110a01282f66522bccd28a839020723",
+  "generatedIdSchemas": {
+    "subject": {
+      "type": "string",
+      "pattern": "^(vehicle|person)_[1-9][0-9]*$"
+    },
+    "aboutEpisode": {
+      "type": "string",
+      "pattern": "^episode_[1-9][0-9]*$"
+    }
+  },
+  "changes": "Subject/episode wire type/pattern explicitly projected from unchanged local Zod fields; maxLength128 retained locally only. Thematic hosted-only guidance; historical shared prompt unchanged; no repair/vocabulary widening.",
+  "focusedTests": {
+    "tests/inference.test.ts": 23,
+    "tests/inference-decisions.test.ts": 3,
+    "status": "pass",
+    "idSyntaxAndLocalBoundVectors": 19
+  },
+  "checks": {
+    "typecheck": "npm run check: pass",
+    "codeLint": "npm run lint:code: pass",
+    "format": "npm run format:check: pass",
+    "architecture": "Actual scripts/lint-architecture.ts client --fail-on-warnings via node --import tsx loader: pass; standard CLI hit long TB5 Unix socket path.",
+    "savedResponse": "New wire schema and unchanged local parser both reject original DEV017; classification call count0 after discovery rejection.",
+    "authoredReference": "Explicit person_1 fixture shape passes injected mock pipeline; technical quote and pending review preserved, no vehicle invented.",
+    "stage1": "50 existing Stage1 tests pass after hosted-only scoping; corpus inventory, external snapshots/anchors and S1.3 offline check pass without inference.",
+    "strictSchemaKeywords": "Both ID properties contain only type/pattern; no maxLength or dialect header. Oversized syntactically valid IDs pass wire but fail locally before classification."
+  },
+  "testExecution": {
+    "source": "Current source checkout through actual TSX loader",
+    "outputs": "Verified per-checkout TB5 build_root; TMPDIR/TSX cache on TB5",
+    "dependencies": "Existing dependency installation reused read-only through temporary ignored symlink; no install/migration.",
+    "setupCorrections": [
+      "Initial CJS-bundled test invocation incompatible with existing import.meta entry guards; replaced with actual TSX loader before final passing run.",
+      "Pinned prompt digest intentionally updated alongside versioned schema/prompt change; old historical captures untouched.",
+      "FSD tsx CLI Unix socket path exceeded macOS limit; same canonical script and flags passed through Node loader without CLI IPC.",
+      "Initial CI Stage1 failed because shared prompt is pinned by historical Python audits. Scope clarification to hosted prefix and restore shared JSON bytes exactly; no old fixture/pin/audit was rewritten or weakened.",
+      "PR160 P1 review: replace unconstrained Zod JSON Schema passthrough with explicit supported type/pattern projection; retain local maxLength128 and assert deliberate wire/local boundary in regression."
+    ]
+  },
+  "historicalArchives": {
+    "low": "da81366eb21084af19183410210ae9f3e3d51e1b3a12163cd2502f6e915d295a",
+    "medium": "93e1564ed8d2583fe372f0deadaec6af5fac4cd8347a380027135266f7522a13"
+  },
+  "fixtureSha256": "2b1fdf1f4a0c98c852929be8808775cadc31c5f70ec48249e6f1638d3f3954ae",
+  "limitations": [
+    "No live CoreInfra schema acceptance or generation-quality evidence. Saved invalid result remains invalid, not repaired.",
+    "Authored reference is not model output, human gold or a full-case quality score.",
+    "No full local application test suite, UI, default-effort change, deploy, merge or paid retry.",
+    "ID syntax alignment only; maxLength128 remains local-only. Other representability/role/episode/semantic concerns remain separate."
+  ],
+  "sharedPromptSha256": "3f3025d931c4f8460b9b73564f636a064d0261304c9f08f969bec6a1911a30cc",
+  "stage1Tests": {
+    "passed": 50,
+    "liveCalls": 0,
+    "python": "3.13.15",
+    "command": "python -B -S -m unittest discover -s evaluation -p 'test_stage1*.py'"
+  }
+}
