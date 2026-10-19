@@ -1,0 +1,11 @@
+{
+  "schema": "normlab.responses-config/v1",
+  "id": "coreinfra-responses",
+  "api_format": "openai-responses",
+  "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/responses",
+  "model": "gpt-6-luna",
+  "key_env": "COREINFRA_API_KEY",
+  "timeout": 30,
+  "reasoning_effort": "low",
+  "max_output_tokens": 1024
+}

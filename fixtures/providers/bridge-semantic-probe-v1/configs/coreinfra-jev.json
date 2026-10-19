@@ -1,0 +1,9 @@
+{
+  "schema": "normlab.provider-config/v1",
+  "id": "coreinfra-jev",
+  "api_format": "typesafe-systemone",
+  "endpoint_url": "https://hub.coreinfra.ai/typesafe/api/v1/systemone",
+  "model": "jev-1.13.0",
+  "key_env": "COREINFRA_API_KEY",
+  "timeout": 30
+}
