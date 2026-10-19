@@ -1,0 +1,34 @@
+{
+  "schema": "normlab.hosted-schema-smoke-verification/v1",
+  "liveCalls": 2,
+  "additionalReplayCalls": 0,
+  "executionCommit": "292d8ccff525ffe4e4e8ecd4c946f3ddd8c89a4f",
+  "sourceBindingsVerified": 110,
+  "archivePayloads": 132,
+  "archiveBytes": 459592,
+  "archiveSha256": "726d2f194a3634f064b6eafe42fff34cab9aa8234c7a16b14e9934dffd33647b",
+  "archiveChecks": "exact membership, CRC, sizes and SHA256; safe paths; source binding snapshots exact; credential value/token-shape scans passed for every payload before publication",
+  "runtime": "Node26.5.0/esbuild0.28.2/zod4.6.5 unchanged bundled hosted entry",
+  "preDispatch": "plan/runtime/source/supervisor committed before inference; dry-run pass without key/API calls",
+  "replay": "same frozen bundle full result/calls equal from2 archived responses; statement UUIDs/latency excluded; global fetch forbidden",
+  "knownTokens": {
+    "input": 1713,
+    "output": 732,
+    "reasoningIncludedInOutput": 471
+  },
+  "unknownUsageAttempts": 0,
+  "costUsd": null,
+  "semanticDisposition": "needs-review: vehicle not explicitly named; causal summary strengthened",
+  "mainCi": {
+    "commit": "44e0d99e9ea96cbf40f1a5129028d869d326106d",
+    "run": "https://github.com/SoundBlaster/NormLab/actions/runs/39219602071",
+    "status": "6/6 SUCCESS; separate from this branch CI and live provider outcome"
+  },
+  "limitations": [
+    "Not a Low/Medium comparison or proof of regex enforcement",
+    "Candidate whole-output review, not independent human gold or accuracy",
+    "No new application tests, dependency install, deploy, legal result or further paid requests"
+  ],
+  "freshArchiveReplay": "pass after fresh safe extraction; same1 case/2 archived requests/5 statement anchors/2 fragment offsets,0 live calls",
+  "format": "Prettier check for all new Markdown/JSON/MJS passed"
+}

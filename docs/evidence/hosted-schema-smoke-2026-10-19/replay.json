@@ -1,0 +1,18 @@
+{
+  "schema": "normlab.one-off-hosted-replay/v1",
+  "status": "pass",
+  "liveCalls": 0,
+  "network": "global fetch forbidden; injected transport returns archived bytes only",
+  "replayRequests": 2,
+  "compared": "all result fields including calls/decisions/fragments; exclude only new statement UUIDs and latencyMs",
+  "quoteAnchors": 5,
+  "fragments": 2,
+  "records": [
+    {
+      "id": "DEV017",
+      "status": "replay-equal",
+      "statements": 5,
+      "fragments": 2
+    }
+  ]
+}
