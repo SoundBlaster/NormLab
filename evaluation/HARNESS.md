@@ -117,6 +117,10 @@ archives/scorers or used as a quality score.
 
 ## Stage 1 provider execution
 
+For new current categorical checks, use the [primary ordinary Luna Low
+route](../docs/PRIMARY_VERIFIER.md). The current CLI defaults to CoreInfra Responses;
+Jev and Decisions remain opt-in. Historical plans retain their pinned providers.
+
 [Three-arm Stage 1 transport](../docs/STAGE1_PROVIDER_TRANSPORT.md) connects Jev, native Luna Decisions and Responses Low through CoreInfra application endpoints. Dry-run/replay require no SDK; mock HTTP uses real SDK request construction. Paid execution requires a separate plan-bound permit and operator-confirmed external spending limit.
 
 # Sealed Stage 1 provider scoring

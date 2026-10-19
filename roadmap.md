@@ -282,6 +282,13 @@ See [frontend architecture](client/ARCHITECTURE.md).
 
 ### Mellea + Jev — validation/repair evaluation
 
+Current engineering route: ordinary [CoreInfra Luna Low Responses](docs/PRIMARY_VERIFIER.md)
+for the categorical verifier; Jev remains an explicit experimental provider.
+This reversible default is not final pipeline selection or a completed development
+quality evaluation. Further Jev causal experiments are deferred; see
+[evidence synthesis #70](https://github.com/SoundBlaster/NormLab/issues/70) and
+[Jev investigation #145](https://github.com/SoundBlaster/NormLab/issues/145).
+
 [Утверждённый план](docs/MELLEA_EVALUATION_PLAN.md): три matched arms, сначала classification на одинаковом discovery, затем полный pipeline. Одна repair-попытка; фабула неизменна, подтверждения остаются ручными.
 
 - [x] Зафиксировать цель, arms, бюджет и границы доказательств.

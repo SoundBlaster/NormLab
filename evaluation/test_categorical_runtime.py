@@ -255,7 +255,7 @@ def test_direct_evaluate_retains_bound_task_and_raises_operational_error():
 
 
 @pytest.mark.parametrize(
-    "preset", ["coreinfra-jev", "coreinfra-decisions", "coreinfra-responses"]
+    "preset", [None, "coreinfra-jev", "coreinfra-decisions", "coreinfra-responses"]
 )
 def test_cli_dry_run_needs_no_sdk_or_credentials(preset):
     process = subprocess.run(
@@ -265,8 +265,7 @@ def test_cli_dry_run_needs_no_sdk_or_credentials(preset):
             "-S",
             str(ROOT / "evaluation/categorical_smoke.py"),
             str(ROOT / "fixtures/providers/stage1-choice.json"),
-            "--provider",
-            preset,
+            *(["--provider", preset] if preset else []),
             "--policy",
             str(POLICY),
         ],
@@ -279,6 +278,52 @@ def test_cli_dry_run_needs_no_sdk_or_credentials(preset):
     assert plan["calls"] == 0 and plan["plannedCalls"] == 1
     assert plan["provider"]["adapter_version"] == "0.9.0"
     assert plan["evaluationMethod"] == "CategoricalRequirement.evaluate"
+    if preset is None:
+        config = plan["provider"]
+        assert config["id"] == "coreinfra-responses"
+        assert config["api_format"] == "openai-responses"
+        assert config["model"] == "gpt-6-luna"
+        assert config["reasoning_effort"] == "low"
+        assert config["max_output_tokens"] == 1024
+        assert config["key_env"] == "COREINFRA_API_KEY"
+        assert (
+            config["endpoint_url"] == "https://hub.coreinfra.ai/openai/api/v1/responses"
+        )
+
+
+@pytest.mark.parametrize(
+    "name,api_format",
+    [
+        ("coreinfra-jev", "typesafe-systemone"),
+        ("coreinfra-decisions", "openai-decisions"),
+        ("coreinfra-responses", "openai-responses"),
+    ],
+)
+def test_explicit_config_preserves_route_after_default_switch(name, api_format):
+    process = subprocess.run(
+        [
+            sys.executable,
+            "-B",
+            "-S",
+            str(ROOT / "evaluation/categorical_smoke.py"),
+            str(ROOT / "fixtures/providers/stage1-choice.json"),
+            "--config",
+            str(
+                ROOT
+                / f"fixtures/providers/bridge-semantic-probe-v1/configs/{name}.json"
+            ),
+            "--policy",
+            str(POLICY),
+        ],
+        env={},
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    plan = json.loads(process.stdout)
+    assert plan["calls"] == 0
+    assert plan["provider"]["id"] == name
+    assert plan["provider"]["api_format"] == api_format
 
 
 def test_policy_does_not_assume_label_meaning():
