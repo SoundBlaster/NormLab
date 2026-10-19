@@ -735,7 +735,7 @@ test('OpenAI stages use their own output limits and the digest covers every beha
   // historical evaluation captures keep their original digest.
   assert.equal(
     HOSTED_PROMPT_DIGEST,
-    'ead5aa2d1f44ea76389afd1c684d4f4bb95179bc142577317058dfb02896ccb2',
+    '38752d3eee1f47e199800cd438a94a90656c128f7519f81bb4d48649f198d19d',
   );
   assert.equal(result.promptDigest, HOSTED_PROMPT_DIGEST);
   assert.notEqual(HOSTED_PROMPT_DIGEST, sourceDigest(JSON.stringify(prompts)));

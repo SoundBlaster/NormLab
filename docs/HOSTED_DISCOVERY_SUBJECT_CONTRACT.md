@@ -34,8 +34,10 @@ length bounds are not manually duplicated:
 | subject      | `^(vehicle\|person)_[1-9][0-9]*$`                 | 128          |
 | aboutEpisode | `^episode_[1-9][0-9]*$`                           | 128          |
 
-The discovery instructions explicitly separate thematic reference from grammar
-and retain channel names in the literal quote. Local ID validation is preserved.
+The hosted discovery prefix explicitly separates thematic reference from grammar
+and retains channel names in the literal quote. The shared `inference-prompts.json`
+is byte-identical to the historical version: Python Stage1 audits pin that separate
+shared contract, so a hosted-only clarification must not change it. Local ID validation is preserved.
 There is no automatic repair/rebinding, retry, widened vocabulary or new legal
 finding. Other local constraints, speaker trimming, quote verification and
 classification rules are unchanged; this is not a claim that every local rule
@@ -70,7 +72,7 @@ remain in the focused verification scope. New provider calls: **0**.
 
 The output shape and default Low effort remain unchanged. Prompts and provider
 schema changed, so the computed hosted digest and its regression pin change to
-`ead5aa2d1f44ea76389afd1c684d4f4bb95179bc142577317058dfb02896ccb2`.
+`38752d3eee1f47e199800cd438a94a90656c128f7519f81bb4d48649f198d19d`.
 The old low/medium source snapshots, digests, archives and findings are preserved.
 See [verification](evidence/hosted-subject-contract-2026-10-19/verification.json)
 for actual checks and limits.
