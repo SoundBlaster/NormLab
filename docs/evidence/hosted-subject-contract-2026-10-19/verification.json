@@ -1,0 +1,54 @@
+{
+  "schema": "normlab.hosted-subject-contract-verification/v1",
+  "dateMsk": "2026-10-19",
+  "liveProviderCalls": 0,
+  "hostedPromptDigest": "ead5aa2d1f44ea76389afd1c684d4f4bb95179bc142577317058dfb02896ccb2",
+  "generatedIdSchemas": {
+    "subject": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^(vehicle|person)_[1-9][0-9]*$"
+    },
+    "aboutEpisode": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^episode_[1-9][0-9]*$"
+    }
+  },
+  "changes": "Subject/episode provider ID constraints derived from original local Zod fields; prompt clarifies thematic referent, no automatic repair or vocabulary widening.",
+  "focusedTests": {
+    "tests/inference.test.ts": 23,
+    "tests/inference-decisions.test.ts": 3,
+    "idParityVectors": 19,
+    "status": "pass"
+  },
+  "checks": {
+    "typecheck": "npm run check: pass",
+    "codeLint": "npm run lint:code: pass",
+    "format": "npm run format:check: pass",
+    "architecture": "Actual scripts/lint-architecture.ts client --fail-on-warnings via node --import tsx loader: pass; standard CLI hit long TB5 Unix socket path.",
+    "savedResponse": "New wire schema and unchanged local parser both reject original DEV017; classification call count0 after discovery rejection.",
+    "authoredReference": "Explicit person_1 fixture shape passes injected mock pipeline; technical quote and pending review preserved, no vehicle invented."
+  },
+  "testExecution": {
+    "source": "Current source checkout through actual TSX loader",
+    "outputs": "Verified per-checkout TB5 build_root; TMPDIR/TSX cache on TB5",
+    "dependencies": "Existing dependency installation reused read-only through temporary ignored symlink; no install/migration.",
+    "setupCorrections": [
+      "Initial CJS-bundled test invocation incompatible with existing import.meta entry guards; replaced with actual TSX loader before final passing run.",
+      "Pinned prompt digest intentionally updated alongside versioned schema/prompt change; old historical captures untouched.",
+      "FSD tsx CLI Unix socket path exceeded macOS limit; same canonical script and flags passed through Node loader without CLI IPC."
+    ]
+  },
+  "historicalArchives": {
+    "low": "da81366eb21084af19183410210ae9f3e3d51e1b3a12163cd2502f6e915d295a",
+    "medium": "93e1564ed8d2583fe372f0deadaec6af5fac4cd8347a380027135266f7522a13"
+  },
+  "fixtureSha256": "2b1fdf1f4a0c98c852929be8808775cadc31c5f70ec48249e6f1638d3f3954ae",
+  "limitations": [
+    "No live CoreInfra schema acceptance or generation-quality evidence. Saved invalid result remains invalid, not repaired.",
+    "Authored reference is not model output, human gold or a full-case quality score.",
+    "No full local application test suite, UI, default-effort change, deploy, merge or paid retry.",
+    "ID constraint parity only; other representability/role/episode/semantic concerns remain separate."
+  ]
+}

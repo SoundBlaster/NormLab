@@ -7,6 +7,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createServer, request } from 'node:http';
 import prompts from '../server/inference-prompts.json';
+import subjectRegression from '../fixtures/parking-pilot/hosted-subject-regression/DEV017.json';
+import Ajv2020 from 'ajv/dist/2020.js';
 import { InferenceProviders, INFERENCE_DESTINATIONS } from '../server/inference-providers.js';
 import {
   runHostedExtraction,
@@ -14,6 +16,7 @@ import {
   HOSTED_MAX_NARRATIVE,
   HOSTED_PIPELINE,
   HOSTED_PROMPT_DIGEST,
+  hostedDiscoverySchema,
 } from '../server/hosted-extraction.js';
 import { createInferenceGateway, proxiedFetch } from '../server/inference-gateway.js';
 import {
@@ -291,6 +294,134 @@ test('discovery rejects wrong bindings, hallucinated/repeated quotes, and missin
       signal(),
     ),
   );
+});
+
+test('discovery ID wire constraints match local validation, including boundary lengths', async () => {
+  const validate = new Ajv2020({ strict: true }).compile(hostedDiscoverySchema);
+  const ids = [
+    { field: 'subject', value: 'vehicle_1', valid: true },
+    { field: 'subject', value: 'person_21', valid: true },
+    { field: 'subject', value: `vehicle_${'9'.repeat(120)}`, valid: true },
+    { field: 'subject', value: `person_${'9'.repeat(121)}`, valid: true },
+    { field: 'subject', value: `person_${'9'.repeat(122)}`, valid: false },
+    { field: 'subject', value: 'Приложение и СМС', valid: false },
+    { field: 'subject', value: 'narrator', valid: false },
+    { field: 'subject', value: 'vehicle_0', valid: false },
+    { field: 'subject', value: 'vehicle_01', valid: false },
+    { field: 'subject', value: 'person_-1', valid: false },
+    { field: 'subject', value: 'person_١', valid: false },
+    { field: 'subject', value: 'person_1 ', valid: false },
+    { field: 'subject', value: ' person_1', valid: false },
+    { field: 'aboutEpisode', value: 'episode_1', valid: true },
+    { field: 'aboutEpisode', value: `episode_${'9'.repeat(120)}`, valid: true },
+    { field: 'aboutEpisode', value: `episode_${'9'.repeat(121)}`, valid: false },
+    { field: 'aboutEpisode', value: 'episode_0', valid: false },
+    { field: 'aboutEpisode', value: 'episode_01', valid: false },
+    { field: 'aboutEpisode', value: 'vehicle_1', valid: false },
+  ];
+  for (const { field, value, valid } of ids) {
+    const output = structuredClone(discoveryOutput);
+    for (const extraction of output.extractions)
+      Object.assign(extraction.statement_attributes, { [field]: value });
+    const label = `${field}=${JSON.stringify(value)}`;
+    assert.equal(validate(output), valid, `provider schema: ${label}`);
+    const mock = mockFetch({ discovery: output });
+    const run = runHostedExtraction(
+      input,
+      new InferenceProviders(config, mock.fetcher),
+      'openai',
+      signal(),
+    );
+    if (valid) {
+      const result = await run;
+      assert.equal(result.statements[0][field as 'subject' | 'aboutEpisode'], value, label);
+      assert.equal(mock.requests.length, 2, label);
+    } else {
+      await assert.rejects(run, { name: 'ZodError' }, label);
+      assert.equal(mock.requests.length, 1, label);
+    }
+  }
+});
+
+test('saved DEV017 subject is rejected by emitted schema and locally before classification', async () => {
+  const before = structuredClone(subjectRegression);
+  const validate = new Ajv2020({ strict: true }).compile(hostedDiscoverySchema);
+  assert.equal(
+    sourceDigest(subjectRegression.input.narrative),
+    subjectRegression.input.sourceDigest,
+  );
+  assert.equal(validate(subjectRegression.discovery), false);
+  assert.ok(validate.errors?.some((error) => error.instancePath.endsWith('/subject')));
+  const mock = mockFetch({ discovery: subjectRegression.discovery });
+  await assert.rejects(
+    runHostedExtraction(
+      subjectRegression.input,
+      new InferenceProviders(config, mock.fetcher),
+      'openai',
+      signal(),
+    ),
+    { name: 'ZodError' },
+  );
+  assert.equal(mock.requests.length, 1);
+  assert.deepEqual(
+    (mock.requests[0].body.text as { format: { schema: unknown } }).format.schema,
+    hostedDiscoverySchema,
+  );
+  assert.deepEqual(subjectRegression, before); // Never repair or relink the saved model output.
+});
+
+test('authored thematic-person reference retains technical failure quote without inventing a car', async () => {
+  // Explicit test reference, not an automatic correction or another model result.
+  const reference = structuredClone(subjectRegression.discovery);
+  reference.extractions[1].statement_attributes.subject = 'person_1';
+  const validate = new Ajv2020({ strict: true }).compile(hostedDiscoverySchema);
+  assert.equal(validate(reference), true);
+  const mock = mockFetch({
+    discovery: reference,
+    classification: {
+      results: {
+        fragment_1: {
+          status: 'classified',
+          reason: '',
+          classifications: [
+            {
+              predicate: 'cityParking',
+              stance: 'asserted',
+              valueText: 'Место названо городской парковкой.',
+            },
+          ],
+        },
+        fragment_2: {
+          status: 'classified',
+          reason: '',
+          classifications: [
+            {
+              predicate: 'payment',
+              stance: 'denied',
+              valueText: 'Рассказчику не удалось оплатить парковку.',
+            },
+          ],
+        },
+      },
+    },
+  });
+  const result = await runHostedExtraction(
+    subjectRegression.input,
+    new InferenceProviders(config, mock.fetcher),
+    'openai',
+    signal(),
+  );
+  assert.ok(result.statements.every((statement) => statement.subject === 'person_1'));
+  assert.equal(result.statements[1].quote, reference.extractions[1].statement);
+  assert.match(result.statements[1].quote, /Приложение и СМС не работали/);
+  assert.equal(result.statements[1].decision, 'pending');
+  assert.equal(mock.requests.length, 2);
+  assert.equal(
+    subjectRegression.discovery.extractions[1].statement_attributes.subject,
+    'Приложение и СМС',
+  );
+  assert.match(mock.requests[0].body.instructions as string, /не грамматическое подлежащее/);
+  assert.match(mock.requests[0].body.instructions as string, /Не выдумывай/);
 });
 
 test('provider rejects incomplete, refusal, invalid distributions and transport errors without leaking bodies', async () => {
@@ -600,10 +731,11 @@ test('OpenAI stages use their own output limits and the digest covers every beha
   );
   assert.ok((mock.requests[0].body.instructions as string).endsWith(prompts.discovery));
   // Pinned: prompts, inline prefixes, Jev template/criteria, schemas, batch size and request
-  // settings all feed this value. Update it only together with a new evaluation run.
+  // settings all feed this value. Update with a versioned change and recorded verification;
+  // historical evaluation captures keep their original digest.
   assert.equal(
     HOSTED_PROMPT_DIGEST,
-    '46c9b4089ba8a93e71272c817dd3bab1aefabc74924b0b360199ec42666627a2',
+    'ead5aa2d1f44ea76389afd1c684d4f4bb95179bc142577317058dfb02896ccb2',
   );
   assert.equal(result.promptDigest, HOSTED_PROMPT_DIGEST);
   assert.notEqual(HOSTED_PROMPT_DIGEST, sourceDigest(JSON.stringify(prompts)));

@@ -87,14 +87,20 @@ const objectSchema = (properties: Record<string, unknown>) => ({
   additionalProperties: false,
 });
 const stringSchema = { type: 'string' };
+/** Keep provider ID constraints identical to local validation, without nested dialect headers. */
+function discoveryIdSchema(schema: z.ZodString) {
+  const result = z.toJSONSchema(schema);
+  delete result.$schema;
+  return result;
+}
 export const hostedDiscoverySchema = objectSchema({
   extractions: {
     type: 'array',
     items: objectSchema({
       statement: stringSchema,
       statement_attributes: objectSchema({
-        subject: stringSchema,
-        aboutEpisode: stringSchema,
+        subject: discoveryIdSchema(attributes.shape.subject),
+        aboutEpisode: discoveryIdSchema(attributes.shape.aboutEpisode),
         speaker: stringSchema,
       }),
     }),
