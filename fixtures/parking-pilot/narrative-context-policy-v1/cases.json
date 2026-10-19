@@ -45,7 +45,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "narrator-only",
         "causalRelation": "no-explicit-link",
-        "sourceBoundSummary": "Рассказчик стоял на городской парковке в Москве. Приложение и СМС не работали; оплатить парковку не удалось."
+        "sourceBoundSummary": "Рассказчик стоял на городской парковке в Москве. Приложение и СМС не работали; оплатить парковку не удалось.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -85,7 +86,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "vehicle-explicit",
         "causalRelation": "no-explicit-link",
-        "sourceBoundSummary": "Автомобиль находился на городской парковке в Москве. Приложение и СМС не работали; оплатить парковку не удалось."
+        "sourceBoundSummary": "Автомобиль находился на городской парковке в Москве. Приложение и СМС не работали; оплатить парковку не удалось.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -124,7 +126,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "vehicle-hypothesis",
         "causalRelation": "no-explicit-link",
-        "sourceBoundSummary": "Рассказчик сообщает, что припарковался; оплатить парковку не удалось."
+        "sourceBoundSummary": "Рассказчик сообщает, что припарковался; оплатить парковку не удалось.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [
         {
@@ -172,7 +175,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "vehicle-explicit",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Рассказчик сообщает о стоянке своего автомобиля и об оплате его парковки."
+        "sourceBoundSummary": "Рассказчик сообщает о стоянке своего автомобиля и об оплате его парковки.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -211,7 +215,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "separate-driver-payer",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Водитель — друг рассказчика; об оплате сообщает рассказчик от своего лица."
+        "sourceBoundSummary": "Водитель — друг рассказчика; об оплате сообщает рассказчик от своего лица.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -244,7 +249,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "unresolved",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Сообщается о неудавшейся оплате парковки; участник и автомобиль не названы."
+        "sourceBoundSummary": "Сообщается о неудавшейся оплате парковки; участник и автомобиль не названы.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -277,7 +283,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "narrator-only",
         "causalRelation": "reported-explicit",
-        "sourceBoundSummary": "Рассказчик связывает невозможность оплаты с неработающим приложением."
+        "sourceBoundSummary": "Рассказчик связывает невозможность оплаты с неработающим приложением.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -315,7 +322,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "narrator-only",
         "causalRelation": "hedged",
-        "sourceBoundSummary": "Приложение не работало; рассказчик не смог оплатить парковку и предполагает связь со сбоем."
+        "sourceBoundSummary": "Приложение не работало; рассказчик не смог оплатить парковку и предполагает связь со сбоем.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -348,7 +356,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "narrator-only",
         "causalRelation": "explicit-denial",
-        "sourceBoundSummary": "Оплатить парковку не удалось; рассказчик отрицает, что причиной был сбой приложения."
+        "sourceBoundSummary": "Оплатить парковку не удалось; рассказчик отрицает, что причиной был сбой приложения.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -387,7 +396,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "narrator-only",
         "causalRelation": "reported-explicit",
-        "sourceBoundSummary": "Рассказчик пытался оплатить; письмо связывает неудавшуюся оплату со сбоем приложения."
+        "sourceBoundSummary": "Рассказчик пытался оплатить; письмо связывает неудавшуюся оплату со сбоем приложения.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -426,7 +436,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "narrator-only",
         "causalRelation": "separate-source-conflict",
-        "sourceBoundSummary": "Рассказчик связывает неудавшуюся оплату со сбоем; уведомление называет недостаток денег."
+        "sourceBoundSummary": "Рассказчик связывает неудавшуюся оплату со сбоем; уведомление называет недостаток денег.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -465,7 +476,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "narrator-only",
         "causalRelation": "no-payment-outcome",
-        "sourceBoundSummary": "Рассказчик стоял на парковке; приложение не работало."
+        "sourceBoundSummary": "Рассказчик стоял на парковке; приложение не работало.",
+        "parkingContext": "parking-unspecified"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -503,7 +515,8 @@
         "paidRegimeSupport": "explicit-source-assertion",
         "actor": "vehicle-explicit",
         "causalRelation": "no-explicit-link",
-        "sourceBoundSummary": "Рассказчик сообщает о стоянке автомобиля на платной городской парковке и неудавшейся оплате."
+        "sourceBoundSummary": "Рассказчик сообщает о стоянке автомобиля на платной городской парковке и неудавшейся оплате.",
+        "parkingContext": "paid-parking-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -535,7 +548,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "not-evaluated",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Рассказчик сообщает об оплате штрафа; вид нарушения не указан."
+        "sourceBoundSummary": "Рассказчик сообщает об оплате штрафа; вид нарушения не указан.",
+        "parkingContext": "not-established"
       },
       "hypotheses": [],
       "forbiddenPromotions": ["Не выводить парковку, оплату парковочной сессии или платный режим."],
@@ -565,7 +579,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "not-evaluated",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Обращение касается светофора, а не парковки."
+        "sourceBoundSummary": "Обращение касается светофора, а не парковки.",
+        "parkingContext": "not-established"
       },
       "hypotheses": [],
       "forbiddenPromotions": ["Не запускать парковочную квалификацию и не терять исходный текст."],
@@ -595,7 +610,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "not-evaluated",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Сообщение о новости с парковочной тематикой; личный эпизод не описан."
+        "sourceBoundSummary": "Сообщение о новости с парковочной тематикой; личный эпизод не описан.",
+        "parkingContext": "paid-parking-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
@@ -633,7 +649,8 @@
         "paidRegimeSupport": "not-established",
         "actor": "not-evaluated",
         "causalRelation": "not-applicable",
-        "sourceBoundSummary": "Описаны разные парковочный и светофорный эпизоды; нужен выбор эпизода."
+        "sourceBoundSummary": "Описаны разные парковочный и светофорный эпизоды; нужен выбор эпизода.",
+        "parkingContext": "parking-payment-topic"
       },
       "hypotheses": [],
       "forbiddenPromotions": [
