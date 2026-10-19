@@ -135,7 +135,13 @@ export function ParkingReview({ token }: { token: string }) {
     try {
       await action();
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      setError(
+        e instanceof Error && e.name === 'TimeoutError'
+          ? 'Не удалось дождаться ответа сервера. Сохранение не подтверждено; ваши изменения остаются в форме.'
+          : e instanceof Error
+            ? e.message
+            : String(e),
+      );
     } finally {
       inFlight.current = false;
       setBusy(false);
