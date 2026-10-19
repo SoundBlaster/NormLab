@@ -27,12 +27,19 @@ the described event involved an automobile or paid parking.
 
 First make a logical routing decision from the **whole original narrative**:
 
-| Dimension | Candidate values / purpose                                                            |
-| --------- | ------------------------------------------------------------------------------------- |
-| Topic     | parking / other / unclear / mixed                                                     |
-| Intent    | incident / information / unclear                                                      |
-| Route     | parking-review / clarify / other-topic / not-a-case / choose-episode                  |
-| Evidence  | Exact source spans and a short explanation; UI-selected profile identified separately |
+| Dimension       | Candidate values / purpose                                                            |
+| --------------- | ------------------------------------------------------------------------------------- |
+| Topic           | parking / other / unclear / mixed                                                     |
+| Parking context | paid-parking-topic / parking-payment-topic / parking-unspecified / not-established    |
+| Intent          | incident / information / unclear                                                      |
+| Route           | parking-review / clarify / other-topic / not-a-case / choose-episode                  |
+| Evidence        | Exact source spans and a short explanation; UI-selected profile identified separately |
+
+The parking subtype answers the question whether the text concerns paid parking
+or parking payment. It distinguishes explicit paid-parking wording, payment-related
+wording and parking without payment context. These are routing labels; a suggested
+paid-parking interpretation may be offered for confirmation, never promoted to
+`paidRegime` by its topic label.
 
 This selects a pipeline and possible clarification; it does not populate legal
 findings. A parking-related text can be about tariffs/news, and a fine can concern
