@@ -1,0 +1,106 @@
+{
+  "mode": "live",
+  "attempts": 1,
+  "retries": 0,
+  "http_status": 200,
+  "cf_ray": "a4d913e42d72e65d-DEN",
+  "model": "clairic",
+  "truncated": false,
+  "usage": {
+    "state_tokens": 45,
+    "image_tokens": 0,
+    "schema_tokens": 422,
+    "input_tokens": 557,
+    "output_tokens": 0,
+    "passes": 3
+  },
+  "answers": {
+    "report_id": {
+      "type": "text",
+      "p_null": 0.008716335520148277,
+      "span": [7, 12],
+      "guess": "R-104",
+      "confidence": 0.9998525381088257,
+      "value": "R-104"
+    },
+    "report_date": {
+      "type": "date",
+      "p_null": 4.978935976396315e-5,
+      "guess": "2026-10-19",
+      "confidence": 0.9999935627313618,
+      "value": "2026-10-19"
+    },
+    "monthly_income": {
+      "type": "number",
+      "p_null": 0.001225481042638421,
+      "guess": 5000,
+      "confidence": 0.9994932794544602,
+      "value": 5000
+    },
+    "monthly_rent": {
+      "type": "number",
+      "p_null": 0.0036936989054083824,
+      "guess": 1500,
+      "confidence": 0.9991731234668416,
+      "value": 1500
+    },
+    "contacts": {
+      "type": "list",
+      "value": ["Dana Ruiz", "Priya Shah"],
+      "spans": [
+        [81, 90],
+        [95, 105]
+      ],
+      "confidence": 0.9999996423722237
+    },
+    "purchase_order": {
+      "type": "text",
+      "p_null": 0.9999980926513672,
+      "span": [7, 12],
+      "guess": "R-104",
+      "confidence": 0.992882251739502,
+      "value": null
+    }
+  },
+  "checks": {
+    "report_id": {
+      "expected": "R-104",
+      "actual": "R-104",
+      "present": true,
+      "pass": true
+    },
+    "report_date": {
+      "expected": "2026-10-19",
+      "actual": "2026-10-19",
+      "present": true,
+      "pass": true
+    },
+    "monthly_income": {
+      "expected": 5000,
+      "actual": 5000,
+      "present": true,
+      "pass": true
+    },
+    "monthly_rent": {
+      "expected": 1500,
+      "actual": 1500,
+      "present": true,
+      "pass": true
+    },
+    "contacts": {
+      "expected": ["Dana Ruiz", "Priya Shah"],
+      "actual": ["Dana Ruiz", "Priya Shah"],
+      "present": true,
+      "pass": true
+    },
+    "purchase_order": {
+      "expected": null,
+      "actual": null,
+      "present": true,
+      "pass": true
+    }
+  },
+  "pass": true,
+  "scope": "Fixed neutral values only; source offsets and general quality unverified",
+  "elapsed_seconds": 1.082
+}

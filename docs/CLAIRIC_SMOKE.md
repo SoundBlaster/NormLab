@@ -67,6 +67,39 @@ Exit codes: `0` — все шесть expectations совпали; `1` — misma
 Успешный smoke подтвердит только доступ и эти конкретные значения. Проверка
 русского языка, Unicode offsets, attribution и эпизодов — отдельный эксперимент.
 
+## Live-результат — 2026-10-20
+
+Один авторизованный запрос выполнен скриптом из commit `795cfbc` через официальный
+Workers AI endpoint. Credential передан процессу в памяти; account/token в
+публикуемый отчёт не включены. Повторов и дополнительных model calls не было.
+
+| Показатель                            | Наблюдение                                             |
+| ------------------------------------- | ------------------------------------------------------ |
+| HTTP / script exit                    | `200` / `0`                                            |
+| Фактическая model                     | `clairic`                                              |
+| Совпадение фиксированных expectations | **6/6**, включая отсутствующий purchase order → `null` |
+| Truncated                             | `false`                                                |
+| Измеренное время запроса и разбора    | **1,082 s**, без времени ввода credential              |
+| Usage                                 | **557 input**, **0 output**, **3 passes**              |
+| Usage breakdown                       | 45 state tokens, 422 schema tokens, 0 image tokens     |
+| CF-Ray                                | `a4d913e42d72e65d-DEN`                                 |
+
+Сохранён [санитизированный JSON-отчёт](evidence/clairic-neutral-smoke-2026-10-20.json)
+с фактическими ответами, metadata и checks. Это вывод smoke-скрипта, а не архив
+исходного HTTP body/headers; полное независимое wire replay им не заявляется.
+Числа usage приведены как вернул provider, breakdown не пересчитывается в total.
+Фактическая сумма списания аккаунта не проверена.
+
+Показательный ответ: `purchase_order.value = null`, но `guess = R-104`,
+`confidence ≈ 0,9929`, `p_null ≈ 0,999998`. Высокая confidence в metadata не
+отменяет null; diagnostic guess и его span не приняты как найденный номер заказа.
+
+Вывод ограничен доступностью официального API и этими шестью английскими
+полями одного нейтрального примера. Это не оценка общей accuracy, русского
+языка, калибровки confidence или пригодности для NormLab. Следующий предлагаемый
+шаг — зафиксировать короткий RU/Unicode/negation smoke с expectations и отдельным
+лимитом запросов до его запуска.
+
 Источники, проверены 2026-10-20:
 [Clairic model/API reference](https://developers.cloudflare.com/workers-ai/models/clairic/),
 [Workers AI REST API](https://developers.cloudflare.com/workers-ai/get-started/rest-api/).
