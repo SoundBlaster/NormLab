@@ -117,6 +117,7 @@ export function HypothesisEditor({
           variant="secondary"
           disabled={
             dirty ||
+            hypothesis.decision === 'confirmed' ||
             !hypothesis.aboutEpisode.trim() ||
             vehicleHypothesisIssues({ ...hypothesis, decision: 'confirmed' }, narrative).length > 0
           }
@@ -126,7 +127,7 @@ export function HypothesisEditor({
         </Button>
         <Button
           variant="secondary"
-          disabled={dirty || !hypothesis.rationale.trim()}
+          disabled={dirty || !hypothesis.rationale.trim() || hypothesis.decision === 'rejected'}
           onClick={() => onDecision('rejected')}
         >
           Отклонить гипотезу с причиной

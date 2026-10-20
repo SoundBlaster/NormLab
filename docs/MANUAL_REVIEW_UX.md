@@ -33,23 +33,60 @@ This slice changes the client editor only. It does not add a canonical entity
 registry, stronger server-side semantic validation, automatic interpretation,
 autosave, or a legal computation. The saved review schema remains v2.
 
+## Stage 2: draft persistence and explicit decisions
+
+Valid edits to the current review are saved after a 700 ms pause. Incomplete
+manual creation forms, invalid fields and historical revisions are excluded.
+Saving does not confirm statements or finish the review. The reviewer still
+explicitly confirms or rejects each proposal after its content has been saved;
+that decision is then persisted directly, without another Save click.
+
+The client serializes writes and sends the expected revision ID. It adopts the
+successful POST response as the saved revision without reopening the source
+editor or requiring a second bootstrap request. Source narrative edits and text
+selection are preserved. Editing the narrative never rewrites the old draft:
+creating a linked new draft still requires the explicit existing action.
+
+Saving/error/pending states distinguish a local decision from a saved one.
+A failed or unconfirmed save stops automatic attempts and leaves local changes
+in the form. The review POST has a 15-second timeout; a timeout does not prove
+that the server rejected the write. Retrying is an explicit action; it retains the expected revision
+instead of blindly adopting newer server state. This slice does not merge
+conflicting revisions or implement durable offline storage. Unsaved data remains
+in the mounted page, not in a browser outbox.
+
+Metadata edits and decisions retain the existing server invalidation rules.
+Editing a statement's review rationale also clears its confirmation and the
+checklist in the client. Checklist edits may autosave; completing the whole
+review remains a separate explicit action after saved prerequisites.
+
 ## Next stages
 
-1. **Draft persistence and decisions.** Autosave edits inside the current draft;
-   enable confirmation only after persistence succeeds, and persist the explicit
-   confirmation directly. Expose pending, saved and failed states. Preserve
-   revision conflicts and invalidation. Editing the source narrative must still
-   explicitly create a linked new draft and retain the prior analysis.
-2. **Review workspace.** Keep source text near the active card, highlight its
+1. **Review workspace.** Keep source text near the active card, highlight its
    exact quote, collapse completed cards and show an actionable queue of required
    reviews. Explain which confirmations were invalidated by each edit. Avoid the
    empty second column for a single statement.
-3. **Human pilot.** Observe a participant completing a bounded case without
+2. **Human pilot.** Observe a participant completing a bounded case without
    guidance. Record confusion, corrections, active time and residual errors
    separately from technical completion and model output quality.
 
-These stages are proposals, not implemented capabilities of stage 1. They remain
+These next stages are proposals, not implemented capabilities. They remain
 within Issue #79 until separately scoped implementation work is selected.
+
+## Future direction: annotated source and assembled interpretation
+
+The user proposed a “live” source text: meaningful fragments visibly connected
+to the interpretation assembled from them, with explanations. Retain this as
+the long-term interaction model. The prototype continues to use selectors while
+the review/persistence flow is improved.
+
+A future workspace should connect exact source spans to claims, hypotheses,
+participants and unresolved questions. Selecting a fragment should explain what
+it supports and what remains uncertain; selecting a claim should reveal its
+source. Keep source wording, model proposals and explicit user decisions visibly
+distinct. No hypothesis should silently become a fact, and edits must retain the
+same invalidation/history rules. This direction does not authorize a new graph
+editor, richer ontology or model inference in the current slice.
 
 ## Evidence boundaries
 
@@ -71,3 +108,10 @@ is available, the interface uses neutral object/source/episode numbers and puts
 the exact stored reference in expandable details. These numbers follow encounter
 order in the current data; they are not persistent entity identities. Custom
 descriptions remain string references and do not create typed participants.
+
+Stage 2 was source-reviewed for persisted-versus-local decisions, invalidation,
+single in-flight serialization, timeout and failure retention. Its local
+TypeScript, Oxlint, Steiger, changed-file Prettier, production build on TB5 and
+whitespace checks passed. No tests were added or run and no runtime/browser
+verification of autosave or failure recovery was performed in this slice. These
+checks do not establish network recovery behavior or measured UX improvement.
