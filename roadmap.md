@@ -429,3 +429,12 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [ ] Полный каталог критических ошибок и reviewer rubric для выбранных 30–50 development-фабул.
 - [ ] Versioned S1.3 task-decomposition experiment на фиксированном provider/model; после diagnostics оценить необходимость extraction ablation. Не считать новый этап полезным заранее.
 - [ ] Freeze выбранной конфигурации и independent final evaluation на 100 новых фабулах. Ручные исправления, operational completion и semantic quality измерять отдельно.
+
+### ScaleDown CDM — исследование применимости
+
+[Issue](https://github.com/SoundBlaster/NormLab/issues/94) · [Отчёт от 2026-10-14](docs/CDM_APPLICABILITY_2026-10-14.md).
+Classify предложен для отдельного provider pilot; Extract требует проверки
+occurrence/offset semantics; Summarize — только вспомогательный preview.
+Отчёт содержит API gaps, границы vendor benchmarks и проект bounded protocol.
+Реализация, live inference и изменение production pipeline требуют отдельного
+шага; актуальный статус исследования хранится в Issue.
