@@ -7,7 +7,12 @@ from dataclasses import FrozenInstanceError
 from pathlib import Path
 
 import clairic_smoke as smoke
-from text_span_normalization import TextSpan, normalize_span
+from text_span_normalization import (
+    ALL_RULE_IDS,
+    DEFAULT_RULE_IDS,
+    TextSpan,
+    normalize_span,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 CAPTURES = (
@@ -24,7 +29,7 @@ CAPTURES = (
 )
 
 
-def replay_known_captures():
+def replay_known_captures(enabled_rules=DEFAULT_RULE_IDS):
     """Separate raw/derived development counts; never rewrite provider captures."""
     rows = []
     for case_name, filename in CAPTURES:
@@ -48,6 +53,7 @@ def replay_known_captures():
                 raw,
                 coordinate_system="code_points",
                 target="inner_content",
+                enabled_rules=enabled_rules,
             )
             span = outcome.derived
             records[name] = {
@@ -110,7 +116,9 @@ class QuoteNormalizationTests(unittest.TestCase):
         self.assertEqual(result.supporting_quote_span, (2, 17))
 
     def test_ascii_quote(self):
-        result = self.normalize('He said "No payment".', 'No payment"')
+        result = self.normalize(
+            'He said "No payment".', 'No payment"', rules=ALL_RULE_IDS
+        )
         self.assertEqual(result.status, "applied")
         self.assertEqual(result.derived.value, "No payment")
 
@@ -213,7 +221,7 @@ class QuoteNormalizationTests(unittest.TestCase):
                 )
 
     def test_existing_capture_replay(self):
-        rows = replay_known_captures()
+        rows = replay_known_captures(enabled_rules=ALL_RULE_IDS)
         self.assertEqual(len(rows), 8)
         for row in rows:
             with self.subTest(case=row["case"]):
@@ -223,6 +231,39 @@ class QuoteNormalizationTests(unittest.TestCase):
                 self.assertEqual(
                     sum(r["status"] == "applied" for r in row["fields"].values()), 4
                 )
+
+    def test_ascii_defaults_to_review(self):
+        result = self.normalize('He said "No payment".', 'No payment"')
+        self.assertEqual(result.status, "review")
+        self.assertIsNone(result.derived)
+        self.assertEqual(result.enabled_rules, DEFAULT_RULE_IDS)
+
+    def test_default_known_capture_replay_exposes_ascii_abstentions(self):
+        for row in replay_known_captures():
+            ascii_case = row["case"] in ("ablation-ascii-quotes", "ablation-both")
+            self.assertEqual(row["derived_value_matches"], 2 if ascii_case else 6)
+
+    def test_new_safety_cases_have_no_default_false_corrections(self):
+        from quote_rule_validation import evaluate
+
+        report = evaluate()
+        self.assertEqual(report["case_count"], 36)
+        self.assertEqual(report["false_corrections"], 0)
+        self.assertEqual(report["positive_abstentions"], 4)
+        self.assertEqual(report["exact_expectations_met"], 32)
+
+    def test_original_v1_failures_remain_in_evidence(self):
+        path = ROOT / "docs/evidence/quote-rules-new-cases-baseline-v1-2026-10-21.json"
+        report = json.loads(path.read_text())
+        fixture = ROOT / "fixtures/providers/quote-rules-new-cases-v1.json"
+        self.assertEqual(
+            report["fixture_sha256"], hashlib.sha256(fixture.read_bytes()).hexdigest()
+        )
+        self.assertEqual(report["ruleset_version"], "quote-boundaries/v1")
+        self.assertEqual(
+            [r["id"] for r in report["rows"] if r["false_correction"]],
+            ["N06", "N07", "N08"],
+        )
 
 
 if __name__ == "__main__":

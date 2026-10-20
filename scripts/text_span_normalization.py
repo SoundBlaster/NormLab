@@ -4,7 +4,7 @@ import hashlib
 from dataclasses import dataclass
 from typing import Literal
 
-RULESET_VERSION = "quote-boundaries/v1"
+RULESET_VERSION = "quote-boundaries/v2"
 
 
 @dataclass(frozen=True)
@@ -25,7 +25,8 @@ RULES = (
     QuoteRule("single-trailing-guillemet/v1", "«", "»"),
     QuoteRule("single-trailing-ascii-quote/v1", '"', '"'),
 )
-DEFAULT_RULE_IDS = tuple(rule.id for rule in RULES)
+ALL_RULE_IDS = tuple(rule.id for rule in RULES)
+DEFAULT_RULE_IDS = ("single-trailing-guillemet/v1",)
 
 
 @dataclass(frozen=True)
@@ -37,6 +38,7 @@ class NormalizationResult:
     coordinate_system: str
     target: str
     ruleset_version: str
+    enabled_rules: tuple[str, ...] = ()
     applied_rules: tuple[str, ...] = ()
     findings: tuple[str, ...] = ()
     supporting_quote_span: tuple[int, int] | None = None
@@ -82,7 +84,8 @@ def normalize_span(
     """
     if target not in ("inner_content", "whole_quote"):
         raise ValueError("Unknown normalization target")
-    if set(enabled_rules) - set(DEFAULT_RULE_IDS):
+    enabled_rules = tuple(enabled_rules)
+    if set(enabled_rules) - set(ALL_RULE_IDS):
         raise ValueError("Unknown rule ID")
     digest = hashlib.sha256(source.encode("utf-8")).hexdigest()
 
@@ -95,6 +98,7 @@ def normalize_span(
             coordinate_system=coordinate_system,
             target=target,
             ruleset_version=RULESET_VERSION,
+            enabled_rules=enabled_rules,
             applied_rules=(rule.id,) if rule else (),
             findings=(reason,),
             supporting_quote_span=support,
@@ -113,6 +117,11 @@ def normalize_span(
         return result("review", "raw_source_mismatch")
     if target != "inner_content":
         return result("unchanged", "rule_not_for_requested_target", raw)
+    if (
+        raw.value.endswith('"')
+        and "single-trailing-ascii-quote/v1" not in enabled_rules
+    ):
+        return result("review", "ascii_quote_requires_explicit_contextual_opt_in")
 
     for rule in RULES:
         if rule.id not in enabled_rules or not raw.value.endswith(rule.closing):
