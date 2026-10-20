@@ -115,6 +115,36 @@ class ClairicSmokeTests(unittest.TestCase):
         self.assertEqual(captured["fixture_sha256"], self.case["fixture_sha256"])
         self.assertFalse(replayed["pass"])
 
+    def test_ablation_controls_and_source_anchors(self):
+        baseline = smoke.load_case("ablation-original")
+        self.assertEqual(baseline["state"], self.case["state"])
+        self.assertEqual(baseline["expected"], self.case["expected"])
+        for name in smoke.ABLATION_CASES:
+            with self.subTest(name=name):
+                variant = smoke.load_case(name)
+                self.assertEqual(variant["fields"], self.case["fields"])
+                self.assertEqual(
+                    variant["expected"]["anna_statement"],
+                    self.case["expected"]["anna_statement"],
+                )
+                for key, (start, end) in variant["expected_codepoint_spans"].items():
+                    self.assertEqual(
+                        variant["state"][start:end], variant["expected"][key]
+                    )
+
+    def test_ablation_allows_coordinate_ambiguity_without_changing_old_scorer(self):
+        self.case = smoke.load_case("ablation-unicode-clean")
+        result = self.response()
+        report = smoke.summarize(result, self.case)
+        self.assertTrue(report["pass"])
+        self.assertEqual(
+            report["anchor_diagnostics"]["consistent_candidates"],
+            ["code_points", "utf16_code_units"],
+        )
+        self.assertFalse(report["anchor_diagnostics"]["one_candidate_matches_all"])
+        original_policy = dict(self.case, require_unique_coordinate_candidate=True)
+        self.assertFalse(smoke.summarize(result, original_policy)["pass"])
+
 
 if __name__ == "__main__":
     unittest.main()
