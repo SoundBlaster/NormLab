@@ -1,0 +1,388 @@
+{
+  "schema": "normlab.jev-quote-authority-retry-plan/v1",
+  "experimentId": "jev-quote-authority-fresh-protocol-retry-v1",
+  "mode": "authorized-frozen-before-dispatch",
+  "issue": "https://github.com/SoundBlaster/NormLab/issues/145",
+  "executableCommit": "9f296a277512e00fe91b4c318bf9437c86fda4cf",
+  "runtime": {
+    "python": "3.13.15",
+    "mellea-jev-adapter": "0.9.0",
+    "mellea": "0.8.0",
+    "typesafe-sdk": "0.7.5",
+    "openai": "3.31.0",
+    "httpx2": "2.13.1"
+  },
+  "inputs": [
+    {
+      "id": "T01A",
+      "controlId": "T01",
+      "variant": "A",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T01A.json",
+        "sha256": "9f5d8dc6e2e5da8cb67bfe099e2ad87b5127ae313470898b43191106e6385462"
+      },
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8",
+      "stateDigest": "f6145c243801c39952f6347594211fd3c41af1ad3b69a3229d114c3d30401184",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    },
+    {
+      "id": "T01B",
+      "controlId": "T01",
+      "variant": "B",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T01B.json",
+        "sha256": "118ccc9790088b0f1597f8f578ffc59549ea6fe68713904dc66447eb5c94edbd"
+      },
+      "semanticTaskDigest": "29c12050e80c0c4be60e73b935c6886edaf9f10c08ed82bb1bc1225d06fc4d0f",
+      "stateDigest": "f6145c243801c39952f6347594211fd3c41af1ad3b69a3229d114c3d30401184",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    },
+    {
+      "id": "T02A",
+      "controlId": "T02",
+      "variant": "A",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T02A.json",
+        "sha256": "dcdb993c47b80e2642d64aa823b2bd0d244f4fe577e97df07d8f1372849fc03a"
+      },
+      "semanticTaskDigest": "ddf28672d2ed7ba978b8aef09c8342e0930933ff0ac48bfa29419efc89a388de",
+      "stateDigest": "58a0ddbe862ba851f3aaedd3b74e47fc3cebfb2a58dfda5442e4868b47735a29",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    },
+    {
+      "id": "T02B",
+      "controlId": "T02",
+      "variant": "B",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T02B.json",
+        "sha256": "8016c9175d1c79ad3f48473019f46532fe42c60b83a5f4da7194e5d1a37e40b4"
+      },
+      "semanticTaskDigest": "9ec830d9341318fb92b05ce2322bdcbedd53f226ae65c6e4c1d490ed3a15d3ad",
+      "stateDigest": "58a0ddbe862ba851f3aaedd3b74e47fc3cebfb2a58dfda5442e4868b47735a29",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    },
+    {
+      "id": "T03A",
+      "controlId": "T03",
+      "variant": "A",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T03A.json",
+        "sha256": "d0665ce392b56a5845e95740fb64fb5f57e72846795e2b9b222b43f60944b1a4"
+      },
+      "semanticTaskDigest": "ccd321b4626ada1d1b6c962cc270226a998997a6742574cde289b9c8e8ae2e09",
+      "stateDigest": "8e89e58addbd823ec6dd1ca913e6c5d72e8d58eb8ac0b2ed5769528dc1ae40fc",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    },
+    {
+      "id": "T03B",
+      "controlId": "T03",
+      "variant": "B",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T03B.json",
+        "sha256": "3f0ab66dec4da0678a52772c21875668409917f80e397b04e3c24b6d1a79c27c"
+      },
+      "semanticTaskDigest": "498594f6295f0b8216f80e419405fd95e3f53d27c045cbb0bdd2c2ca5997bda1",
+      "stateDigest": "8e89e58addbd823ec6dd1ca913e6c5d72e8d58eb8ac0b2ed5769528dc1ae40fc",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    },
+    {
+      "id": "T04A",
+      "controlId": "T04",
+      "variant": "A",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T04A.json",
+        "sha256": "0bdb002c11de9c9215fadc7363f8b3cd6469bfaa0b525be7ac6a1d7794c197e9"
+      },
+      "semanticTaskDigest": "14ec018001f8a6d95d80c1076dbb56185824f64aa5c8d2749adba69c853d126f",
+      "stateDigest": "0d8561057288fd68c1326103293e2c3ac78fbdd0c306fe6d1bd34745be1756df",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    },
+    {
+      "id": "T04B",
+      "controlId": "T04",
+      "variant": "B",
+      "task": {
+        "path": "fixtures/providers/jev-quote-authority-v1/tasks/T04B.json",
+        "sha256": "970cf8b9a55d124c9a0fbaba9e33a1580011a644374fbd748ba2e0e372792053"
+      },
+      "semanticTaskDigest": "f00616724c525de930fa4f16d5d8466eaeb0ef0706fab9808d689a2b082305f3",
+      "stateDigest": "0d8561057288fd68c1326103293e2c3ac78fbdd0c306fe6d1bd34745be1756df",
+      "criteriaDigest": "0bc19e2030b1a4a7ecc83f0ce6b5db5a6872770e25bc5a53bd5161f68e4ba5a4"
+    }
+  ],
+  "policy": {
+    "path": "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+    "sha256": "74baecc35104f8894c59bc984d1cda95450bf7f65f53788f7d8ee3b94c5e4363"
+  },
+  "configs": {
+    "coreinfra-jev": {
+      "path": "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+      "sha256": "136e788500fd8e66244e1ad02d887ef7295d97360e5a64f92b4db3de19367b32"
+    }
+  },
+  "reviewerOnly": {
+    "path": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json",
+    "sha256": "98a2ba8d3a8d86af7f262cd44f189369e892e5a418a53c0f02dfd94da9081024"
+  },
+  "inputProvenance": [
+    {
+      "path": "fixtures/providers/stage1-choice.json",
+      "sha256": "9f5d8dc6e2e5da8cb67bfe099e2ad87b5127ae313470898b43191106e6385462"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/sources.json",
+      "sha256": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+      "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/conventions.json",
+      "sha256": "8673b5c4d2e1257b470e256f47a183963913975754755ba0a8e5ea284c08f9f8"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/definitions.json",
+      "sha256": "0b9be80b864f3563de2af79d4b160c266362906efafdb264cffd40c98ff7a224"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+      "sha256": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-independent-review/report.md",
+      "sha256": "73ffdd0b9929246f3c84a352cc0a502cbe5aef1d03092bdfe37fb711113f0e69"
+    },
+    {
+      "path": "fixtures/providers/bridge-semantic-probe-v1/plan.json",
+      "sha256": "9f26b0ffa80aa0910a860b32c17d52c7fbd8b75074faa2e051aaec1db6b9f84d"
+    },
+    {
+      "path": "fixtures/providers/jev-quote-authority-v1/instruction-addition.txt",
+      "sha256": "2464e830c478601736ee97c93b39ffba0a416b5d3c8aa55fdbfb18cdc18f7fd3"
+    }
+  ],
+  "budget": {
+    "plannedRequests": 8,
+    "plannedQuestions": 8,
+    "authorizedRequests": 12,
+    "repeatsPerTaskArm": 1,
+    "transportTimeoutSeconds": 30,
+    "wallDeadlineSeconds": 300,
+    "parallelism": 1,
+    "retries": 4,
+    "repairCalls": 0,
+    "escalationCalls": 0,
+    "batchCalls": 0,
+    "lastReportedExternalAccountLimitUsd": 4,
+    "externalAccountLimitIndependentlyVerified": false,
+    "pricingVerified": false,
+    "predictedCostUsd": null,
+    "newExperimentSpendAuthorization": true,
+    "maximumTotalAttempts": 12,
+    "maximumProtocolRetries": 4,
+    "maximumAttemptsPerJob": 2
+  },
+  "stoppingRule": {
+    "stopOn": [
+      "incomplete-response",
+      "unknown-outcome",
+      "timeout",
+      "returned-model-change-within-arm",
+      "request-budget-exhausted",
+      "semantic-task-or-policy-drift",
+      "nonretryable-operational-failure",
+      "retry-allowance-exhausted",
+      "repeated-protocol-failure-on-same-job"
+    ],
+    "stopOnSemanticDisagreement": false,
+    "remainingJobs": "not-executed",
+    "unknownSentOutcome": "record-unknown-stop-no-automatic-resume",
+    "protocolException": "Only the frozen protocol-only retry policy is permitted."
+  },
+  "jobs": [
+    {
+      "jobId": "J01",
+      "taskId": "T01A",
+      "controlId": "T01",
+      "variant": "A",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T01A.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    },
+    {
+      "jobId": "J02",
+      "taskId": "T01B",
+      "controlId": "T01",
+      "variant": "B",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T01B.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    },
+    {
+      "jobId": "J03",
+      "taskId": "T02B",
+      "controlId": "T02",
+      "variant": "B",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T02B.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    },
+    {
+      "jobId": "J04",
+      "taskId": "T02A",
+      "controlId": "T02",
+      "variant": "A",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T02A.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    },
+    {
+      "jobId": "J05",
+      "taskId": "T03A",
+      "controlId": "T03",
+      "variant": "A",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T03A.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    },
+    {
+      "jobId": "J06",
+      "taskId": "T03B",
+      "controlId": "T03",
+      "variant": "B",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T03B.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    },
+    {
+      "jobId": "J07",
+      "taskId": "T04B",
+      "controlId": "T04",
+      "variant": "B",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T04B.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    },
+    {
+      "jobId": "J08",
+      "taskId": "T04A",
+      "controlId": "T04",
+      "variant": "A",
+      "arm": "coreinfra-jev",
+      "argv": [
+        "evaluation/categorical_smoke.py",
+        "fixtures/providers/jev-quote-authority-v1/tasks/T04A.json",
+        "--config",
+        "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+        "--policy",
+        "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+        "--max-calls",
+        "1",
+        "--tactic",
+        "independent"
+      ]
+    }
+  ],
+  "claims": {
+    "humanGold": false,
+    "populationAccuracy": false,
+    "modelRanking": false,
+    "qualityImprovementAssumed": false,
+    "selectedControlVariants": 4,
+    "distinctSourceTexts": 3,
+    "observationsPerVariantControl": 1,
+    "causalEvidenceBoundary": "Single paired observations diagnose a prompt factor; cannot establish robustness or population causal effects."
+  },
+  "hypothesis": "A generic clarification of evidence-anchor versus typed-proposition authority may correct T01 false acceptance without regressing T02/T03 or resolving T04 without evidence.",
+  "factor": {
+    "A": "Unchanged baseline task bytes",
+    "B": "Append instruction-addition.txt to overall.instructions after two newlines",
+    "pairOrder": "AB/BA/AB/BA",
+    "freshBaseline": true
+  },
+  "parentPlan": {
+    "path": "fixtures/providers/jev-quote-authority-v1/plan.json",
+    "sha256": "649073d44d8fb2ab715e590ce9fd09c0ce53277dd4d65c425a9b21a67966dde5"
+  },
+  "retryPolicy": {
+    "eligible": "JevProtocolError with exactly one recorded HTTP200 response and unchanged task/config/policy",
+    "maximumGlobal": 4,
+    "maximumPerJob": 1,
+    "timing": "Immediate, before next scheduled job",
+    "semanticDisagreementRetry": false,
+    "anyOtherFailure": "Stop globally; no automatic resume",
+    "repeatedProtocolFailureSameJob": "Stop globally; preserve both attempts",
+    "firstFinalReporting": "Keep every attempt; compare first and final semantic outcomes separately; failures never count as correct."
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "id": "parking-whole-input-critical-errors-v1",
+  "version": 1,
+  "status": "candidate-review-policy-not-adjudicated-gold",
+  "unit": "whole-source-text-with-declared-selected-episode-and-task-scope",
+  "sourceTruth": "Judge faithful representation of what the narrative says, not historical truth or legal liability.",
+  "taskScope": {
+    "required": "Preserve all explicit parking-relevant claims, their negation/modality/roles/time/episode/source layers; retain unresolved conflicts; indicate genuinely missing inputs for the declared next step.",
+    "taskDefinedGapPolicy": "Followups are candidate clarification targets for this pilot, not a statutory checklist or a claim of normative sufficiency. Apply requiredWhen; do not require irrelevant followups for known unsupported scope. Semantic equivalent specific questions are allowed.",
+    "outside": "Legal outcome/fine, procedural advice, full legal ontology and verification of primary publications.",
+    "multiEpisode": "Keep both episodes; ask user to select before single-episode qualification.",
+    "unknownPolicy": [
+      "not-mentioned",
+      "explicit-unknown",
+      "ambiguous",
+      "unresolved-conflict",
+      "explicit-denied",
+      "asserted",
+      "withheld"
+    ],
+    "claimantPolicy": "Narrator, defender, personal note, bank/app, notice and other sources remain distinct. Source statements are not automatically real-world findings.",
+    "identityPolicy": "Do not infer a personal vehicle, driver=owner, narrator disability, or vehicle identity from null/missing values."
+  },
+  "criticalErrors": [
+    {
+      "id": "POL",
+      "error": "Negation, modality or scope inverted/lost",
+      "example": "Не утверждаю, что оплатил becomes оплатил or не оплатил."
+    },
+    {
+      "id": "FAB",
+      "error": "Unsupported fact or quote linkage",
+      "example": "Infer Moscow from fine amount or page theme."
+    },
+    {
+      "id": "ROLE",
+      "error": "Wrong actor, claimant, vehicle, episode, date or payment object",
+      "example": "Fine payment becomes parking-session payment; notice date becomes event date."
+    },
+    {
+      "id": "CONFLICT",
+      "error": "Conflicting sources collapsed or one erased",
+      "example": "Notice of nonpayment overrides narrator assertion without preserved attribution."
+    },
+    {
+      "id": "UNKNOWN",
+      "error": "Missing/unknown/ambiguous converted into affirmative or negative fact",
+      "example": "No information about a sign becomes sign absent."
+    },
+    {
+      "id": "OMIT",
+      "error": "Material explicit parking claim omitted across the whole source",
+      "example": "Both morning paid and evening unpaid must survive extraction."
+    },
+    {
+      "id": "GAP",
+      "error": "Required clarification for the declared next step silently filled or omitted",
+      "example": "Choose an episode automatically or assume a tariff for the event interval."
+    },
+    {
+      "id": "SCOPE",
+      "error": "Unsupported domain treated as supported, or unsupported used to erase source facts",
+      "example": "Kazan is silently changed to Moscow; free standing is silently called paid."
+    }
+  ],
+  "nonCritical": [
+    "Wording or ordering differences that preserve relations and scope.",
+    "Different schema layout, provided it can represent the required distinctions.",
+    "Wide but valid source anchor; review precision may be tracked separately."
+  ],
+  "reviewOrder": [
+    "Keep original automatic output immutable; record operational status before semantics.",
+    "Review every source statement against output and every output claim against source; never check only supplied probes.",
+    "Check selected episode, quote support, polarity/modality, roles/source layers and uncertainty.",
+    "Check coverage, unsupported scope and applicable task-defined followups.",
+    "Record each error with source span and output location; preserve alternative readings and disagreements.",
+    "Save candidate/human/adjudicated decisions separately; no full quality score until outputs receive whole-case review."
+  ],
+  "caseStates": [
+    "not-run",
+    "operational-failure",
+    "schema-invalid",
+    "not-evaluated",
+    "candidate-pass",
+    "candidate-critical-error",
+    "unresolved",
+    "human-reviewed",
+    "adjudicated"
+  ],
+  "qualityDenominator": "All assigned original texts; failures stay in operational denominator. Repeats and derived probes do not add cases.",
+  "qualityReporting": "No overall case quality rate is computed by this packet. Candidate agreement is separate; human review count is zero.",
+  "representationBoundary": "If output cannot express attribution, episode, gap or unknown distinction, record contract limitation separately; do not force a lossy label to match."
+}

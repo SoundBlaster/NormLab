@@ -1,0 +1,65 @@
+{
+  "schema": "normlab.development-pilot-preparation-evidence/v1",
+  "dateMoscow": "2026-10-19",
+  "packet": "luna-development-pilot-v1",
+  "upstreamCommit": "3704929f4ed42f458c714e7137a0e7fa14cdfbeb",
+  "plan": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/plan.json",
+    "sha256": "4dd742eec7e51e31e06980663ffddf2be1541db4e6e98a4cee3a353360d5a015"
+  },
+  "selection": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/selection.json",
+    "sha256": "ca3d425282201940f8123d976f493d28f53f6f01c2f0c24cfd06bfc30ea67d33"
+  },
+  "rubric": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/rubric.json",
+    "sha256": "d57154a8d763d2788189e0f9c79e6ad630d6904b8d76e968aea0df8cf4093682"
+  },
+  "reviewerOnly": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/reviewer-only.json",
+    "sha256": "b738e77ce3b50e1e1ba5675359d20da02188ea9faca6b3975828d4b35e1901ba"
+  },
+  "worksheet": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/review-log.template.json",
+    "sha256": "085c421cfaea2b667ed983c28b5667de3bbf5660cc3ed554d2fc5de23692dc20"
+  },
+  "casebook": {
+    "path": "fixtures/parking-pilot/luna-development-pilot-v1/casebook.md",
+    "sha256": "b31fb75c07694cea8e7fc49766bdfa017a919994a727db92506392ae8c93e09f"
+  },
+  "sourceRecords": 10,
+  "synthetic": 9,
+  "editorial": 1,
+  "candidateReadings": 39,
+  "conditionalFollowups": 37,
+  "maxSourceUtf16Units": 208,
+  "sourceConnectionGroupSizes": [9, 1],
+  "independentIncidentCount": null,
+  "holdoutEligible": 0,
+  "inferenceCalls": 0,
+  "observedHumanSessions": 0,
+  "outputsScored": 0,
+  "schemaOrPipelineDryRunExecuted": false,
+  "validation": {
+    "allOriginalTextsAndDigestsExact": true,
+    "selectedCandidateCardsSemanticallyUnchanged": true,
+    "rubricBytesUnchanged": true,
+    "upstreamWholeFileHashesVerified": true,
+    "allReferencedArtifactAndStrategyHashesVerified": true,
+    "allUtf16HalfOpenAnchorsVerified": true,
+    "allFollowupConditionsPresent": true,
+    "providerDtoFieldsOnly": true,
+    "hostedNarrativeSizeBound": true,
+    "provenanceAndGroupConstraintsPreserved": true,
+    "unobservedWorksheetFieldsNull": true,
+    "noLiveGrantOrPredictionsInvented": true,
+    "networkDeniedInValidationProcess": true,
+    "relativeLinksResolved": 9
+  },
+  "limitations": [
+    "Preparation structural checks are not semantic quality, independent human reference review or runtime execution.",
+    "The current hosted path has contract/workflow limitations explicitly recorded in plan and rubric.",
+    "Bounded live execution needs separate authorization, runtime freeze and aggregate pre-dispatch accounting.",
+    "Publication fidelity and incident independence remain unverified."
+  ]
+}

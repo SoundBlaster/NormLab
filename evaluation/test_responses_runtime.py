@@ -141,8 +141,8 @@ def test_actual_sdk_task_mapping_and_label_only_capture(
         and report["semanticQualityEvidence"] is False
     )
     assert report["provider"]["api_format"] == "openai-responses"
-    assert report["provider"]["adapter_version"] == "0.8.0"
-    assert report["dependencies"]["mellea-jev-adapter"] == "0.8.0"
+    assert report["provider"]["adapter_version"] == "0.9.0"
+    assert report["dependencies"]["mellea-jev-adapter"] == "0.9.0"
     for record in report["records"].values():
         assert record["status"] == "completed"
         result = record["result"]

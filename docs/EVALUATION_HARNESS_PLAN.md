@@ -1,6 +1,31 @@
 # Повторяемый evaluation harness: стратегии, тактики и новые модели
 
-Дата: 2026-10-09. Статус: первый offline replay срез реализован; live/provider matrix и registry extension остаются планом. Связь: [roadmap экспериментов](EXTRACTION_EXPERIMENT_ROADMAP.md), [rubric](EVALUATION_PLAN.md).
+Дата исходного плана: 2026-10-09. **Статус на 2026-10-18: evaluation framework v1 завершён.**
+[Завершающий pilot, portable evidence и audit acceptance](EVALUATION_FRAMEWORK_V1_FINISH_2026-10-18.md)
+фиксируют один реальный ответ Jev, отдельную сохранённую ошибку настройки Docker,
+offline replay/scoring и идемпотентный actual local MLflow import.
+Связь: [ledger #77](https://github.com/SoundBlaster/NormLab/issues/77),
+[roadmap экспериментов](EXTRACTION_EXPERIMENT_ROADMAP.md), [rubric](EVALUATION_PLAN.md).
+
+## Граница завершённого v1
+
+- Versioned plans, attempts, independent request contexts, bounded native execution,
+  safe resume/stop и portable archives/references/scores реализованы.
+- Сохранённые результаты пересчитываются и сравниваются без inference; local MLflow
+  импортирует raw evidence и отдельные scores без дублей.
+- Реальные model/route compatibility подтверждены финальным pilot только для Jev
+  через выбранный CoreInfra endpoint. Полная трёхсторонняя matrix не исполнена;
+  semantic quality этим infrastructure pass не установлена.
+- Correlated adoption, новые dialogue/repair стратегии, Evidently и extraction
+  универсального пакета отложены за границу v1. Они не задерживают experiments.
+- Следующий результат — исследование ошибок polarity/scope/attribution и одной
+  изменённой стратегии на фиксированных development inputs.
+
+## История реализации и исходные исследовательские планы
+
+Разделы ниже сохраняют даты и последовательность исходного плана. Формулировки
+«следующий slice», прежние статусы и незакрытые historical checkboxes не расширяют
+границу v1; актуальные критерии и evidence приведены в завершающем отчёте и ledger.
 
 Актуальный срез на 2026-10-12: [inventory существующих contracts и пробелов](HARNESS_GAP_INVENTORY_2026-10-12.md) для [#77](https://github.com/SoundBlaster/NormLab/issues/77). Он учитывает Stage 1 provider/retry и S1.3; historical пункты ниже сохраняют исходную дату. Следующий ограниченный результат — общий offline envelope и adapters harness v2 / S1.3.
 

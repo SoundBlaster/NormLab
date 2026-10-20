@@ -1,0 +1,65 @@
+{
+  "schema": "normlab.ten-case-hosted-observations/v1",
+  "dateMsk": "2026-10-19",
+  "executionCommit": "5d35e4778321064f02fba5776fc43572f4fc3259",
+  "authoritySha256": "aed89146be63cc0f0986d1af9adddd777b23f417674c152cdc88d9ffae0df218",
+  "promptDigest": "46c9b4089ba8a93e71272c817dd3bab1aefabc74924b0b360199ec42666627a2",
+  "endpoint": "https://hub.coreinfra.ai/openai/api/v1/responses",
+  "requestedModel": "gpt-6-luna",
+  "returnedModels": ["gpt-6-luna"],
+  "reasoning": "low",
+  "plannedOriginalCases": 10,
+  "completedCases": 10,
+  "notExecutedCases": 0,
+  "attempts": 20,
+  "http200": 20,
+  "operationalFailures": 0,
+  "unknownOutcomes": 0,
+  "retries": 0,
+  "repairCalls": 0,
+  "judgeCalls": 0,
+  "elapsedMs": 70035,
+  "caseLatencyMs": {
+    "minimum": 5181,
+    "maximum": 10056
+  },
+  "knownTokens": {
+    "input": 16382,
+    "output": 4876
+  },
+  "attemptsWithUnknownUsage": 0,
+  "costUsd": null,
+  "costEvidence": "Responses billing contains payer=developer only, no monetary amount; no price conversion.",
+  "userReportedExternalCeilingUsd": 4,
+  "externalCeilingIndependentlyVerified": false,
+  "fragments": 22,
+  "statements": 53,
+  "candidateReview": {
+    "candidatePass": 4,
+    "candidateCriticalError": 3,
+    "unresolved": 3,
+    "overallQualityRate": null,
+    "humanReviewed": 0,
+    "adjudicated": 0
+  },
+  "assistedTaskPassesClaimed": 0,
+  "humanCorrectionSessions": 0,
+  "activeHumanCorrectionSeconds": null,
+  "correctionEdits": null,
+  "runtime": {
+    "node": "v26.5.0",
+    "esbuild": "0.28.2",
+    "zod": "4.6.5",
+    "versionsMatchPackageLock": true,
+    "bundleSha256": "a1ac9e50affeb52795648d4b6a8368b0f12fc8a44969e341d34169dd2c3852b4",
+    "boundFiles": 128
+  },
+  "limitations": [
+    "Development-seen convenience selection, related source groups; not independent incidents or holdout.",
+    "Same Codex agent prepared candidate references and reviewed complete output; no blind human adjudication.",
+    "Candidate critical findings and unresolved representation decisions require confirmation; no overall accuracy percentage.",
+    "Extractor payload only; UI, human correction, legal qualification and deployment not exercised.",
+    "No claim of deterministic future LLM generation; replay compares processing of the same captured bytes.",
+    "One-off extraction capture is not a new canonical harness/MLflow import result."
+  ]
+}

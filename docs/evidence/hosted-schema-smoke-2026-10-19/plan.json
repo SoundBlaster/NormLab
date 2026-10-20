@@ -1,0 +1,41 @@
+{
+  "schema": "normlab.hosted-schema-smoke-plan/v1",
+  "baseCommit": "44e0d99e9ea96cbf40f1a5129028d869d326106d",
+  "expectedPromptDigest": "16ebf6180f0072481cffe984cf58699ef110a01282f66522bccd28a839020723",
+  "inputs": [
+    {
+      "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV017.json",
+      "sha256": "6d662a94ed9a0ce2a8d8bc684dfae30de530e900fff6cb5051b8a17f780490e0"
+    }
+  ],
+  "strategy": {
+    "endpoint": "https://hub.coreinfra.ai/openai/api/v1/responses",
+    "requestedModel": "gpt-6-luna",
+    "reasoningEffort": "low",
+    "classifier": "openai"
+  },
+  "authorization": {
+    "user": "Готовить и проверяй",
+    "dateMsk": "2026-10-19",
+    "interpretation": "User requested preparation and checking after proposed short live CoreInfra schema smoke; one case, no quality/effort comparison. Existing reported external account ceiling remains in force; runner does not enforce dollars or know price.",
+    "maximumAttempts": 2,
+    "maximumSeriesSeconds": 300,
+    "maximumCaseSeconds": 300,
+    "retries": 0,
+    "repair": 0,
+    "judge": 0,
+    "userReportedExternalCeilingUsd": 4,
+    "externalCeilingIndependentlyVerified": false,
+    "pricingVerified": false
+  },
+  "stopRule": "Stop on first operational/protocol/local-contract/unknown outcome, cap or drift; no retries or alternate model.",
+  "questions": [
+    "Does CoreInfra accept the strict schema without maxLength?",
+    "Does this sample complete unchanged hosted local validation and quote anchors?"
+  ],
+  "limitations": [
+    "Single Low observation; not Medium reproduction, causal comparison, accuracy, independent human gold or verification that provider enforces every regex.",
+    "A valid ID alone does not establish correct actor or predicate scope.",
+    "No legal conclusion, user review session, deploy or further inference authorization."
+  ]
+}

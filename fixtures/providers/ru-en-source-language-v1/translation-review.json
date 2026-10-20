@@ -1,0 +1,144 @@
+{
+  "schema": "normlab.source-language-fidelity-review/v1",
+  "dateMoscow": "2026-10-19",
+  "reviewer": "Codex /root — translator and self-reviewer",
+  "reviewMode": "nonindependent-bilingual-self-review",
+  "independentReviewCompleted": false,
+  "empiricalLanguageEffectEvaluated": false,
+  "sourceFamilies": 2,
+  "controls": 3,
+  "surfaceTextVariants": 4,
+  "taskVariants": 6,
+  "records": [
+    {
+      "controlId": "T01",
+      "sourceFamilyId": "F01",
+      "sourceRu": "Я не оплатил парковку.",
+      "sourceEn": "I did not pay for parking.",
+      "fieldChanges": [
+        {
+          "path": "/state/candidateClaims/0/end",
+          "from": 21,
+          "to": 25
+        },
+        {
+          "path": "/state/candidateClaims/0/grammaticalSubject",
+          "from": "Я",
+          "to": "I"
+        },
+        {
+          "path": "/state/candidateClaims/0/quote",
+          "from": "Я не оплатил парковку",
+          "to": "I did not pay for parking"
+        },
+        {
+          "path": "/state/sourceText",
+          "from": "Я не оплатил парковку.",
+          "to": "I did not pay for parking."
+        }
+      ],
+      "fidelityAssessment": "self-reviewed-equivalent-on-required-axes",
+      "checks": {
+        "firstPersonActorPreserved": true,
+        "polarityPreserved": true,
+        "epistemicUncertaintyPreserved": true,
+        "actualityPreserved": true,
+        "attributionPreserved": true,
+        "episodeScopePreserved": true,
+        "noAddedPaymentOrNonpaymentFact": true,
+        "typedCandidateSemanticsUnchanged": true,
+        "questionCriteriaAndDefinitionsUnchanged": true
+      },
+      "surfaceSubjectNote": "Я→I is a source-language surface rendering, not a new actor. T03 preserves the already-declared first-person narrator even though Russian omits the explicit pronoun."
+    },
+    {
+      "controlId": "T02",
+      "sourceFamilyId": "F01",
+      "sourceRu": "Я не оплатил парковку.",
+      "sourceEn": "I did not pay for parking.",
+      "fieldChanges": [
+        {
+          "path": "/state/candidateClaims/0/end",
+          "from": 21,
+          "to": 25
+        },
+        {
+          "path": "/state/candidateClaims/0/grammaticalSubject",
+          "from": "Я",
+          "to": "I"
+        },
+        {
+          "path": "/state/candidateClaims/0/quote",
+          "from": "Я не оплатил парковку",
+          "to": "I did not pay for parking"
+        },
+        {
+          "path": "/state/sourceText",
+          "from": "Я не оплатил парковку.",
+          "to": "I did not pay for parking."
+        }
+      ],
+      "fidelityAssessment": "self-reviewed-equivalent-on-required-axes",
+      "checks": {
+        "firstPersonActorPreserved": true,
+        "polarityPreserved": true,
+        "epistemicUncertaintyPreserved": true,
+        "actualityPreserved": true,
+        "attributionPreserved": true,
+        "episodeScopePreserved": true,
+        "noAddedPaymentOrNonpaymentFact": true,
+        "typedCandidateSemanticsUnchanged": true,
+        "questionCriteriaAndDefinitionsUnchanged": true
+      },
+      "surfaceSubjectNote": "Я→I is a source-language surface rendering, not a new actor. T03 preserves the already-declared first-person narrator even though Russian omits the explicit pronoun."
+    },
+    {
+      "controlId": "T03",
+      "sourceFamilyId": "F02",
+      "sourceRu": "Не помню, оплатил ли парковку.",
+      "sourceEn": "I don't remember whether I paid for parking.",
+      "fieldChanges": [
+        {
+          "path": "/state/candidateClaims/0/end",
+          "from": 29,
+          "to": 43
+        },
+        {
+          "path": "/state/candidateClaims/0/grammaticalSubject",
+          "from": "Я",
+          "to": "I"
+        },
+        {
+          "path": "/state/candidateClaims/0/quote",
+          "from": "Не помню, оплатил ли парковку",
+          "to": "I don't remember whether I paid for parking"
+        },
+        {
+          "path": "/state/sourceText",
+          "from": "Не помню, оплатил ли парковку.",
+          "to": "I don't remember whether I paid for parking."
+        }
+      ],
+      "fidelityAssessment": "self-reviewed-equivalent-on-required-axes",
+      "checks": {
+        "firstPersonActorPreserved": true,
+        "polarityPreserved": true,
+        "epistemicUncertaintyPreserved": true,
+        "actualityPreserved": true,
+        "attributionPreserved": true,
+        "episodeScopePreserved": true,
+        "noAddedPaymentOrNonpaymentFact": true,
+        "typedCandidateSemanticsUnchanged": true,
+        "questionCriteriaAndDefinitionsUnchanged": true
+      },
+      "surfaceSubjectNote": "Я→I is a source-language surface rendering, not a new actor. T03 preserves the already-declared first-person narrator even though Russian omits the explicit pronoun."
+    }
+  ],
+  "limitations": [
+    "English is an authored translation, not an independent case.",
+    "Different tokenization/length and lexical constructions accompany language change.",
+    "English task still contains Russian predicate definitions.",
+    "grammaticalSubject must be translated together with source/quote to preserve lexical consistency.",
+    "No independent fidelity or whole-task gold review claimed."
+  ]
+}

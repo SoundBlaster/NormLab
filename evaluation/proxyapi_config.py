@@ -29,6 +29,7 @@ def build_proxyapi_provider(*, api_key=None, transport=None):
         "0.4.0",
         "0.7.0",
         "0.8.0",
+        "0.9.0",
     }:
         raise ValueError(
             "Install evaluation/requirements-providers-current.txt in a dedicated environment"

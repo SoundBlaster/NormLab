@@ -282,6 +282,18 @@ See [frontend architecture](client/ARCHITECTURE.md).
 
 ### Mellea + Jev — validation/repair evaluation
 
+Current engineering route: ordinary [CoreInfra Luna Low Responses](docs/PRIMARY_VERIFIER.md)
+for the categorical verifier; Jev remains an explicit experimental provider.
+This reversible default is not final pipeline selection or a completed development
+quality evaluation. Further Jev causal experiments are deferred; see
+[evidence synthesis #70](https://github.com/SoundBlaster/NormLab/issues/70) and
+[Jev investigation #145](https://github.com/SoundBlaster/NormLab/issues/145).
+
+Prepared next: [10 existing development narratives and correction protocol](fixtures/parking-pilot/luna-development-pilot-v1/README.md),
+tracked in [#79](https://github.com/SoundBlaster/NormLab/issues/79). The packet has
+candidate full-output readings and empty before/after worksheets; no new inference
+or observed quality/correction result is implied.
+
 [Утверждённый план](docs/MELLEA_EVALUATION_PLAN.md): три matched arms, сначала classification на одинаковом discovery, затем полный pipeline. Одна repair-попытка; фабула неизменна, подтверждения остаются ручными.
 
 - [x] Зафиксировать цель, arms, бюджет и границы доказательств.
@@ -305,6 +317,9 @@ See [frontend architecture](client/ARCHITECTURE.md).
   - [ ] Добавить реальный bounded transport, проверить его через mock HTTP client, затем после отдельного live opt-in проверить compatibility и выполнить pilot из frozen protocol.
 - [ ] По выходу Stage 1 выбрать следующий bounded эксперимент, не объявляя заранее правильную архитектуру.
 - [ ] Оценить segmentation, представление утверждений и syntax hints отдельными ablation experiments.
+- [x] Зафиксировать [offline policy контекста, участников и причинности](docs/NARRATIVE_CONTEXT_POLICY_V1.md): whole-text topic отдельно от paidRegime, ТС неустановленного вида из «я припарковался» — отдельная подтверждаемая гипотеза;17 candidate contrasts,0 inference. Автоматическая стратегия и её семантическая оценка остаются задачей [#70](https://github.com/SoundBlaster/NormLab/issues/70).
+- [x] Реализовать [ручной draft/UI срез контекста и гипотез ТС](docs/PARKING_CONTEXT_REVIEW_V2.md) для [#79](https://github.com/SoundBlaster/NormLab/issues/79): v2 revisions, подтверждение контекста перед extraction, отдельные exact-quote hypotheses, save-before-confirm и invalidation зависимого review; v1 читается без перезаписи. Offline/API checks и ограниченный functional walkthrough отделены от непроверенного screenshot/mobile качества.
+- [ ] Отдельно оценить автоматическую whole-text классификацию/генерацию гипотез и соблюдение actor/causality policy; ручной контекст сам по себе не улучшает семантику модели. Измерить пользовательскую правку и review burden по #79.
 - [x] Зафиксировать [идею augmentation synthetic narratives](docs/NARRATIVE_AUGMENTATION_EXPERIMENTS.md): смыслосохраняющее перефразирование отдельно от обогащения structured seed.
 - [ ] После independent review спланировать и выполнить bounded augmentation pilot с отдельной оценкой generator drift и extractor quality.
 - [ ] Сравнить mapping, bounded repair и полный pipeline на development/validation, зафиксировать выбор реализации и полный contract; затем оценить выбранный вариант на untouched final test. Настройка после final score требует нового test set.
@@ -315,19 +330,28 @@ See [frontend architecture](client/ARCHITECTURE.md).
 strategy, общий runner фиксирует условия, MLflow хранит runs/evidence. Исследуем
 обычную Luna Low с независимыми, пакетными и последовательными вопросами.
 
-- [ ] Общие versioned dataset/experiment/run/turn contracts и offline replay.
+**2026-10-18: инфраструктурный этап v1 завершён.**
+[Final pilot и audit #77](docs/EVALUATION_FRAMEWORK_V1_FINISH_2026-10-18.md):
+один реальный Jev response, отдельная сохранённая setup failure, portable
+archive/score/self-comparison и идемпотентный actual MLflow import с сетью под
+запретом. Все 36 planned tasks сохраняются; 35 не исполнялись. Качество всей
+цепочки и compatibility остальных моделей этим не объявляются.
+Adoption, Evidently, новые dialogue/repair стратегии и выделение пакета отложены.
+Следующий ход — ошибки разбора текста и bounded experiment изменения стратегии.
+
+- [x] Общие versioned dataset/experiment/run/turn contracts и offline replay.
   - [x] [Stage1 native compiler и bounded scheduler](docs/STAGE1_NATIVE_SCHEDULE_V1.md): сохранение 36/288 исходных задач, fresh Linux intent binding, durable attempts и общий budget; локальные offline checks не являются live/provider evidence.
   - [x] [Native capture/archive/score/MLflow consumers](docs/LIVE_RUNTIME_ARCHIVE_V2.md): перенос исходных requests, recorded usage и unknown outcomes, выбранные reference labels и идемпотентный local import; reader/import не получают права на inference.
-  - [x] [Native unknown stop](docs/NATIVE_UNKNOWN_STOP_V1.md): head-bound operator decision, immutable original checkpoint archive и сохранение unknown charges; без adoption, redispatch и новых provider calls. Resolution-aware consumers — следующий срез [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Native safe suffix resume](docs/NATIVE_SAFE_RESUME_V1.md): новая head-bound invocation, existing local claim, исходные clock/deadline/permit/caps и полная история attempts; unknown reservations блокируют продолжение. Continuation-aware archive/score/import consumers остаются следующим срезом [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Continuation consumers v3](docs/CONTINUATION_CONSUMERS_V3.md): portable archive, selected-reference scorer и idempotent local MLflow с сохранением одного execution parent и разных capture revisions; zero inference, все frozen native/resume modules неизменны. Stop-control/adoption и live smoke — последующие срезы [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Resumed unknown-stop](docs/RESUMED_UNKNOWN_STOP_V1.md): отдельное head-bound stop-решение после resume, immutable v3 base, сохранение unknown charges и истории без redispatch. Все57 v3 producer files неизменны; portable final-control consumers/adoption/live smoke остаются следующими срезами [#77](https://github.com/SoundBlaster/NormLab/issues/77).
-  - [x] [Final stop-control consumers v4](docs/STOP_CONTROL_CONSUMERS_V4.md): оба native/resumed stop-формата в portable archive/scorer/MLflow; сохранены execution parent, unknown outcomes/charges и orphan bytes без adoption; все59 frozen producer files неизменны. Correlated adoption и bounded live smoke остаются следующими срезами [#77](https://github.com/SoundBlaster/NormLab/issues/77).
+  - [x] [Native unknown stop](docs/NATIVE_UNKNOWN_STOP_V1.md): head-bound operator decision, immutable original checkpoint archive и сохранение unknown charges; без adoption, redispatch и новых provider calls. Resolution-aware consumers реализованы ниже.
+  - [x] [Native safe suffix resume](docs/NATIVE_SAFE_RESUME_V1.md): новая head-bound invocation, existing local claim, исходные clock/deadline/permit/caps и полная история attempts; unknown reservations блокируют продолжение. Continuation-aware consumers реализованы ниже.
+  - [x] [Continuation consumers v3](docs/CONTINUATION_CONSUMERS_V3.md): portable archive, selected-reference scorer и idempotent local MLflow с сохранением одного execution parent и разных capture revisions; zero inference, все frozen native/resume modules неизменны.
+  - [x] [Resumed unknown-stop](docs/RESUMED_UNKNOWN_STOP_V1.md): отдельное head-bound stop-решение после resume, immutable v3 base, сохранение unknown charges и истории без redispatch. Все57 v3 producer files неизменны; final-control consumers реализованы ниже.
+  - [x] [Final stop-control consumers v4](docs/STOP_CONTROL_CONSUMERS_V4.md): оба native/resumed stop-формата в portable archive/scorer/MLflow; сохранены execution parent, unknown outcomes/charges и orphan bytes без adoption; все59 frozen producer files неизменны. Correlated adoption отложена за границу v1.
   - [x] Первый offline classification replay и отдельный ProxyAPI verifier turn capture: один live batch Noul/Choice/Score, replay без SDK; [отчёт](docs/PROXYAPI_LIVE_CHECK_2026-10-09.md).
-  - [ ] Обобщить verifier runner на Jev и Luna Responses Low; добавить независимые semantic labels и paired comparison.
-- [ ] Matrix Jev / Luna Responses Low / opt-in Luna Decisions с независимыми budget и context policies.
-- [ ] Расширить существующий MLflow importer: paired comparison, provenance и идемпотентный import.
-- [ ] Решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных.
+  - [x] Общий native runner для Jev / Luna Responses Low / Luna Decisions; portable paired comparison и candidate reference provenance реализованы. Independent semantic labels остаются research-задачей [#64](https://github.com/SoundBlaster/NormLab/issues/64).
+- [x] Конфигурируемая matrix Jev / Luna Responses Low / opt-in Luna Decisions, budgets и independent context policy. Исполнение полной matrix и новые context policies — отдельные experiments.
+- [x] Portable paired comparison и отдельный MLflow import captures/scores: provenance, raw navigation и идемпотентность. Общий comparative report остаётся самостоятельным evidence.
+- [ ] Deferred: решить по конкретному отчёту, полезен ли Evidently сверх MLflow; drift monitoring вводить по мере появления данных. Не acceptance v1.
 
 ### Универсальный evaluation framework — будущая модуляризация, 2026-10-14
 
@@ -361,6 +385,8 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [x] Обновить current SDK profile до Jev4Mellea 0.8.0: [upgrade и совместимость](docs/JEV_ADAPTER_0_8_UPGRADE_2026-10-18.md), [ledger #147](https://github.com/SoundBlaster/NormLab/issues/147). Categorical Responses exports доступны в SDK; их подключение к NormLab comparison — отдельный следующий шаг. Historical pins и native execution сохранены.
 - [x] Подключить categorical `ResponsesChoiceProvider` для обычной Luna: [Choice task, independent/batch и label-only report](docs/CATEGORICAL_RESPONSES_INTEGRATION.md), [ledger #149](https://github.com/SoundBlaster/NormLab/issues/149). Offline integration; live comparison и качество — отдельный эксперимент, без расширения framework v1.
 - [x] Выполнить один matched live probe C002/R003 через current SDK: [протокол, 3 ответа и evidence](docs/CURRENT_SDK_MATCHED_PROBE_2026-10-18.md), [research #145](https://github.com/SoundBlaster/NormLab/issues/145). Jev вернул `compatible`, обе Luna — `incompatible`; это наблюдение одного кейса, дальнейшие controls и причины ошибки остаются открыты.
+- [x] Подключить current SDK 0.9.0 и прямой `CategoricalRequirement.evaluate()` для native Choice/Responses: [контракт и explicit policy](docs/CATEGORICAL_EVALUATE_INTEGRATION.md), [ledger #153](https://github.com/SoundBlaster/NormLab/issues/153). Без sampling/fallback и новых live-запросов.
+- [x] Выполнить [semantic controls через direct evaluate](fixtures/providers/bridge-semantic-probe-v1/README.md): четыре задания / три исходных текста, три CoreInfra provider paths, максимум 12 новых вызовов; [ledger #145](https://github.com/SoundBlaster/NormLab/issues/145). Отдельно авторизованы и выполнены 12/12 запросов; [результат](docs/BRIDGE_SEMANTIC_PROBE_2026-10-18.md). Candidate agreement Jev 2/4, Decisions 3/4, Responses Low 4/4 — диагностические counts, не ranking/accuracy. Причина ошибки Jev остаётся открытой.
 - [x] Добавить dry-run/opt-in smoke CLI для Noul/Choice/Score с лимитом запросов и отдельным отчётом, без оценки качества.
 - [x] Настраивать полные Responses/Decisions/System One endpoints в hosted gateway/egress; допустить отдельный Decisions secret.
 - [ ] Подтвердить реальные пути и модели каждого поставщика авторизованным compatibility smoke. Пресеты не доказывают доступность.
@@ -413,3 +439,12 @@ strategy, общий runner фиксирует условия, MLflow храни
 - [ ] Полный каталог критических ошибок и reviewer rubric для выбранных 30–50 development-фабул.
 - [ ] Versioned S1.3 task-decomposition experiment на фиксированном provider/model; после diagnostics оценить необходимость extraction ablation. Не считать новый этап полезным заранее.
 - [ ] Freeze выбранной конфигурации и independent final evaluation на 100 новых фабулах. Ручные исправления, operational completion и semantic quality измерять отдельно.
+
+### ScaleDown CDM — исследование применимости
+
+[Issue](https://github.com/SoundBlaster/NormLab/issues/94) · [Отчёт от 2026-10-14](docs/CDM_APPLICABILITY_2026-10-14.md).
+Classify предложен для отдельного provider pilot; Extract требует проверки
+occurrence/offset semantics; Summarize — только вспомогательный preview.
+Отчёт содержит API gaps, границы vendor benchmarks и проект bounded protocol.
+Реализация, live inference и изменение production pipeline требуют отдельного
+шага; актуальный статус исследования хранится в Issue.

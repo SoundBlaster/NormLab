@@ -9,7 +9,7 @@ one preceding Choice attempt failed before an HTTP status.
 
 ## API format and supplier
 
-The current smoke integration uses `mellea-jev-adapter==0.8.0` (Python 3.11+)
+The current smoke integration uses `mellea-jev-adapter==0.9.0` (Python 3.11+)
 through `evaluation/provider_runtime.py` and
 [`requirements-providers-current.txt`](../evaluation/requirements-providers-current.txt).
 Mellea remains 0.8.0; TypeSafe SDK 0.7.5, OpenAI 3.31.0 and httpx2 2.13.1
@@ -51,7 +51,7 @@ Create a separate environment; preserve environments used for historical runs:
 
 ```bash
 # Choose an isolated path according to your local build/cache policy.
-export PROVIDER_ENV=/absolute/path/to/provider-evaluation-0.8
+export PROVIDER_ENV=/absolute/path/to/provider-evaluation-0.9
 python3.13 -m venv "$PROVIDER_ENV"
 "$PROVIDER_ENV/bin/python" -m pip install -r evaluation/requirements-providers-current.txt
 "$PROVIDER_ENV/bin/python" -m pip check
@@ -112,7 +112,7 @@ image support in the upstream adapter.
 ## Historical evaluation compatibility
 
 Existing v1 manifests, captures, labels and source SHA pins remain unchanged.
-The legacy ProxyAPI factory accepts checked runtime adapters 0.3.0, 0.4.0, 0.7.0 and 0.8.0; its frozen
+The legacy ProxyAPI factory accepts checked runtime adapters 0.3.0, 0.4.0, 0.7.0, 0.8.0 and 0.9.0; its frozen
 provider metadata still describes the original 0.3.0 manifest. Actual runtime
 versions are recorded separately in `capture.dependencies`. Do not interpret
 new captures as identical experimental conditions. New provider exploration uses
@@ -122,15 +122,16 @@ historical config rather than misreporting its adapter version. Frozen Stage 1
 executors intentionally retain their 0.4.0 version checks. That is an archived
 execution constraint, not evidence of an SDK wire incompatibility. An exact
 historical re-execution can use the archived profile; ordinary current use and CI
-need only 0.8.0.
+need only 0.9.0.
 
-CI installs one current 0.8.0 SDK environment for the current smoke, copied bridge,
+CI installs one current 0.9.0 SDK environment for the current smoke, copied bridge,
 verifier replay and Mellea contracts. The frozen Stage 1 retry tests use an
 explicit mock-only compatibility probe: it substitutes the current factory and
-allows only the declared 0.4.0 / recorded 0.8.0 version pair in two version equalities.
+allows only the declared 0.4.0 / recorded 0.9.0 version pair in two version equalities.
 It retains actual dependency metadata and denies live execution/network. It does
 not make old captures/permits valid under a new execution runtime.
-See the [0.8.0 upgrade report](JEV_ADAPTER_0_8_UPGRADE_2026-10-18.md).
+See the [0.9.0 direct categorical integration](CATEGORICAL_EVALUATE_INTEGRATION.md).
+The [0.8.0 upgrade report](JEV_ADAPTER_0_8_UPGRADE_2026-10-18.md) remains historical evidence.
 The [0.7.0 compatibility report](JEV_ADAPTER_0_7_UPGRADE_2026-10-15.md) remains historical evidence.
 
 The 0.8.0 SDK's `ResponsesChoiceProvider` is connected through the separate
@@ -144,6 +145,20 @@ converts label-only responses into probability-based evidence.
 The copied ProxyAPI bridge remains: besides routing it normalizes a body response
 ID into the TypeSafe request-ID header. A generic System One endpoint setting
 alone does not reproduce that compatibility layer.
+
+## Direct categorical evaluation
+
+The primary current categorical CLI route is ordinary **CoreInfra Luna Low
+Responses**; Jev and Decisions remain explicit experimental selections. See
+[primary verifier and operator profile](PRIMARY_VERIFIER.md). An explicit
+`--config` continues to select its own API family, endpoint and model.
+
+`evaluation/categorical_smoke.py` connects native TypeSafe/OpenAI Choice and
+ordinary Responses through the released 0.9.0 `CategoricalRequirement.evaluate()`
+bridge. An explicit caller policy maps every category to accept/reject/review;
+operational errors remain failed attempts. It preserves native distributions
+when available and leaves ordinary-model confidence absent. No sampling, repair
+or automatic fallback is used. See the [contract, dry-run and report fields](CATEGORICAL_EVALUATE_INTEGRATION.md).
 
 ## Hosted TypeScript gateway
 

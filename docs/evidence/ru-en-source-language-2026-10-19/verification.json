@@ -1,0 +1,23 @@
+{
+  "schema": "normlab.oneoff-evidence-verification/v1",
+  "archiveSha256": "ad86e18901f4fa20d81cc0c20bbf0bada28402cc2b50bc95e7403092a32a78c5",
+  "payloadFiles": 31,
+  "freshExtraction": true,
+  "credentialsAbsent": true,
+  "networkDenied": true,
+  "exactWireReportBindings": 6,
+  "nativeResultPolicyReferenceBindings": 6,
+  "declaredRuEnSurfaceDeltaVerified": 3,
+  "userConfirmationAndAuthorityPinned": true,
+  "attemptRetryCapsAndOrderVerified": true,
+  "firstFinalPairedScoresVerified": true,
+  "knownUsage": {
+    "input_tokens": 11178,
+    "output_tokens": 258
+  },
+  "totalTokenUsageReported": true,
+  "usdCostKnown": false,
+  "rawHttpResponseBytesAvailable": false,
+  "credentialValueScanBeforePublication": "passed",
+  "result": "passed"
+}

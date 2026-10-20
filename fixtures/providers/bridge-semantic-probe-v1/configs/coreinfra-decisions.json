@@ -1,0 +1,9 @@
+{
+  "schema": "normlab.provider-config/v1",
+  "id": "coreinfra-decisions",
+  "api_format": "openai-decisions",
+  "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/decisions",
+  "model": "gpt-6-luna",
+  "key_env": "COREINFRA_API_KEY",
+  "timeout": 30
+}
