@@ -451,6 +451,12 @@ occurrence/offset semantics; Summarize — только вспомогатель
 
 ### Proposal: Clairic как extractor — 2026-10-20
 
+Архитектурное продолжение:
+[независимый Python module с внутренними микромодулями](docs/CLAIRIC_PYTHON_MODULE_PROPOSAL.md).
+Предлагаются отдельные types, transport port/HTTP adapter, codec, client и
+evidence checks; domain policies и binding остаются в NormLab. Один package,
+без обязательной зависимости от Mellea; реализация и публикация пока не начаты.
+
 Ledger: [Stage 1 synthesis / выбор следующего эксперимента #70](https://github.com/SoundBlaster/NormLab/issues/70).
 Связанный shortlist локальных моделей — [#73](https://github.com/SoundBlaster/NormLab/issues/73);
 Clairic пока рассматривается как hosted-кандидат. Этот proposal не выбирает новую
