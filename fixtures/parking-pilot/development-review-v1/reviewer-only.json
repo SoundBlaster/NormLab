@@ -1,0 +1,3601 @@
+{
+  "purpose": "candidate-expectations-never-send-to-extractor",
+  "status": "candidate-agent-reviewed-not-human-gold",
+  "offsetUnit": "utf16-code-units",
+  "independentReviewers": 0,
+  "candidateReadingsAuthoredBy": "Codex /root, whole-input reading 2026-10-18",
+  "fullAutomaticQualityRate": null,
+  "records": [
+    {
+      "id": "DEV001",
+      "sourceDigest": "e2c5fdc9b97e478e997c4286def7ccadd38792ee8b2d9dd9dc720b63eeee8f9a",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке.",
+            "start": 0,
+            "end": 52
+          }
+        },
+        {
+          "reading": "Рассказчик сообщает об успешной оплате через приложение.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке. Парковку оплатил через приложение.",
+            "start": 0,
+            "end": 87
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["polarity", "unknown-vs-false", "temporal-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV002",
+      "sourceDigest": "f1a9ee0402fc87e9fb401604a4f4adfa8d50f548aba9cbc771301888536dafb5",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке.",
+            "start": 0,
+            "end": 52
+          }
+        },
+        {
+          "reading": "Рассказчик отрицает собственную оплату этой парковки; это не утверждение, что никто другой не платил.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке. Парковку не оплачивал.",
+            "start": 0,
+            "end": 75
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["polarity", "unknown-vs-false", "temporal-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV003",
+      "sourceDigest": "af45d69efeadbbcadc03521ebc700968ee3113426f713faf13c8208500bc32e4",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке.",
+            "start": 0,
+            "end": 52
+          }
+        },
+        {
+          "reading": "Рассказчик явно не знает, прошла ли оплата; ни успех, ни неуспех не установлен.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке. Не знаю, прошла ли оплата.",
+            "start": 0,
+            "end": 79
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "explicit-unknown",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["polarity", "unknown-vs-false", "temporal-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV004",
+      "sourceDigest": "2ecca2adfcf939544ba06b076ea4e532b90bbb5c5ac8eb53e021647866f3fcdd",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке.",
+            "start": 0,
+            "end": 52
+          }
+        },
+        {
+          "reading": "Рассказчик оплатил первый час.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке. Я оплатил первый час, второй час не оплачивал.",
+            "start": 0,
+            "end": 99
+          }
+        },
+        {
+          "reading": "Рассказчик не оплатил второй час; интервалы нельзя слить в полностью оплаченную либо полностью неоплаченную стоянку.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке. Я оплатил первый час, второй час не оплачивал.",
+            "start": 0,
+            "end": 99
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["polarity", "unknown-vs-false", "temporal-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV005",
+      "sourceDigest": "90663d5258b3e5dd5800b1a8b252fb172b05a1e52ee7eebc0d2ead5f87e838b0",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке.",
+            "start": 0,
+            "end": 52
+          }
+        },
+        {
+          "reading": "Рассказчик отрицает отмену оплаты.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке. Оплату не отменял; парковку оплатил.",
+            "start": 0,
+            "end": 89
+          }
+        },
+        {
+          "reading": "Отдельно положительно утверждает оплату парковки; отрицание относится к отмене.",
+          "support": {
+            "quote": "В Москве я оставил автомобиль на городской парковке. Оплату не отменял; парковку оплатил.",
+            "start": 0,
+            "end": 89
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["polarity", "unknown-vs-false", "temporal-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV006",
+      "sourceDigest": "dc17297816d9e6c8dc58d67edcc5cea48244946a0810f0bd190ac6ce962a401d",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я припарковал автомобиль А на городской парковке.",
+            "start": 0,
+            "end": 58
+          }
+        },
+        {
+          "reading": "На городской парковке размещён автомобиль А.",
+          "support": {
+            "quote": "В Москве я припарковал автомобиль А на городской парковке. Платёж прошёл за автомобиль Б, который тоже принадлежит мне.",
+            "start": 0,
+            "end": 119
+          }
+        },
+        {
+          "reading": "Платёж прошёл за автомобиль Б; оба автомобиля принадлежат рассказчику.",
+          "support": {
+            "quote": "В Москве я припарковал автомобиль А на городской парковке. Платёж прошёл за автомобиль Б, который тоже принадлежит мне.",
+            "start": 0,
+            "end": 119
+          }
+        },
+        {
+          "reading": "Платёж за Б не подтверждает оплату А; самостоятельная оплата А не сообщена.",
+          "support": {
+            "quote": "В Москве я припарковал автомобиль А на городской парковке. Платёж прошёл за автомобиль Б, который тоже принадлежит мне.",
+            "start": 0,
+            "end": 119
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentForParkedVehicle",
+          "reason": "not-mentioned",
+          "question": "Есть ли сведения об оплате именно размещённого автомобиля?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["vehicle-attribution", "payment-linkage", "correction-outcome"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV007",
+      "sourceDigest": "98a3520245ecd6527e6b352094dd4e6c45fef7349c00e142bcb63668b8bd99fd",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я припарковал автомобиль А на городской парковке.",
+            "start": 0,
+            "end": 58
+          }
+        },
+        {
+          "reading": "Размещён автомобиль А.",
+          "support": {
+            "quote": "В Москве я припарковал автомобиль А на городской парковке. Оплатил именно автомобиль А, а не автомобиль Б.",
+            "start": 0,
+            "end": 106
+          }
+        },
+        {
+          "reading": "Рассказчик оплатил именно А, а не Б; отрицание относится к объекту платежа Б.",
+          "support": {
+            "quote": "В Москве я припарковал автомобиль А на городской парковке. Оплатил именно автомобиль А, а не автомобиль Б.",
+            "start": 0,
+            "end": 106
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["vehicle-attribution", "payment-linkage", "correction-outcome"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV008",
+      "sourceDigest": "d3307c2fe69ab65bc11dc67dfd7b5a042f6392ba1ea5064db4cccf17589ad31f",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оплатил стоянку автомобиля на городской парковке, но ошибся одной цифрой в номере.",
+            "start": 0,
+            "end": 93
+          }
+        },
+        {
+          "reading": "Рассказчик утверждает оплату стоянки автомобиля.",
+          "support": {
+            "quote": "В Москве я оплатил стоянку автомобиля на городской парковке, но ошибся одной цифрой в номере.",
+            "start": 0,
+            "end": 93
+          }
+        },
+        {
+          "reading": "Введённый номер содержит ошибку в одной цифре; успешная привязка платежа к размещённому автомобилю не установлена.",
+          "support": {
+            "quote": "В Москве я оплатил стоянку автомобиля на городской парковке, но ошибся одной цифрой в номере.",
+            "start": 0,
+            "end": 93
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentVehicleLink",
+          "reason": "ambiguous",
+          "question": "К какому автомобилю относится платёж?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["vehicle-attribution", "payment-linkage", "correction-outcome"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Связь платежа с нужным автомобилем/зоной/эпизодом требует отдельного подтверждения; юридическое действие ошибки не оценено."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV009",
+      "sourceDigest": "f10cddd0db530847fa47abb2c09841187bd1b472e3039ff6c33d39ebc7469659",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оплатил стоянку на городской парковке.",
+            "start": 0,
+            "end": 49
+          }
+        },
+        {
+          "reading": "Рассказчик утверждает оплату и неверно выбранную зону.",
+          "support": {
+            "quote": "В Москве я оплатил стоянку на городской парковке. Зону указал неверно, затем отправил исправление. Не знаю, сохранилось ли оно.",
+            "start": 0,
+            "end": 127
+          }
+        },
+        {
+          "reading": "После этого отправил исправление; сохранение исправления явно неизвестно.",
+          "support": {
+            "quote": "В Москве я оплатил стоянку на городской парковке. Зону указал неверно, затем отправил исправление. Не знаю, сохранилось ли оно.",
+            "start": 0,
+            "end": 127
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "correctionSaved",
+          "reason": "explicit-unknown",
+          "question": "Известно ли, что исправление сохранилось?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "targetZone",
+          "reason": "not-mentioned",
+          "question": "Какую зону следовало указать для этой стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["vehicle-attribution", "payment-linkage", "correction-outcome"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Связь платежа с нужным автомобилем/зоной/эпизодом требует отдельного подтверждения; юридическое действие ошибки не оценено."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV010",
+      "sourceDigest": "1b3aeea8dd0fb0c5860153e2d644c4ade1f51a9e351e5679f7c9c8416cf8b635",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "В истории есть платёж.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. В истории есть платёж, но не помню, какой автомобиль и какую зону выбрал.",
+            "start": 0,
+            "end": 113
+          }
+        },
+        {
+          "reading": "Рассказчик не помнит выбранные автомобиль и зону; платёж нельзя уверенно привязать к этому эпизоду.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. В истории есть платёж, но не помню, какой автомобиль и какую зону выбрал.",
+            "start": 0,
+            "end": 113
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentVehicleLink",
+          "reason": "explicit-unknown",
+          "question": "К какому автомобилю относится платёж?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentZoneLink",
+          "reason": "explicit-unknown",
+          "question": "К какой зоне относится платёж?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["vehicle-attribution", "payment-linkage", "correction-outcome"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Связь платежа с нужным автомобилем/зоной/эпизодом требует отдельного подтверждения; юридическое действие ошибки не оценено."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV011",
+      "sourceDigest": "adeea0c7c3746f030929aac88ee1bf08560211b1369b5db45c84968f8498c069",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30.",
+            "start": 0,
+            "end": 65
+          }
+        },
+        {
+          "reading": "Автомобиль стоял с 12:00 до 12:30.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30. Оплату провёл в 12:04:59.",
+            "start": 0,
+            "end": 91
+          }
+        },
+        {
+          "reading": "Оплата проведена в 12:04:59; время сохраняется с секундами.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30. Оплату провёл в 12:04:59.",
+            "start": 0,
+            "end": 91
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["time-precision", "deposit-vs-session", "interval-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV012",
+      "sourceDigest": "17692929ae1ef9dbb8115f4f5e63b7d105184d1849b273aa55e29aad25c3f90e",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30.",
+            "start": 0,
+            "end": 65
+          }
+        },
+        {
+          "reading": "Автомобиль стоял с 12:00 до 12:30.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30. Оплату провёл в 12:05:00.",
+            "start": 0,
+            "end": 91
+          }
+        },
+        {
+          "reading": "Оплата проведена ровно в 12:05:00; правовой эффект границы не размечен.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30. Оплату провёл в 12:05:00.",
+            "start": 0,
+            "end": 91
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["time-precision", "deposit-vs-session", "interval-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV013",
+      "sourceDigest": "1186095344f34a4977262a2369006ccf81e60d99b870a6d856ada257dbed72bb",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30.",
+            "start": 0,
+            "end": 65
+          }
+        },
+        {
+          "reading": "Автомобиль стоял с 12:00 до 12:30.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30. Оплату провёл в 12:05:01.",
+            "start": 0,
+            "end": 91
+          }
+        },
+        {
+          "reading": "Оплата проведена в 12:05:01; отличие в одну секунду не округлять.",
+          "support": {
+            "quote": "В Москве автомобиль стоял на городской парковке с 12:00 до 12:30. Оплату провёл в 12:05:01.",
+            "start": 0,
+            "end": 91
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["time-precision", "deposit-vs-session", "interval-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV014",
+      "sourceDigest": "d827cec769152b1e80bd98e2a9339617e015c94b80ba6c1cbcd000053fdc0879",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я оплатил городскую парковку с 12:00 до 13:00.",
+            "start": 0,
+            "end": 55
+          }
+        },
+        {
+          "reading": "Заявленный оплаченный интервал — с 12:00 до 13:00.",
+          "support": {
+            "quote": "В Москве я оплатил городскую парковку с 12:00 до 13:00. Платёж отправил в 12:02, уехал в 12:40.",
+            "start": 0,
+            "end": 95
+          }
+        },
+        {
+          "reading": "Платёж отправлен в 12:02; отправка и покрываемый интервал различаются.",
+          "support": {
+            "quote": "В Москве я оплатил городскую парковку с 12:00 до 13:00. Платёж отправил в 12:02, уехал в 12:40.",
+            "start": 0,
+            "end": 95
+          }
+        },
+        {
+          "reading": "Рассказчик уехал в 12:40; фактическое начало стоянки явно не названо.",
+          "support": {
+            "quote": "В Москве я оплатил городскую парковку с 12:00 до 13:00. Платёж отправил в 12:02, уехал в 12:40.",
+            "start": 0,
+            "end": 95
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["time-precision", "deposit-vs-session", "interval-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV015",
+      "sourceDigest": "4e6567a782094a72912acb5715e60cd59c4c711fe63c14ac3649fd61613cd16e",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Баланс пополнен в 12:02.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Баланс пополнил в 12:02, но парковочную сессию не оплатил.",
+            "start": 0,
+            "end": 98
+          }
+        },
+        {
+          "reading": "Парковочная сессия не оплачена; пополнение баланса не является оплатой сессии.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Баланс пополнил в 12:02, но парковочную сессию не оплатил.",
+            "start": 0,
+            "end": 98
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["time-precision", "deposit-vs-session", "interval-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV016",
+      "sourceDigest": "0f9f3ab58f955ae3f0b7e69688e29a025a315b4008464f5785987b3f51aa6dc8",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Приложение выдало ошибку.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Приложение выдало ошибку, но через СМС я успешно оплатил эту стоянку.",
+            "start": 0,
+            "end": 109
+          }
+        },
+        {
+          "reading": "Рассказчик успешно оплатил именно эту стоянку через СМС; ошибка одного канала не означает неоплату.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Приложение выдало ошибку, но через СМС я успешно оплатил эту стоянку.",
+            "start": 0,
+            "end": 109
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["channel-vs-payment", "unknown-vs-false", "unsupported-inference"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV017",
+      "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Приложение и СМС не работали.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Приложение и СМС не работали, оплатить парковку не удалось.",
+            "start": 0,
+            "end": 99
+          }
+        },
+        {
+          "reading": "Рассказчику не удалось оплатить парковку; вина и исключения ответственности из этого не выводятся.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Приложение и СМС не работали, оплатить парковку не удалось.",
+            "start": 0,
+            "end": 99
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["channel-vs-payment", "unknown-vs-false", "unsupported-inference"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV018",
+      "sourceDigest": "b05fa7cd16f7b83d91d613c87245e3a67cb6f16722dfd6f92014626fa0dcaa96",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Банк показывает списание.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Банк показывает списание, но в парковочном приложении оплата не отображается.",
+            "start": 0,
+            "end": 117
+          }
+        },
+        {
+          "reading": "В парковочном приложении оплата не отображается; эти наблюдения относятся к разным системам, итог сессии не установлен.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Банк показывает списание, но в парковочном приложении оплата не отображается.",
+            "start": 0,
+            "end": 117
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "parkingSessionPaymentOutcome",
+          "reason": "conflicting-system-evidence",
+          "question": "Подтверждено ли зачисление в нужную парковочную сессию, а не только банковское списание?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["channel-vs-payment", "unknown-vs-false", "unsupported-inference"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV019",
+      "sourceDigest": "970fb032324b421c92ba083b6c3c8ecb58ba357711a3ccada202bb3d2ef39ba1",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Приложение снова заработало в 13:00.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Приложение снова заработало в 13:00. Сведений о моей оплате у меня нет.",
+            "start": 0,
+            "end": 111
+          }
+        },
+        {
+          "reading": "Сведений об оплате рассказчика нет; восстановление приложения не означает успешный платёж.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Приложение снова заработало в 13:00. Сведений о моей оплате у меня нет.",
+            "start": 0,
+            "end": 111
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "explicit-no-information",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["channel-vs-payment", "unknown-vs-false", "unsupported-inference"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV020",
+      "sourceDigest": "26c96fd14b4e8e1c4752f7afcb533e1bef1397efeb983cc2becd7f30207b9031",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик отрицает ошибки реквизитов и последующие исправления.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Ошибок реквизитов и последующих исправлений не было.",
+            "start": 0,
+            "end": 92
+          }
+        },
+        {
+          "reading": "Об оплате, вине и разрешениях ничего не сообщает; отрицания этих фактов недопустимы.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Ошибок реквизитов и последующих исправлений не было.",
+            "start": 0,
+            "end": 92
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["channel-vs-payment", "unknown-vs-false", "unsupported-inference"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV021",
+      "sourceDigest": "a467a1fe70b0ad449c1173ff13ed03a4f7d67751bed17dc26cf4a57082cee707",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "У рассказчика есть действующее резидентное разрешение.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. У меня есть действующее резидентное разрешение.",
+            "start": 0,
+            "end": 87
+          }
+        },
+        {
+          "reading": "Применимость разрешения к месту, времени и автомобилю не указана.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. У меня есть действующее резидентное разрешение.",
+            "start": 0,
+            "end": 87
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "permitApplicability",
+          "reason": "not-mentioned",
+          "question": "На какие автомобиль, место и время распространяется разрешение?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["permit-applicability", "missing-vs-denied", "person-role"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV022",
+      "sourceDigest": "86f5d6b7643a97d34aa06fb7ad30a1e4be4171ebe5a257974779b85910050f23",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "У рассказчика нет действующего разрешения или абонемента.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Действующего разрешения или абонемента у меня нет.",
+            "start": 0,
+            "end": 90
+          }
+        },
+        {
+          "reading": "Это не отрицание инвалидности, специального тарифа или иной льготы.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Действующего разрешения или абонемента у меня нет.",
+            "start": 0,
+            "end": 90
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["permit-applicability", "missing-vs-denied", "person-role"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV023",
+      "sourceDigest": "d75ebaa6d46997307c9ae41e20284fb28d5f716609a24234b9ce68b2e66b128c",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик не помнит, действует ли ещё его разрешение; статус явно неизвестен.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Не помню, действует ли ещё моё разрешение.",
+            "start": 0,
+            "end": 82
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "permitValidity",
+          "reason": "explicit-unknown",
+          "question": "Известен ли срок действия разрешения на момент стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["permit-applicability", "missing-vs-denied", "person-role"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV024",
+      "sourceDigest": "aac2df3755c11d07206ee04c002b3ab13b8cb3cc62e72367d648ccb14920c5ed",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик подал заявление на разрешение.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Заявление на разрешение подал, но само разрешение ещё не получил.",
+            "start": 0,
+            "end": 105
+          }
+        },
+        {
+          "reading": "Само разрешение ещё не получил; подача заявления не означает наличие действующего разрешения.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Заявление на разрешение подал, но само разрешение ещё не получил.",
+            "start": 0,
+            "end": 105
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["permit-applicability", "missing-vs-denied", "person-role"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV025",
+      "sourceDigest": "9fa5fe8c2dc6b68026398e4c177119ef7895c8ab5c4cb64b47ffa6a4a0cfd29c",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик перевозит человека с инвалидностью; инвалидность относится к пассажиру, не автоматически к водителю.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я перевожу человека с инвалидностью, но сведений о реестре и знаке в этом рассказе нет.",
+            "start": 0,
+            "end": 127
+          }
+        },
+        {
+          "reading": "Сведений о реестре и знаке в рассказе нет; отсутствие сведений не означает отсутствие регистрации или знака.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я перевожу человека с инвалидностью, но сведений о реестре и знаке в этом рассказе нет.",
+            "start": 0,
+            "end": 127
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "disabilityRegistry",
+          "reason": "explicit-not-mentioned",
+          "question": "Что известно о записи в реестре для выбранного автомобиля?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "disabilitySign",
+          "reason": "explicit-not-mentioned",
+          "question": "Что известно о наличии и применении знака?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["permit-applicability", "missing-vs-denied", "person-role"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Юридические условия льготы и доказанность инвалидности не проверяются данным linguistic review."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV026",
+      "sourceDigest": "70e9b071fdd28316381fb684d786c30c6d1f9b281357e01ce10d123dd9f9b042",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "О той же стоянке рассказчик сейчас утверждает: оплатил.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. О той же стоянке я говорю: «Я оплатил парковку». В моей заметке написано: «Я не оплатил парковку».",
+            "start": 0,
+            "end": 138
+          }
+        },
+        {
+          "reading": "В его заметке содержится противоположное утверждение: не оплатил.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. О той же стоянке я говорю: «Я оплатил парковку». В моей заметке написано: «Я не оплатил парковку».",
+            "start": 0,
+            "end": 138
+          }
+        },
+        {
+          "reading": "Нужно сохранить обе версии и их источники; противоречие не разрешено.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. О той же стоянке я говорю: «Я оплатил парковку». В моей заметке написано: «Я не оплатил парковку».",
+            "start": 0,
+            "end": 138
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "reconcilePaymentClaims",
+          "reason": "unresolved-conflict",
+          "question": "Как соотносятся нынешнее утверждение и противоположная запись в заметке?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["claimant", "episode", "speech-act", "unresolved-conflict"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Не решать за рассказчика, какая версия об оплате окончательная; уточнение/источники сохраняются отдельно."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV027",
+      "sourceDigest": "f92af94bb7cbd90ac02664e40afa3c589bf73818b78f3ff029b5f49f561f7531",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": null,
+      "episodeSelectionRequired": true,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я сделал две стоянки на городских парковках.",
+            "start": 0,
+            "end": 53
+          }
+        },
+        {
+          "reading": "Описаны две стоянки на городских парковках Москвы.",
+          "support": {
+            "quote": "В Москве я сделал две стоянки на городских парковках. Утреннюю парковку оплатил. Вечернюю парковку не оплатил.",
+            "start": 0,
+            "end": 110
+          }
+        },
+        {
+          "reading": "Утренняя оплачена; вечерняя не оплачена.",
+          "support": {
+            "quote": "В Москве я сделал две стоянки на городских парковках. Утреннюю парковку оплатил. Вечернюю парковку не оплатил.",
+            "start": 0,
+            "end": 110
+          }
+        },
+        {
+          "reading": "Выбор одного эпизода ещё не сделан; разные статусы разных эпизодов не противоречие.",
+          "support": {
+            "quote": "В Москве я сделал две стоянки на городских парковках. Утреннюю парковку оплатил. Вечернюю парковку не оплатил.",
+            "start": 0,
+            "end": 110
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "selectedEpisode",
+          "reason": "requires-user-selection",
+          "question": "Какую стоянку разбирать: утреннюю или вечернюю?",
+          "requiredWhen": "multiple-episodes-before-any-episode-specific-analysis"
+        }
+      ],
+      "criticalRisks": ["claimant", "episode", "speech-act", "unresolved-conflict"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV028",
+      "sourceDigest": "e001aaae2e6e9b88d06bb0ec7985a7ec4235520ed207378b9586da0bf4e599f2",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик утверждает оплату этой стоянки.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я утверждаю, что оплатил эту стоянку. В уведомлении указано, что она не оплачена.",
+            "start": 0,
+            "end": 121
+          }
+        },
+        {
+          "reading": "В уведомлении указана неоплата; сообщение уведомления не становится установленным фактом.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я утверждаю, что оплатил эту стоянку. В уведомлении указано, что она не оплачена.",
+            "start": 0,
+            "end": 121
+          }
+        },
+        {
+          "reading": "Между источниками есть нерешённое расхождение об одном эпизоде.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я утверждаю, что оплатил эту стоянку. В уведомлении указано, что она не оплачена.",
+            "start": 0,
+            "end": 121
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "reconcileNarratorAndNotice",
+          "reason": "unresolved-conflict",
+          "question": "Чем объясняется расхождение рассказчика и уведомления об оплате?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["claimant", "episode", "speech-act", "unresolved-conflict"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Не решать за рассказчика, какая версия об оплате окончательная; уточнение/источники сохраняются отдельно."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV029",
+      "sourceDigest": "538072002a7e4eecb83faf2be39a33b581f2b4b55a76b731851ba4f237d4eee3",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик не утверждает оплату; отрицание относится к speech act.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я не утверждаю, что парковка оплачена: мне неизвестен результат платежа.",
+            "start": 0,
+            "end": 112
+          }
+        },
+        {
+          "reading": "Он явно не знает результат платежа; не утверждает ни оплату, ни неоплату.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я не утверждаю, что парковка оплачена: мне неизвестен результат платежа.",
+            "start": 0,
+            "end": 112
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "explicit-unknown",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["claimant", "episode", "speech-act", "unresolved-conflict"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV030",
+      "sourceDigest": "652fb35e86d91a6a69bc01b05dee970c19a2569d3788aae32d74ef1717464a11",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Ранее рассказчик написал, что не оплатил эту стоянку.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Сначала написал, что не оплатил её. Позже уточнил: платёж был, но за другой автомобиль.",
+            "start": 0,
+            "end": 127
+          }
+        },
+        {
+          "reading": "Позднее уточнил, что платёж был за другой автомобиль.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Сначала написал, что не оплатил её. Позже уточнил: платёж был, но за другой автомобиль.",
+            "start": 0,
+            "end": 127
+          }
+        },
+        {
+          "reading": "Поздний платёж за другой автомобиль не подтверждает оплату исходной стоянки; история уточнения сохраняется.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Сначала написал, что не оплатил её. Позже уточнил: платёж был, но за другой автомобиль.",
+            "start": 0,
+            "end": 127
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentForOriginalVehicle",
+          "reason": "not-established",
+          "question": "Какой платёж относится к исходному автомобилю?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["claimant", "episode", "speech-act", "unresolved-conflict"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Платёж за другую машину совместим с неоплатой исходной стоянки: логическое противоречие не установлено. Сохранить последовательность уточнения, не объявлять исходную стоянку оплаченной."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV031",
+      "sourceDigest": "e19bd1d7845e6713d411bbae0e7af16f0e2880786671a7d64ec6d2789cb3f373",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "в Москве",
+            "start": 30,
+            "end": 38
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "Я стоял на городской парковке в Москве и не оплатил её.",
+            "start": 0,
+            "end": 55
+          }
+        },
+        {
+          "reading": "Рассказчик отрицает оплату стоянки на городской парковке Москвы.",
+          "support": {
+            "quote": "Я стоял на городской парковке в Москве и не оплатил её.",
+            "start": 0,
+            "end": 55
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["geography", "parking-type", "unsupported-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV032",
+      "sourceDigest": "7cc46f1eaeb41b0caebb649a41eca1d8e52f7b6530e905f6f40606022ef7b7d3",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "Я стоял на городской парковке в Казани и не оплатил её.",
+            "start": 0,
+            "end": 55
+          }
+        },
+        {
+          "reading": "Город — Казань; рассказчик не оплатил городскую парковку.",
+          "support": {
+            "quote": "Я стоял на городской парковке в Казани и не оплатил её.",
+            "start": 0,
+            "end": 55
+          }
+        },
+        {
+          "reading": "Этот город вне московского demo scope; исходные факты всё равно извлекаются.",
+          "support": {
+            "quote": "Я стоял на городской парковке в Казани и не оплатил её.",
+            "start": 0,
+            "end": 55
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        }
+      ],
+      "criticalRisks": ["geography", "parking-type", "unsupported-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": "known-outside-moscow",
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV033",
+      "sourceDigest": "fb2dc288d7ac0599cf84ff58a9f295786ee3e299f538d930dc531bf94a870ab0",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "Я стоял на городской парковке и не оплатил её.",
+            "start": 0,
+            "end": 46
+          }
+        },
+        {
+          "reading": "Рассказчик не оплатил городскую парковку.",
+          "support": {
+            "quote": "Я стоял на городской парковке и не оплатил её. Город не указан.",
+            "start": 0,
+            "end": 63
+          }
+        },
+        {
+          "reading": "Город явно не указан; подстановка Москвы недопустима.",
+          "support": {
+            "quote": "Я стоял на городской парковке и не оплатил её. Город не указан.",
+            "start": 0,
+            "end": 63
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "city",
+          "reason": "explicit-not-mentioned",
+          "question": "В каком городе произошла стоянка?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["geography", "parking-type", "unsupported-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV034",
+      "sourceDigest": "12f1987de1b2c23e9ea13f7f8c9f717229610bd0fca3fd47335baf9d6edfed15",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "в Москве",
+            "start": 39,
+            "end": 47
+          }
+        },
+        {
+          "reading": "Парковка находится у торгового центра в Москве.",
+          "support": {
+            "quote": "Я стоял на парковке у торгового центра в Москве. Не знаю, городская это парковка или частная.",
+            "start": 0,
+            "end": 93
+          }
+        },
+        {
+          "reading": "Неизвестно, городская она или частная; расположение у ТЦ не определяет тип парковки.",
+          "support": {
+            "quote": "Я стоял на парковке у торгового центра в Москве. Не знаю, городская это парковка или частная.",
+            "start": 0,
+            "end": 93
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "parkingType",
+          "reason": "explicit-unknown",
+          "question": "Это городская парковка или частная территория?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["geography", "parking-type", "unsupported-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": "parking-type-unknown",
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV035",
+      "sourceDigest": "1fe78c78bd24bdfd2cdb95dfb7ceda21ac79092eabea9267b6d32889b3dc2d0a",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "Я стоял на городской парковке, но не в Москве.",
+            "start": 0,
+            "end": 46
+          }
+        },
+        {
+          "reading": "Парковка городская и прямо указано, что она не в Москве.",
+          "support": {
+            "quote": "Я стоял на городской парковке, но не в Москве. Город пока не назову.",
+            "start": 0,
+            "end": 68
+          }
+        },
+        {
+          "reading": "Точный город рассказчик пока отказывается назвать; это отличается от полного отсутствия сведений о географии.",
+          "support": {
+            "quote": "Я стоял на городской парковке, но не в Москве. Город пока не назову.",
+            "start": 0,
+            "end": 68
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        },
+        {
+          "field": "exactCity",
+          "reason": "withheld",
+          "question": "Нужно ли уточнять город, если московское demo уже неприменимо?",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "optional-after-reporting-known-outside-demo-scope"
+        }
+      ],
+      "criticalRisks": ["geography", "parking-type", "unsupported-scope"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": "known-outside-moscow",
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV036",
+      "sourceDigest": "880ea9f682530bfd0c0b9e10d1dc4d003d04be86702710560ae2fd25ec3fe7e8",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Весь период стоянки заявлен платным.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Весь период моей стоянки был платным. Разрешений и абонементов у меня нет.",
+            "start": 0,
+            "end": 114
+          }
+        },
+        {
+          "reading": "Разрешений и абонементов у рассказчика нет; факт оплаты при этом не сообщён.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Весь период моей стоянки был платным. Разрешений и абонементов у меня нет.",
+            "start": 0,
+            "end": 114
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["paid-regime", "fine-vs-parking", "event-vs-notice-date"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV037",
+      "sourceDigest": "964946ca7dc5f601ebc0ef7d2b9f78a517b1559243916f270c3f785a6738dba0",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "По условиям учебного случая весь период стоянки бесплатный.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. По условиям этого учебного случая весь период моей стоянки был бесплатным.",
+            "start": 0,
+            "end": 114
+          }
+        },
+        {
+          "reading": "Это synthetic условие, не проверенная информация о реальном тарифе или правовом результате.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. По условиям этого учебного случая весь период моей стоянки был бесплатным.",
+            "start": 0,
+            "end": 114
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["paid-regime", "fine-vs-parking", "event-vs-notice-date"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV038",
+      "sourceDigest": "77422302b41fa4081616cbb07aacae732e497d9d896482cc162668edf0395c11",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик утверждает оплату парковки.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я оплатил её, но о действовавшем тарифе сведений нет.",
+            "start": 0,
+            "end": 93
+          }
+        },
+        {
+          "reading": "Сведений о действовавшем тарифе нет; оплата не доказывает применимость платного режима.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Я оплатил её, но о действовавшем тарифе сведений нет.",
+            "start": 0,
+            "end": 93
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["paid-regime", "fine-vs-parking", "event-vs-notice-date"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV039",
+      "sourceDigest": "741ad2ba3529b95a323d564475b2f8fc1caaf6b98e489e965478326cc6fcb9e9",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "Рассказчик оплатил штраф за эту стоянку.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Штраф за эту стоянку оплатил, а саму парковку не оплачивал.",
+            "start": 0,
+            "end": 99
+          }
+        },
+        {
+          "reading": "Саму парковку не оплачивал; штраф и парковочный платёж — разные объекты.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. Штраф за эту стоянку оплатил, а саму парковку не оплачивал.",
+            "start": 0,
+            "end": 99
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["paid-regime", "fine-vs-parking", "event-vs-notice-date"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV040",
+      "sourceDigest": "d09a024650a946beeb94782b3b5b52244e93f2fc2a060345a5635b25a3e704ff",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Место парковочного эпизода явно связано с Москвой.",
+          "support": {
+            "quote": "В Москве",
+            "start": 0,
+            "end": 8
+          }
+        },
+        {
+          "reading": "Городской тип парковки прямо указан; платность из этого не следует.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке.",
+            "start": 0,
+            "end": 39
+          }
+        },
+        {
+          "reading": "В июле получено уведомление о штрафе за майскую стоянку.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. В июле получил уведомление о штрафе за майскую стоянку. Точная дата стоянки неизвестна; о платеже ничего не сообщаю.",
+            "start": 0,
+            "end": 156
+          }
+        },
+        {
+          "reading": "Точная дата стоянки явно неизвестна; год не назван.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. В июле получил уведомление о штрафе за майскую стоянку. Точная дата стоянки неизвестна; о платеже ничего не сообщаю.",
+            "start": 0,
+            "end": 156
+          }
+        },
+        {
+          "reading": "Об оплате ничего не сообщено; июль получения уведомления нельзя назначить временем стоянки.",
+          "support": {
+            "quote": "В Москве я стоял на городской парковке. В июле получил уведомление о штрафе за майскую стоянку. Точная дата стоянки неизвестна; о платеже ничего не сообщаю.",
+            "start": 0,
+            "end": 156
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "eventYearAndDay",
+          "reason": "explicit-partial-date",
+          "question": "Каковы год и день майской стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-mentioned",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["paid-regime", "fine-vs-parking", "event-vs-notice-date"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV041",
+      "sourceDigest": "97a639882662600532993fd47c884e94d9a3615e46fda4ee6ff7520aa82f0189",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Автомобиль находился на платной городской парковке Москвы.",
+          "support": {
+            "quote": "Автомобиль находился на платной городской парковке Москвы. По сообщению защитника, деньги за парковку списали, но водитель указал номер другого принадлежащего ему автомобиля.",
+            "start": 0,
+            "end": 174
+          }
+        },
+        {
+          "reading": "Именно по сообщению защитника деньги списали, но водитель указал номер другого своего автомобиля.",
+          "support": {
+            "quote": "Автомобиль находился на платной городской парковке Москвы. По сообщению защитника, деньги за парковку списали, но водитель указал номер другого принадлежащего ему автомобиля.",
+            "start": 0,
+            "end": 174
+          }
+        },
+        {
+          "reading": "Размещённый автомобиль и автомобиль платежа различаются; его оплата этим списанием не подтверждена.",
+          "support": {
+            "quote": "Автомобиль находился на платной городской парковке Москвы. По сообщению защитника, деньги за парковку списали, но водитель указал номер другого принадлежащего ему автомобиля.",
+            "start": 0,
+            "end": 174
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentForParkedVehicle",
+          "reason": "not-established",
+          "question": "Есть ли сведения об оплате именно размещённого автомобиля?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        }
+      ],
+      "criticalRisks": ["reported-vs-established", "vehicle-attribution", "procedural-noise"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Связь платежа с нужным автомобилем/зоной/эпизодом требует отдельного подтверждения; юридическое действие ошибки не оценено."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV042",
+      "sourceDigest": "d30303fd2e9ad3a93129da2aae65d59c93bfdfdb6e98ed7aa5b9b28b5a215ad3",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Автор вопроса сообщает, что оплата через приложение прошла.",
+          "support": {
+            "quote": "Автор вопроса сообщает: оплата через приложение прошла, но в номере автомобиля была ошибочна одна цифра. После этого пришёл штраф.",
+            "start": 0,
+            "end": 130
+          }
+        },
+        {
+          "reading": "В номере автомобиля была ошибка в одной цифре; затем пришёл штраф.",
+          "support": {
+            "quote": "Автор вопроса сообщает: оплата через приложение прошла, но в номере автомобиля была ошибочна одна цифра. После этого пришёл штраф.",
+            "start": 0,
+            "end": 130
+          }
+        },
+        {
+          "reading": "Город, тип парковки и связь штрафа с правовой оценкой не установлены этим input.",
+          "support": {
+            "quote": "Автор вопроса сообщает: оплата через приложение прошла, но в номере автомобиля была ошибочна одна цифра. После этого пришёл штраф.",
+            "start": 0,
+            "end": 130
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "city",
+          "reason": "not-mentioned",
+          "question": "В каком городе произошла стоянка?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "parkingType",
+          "reason": "not-mentioned",
+          "question": "Это городская парковка или частная территория?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentVehicleLink",
+          "reason": "ambiguous",
+          "question": "К какому автомобилю относится платёж?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["reported-vs-established", "vehicle-attribution", "procedural-noise"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Связь платежа с нужным автомобилем/зоной/эпизодом требует отдельного подтверждения; юридическое действие ошибки не оценено."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV043",
+      "sourceDigest": "029832b8bc1f94322d52f5b9023d41b0f65ba01a623355518768805c7ac50f0e",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Автор приехал на платную парковку в декабре 2021 года.",
+          "support": {
+            "quote": "В декабре 2021 года автор приехал на платную парковку. На балансе не хватало денег; пополнение заняло несколько минут. Он утверждает, что платёж прошёл. Позже получил штраф, а в октябре 2022 года — постановление об исполнительном производстве.",
+            "start": 0,
+            "end": 243
+          }
+        },
+        {
+          "reading": "Денег на балансе не хватало; пополнение заняло несколько минут.",
+          "support": {
+            "quote": "В декабре 2021 года автор приехал на платную парковку. На балансе не хватало денег; пополнение заняло несколько минут. Он утверждает, что платёж прошёл. Позже получил штраф, а в октябре 2022 года — постановление об исполнительном производстве.",
+            "start": 0,
+            "end": 243
+          }
+        },
+        {
+          "reading": "Именно автор утверждает, что платёж прошёл; точное время и длительность задержки неизвестны.",
+          "support": {
+            "quote": "В декабре 2021 года автор приехал на платную парковку. На балансе не хватало денег; пополнение заняло несколько минут. Он утверждает, что платёж прошёл. Позже получил штраф, а в октябре 2022 года — постановление об исполнительном производстве.",
+            "start": 0,
+            "end": 243
+          }
+        },
+        {
+          "reading": "Позже он получил штраф; в октябре 2022 года — постановление об исполнительном производстве. Это процессуальные события после исходной стоянки.",
+          "support": {
+            "quote": "В декабре 2021 года автор приехал на платную парковку. На балансе не хватало денег; пополнение заняло несколько минут. Он утверждает, что платёж прошёл. Позже получил штраф, а в октябре 2022 года — постановление об исполнительном производстве.",
+            "start": 0,
+            "end": 243
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "city",
+          "reason": "not-mentioned",
+          "question": "В каком городе произошла стоянка?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentAndPlacementTime",
+          "reason": "not-mentioned",
+          "question": "Когда началась стоянка и когда выполнен платёж?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["reported-vs-established", "vehicle-attribution", "procedural-noise"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Начальный parking episode отделён от последующего штрафа и исполнительного производства; точные даты событий не восстанавливаются из дат публикации."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV044",
+      "sourceDigest": "5ec36a76239995697443bd1d33471877e32d410b1c2fd6e0e2c4f60ba0312807",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Автор сообщает, что оплачивал через приложение стоянку машины супруги и ошибся первой буквой номера.",
+          "support": {
+            "quote": "Автор сообщает: оплачивал стоянку машины супруги через приложение и ошибся первой буквой номера. Пришёл штраф. Он редко пользуется этой машиной и спрашивает, кому подавать жалобу — водителю или собственнику.",
+            "start": 0,
+            "end": 207
+          }
+        },
+        {
+          "reading": "Пришёл штраф; успешное зачисление оплаты нужной машине не сообщено.",
+          "support": {
+            "quote": "Автор сообщает: оплачивал стоянку машины супруги через приложение и ошибся первой буквой номера. Пришёл штраф. Он редко пользуется этой машиной и спрашивает, кому подавать жалобу — водителю или собственнику.",
+            "start": 0,
+            "end": 207
+          }
+        },
+        {
+          "reading": "Автор редко пользуется этой машиной и задаёт вопрос, кому подавать жалобу: водителю или собственнику.",
+          "support": {
+            "quote": "Автор сообщает: оплачивал стоянку машины супруги через приложение и ошибся первой буквой номера. Пришёл штраф. Он редко пользуется этой машиной и спрашивает, кому подавать жалобу — водителю или собственнику.",
+            "start": 0,
+            "end": 207
+          }
+        },
+        {
+          "reading": "Супруга, рассказчик, водитель и собственник — роли, которые нельзя автоматически отождествлять; procedural вопрос вне demo расчёта.",
+          "support": {
+            "quote": "Автор сообщает: оплачивал стоянку машины супруги через приложение и ошибся первой буквой номера. Пришёл штраф. Он редко пользуется этой машиной и спрашивает, кому подавать жалобу — водителю или собственнику.",
+            "start": 0,
+            "end": 207
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "city",
+          "reason": "not-mentioned",
+          "question": "В каком городе произошла стоянка?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "parkingType",
+          "reason": "not-mentioned",
+          "question": "Это городская парковка или частная территория?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentOutcome",
+          "reason": "not-established",
+          "question": "Что известно о результате оплаты именно выбранной стоянки?",
+          "requiredWhen": "payment-question-relevant-to-selected-task"
+        },
+        {
+          "field": "driverOwnerIdentity",
+          "reason": "ambiguous",
+          "question": "Кто использовал автомобиль и к кому относятся сведения о владении?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["reported-vs-established", "vehicle-attribution", "procedural-noise"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Связь платежа с нужным автомобилем/зоной/эпизодом требует отдельного подтверждения; юридическое действие ошибки не оценено.",
+        "Принадлежность супруге не доказывает, кто водитель, адресат штрафа либо надлежащий заявитель; правовой ответ вне scope."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    },
+    {
+      "id": "DEV045",
+      "sourceDigest": "9638d425011eae9479c49fb03ee2b3acd8d6889d471a76f29a9c9255ad15f216",
+      "scope": "whole-input-explicit-claims-and-declared-followups",
+      "selectedEpisode": "single-parking-episode-described-in-source",
+      "episodeSelectionRequired": false,
+      "expectedClaims": [
+        {
+          "reading": "Автор сообщает об оплате парковки в Москве через приложение в мае 2017 года и полученном штрафе.",
+          "support": {
+            "quote": "Автор сообщает, что в мае 2017 года оплатил парковку в Москве через приложение, но получил штраф. В истории номера не было региона. Позже формат изменился. Деньги списывались с ранее пополненного депозита.",
+            "start": 0,
+            "end": 205
+          }
+        },
+        {
+          "reading": "В истории номера не было региона; позже формат изменился. Это сообщение автора, не установленный дефект приложения.",
+          "support": {
+            "quote": "Автор сообщает, что в мае 2017 года оплатил парковку в Москве через приложение, но получил штраф. В истории номера не было региона. Позже формат изменился. Деньги списывались с ранее пополненного депозита.",
+            "start": 0,
+            "end": 205
+          }
+        },
+        {
+          "reading": "Деньги списывались с ранее пополненного депозита; пополнение и списание различаются.",
+          "support": {
+            "quote": "Автор сообщает, что в мае 2017 года оплатил парковку в Москве через приложение, но получил штраф. В истории номера не было региона. Позже формат изменился. Деньги списывались с ранее пополненного депозита.",
+            "start": 0,
+            "end": 205
+          }
+        }
+      ],
+      "requiredFollowups": [
+        {
+          "field": "eventDate",
+          "reason": "exact-day-not-stated",
+          "question": "Какова полная дата выбранной стоянки?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "placementInterval",
+          "reason": "full-standing-interval-not-stated",
+          "question": "Когда началась и закончилась выбранная стоянка? Не заменять временем платежа или уведомления.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paidRegime",
+          "reason": "not-established-for-event-interval",
+          "question": "Какой режим действовал в этот период? Отсутствие разрешения или факт оплаты не отвечают на этот вопрос.",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "parkingType",
+          "reason": "not-mentioned",
+          "question": "Это городская парковка или частная территория?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        },
+        {
+          "field": "paymentVehicleLink",
+          "reason": "ambiguous",
+          "question": "К какому автомобилю относится платёж?",
+          "requiredWhen": "selected-episode-and-demo-scope-not-known-excluded"
+        }
+      ],
+      "criticalRisks": ["reported-vs-established", "vehicle-attribution", "procedural-noise"],
+      "forbiddenInferences": [
+        "Не назначать неуказанные дату, город, автомобиль, личное использование, вину, отсутствие льгот или правовой результат.",
+        "Не превращать missing/unknown/ambiguous в true/false и не подменять цитату выводом о реальном мире."
+      ],
+      "unresolvedReadings": [
+        "Связь платежа с нужным автомобилем/зоной/эпизодом требует отдельного подтверждения; юридическое действие ошибки не оценено."
+      ],
+      "outsideTask": [
+        "legal liability, fine calculation and normative sufficiency",
+        "truth of the narrated incident"
+      ],
+      "unsupportedDemoScope": null,
+      "outputReviewStatus": "not-started",
+      "automaticCaseQuality": null,
+      "annotationReviewStatus": "whole-text-candidate-reading-complete-independent-review-pending"
+    }
+  ],
+  "newModelOutputsGenerated": false,
+  "blindReview": false,
+  "priorExposure": "All sources are existing development material; prior use/exposure prevents an independence or blinding claim. No new model outputs were generated or read for this annotation pass."
+}
