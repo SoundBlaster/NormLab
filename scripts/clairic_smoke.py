@@ -36,6 +36,7 @@ ABLATION_CASES = tuple(
     "ablation-" + name for name in ("original", "unicode-clean", "ascii-quotes", "both")
 )
 LINEBREAK_CASES = ("linebreak-original", "linebreak-sentences")
+QUOTE_CASES = ("quote-inner", "quote-whole")
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -46,19 +47,19 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 def load_case(name):
     if name == "neutral":
         return {"state": STATE, "fields": FIELDS, "expected": EXPECTED}
-    if name in (*ABLATION_CASES, *LINEBREAK_CASES):
-        filename, prefix = (
-            ("clairic-text-ablation-v1.json", "ablation-")
-            if name in ABLATION_CASES
-            else ("clairic-linebreak-ablation-v1.json", "linebreak-")
-        )
+    if name in (*ABLATION_CASES, *LINEBREAK_CASES, *QUOTE_CASES):
+        if name in ABLATION_CASES:
+            filename, prefix = "clairic-text-ablation-v1.json", "ablation-"
+        elif name in LINEBREAK_CASES:
+            filename, prefix = "clairic-linebreak-ablation-v1.json", "linebreak-"
+        else:
+            filename, prefix = "clairic-quote-target-v1.json", "quote-"
         path = Path(__file__).resolve().parents[1] / "fixtures/providers" / filename
         raw = path.read_bytes()
         plan = json.loads(raw)
         case = dict(plan["variants"][name.removeprefix(prefix)])
-        case.update(
-            fields=plan["fields"], fixture_sha256=hashlib.sha256(raw).hexdigest()
-        )
+        case.setdefault("fields", plan.get("fields"))
+        case["fixture_sha256"] = hashlib.sha256(raw).hexdigest()
         return case
     path = (
         Path(__file__).resolve().parents[1]
@@ -188,7 +189,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--case",
-        choices=("neutral", "ru-unicode", *ABLATION_CASES, *LINEBREAK_CASES),
+        choices=(
+            "neutral",
+            "ru-unicode",
+            *ABLATION_CASES,
+            *LINEBREAK_CASES,
+            *QUOTE_CASES,
+        ),
         default="neutral",
     )
     parser.add_argument("--live", action="store_true", help="Make one billable request")

@@ -195,6 +195,30 @@ class ClairicSmokeTests(unittest.TestCase):
                 )
                 self.assertFalse(replayed["pass"])
 
+    def test_quote_targets_keep_state_and_unrelated_fields(self):
+        inner = smoke.load_case("quote-inner")
+        whole = smoke.load_case("quote-whole")
+        self.assertEqual(inner["state"], self.case["state"])
+        self.assertEqual(whole["state"], inner["state"])
+        for key in ("viktor_time", "receipt_number"):
+            self.assertEqual(inner["fields"][key], self.case["fields"][key])
+            self.assertEqual(whole["fields"][key], inner["fields"][key])
+            self.assertEqual(whole["expected"][key], inner["expected"][key])
+        for case in (inner, whole):
+            for key, (start, end) in case["expected_codepoint_spans"].items():
+                self.assertEqual(case["state"][start:end], case["expected"][key])
+        for key in (
+            "anna_statement",
+            "boris_statement",
+            "viktor_statement",
+            "unicode_marker",
+        ):
+            self.assertEqual(whole["expected"][key], "«" + inner["expected"][key] + "»")
+
+    def test_fake_whole_quote_response(self):
+        self.case = smoke.load_case("quote-whole")
+        self.assertTrue(smoke.summarize(self.response(), self.case)["pass"])
+
 
 if __name__ == "__main__":
     unittest.main()

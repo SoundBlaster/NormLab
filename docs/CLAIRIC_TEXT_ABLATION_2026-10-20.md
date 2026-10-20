@@ -183,3 +183,37 @@ code-point offsets. Переносы в этом примере не испра�
 прошли без новых provider calls. Дополнительные calls за пределами этой пары
 не выполнялись. Следующий отдельный probe — точное определение желаемого span
 или инструкции для границ, а не дальнейшая произвольная очистка input.
+
+## Дополнение: whole quote versus inner content — frozen protocol
+
+Поручение пользователя: «Ok, сравнивай» после предложения сравнить два target
+contracts. Fixture: [clairic-quote-target-v1.json](../fixtures/providers/clairic-quote-target-v1.json).
+Оригинальный state без preprocessing в обоих вариантах одинаков.
+
+- `quote-inner`: явно просить только символы между `«` и `»`, исключив обе
+  кавычки. Например, `Я не оплачивала парковку`, span `[42,66]`.
+- `quote-whole`: явно просить цитату целиком, включая **обе** кавычки.
+  Например, `«Я не оплачивала парковку»`, span `[41,67]`.
+
+Меняются инструкции четырёх quote fields и соответствующие expected ranges/values.
+Имена/типы полей, модель, источник, отрицание/эпизоды сохраняются. Viktor time и
+receipt fields/instructions/expectations не меняются. Это сравнение выполнения
+двух разных extraction contracts; оно не позволяет считать полную цитату более
+«правильной» разметкой для всех потребителей. Внутренний вариант — свежая явная
+формулировка target, а не подстановка старого capture из предыдущих серий.
+
+До inference закрепить Git commit, fixture digest и expectations. Сначала inner,
+потом whole: max2 HTTP attempts, один на вариант,0 retries/fallbacks,30s socket
+timeout,1MiB response bound; operational/protocol failure останавливает пару.
+Шесть exact typed values, пять expected spans с общим unique-coordinate candidate,
+truncated=false; никаких trimming/починок перед scoring. Model request содержит
+только state/fields/model, а не expected values или anchors. Исходные ответы и
+metadata сохраняются отдельно от производных диагностик.
+
+Отдельно сравнить фактические source slices, время/usage, повторные вхождения,
+сохранение отрицания. One observation/contract, fixed order: не общая accuracy,
+не доказательство причины boundary error и не разрешение на automatic trimming.
+
+### Результат сравнения quote targets
+
+Pending. Дополнительных calls вне этой пары нет.

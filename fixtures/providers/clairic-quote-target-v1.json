@@ -1,0 +1,104 @@
+{
+  "schema": "normlab.clairic-quote-target/v1",
+  "order": ["inner", "whole"],
+  "caps": {
+    "max_http_attempts": 2,
+    "attempts_per_variant": 1,
+    "retries": 0,
+    "socket_timeout_seconds": 30
+  },
+  "controls": "Same original state/model/six fields/types; time/receipt instructions unchanged. Four quote field instructions explicitly define desired inner versus whole span; expected ranges vary with target. No trimming or output repair.",
+  "limitations": "One sample/condition; different requested targets measure contract following, not a model ranking or general semantic accuracy. No tokenizer mechanism inferred.",
+  "variants": {
+    "inner": {
+      "state": "🙂 Заметка «кафе́». В 09:00 Анна сказала: «Я не оплачивала парковку». В 10:00 Борис сказал: «Я оплатил парковку». В 11:00 Виктор сказал: «Я оплатил парковку». Номер квитанции не указан.",
+      "fields": {
+        "anna_statement": {
+          "type": "text",
+          "instructions": "Слова Анны об оплате парковки. Сохранить отрицание. Вернуть только символы между открывающей « и закрывающей ». Не включать ни открывающую «, ни закрывающую »."
+        },
+        "boris_statement": {
+          "type": "text",
+          "instructions": "Слова Бориса об оплате парковки в эпизоде в 10:00. Вернуть только символы между открывающей « и закрывающей ». Не включать ни открывающую «, ни закрывающую »."
+        },
+        "viktor_statement": {
+          "type": "text",
+          "instructions": "Слова Виктора об оплате парковки в эпизоде в 11:00. Вернуть только символы между открывающей « и закрывающей ». Не включать ни открывающую «, ни закрывающую »."
+        },
+        "unicode_marker": {
+          "type": "text",
+          "instructions": "Название заметки в первых кавычках; сохранить исходные символы. Вернуть только символы между открывающей « и закрывающей ». Не включать ни открывающую «, ни закрывающую »."
+        },
+        "viktor_time": {
+          "type": "text",
+          "instructions": "Дословно время эпизода со словами Виктора."
+        },
+        "receipt_number": {
+          "type": "text",
+          "instructions": "Номер квитанции, если он прямо приведён в тексте."
+        }
+      },
+      "expected": {
+        "anna_statement": "Я не оплачивала парковку",
+        "boris_statement": "Я оплатил парковку",
+        "viktor_statement": "Я оплатил парковку",
+        "unicode_marker": "кафе́",
+        "viktor_time": "11:00",
+        "receipt_number": null
+      },
+      "expected_codepoint_spans": {
+        "anna_statement": [42, 66],
+        "boris_statement": [92, 110],
+        "viktor_statement": [137, 155],
+        "unicode_marker": [11, 16],
+        "viktor_time": [115, 120]
+      },
+      "id": "inner"
+    },
+    "whole": {
+      "state": "🙂 Заметка «кафе́». В 09:00 Анна сказала: «Я не оплачивала парковку». В 10:00 Борис сказал: «Я оплатил парковку». В 11:00 Виктор сказал: «Я оплатил парковку». Номер квитанции не указан.",
+      "fields": {
+        "anna_statement": {
+          "type": "text",
+          "instructions": "Слова Анны об оплате парковки. Сохранить отрицание. Вернуть цитату целиком, включая открывающую « и закрывающую ». Обе кавычки должны входить в выделенный фрагмент."
+        },
+        "boris_statement": {
+          "type": "text",
+          "instructions": "Слова Бориса об оплате парковки в эпизоде в 10:00. Вернуть цитату целиком, включая открывающую « и закрывающую ». Обе кавычки должны входить в выделенный фрагмент."
+        },
+        "viktor_statement": {
+          "type": "text",
+          "instructions": "Слова Виктора об оплате парковки в эпизоде в 11:00. Вернуть цитату целиком, включая открывающую « и закрывающую ». Обе кавычки должны входить в выделенный фрагмент."
+        },
+        "unicode_marker": {
+          "type": "text",
+          "instructions": "Название заметки в первых кавычках; сохранить исходные символы. Вернуть цитату целиком, включая открывающую « и закрывающую ». Обе кавычки должны входить в выделенный фрагмент."
+        },
+        "viktor_time": {
+          "type": "text",
+          "instructions": "Дословно время эпизода со словами Виктора."
+        },
+        "receipt_number": {
+          "type": "text",
+          "instructions": "Номер квитанции, если он прямо приведён в тексте."
+        }
+      },
+      "expected": {
+        "anna_statement": "«Я не оплачивала парковку»",
+        "boris_statement": "«Я оплатил парковку»",
+        "viktor_statement": "«Я оплатил парковку»",
+        "unicode_marker": "«кафе́»",
+        "viktor_time": "11:00",
+        "receipt_number": null
+      },
+      "expected_codepoint_spans": {
+        "anna_statement": [41, 67],
+        "boris_statement": [91, 111],
+        "viktor_statement": [136, 156],
+        "unicode_marker": [10, 17],
+        "viktor_time": [115, 120]
+      },
+      "id": "whole"
+    }
+  }
+}
