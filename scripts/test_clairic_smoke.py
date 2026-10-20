@@ -145,6 +145,24 @@ class ClairicSmokeTests(unittest.TestCase):
         original_policy = dict(self.case, require_unique_coordinate_candidate=True)
         self.assertFalse(smoke.summarize(result, original_policy)["pass"])
 
+    def test_recorded_ablation_replays(self):
+        for name in ("original", "unicode-clean", "ascii-quotes", "both"):
+            with self.subTest(name=name):
+                path = (
+                    Path(__file__).resolve().parents[1]
+                    / f"docs/evidence/clairic-ablation-{name}-2026-10-20.json"
+                )
+                captured = json.loads(path.read_text())
+                case = smoke.load_case("ablation-" + name)
+                replayed = smoke.summarize(captured, case)
+                self.assertEqual(captured["fixture_sha256"], case["fixture_sha256"])
+                self.assertEqual(replayed["checks"], captured["checks"])
+                self.assertEqual(
+                    replayed["anchor_diagnostics"], captured["anchor_diagnostics"]
+                )
+                self.assertEqual(sum(c["pass"] for c in replayed["checks"].values()), 2)
+                self.assertFalse(replayed["pass"])
+
 
 if __name__ == "__main__":
     unittest.main()

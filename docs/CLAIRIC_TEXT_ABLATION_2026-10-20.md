@@ -65,7 +65,54 @@ python3 scripts/clairic_smoke.py --case ablation-original
 
 ## Результат
 
-Pending. Текущий документ не разрешает дополнительные автоматические прогоны.
+Protocol, fixtures и scorer закреплены в `d523d89` до inference; fixture SHA256:
+`c63a40d47b054975cd775e24e0eaf47a619bb3ec8e9f983a81af620fc33c5447`.
+До вызовов прошли15 offline tests и четыре CLI dry-runs; ожидания не отправлялись
+provider и не менялись после ответов.
+
+| Case          | Exact values | Exact expected spans | Лишний символ | Time / input tokens |
+| ------------- | ------------ | -------------------- | ------------- | ------------------- |
+| Original      | 2/6          | 1/5                  | `»` в4 полях  | 1,114s /1381        |
+| Unicode clean | 2/6          | 1/5                  | `»` в4 полях  | 1,092s /1369        |
+| ASCII quotes  | 2/6          | 1/5                  | `"` в4 полях  | 0,941s /1381        |
+| Both          | 2/6          | 1/5                  | `"` в4 полях  | 1,055s /1369        |
+
+Все4 HTTP200, model clairic, truncated=false; общий pass=false во всех условиях.
+Всего5500 input tokens,0 output,24 provider passes;4 HTTP attempts,0 retries.
+Фактическое списание аккаунта не проверено. Во всех условиях совпали время Виктора
+и null для отсутствующей квитанции; остальные4 поля захватили closing quote.
+
+Отдельный source diagnostic: actual returned values соответствуют их slices
+при code-point/end-exclusive offsets на5/5 non-null полях каждого input.
+Это не отменяет frozen failures и не устанавливает общий provider contract.
+
+Sanitized script captures:
+[original](evidence/clairic-ablation-original-2026-10-20.json),
+[Unicode clean](evidence/clairic-ablation-unicode-clean-2026-10-20.json),
+[ASCII quotes](evidence/clairic-ablation-ascii-quotes-2026-10-20.json),
+[both](evidence/clairic-ablation-both-2026-10-20.json),
+[summary/derived diagnostics](evidence/clairic-text-ablation-summary-2026-10-20.json).
+Это не raw HTTP archives; credentials/account из evidence исключены.
+
+### Интерпретация
+
+На этом фиксированном примере удаление emoji/combining mark и замена вида
+кавычек **не улучшили** exact extraction. Ошибка перенеслась с `»` на `"`.
+Гипотеза, что здесь достаточно очистить «непонятные модели символы», поддержки
+не получила. Это не доказывает отсутствие пользы любого preprocessing на других
+текстах и не оценивает поведение без кавычек вообще.
+
+Рабочая следующая гипотеза — выбор правой границы текстового span и выполнение
+инструкции «без кавычек». Механизм ошибки (включая возможную tokenizer/decoder
+granularity) не установлен: output сам по себе его не доказывает. Не включать
+автоматическое удаление символов или trimming ответа на основании этой серии.
+Следующий отдельный probe может сравнить точное определение запрашиваемого span
+(цитата целиком / содержимое кавычек), с новыми fixed expectations и caps.
+
+Дополнительные inference calls не выполнялись и автоматически не планируются.
+После capture все16 offline tests прошли, включая replay четырёх зафиксированных
+failures; Ruff lint/format, targeted Prettier, JSON/links и credential exclusion
+проверены локально. Repository CI после push считается отдельно.
 
 ## Граница возможного внедрения
 
