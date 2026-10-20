@@ -1,7 +1,9 @@
 """Offline checks for the small Clairic diagnostic; never contact the provider."""
 
 import copy
+import json
 import unittest
+from pathlib import Path
 
 import clairic_smoke as smoke
 
@@ -100,6 +102,18 @@ class ClairicSmokeTests(unittest.TestCase):
         missing = copy.deepcopy(result)
         del missing["answers"]["purchase_order"]
         self.assertFalse(smoke.summarize(missing)["pass"])
+
+    def test_recorded_ru_live_replay(self):
+        path = (
+            Path(__file__).resolve().parents[1]
+            / "docs/evidence/clairic-ru-unicode-smoke-2026-10-20.json"
+        )
+        captured = json.loads(path.read_text())
+        replayed = smoke.summarize(captured, self.case)
+        self.assertEqual(replayed["checks"], captured["checks"])
+        self.assertEqual(replayed["anchor_diagnostics"], captured["anchor_diagnostics"])
+        self.assertEqual(captured["fixture_sha256"], self.case["fixture_sha256"])
+        self.assertFalse(replayed["pass"])
 
 
 if __name__ == "__main__":

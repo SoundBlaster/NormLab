@@ -58,5 +58,55 @@ python3 scripts/clairic_smoke.py --case ru-unicode --live
 
 ## Результат
 
-Pending: frozen protocol и offline checks должны предшествовать единственному
-live-вызову. Качество RU/negation/binding или единицы offsets пока не заявляются.
+Fixture, scorer и protocol закреплены в `cf00f38` до inference.
+Fixture SHA256: `9bf7081c17c7f9c07d9c4bef6a5db3e8926b28d171054d7d50c92937d743302f`.
+До запуска прошли12 offline unit tests, CLI dry-run, Ruff и targeted Prettier.
+Unit tests подключены к существующему CI job, без новых provider calls.
+
+Один live HTTP attempt: **200**, модель `clairic`, `truncated=false`, **1,213 s**.
+Usage: **1381 input /0 output tokens,6 passes**; breakdown71 state/955 schema/0 image.
+CF-Ray: `a4d920e05994ba49-DEN`. Повторов и дополнительных model calls не было.
+
+### Frozen scoring: fail
+
+| Поле           | Фактически                  | Значение         | Точный ожидаемый span                |
+| -------------- | --------------------------- | ---------------- | ------------------------------------ |
+| Anna           | `Я не оплачивала парковку»` | fail: лишняя `»` | fail: `[42,67]` вместо `[42,66]`     |
+| Boris          | `Я оплатил парковку»`       | fail: лишняя `»` | fail: `[92,111]` вместо `[92,110]`   |
+| Viktor         | `Я оплатил парковку»`       | fail: лишняя `»` | fail: `[137,156]` вместо `[137,155]` |
+| Marker         | `кафе́»`                     | fail: лишняя `»` | fail: `[11,17]` вместо `[11,16]`     |
+| Viktor time    | `11:00`                     | pass             | pass: `[115,120]`                    |
+| Receipt number | `null`                      | pass             | Не требуется                         |
+
+Итог: **2/6 значений**, **1/5 frozen anchors**, общий `pass=false`, script exit1.
+Это поля одного кейса, не шесть независимых кейсов. Условия и ожидания не менялись
+после ответа; кавычки не удалялись ради улучшения score.
+
+[Санитизированный live-отчёт](evidence/clairic-ru-unicode-smoke-2026-10-20.json)
+содержит answers, frozen checks и usage. Это вывод скрипта, не raw HTTP archive.
+Credentials и account ID не опубликованы; фактическое списание не проверено.
+
+### Post-hoc diagnostic: source consistency
+
+Отдельная offline-проверка сравнила каждый **фактически возвращённый value** с
+исходным slice по provider span для тех же трёх candidate conventions.
+[Результат](evidence/clairic-ru-unicode-source-diagnostic-2026-10-20.json):
+**5/5 non-null spans совпадают с actual value при code points / end-exclusive**;
+ни UTF-16, ни UTF-8 не совпали на всех полях. Исходный score остаётся fail.
+
+Следовательно, наблюдаемая проблема здесь — захват соседней закрывающей кавычки,
+а не обнаруженное рассогласование actual text с offsets. Отрицание и combining
+mark сохранены в actual text. Борис и Виктор получили разные нужные starts92/137,
+а время Виктора выделено верно. Это локальные наблюдения на одной синтетической
+строке, не общая оценка actor/episode binding и не доказательство универсального
+контракта координат Clairic.
+
+Следующий предлагаемый шаг — отдельная проверка границ цитат на новых коротких
+строках; не вводить автоматическое trimming или production offset policy на
+основании этого результата. Повторный inference этим отчётом не запущен.
+
+После capture добавлен offline replay-test: пересчёт checks и anchor diagnostics
+из сохранённого ответа воспроизводит исходный fail и fixture digest. Все13 unit
+tests прошли на Python3.14.8; Ruff lint/format, targeted Prettier, локальные ссылки,
+JSON и исключение account/token из evidence проверены. Repository CI — отдельная
+проверка после push; локальные результаты не объявляют его зелёным заранее.
