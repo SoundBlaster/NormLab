@@ -159,4 +159,27 @@ latency/usage и лишние delimiters. Один sample/condition, fixed order
 
 ### Результат переноса строк
 
-Pending. Дополнительные calls за пределами этой пары не выполняются автоматически.
+Protocol/scorer/fixture frozen at `1b8c1c0` до inference. Проверены17 offline tests.
+Fixture SHA256 и per-call usage сохранены в
+[summary](evidence/clairic-linebreak-summary-2026-10-20.json).
+
+| Условие                                                                      | Exact values | Exact expected spans | Время / input tokens |
+| ---------------------------------------------------------------------------- | ------------ | -------------------- | -------------------- |
+| [Fresh original](evidence/clairic-linebreak-original-2026-10-20.json)        | 2/6          | 1/5                  | 1,350s /1381         |
+| [Sentence line breaks](evidence/clairic-linebreak-sentences-2026-10-20.json) | 2/6          | 1/5                  | 1,126s /1411         |
+
+Два HTTP200, model clairic, truncated=false; pass=false в обоих условиях.
+Всего2 attempts,0 retries,2792 input/0 output tokens,12 provider passes. Сумма
+списания не проверена. Ожидаемые значения/границы и инструкции не менялись.
+Credentials/account не опубликованы; captures — sanitized script output,
+не raw HTTP archive.
+
+Line breaks не устранили лишнюю closing quote в4 полях; время и missing receipt
+остались корректными.5/5 actual non-null values по-прежнему source-aligned при
+code-point offsets. Переносы в этом примере не исправили наблюдаемую проблему
+границ; это не вывод о segmentation как самостоятельной стратегии обработки.
+
+После capture negative replay обоих ответов включён в18 offline tests; они
+прошли без новых provider calls. Дополнительные calls за пределами этой пары
+не выполнялись. Следующий отдельный probe — точное определение желаемого span
+или инструкции для границ, а не дальнейшая произвольная очистка input.

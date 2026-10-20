@@ -178,6 +178,23 @@ class ClairicSmokeTests(unittest.TestCase):
         for key, (start, end) in split["expected_codepoint_spans"].items():
             self.assertEqual(split["state"][start:end], split["expected"][key])
 
+    def test_recorded_linebreak_replays(self):
+        for name in ("original", "sentences"):
+            with self.subTest(name=name):
+                path = (
+                    Path(__file__).resolve().parents[1]
+                    / f"docs/evidence/clairic-linebreak-{name}-2026-10-20.json"
+                )
+                captured = json.loads(path.read_text())
+                case = smoke.load_case("linebreak-" + name)
+                replayed = smoke.summarize(captured, case)
+                self.assertEqual(captured["fixture_sha256"], case["fixture_sha256"])
+                self.assertEqual(replayed["checks"], captured["checks"])
+                self.assertEqual(
+                    replayed["anchor_diagnostics"], captured["anchor_diagnostics"]
+                )
+                self.assertFalse(replayed["pass"])
+
 
 if __name__ == "__main__":
     unittest.main()
