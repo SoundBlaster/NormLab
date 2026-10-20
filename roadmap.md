@@ -451,6 +451,10 @@ occurrence/offset semantics; Summarize — только вспомогатель
 
 ### Proposal: Clairic как extractor — 2026-10-20
 
+Связанный [offline-прототип правил output normalization](docs/CLAIRIC_OUTPUT_NORMALIZATION_2026-10-21.md):
+raw/derived spans и versioned quote rules проверены на известных captures;
+это post-hoc evidence, не рост качества модели или включение policy в приложение.
+
 Ledger: [Stage 1 synthesis / выбор следующего эксперимента #70](https://github.com/SoundBlaster/NormLab/issues/70).
 Связанный shortlist локальных моделей — [#73](https://github.com/SoundBlaster/NormLab/issues/73);
 Clairic пока рассматривается как hosted-кандидат. Этот proposal не выбирает новую
