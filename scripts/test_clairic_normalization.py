@@ -150,6 +150,44 @@ class QuoteNormalizationTests(unittest.TestCase):
             with self.subTest(source=source):
                 self.assertEqual(self.normalize(source, value).status, "review")
 
+    def test_cross_delimiter_enclosing_quotes_abstain(self):
+        for source, value in [('«outer "x"»', 'x"'), ('"outer «x»"', "x»")]:
+            for rules in (None, ALL_RULE_IDS):
+                with self.subTest(source=source, rules=rules):
+                    result = self.normalize(source, value, rules=rules)
+                    self.assertEqual(result.status, "review")
+                    self.assertIsNone(result.derived)
+                    self.assertEqual(result.raw.value, value)
+                    self.assertEqual(result.applied_rules, ())
+
+    def test_deep_cross_style_nesting_abstains(self):
+        for source, value in [
+            ('«outer "middle «x»"»', "x»"),
+            ('"outer «middle "x"»"', 'x"'),
+        ]:
+            with self.subTest(source=source):
+                self.assertEqual(
+                    self.normalize(source, value, rules=ALL_RULE_IDS).status, "review"
+                )
+
+    def test_disjoint_other_style_quotes_are_allowed(self):
+        for source, value in [
+            ('"ok" then «x»', "x»"),
+            ('«ok» then "x"', 'x"'),
+            ('«x» then "ok"', "x»"),
+        ]:
+            with self.subTest(source=source):
+                self.assertEqual(
+                    self.normalize(source, value, rules=ALL_RULE_IDS).status, "applied"
+                )
+
+    def test_ambiguous_other_style_abstains(self):
+        for source, value in [('"open then «x»', "x»"), ('«open then "x"', 'x"')]:
+            with self.subTest(source=source):
+                self.assertEqual(
+                    self.normalize(source, value, rules=ALL_RULE_IDS).status, "review"
+                )
+
     def test_unbalanced_source_abstains(self):
         self.assertEqual(self.normalize("«x» and «open", "x»").status, "review")
 

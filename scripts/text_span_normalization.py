@@ -4,7 +4,7 @@ import hashlib
 from dataclasses import dataclass
 from typing import Literal
 
-RULESET_VERSION = "quote-boundaries/v2"
+RULESET_VERSION = "quote-boundaries/v3"
 
 
 @dataclass(frozen=True)
@@ -145,6 +145,17 @@ def normalize_span(
         pairs = _flat_pairs(source, rule)
         if pairs is None or (raw.start - 1, raw.end - 1) not in pairs:
             return result("review", "ambiguous_source_quote_structure")
+        for other_rule in RULES:
+            if other_rule.id == rule.id:
+                continue
+            other_pairs = _flat_pairs(source, other_rule)
+            if other_pairs is None:
+                return result("review", "ambiguous_other_quote_structure")
+            if any(
+                left <= raw.end - 1 and raw.start - 1 <= right
+                for left, right in other_pairs
+            ):
+                return result("review", "cross_delimiter_quote_pair_overlap")
         derived = TextSpan(content, raw.start, raw.end - 1)
         return result(
             "applied",

@@ -12,8 +12,9 @@ Clairic SDK, Mellea, HTTP или prompts. Это отдельная явно в�
 потребителя; она не встроена в generic client, smoke scorer или hosted pipeline.
 Источник и provider captures не изменяются. Новых API calls нет.
 
-Текущий набор правил `quote-boundaries/v2` (ограничения default ужесточены после
-новых safety probes; исходный v1 и его результаты сохранены ниже):
+Текущий набор правил `quote-boundaries/v3` (v2 ограничил ASCII defaults;
+v3 дополнительно проверяет cross-delimiter nesting после review).
+Исторические v1/v2 и их результаты сохранены ниже:
 
 | Rule ID                          | Delimiters | Действие                                                                                                               |
 | -------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -42,9 +43,12 @@ provider остаётся обязанностью caller, наблюдение 
 1. Valid integer bounds и точное `source[start:end] == raw.value`.
 2. Длина raw value больше1, ровно одна closing quote, без opening quote в value.
 3. Непосредственно перед raw start находится matching opening quote.
-4. В source выбранные delimiters образуют flat, balanced, unescaped пары;
+4. В source поддержанные delimiters образуют flat, balanced, unescaped пары;
    нужная пара точно совпадает с `start-1` и `end-1`. Вложенные/непарные конструкции
-   вызывают abstention; prototype намеренно не пытается их «восстановить».
+   вызывают abstention; включая enclosure/overlap другой quotation style.
+   Отдельная непересекающаяся пара другого типа не мешает, но неоднозначная
+   структура другого типа вызывает review. Prototype намеренно не пытается
+   «восстановить» неясный контекст.
 5. Content не пуст/whitespace-only, не содержит других поддержанных quote marks.
    Для ASCII numeric prefix перед предполагаемой opening quote вызывает review:
    два измерения `12" and 24"` нельзя автоматически объявлять цитатой.
@@ -151,6 +155,26 @@ digest и три исходных failures проверяются regression tes
 **47 offline tests прошли** на Python3.14.8, включая новые safety probes и
 preserved-failure checks; Ruff/Prettier,JSON,links/digests проверены отдельно от
 CI. Новых model calls, runtime integration или deployment не было.
+
+## Review fix: cross-delimiter enclosure, v3
+
+P2 [discussion4330399700](https://github.com/SoundBlaster/NormLab/pull/171#discussion_r4330399700)
+подтвердился на head `3566d66`: при explicit ASCII mode внутри `«outer "x"»`
+внутренняя ASCII quote ошибочно нормализовалась; inverse `"outer «x»"` также
+обходил запрет mixed/nested конструкции, в том числе в default guillemet mode.
+
+v3 после проверки собственной пары проверяет пары **обоих поддержанных типов**.
+Любое пересечение/enclosure с другой парой или неразрешимая структура другого
+типа даёт review без derived span. Disjoint flat pairs остаются допустимыми.
+ASCII default policy не расширена; её semantic ambiguity не считается решённой.
+
+[Review evidence](evidence/quote-normalization-cross-delimiter-review-2026-10-21.json)
+содержит source digest и targeted examples. **51 offline test прошёл**, включая
+оба направления nesting в default/explicit modes, deeper nesting, disjoint
+positive controls и неоднозначную внешнюю структуру. На frozen36 старые метрики
+остались32/36,0 false corrections и4 positive abstentions. v1/v2 evidence и
+provider captures не переписаны. Новых API calls и hosted integration нет.
+Новый CI после push считается отдельно; прежний head был6/6 SUCCESS.
 
 ## Дальнейший gate
 
