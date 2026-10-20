@@ -9,6 +9,7 @@ from pathlib import Path
 
 from provider_config import require
 from provider_runtime import FORMATS, PRESETS, build_provider, configuration
+from provider_task import payload as payload
 
 MAX_BYTES = 2 * 1024 * 1024
 
@@ -21,82 +22,48 @@ def read_json(path):
     return json.loads(path.read_bytes())
 
 
-def payload(value):
-    require(
-        isinstance(value, dict) and set(value) == {"state", "questions"},
-        "Smoke input requires state and questions",
-    )
-    require(
-        isinstance(value["state"], dict)
-        and len(
-            json.dumps(value["state"], ensure_ascii=False, allow_nan=False).encode()
-        )
-        <= 32768,
-        "Bounded dictionary state required",
-    )
-    questions = value["questions"]
-    require(
-        isinstance(questions, dict) and 0 < len(questions) <= 3,
-        "One to three questions required",
-    )
-    for name, question in questions.items():
-        require(
-            isinstance(name, str)
-            and name.isascii()
-            and name.isidentifier()
-            and len(name) <= 80,
-            "Question ID contract",
-        )
-        require(
-            isinstance(question, dict)
-            and set(question) == {"type", "instructions", "criteria"},
-            "Question fields",
-        )
-        kind = question["type"]
-        require(kind in ("noul", "choice", "score"), "Question primitive")
-        require(
-            isinstance(question["instructions"], str)
-            and 0 < len(question["instructions"].strip()) <= 4096,
-            "Question instruction limits",
-        )
-        criteria = question["criteria"]
-        if kind == "score":
-            require(
-                isinstance(criteria, list)
-                and 2 <= len(criteria) <= 10
-                and len(set(criteria)) == len(criteria),
-                "Score rubric",
-            )
-            descriptions = criteria
-        else:
-            require(
-                isinstance(criteria, dict)
-                and (
-                    set(criteria) == {"true", "false"}
-                    if kind == "noul"
-                    else 2 <= len(criteria) <= 255
-                ),
-                "Named criteria",
-            )
-            require(
-                all(isinstance(k, str) and 0 < len(k) <= 128 for k in criteria),
-                "Criterion label limits",
-            )
-            descriptions = criteria.values()
-        require(
-            all(
-                isinstance(x, str) and 0 < len(x.strip()) <= 2048 for x in descriptions
-            ),
-            "Criterion description limits",
-        )
-    return value
-
-
-def run(config, data, output, max_calls, *, key_file=None, transport=None):
-    """Each primitive is a separate request in both APIs, never an implicit batch."""
+def run(
+    config,
+    data,
+    output,
+    max_calls,
+    *,
+    key_file=None,
+    transport=None,
+    categorical=False,
+    tactic="independent",
+    policy=None,
+):
+    """Native primitives are independent; categorical batching is explicit."""
     payload(data)
+    require(tactic in {"independent", "batch"}, "Explicit tactic")
     require(
-        type(max_calls) is int and len(data["questions"]) <= max_calls <= 3,
+        categorical or tactic == "independent",
+        "Native smoke dispatches independent primitives",
+    )
+    groups = {name: {name: q} for name, q in data["questions"].items()}
+    factory = build_provider
+    if categorical:
+        from responses_runtime import build_provider as responses_factory
+        from responses_runtime import task_digest, validate_task
+
+        validate_task(data)
+        data = json.loads(json.dumps(data, ensure_ascii=False, allow_nan=False))
+        groups = {name: {name: q} for name, q in data["questions"].items()}
+        factory = responses_factory
+        if tactic == "batch":
+            groups = {"batch": data["questions"]}
+    require(policy is None or categorical, "Policy requires categorical evaluation")
+    if policy is not None:
+        from categorical_runtime import build_provider as categorical_factory
+        from categorical_runtime import validate_policy, validate_tactic
+
+        validate_policy(data, policy)
+        validate_tactic(config, data, tactic)
+        policy = json.loads(json.dumps(policy, ensure_ascii=False, allow_nan=False))
+        factory = categorical_factory
+    require(
+        type(max_calls) is int and len(groups) <= max_calls <= 3,
         "Explicit call cap must cover questions and be at most three",
     )
     import httpx2
@@ -106,17 +73,30 @@ def run(config, data, output, max_calls, *, key_file=None, transport=None):
         "provider": config.public(),
         "dependencies": {},
         "mode": "live" if transport is None else "mock-transport",
-        "plannedCalls": len(data["questions"]),
+        "plannedCalls": len(groups),
         "maxCalls": max_calls,
         "calls": 0,
         "records": {
             name: {"status": "not-executed", "result": None, "error": None}
-            for name in data["questions"]
+            for name in groups
         },
         "requests": [],
         "cost": None,
         "semanticQualityEvidence": False,
     }
+    if categorical:
+        report.update(
+            schema="normlab.responses-choice-smoke/v1",
+            tactic=tactic,
+            semanticTaskDigest=task_digest(data),
+            questionOrder=list(data["questions"]),
+        )
+    if policy is not None:
+        report.update(
+            schema="normlab.categorical-evaluation-smoke/v1",
+            evaluationMethod="CategoricalRequirement.evaluate",
+            policy=policy,
+        )
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
 
     def checkpoint():
@@ -195,21 +175,47 @@ def run(config, data, output, max_calls, *, key_file=None, transport=None):
             name: importlib.metadata.version(name)
             for name in ("mellea-jev-adapter", "typesafe-sdk", "openai", "httpx2")
         }
-        with build_provider(config, key_file=key_file, transport=wrapped) as provider:
-            for name, question in data["questions"].items():
+        with factory(config, key_file=key_file, transport=wrapped) as provider:
+            for name, questions in groups.items():
                 record = report["records"][name]
                 record["status"] = "sent"
                 checkpoint()
                 started = time.monotonic()
                 try:
-                    result = getattr(provider, question["type"])(
-                        state=data["state"],
-                        question=question["instructions"],
-                        criteria=question["criteria"],
-                    )
+                    if categorical:
+                        from responses_runtime import result_document, task
+
+                        group = {"state": data["state"], "questions": questions}
+                        record["semanticTaskDigest"] = task_digest(group)
+                        if policy is None:
+                            result = result_document(provider.classify(task(group)))
+                        else:
+                            from categorical_runtime import (
+                                evaluate,
+                                evaluation_document,
+                            )
+
+                            group_policy = {
+                                "schema": policy["schema"],
+                                "questions": {
+                                    key: policy["questions"][key] for key in questions
+                                },
+                            }
+                            result = evaluation_document(
+                                evaluate(provider, group, group_policy), group_policy
+                            )
+                    else:
+                        question = questions[name]
+                        result = asdict(
+                            getattr(provider, question["type"])(
+                                state=data["state"],
+                                question=question["instructions"],
+                                criteria=question["criteria"],
+                            )
+                        )
                     record.update(
                         status="completed",
-                        result=json.loads(json.dumps(asdict(result), allow_nan=False)),
+                        result=json.loads(json.dumps(result, allow_nan=False)),
                     )
                 except Exception as exc:
                     record.update(

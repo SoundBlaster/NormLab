@@ -97,7 +97,7 @@ This runner currently supports only the pinned ProxyAPI batch bridge. It does no
 connect the production UI, sequential tactics, an MLflow importer, or a Mellea
 sampling loop. Those require subsequent experiments.
 
-## Configurable providers — current adapter 0.7.0; historical Stage 1 0.4.0
+## Configurable providers — current adapter 0.8.0; historical Stage 1 0.4.0
 
 [Provider configuration](../docs/PROVIDER_CONFIGURATION.md) describes native
 TypeSafe/OpenAI and custom full endpoints. `provider_smoke.py` is dry-run by
@@ -105,11 +105,21 @@ default; its separate smoke report is not a Stage 1 quality evaluation or replay
 capture. Historical v1 evidence and pinned source digests remain unchanged.
 Use `requirements-providers-current.txt` for current smoke/SDK contracts and
 `requirements-providers.txt` only for exact archived Stage 1 execution. The
-copied ProxyAPI bridge also supports current 0.7.0. CI uses one current SDK
+copied ProxyAPI bridge also supports current 0.8.0. CI uses one current SDK
 environment and a mock-only Stage 1 compatibility probe; it does not disable
 production version checks. The native execution runner is SDK-free.
 
+The separate [categorical Responses entry point](../docs/CATEGORICAL_RESPONSES_INTEGRATION.md)
+connects ordinary Luna to the released SDK with the same Choice task input,
+explicit independent/batch dispatch and label-only metadata. Its smoke report
+is a new versioned contract; it is not silently imported into frozen native
+archives/scorers or used as a quality score.
+
 ## Stage 1 provider execution
+
+For new current categorical checks, use the [primary ordinary Luna Low
+route](../docs/PRIMARY_VERIFIER.md). The current CLI defaults to CoreInfra Responses;
+Jev and Decisions remain opt-in. Historical plans retain their pinned providers.
 
 [Three-arm Stage 1 transport](../docs/STAGE1_PROVIDER_TRANSPORT.md) connects Jev, native Luna Decisions and Responses Low through CoreInfra application endpoints. Dry-run/replay require no SDK; mock HTTP uses real SDK request construction. Paid execution requires a separate plan-bound permit and operator-confirmed external spending limit.
 

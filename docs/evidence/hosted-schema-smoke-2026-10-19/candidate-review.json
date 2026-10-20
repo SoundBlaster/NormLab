@@ -1,0 +1,84 @@
+{
+  "schema": "normlab.hosted-schema-smoke-review/v1",
+  "basis": "same-agent candidate whole-output inspection; not independent human gold",
+  "case": "DEV017",
+  "operationalOutcome": "completed",
+  "schemaAcceptance": "exact strict schema accepted by CoreInfra and sample passed local parser; regex enforcement not proven",
+  "expected": {
+    "quotedSource": "Two original sentences retained verbatim",
+    "payment": "denied",
+    "technicalFailure": "literal app/SMS failure retained; no definitive legal causality",
+    "subject": "supported person/vehicle reference only; do not invent a car",
+    "humanReview": "all proposals pending"
+  },
+  "actual": {
+    "subjects": ["vehicle_1", "vehicle_1"],
+    "episodes": ["episode_1", "episode_1"],
+    "statementCount": 5,
+    "proposals": [
+      {
+        "predicate": "nlinput:inMoscow",
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "Событие происходило в Москве.",
+        "quote": "В Москве я стоял на городской парковке.",
+        "decision": "pending"
+      },
+      {
+        "predicate": "nlinput:cityParking",
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "Место названо городской парковкой.",
+        "quote": "В Москве я стоял на городской парковке.",
+        "decision": "pending"
+      },
+      {
+        "predicate": "nlinput:placement",
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "Автомобиль находился на парковке.",
+        "quote": "В Москве я стоял на городской парковке.",
+        "decision": "pending"
+      },
+      {
+        "predicate": "nlinput:payment",
+        "stance": "denied",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "Оплатить конкретную парковку не удалось.",
+        "quote": "Приложение и СМС не работали, оплатить парковку не удалось.",
+        "decision": "pending"
+      },
+      {
+        "predicate": "nlinput:paymentComplexity",
+        "stance": "asserted",
+        "subject": "vehicle_1",
+        "aboutEpisode": "episode_1",
+        "valueText": "Оплата не прошла из-за неработающих приложения и СМС.",
+        "quote": "Приложение и СМС не работали, оплатить парковку не удалось.",
+        "decision": "pending"
+      }
+    ]
+  },
+  "observations": [
+    {
+      "kind": "preserved",
+      "detail": "All five proposals use exact source anchors, same episode, pending/model. Payment denied; app/SMS failure retained."
+    },
+    {
+      "kind": "candidate-unsupported-referent",
+      "detail": "Both fragments use vehicle_1; the source names the first-person narrator but no vehicle explicitly. Placement summary adds an automobile. Requires manual actor/reference decision; valid ID syntax is insufficient."
+    },
+    {
+      "kind": "candidate-causal-strengthening",
+      "detail": "paymentComplexity summary says «из-за» unavailable app/SMS. Source juxtaposes technical failure and unsuccessful payment without an explicit causal connective. Review inference strength; not established legal causality."
+    }
+  ],
+  "semanticDisposition": "needs-review",
+  "casePassRate": null,
+  "independentHumanGold": false,
+  "noFurtherCalls": true
+}

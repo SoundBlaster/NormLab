@@ -1,0 +1,672 @@
+{
+  "schema": "normlab.narrative-context-policy-reference/v1",
+  "status": "authored-development-reference-not-gold",
+  "purpose": "Offline policy/reference cases; not an inference output contract, runtime gate, scorer or provider benchmark.",
+  "policy": "docs/NARRATIVE_CONTEXT_POLICY_V1.md",
+  "userDecision": {
+    "quote": "для гипотез лучше не «автомобиль» а ТС - «транспортное средство»",
+    "scope": "For «Я припарковался», propose only a transport vehicle with unspecified kind; explicit confirmation and kind clarification required before domain-specific use. «Я стоял на парковке» alone introduces no vehicle.",
+    "priorDecision": {
+      "quote": "Автомобиль — отдельная гипотеза",
+      "scope": "Я припарковался; explicit confirmation before factual/calculation use. Я стоял на парковке alone does not introduce a car."
+    },
+    "refinement": "User retained separate-hypothesis confirmation but broadened car to transport vehicle; subtype must not be invented."
+  },
+  "parentEvidence": "https://github.com/SoundBlaster/NormLab/pull/161",
+  "caseCount": 17,
+  "independentCaseCount": null,
+  "holdoutEligible": false,
+  "cases": [
+    {
+      "id": "A01",
+      "family": "DEV017-context",
+      "provenance": {
+        "kind": "exact-existing-input",
+        "path": "fixtures/parking-pilot/luna-development-pilot-v1/inputs/DEV017.json",
+        "sha256": "6d662a94ed9a0ce2a8d8bc684dfae30de530e900fff6cb5051b8a17f780490e0",
+        "rawResult": "docs/evidence/hosted-schema-smoke-2026-10-19/evidence.zip",
+        "rawResultRole": "Observed source of policy questions, not a corrected/gold output"
+      },
+      "narrative": "В Москве я стоял на городской парковке. Приложение и СМС не работали, оплатить парковку не удалось.\n",
+      "sourceDigest": "850a6529a010b6681077b308eabfa9a0a91a1bf24917318bfb6a5e758bb0894b",
+      "evidenceQuotes": [
+        {
+          "quote": "В Москве я стоял на городской парковке.",
+          "startOffset": 0,
+          "endOffset": 39,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Приложение и СМС не работали, оплатить парковку не удалось.",
+          "startOffset": 40,
+          "endOffset": 99,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "narrator-only",
+        "causalRelation": "no-explicit-link",
+        "sourceBoundSummary": "Рассказчик стоял на городской парковке в Москве. Приложение и СМС не работали; оплатить парковку не удалось.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не создавать vehicle_1 из факта нахождения рассказчика на парковке.",
+        "Не выводить placement, платный режим, вину или освобождение.",
+        "Не заменять соседство сообщений категоричным «из-за»."
+      ],
+      "clarifyingQuestions": [
+        "Речь о стоянке транспортного средства или о нахождении человека на парковке?"
+      ]
+    },
+    {
+      "id": "A02",
+      "family": "DEV017-context",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "В Москве мой автомобиль стоял на городской парковке. Приложение и СМС не работали, оплатить парковку не удалось.\n",
+      "sourceDigest": "23c8d00b632637ad2db148166be7a10b88bed64cadd180ae3a71456a20eb3896",
+      "evidenceQuotes": [
+        {
+          "quote": "В Москве мой автомобиль стоял на городской парковке.",
+          "startOffset": 0,
+          "endOffset": 52,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Приложение и СМС не работали, оплатить парковку не удалось.",
+          "startOffset": 53,
+          "endOffset": 112,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "vehicle-explicit",
+        "causalRelation": "no-explicit-link",
+        "sourceBoundSummary": "Автомобиль находился на городской парковке в Москве. Приложение и СМС не работали; оплатить парковку не удалось.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не устанавливать личность водителя из «мой автомобиль».",
+        "Не добавлять категоричную причинность или вину."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "A03",
+      "family": "reflexive-parking",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Я припарковался. Оплатить парковку не удалось.\n",
+      "sourceDigest": "463cb7d1c5ce9e01a7c420c4916030ea685cfea4c7683b315bad88d2b95429cd",
+      "evidenceQuotes": [
+        {
+          "quote": "Я припарковался.",
+          "startOffset": 0,
+          "endOffset": 16,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Оплатить парковку не удалось.",
+          "startOffset": 17,
+          "endOffset": 46,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "vehicle-hypothesis",
+        "causalRelation": "no-explicit-link",
+        "sourceBoundSummary": "Рассказчик сообщает, что припарковался; оплатить парковку не удалось.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [
+        {
+          "id": "H01",
+          "claim": "В этом эпизоде речь о транспортном средстве.",
+          "basisQuote": 0,
+          "confirmation": "explicit-human-required",
+          "acceptedByDefault": false,
+          "mayFeedCalculation": false,
+          "vehicleKind": "unspecified",
+          "requiresVehicleKindClarification": true
+        }
+      ],
+      "forbiddenPromotions": [
+        "Не превращать гипотезу о ТС в source assertion, автомобиль или placement.",
+        "Не выводить вид ТС, личность водителя или собственника по умолчанию."
+      ],
+      "clarifyingQuestions": ["О каком транспортном средстве идёт речь?"]
+    },
+    {
+      "id": "A04",
+      "family": "explicit-vehicle-anaphora",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Мой автомобиль стоял на парковке. Его парковку я оплатил.\n",
+      "sourceDigest": "53d35c8680cb174994ea0baf9a14509e555ace478479a29d57d490bac24da2ab",
+      "evidenceQuotes": [
+        {
+          "quote": "Мой автомобиль стоял на парковке.",
+          "startOffset": 0,
+          "endOffset": 33,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Его парковку я оплатил.",
+          "startOffset": 34,
+          "endOffset": 57,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "vehicle-explicit",
+        "causalRelation": "not-applicable",
+        "sourceBoundSummary": "Рассказчик сообщает о стоянке своего автомобиля и об оплате его парковки.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не объявлять водителя установленным.",
+        "Не путать анафору с отсутствием автомобиля в контексте."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "A05",
+      "family": "distinct-participants",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Друг приехал за рулём автомобиля и оставил его на парковке. Эту парковку оплатил я.\n",
+      "sourceDigest": "8f50bdd07b9f5e360c287e9f4285a34f35bb3d0aa314fbc606c848e480075e62",
+      "evidenceQuotes": [
+        {
+          "quote": "Друг приехал за рулём автомобиля и оставил его на парковке.",
+          "startOffset": 0,
+          "endOffset": 59,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Эту парковку оплатил я.",
+          "startOffset": 60,
+          "endOffset": 83,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "separate-driver-payer",
+        "causalRelation": "not-applicable",
+        "sourceBoundSummary": "Водитель — друг рассказчика; об оплате сообщает рассказчик от своего лица.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не отождествлять водителя и плательщика.",
+        "Не назначать собственника по водителю или оплате."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "A06",
+      "family": "subjectless-payment",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Оплатить парковку не удалось.\n",
+      "sourceDigest": "777eaf5ba39b2631af34e20686cc3b2787c1e6fca2e81173389bb5e42df11921",
+      "evidenceQuotes": [
+        {
+          "quote": "Оплатить парковку не удалось.",
+          "startOffset": 0,
+          "endOffset": 29,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "clarify",
+        "paidRegimeSupport": "not-established",
+        "actor": "unresolved",
+        "causalRelation": "not-applicable",
+        "sourceBoundSummary": "Сообщается о неудавшейся оплате парковки; участник и транспортное средство не названы.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не создавать person_1 или vehicle_1 только ради обязательного subject.",
+        "Не стирать неудавшуюся оплату и не подменять её no-supported-predicate."
+      ],
+      "clarifyingQuestions": ["Какой эпизод парковки и какого участника касается сообщение?"]
+    },
+    {
+      "id": "C01",
+      "family": "causal-connective",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Я не смог оплатить парковку, потому что приложение не работало.\n",
+      "sourceDigest": "fd3584a46750c35b69a133a547c5c1d4622779310f04f076c254a969f0fdf44e",
+      "evidenceQuotes": [
+        {
+          "quote": "Я не смог оплатить парковку, потому что приложение не работало.",
+          "startOffset": 0,
+          "endOffset": 63,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "narrator-only",
+        "causalRelation": "reported-explicit",
+        "sourceBoundSummary": "Рассказчик связывает невозможность оплаты с неработающим приложением.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не превращать сообщённую причинную версию в установленный юридический факт или отсутствие вины."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "C02",
+      "family": "causal-connective",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Приложение не работало. Возможно, из-за этого мне не удалось оплатить парковку.\n",
+      "sourceDigest": "50a4f112e558a0dfacc2ad9a1102b0a22817b1fb515479639080d20a2bd5bd13",
+      "evidenceQuotes": [
+        {
+          "quote": "Приложение не работало.",
+          "startOffset": 0,
+          "endOffset": 23,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Возможно, из-за этого мне не удалось оплатить парковку.",
+          "startOffset": 24,
+          "endOffset": 79,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "narrator-only",
+        "causalRelation": "hedged",
+        "sourceBoundSummary": "Приложение не работало; рассказчик не смог оплатить парковку и предполагает связь со сбоем.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не убирать «возможно» или делать причину достоверной.",
+        "Не переносить сомнение в причине на сам сообщённый результат оплаты."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "C03",
+      "family": "causal-denial",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Мне не удалось оплатить парковку, но не из-за сбоя приложения.\n",
+      "sourceDigest": "6a7cecd825cb828c21b22dcbc61b3f40a3b0fab5737c697c236a5f90a4435cff",
+      "evidenceQuotes": [
+        {
+          "quote": "Мне не удалось оплатить парковку, но не из-за сбоя приложения.",
+          "startOffset": 0,
+          "endOffset": 62,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "narrator-only",
+        "causalRelation": "explicit-denial",
+        "sourceBoundSummary": "Оплатить парковку не удалось; рассказчик отрицает, что причиной был сбой приложения.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не инвертировать отрицание оплаты в оплату.",
+        "Не выводить, что приложение работало, ошибок вообще не было или лицо виновно."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "C04",
+      "family": "reported-cause",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Я пытался оплатить парковку. В письме сказано, что оплатить не удалось из-за сбоя приложения.\n",
+      "sourceDigest": "b469b7843f92cde5f8d26526f7b7ca0bf3cc9b310f65cbd9baa82bb9263d5086",
+      "evidenceQuotes": [
+        {
+          "quote": "Я пытался оплатить парковку.",
+          "startOffset": 0,
+          "endOffset": 28,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "В письме сказано, что оплатить не удалось из-за сбоя приложения.",
+          "startOffset": 29,
+          "endOffset": 93,
+          "speaker": "letter_1"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "narrator-only",
+        "causalRelation": "reported-explicit",
+        "sourceBoundSummary": "Рассказчик пытался оплатить; письмо связывает неудавшуюся оплату со сбоем приложения.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не заменять letter_1 на narrator во втором сообщении.",
+        "Не объявлять причину проверенной приложением NormLab."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "C05",
+      "family": "conflicting-causes",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Я считаю, что не смог оплатить парковку из-за сбоя приложения. В уведомлении написано, что причиной был недостаток денег на счёте.\n",
+      "sourceDigest": "24118ba58dee80e2d89e375d2fac7961c1d462938cccbac5ab98a917dbd6a4e4",
+      "evidenceQuotes": [
+        {
+          "quote": "Я считаю, что не смог оплатить парковку из-за сбоя приложения.",
+          "startOffset": 0,
+          "endOffset": 62,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "В уведомлении написано, что причиной был недостаток денег на счёте.",
+          "startOffset": 63,
+          "endOffset": 130,
+          "speaker": "notice_1"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "narrator-only",
+        "causalRelation": "separate-source-conflict",
+        "sourceBoundSummary": "Рассказчик связывает неудавшуюся оплату со сбоем; уведомление называет недостаток денег.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не выбирать победивший источник и не объединять разные причинные версии.",
+        "Не терять «я считаю» или источник уведомления."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "C06",
+      "family": "failure-without-outcome",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Я стоял на парковке. Приложение не работало.\n",
+      "sourceDigest": "9208e63d8d8c1944ff03850826be14323aeb5425eaf99a6505b05f5714542ffb",
+      "evidenceQuotes": [
+        {
+          "quote": "Я стоял на парковке.",
+          "startOffset": 0,
+          "endOffset": 20,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Приложение не работало.",
+          "startOffset": 21,
+          "endOffset": 44,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "not-established",
+        "actor": "narrator-only",
+        "causalRelation": "no-payment-outcome",
+        "sourceBoundSummary": "Рассказчик стоял на парковке; приложение не работало.",
+        "parkingContext": "parking-unspecified"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не добавлять неудавшуюся оплату, неоплату, транспортное средство, причину, вину или платный режим по молчанию."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "T01",
+      "family": "explicit-paid-topic",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Я оставил автомобиль на платной городской парковке. Оплата не прошла.\n",
+      "sourceDigest": "7da61c79039ca622beb70d3958720e31db074e0dd80f68b8de0f9a77ca9fce5b",
+      "evidenceQuotes": [
+        {
+          "quote": "Я оставил автомобиль на платной городской парковке.",
+          "startOffset": 0,
+          "endOffset": 51,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "Оплата не прошла.",
+          "startOffset": 52,
+          "endOffset": 69,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "incident",
+        "route": "parking-review",
+        "paidRegimeSupport": "explicit-source-assertion",
+        "actor": "vehicle-explicit",
+        "causalRelation": "no-explicit-link",
+        "sourceBoundSummary": "Рассказчик сообщает о стоянке автомобиля на платной городской парковке и неудавшейся оплате.",
+        "parkingContext": "paid-parking-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не считать первичную классификацию темы или слово «платной» независимым подтверждением обстоятельств."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "T02",
+      "family": "ambiguous-fine",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Я заплатил штраф.\n",
+      "sourceDigest": "7988f8b12abcfb515aabb3b2bbadfa0fcf4c7df83e3e34a4d769323d11362e18",
+      "evidenceQuotes": [
+        {
+          "quote": "Я заплатил штраф.",
+          "startOffset": 0,
+          "endOffset": 17,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "unclear",
+        "intent": "incident",
+        "route": "clarify",
+        "paidRegimeSupport": "not-established",
+        "actor": "not-evaluated",
+        "causalRelation": "not-applicable",
+        "sourceBoundSummary": "Рассказчик сообщает об оплате штрафа; вид нарушения не указан.",
+        "parkingContext": "not-established"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": ["Не выводить парковку, оплату парковочной сессии или платный режим."],
+      "clarifyingQuestions": ["За какое нарушение выписан штраф?"]
+    },
+    {
+      "id": "T03",
+      "family": "other-traffic-topic",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Мне выписали штраф за проезд на красный свет.\n",
+      "sourceDigest": "be6daf0607a8b9319d606c1461c2025a528d8f27c91e605bd2143b3050a2208c",
+      "evidenceQuotes": [
+        {
+          "quote": "Мне выписали штраф за проезд на красный свет.",
+          "startOffset": 0,
+          "endOffset": 45,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "other",
+        "intent": "incident",
+        "route": "other-topic",
+        "paidRegimeSupport": "not-established",
+        "actor": "not-evaluated",
+        "causalRelation": "not-applicable",
+        "sourceBoundSummary": "Обращение касается светофора, а не парковки.",
+        "parkingContext": "not-established"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": ["Не запускать парковочную квалификацию и не терять исходный текст."],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "T04",
+      "family": "informational-parking",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "В новостях написали о повышении тарифов платной парковки.\n",
+      "sourceDigest": "ffa40775d538155df61ebdff005ebb86b2300ccbc531d5cd2f4aff7554931ccc",
+      "evidenceQuotes": [
+        {
+          "quote": "В новостях написали о повышении тарифов платной парковки.",
+          "startOffset": 0,
+          "endOffset": 57,
+          "speaker": "news_1"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "parking",
+        "intent": "information",
+        "route": "not-a-case",
+        "paidRegimeSupport": "not-established",
+        "actor": "not-evaluated",
+        "causalRelation": "not-applicable",
+        "sourceBoundSummary": "Сообщение о новости с парковочной тематикой; личный эпизод не описан.",
+        "parkingContext": "paid-parking-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не создавать личный эпизод, участника, транспортное средство или paidRegime конкретного события."
+      ],
+      "clarifyingQuestions": []
+    },
+    {
+      "id": "T05",
+      "family": "mixed-episodes",
+      "provenance": {
+        "kind": "authored-development-contrast",
+        "origin": "Policy preparation in current NormLab conversation; not independently adjudicated"
+      },
+      "narrative": "Мне выписали штраф за неоплаченную парковку. А на следующий день я получил штраф за проезд на красный свет.\n",
+      "sourceDigest": "4cdcddd57896a310557b0c6ff38f7e122f8321c343b33c987d8350a3ca4155e4",
+      "evidenceQuotes": [
+        {
+          "quote": "Мне выписали штраф за неоплаченную парковку.",
+          "startOffset": 0,
+          "endOffset": 44,
+          "speaker": "narrator"
+        },
+        {
+          "quote": "А на следующий день я получил штраф за проезд на красный свет.",
+          "startOffset": 45,
+          "endOffset": 107,
+          "speaker": "narrator"
+        }
+      ],
+      "expectedPolicy": {
+        "topic": "mixed",
+        "intent": "incident",
+        "route": "choose-episode",
+        "paidRegimeSupport": "not-established",
+        "actor": "not-evaluated",
+        "causalRelation": "not-applicable",
+        "sourceBoundSummary": "Описаны разные парковочный и светофорный эпизоды; нужен выбор эпизода.",
+        "parkingContext": "parking-payment-topic"
+      },
+      "hypotheses": [],
+      "forbiddenPromotions": [
+        "Не объединять события в episode_1 и не переносить факты между ними.",
+        "Не устанавливать платный режим только из формулировки обвинения."
+      ],
+      "clarifyingQuestions": ["Какой из двух эпизодов разбирать сейчас?"]
+    }
+  ]
+}

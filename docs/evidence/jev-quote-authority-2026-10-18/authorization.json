@@ -1,0 +1,20 @@
+{
+  "schema": "normlab.oneoff-probe-authorization/v1",
+  "date": "2026-10-18",
+  "issue": "https://github.com/SoundBlaster/NormLab/issues/145",
+  "userReply": "Хорошо Делаем",
+  "packetCommit": "1bd1e0df58badef6be7c2d92c61b360f6ee108c4",
+  "packetCommitMeaning": "Parent baseline packet revision; executionCommit identifies frozen ablation inputs, driver and receipt.",
+  "planSha256": "649073d44d8fb2ab715e590ce9fd09c0ce53277dd4d65c425a9b21a67966dde5",
+  "authorizedRequests": 8,
+  "maximumQuestions": 8,
+  "maximumRequestsPerJob": 1,
+  "automaticRetries": 0,
+  "wallDeadlineSeconds": 300,
+  "externalAccountLimitUsd": 4,
+  "externalLimitUserReconfirmed": true,
+  "externalLimitIndependentlyVerified": false,
+  "pricingVerified": false,
+  "stopOnFirstOperationalFailureOrUnknown": true,
+  "scope": "Fresh paired Jev-only ablation, four controls times baseline/instruction addition, balanced AB/BA/AB/BA. Earlier12-call grant exhausted. No repair, escalation, extra repeats or automatic resume."
+}

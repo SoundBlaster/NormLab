@@ -47,7 +47,7 @@ limit is 32768 UTF-8 bytes. Concurrency is one. Plans authorize zero paid calls.
 ## CLI
 
 Use the historical adapter environment for these frozen commands. The current
-0.7.0 smoke environment is separate:
+0.8.0 smoke environment is separate (see [current provider configuration](PROVIDER_CONFIGURATION.md)):
 
 ```bash
 python3.13 -m venv .tools/provider-evaluation-0.4

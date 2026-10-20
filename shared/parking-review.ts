@@ -1,5 +1,10 @@
 import { z } from 'zod';
 import { parkingScalarPredicates } from './parking-contracts.js';
+import {
+  emptyNarrativeContext,
+  narrativeContextSchema,
+  vehicleHypothesisSchema,
+} from './parking-context.js';
 
 export const reviewPredicates = Object.keys(parkingScalarPredicates);
 export const reviewStatementSchema = z
@@ -36,7 +41,7 @@ export const emptyReviewChecklist = {
   sourceSupport: false,
   unknowns: false,
 };
-export const reviewDraftSchema = z
+const legacyReviewDraftSchema = z
   .object({
     schema: z.literal('normlab.parking-review/v1'),
     draftId: z.string().uuid(),
@@ -52,7 +57,18 @@ export const reviewDraftSchema = z
     status: z.enum(['draft', 'reviewed']),
   })
   .strict();
+const currentReviewDraftSchema = legacyReviewDraftSchema.extend({
+  schema: z.literal('normlab.parking-review/v2'),
+  context: narrativeContextSchema,
+  hypotheses: z.array(vehicleHypothesisSchema).max(64),
+});
+export const reviewDraftSchema = z.union([currentReviewDraftSchema, legacyReviewDraftSchema]);
 export type ReviewDraft = z.infer<typeof reviewDraftSchema>;
+export function reviewDraftMetadata(draft: ReviewDraft) {
+  return draft.schema === 'normlab.parking-review/v2'
+    ? { context: draft.context, hypotheses: draft.hypotheses }
+    : { context: emptyNarrativeContext(), hypotheses: [] };
+}
 export function reviewStatementIssues(statement: ReviewStatement, source: string): string[] {
   const issues: string[] = [];
   if (

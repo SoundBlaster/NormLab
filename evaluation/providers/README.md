@@ -14,7 +14,7 @@ The source branch's full LICENSE is preserved verbatim as [LICENSE.proxyapi](LIC
 
 Use Python 3.11+ in a dedicated environment with [requirements-providers-current.txt](../requirements-providers-current.txt). Exact top-level release pins are not a complete transitive dependency lock. Existing evaluation and historical 0.2.1 environment are not modified by copying this file.
 
-This copied bridge and the TypeSafe/OpenAI smoke CLI use the current 0.7.0
+This copied bridge and the TypeSafe/OpenAI smoke CLI use the current 0.8.0
 environment. Historical provider metadata stays unchanged; captures record the
 actual installed dependency version. The verifier reader accepts optional
 reported USD cost without dropping it or inventing a total. See

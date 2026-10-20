@@ -1,0 +1,24 @@
+{
+  "schema": "normlab.medium-failure-diagnosis/v1",
+  "status": "reproduced-offline",
+  "liveCalls": 0,
+  "mockedRequests": 1,
+  "caseId": "DEV017",
+  "httpStatus": 200,
+  "providerStatus": "completed",
+  "providerEffortEcho": "medium",
+  "wireSubjectSchema": {
+    "type": "string"
+  },
+  "localSubjectPattern": "^(vehicle|person)_[1-9][0-9]*$",
+  "actualSubject": "Приложение и СМС",
+  "issues": [
+    {
+      "path": ["extractions", 1, "statement_attributes", "subject"],
+      "code": "invalid_format"
+    }
+  ],
+  "rawSourceQuotesExact": true,
+  "explanation": "Provider JSON Schema allows any string; local discovery schema rejects the generated subject ID before classification. Not a network failure, refusal or missing token budget.",
+  "interpretation": "New pipeline operational failure in medium arm; one observation does not prove medium generally causes it. Closed subject model and wire/local constraint mismatch need review; no silent repair or retry."
+}
