@@ -219,6 +219,23 @@ class ClairicSmokeTests(unittest.TestCase):
         self.case = smoke.load_case("quote-whole")
         self.assertTrue(smoke.summarize(self.response(), self.case)["pass"])
 
+    def test_recorded_quote_target_replays(self):
+        for name in ("inner", "whole"):
+            with self.subTest(name=name):
+                path = (
+                    Path(__file__).resolve().parents[1]
+                    / f"docs/evidence/clairic-quote-{name}-2026-10-20.json"
+                )
+                captured = json.loads(path.read_text())
+                case = smoke.load_case("quote-" + name)
+                replayed = smoke.summarize(captured, case)
+                self.assertEqual(captured["fixture_sha256"], case["fixture_sha256"])
+                self.assertEqual(replayed["checks"], captured["checks"])
+                self.assertEqual(
+                    replayed["anchor_diagnostics"], captured["anchor_diagnostics"]
+                )
+                self.assertFalse(replayed["pass"])
+
 
 if __name__ == "__main__":
     unittest.main()

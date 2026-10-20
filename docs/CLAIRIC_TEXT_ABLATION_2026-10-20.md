@@ -216,4 +216,35 @@ metadata сохраняются отдельно от производных д�
 
 ### Результат сравнения quote targets
 
-Pending. Дополнительных calls вне этой пары нет.
+Protocol/fixtures/scorer frozen at `022695e` до inference. Fixture SHA256:
+`1eca9c1fed8daab323dc039c7cdb8edf8d997d991db4d6508ea0d306219e9dec`.
+До calls прошли20 offline tests и dry-run каждого контракта.
+
+| Target                                                        | Exact values | Exact expected spans | Время / input tokens |
+| ------------------------------------------------------------- | ------------ | -------------------- | -------------------- |
+| [Inner content](evidence/clairic-quote-inner-2026-10-20.json) | 2/6          | 1/5                  | 1,147s /1561         |
+| [Whole quote](evidence/clairic-quote-whole-2026-10-20.json)   | 2/6          | 1/5                  | 0,966s /1577         |
+
+Оба HTTP200/model clairic/truncated=false, pass=false;2 attempts,0 retries,
+3138 input/0 output tokens,12 passes. Billing unverified. Credentials/account
+исключены; captures — sanitized script output, не raw HTTP archive.
+[Summary](evidence/clairic-quote-target-summary-2026-10-20.json) отдельно сравнивает
+returned values/spans между условиями: они одинаковы, несмотря на разные targets.
+
+В обоих запросах все четыре quote fields возвращают **внутренний текст плюс
+closing guillemet**, без opening guillemet. Inner contract нарушен лишним closing,
+whole contract — отсутствующим opening. Время и null остались корректны;
+5/5 фактических non-null значений совпадают с source slices при code points.
+Raw confidence/usage metadata не объявляются одинаковыми.
+
+Итак, на этой строке даже явное различение «включить обе» / «исключить обе»
+не изменило наблюдаемую границу. Это не устанавливает механизм ошибки или
+бесполезность всех prompts. Source preprocessing/automatic trimming по-прежнему
+не добавлены. Следующий возможный шаг — отдельно проверить консервативный
+детерминированный разбор кавычек по оригинальному source: raw provider span
+сохранять, derived span получать только при однозначной проверенной паре.
+Это отдельная policy потребителя, не тайная «починка» evidence в generic client.
+
+Дополнительных model calls вне этой пары не было.
+После capture21 offline tests прошли, включая replay обоих failures; Ruff,
+targeted Prettier, JSON/links и credential exclusion проверены отдельно от CI.
