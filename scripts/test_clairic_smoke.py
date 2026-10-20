@@ -163,6 +163,21 @@ class ClairicSmokeTests(unittest.TestCase):
                 self.assertEqual(sum(c["pass"] for c in replayed["checks"].values()), 2)
                 self.assertFalse(replayed["pass"])
 
+    def test_linebreak_changes_only_four_separator_characters(self):
+        original = smoke.load_case("linebreak-original")
+        split = smoke.load_case("linebreak-sentences")
+        self.assertEqual(original["state"], self.case["state"])
+        self.assertEqual(split["state"], original["state"].replace(". ", ".\n"))
+        self.assertEqual(split["state"].count("\n"), 4)
+        self.assertEqual(len(split["state"]), len(original["state"]))
+        self.assertEqual(split["fields"], original["fields"])
+        self.assertEqual(split["expected"], original["expected"])
+        self.assertEqual(
+            split["expected_codepoint_spans"], original["expected_codepoint_spans"]
+        )
+        for key, (start, end) in split["expected_codepoint_spans"].items():
+            self.assertEqual(split["state"][start:end], split["expected"][key])
+
 
 if __name__ == "__main__":
     unittest.main()

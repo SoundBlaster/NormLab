@@ -122,3 +122,41 @@ failures; Ruff lint/format, targeted Prettier, JSON/links и credential exclusio
 на original и явное сохранение непредставимых/неоднозначных привязок. Удаление
 символов может менять смысл; разбор исходного текста остаётся доступным.
 Здесь такой mapper и production cleaning не реализуются.
+
+## Дополнение: sentence line breaks — frozen protocol
+
+Поручение пользователя: «Можно ещё разбить текст на строки по предложениям.
+Переносами». Это отдельная пара условий, не замена результатов 2×2 выше.
+Fixture: [clairic-linebreak-ablation-v1.json](../fixtures/providers/clairic-linebreak-ablation-v1.json).
+
+Варианты: `linebreak-original` и `linebreak-sentences`. Во втором только четыре
+пробела после sentence-ending `.` заменяются на LF. Для этой короткой fixture
+границы заданы вручную; это не универсальный sentence splitter. Кавычки,
+отрицание, emoji и U+0301 остаются. Field instructions, expectations и все span
+indices побайтно одинаковы: SPACE и LF занимают по одной единице в рассматриваемых
+coordinate systems. Только исходные source strings и их hashes различаются.
+
+```text
+🙂 Заметка «кафе́».
+В 09:00 Анна сказала: «Я не оплачивала парковку».
+В 10:00 Борис сказал: «Я оплатил парковку».
+В 11:00 Виктор сказал: «Я оплатил парковку».
+Номер квитанции не указан.
+```
+
+До inference закрепить fixture/protocol/scorer commit и SHA256. Новый original
+запускается первым, затем sentences: max2 HTTP attempts, один на условие,
+0 retries,30s socket timeout,1MiB response bound. Operational/protocol failure
+останавливает пару; semantic mismatch не останавливает второе условие.
+Те же six-value/five-span критерии, truncated=false, без trimming и передачи
+expectations provider. Для этой пары сохраняется unique-coordinate criterion,
+так как emoji остаётся и различимость code points/UTF16 не исчезает.
+
+После ответов сравнить exact values/anchors, отдельно source consistency,
+latency/usage и лишние delimiters. Один sample/condition, fixed order: результат
+не доказывает причинность, general RU accuracy или пользу segmentation вообще.
+Контроль из предыдущей серии не подставляется вместо нового original.
+
+### Результат переноса строк
+
+Pending. Дополнительные calls за пределами этой пары не выполняются автоматически.

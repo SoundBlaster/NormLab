@@ -35,6 +35,7 @@ MAX_BODY = 1024 * 1024
 ABLATION_CASES = tuple(
     "ablation-" + name for name in ("original", "unicode-clean", "ascii-quotes", "both")
 )
+LINEBREAK_CASES = ("linebreak-original", "linebreak-sentences")
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -45,14 +46,16 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 def load_case(name):
     if name == "neutral":
         return {"state": STATE, "fields": FIELDS, "expected": EXPECTED}
-    if name in ABLATION_CASES:
-        path = (
-            Path(__file__).resolve().parents[1]
-            / "fixtures/providers/clairic-text-ablation-v1.json"
+    if name in (*ABLATION_CASES, *LINEBREAK_CASES):
+        filename, prefix = (
+            ("clairic-text-ablation-v1.json", "ablation-")
+            if name in ABLATION_CASES
+            else ("clairic-linebreak-ablation-v1.json", "linebreak-")
         )
+        path = Path(__file__).resolve().parents[1] / "fixtures/providers" / filename
         raw = path.read_bytes()
         plan = json.loads(raw)
-        case = dict(plan["variants"][name.removeprefix("ablation-")])
+        case = dict(plan["variants"][name.removeprefix(prefix)])
         case.update(
             fields=plan["fields"], fixture_sha256=hashlib.sha256(raw).hexdigest()
         )
@@ -184,7 +187,9 @@ def reject_constant(value):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--case", choices=("neutral", "ru-unicode", *ABLATION_CASES), default="neutral"
+        "--case",
+        choices=("neutral", "ru-unicode", *ABLATION_CASES, *LINEBREAK_CASES),
+        default="neutral",
     )
     parser.add_argument("--live", action="store_true", help="Make one billable request")
     args = parser.parse_args()
