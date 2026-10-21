@@ -32,7 +32,7 @@ sequenceDiagram
     participant API as Выбранные API
 
     User->>UI: Запустить автоматический разбор
-    UI->>App: POST /api/parking/extract (draftId, revisionId)
+    UI->>App: POST /api/parking/extract (draftId, expectedRevisionId)
     App->>Store: Проверить ревизию, записать input артефакт
     Note over App,Store: Прежний черновик остаётся текущим до полного успеха
     App->>GW: /v1/extract (narrative, sourceDigest)
@@ -103,7 +103,7 @@ sequenceDiagram
     participant API as Выбранные API
 
     User->>UI: Запустить или продолжить разбор
-    UI->>App: draftId, revisionId, jobId при возобновлении
+    UI->>App: draftId, expectedRevisionId, jobId при возобновлении
     App->>GW: Start / explicit resume
     GW->>Store: Загрузить job, историю попыток и bindings
     GW->>GW: Проверить актуальность source/config, разрешение и оставшиеся caps
