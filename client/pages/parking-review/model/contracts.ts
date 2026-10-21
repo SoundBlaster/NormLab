@@ -22,3 +22,4 @@ export {
   type ParkingJournalEvent,
 } from '../../../../shared/parking-journal.js';
 export { inferenceFailureMessage } from '../../../../shared/inference-failure.js';
+export { parkingJobSchema, type ParkingJob } from '../../../../shared/parking-job.js';

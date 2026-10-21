@@ -10,6 +10,17 @@ import {
 
 export function journalMessage(event: ParkingJournalEvent): string {
   switch (event.kind) {
+    case 'job-progress': {
+      const labels = {
+        started: 'Запущен поэтапный разбор.',
+        resumed: 'Разбор продолжен с сохранённых этапов.',
+        checkpoint: 'Результат этапа сохранён.',
+        paused: 'Разбор приостановлен. Продолжение — по кнопке.',
+        conflict: 'Обнаружены ручные правки. Предложения не заменили новую ревизию.',
+        completed: 'Все этапы завершены. Предложения требуют проверки человеком.',
+      };
+      return `${labels[event.action]} Сохранено batch: ${event.completedBatches}.${event.unknowns ? ` Исход ${event.unknowns} попыток неизвестен; возможна оплата без полученного ответа.` : ''}${event.failure ? ` ${inferenceFailureMessage(event.failure)}` : ''}`;
+    }
     case 'draft-created':
       return 'Создан черновик.';
     case 'review-saved':

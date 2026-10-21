@@ -38,6 +38,8 @@ import {
 import { reviseReviewMetadata } from './parking-review-metadata.js';
 import { extractionJournal, revisionJournal, saveParkingRun } from './parking-journal.js';
 import type { ParkingRun } from '../shared/parking-journal.js';
+import { ParkingJobs } from './parking-jobs.js';
+import { parkingJobInputSchema } from '../shared/parking-job.js';
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex');
 export class ParkingReviewError extends Error {
@@ -77,12 +79,37 @@ export class ParkingReview {
   private readonly root: string;
   private extracting = false;
   private activeRunId?: string;
+  private readonly jobs: ParkingJobs;
   constructor(
     dataDir: string,
     private readonly extractor?: ParkingExtractor | null,
   ) {
     this.root = join(dataDir, 'parking-review');
     mkdirSync(this.root, { recursive: true, mode: 0o700 });
+    this.jobs = new ParkingJobs(this.root, extractor?.stages, {
+      current: (id) => this.current(id),
+      publish: (draft, jobId, fragments, statements, complete) => {
+        this.expected(draft.draftId, draft.revisionId);
+        const metadata = reviewDraftMetadata(draft);
+        return this.revise(draft, {
+          originalExtraction: {
+            schema: 'normlab.parking-job-proposal/v1',
+            jobId,
+            sourceDigest: draft.sourceDigest,
+            fragments,
+            complete,
+            reviewState: 'unreviewed',
+          },
+          statements,
+          hypotheses: metadata.hypotheses.map((item) => ({
+            ...item,
+            decision: 'pending' as const,
+          })),
+          checklist: { ...emptyReviewChecklist },
+          status: 'draft',
+        });
+      },
+    });
   }
   private folder(id: string) {
     return join(this.root, z.string().uuid().parse(id));
@@ -143,6 +170,7 @@ export class ParkingReview {
       return {
         drafts,
         externalInference: Boolean(this.extractor),
+        stagedInference: this.jobs.available,
         extractorAvailable:
           Boolean(this.extractor) ||
           (this.extractor === undefined &&
@@ -166,11 +194,47 @@ export class ParkingReview {
       const events = [
         ...revisionJournal(this.history(id)),
         ...extractionJournal(this.folder(id), this.activeRunId),
+        ...(this.jobs?.journal(id) ?? []),
       ]
         .map((event, order) => ({ event, order }))
         .sort((a, b) => b.event.at.localeCompare(a.event.at) || b.order - a.order)
         .map(({ event }) => event);
       return { events: events.slice(0, 100), total: events.length };
+    }
+    if (method === 'GET' && path.startsWith('/api/parking/job/')) {
+      const id = z.string().uuid().parse(path.slice('/api/parking/job/'.length));
+      const job = this.jobs?.latest(id) ?? null;
+      return { job, draft: this.current(id) };
+    }
+    if (method === 'POST' && path === '/api/parking/jobs') {
+      const input = parkingJobInputSchema.parse(body);
+      const draft = this.expected(input.draftId, input.expectedRevisionId);
+      if (!this.jobs.available) throw new ParkingReviewError('Поэтапный разбор не настроен.');
+      if (this.extracting) throw new ParkingReviewError('Извлечение уже выполняется.');
+      const metadata = reviewDraftMetadata(draft);
+      if (
+        metadata.context.decision !== 'confirmed' ||
+        narrativeRoute(metadata.context) !== 'parking-review'
+      )
+        throw new ParkingReviewError(
+          'Сначала сохраните и подтвердите контекст парковочного эпизода.',
+        );
+      if (draft.narrative.length > HOSTED_MAX_NARRATIVE)
+        throw new ParkingReviewError(
+          `Внешнее извлечение принимает фабулу до ${HOSTED_MAX_NARRATIVE} символов.`,
+        );
+      if (input.jobId)
+        return this.jobs.resume(
+          draft,
+          input.jobId,
+          input.acknowledgeUnknown,
+          input.replaceStatements,
+        );
+      if (draft.statements.length && !input.replaceStatements)
+        throw new ParkingReviewError(
+          'Подтвердите замену текущей разметки. Прежняя ревизия останется в истории.',
+        );
+      return this.jobs.start(draft);
     }
     if (method === 'POST' && path === '/api/parking/drafts') {
       const input = createInput.parse(body);
@@ -284,7 +348,8 @@ export class ParkingReview {
     if (method === 'POST' && path === '/api/parking/extract') {
       const input = extractInput.parse(body);
       const draft = this.expected(input.draftId, input.expectedRevisionId);
-      if (this.extracting) throw new ParkingReviewError('Извлечение уже выполняется.');
+      if (this.extracting || this.jobs?.busy)
+        throw new ParkingReviewError('Извлечение уже выполняется.');
       if (draft.statements.length && !input.replaceStatements)
         throw new ParkingReviewError(
           'Подтвердите замену текущей разметки новым авторазбором. Прежняя ревизия останется в истории.',

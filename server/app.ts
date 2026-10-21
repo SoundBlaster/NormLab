@@ -19,6 +19,7 @@ import { LabHttpError, ReformLab } from './reform-lab.js';
 import { isWithinDirectory } from './path-containment.js';
 import { MAX_EXPERIMENT_BYTES } from '../shared/reform-transfer.js';
 import { ParkingReview, ParkingReviewError } from './parking-review.js';
+import { ParkingJobError } from './parking-jobs.js';
 import type { ParkingExtractor } from './inference-client.js';
 
 class HttpError extends Error {
@@ -347,7 +348,8 @@ export async function createApp(options: {
       else if (
         error instanceof HttpError ||
         error instanceof LabHttpError ||
-        error instanceof ParkingReviewError
+        error instanceof ParkingReviewError ||
+        error instanceof ParkingJobError
       )
         send(res, error.status, { error: error.message });
       else {

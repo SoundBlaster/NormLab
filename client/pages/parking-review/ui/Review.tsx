@@ -29,6 +29,7 @@ import { ContextEditor } from './ContextEditor.js';
 import { HypothesisEditor } from './HypothesisEditor.js';
 import { NewStatementEditor, type StatementSource } from './NewStatementEditor.js';
 import { Journal } from './Journal.js';
+import { Job } from './Job.js';
 import { reviewReferences, hasStatementChoices } from '../model/statement-fields.js';
 import { canPersistReview, type ReviewContent } from '../model/review-persistence.js';
 import './review.css';
@@ -44,6 +45,7 @@ type Bootstrap = {
   drafts: ReviewDraft[];
   extractorAvailable: boolean;
   externalInference: boolean;
+  stagedInference?: boolean;
   cases: { id: string; narrative: string }[];
 };
 export function ParkingReview({ token }: { token: string }) {
@@ -67,6 +69,9 @@ export function ParkingReview({ token }: { token: string }) {
   const [notice, setNotice] = useState('');
   const [newSourceApproved, setNewSourceApproved] = useState(false);
   const [replaceApproved, setReplaceApproved] = useState(false);
+  const [discardApproved, setDiscardApproved] = useState(false);
+  const [jobRefresh, setJobRefresh] = useState(0);
+  const [jobRunning, setJobRunning] = useState(false);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   async function request<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
     const response = await fetch(
@@ -104,6 +109,7 @@ export function ParkingReview({ token }: { token: string }) {
     setReviewDirty(false);
     setNewSourceApproved(false);
     setReplaceApproved(false);
+    setDiscardApproved(false);
     setHistory([]);
     setError('');
     setNotice('');
@@ -129,6 +135,32 @@ export function ParkingReview({ token }: { token: string }) {
   const historical =
     !!draft &&
     data?.drafts.find((d) => d.draftId === draft.draftId)?.revisionId !== draft.revisionId;
+  const localChanges =
+    dirty ||
+    reviewDirty ||
+    metadataPendingSave ||
+    !!newStatement ||
+    (!!draft && narrative !== draft.narrative);
+  function acceptJobDraft(latest: ReviewDraft) {
+    setData((current) => {
+      if (!current) return current;
+      const prior = current.drafts.find((d) => d.draftId === latest.draftId);
+      if (prior && prior.revision >= latest.revision) return current;
+      return {
+        ...current,
+        drafts: [latest, ...current.drafts.filter((d) => d.draftId !== latest.draftId)],
+      };
+    });
+    if (
+      draft?.draftId === latest.draftId &&
+      latest.revision > draft.revision &&
+      !inFlight.current &&
+      !localChanges &&
+      !historical &&
+      saveState !== 'error'
+    )
+      open(latest);
+  }
   async function act(action: () => Promise<void>) {
     if (inFlight.current) return;
     inFlight.current = true;
@@ -540,16 +572,27 @@ export function ParkingReview({ token }: { token: string }) {
               {historical ? ' · историческая ревизия, только чтение' : ''}
             </Status>
             {historical && (
-              <Button
-                variant="secondary"
-                disabled={busy}
-                onClick={() => {
-                  const latest = data?.drafts.find((d) => d.draftId === draft.draftId);
-                  if (latest) open(latest);
-                }}
-              >
-                Открыть актуальную ревизию
-              </Button>
+              <>
+                {localChanges && (
+                  <CheckField
+                    checked={discardApproved}
+                    onChange={(e) => setDiscardApproved(e.target.checked)}
+                  >
+                    На сервере появилась новая ревизия. Разрешаю отбросить несохранённые правки в
+                    форме и открыть её.
+                  </CheckField>
+                )}
+                <Button
+                  variant="secondary"
+                  disabled={busy || (localChanges && !discardApproved)}
+                  onClick={() => {
+                    const latest = data?.drafts.find((d) => d.draftId === draft.draftId);
+                    if (latest) open(latest);
+                  }}
+                >
+                  Открыть актуальную ревизию
+                </Button>
+              </>
             )}
             {narrative !== draft.narrative && (
               <Notice className="stale-note" tone="warning">
@@ -609,12 +652,27 @@ export function ParkingReview({ token }: { token: string }) {
                   narrative !== draft.narrative ||
                   !!newStatement ||
                   !data?.extractorAvailable ||
+                  jobRunning ||
                   (statements.length > 0 && !replaceApproved) ||
                   context.decision !== 'confirmed' ||
                   narrativeRoute(context) !== 'parking-review'
                 }
                 onClick={() =>
                   void act(async () => {
+                    if (data?.stagedInference) {
+                      await request('/api/parking/jobs', {
+                        draftId: draft.draftId,
+                        expectedRevisionId: draft.revisionId,
+                        replaceStatements: replaceApproved,
+                      });
+                      setJobRefresh((n) => n + 1);
+                      setJobRunning(true);
+                      setReplaceApproved(false);
+                      setNotice(
+                        'Задание запущено на сервере. Предложения появятся по мере сохранения этапов.',
+                      );
+                      return;
+                    }
                     const result = await request<ReviewDraft>('/api/parking/extract', {
                       draftId: draft.draftId,
                       expectedRevisionId: draft.revisionId,
@@ -650,8 +708,28 @@ export function ParkingReview({ token }: { token: string }) {
             )}
             <p className="parking-help">
               Новый запуск повторяет все этапы и может потребовать оплаты. При сбое можно продолжить
-              ручную разметку; сохранённые этапы пока не переиспользуются.
+              ручную разметку
+              {data?.stagedInference
+                ? ' или продолжить с сохранённых этапов по кнопке.'
+                : '; сохранённые этапы пока не переиспользуются.'}
             </p>
+            {data?.stagedInference && (
+              <Job
+                draft={draft}
+                token={token}
+                blocked={
+                  busy ||
+                  saveState === 'error' ||
+                  localChanges ||
+                  historical ||
+                  context.decision !== 'confirmed' ||
+                  narrativeRoute(context) !== 'parking-review'
+                }
+                refresh={jobRefresh}
+                onDraft={acceptJobDraft}
+                onRunning={setJobRunning}
+              />
+            )}
             {newStatement && (
               <NewStatementEditor
                 source={newStatement}
@@ -938,7 +1016,11 @@ export function ParkingReview({ token }: { token: string }) {
               ))}
             </Actions>
           </Panel>
-          <Journal draftId={draft.draftId} revisionId={draft.revisionId} busy={busy} />
+          <Journal
+            draftId={draft.draftId}
+            revisionId={draft.revisionId}
+            busy={busy || jobRunning}
+          />
         </>
       )}
     </section>
