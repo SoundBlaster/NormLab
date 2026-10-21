@@ -268,6 +268,14 @@ ledger [#172](https://github.com/SoundBlaster/NormLab/issues/172).
 Текущее поведение сверено с кодом; checkpoints и explicit resume ниже — proposal,
 не возможности действующего UI. Закрытый evaluation harness не переоткрывается.
 
+Пользователь подтвердил partial results, продолжение на сервере после закрытия
+вкладки, explicit resume и журнал внутри разбора. Текущая продуктовая работа —
+[implementation #179](https://github.com/SoundBlaster/NormLab/issues/179),
+[UX contract и этапы](docs/HOSTED_RECOVERY_UX.md). Первый срез добавляет постоянный
+журнал действий/сбоев, явные причины ошибок и подтверждение замены разметки;
+Job/Checkpoint и частичные результаты остаются следующим срезом. D1/Jev research
+не блокирует эту задачу.
+
 - [x] Сохранить две sequence diagrams, политику ошибок и карту исходников.
 - [ ] Отдельно согласовать минимальный job/checkpoint contract и UI states.
 - [ ] По отдельному поручению реализовать durable этапы, безопасные bounded retries

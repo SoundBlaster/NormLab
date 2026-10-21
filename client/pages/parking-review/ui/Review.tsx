@@ -28,6 +28,7 @@ import { StatementEditor } from './StatementEditor.js';
 import { ContextEditor } from './ContextEditor.js';
 import { HypothesisEditor } from './HypothesisEditor.js';
 import { NewStatementEditor, type StatementSource } from './NewStatementEditor.js';
+import { Journal } from './Journal.js';
 import { reviewReferences, hasStatementChoices } from '../model/statement-fields.js';
 import { canPersistReview, type ReviewContent } from '../model/review-persistence.js';
 import './review.css';
@@ -65,6 +66,7 @@ export function ParkingReview({ token }: { token: string }) {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [newSourceApproved, setNewSourceApproved] = useState(false);
+  const [replaceApproved, setReplaceApproved] = useState(false);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   async function request<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
     const response = await fetch(
@@ -101,6 +103,7 @@ export function ParkingReview({ token }: { token: string }) {
     setDirty(false);
     setReviewDirty(false);
     setNewSourceApproved(false);
+    setReplaceApproved(false);
     setHistory([]);
     setError('');
     setNotice('');
@@ -223,6 +226,7 @@ export function ParkingReview({ token }: { token: string }) {
       // The POST response is the saved authority. Do not refresh bootstrap or
       // reopen the page: both would risk discarding a locally edited narrative.
       setDraft(result);
+      setReplaceApproved(false);
       setStatements(result.statements);
       const metadata = reviewDraftMetadata(result);
       setContext(metadata.context);
@@ -605,6 +609,7 @@ export function ParkingReview({ token }: { token: string }) {
                   narrative !== draft.narrative ||
                   !!newStatement ||
                   !data?.extractorAvailable ||
+                  (statements.length > 0 && !replaceApproved) ||
                   context.decision !== 'confirmed' ||
                   narrativeRoute(context) !== 'parking-review'
                 }
@@ -613,6 +618,7 @@ export function ParkingReview({ token }: { token: string }) {
                     const result = await request<ReviewDraft>('/api/parking/extract', {
                       draftId: draft.draftId,
                       expectedRevisionId: draft.revisionId,
+                      replaceStatements: replaceApproved,
                     });
                     await load();
                     open(result);
@@ -622,7 +628,7 @@ export function ParkingReview({ token }: { token: string }) {
                   })
                 }
               >
-                {busy ? 'Выполняется…' : 'Выделить и классифицировать утверждения'}
+                {busy ? 'Выполняется…' : 'Запустить авторазбор с начала'}
               </Button>
               <Button
                 variant="secondary"
@@ -632,6 +638,20 @@ export function ParkingReview({ token }: { token: string }) {
                 Скачать сохранённую ревизию
               </Button>
             </Actions>
+            {statements.length > 0 && (
+              <CheckField
+                checked={replaceApproved}
+                disabled={busy || historical}
+                onChange={(e) => setReplaceApproved(e.target.checked)}
+              >
+                Разрешаю новому авторазбору заменить текущую разметку. Прежняя ревизия останется в
+                истории.
+              </CheckField>
+            )}
+            <p className="parking-help">
+              Новый запуск повторяет все этапы и может потребовать оплаты. При сбое можно продолжить
+              ручную разметку; сохранённые этапы пока не переиспользуются.
+            </p>
             {newStatement && (
               <NewStatementEditor
                 source={newStatement}
@@ -918,6 +938,7 @@ export function ParkingReview({ token }: { token: string }) {
               ))}
             </Actions>
           </Panel>
+          <Journal draftId={draft.draftId} revisionId={draft.revisionId} busy={busy} />
         </>
       )}
     </section>
