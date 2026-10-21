@@ -524,6 +524,11 @@ matched control. Эти тексты уже видены в development, не я
       attempts, retries, времени и расходов, stopping rule и capture/replay.
       Старое разрешение на другой эксперимент автоматически не переносится.
       Использовать существующий harness без нового инфраструктурного этапа.
+      Для пилота достаточно минимального sync application adapter и необходимых
+      parsing/source guards внутри harness. Создание reusable package, async API,
+      dependency-enforcement matrix и neutral portability suite не являются
+      prerequisites: это отдельная задача только после pilot go/no-go и разрешения
+      разработки по [module proposal](docs/CLAIRIC_PYTHON_MODULE_PROPOSAL.md#7-этапы-и-критерии-review).
 
 **Результат и go/no-go.** Для каждого кейса сравнить полноту извлечения, точность
 anchors, polarity/modality, speaker/subject/episode binding, необоснованное

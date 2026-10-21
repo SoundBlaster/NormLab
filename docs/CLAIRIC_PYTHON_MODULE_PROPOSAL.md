@@ -1,13 +1,15 @@
 # Proposal: независимый Clairic client для Python
 
-Дата: 2026-10-20. Статус: proposal, реализация не начата.
+Дата: 2026-10-20; уточнение порядка работ: 2026-10-21.
+Статус: архитектурный proposal; reusable package не реализован.
 Ledger: [Stage 1 synthesis / #70](https://github.com/SoundBlaster/NormLab/issues/70).
 Связанный [экспериментальный proposal](../roadmap.md#proposal-clairic-как-extractor--2026-10-20)
 определяет гипотезу пользы для NormLab; этот документ определяет границу модуля.
 
 ## 1. Решение, предлагаемое к принятию
 
-Разрабатывать один небольшой Python package с внутренними микромодулями:
+Если bounded pilot подтвердит пользу и будет отдельно разрешена разработка
+reusable client, использовать один небольшой Python package с внутренними микромодулями:
 типы, transport port, HTTP implementation, wire codec, client и evidence checks.
 Каждая часть имеет явную ответственность и направление импортов. Отдельные
 PyPI-пакеты, сервисы и независимые версии для этих частей не нужны.
@@ -18,13 +20,25 @@ Mellea или Jev4Mellea. Имена полей и инструкции полу
 Передача юридического текста как входных данных допустима; включение юридических
 типов, prompts и правил в библиотеку — нарушение границы.
 
-Первый потребитель — эксперимент NormLab. Условный namespace — `clairic_client`;
-название дистрибутива и его доступность пока не проверены. До пилота хранить
-код в отдельном поддереве `integrations/clairic/python/`, с собственным будущим
-`pyproject.toml` и `src/clairic_client/`. Это предлагаемая структура, а не
-существующий пакет. Публикацию решить после подтверждения полезности.
+**Пилот не зависит от создания package.** Его первый путь — минимальный
+application adapter внутри существующего capture/replay harness. Он переводит
+заданный request в один разрешённый HTTP attempt и возвращает исходный ответ,
+operational status и provenance в существующий capture contract. Достаточен один
+sync path; typed field validation и source checks выполняются в объёме,
+необходимом для frozen protocol. Adapter не объявляется public library/API.
+
+Условный namespace будущего reusable client — `clairic_client`; имя дистрибутива
+и его доступность пока не проверены. Только после положительного решения по
+пилоту и отдельной задачи package можно разместить в
+`integrations/clairic/python/`, с `pyproject.toml` и `src/clairic_client/`.
+Это предлагаемая структура следующего этапа, а не prerequisite эксперимента.
+Sync/async parity, optional extras, static dependency enforcement, neutral
+portability scenarios и публикация не входят в подготовку пилота.
 
 ## 2. Микромодули и зависимости
+
+Этот раздел задаёт целевую архитектуру будущего package после pilot go/no-go;
+он не является acceptance checklist минимального adapter для эксперимента.
 
 | Микромодуль          | Ответственность                                                            | Допустимые внутренние зависимости   |
 | -------------------- | -------------------------------------------------------------------------- | ----------------------------------- |
@@ -182,7 +196,33 @@ Mellea wrapper сначала можно держать у потребител�
 - [ ] Определены neutral public DTOs и граница application adapter.
 - [ ] Зафиксированы wire profile, поддержанный subset и открытые вопросы offsets.
 
-### B. Реализовать минимальный contract отдельно разрешённой задачей
+### B. Проверить гипотезу в существующем harness
+
+Это следующий экспериментальный этап, отдельно разрешаемый bounded protocol,
+а не реализация package из разделов 2–6:
+
+- [ ] Заморозить минимальный request/response contract, fixtures, comparison arms
+      и caps; проверить representability и неизвестные offsets по roadmap.
+- [ ] Добавить только необходимый application adapter в существующий harness:
+      один sync call, parsing используемого subset, operational errors,
+      credential redaction и сохранение исходного response/provenance.
+- [ ] Offline-проверкой покрыть фактически используемый contract и guards;
+      полная package-level matrix не является prerequisite этого этапа.
+- [ ] Выполнить отдельно согласованный
+      [bounded pilot](../roadmap.md#proposal-clairic-как-extractor--2026-10-20)
+      с существующими capture/replay/scoring. Внешние caps, retries, все вызовы,
+      стоимость и human review остаются условиями его protocol.
+- [ ] Зафиксировать go/no-go по пользе для pipeline. Один успешный HTTP call
+      подтверждает доступность; smoke или source-boundary diagnostic не заменяет
+      сравнительный пилот и не подтверждает semantic quality.
+
+При no-go сохранить evidence и defer reusable package. Отдельного
+инфраструктурного этапа перед пилотом нет. Этот proposal сам не разрешает
+implementation, новые tests или inference.
+
+### C. После pilot go — отдельная задача reusable client
+
+Только после положительного решения этапа B и отдельного разрешения:
 
 - [ ] Core импортируется без HTTP/Mellea и без доступа к окружению/сети.
 - [ ] Static import/dependency checks отклоняют циклы, обратные зависимости,
@@ -193,21 +233,17 @@ Mellea wrapper сначала можно держать у потребител�
       границы координат; неизвестные единицы остаются unknown.
 - [ ] Fake transport проверяет один attempt, timeout/cancellation, credential
       redaction и transport ownership без provider calls.
+- [ ] Sync/async public clients и optional HTTP extra соответствуют разделам 2–3.
 - [ ] Два нейтральных сценария используют тот же client без NormLab imports.
 
-Это план будущих проверок. Ни код, ни перечисленные tests в рамках proposal
-не добавляются и не запускаются.
+Это будущие package acceptance criteria. Они не блокируют B и не считаются
+выполненными из-за smoke/пилота. Код и перечисленные tests в этом PR не добавляются.
 
-### C. Проверить пользу и решить о выделении
+### D. Решить о самостоятельной публикации
 
-Подключить module к существующему capture/replay harness и выполнить отдельно
-согласованный [bounded pilot](../roadmap.md#proposal-clairic-как-extractor--2026-10-20).
-Внешние caps, retries, стоимость всех calls и human review остаются его условиями.
-Одна успешная HTTP-сессия подтверждает доступность, но не semantic quality.
-
-Выделять самостоятельный repository/distribution после полезного пилота,
-стабилизации контракта и проверки переносимости в нейтральном потребителе.
-До публикации выбрать имя/лицензию, зафиксировать Python compatibility и отдельно
+Выделять repository/distribution после полезного пилота, стабилизации контракта
+и проверки переносимости на этапе C. Публикация необязательна для эксперимента.
+До неё выбрать имя/лицензию, зафиксировать Python compatibility и отдельно
 проверить условия provider. Лицензия client не предоставляет права на модель.
 
 ## 8. Источники и открытые вопросы
