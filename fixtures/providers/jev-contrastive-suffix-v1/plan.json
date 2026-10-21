@@ -1,0 +1,286 @@
+{
+  "schema": "normlab.jev-contrastive-suffix-plan/v1",
+  "status": "authorized-frozen",
+  "ledger": "https://github.com/SoundBlaster/NormLab/issues/70",
+  "model": "jev-1.13.0",
+  "endpoint": "https://hub.coreinfra.ai/typesafe/api/v1/systemone",
+  "transport": "direct HTTP using same standard-library transport as Ultra; not SDK/bridge integration evidence",
+  "hypothesis": "On the same12 source-preserving tasks, determine which of the six contrasts Jev distinguishes and where its errors overlap with D1 Ultra. No task, source, instruction, reference or default-provider change.",
+  "sourceCount": 3,
+  "taskCount": 6,
+  "sourceSplit": "previously exposed authored diagnostic-development; no holdout",
+  "authorization": {
+    "status": "authorized",
+    "authorizedAttempts": 8,
+    "source": "Direct human reply approving remaining6 jobs,new360s window,max8attempts/2network retries,aggregate16/4 unchanged,skip exhausted P03b and completed jobs",
+    "date": "2026-10-21"
+  },
+  "proposedCaps": {
+    "plannedJobs": 6,
+    "maxHttpAttempts": 8,
+    "retries": 2,
+    "perRequestDeadlineSeconds": 30,
+    "seriesDeadlineSeconds": 360,
+    "maxResponseBytes": 1048576,
+    "stopOn": "HTTP/protocol/model drift,globalcaps/deadline;unrecovered networkunknown is retained and next job proceeds",
+    "externalMonetaryCap": "User-reported CoreInfra account ceiling USD4 remains unverified"
+  },
+  "order": ["P04b", "P04a", "P05a", "P05b", "P06b", "P06a"],
+  "pairs": [
+    {
+      "id": "P04",
+      "family": "claimant",
+      "taskIds": ["P04a", "P04b"],
+      "changedField": "claimant",
+      "caseId": "C015"
+    },
+    {
+      "id": "P05",
+      "family": "explicit-unknown",
+      "taskIds": ["P05a", "P05b"],
+      "changedField": "stance",
+      "caseId": "C003"
+    },
+    {
+      "id": "P06",
+      "family": "location-ambiguity",
+      "taskIds": ["P06a", "P06b"],
+      "changedField": "predicate",
+      "caseId": "C016"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "P04a",
+      "pairId": "P04",
+      "family": "claimant",
+      "caseId": "C015",
+      "taskPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P04a.json",
+      "taskSha256": "52e340c1e16bdf5af3f976047c3e1a7f4744500f4e9ea52bb64733f63d6bce72",
+      "origin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+        "recordId": "R029",
+        "caseId": "C015",
+        "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+      }
+    },
+    {
+      "id": "P04b",
+      "pairId": "P04",
+      "family": "claimant",
+      "caseId": "C015",
+      "taskPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P04b.json",
+      "taskSha256": "df182d37fc921d1ae4baec27b57370b4cba59921f09d991ec866339895a756aa",
+      "origin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+        "recordId": "R030",
+        "caseId": "C015",
+        "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+      }
+    },
+    {
+      "id": "P05a",
+      "pairId": "P05",
+      "family": "explicit-unknown",
+      "caseId": "C003",
+      "taskPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P05a.json",
+      "taskSha256": "d0665ce392b56a5845e95740fb64fb5f57e72846795e2b9b222b43f60944b1a4",
+      "origin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+        "recordId": "R005",
+        "caseId": "C003",
+        "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+      }
+    },
+    {
+      "id": "P05b",
+      "pairId": "P05",
+      "family": "explicit-unknown",
+      "caseId": "C003",
+      "taskPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P05b.json",
+      "taskSha256": "0d67be15b84f61dd0505a8861d43a818641964fce2eba419a6afb576f8bf9419",
+      "origin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+        "recordId": "R006",
+        "caseId": "C003",
+        "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+      }
+    },
+    {
+      "id": "P06a",
+      "pairId": "P06",
+      "family": "location-ambiguity",
+      "caseId": "C016",
+      "taskPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P06a.json",
+      "taskSha256": "093c0f4a4ac0d2a348d9fc6f7612f0b4fa0114dafa4ec5a873bd0863f26e8fc0",
+      "origin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+        "recordId": "R032",
+        "caseId": "C016",
+        "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+      }
+    },
+    {
+      "id": "P06b",
+      "pairId": "P06",
+      "family": "location-ambiguity",
+      "caseId": "C016",
+      "taskPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P06b.json",
+      "taskSha256": "0bdb002c11de9c9215fadc7363f8b3cd6469bfaa0b525be7ac6a1d7794c197e9",
+      "origin": {
+        "path": "fixtures/providers/bridge-semantic-probe-v1/tasks/T04.json",
+        "sha256": "0bdb002c11de9c9215fadc7363f8b3cd6469bfaa0b525be7ac6a1d7794c197e9",
+        "referencePath": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/sources.json",
+      "sha256": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+      "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+      "sha256": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/conventions.json",
+      "sha256": "8673b5c4d2e1257b470e256f47a183963913975754755ba0a8e5ea284c08f9f8"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/definitions.json",
+      "sha256": "0b9be80b864f3563de2af79d4b160c266362906efafdb264cffd40c98ff7a224"
+    },
+    {
+      "path": "fixtures/providers/bridge-semantic-probe-v1/tasks/T01.json",
+      "sha256": "9f5d8dc6e2e5da8cb67bfe099e2ad87b5127ae313470898b43191106e6385462"
+    },
+    {
+      "path": "fixtures/providers/bridge-semantic-probe-v1/tasks/T04.json",
+      "sha256": "0bdb002c11de9c9215fadc7363f8b3cd6469bfaa0b525be7ac6a1d7794c197e9"
+    },
+    {
+      "path": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json",
+      "sha256": "98a2ba8d3a8d86af7f262cd44f189369e892e5a418a53c0f02dfd94da9081024"
+    },
+    {
+      "path": "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+      "sha256": "74baecc35104f8894c59bc984d1cda95450bf7f65f53788f7d8ee3b94c5e4363"
+    },
+    {
+      "path": "scripts/clairic_smoke.py",
+      "sha256": "f983e41ba4d7f94dd2c1e84915e64a50ae3a6ee1b5f34a9273a969c82000f4b4"
+    },
+    {
+      "path": "docs/evidence/liquid-contrastive-run-2026-10-21/report.json",
+      "sha256": "5dc010ff27804a915c2e607320222d263cab68dc7f43686bdb893e8ac44967ca"
+    },
+    {
+      "path": "docs/evidence/liquid-contrastive-run-2026-10-21/analysis.json",
+      "sha256": "cc0e88b2400f0d5d691fc1a4b4114f13a89ff4ddc28ef35b06c4004a92a84282"
+    },
+    {
+      "path": "fixtures/providers/bridge-semantic-probe-v1/configs/coreinfra-jev.json",
+      "sha256": "136e788500fd8e66244e1ad02d887ef7295d97360e5a64f92b4db3de19367b32"
+    },
+    {
+      "path": "fixtures/providers/liquid-contrastive-controls-v1/plan.json",
+      "sha256": "c14239c425506d972fb6945aea1371913d0faab990f7e4dae76e5571ff65b2a0"
+    },
+    {
+      "path": "docs/evidence/jev-contrastive-run-2026-10-21/report.json",
+      "sha256": "5616ad27fe63572fe16aba4dbe59b9c3dff73e17e621b10b59d7b8a2d1d9d85d"
+    },
+    {
+      "path": "fixtures/providers/jev-contrastive-controls-v1/plan.json",
+      "sha256": "dbf93a8016eefa381abf91a14195fb45424aafdfae3e6f776c942bc1d83619c1"
+    },
+    {
+      "path": "docs/evidence/jev-contrastive-retry-2026-10-21/report.json",
+      "sha256": "7f48eee5e78c072c27f3ebd299087c546c70aaebaa337e4c2becf50d12d23151"
+    },
+    {
+      "path": "docs/evidence/jev-contrastive-retry-2026-10-21/analysis.json",
+      "sha256": "af60e13ea4b3a0b32f55132adcaf8e0f5a8eba669b747fd6df967559b0716b6a"
+    },
+    {
+      "path": "fixtures/providers/jev-contrastive-retry-v1/plan.json",
+      "sha256": "219b515b0a5e2ecfb5b046c7ebc0d880567b7ace383c60ce58d566a048645526"
+    }
+  ],
+  "references": {
+    "path": "fixtures/providers/liquid-contrastive-controls-v1/reviewer-only.json",
+    "sha256": "9dce0886099490a9b761527885bd6833ab421804d80106b834e90c0e8ae57e04"
+  },
+  "policyPath": "fixtures/providers/bridge-semantic-probe-v1/policy.json",
+  "wireInput": "model plus exact state and questions from task file only; no IDs, references, pair metadata, order, expected labels or evaluation artifacts",
+  "instructionVariant": "original A, exactly existing bridge T01 overall question; no B clarification",
+  "requirementsBeforeDispatch": [
+    "Direct user Repeat authorizes bounded network retries proposed after stopped series",
+    "Freeze actual retry driver and unchanged inputs/baselines before inference",
+    "Keep all attempt outcomes and known/unknown usage;never retry after valid semantic label",
+    "Preserve stopped series and Ultra evidence separately;no new other-provider calls"
+  ],
+  "metrics": {
+    "candidateAgreementDenominator": 6,
+    "pairContrastDenominator": 3,
+    "incompatibleFalseAcceptanceDenominator": 2,
+    "compatibleFalseRejectionDenominator": 3,
+    "ambiguousOverdeterminationDenominator": 1,
+    "populationAccuracy": null,
+    "modelRanking": null,
+    "confidenceThresholdTuning": false
+  },
+  "resultStatus": "not-executed",
+  "observedAttempts": 0,
+  "driverPath": "docs/evidence/jev-contrastive-suffix-2026-10-21/driver.py",
+  "driverSha256": "9b473227e259a28099530d7bb8d7806f2a73a50fee23571adf05c95abacbcc98",
+  "executionAuthorizationCaps": {
+    "plannedJobs": 6,
+    "maxHttpAttempts": 8,
+    "retries": 2,
+    "perRequestDeadlineSeconds": 30,
+    "seriesDeadlineSeconds": 360,
+    "maxResponseBytes": 1048576,
+    "stopOn": "HTTP/protocol/model drift,globalcaps/deadline;unrecovered networkunknown is retained and next job proceeds",
+    "externalMonetaryCap": "User-reported CoreInfra account ceiling USD4 remains unverified"
+  },
+  "credentialSource": "COREINFRA_API_KEY environment; never printed or persisted",
+  "baseline": {
+    "capturePath": "docs/evidence/liquid-contrastive-run-2026-10-21/report.json",
+    "analysisPath": "docs/evidence/liquid-contrastive-run-2026-10-21/analysis.json",
+    "model": "d1-ultra",
+    "freshBaselineCalls": 0,
+    "scope": "Same tasks/order/reference, sequential arms with different provider/endpoint/time; no ranking or matched compute claim"
+  },
+  "retryPolicy": {
+    "networkUnknownOnly": true,
+    "maxRetriesPerJob": 1,
+    "maxRetriesTotal": 2,
+    "backoffSeconds": 1,
+    "retryAfterLabel": false,
+    "unknownMayDuplicateBilling": true,
+    "continueAfterUnrecoveredNetworkUnknown": true
+  },
+  "previousStoppedSeries": {
+    "capturePath": "docs/evidence/jev-contrastive-run-2026-10-21/report.json",
+    "attempts": 1,
+    "unknown": 1,
+    "includedInNewAttemptCap": false,
+    "pooledForSemanticScore": false
+  },
+  "continuation": {
+    "priorCapturePath": "docs/evidence/jev-contrastive-retry-2026-10-21/report.json",
+    "priorAttempts": 8,
+    "priorRetries": 2,
+    "aggregateAttemptCap": 16,
+    "aggregateRetryCap": 4,
+    "newExecutionWindowSeconds": 360,
+    "postObservationAmendment": true,
+    "excludedCompletedAndExhaustedJobIds": ["P01a", "P01b", "P02b", "P02a", "P03a", "P03b"]
+  }
+}
