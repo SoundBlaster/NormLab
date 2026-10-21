@@ -1,6 +1,10 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import prompts from './inference-prompts.json';
+import {
+  hostedAttributesSchema as attributes,
+  type HostedFragment as Fragment,
+} from '../shared/hosted-stage.js';
 import { reviewStatementSchema, type ReviewStatement } from '../shared/parking-review.js';
 import { DECISIONS_SETTINGS } from './inference-decisions.js';
 import {
@@ -45,19 +49,6 @@ const JEV_CRITERIA = {
   unknown: 'This fragment explicitly says the value of this predicate is unknown.',
   unsupported: 'This fragment does not discuss this predicate. Silence is unsupported.',
 };
-const attributes = z
-  .object({
-    subject: z
-      .string()
-      .regex(/^(vehicle|person)_[1-9][0-9]*$/)
-      .max(128),
-    aboutEpisode: z
-      .string()
-      .regex(/^episode_[1-9][0-9]*$/)
-      .max(128),
-    speaker: z.string().trim().min(1).max(128),
-  })
-  .strict();
 const discovery = z
   .object({
     extractions: z
@@ -136,13 +127,6 @@ export const HOSTED_DECISIONS_PROMPT_DIGEST = sha({
   basePromptDigest: HOSTED_PROMPT_DIGEST,
   decisions: DECISIONS_SETTINGS,
 });
-type Fragment = {
-  fragmentId: string;
-  quote: string;
-  attributes: z.infer<typeof attributes>;
-  startOffset: number;
-  endOffset: number;
-};
 type Classification = z.infer<typeof classification> & { fragmentId: string };
 type BatchResult = { calls: InferenceCall[]; decisions: unknown[]; classified: Classification[] };
 
@@ -181,6 +165,47 @@ export async function runHostedExtraction(
   const { narrative, sourceDigest: digest } = extractionInput.parse(input);
   if (sourceDigest(narrative) !== digest) throw new Error('Source binding mismatch.');
   const started = Date.now();
+  const { fragments, calls } = await discoverHostedFragments(narrative, providers, signal);
+  const batches: Fragment[][] = [];
+  for (let cursor = 0; cursor < fragments.length; cursor += BATCH_SIZE)
+    batches.push(fragments.slice(cursor, cursor + BATCH_SIZE));
+  const results = await mapBatches(
+    batches,
+    signal,
+    classifier === 'openai'
+      ? (batch, batchSignal) => classifyWithOpenAI(batch, providers, batchSignal)
+      : (batch, batchSignal) =>
+          classifyWithAtomicChoices(batch, providers, classifier, batchSignal),
+  );
+  calls.push(...results.flatMap((result) => result.calls));
+  const decisions = results.flatMap((result) => result.decisions);
+  const classified = results.flatMap((result) => result.classified);
+  const statements = hostedStatements(fragments, classified);
+  if (!statements.length || statements.length > 256)
+    throw new Error('Extraction statement count outside limits.');
+  return {
+    schema: 'normlab.hosted-statements/v1',
+    pipeline: classifier === 'decisions' ? HOSTED_DECISIONS_PIPELINE : HOSTED_PIPELINE,
+    sourceDigest: digest,
+    promptDigest:
+      classifier === 'decisions' ? HOSTED_DECISIONS_PROMPT_DIGEST : HOSTED_PROMPT_DIGEST,
+    classifier,
+    latencyMs: Date.now() - started,
+    fragments,
+    decisions,
+    statements,
+    calls,
+    reviewState: 'unreviewed',
+    valueTextMethod: classifier === 'openai' ? 'model-summary' : 'exact-source-quote',
+  };
+}
+
+/** A stage performs one provider call; callers commit its output before dispatching the next. */
+export async function discoverHostedFragments(
+  narrative: string,
+  providers: InferenceProviders,
+  signal: AbortSignal,
+) {
   const calls: InferenceCall[] = [];
   const discovered = discovery.parse(
     await providers.structured(
@@ -208,22 +233,12 @@ export async function runHostedExtraction(
     new Set(fragments.map((f) => JSON.stringify([f.quote, f.attributes]))).size !== fragments.length
   )
     throw new Error('Duplicate discovered fragment.');
-  const batches: Fragment[][] = [];
-  for (let cursor = 0; cursor < fragments.length; cursor += BATCH_SIZE)
-    batches.push(fragments.slice(cursor, cursor + BATCH_SIZE));
-  const results = await mapBatches(
-    batches,
-    signal,
-    classifier === 'openai'
-      ? (batch, batchSignal) => classifyWithOpenAI(batch, providers, batchSignal)
-      : (batch, batchSignal) =>
-          classifyWithAtomicChoices(batch, providers, classifier, batchSignal),
-  );
-  calls.push(...results.flatMap((result) => result.calls));
-  const decisions = results.flatMap((result) => result.decisions);
-  const classified = results.flatMap((result) => result.classified);
+  return { fragments, calls };
+}
+
+function hostedStatements(fragments: Fragment[], classified: Classification[]): ReviewStatement[] {
   const byId = new Map(fragments.map((f) => [f.fragmentId, f]));
-  const statements: ReviewStatement[] = classified.map((item) => {
+  return classified.map((item) => {
     const fragment = byId.get(item.fragmentId);
     if (!fragment) throw new Error('Unknown classification fragment.');
     return reviewStatementSchema.parse({
@@ -240,23 +255,21 @@ export async function runHostedExtraction(
       rationale: '',
     });
   });
-  if (!statements.length || statements.length > 256)
-    throw new Error('Extraction statement count outside limits.');
-  return {
-    schema: 'normlab.hosted-statements/v1',
-    pipeline: classifier === 'decisions' ? HOSTED_DECISIONS_PIPELINE : HOSTED_PIPELINE,
-    sourceDigest: digest,
-    promptDigest:
-      classifier === 'decisions' ? HOSTED_DECISIONS_PROMPT_DIGEST : HOSTED_PROMPT_DIGEST,
-    classifier,
-    latencyMs: Date.now() - started,
-    fragments,
-    decisions,
-    statements,
-    calls,
-    reviewState: 'unreviewed',
-    valueTextMethod: classifier === 'openai' ? 'model-summary' : 'exact-source-quote',
-  };
+}
+
+export async function classifyHostedFragments(
+  fragments: Fragment[],
+  providers: InferenceProviders,
+  classifier: 'openai' | 'typesafe' | 'decisions',
+  signal: AbortSignal,
+) {
+  const result =
+    classifier === 'openai'
+      ? await classifyWithOpenAI(fragments, providers, signal)
+      : await classifyWithAtomicChoices(fragments, providers, classifier, signal);
+  const statements = hostedStatements(fragments, result.classified);
+  if (statements.length > 256) throw new Error('Extraction statement count outside limits.');
+  return { calls: result.calls, decisions: result.decisions, statements };
 }
 
 async function classifyWithOpenAI(
