@@ -1,0 +1,29 @@
+{
+  "schema": "normlab.liquid-contrastive-preparation/v1",
+  "httpAttempts": 0,
+  "executionStatus": "not-executed",
+  "sourceCount": 6,
+  "taskCount": 12,
+  "pairCount": 6,
+  "referenceCounts": {
+    "compatible": 6,
+    "incompatible": 5,
+    "indeterminate": 1
+  },
+  "checks": {
+    "exactOriginalSources": true,
+    "exactV2CandidatesAndDerivedHistoricalT04": true,
+    "oneClaimFieldDifferencePerPair": true,
+    "exactOriginalQuestionConventionsDefinitions": true,
+    "quoteCodePointSlices": true,
+    "taskOriginReferenceHashes": true,
+    "referencesExcludedFromTaskObjects": true,
+    "historicalSentinelsIdentical": true,
+    "localPacketLinks": true,
+    "credentialExclusion": true
+  },
+  "reviewStatus": "self-checked; not independent semantic gold",
+  "runtimeDriverFreeze": "pending-before-inference",
+  "authorization": "pending-separate-bounded-grant",
+  "scope": "Offline input consistency only; no app tests, network, inference, installation or deployment."
+}

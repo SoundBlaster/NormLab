@@ -1,0 +1,117 @@
+{
+  "schema": "normlab.liquid-contrastive-references/v1",
+  "labelStatus": "candidate-not-independent-human-gold",
+  "independentHumanReviewCompleted": false,
+  "holdoutEligible": false,
+  "modelInput": false,
+  "records": [
+    {
+      "id": "P01a",
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R017"
+      }
+    },
+    {
+      "id": "P01b",
+      "expectedAnswer": "incompatible",
+      "expectedPolicyOutcome": "reject",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R018"
+      }
+    },
+    {
+      "id": "P02a",
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R021"
+      }
+    },
+    {
+      "id": "P02b",
+      "expectedAnswer": "incompatible",
+      "expectedPolicyOutcome": "reject",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R022"
+      }
+    },
+    {
+      "id": "P03a",
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R024"
+      }
+    },
+    {
+      "id": "P03b",
+      "expectedAnswer": "incompatible",
+      "expectedPolicyOutcome": "reject",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R023"
+      }
+    },
+    {
+      "id": "P04a",
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R029"
+      }
+    },
+    {
+      "id": "P04b",
+      "expectedAnswer": "incompatible",
+      "expectedPolicyOutcome": "reject",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R030"
+      }
+    },
+    {
+      "id": "P05a",
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R005"
+      }
+    },
+    {
+      "id": "P05b",
+      "expectedAnswer": "incompatible",
+      "expectedPolicyOutcome": "reject",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R006"
+      }
+    },
+    {
+      "id": "P06a",
+      "expectedAnswer": "compatible",
+      "expectedPolicyOutcome": "accept",
+      "referenceOrigin": {
+        "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+        "recordId": "R032"
+      }
+    },
+    {
+      "id": "P06b",
+      "expectedAnswer": "indeterminate",
+      "expectedPolicyOutcome": "review",
+      "referenceOrigin": {
+        "path": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json",
+        "recordId": "T04"
+      }
+    }
+  ]
+}

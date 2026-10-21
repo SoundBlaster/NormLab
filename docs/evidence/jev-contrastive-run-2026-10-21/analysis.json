@@ -1,0 +1,44 @@
+{
+  "schema": "normlab.jev-ultra-contrast-comparison/v1",
+  "status": "operationally-incomplete",
+  "jevCaptureSha256": "5616ad27fe63572fe16aba4dbe59b9c3dff73e17e621b10b59d7b8a2d1d9d85d",
+  "planSha256": "dbf93a8016eefa381abf91a14195fb45424aafdfae3e6f776c942bc1d83619c1",
+  "ultraCaptureSha256": "5dc010ff27804a915c2e607320222d263cab68dc7f43686bdb893e8ac44967ca",
+  "jev": {
+    "planned": 12,
+    "attempts": 1,
+    "completed": 0,
+    "unknown": 1,
+    "notExecuted": 11,
+    "retries": 0,
+    "candidateAgreement": null,
+    "completePairAgreement": null,
+    "falseAcceptance": null,
+    "falseRejection": null,
+    "knownUsage": null,
+    "unknownUsageAttempts": 1,
+    "costUSD": null,
+    "elapsedSeconds": 6.555
+  },
+  "ultra": {
+    "completed": 12,
+    "candidateAgreement": {
+      "count": 10,
+      "denominator": 12
+    },
+    "completePairAgreement": {
+      "count": 4,
+      "denominator": 6
+    },
+    "newCalls": 0
+  },
+  "transportProbe": {
+    "path": "docs/evidence/jev-contrastive-run-2026-10-21/transport-probe.json",
+    "sha256": "79973d76b93f7f58ff9aac06cb4fa1c442938bd1b833f59b3ad65f9ff5f000d8",
+    "status": "tls-completed",
+    "httpRequests": 0,
+    "rootCauseOfEarlierFailureEstablished": false
+  },
+  "semantics": "No Jev label was returned; unknown is not a semantic failure,review or zero accuracy. No new comparison ranking is possible.",
+  "authorization": "Series stopped by frozen rule; unused11 attempts do not authorize implicit restart or unknown-outcome retry."
+}

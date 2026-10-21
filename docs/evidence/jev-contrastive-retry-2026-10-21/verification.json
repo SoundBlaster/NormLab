@@ -1,0 +1,19 @@
+{
+  "schema": "normlab.jev-retry-verification/v1",
+  "httpAttemptsDuringVerification": 0,
+  "captureSha256": "7f48eee5e78c072c27f3ebd299087c546c70aaebaa337e4c2becf50d12d23151",
+  "checks": {
+    "frozenPlanDriverHelperTaskReferenceBaselineAndPriorCaptureHashes": true,
+    "allAttemptStateQuestionsMatchUltraExceptModel": true,
+    "attemptSequenceAndPerJobGlobalCaps": true,
+    "retriesOnlyAfterUnknownNeverAfterLabel": true,
+    "completedResponseSchemasDistributionsGrades": true,
+    "unknownSSLEOFAndMissingUsagePreserved": true,
+    "finalJobsEqualLastAttempts": true,
+    "completedInputAndPairDenominators": true,
+    "firstAttemptRecoveredAndAllAttemptResources": true,
+    "stopAfterSecondUnknownOnP03b": true,
+    "credentialExclusion": true
+  },
+  "scope": "Offline consistency,not semantic gold,billing,full12-job accuracy or model ranking."
+}

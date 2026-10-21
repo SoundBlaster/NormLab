@@ -1,0 +1,290 @@
+{
+  "schema": "normlab.jev-ultra-combined-contrast-analysis/v1",
+  "suffixCaptureSha256": "bad985d05edecad64df9eec7e296ef0910805c73c768daa27f01dc992ad4054c",
+  "priorRetryCaptureSha256": "7f48eee5e78c072c27f3ebd299087c546c70aaebaa337e4c2becf50d12d23151",
+  "ultraCaptureSha256": "5dc010ff27804a915c2e607320222d263cab68dc7f43686bdb893e8ac44967ca",
+  "planSha256": "5fca523125f4b76afaebafec204e5e53d76385ae6abdc39376057d983aed5992",
+  "status": "all12-jobs-attempted-with2unknown",
+  "coverage": {
+    "plannedJobs": 12,
+    "attemptedJobs": 12,
+    "completedJobs": 10,
+    "unknownJobs": ["P03b", "P06b"],
+    "notExecuted": 0
+  },
+  "aggregateAttempts": 16,
+  "aggregateRetries": 4,
+  "aggregateAttemptOutcomes": {
+    "completed": 10,
+    "unknown": 6
+  },
+  "candidateAgreementCompleted": {
+    "count": 8,
+    "denominator": 10
+  },
+  "ultraOnSameCompletedInputs": {
+    "count": 9,
+    "denominator": 10
+  },
+  "completePairAgreement": {
+    "count": 2,
+    "denominator": 4,
+    "plannedPairs": 6
+  },
+  "ultraOnSameCompletePairs": {
+    "count": 3,
+    "denominator": 4
+  },
+  "firstAttemptAnswers": {
+    "completed": 7,
+    "candidateAgreement": 6
+  },
+  "recoveredAnswers": {
+    "completed": 3,
+    "candidateAgreement": 2
+  },
+  "falseAcceptance": {
+    "ids": ["P04b"],
+    "completedReferenceDenominator": 4,
+    "plannedReferenceDenominator": 5
+  },
+  "falseRejection": {
+    "ids": ["P02a"],
+    "completedReferenceDenominator": 6,
+    "plannedReferenceDenominator": 6
+  },
+  "ambiguityResult": null,
+  "knownUsageAllAttempts": {
+    "input_tokens": 19164,
+    "output_tokens": 442
+  },
+  "unknownUsageAttempts": 6,
+  "costUSD": null,
+  "billingVerified": false,
+  "executionWindowSeconds": [29.345, 30.526],
+  "postObservationContinuationAmendment": true,
+  "populationAccuracy": null,
+  "modelRanking": null,
+  "referenceStatus": "candidate-not-independent-human-gold",
+  "rows": [
+    {
+      "id": "P01a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": true,
+      "jevConfidence": 0.49,
+      "jevSelectedProbability": 0.66,
+      "jevJobAttempts": 1,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P01b",
+      "expected": "incompatible",
+      "jevStatus": "completed",
+      "jevLabel": "incompatible",
+      "jevMatches": true,
+      "jevConfidence": 0.97,
+      "jevSelectedProbability": 0.98,
+      "jevJobAttempts": 1,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P02b",
+      "expected": "incompatible",
+      "jevStatus": "completed",
+      "jevLabel": "incompatible",
+      "jevMatches": true,
+      "jevConfidence": 0.95,
+      "jevSelectedProbability": 0.97,
+      "jevJobAttempts": 1,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P02a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "incompatible",
+      "jevMatches": false,
+      "jevConfidence": 0.28,
+      "jevSelectedProbability": 0.52,
+      "jevJobAttempts": 2,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P03a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": true,
+      "jevConfidence": 0.86,
+      "jevSelectedProbability": 0.91,
+      "jevJobAttempts": 1,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P03b",
+      "expected": "incompatible",
+      "jevStatus": "unknown",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "jevJobAttempts": 2,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P04b",
+      "expected": "incompatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": false,
+      "jevConfidence": 0.46,
+      "jevSelectedProbability": 0.64,
+      "jevJobAttempts": 1,
+      "ultraLabel": "compatible",
+      "ultraMatches": false
+    },
+    {
+      "id": "P04a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": true,
+      "jevConfidence": 0.64,
+      "jevSelectedProbability": 0.76,
+      "jevJobAttempts": 2,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P05a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": true,
+      "jevConfidence": 0.69,
+      "jevSelectedProbability": 0.79,
+      "jevJobAttempts": 1,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P05b",
+      "expected": "incompatible",
+      "jevStatus": "completed",
+      "jevLabel": "incompatible",
+      "jevMatches": true,
+      "jevConfidence": 0.66,
+      "jevSelectedProbability": 0.77,
+      "jevJobAttempts": 2,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P06b",
+      "expected": "indeterminate",
+      "jevStatus": "unknown",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "jevJobAttempts": 1,
+      "ultraLabel": "compatible",
+      "ultraMatches": false
+    },
+    {
+      "id": "P06a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": true,
+      "jevConfidence": 0.69,
+      "jevSelectedProbability": 0.79,
+      "jevJobAttempts": 1,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    }
+  ],
+  "pairs": [
+    {
+      "id": "P01",
+      "family": "obligation",
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["compatible", "incompatible"],
+      "jevStatuses": ["completed", "completed"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "jevComplete": true,
+      "jevPass": true,
+      "ultraPass": true
+    },
+    {
+      "id": "P02",
+      "family": "hypothetical",
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["incompatible", "incompatible"],
+      "jevStatuses": ["completed", "completed"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "jevComplete": true,
+      "jevPass": false,
+      "ultraPass": true
+    },
+    {
+      "id": "P03",
+      "family": "payer",
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["compatible", null],
+      "jevStatuses": ["completed", "unknown"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "jevComplete": false,
+      "jevPass": null,
+      "ultraPass": true
+    },
+    {
+      "id": "P04",
+      "family": "claimant",
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["compatible", "compatible"],
+      "jevStatuses": ["completed", "completed"],
+      "ultraLabels": ["compatible", "compatible"],
+      "jevComplete": true,
+      "jevPass": false,
+      "ultraPass": false
+    },
+    {
+      "id": "P05",
+      "family": "explicit-unknown",
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["compatible", "incompatible"],
+      "jevStatuses": ["completed", "completed"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "jevComplete": true,
+      "jevPass": true,
+      "ultraPass": true
+    },
+    {
+      "id": "P06",
+      "family": "location-ambiguity",
+      "expectedLabels": ["compatible", "indeterminate"],
+      "jevLabels": ["compatible", null],
+      "jevStatuses": ["completed", "unknown"],
+      "ultraLabels": ["compatible", "compatible"],
+      "jevComplete": false,
+      "jevPass": null,
+      "ultraPass": false
+    }
+  ],
+  "olderStoppedAttempt": {
+    "includedIn16AttemptCap": false,
+    "includedInSemanticScore": false,
+    "attempts": 1,
+    "unknownUsageAttempts": 1
+  },
+  "authorizationExhausted": true
+}

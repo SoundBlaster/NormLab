@@ -1,0 +1,333 @@
+{
+  "schema": "normlab.liquid-contrastive-analysis/v1",
+  "captureSha256": "5dc010ff27804a915c2e607320222d263cab68dc7f43686bdb893e8ac44967ca",
+  "planSha256": "c14239c425506d972fb6945aea1371913d0faab990f7e4dae76e5571ff65b2a0",
+  "referenceStatus": "candidate-not-independent-human-gold",
+  "sourceCount": 6,
+  "taskCount": 12,
+  "independentCases": null,
+  "populationAccuracy": null,
+  "modelRanking": null,
+  "outcomes": {
+    "completed": 12
+  },
+  "planned": 12,
+  "attempts": 12,
+  "retries": 0,
+  "candidateAgreement": {
+    "count": 10,
+    "denominator": 12
+  },
+  "completePairAgreement": {
+    "count": 4,
+    "denominator": 6
+  },
+  "falseAcceptance": {
+    "ids": ["P04b"],
+    "denominator": 5
+  },
+  "falseRejection": {
+    "ids": [],
+    "denominator": 6
+  },
+  "unnecessaryReview": {
+    "ids": [],
+    "denominator": 11
+  },
+  "ambiguousOverdetermination": {
+    "ids": ["P06b"],
+    "denominator": 1
+  },
+  "knownUsage": {
+    "input_tokens": 15014,
+    "output_tokens": 0
+  },
+  "apiReportedCostSum": 0.000630588,
+  "apiCostCurrencyVerified": false,
+  "estimateInputPriceUSDPerMillionAssumed": 0.042,
+  "estimatedInputCostUSD": 0.0006305880000000001,
+  "billingVerified": false,
+  "elapsedSeconds": 10.496,
+  "pairs": [
+    {
+      "id": "P01",
+      "family": "obligation",
+      "taskIds": ["P01a", "P01b"],
+      "passed": true,
+      "expectedLabels": ["compatible", "incompatible"],
+      "actualLabels": ["compatible", "incompatible"]
+    },
+    {
+      "id": "P02",
+      "family": "hypothetical",
+      "taskIds": ["P02a", "P02b"],
+      "passed": true,
+      "expectedLabels": ["compatible", "incompatible"],
+      "actualLabels": ["compatible", "incompatible"]
+    },
+    {
+      "id": "P03",
+      "family": "payer",
+      "taskIds": ["P03a", "P03b"],
+      "passed": true,
+      "expectedLabels": ["compatible", "incompatible"],
+      "actualLabels": ["compatible", "incompatible"]
+    },
+    {
+      "id": "P04",
+      "family": "claimant",
+      "taskIds": ["P04a", "P04b"],
+      "passed": false,
+      "expectedLabels": ["compatible", "incompatible"],
+      "actualLabels": ["compatible", "compatible"]
+    },
+    {
+      "id": "P05",
+      "family": "explicit-unknown",
+      "taskIds": ["P05a", "P05b"],
+      "passed": true,
+      "expectedLabels": ["compatible", "incompatible"],
+      "actualLabels": ["compatible", "incompatible"]
+    },
+    {
+      "id": "P06",
+      "family": "location-ambiguity",
+      "taskIds": ["P06a", "P06b"],
+      "passed": false,
+      "expectedLabels": ["compatible", "indeterminate"],
+      "actualLabels": ["compatible", "compatible"]
+    }
+  ],
+  "rows": [
+    {
+      "id": "P01a",
+      "pairId": "P01",
+      "family": "obligation",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.7927461873791883,
+      "selectedLabelProbability": 0.8618307915861256,
+      "latencySeconds": 0.974,
+      "usage": {
+        "input_tokens": 1196,
+        "output_tokens": 0,
+        "cost": 5.0232e-5
+      }
+    },
+    {
+      "id": "P01b",
+      "pairId": "P01",
+      "family": "obligation",
+      "expectedLabel": "incompatible",
+      "actualLabel": "incompatible",
+      "expectedPolicy": "reject",
+      "actualPolicy": "reject",
+      "candidateMatches": true,
+      "nativeConfidence": 0.8283581129523547,
+      "selectedLabelProbability": 0.8855720753015698,
+      "latencySeconds": 0.793,
+      "usage": {
+        "input_tokens": 1194,
+        "output_tokens": 0,
+        "cost": 5.0148e-5
+      }
+    },
+    {
+      "id": "P02a",
+      "pairId": "P02",
+      "family": "hypothetical",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.7895743767623902,
+      "selectedLabelProbability": 0.8597162511749268,
+      "latencySeconds": 0.837,
+      "usage": {
+        "input_tokens": 1207,
+        "output_tokens": 0,
+        "cost": 5.0694e-5
+      }
+    },
+    {
+      "id": "P02b",
+      "pairId": "P02",
+      "family": "hypothetical",
+      "expectedLabel": "incompatible",
+      "actualLabel": "incompatible",
+      "expectedPolicy": "reject",
+      "actualPolicy": "reject",
+      "candidateMatches": true,
+      "nativeConfidence": 0.7430433998457766,
+      "selectedLabelProbability": 0.8286955998971843,
+      "latencySeconds": 0.903,
+      "usage": {
+        "input_tokens": 1204,
+        "output_tokens": 0,
+        "cost": 5.0568e-5
+      }
+    },
+    {
+      "id": "P03a",
+      "pairId": "P03",
+      "family": "payer",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.50915306213637,
+      "selectedLabelProbability": 0.6727687080909134,
+      "latencySeconds": 0.939,
+      "usage": {
+        "input_tokens": 1350,
+        "output_tokens": 0,
+        "cost": 5.67e-5
+      }
+    },
+    {
+      "id": "P03b",
+      "pairId": "P03",
+      "family": "payer",
+      "expectedLabel": "incompatible",
+      "actualLabel": "incompatible",
+      "expectedPolicy": "reject",
+      "actualPolicy": "reject",
+      "candidateMatches": true,
+      "nativeConfidence": 0.23653313456152358,
+      "selectedLabelProbability": 0.49102208970768235,
+      "latencySeconds": 0.905,
+      "usage": {
+        "input_tokens": 1350,
+        "output_tokens": 0,
+        "cost": 5.67e-5
+      }
+    },
+    {
+      "id": "P04a",
+      "pairId": "P04",
+      "family": "claimant",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.6270529510760685,
+      "selectedLabelProbability": 0.7513686340507123,
+      "latencySeconds": 0.854,
+      "usage": {
+        "input_tokens": 1204,
+        "output_tokens": 0,
+        "cost": 5.0568e-5
+      }
+    },
+    {
+      "id": "P04b",
+      "pairId": "P04",
+      "family": "claimant",
+      "expectedLabel": "incompatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "reject",
+      "actualPolicy": "accept",
+      "candidateMatches": false,
+      "nativeConfidence": 0.2234701571442408,
+      "selectedLabelProbability": 0.48231343809616056,
+      "latencySeconds": 0.859,
+      "usage": {
+        "input_tokens": 1204,
+        "output_tokens": 0,
+        "cost": 5.0568e-5
+      }
+    },
+    {
+      "id": "P05a",
+      "pairId": "P05",
+      "family": "explicit-unknown",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.7536359994437396,
+      "selectedLabelProbability": 0.8357573329624931,
+      "latencySeconds": 0.855,
+      "usage": {
+        "input_tokens": 1197,
+        "output_tokens": 0,
+        "cost": 5.0274e-5
+      }
+    },
+    {
+      "id": "P05b",
+      "pairId": "P05",
+      "family": "explicit-unknown",
+      "expectedLabel": "incompatible",
+      "actualLabel": "incompatible",
+      "expectedPolicy": "reject",
+      "actualPolicy": "reject",
+      "candidateMatches": true,
+      "nativeConfidence": 0.43897852657250946,
+      "selectedLabelProbability": 0.625985684381673,
+      "latencySeconds": 0.82,
+      "usage": {
+        "input_tokens": 1198,
+        "output_tokens": 0,
+        "cost": 5.0316e-5
+      }
+    },
+    {
+      "id": "P06a",
+      "pairId": "P06",
+      "family": "location-ambiguity",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.683541417706635,
+      "selectedLabelProbability": 0.7890276118044234,
+      "latencySeconds": 0.897,
+      "usage": {
+        "input_tokens": 1355,
+        "output_tokens": 0,
+        "cost": 5.691e-5
+      }
+    },
+    {
+      "id": "P06b",
+      "pairId": "P06",
+      "family": "location-ambiguity",
+      "expectedLabel": "indeterminate",
+      "actualLabel": "compatible",
+      "expectedPolicy": "review",
+      "actualPolicy": "accept",
+      "candidateMatches": false,
+      "nativeConfidence": 0.5247698033879211,
+      "selectedLabelProbability": 0.6831798689252808,
+      "latencySeconds": 0.842,
+      "usage": {
+        "input_tokens": 1355,
+        "output_tokens": 0,
+        "cost": 5.691e-5
+      }
+    }
+  ],
+  "historicalSentinels": {
+    "P05a": {
+      "historicalTask": "T03A",
+      "currentLabel": "compatible",
+      "pooledWithPrevious": false
+    },
+    "P06b": {
+      "historicalTask": "T04A",
+      "currentLabel": "compatible",
+      "pooledWithPrevious": false
+    }
+  },
+  "hypothesisOutcome": "contradicted-on-selected-controls: claimant and location-ambiguity contrasts fail",
+  "confidenceThresholdTuned": false
+}
