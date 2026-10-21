@@ -1,0 +1,163 @@
+{
+  "mode": "live",
+  "case": "ablation-both",
+  "attempts": 1,
+  "retries": 0,
+  "http_status": 200,
+  "cf_ray": "a4d93abe3a86e751-DEN",
+  "model": "clairic",
+  "truncated": false,
+  "usage": {
+    "state_tokens": 69,
+    "image_tokens": 0,
+    "schema_tokens": 955,
+    "input_tokens": 1369,
+    "output_tokens": 0,
+    "passes": 6
+  },
+  "answers": {
+    "anna_statement": {
+      "type": "text",
+      "p_null": 4.6407039917539805e-5,
+      "span": [39, 64],
+      "guess": "Я не оплачивала парковку\"",
+      "confidence": 0.45136380195617676,
+      "value": "Я не оплачивала парковку\""
+    },
+    "boris_statement": {
+      "type": "text",
+      "p_null": 9.08712809177814e-6,
+      "span": [89, 108],
+      "guess": "Я оплатил парковку\"",
+      "confidence": 0.5884465575218201,
+      "value": "Я оплатил парковку\""
+    },
+    "viktor_statement": {
+      "type": "text",
+      "p_null": 8.007533324416727e-6,
+      "span": [134, 153],
+      "guess": "Я оплатил парковку\"",
+      "confidence": 0.5602501630783081,
+      "value": "Я оплатил парковку\""
+    },
+    "unicode_marker": {
+      "type": "text",
+      "p_null": 0.0003123572387266904,
+      "span": [9, 14],
+      "guess": "кафе\"",
+      "confidence": 0.7014281153678894,
+      "value": "кафе\""
+    },
+    "viktor_time": {
+      "type": "text",
+      "p_null": 5.134057209943421e-5,
+      "span": [112, 117],
+      "guess": "11:00",
+      "confidence": 0.9973366856575012,
+      "value": "11:00"
+    },
+    "receipt_number": {
+      "type": "text",
+      "p_null": 0.9997711777687073,
+      "span": [155, 180],
+      "guess": "Номер квитанции не указан",
+      "confidence": 0.982391893863678,
+      "value": null
+    }
+  },
+  "checks": {
+    "anna_statement": {
+      "expected": "Я не оплачивала парковку",
+      "actual": "Я не оплачивала парковку\"",
+      "present": true,
+      "pass": false
+    },
+    "boris_statement": {
+      "expected": "Я оплатил парковку",
+      "actual": "Я оплатил парковку\"",
+      "present": true,
+      "pass": false
+    },
+    "viktor_statement": {
+      "expected": "Я оплатил парковку",
+      "actual": "Я оплатил парковку\"",
+      "present": true,
+      "pass": false
+    },
+    "unicode_marker": {
+      "expected": "кафе",
+      "actual": "кафе\"",
+      "present": true,
+      "pass": false
+    },
+    "viktor_time": {
+      "expected": "11:00",
+      "actual": "11:00",
+      "present": true,
+      "pass": true
+    },
+    "receipt_number": {
+      "expected": null,
+      "actual": null,
+      "present": true,
+      "pass": true
+    }
+  },
+  "pass": false,
+  "scope": "One authored RU probe: fixed values and frozen occurrences; not general quality",
+  "anchor_diagnostics": {
+    "fields": {
+      "anna_statement": {
+        "provider_span": [39, 64],
+        "expected_spans": {
+          "code_points": [39, 63],
+          "utf16_code_units": [39, 63],
+          "utf8_bytes": [62, 107]
+        },
+        "matching_candidates": []
+      },
+      "boris_statement": {
+        "provider_span": [89, 108],
+        "expected_spans": {
+          "code_points": [89, 107],
+          "utf16_code_units": [89, 107],
+          "utf8_bytes": [145, 179]
+        },
+        "matching_candidates": []
+      },
+      "viktor_statement": {
+        "provider_span": [134, 153],
+        "expected_spans": {
+          "code_points": [134, 152],
+          "utf16_code_units": [134, 152],
+          "utf8_bytes": [219, 253]
+        },
+        "matching_candidates": []
+      },
+      "unicode_marker": {
+        "provider_span": [9, 14],
+        "expected_spans": {
+          "code_points": [9, 13],
+          "utf16_code_units": [9, 13],
+          "utf8_bytes": [16, 24]
+        },
+        "matching_candidates": []
+      },
+      "viktor_time": {
+        "provider_span": [112, 117],
+        "expected_spans": {
+          "code_points": [112, 117],
+          "utf16_code_units": [112, 117],
+          "utf8_bytes": [185, 190]
+        },
+        "matching_candidates": ["code_points", "utf16_code_units"]
+      }
+    },
+    "source_basis_compatible": true,
+    "consistent_candidates": [],
+    "one_candidate_matches_all": false,
+    "scope": "Observed exclusive-end candidates only; no production coordinate inference"
+  },
+  "fixture_sha256": "c63a40d47b054975cd775e24e0eaf47a619bb3ec8e9f983a81af620fc33c5447",
+  "elapsed_seconds": 1.055
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "normlab.clairic-linebreak-ablation/v1",
+  "fields": {
+    "anna_statement": {
+      "type": "text",
+      "instructions": "Дословно слова Анны об оплате парковки, без кавычек; сохранить отрицание."
+    },
+    "boris_statement": {
+      "type": "text",
+      "instructions": "Дословно слова Бориса об оплате парковки, без кавычек. Нужен фрагмент эпизода в 10:00."
+    },
+    "viktor_statement": {
+      "type": "text",
+      "instructions": "Дословно слова Виктора об оплате парковки, без кавычек. Нужен фрагмент эпизода в 11:00."
+    },
+    "unicode_marker": {
+      "type": "text",
+      "instructions": "Дословно название заметки внутри первых кавычек, сохранив все исходные символы."
+    },
+    "viktor_time": {
+      "type": "text",
+      "instructions": "Дословно время эпизода со словами Виктора."
+    },
+    "receipt_number": {
+      "type": "text",
+      "instructions": "Номер квитанции, если он прямо приведён в тексте."
+    }
+  },
+  "order": ["original", "sentences"],
+  "transformation": "For this fixed fixture only, replace four SPACE characters immediately after sentence-ending FULL STOP with LF. No sentence segmentation algorithm or normalization.",
+  "caps": {
+    "max_http_attempts": 2,
+    "attempts_per_variant": 1,
+    "retries": 0,
+    "socket_timeout_seconds": 30
+  },
+  "variants": {
+    "original": {
+      "expected": {
+        "anna_statement": "Я не оплачивала парковку",
+        "boris_statement": "Я оплатил парковку",
+        "viktor_statement": "Я оплатил парковку",
+        "unicode_marker": "кафе́",
+        "viktor_time": "11:00",
+        "receipt_number": null
+      },
+      "expected_codepoint_spans": {
+        "anna_statement": [42, 66],
+        "boris_statement": [92, 110],
+        "viktor_statement": [137, 155],
+        "unicode_marker": [11, 16],
+        "viktor_time": [115, 120]
+      },
+      "id": "original",
+      "state": "🙂 Заметка «кафе́». В 09:00 Анна сказала: «Я не оплачивала парковку». В 10:00 Борис сказал: «Я оплатил парковку». В 11:00 Виктор сказал: «Я оплатил парковку». Номер квитанции не указан."
+    },
+    "sentences": {
+      "expected": {
+        "anna_statement": "Я не оплачивала парковку",
+        "boris_statement": "Я оплатил парковку",
+        "viktor_statement": "Я оплатил парковку",
+        "unicode_marker": "кафе́",
+        "viktor_time": "11:00",
+        "receipt_number": null
+      },
+      "expected_codepoint_spans": {
+        "anna_statement": [42, 66],
+        "boris_statement": [92, 110],
+        "viktor_statement": [137, 155],
+        "unicode_marker": [11, 16],
+        "viktor_time": [115, 120]
+      },
+      "id": "sentences",
+      "state": "🙂 Заметка «кафе́».\nВ 09:00 Анна сказала: «Я не оплачивала парковку».\nВ 10:00 Борис сказал: «Я оплатил парковку».\nВ 11:00 Виктор сказал: «Я оплатил парковку».\nНомер квитанции не указан."
+    }
+  },
+  "scope": "One sample per condition. Original quote/emoji/combining mark, fields, instructions, values and span indices unchanged. No production segmentation."
+}

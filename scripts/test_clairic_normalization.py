@@ -1,0 +1,329 @@
+"""Offline boundary-rule checks; fixtures are known development data, not gold."""
+
+import hashlib
+import json
+import unittest
+from dataclasses import FrozenInstanceError
+from pathlib import Path
+
+import clairic_smoke as smoke
+from text_span_normalization import (
+    ALL_RULE_IDS,
+    DEFAULT_RULE_IDS,
+    TextSpan,
+    normalize_span,
+)
+
+ROOT = Path(__file__).resolve().parents[1]
+CAPTURES = (
+    ("ru-unicode", "clairic-ru-unicode-smoke-2026-10-20.json"),
+    *(
+        ("ablation-" + name, f"clairic-ablation-{name}-2026-10-20.json")
+        for name in ("original", "unicode-clean", "ascii-quotes", "both")
+    ),
+    *(
+        ("linebreak-" + name, f"clairic-linebreak-{name}-2026-10-20.json")
+        for name in ("original", "sentences")
+    ),
+    ("quote-inner", "clairic-quote-inner-2026-10-20.json"),
+)
+
+
+def replay_known_captures(enabled_rules=DEFAULT_RULE_IDS):
+    """Separate raw/derived development counts; never rewrite provider captures."""
+    rows = []
+    for case_name, filename in CAPTURES:
+        path = ROOT / "docs/evidence" / filename
+        before = path.read_bytes()
+        capture = json.loads(before)
+        case = smoke.load_case(case_name)
+        assert capture["fixture_sha256"] == case["fixture_sha256"]
+        records = {}
+        for name, expected in case["expected"].items():
+            answer = capture["answers"][name]
+            if answer["value"] is None:
+                records[name] = {
+                    "status": "null_passthrough",
+                    "derived_matches_expected": expected is None,
+                }
+                continue
+            raw = TextSpan(answer["value"], *answer["span"])
+            outcome = normalize_span(
+                case["state"],
+                raw,
+                coordinate_system="code_points",
+                target="inner_content",
+                enabled_rules=enabled_rules,
+            )
+            span = outcome.derived
+            records[name] = {
+                "status": outcome.status,
+                "rules": outcome.applied_rules,
+                "raw_value": raw.value,
+                "raw_span": [raw.start, raw.end],
+                "derived_value": span.value if span else None,
+                "derived_span": [span.start, span.end] if span else None,
+                "derived_matches_expected": span is not None and span.value == expected,
+                "derived_anchor_matches_expected": span is not None
+                and [span.start, span.end] == case["expected_codepoint_spans"][name],
+            }
+        assert path.read_bytes() == before
+        rows.append(
+            {
+                "case": case_name,
+                "capture": filename,
+                "capture_sha256": hashlib.sha256(before).hexdigest(),
+                "raw_value_matches": sum(c["pass"] for c in capture["checks"].values()),
+                "derived_value_matches": sum(
+                    c["derived_matches_expected"] for c in records.values()
+                ),
+                "derived_anchor_matches": sum(
+                    c.get("derived_anchor_matches_expected", False)
+                    for c in records.values()
+                ),
+                "fields": records,
+            }
+        )
+    return rows
+
+
+class QuoteNormalizationTests(unittest.TestCase):
+    def normalize(
+        self,
+        source,
+        value,
+        *,
+        occurrence=0,
+        target="inner_content",
+        coordinate_system="code_points",
+        rules=None,
+    ):
+        start = source.index(value) if occurrence == 0 else source.rindex(value)
+        kwargs = {} if rules is None else {"enabled_rules": rules}
+        return normalize_span(
+            source,
+            TextSpan(value, start, start + len(value)),
+            coordinate_system=coordinate_system,
+            target=target,
+            **kwargs,
+        )
+
+    def test_guillemet(self):
+        result = self.normalize("🙂 «Не оплачивал!»", "Не оплачивал!»")
+        self.assertEqual(result.status, "applied")
+        self.assertEqual(result.derived.value, "Не оплачивал!")
+        self.assertEqual(result.raw.value, "Не оплачивал!»")
+        self.assertEqual(result.supporting_quote_span, (2, 17))
+
+    def test_ascii_quote(self):
+        result = self.normalize(
+            'He said "No payment".', 'No payment"', rules=ALL_RULE_IDS
+        )
+        self.assertEqual(result.status, "applied")
+        self.assertEqual(result.derived.value, "No payment")
+
+    def test_one_character_body(self):
+        self.assertEqual(self.normalize("«x»", "x»").derived.value, "x")
+
+    def test_single_closer_is_unchanged(self):
+        self.assertEqual(self.normalize("«»", "»").status, "unchanged")
+
+    def test_full_quote_is_not_stripped(self):
+        self.assertEqual(self.normalize("«x»", "«x»").status, "unchanged")
+
+    def test_whole_target_does_not_apply_inner_rule(self):
+        self.assertEqual(
+            self.normalize("«x»", "x»", target="whole_quote").status, "unchanged"
+        )
+
+    def test_inches_are_not_repaired(self):
+        self.assertEqual(self.normalize('Screen 12"', '12"').status, "review")
+
+    def test_two_inches_do_not_form_a_quote_pair(self):
+        self.assertEqual(self.normalize('12" and 24"', ' and 24"').status, "review")
+
+    def test_literal_closer_without_opening(self):
+        self.assertEqual(self.normalize("literal x»", "x»").status, "review")
+
+    def test_mixed_quotes_in_extracted_content_abstain(self):
+        self.assertEqual(self.normalize('«x"»', 'x"»').status, "review")
+
+    def test_nesting_in_source_does_not_block_local_quote(self):
+        for source, value in [
+            ('«outer "x"»', 'x"'),
+            ('"outer «x»"', "x»"),
+            ("«outer «x»»", "x»"),
+            ('«outer "middle «x»"»', "x»"),
+        ]:
+            with self.subTest(source=source):
+                result = self.normalize(source, value, rules=ALL_RULE_IDS)
+                self.assertEqual(result.status, "applied")
+                self.assertEqual(result.derived.value, "x")
+                self.assertEqual(result.raw.value, value)
+                self.assertEqual(result.derived.start, result.raw.start)
+
+    def test_same_ascii_delimiters_with_ambiguous_pairing_abstain(self):
+        result = self.normalize('"outer «middle "x"»"', 'x"', rules=ALL_RULE_IDS)
+        self.assertEqual(result.status, "review")
+        self.assertEqual(result.findings, ("ambiguous_source_quote_structure",))
+
+    def test_other_quote_style_does_not_block_local_pair(self):
+        for source, value in [
+            ('"ok" then «x»', "x»"),
+            ('«ok» then "x"', 'x"'),
+            ('«x» then "ok"', "x»"),
+            ('"open then «x»', "x»"),
+            ('«open then "x"', 'x"'),
+        ]:
+            with self.subTest(source=source):
+                self.assertEqual(
+                    self.normalize(source, value, rules=ALL_RULE_IDS).status, "applied"
+                )
+
+    def test_numeric_unit_suffix_is_preserved_even_with_ascii_opt_in(self):
+        for value in [
+            '12"',
+            "5'",
+            "55°45'30\"",
+            "12″",
+            "5′",
+            '12.5"',
+            '−12,5"',
+            '12 "',
+            '١٢"',
+            '１２"',
+        ]:
+            for rules in (DEFAULT_RULE_IDS, ALL_RULE_IDS):
+                with self.subTest(value=value, rules=rules):
+                    result = self.normalize(value, value, rules=rules)
+                    self.assertEqual(result.status, "review")
+                    self.assertEqual(result.findings, ("possible_numeric_unit_suffix",))
+                    self.assertIsNone(result.derived)
+                    self.assertEqual(result.raw.value, value)
+
+    def test_quoted_number_abstains_instead_of_guessing_unit(self):
+        result = self.normalize('"12"', '12"', rules=ALL_RULE_IDS)
+        self.assertEqual(result.findings, ("possible_numeric_unit_suffix",))
+        self.assertIsNone(result.derived)
+
+    def test_unbalanced_source_abstains(self):
+        self.assertEqual(self.normalize("«x» and «open", "x»").status, "review")
+
+    def test_escaped_ascii_quote_abstains(self):
+        self.assertEqual(self.normalize('"x" and \\"', 'x"').status, "review")
+
+    def test_empty_whitespace_content_abstains(self):
+        self.assertEqual(self.normalize("« »", " »").status, "review")
+
+    def test_disabled_rules(self):
+        self.assertEqual(self.normalize("«x»", "x»", rules=()).status, "unchanged")
+
+    def test_coordinates_must_be_explicit(self):
+        self.assertEqual(
+            self.normalize("🙂 «x»", "x»", coordinate_system="utf16_code_units").status,
+            "review",
+        )
+
+    def test_source_mismatch(self):
+        result = normalize_span(
+            "«x»",
+            TextSpan("y»", 1, 3),
+            coordinate_system="code_points",
+            target="inner_content",
+        )
+        self.assertEqual(result.status, "review")
+        self.assertIsNone(result.derived)
+
+    def test_invalid_spans(self):
+        for start, end in [(-1, 2), (3, 1), (1, 99), (True, 3)]:
+            with self.subTest(start=start):
+                result = normalize_span(
+                    "«x»",
+                    TextSpan("x»", start, end),
+                    coordinate_system="code_points",
+                    target="inner_content",
+                )
+                self.assertEqual(result.status, "review")
+
+    def test_repeated_occurrence_does_not_move(self):
+        result = self.normalize("«x» then «x»", "x»", occurrence=1)
+        self.assertEqual(result.derived, TextSpan("x", 10, 11))
+
+    def test_unicode_and_negation_preserved(self):
+        result = self.normalize("🙂 «Не кафе́»", "Не кафе́»")
+        self.assertEqual(result.derived.value, "Не кафе́")
+
+    def test_idempotent_and_frozen(self):
+        result = self.normalize("«x»", "x»")
+        again = normalize_span(
+            "«x»",
+            result.derived,
+            coordinate_system="code_points",
+            target="inner_content",
+        )
+        self.assertEqual(again.status, "unchanged")
+        self.assertEqual(again.derived, result.derived)
+        with self.assertRaises(FrozenInstanceError):
+            result.raw.value = "changed"
+
+    def test_unknown_policy_or_rule_rejected(self):
+        for kwargs in ({"target": "typo"}, {"enabled_rules": ("typo",)}):
+            with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
+                normalize_span(
+                    "«x»",
+                    TextSpan("x»", 1, 3),
+                    coordinate_system="code_points",
+                    **({"target": "inner_content"} | kwargs),
+                )
+
+    def test_existing_capture_replay(self):
+        rows = replay_known_captures(enabled_rules=ALL_RULE_IDS)
+        self.assertEqual(len(rows), 8)
+        for row in rows:
+            with self.subTest(case=row["case"]):
+                self.assertEqual(row["raw_value_matches"], 2)
+                self.assertEqual(row["derived_value_matches"], 6)
+                self.assertEqual(row["derived_anchor_matches"], 5)
+                self.assertEqual(
+                    sum(r["status"] == "applied" for r in row["fields"].values()), 4
+                )
+
+    def test_ascii_defaults_to_review(self):
+        result = self.normalize('He said "No payment".', 'No payment"')
+        self.assertEqual(result.status, "review")
+        self.assertIsNone(result.derived)
+        self.assertEqual(result.enabled_rules, DEFAULT_RULE_IDS)
+
+    def test_default_known_capture_replay_exposes_ascii_abstentions(self):
+        for row in replay_known_captures():
+            ascii_case = row["case"] in ("ablation-ascii-quotes", "ablation-both")
+            self.assertEqual(row["derived_value_matches"], 2 if ascii_case else 6)
+
+    def test_legacy_safety_expectations_expose_contract_change(self):
+        from quote_rule_validation import evaluate
+
+        report = evaluate()
+        self.assertEqual(report["case_count"], 36)
+        self.assertEqual(report["false_corrections"], 1)
+        self.assertEqual(
+            [r["id"] for r in report["rows"] if r["false_correction"]], ["N09"]
+        )
+        self.assertEqual(report["positive_abstentions"], 4)
+        self.assertEqual(report["exact_expectations_met"], 31)
+
+    def test_original_v1_failures_remain_in_evidence(self):
+        path = ROOT / "docs/evidence/quote-rules-new-cases-baseline-v1-2026-10-21.json"
+        report = json.loads(path.read_text())
+        fixture = ROOT / "fixtures/providers/quote-rules-new-cases-v1.json"
+        self.assertEqual(
+            report["fixture_sha256"], hashlib.sha256(fixture.read_bytes()).hexdigest()
+        )
+        self.assertEqual(report["ruleset_version"], "quote-boundaries/v1")
+        self.assertEqual(
+            [r["id"] for r in report["rows"] if r["false_correction"]],
+            ["N06", "N07", "N08"],
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

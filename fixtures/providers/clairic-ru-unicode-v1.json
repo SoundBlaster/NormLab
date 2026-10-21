@@ -1,0 +1,53 @@
+{
+  "schema": "normlab.clairic-smoke-case/v1",
+  "id": "ru-unicode-v1",
+  "state": "🙂 Заметка «кафе́». В 09:00 Анна сказала: «Я не оплачивала парковку». В 10:00 Борис сказал: «Я оплатил парковку». В 11:00 Виктор сказал: «Я оплатил парковку». Номер квитанции не указан.",
+  "fields": {
+    "anna_statement": {
+      "type": "text",
+      "instructions": "Дословно слова Анны об оплате парковки, без кавычек; сохранить отрицание."
+    },
+    "boris_statement": {
+      "type": "text",
+      "instructions": "Дословно слова Бориса об оплате парковки, без кавычек. Нужен фрагмент эпизода в 10:00."
+    },
+    "viktor_statement": {
+      "type": "text",
+      "instructions": "Дословно слова Виктора об оплате парковки, без кавычек. Нужен фрагмент эпизода в 11:00."
+    },
+    "unicode_marker": {
+      "type": "text",
+      "instructions": "Дословно название заметки внутри первых кавычек, сохранив все исходные символы."
+    },
+    "viktor_time": {
+      "type": "text",
+      "instructions": "Дословно время эпизода со словами Виктора."
+    },
+    "receipt_number": {
+      "type": "text",
+      "instructions": "Номер квитанции, если он прямо приведён в тексте."
+    }
+  },
+  "expected": {
+    "anna_statement": "Я не оплачивала парковку",
+    "boris_statement": "Я оплатил парковку",
+    "viktor_statement": "Я оплатил парковку",
+    "unicode_marker": "кафе́",
+    "viktor_time": "11:00",
+    "receipt_number": null
+  },
+  "expected_codepoint_spans": {
+    "anna_statement": [42, 66],
+    "boris_statement": [92, 110],
+    "viktor_statement": [137, 155],
+    "unicode_marker": [11, 16],
+    "viktor_time": [115, 120]
+  },
+  "boundary": "end-exclusive",
+  "caps": {
+    "http_attempts": 1,
+    "retries": 0,
+    "socket_timeout_seconds": 30
+  },
+  "scope": "Authored development probe; not human gold or holdout. Offset candidates are diagnostics, not production policy."
+}

@@ -1,0 +1,1698 @@
+{
+  "schema": "normlab.quote-normalization-contract-check/v1",
+  "ruleset_version": "quote-boundaries/v4",
+  "http_attempts": 0,
+  "rule_source_sha256": "c9716e6e5c444cdc5d0f3a19ccc10845d96f7ee5ff46e7820cc9ef43bcbb1085",
+  "targeted_count": 27,
+  "targeted_passed": 27,
+  "rows": [
+    {
+      "source": "12\"",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12\"",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "5d11352472af89adb881655591a63cd6fc7406df98bd38200d5198d9b02a91d1",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "12\"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12\"",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "5d11352472af89adb881655591a63cd6fc7406df98bd38200d5198d9b02a91d1",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "5'",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "5'",
+          "start": 0,
+          "end": 2
+        },
+        "derived": null,
+        "source_sha256": "c9ce74058a944031cb87e944893a10cdb20daba616c537485539a77431b695d4",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "5'",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "5'",
+          "start": 0,
+          "end": 2
+        },
+        "derived": null,
+        "source_sha256": "c9ce74058a944031cb87e944893a10cdb20daba616c537485539a77431b695d4",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "55°45'30\"",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "55°45'30\"",
+          "start": 0,
+          "end": 9
+        },
+        "derived": null,
+        "source_sha256": "a3341f5cbd65848106d6bb3d9be8a5ca7024e3399c5b47e75709b0cf48339bfb",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "55°45'30\"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "55°45'30\"",
+          "start": 0,
+          "end": 9
+        },
+        "derived": null,
+        "source_sha256": "a3341f5cbd65848106d6bb3d9be8a5ca7024e3399c5b47e75709b0cf48339bfb",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "12″",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12″",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "a4b5ae58e47f7539331496d95f73b5360739c49d685174d6d48f2a46da5703d4",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "12″",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12″",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "a4b5ae58e47f7539331496d95f73b5360739c49d685174d6d48f2a46da5703d4",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "5′",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "5′",
+          "start": 0,
+          "end": 2
+        },
+        "derived": null,
+        "source_sha256": "d28bb2b6837258aacc7903028e97f812ef8a3a19b5a3695f2018b9f9a151c555",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "5′",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "5′",
+          "start": 0,
+          "end": 2
+        },
+        "derived": null,
+        "source_sha256": "d28bb2b6837258aacc7903028e97f812ef8a3a19b5a3695f2018b9f9a151c555",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "12.5\"",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12.5\"",
+          "start": 0,
+          "end": 5
+        },
+        "derived": null,
+        "source_sha256": "bd63cfb1e083177f5998fa0450aa5e1d25082ab495897368ca9a035fe83e0abe",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "12.5\"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12.5\"",
+          "start": 0,
+          "end": 5
+        },
+        "derived": null,
+        "source_sha256": "bd63cfb1e083177f5998fa0450aa5e1d25082ab495897368ca9a035fe83e0abe",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "−12,5\"",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "−12,5\"",
+          "start": 0,
+          "end": 6
+        },
+        "derived": null,
+        "source_sha256": "d537414a7b5c733d172e826983f152e6b12938ce0916a5e408fae0539e90aa73",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "−12,5\"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "−12,5\"",
+          "start": 0,
+          "end": 6
+        },
+        "derived": null,
+        "source_sha256": "d537414a7b5c733d172e826983f152e6b12938ce0916a5e408fae0539e90aa73",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "12 \"",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12 \"",
+          "start": 0,
+          "end": 4
+        },
+        "derived": null,
+        "source_sha256": "7166859ac463e5bc19fd75550ad1294f3450bc4e392868e86a4bf486388a5e82",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "12 \"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12 \"",
+          "start": 0,
+          "end": 4
+        },
+        "derived": null,
+        "source_sha256": "7166859ac463e5bc19fd75550ad1294f3450bc4e392868e86a4bf486388a5e82",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "١٢\"",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "١٢\"",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "65cbad8030235dfb1784357f0b0e94743be725177d2be0f9d3a1c71fb521cdae",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "١٢\"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "١٢\"",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "65cbad8030235dfb1784357f0b0e94743be725177d2be0f9d3a1c71fb521cdae",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "１２\"",
+      "mode": "default",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "１２\"",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "4c0e354b6a6e6220b060e5e8ef34353c0a5c95db2ec15e4f96441beb2a5f18e9",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "１２\"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "１２\"",
+          "start": 0,
+          "end": 3
+        },
+        "derived": null,
+        "source_sha256": "4c0e354b6a6e6220b060e5e8ef34353c0a5c95db2ec15e4f96441beb2a5f18e9",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "«outer \"x\"»",
+      "mode": "explicit_ascii",
+      "expected_status": "applied",
+      "expected_derived": "x",
+      "passed": true,
+      "result": {
+        "status": "applied",
+        "raw": {
+          "value": "x\"",
+          "start": 8,
+          "end": 10
+        },
+        "derived": {
+          "value": "x",
+          "start": 8,
+          "end": 9
+        },
+        "source_sha256": "8320a7de7a7489b4a28ff13d22e508844276a53f05d5d61c129a8864a722d22d",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": ["single-trailing-ascii-quote/v1"],
+        "findings": ["source_pair_confirms_single_trailing_closer"],
+        "supporting_quote_span": [7, 10]
+      }
+    },
+    {
+      "source": "\"outer «x»\"",
+      "mode": "explicit_ascii",
+      "expected_status": "applied",
+      "expected_derived": "x",
+      "passed": true,
+      "result": {
+        "status": "applied",
+        "raw": {
+          "value": "x»",
+          "start": 8,
+          "end": 10
+        },
+        "derived": {
+          "value": "x",
+          "start": 8,
+          "end": 9
+        },
+        "source_sha256": "9329e7cea8ad48e809ba90e7a83cc682458b79a9b4e89e2655a3b983c6418b78",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": ["single-trailing-guillemet/v1"],
+        "findings": ["source_pair_confirms_single_trailing_closer"],
+        "supporting_quote_span": [7, 10]
+      }
+    },
+    {
+      "source": "«outer «x»»",
+      "mode": "explicit_ascii",
+      "expected_status": "applied",
+      "expected_derived": "x",
+      "passed": true,
+      "result": {
+        "status": "applied",
+        "raw": {
+          "value": "x»",
+          "start": 8,
+          "end": 10
+        },
+        "derived": {
+          "value": "x",
+          "start": 8,
+          "end": 9
+        },
+        "source_sha256": "1e0fef7a75c7420685fd890d2b41e285536f02f1fb4b85f902e5531b2169c2dd",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": ["single-trailing-guillemet/v1"],
+        "findings": ["source_pair_confirms_single_trailing_closer"],
+        "supporting_quote_span": [7, 10]
+      }
+    },
+    {
+      "source": "«outer \"middle «x»\"»",
+      "mode": "explicit_ascii",
+      "expected_status": "applied",
+      "expected_derived": "x",
+      "passed": true,
+      "result": {
+        "status": "applied",
+        "raw": {
+          "value": "x»",
+          "start": 16,
+          "end": 18
+        },
+        "derived": {
+          "value": "x",
+          "start": 16,
+          "end": 17
+        },
+        "source_sha256": "15229d775e1f068df466859330988c1ce5bc28266295a1770fc631cbf468a188",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": ["single-trailing-guillemet/v1"],
+        "findings": ["source_pair_confirms_single_trailing_closer"],
+        "supporting_quote_span": [15, 18]
+      }
+    },
+    {
+      "source": "\"12\"",
+      "mode": "explicit_ascii",
+      "expected_status": "review",
+      "expected_derived": null,
+      "passed": true,
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "12\"",
+          "start": 1,
+          "end": 4
+        },
+        "derived": null,
+        "source_sha256": "f9cacf3cb91a12e03bc4546834f95a50a4c5fe02276ac260148ea9296c442d39",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["possible_numeric_unit_suffix"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "source": "He said \"No payment\".",
+      "mode": "explicit_ascii",
+      "expected_status": "applied",
+      "expected_derived": "No payment",
+      "passed": true,
+      "result": {
+        "status": "applied",
+        "raw": {
+          "value": "No payment\"",
+          "start": 9,
+          "end": 20
+        },
+        "derived": {
+          "value": "No payment",
+          "start": 9,
+          "end": 19
+        },
+        "source_sha256": "5c85495850cb19252b06c39c707316790113a1b9cec86b787ccc57703ed9cdc8",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": ["single-trailing-ascii-quote/v1"],
+        "findings": ["source_pair_confirms_single_trailing_closer"],
+        "supporting_quote_span": [8, 20]
+      }
+    },
+    {
+      "source": "«Не оплачивал!»",
+      "mode": "default",
+      "expected_status": "applied",
+      "expected_derived": "Не оплачивал!",
+      "passed": true,
+      "result": {
+        "status": "applied",
+        "raw": {
+          "value": "Не оплачивал!»",
+          "start": 1,
+          "end": 15
+        },
+        "derived": {
+          "value": "Не оплачивал!",
+          "start": 1,
+          "end": 14
+        },
+        "source_sha256": "5a8493f104d74c6d40709fc1665c1c5ba77429fba8a955342fbf5393c6186fa1",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v4",
+        "enabled_rules": ["single-trailing-guillemet/v1"],
+        "applied_rules": ["single-trailing-guillemet/v1"],
+        "findings": ["source_pair_confirms_single_trailing_closer"],
+        "supporting_quote_span": [0, 15]
+      }
+    }
+  ],
+  "legacy_fixture_replay": {
+    "schema": "normlab.quote-rule-validation-report/v1",
+    "ruleset_version": "quote-boundaries/v4",
+    "default_enabled_rules": ["single-trailing-guillemet/v1"],
+    "rule_source_sha256": "c9716e6e5c444cdc5d0f3a19ccc10845d96f7ee5ff46e7820cc9ef43bcbb1085",
+    "fixture_sha256": "f399585d3160338873e5198a7bb43df0a2ce0ebe1cc615531f212b218438e3c3",
+    "http_attempts": 0,
+    "case_count": 36,
+    "exact_expectations_met": 31,
+    "false_corrections": 1,
+    "positive_abstentions": 4,
+    "rows": [
+      {
+        "id": "P01",
+        "category": "quotation",
+        "expected_action": "apply",
+        "expected_value": "Не получил уведомление",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Не получил уведомление»",
+            "start": 8,
+            "end": 31
+          },
+          "derived": {
+            "value": "Не получил уведомление",
+            "start": 8,
+            "end": 30
+          },
+          "source_sha256": "cc6dcdf7f8b672d07d32552958f14b6abebb8cd040c6f1c1d4c031f1e6b96652",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [7, 31]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P02",
+        "category": "name",
+        "expected_action": "apply",
+        "expected_value": "Северный ветер",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Северный ветер»",
+            "start": 13,
+            "end": 28
+          },
+          "derived": {
+            "value": "Северный ветер",
+            "start": 13,
+            "end": 27
+          },
+          "source_sha256": "33eb7894053622be56383c708d596b8b2a387ad169caafbc78481f4b9f15005e",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [12, 28]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P03",
+        "category": "unicode",
+        "expected_action": "apply",
+        "expected_value": "Ёж и кафе́",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Ёж и кафе́»",
+            "start": 3,
+            "end": 14
+          },
+          "derived": {
+            "value": "Ёж и кафе́",
+            "start": 3,
+            "end": 13
+          },
+          "source_sha256": "fe75aa40788d6c8c52add94f2bf10004a4b7c39f887683d26ab443cc29c60b0c",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [2, 14]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P04",
+        "category": "punctuation",
+        "expected_action": "apply",
+        "expected_value": "Нет, это не так!",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Нет, это не так!»",
+            "start": 1,
+            "end": 18
+          },
+          "derived": {
+            "value": "Нет, это не так!",
+            "start": 1,
+            "end": 17
+          },
+          "source_sha256": "538eb0b94ed9e78f60ccdd2fe0a56ac5140fcd61d3b8dae33e600ebcd5b454b7",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [0, 18]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P05",
+        "category": "whitespace",
+        "expected_action": "apply",
+        "expected_value": "  не согласен  ",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "  не согласен  »",
+            "start": 8,
+            "end": 24
+          },
+          "derived": {
+            "value": "  не согласен  ",
+            "start": 8,
+            "end": 23
+          },
+          "source_sha256": "a393db144a05cd5d9664cd11d9c8ecf069c19c7e92325cd507a9ed720b10734d",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [7, 24]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P06",
+        "category": "newline",
+        "expected_action": "apply",
+        "expected_value": "Первая строка\nВторая строка",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Первая строка\nВторая строка»",
+            "start": 1,
+            "end": 29
+          },
+          "derived": {
+            "value": "Первая строка\nВторая строка",
+            "start": 1,
+            "end": 28
+          },
+          "source_sha256": "35cc1df95b0413eab93542cf61c83eaeb0ab4d0651667a149c836f0502a3c584",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [0, 29]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P07",
+        "category": "one-character",
+        "expected_action": "apply",
+        "expected_value": "Я",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Я»",
+            "start": 6,
+            "end": 8
+          },
+          "derived": {
+            "value": "Я",
+            "start": 6,
+            "end": 7
+          },
+          "source_sha256": "b4ac6f281d36b6a7caf41ee99fbe51de7f9c94ec9e04139d366c3965dce774a3",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [5, 8]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P08",
+        "category": "repeated",
+        "expected_action": "apply",
+        "expected_value": "Нет",
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Нет»",
+            "start": 13,
+            "end": 17
+          },
+          "derived": {
+            "value": "Нет",
+            "start": 13,
+            "end": 16
+          },
+          "source_sha256": "35752ec8356fa91109356b8048cb0db531f551a1497aa0e2fc9681eed749951d",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [12, 17]
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "P09",
+        "category": "ascii-quotation",
+        "expected_action": "apply",
+        "expected_value": "No, thank you!",
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "No, thank you!\"",
+            "start": 8,
+            "end": 23
+          },
+          "derived": null,
+          "source_sha256": "9349aeea06c8fd221037f4a011af851f411df2a0504884e26cd4a2791a1dc93f",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": false,
+        "false_correction": false,
+        "positive_abstention": true
+      },
+      {
+        "id": "P10",
+        "category": "ascii-name",
+        "expected_action": "apply",
+        "expected_value": "North & South",
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "North & South\"",
+            "start": 6,
+            "end": 20
+          },
+          "derived": null,
+          "source_sha256": "eda5a1e365ef5be9d6bf0c00ff9143e63011bbb040f1110ea85ad2389540a0fa",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": false,
+        "false_correction": false,
+        "positive_abstention": true
+      },
+      {
+        "id": "P11",
+        "category": "ascii-unicode",
+        "expected_action": "apply",
+        "expected_value": "Платёж не прошёл",
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "Платёж не прошёл\"",
+            "start": 3,
+            "end": 20
+          },
+          "derived": null,
+          "source_sha256": "45199d4708288c3344df6012195223b8f2a02555e2fc32b6ca41fc7e463a34b6",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": false,
+        "false_correction": false,
+        "positive_abstention": true
+      },
+      {
+        "id": "P12",
+        "category": "ascii-repeated",
+        "expected_action": "apply",
+        "expected_value": "A",
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "A\"",
+            "start": 10,
+            "end": 12
+          },
+          "derived": null,
+          "source_sha256": "9e2d7e9bff06df3120aa2fd6137ad2f0d7ff28981a27ad1f887b17a5572630e6",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": false,
+        "false_correction": false,
+        "positive_abstention": true
+      },
+      {
+        "id": "N01",
+        "category": "literal",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "report»",
+            "start": 15,
+            "end": 22
+          },
+          "derived": null,
+          "source_sha256": "0ecbdb1bdaa7155d2c71053f5754e5bb95ac484329a101f4c4e33e130b3b2b18",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_adjacent_source_opening_quote"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N02",
+        "category": "literal",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "x»",
+            "start": 16,
+            "end": 18
+          },
+          "derived": null,
+          "source_sha256": "07ebda3b4d1c489cc40c316e3a18a1fe422ab14c09f19e4270ffcf23e18f2d2f",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_adjacent_source_opening_quote"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N03",
+        "category": "unit",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "27\"",
+            "start": 10,
+            "end": 13
+          },
+          "derived": null,
+          "source_sha256": "1820d3485a2cf159fc2c93a29f571a0d1d1f75811467256d03ee9847ae0cdef3",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["possible_numeric_unit_suffix"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N04",
+        "category": "unit",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": " и 24\"",
+            "start": 13,
+            "end": 19
+          },
+          "derived": null,
+          "source_sha256": "854681a82c49c7c27a7daa63628ba57b70cc85e34dce115f439e6948c3290f3e",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["possible_numeric_unit_suffix"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N05",
+        "category": "unit-spaced",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": " и 24 \"",
+            "start": 14,
+            "end": 21
+          },
+          "derived": null,
+          "source_sha256": "877e4245a72ac0dbdc6e3744277ae8b61eb4212489e95af86aaefb64f1d15096",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["possible_numeric_unit_suffix"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N06",
+        "category": "word-unit",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": " и двадцать четыре\"",
+            "start": 21,
+            "end": 40
+          },
+          "derived": null,
+          "source_sha256": "04beb81e85ca5ac5c494b20dfcd50e6acd5b5f79407628435ad9adba6c7bc62d",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N07",
+        "category": "word-unit-spaced",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": " и двадцать четыре \"",
+            "start": 22,
+            "end": 42
+          },
+          "derived": null,
+          "source_sha256": "a7211953b3ebea21750def14c10b5ec6b8c2fbc7680943112b4550bb58dd91fb",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N08",
+        "category": "word-unit-en",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": " and twenty-four\"",
+            "start": 13,
+            "end": 30
+          },
+          "derived": null,
+          "source_sha256": "5edf947178d0d269be5d01116057d2fe4cf5951ed23ee5b82b428a5ee365c4f3",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N09",
+        "category": "nested",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "applied",
+          "raw": {
+            "value": "Север»",
+            "start": 6,
+            "end": 12
+          },
+          "derived": {
+            "value": "Север",
+            "start": 6,
+            "end": 11
+          },
+          "source_sha256": "6c4053665f2f6a92bfe0cfd172d2cc759efb10f2fcb6ffc6cffb1f54186e5599",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": ["single-trailing-guillemet/v1"],
+          "findings": ["source_pair_confirms_single_trailing_closer"],
+          "supporting_quote_span": [5, 12]
+        },
+        "exact_expectation_met": false,
+        "false_correction": true,
+        "positive_abstention": false
+      },
+      {
+        "id": "N10",
+        "category": "mixed",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "Имя \"Север\"»",
+            "start": 1,
+            "end": 13
+          },
+          "derived": null,
+          "source_sha256": "769154472f9bc4e9b2d658de53679e96bac9a48eca7a71cb14eebbe38b13cb7a",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["mixed_or_nested_quote_content"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N11",
+        "category": "unbalanced",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "Готово»",
+            "start": 1,
+            "end": 8
+          },
+          "derived": null,
+          "source_sha256": "aec1a0b00206c1645d47358222053028ad5db91ebaba19fa0650880187e86c9d",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ambiguous_source_quote_structure"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N12",
+        "category": "stray-close",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "Готово»",
+            "start": 6,
+            "end": 13
+          },
+          "derived": null,
+          "source_sha256": "aa92d869357d3527e199039966d1c8f7f2b5644d37ab3378789c909810316aaa",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ambiguous_source_quote_structure"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N13",
+        "category": "escaped",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "Ответ\"",
+            "start": 1,
+            "end": 7
+          },
+          "derived": null,
+          "source_sha256": "52949b2c7f8edc18792d46649bb2e5d13dbfd435582e1ede4f4dbf27ed561836",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N14",
+        "category": "empty",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "unchanged",
+          "raw": {
+            "value": "»",
+            "start": 1,
+            "end": 2
+          },
+          "derived": {
+            "value": "»",
+            "start": 1,
+            "end": 2
+          },
+          "source_sha256": "9556320cfed77582152be9438b346626e2753661f40071fe9a8b2582903b42d3",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_applicable_rule"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N15",
+        "category": "empty",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "   »",
+            "start": 1,
+            "end": 5
+          },
+          "derived": null,
+          "source_sha256": "6da5adf1f0a551b01a881e27c3d203227eb18bd2e84de82d922519ea17acece6",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["empty_quote_content"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N16",
+        "category": "already-full",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "unchanged",
+          "raw": {
+            "value": "«Привет»",
+            "start": 5,
+            "end": 13
+          },
+          "derived": {
+            "value": "«Привет»",
+            "start": 5,
+            "end": 13
+          },
+          "source_sha256": "28ca67bf43a14beeccf8345ad9a1f1063fb6c960673c796d21343ecbd1a1cb1e",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_applicable_rule"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N17",
+        "category": "already-inner",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "unchanged",
+          "raw": {
+            "value": "Привет",
+            "start": 6,
+            "end": 12
+          },
+          "derived": {
+            "value": "Привет",
+            "start": 6,
+            "end": 12
+          },
+          "source_sha256": "28ca67bf43a14beeccf8345ad9a1f1063fb6c960673c796d21343ecbd1a1cb1e",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_applicable_rule"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N18",
+        "category": "whole-target",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "unchanged",
+          "raw": {
+            "value": "Привет»",
+            "start": 6,
+            "end": 13
+          },
+          "derived": {
+            "value": "Привет»",
+            "start": 6,
+            "end": 13
+          },
+          "source_sha256": "28ca67bf43a14beeccf8345ad9a1f1063fb6c960673c796d21343ecbd1a1cb1e",
+          "coordinate_system": "code_points",
+          "target": "whole_quote",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["rule_not_for_requested_target"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N19",
+        "category": "unsupported-coordinate",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "Привет»",
+            "start": 3,
+            "end": 10
+          },
+          "derived": null,
+          "source_sha256": "1a1ce5c57f48ee5e1aa57977f896ed16a7ceb2fd15a030ffae3c281d37159239",
+          "coordinate_system": "utf16_code_units",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["unsupported_or_unverified_coordinate_system"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N20",
+        "category": "double-closer",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "unchanged",
+          "raw": {
+            "value": "Привет»»",
+            "start": 6,
+            "end": 14
+          },
+          "derived": {
+            "value": "Привет»»",
+            "start": 6,
+            "end": 14
+          },
+          "source_sha256": "08ddf562a5935cd9695c83d7434797fad59c2a5dda3b8fbe90e88b2152a054cc",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_applicable_rule"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N21",
+        "category": "literal-name",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "report»\"",
+            "start": 11,
+            "end": 19
+          },
+          "derived": null,
+          "source_sha256": "cff2c08c26110f02528984460879686f8e4124fde896f0309116ea9db1d03ed7",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N22",
+        "category": "curly-unsupported",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "unchanged",
+          "raw": {
+            "value": "Нет”",
+            "start": 7,
+            "end": 11
+          },
+          "derived": {
+            "value": "Нет”",
+            "start": 7,
+            "end": 11
+          },
+          "source_sha256": "12c65c10e0ac8113957a92d358cd679c45b3c827f6ef43255be33b3259d661ee",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_applicable_rule"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N23",
+        "category": "german-unsupported",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "unchanged",
+          "raw": {
+            "value": "Нет“",
+            "start": 7,
+            "end": 11
+          },
+          "derived": {
+            "value": "Нет“",
+            "start": 7,
+            "end": 11
+          },
+          "source_sha256": "7f095a973fa8acc703c7f69695f343fc20b06ed1c0679117b2d992d06c86a04d",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["no_applicable_rule"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      },
+      {
+        "id": "N24",
+        "category": "mismatched",
+        "expected_action": "must_not_apply",
+        "expected_value": null,
+        "result": {
+          "status": "review",
+          "raw": {
+            "value": "Привет\"",
+            "start": 1,
+            "end": 8
+          },
+          "derived": null,
+          "source_sha256": "ba977c19bf3a0873f868048f07c935416cacd3d67908fe7e874b604c99997481",
+          "coordinate_system": "code_points",
+          "target": "inner_content",
+          "ruleset_version": "quote-boundaries/v4",
+          "enabled_rules": ["single-trailing-guillemet/v1"],
+          "applied_rules": [],
+          "findings": ["ascii_quote_requires_explicit_contextual_opt_in"],
+          "supporting_quote_span": null
+        },
+        "exact_expectation_met": true,
+        "false_correction": false,
+        "positive_abstention": false
+      }
+    ],
+    "scope": "Authored probes informed by known rule design; not blind gold, independent incidents or production error-rate estimate. ASCII semantic ambiguity cannot be resolved by quote counting alone."
+  },
+  "scope": "Authored targeted regression checks, not blind evaluation or model accuracy. Legacy N09 mismatch records user-authorized removal of source-nesting prohibition; frozen labels and historical reports unchanged."
+}

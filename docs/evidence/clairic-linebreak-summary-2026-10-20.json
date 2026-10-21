@@ -1,0 +1,44 @@
+{
+  "schema": "normlab.clairic-linebreak-summary/v1",
+  "frozen_protocol_commit": "1b8c1c0",
+  "fixture_sha256": "f6da722020bd3464b6a03f2e02680fa05fd9e9cbba959ec36980c24666531cfe",
+  "http_attempts": 2,
+  "retries": 0,
+  "rows": [
+    {
+      "case": "original",
+      "http": 200,
+      "exact_values": 2,
+      "exact_expected_codepoint_spans": 1,
+      "actual_source_matches_codepoints": 5,
+      "elapsed_seconds": 1.35,
+      "usage": {
+        "state_tokens": 71,
+        "image_tokens": 0,
+        "schema_tokens": 955,
+        "input_tokens": 1381,
+        "output_tokens": 0,
+        "passes": 6
+      }
+    },
+    {
+      "case": "sentences",
+      "http": 200,
+      "exact_values": 2,
+      "exact_expected_codepoint_spans": 1,
+      "actual_source_matches_codepoints": 5,
+      "elapsed_seconds": 1.126,
+      "usage": {
+        "state_tokens": 76,
+        "image_tokens": 0,
+        "schema_tokens": 955,
+        "input_tokens": 1411,
+        "output_tokens": 0,
+        "passes": 6
+      }
+    }
+  ],
+  "total_input_tokens": 2792,
+  "total_passes": 12,
+  "scope": "One sample per condition. No quote trimming, changed instructions or production segmentation."
+}

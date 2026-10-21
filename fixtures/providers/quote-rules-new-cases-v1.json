@@ -1,0 +1,512 @@
+{
+  "schema": "normlab.quote-rule-validation/v1",
+  "id": "quote-rules-new-cases-v1",
+  "authored_before_execution": true,
+  "criteria": "Apply rows require exact expected value/source span. must_not_apply rows require no transformation (unchanged/review), never silent correction. New synthetic cases authored with knowledge of rule v1; not blind gold or production error rate.",
+  "cases": [
+    {
+      "id": "P01",
+      "category": "quotation",
+      "source": "Ответ: «Не получил уведомление».",
+      "raw": {
+        "value": "Не получил уведомление»",
+        "start": 8,
+        "end": 31
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Не получил уведомление"
+    },
+    {
+      "id": "P02",
+      "category": "name",
+      "source": "Организация «Северный ветер».",
+      "raw": {
+        "value": "Северный ветер»",
+        "start": 13,
+        "end": 28
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Северный ветер"
+    },
+    {
+      "id": "P03",
+      "category": "unicode",
+      "source": "🙂 «Ёж и кафе́».",
+      "raw": {
+        "value": "Ёж и кафе́»",
+        "start": 3,
+        "end": 14
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Ёж и кафе́"
+    },
+    {
+      "id": "P04",
+      "category": "punctuation",
+      "source": "«Нет, это не так!»",
+      "raw": {
+        "value": "Нет, это не так!»",
+        "start": 1,
+        "end": 18
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Нет, это не так!"
+    },
+    {
+      "id": "P05",
+      "category": "whitespace",
+      "source": "Слова: «  не согласен  ».",
+      "raw": {
+        "value": "  не согласен  »",
+        "start": 8,
+        "end": 24
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "  не согласен  "
+    },
+    {
+      "id": "P06",
+      "category": "newline",
+      "source": "«Первая строка\nВторая строка»",
+      "raw": {
+        "value": "Первая строка\nВторая строка»",
+        "start": 1,
+        "end": 29
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Первая строка\nВторая строка"
+    },
+    {
+      "id": "P07",
+      "category": "one-character",
+      "source": "Поле «Я».",
+      "raw": {
+        "value": "Я»",
+        "start": 6,
+        "end": 8
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Я"
+    },
+    {
+      "id": "P08",
+      "category": "repeated",
+      "source": "«Нет» затем «Нет»",
+      "raw": {
+        "value": "Нет»",
+        "start": 13,
+        "end": 17
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Нет"
+    },
+    {
+      "id": "P09",
+      "category": "ascii-quotation",
+      "source": "Reply: \"No, thank you!\"",
+      "raw": {
+        "value": "No, thank you!\"",
+        "start": 8,
+        "end": 23
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "No, thank you!"
+    },
+    {
+      "id": "P10",
+      "category": "ascii-name",
+      "source": "Shop \"North & South\"",
+      "raw": {
+        "value": "North & South\"",
+        "start": 6,
+        "end": 20
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "North & South"
+    },
+    {
+      "id": "P11",
+      "category": "ascii-unicode",
+      "source": "🙂 \"Платёж не прошёл\"",
+      "raw": {
+        "value": "Платёж не прошёл\"",
+        "start": 3,
+        "end": 20
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "Платёж не прошёл"
+    },
+    {
+      "id": "P12",
+      "category": "ascii-repeated",
+      "source": "\"A\" then \"A\"",
+      "raw": {
+        "value": "A\"",
+        "start": 10,
+        "end": 12
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "apply",
+      "expected_value": "A"
+    },
+    {
+      "id": "N01",
+      "category": "literal",
+      "source": "Суффикс файла: report»",
+      "raw": {
+        "value": "report»",
+        "start": 15,
+        "end": 22
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N02",
+      "category": "literal",
+      "source": "Оператор сдвига x»",
+      "raw": {
+        "value": "x»",
+        "start": 16,
+        "end": 18
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N03",
+      "category": "unit",
+      "source": "Диагональ 27\"",
+      "raw": {
+        "value": "27\"",
+        "start": 10,
+        "end": 13
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N04",
+      "category": "unit",
+      "source": "Диагонали 12\" и 24\"",
+      "raw": {
+        "value": " и 24\"",
+        "start": 13,
+        "end": 19
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N05",
+      "category": "unit-spaced",
+      "source": "Диагонали 12 \" и 24 \"",
+      "raw": {
+        "value": " и 24 \"",
+        "start": 14,
+        "end": 21
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N06",
+      "category": "word-unit",
+      "source": "Диагонали двенадцать\" и двадцать четыре\"",
+      "raw": {
+        "value": " и двадцать четыре\"",
+        "start": 21,
+        "end": 40
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N07",
+      "category": "word-unit-spaced",
+      "source": "Диагонали двенадцать \" и двадцать четыре \"",
+      "raw": {
+        "value": " и двадцать четыре \"",
+        "start": 22,
+        "end": 42
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N08",
+      "category": "word-unit-en",
+      "source": "Sizes twelve\" and twenty-four\"",
+      "raw": {
+        "value": " and twenty-four\"",
+        "start": 13,
+        "end": 30
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N09",
+      "category": "nested",
+      "source": "«Имя «Север» внутри»",
+      "raw": {
+        "value": "Север»",
+        "start": 6,
+        "end": 12
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N10",
+      "category": "mixed",
+      "source": "«Имя \"Север\"»",
+      "raw": {
+        "value": "Имя \"Север\"»",
+        "start": 1,
+        "end": 13
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N11",
+      "category": "unbalanced",
+      "source": "«Готово» затем «",
+      "raw": {
+        "value": "Готово»",
+        "start": 1,
+        "end": 8
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N12",
+      "category": "stray-close",
+      "source": "» до «Готово»",
+      "raw": {
+        "value": "Готово»",
+        "start": 6,
+        "end": 13
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N13",
+      "category": "escaped",
+      "source": "\"Ответ\" и \\\"",
+      "raw": {
+        "value": "Ответ\"",
+        "start": 1,
+        "end": 7
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N14",
+      "category": "empty",
+      "source": "«»",
+      "raw": {
+        "value": "»",
+        "start": 1,
+        "end": 2
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N15",
+      "category": "empty",
+      "source": "«   »",
+      "raw": {
+        "value": "   »",
+        "start": 1,
+        "end": 5
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N16",
+      "category": "already-full",
+      "source": "Тема «Привет»",
+      "raw": {
+        "value": "«Привет»",
+        "start": 5,
+        "end": 13
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N17",
+      "category": "already-inner",
+      "source": "Тема «Привет»",
+      "raw": {
+        "value": "Привет",
+        "start": 6,
+        "end": 12
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N18",
+      "category": "whole-target",
+      "source": "Тема «Привет»",
+      "raw": {
+        "value": "Привет»",
+        "start": 6,
+        "end": 13
+      },
+      "target": "whole_quote",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N19",
+      "category": "unsupported-coordinate",
+      "source": "🙂 «Привет»",
+      "raw": {
+        "value": "Привет»",
+        "start": 3,
+        "end": 10
+      },
+      "target": "inner_content",
+      "coordinate_system": "utf16_code_units",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N20",
+      "category": "double-closer",
+      "source": "Тема «Привет»»",
+      "raw": {
+        "value": "Привет»»",
+        "start": 6,
+        "end": 14
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N21",
+      "category": "literal-name",
+      "source": "Имя файла \"report»\"",
+      "raw": {
+        "value": "report»\"",
+        "start": 11,
+        "end": 19
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N22",
+      "category": "curly-unsupported",
+      "source": "Слова “Нет”",
+      "raw": {
+        "value": "Нет”",
+        "start": 7,
+        "end": 11
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N23",
+      "category": "german-unsupported",
+      "source": "Слова „Нет“",
+      "raw": {
+        "value": "Нет“",
+        "start": 7,
+        "end": 11
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    },
+    {
+      "id": "N24",
+      "category": "mismatched",
+      "source": "«Привет\"",
+      "raw": {
+        "value": "Привет\"",
+        "start": 1,
+        "end": 8
+      },
+      "target": "inner_content",
+      "coordinate_system": "code_points",
+      "expected_action": "must_not_apply",
+      "expected_value": null
+    }
+  ]
+}
