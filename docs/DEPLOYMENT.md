@@ -1,5 +1,9 @@
 # Local deployment with Docker Compose
 
+For the prepared existing-VPS update, pinned image and backup/rollback sequence,
+see [2026-10-21 checkpoints demo update](../deploy/releases/2026-10-21-checkpoints/README.md).
+That package does not apply a production change or activate provider inference.
+
 For the opt-in VPS provider adapters, exact secret paths, network boundaries and
 activation gates, see [Hosted inference](HOSTED_INFERENCE.md). The production
 entrypoint defaults to inference disabled; the ordinary local Compose profile

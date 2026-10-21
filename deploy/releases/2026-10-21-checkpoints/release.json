@@ -1,0 +1,38 @@
+{
+  "schema": "normlab.demo-update/v1",
+  "source_commit": "299d85b371e83e112e66aa0b6f00177524b219b5",
+  "image_ref": "ghcr.io/soundblaster/normlab@sha256:21315695312d53fb19ce73f07de529cb8a79527c4d41b75ee3cdaf6e7f1fca68",
+  "platforms": ["linux/amd64"],
+  "publication": {
+    "repository": "SoundBlaster/NormLab",
+    "run_id": 39659310316,
+    "run_url": "https://github.com/SoundBlaster/NormLab/actions/runs/39659310316",
+    "artifact_id": 12372748093,
+    "artifact_name": "normlab-image-lock-299d85b371e83e112e66aa0b6f00177524b219b5",
+    "artifact_archive_digest": "sha256:a30b35d6cf1ece36d37d648e23ce2b6ba45384aeacb49d801bc0f57c2ac8293b",
+    "published_at": "2026-10-21T19:14:46Z",
+    "publisher_declares_provenance": true,
+    "publisher_declares_sbom": true,
+    "attestations_independently_verified": false
+  },
+  "platform_reference": {
+    "repository": "0al-spec/Platform",
+    "commit": "00de155b8bccd7e751d21d7df43c9b0e81a6e7d8",
+    "purpose": "offline Compose reference, not verified live deployment state"
+  },
+  "target": {
+    "url": "https://managed.specgraph.tech/normlab/",
+    "project_name": "normlab-staging",
+    "volume_hint": "normlab-staging_normlab-data",
+    "live_inventory_verified": false
+  },
+  "runtime_gate": {
+    "one_app_owner": true,
+    "gateway_protocol": "normlab.hosted-stage/v1",
+    "same_image_required": ["normlab", "normlab-inference-gateway", "normlab-inference-egress"],
+    "gateway_profile_costs_provider_calls": false,
+    "inference_activation_included": false,
+    "provider_or_key_changes_included": false
+  },
+  "scope": "Prepared image-only update. No deployment, registry pull, secret installation or paid inference has been performed."
+}

@@ -3,12 +3,18 @@
 Prepared 2026-10-07. Code/configuration readiness is separate from deployment,
 provider-account availability, regional support and extraction quality. No live
 keys were read or installed and no paid inference was run during preparation.
+Runtime/recovery references updated 2026-10-21; dated provider probes and original
+preparation validation below are historical evidence, not current availability.
 
 ## Failure and recovery reference
 
-[Sequence diagrams: current behavior and proposed recovery](HOSTED_INFERENCE_RECOVERY.md)
-record the no-retry hosted path and the proposed checkpoint/resume flow. The latter
-is not implemented; evaluation resume is a separate contract.
+[Historical before/proposal diagrams](HOSTED_INFERENCE_RECOVERY.md) are retained;
+the implemented [app-owned jobs/checkpoints and sequence](HOSTED_CHECKPOINT_JOBS.md)
+provide partial proposals and explicit Continue through
+[single-stage gateway RPC](HOSTED_STAGE_PROTOCOL.md). Evaluation resume remains a
+separate contract. The [2026-10-21 demo update package](../deploy/releases/2026-10-21-checkpoints/README.md)
+pins the published image and defines inventory/backup/apply/rollback gates; it is
+preparation evidence, not deployment or provider readiness.
 
 ## Runtime
 
@@ -146,14 +152,16 @@ a live health check. Unknown failures retain the generic extraction message.
 
 ## Exact network paths and enforcement
 
-| Source                 | Destination                                                  | Allowed operation                                                                   |
-| ---------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| Authenticated browser  | `https://managed.specgraph.tech/normlab/api/parking/extract` | Existing POST, operator authentication + Origin + CSRF                              |
-| NormLab                | `http://normlab-inference-gateway:4318/v1/extract`           | Authenticated POST with narrative and source digest only                            |
-| Gateway                | `http://normlab-inference-egress:4319`                       | CONNECT to the validated Responses/Decisions/System One DNS authorities on port 443 |
-| Gateway via TLS tunnel | Configured full Responses endpoint (or base + `/responses`)  | POST for discovery and optionally classification                                    |
-| Gateway via TLS tunnel | Configured full Decisions endpoint (or base + `/decisions`)  | POST for optional Decisions Choice classification                                   |
-| Gateway via TLS tunnel | Configured full System One endpoint (or base + `/systemone`) | POST for optional Jev classification                                                |
+| Source                 | Destination                                                       | Allowed operation                                                                         |
+| ---------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Authenticated browser  | `/normlab/api/parking/jobs`, `/job/:draftId`, `/journal/:draftId` | Existing auth; job POST also requires exact Origin + CSRF; reads never dispatch inference |
+| Authenticated browser  | `/normlab/api/parking/extract`                                    | Legacy full POST, same operator/Origin/CSRF boundary                                      |
+| NormLab                | `http://normlab-inference-gateway:4318/v1/profile`, `/v1/stage`   | Internal authenticated profile and one bound discovery/classification stage               |
+| NormLab                | `http://normlab-inference-gateway:4318/v1/extract`                | Legacy full extraction RPC                                                                |
+| Gateway                | `http://normlab-inference-egress:4319`                            | CONNECT to the validated Responses/Decisions/System One DNS authorities on port 443       |
+| Gateway via TLS tunnel | Configured full Responses endpoint (or base + `/responses`)       | POST for discovery and optionally classification                                          |
+| Gateway via TLS tunnel | Configured full Decisions endpoint (or base + `/decisions`)       | POST for optional Decisions Choice classification                                         |
+| Gateway via TLS tunnel | Configured full System One endpoint (or base + `/systemone`)      | POST for optional Jev classification                                                      |
 
 NormLab joins the existing `normlab-private` ingress network and the new
 `inference-private` network; both are internal. Gateway joins only
@@ -200,8 +208,10 @@ Existing Responses/Jev candidate identifiers and prompt digests are unchanged.
    computes UTF-16 offsets against the unchanged original, without normalization.
 3. OpenAI classification uses batches of up to 8 fragments to bound strict
    schema/output size and requires an explicit decision for every fragment.
-   Up to 3 batches run concurrently; results keep source order, and the first
-   failed batch cancels the others and starts no further calls.
+   Legacy `/v1/extract` runs up to 3 batches concurrently; results keep source
+   order, and the first failed batch cancels the others and starts no further
+   calls. The app-owned job path instead commits sequential batches and exposes
+   each partial proposal before dispatching the next stage.
    Alternatively Jev or Decisions answers four-option atomic questions for each of the 15
    predicates: asserted / denied / explicitly unknown / unsupported. Requests
    contain 8 fragments and up to 120 questions. The fragment ID and predicate
@@ -219,11 +229,15 @@ Limits: 8000 UTF-16 source units for hosted extraction (drafts still accept
 discovered fragments/statements, 2048 units per hosted quote, 16384 OpenAI output
 tokens for discovery (reasoning included) and 8192 per classification batch, 120
 seconds per provider call, 300 seconds per complete extraction, 4 MiB output, one active
-extraction. Default quota is six attempts/hour. The quota is in-memory and
+extraction. Default quota is six dispatched RPCs/hour: one per stage for the new
+job path, one per full legacy extraction; profile reads cost no provider call or
+quota unit. Jobs have explicit per-stage/total/run caps documented in the
+[job contract](HOSTED_CHECKPOINT_JOBS.md). The quota is in-memory and
 resets with gateway restart; it is not a hard billing cap. Configure a provider
 project spending limit separately. No automatic retry doubles an invoice.
-Invalid/empty extraction, timeout, missing fragment decisions and malformed
-probabilities fail closed and preserve the saved draft revision.
+Invalid/empty legacy extraction, timeout, missing fragment decisions and malformed
+probabilities fail closed. Jobs retain committed partial proposals and pause;
+no incomplete required stage is silently treated as successful.
 
 Successful inference artifacts contain narrative/quotes/prompts and are saved
 in the existing private NormLab data volume, separate from human revisions.
