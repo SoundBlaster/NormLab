@@ -1,0 +1,60 @@
+{
+  "schema": "normlab.clairic-posthoc-source-check/v1",
+  "status": "post-hoc diagnostic, not rescoring",
+  "source_fixture_sha256": "9bf7081c17c7f9c07d9c4bef6a5db3e8926b28d171054d7d50c92937d743302f",
+  "frozen_score": "2/6 fixed values; 1/5 frozen spans; overall fail",
+  "fields": {
+    "anna_statement": {
+      "provider_span": [42, 67],
+      "actual_value": "Я не оплачивала парковку»",
+      "slice_matches_actual": {
+        "code_points": true,
+        "utf16_code_units": false,
+        "utf8_bytes": false
+      },
+      "extra_closing_quote": true
+    },
+    "boris_statement": {
+      "provider_span": [92, 111],
+      "actual_value": "Я оплатил парковку»",
+      "slice_matches_actual": {
+        "code_points": true,
+        "utf16_code_units": false,
+        "utf8_bytes": false
+      },
+      "extra_closing_quote": true
+    },
+    "viktor_statement": {
+      "provider_span": [137, 156],
+      "actual_value": "Я оплатил парковку»",
+      "slice_matches_actual": {
+        "code_points": true,
+        "utf16_code_units": false,
+        "utf8_bytes": false
+      },
+      "extra_closing_quote": true
+    },
+    "unicode_marker": {
+      "provider_span": [11, 17],
+      "actual_value": "кафе́»",
+      "slice_matches_actual": {
+        "code_points": true,
+        "utf16_code_units": false,
+        "utf8_bytes": false
+      },
+      "extra_closing_quote": true
+    },
+    "viktor_time": {
+      "provider_span": [115, 120],
+      "actual_value": "11:00",
+      "slice_matches_actual": {
+        "code_points": true,
+        "utf16_code_units": false,
+        "utf8_bytes": false
+      },
+      "extra_closing_quote": false
+    }
+  },
+  "candidate_matching_actual_values_on_all_fields": ["code_points"],
+  "scope": "Five non-null returned spans match their returned text under code points on this source. Does not certify provider coordinate contract or change frozen expectations."
+}

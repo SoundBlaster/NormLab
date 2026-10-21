@@ -1,6 +1,7 @@
 """Neutral Clairic smoke: dry-run by default, one HTTP attempt with --live."""
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -11,6 +12,7 @@ import time
 import urllib.error
 import urllib.request
 from contextlib import contextmanager
+from pathlib import Path
 
 STATE = (
     "Report R-104 dated 2026-10-19. Monthly income is $5000. Rent is $1500. "
@@ -67,7 +69,61 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-def summarize(document):
+def load_case(name):
+    if name == "neutral":
+        return {"state": STATE, "fields": FIELDS, "expected": EXPECTED}
+    path = (
+        Path(__file__).resolve().parents[1]
+        / "fixtures/providers/clairic-ru-unicode-v1.json"
+    )
+    raw = path.read_bytes()
+    case = json.loads(raw)
+    case["fixture_sha256"] = hashlib.sha256(raw).hexdigest()
+    return case
+
+
+def anchor_diagnostics(case, answers, result):
+    """Compare frozen occurrences across candidates; never rewrite provider offsets."""
+    state = case["state"]
+    systems = ("code_points", "utf16_code_units", "utf8_bytes")
+    common = set(systems)
+    fields = {}
+    for name, (start, end) in case["expected_codepoint_spans"].items():
+        assert state[start:end] == case["expected"][name]
+        expected = {
+            "code_points": [start, end],
+            "utf16_code_units": [
+                len(state[:n].encode("utf-16-le")) // 2 for n in (start, end)
+            ],
+            "utf8_bytes": [len(state[:n].encode("utf-8")) for n in (start, end)],
+        }
+        answer = answers.get(name)
+        actual = answer.get("span") if isinstance(answer, dict) else None
+        valid = (
+            isinstance(actual, list)
+            and len(actual) == 2
+            and all(type(n) is int for n in actual)
+        )
+        matches = [key for key, span in expected.items() if valid and actual == span]
+        common.intersection_update(matches)
+        fields[name] = {
+            "provider_span": actual,
+            "expected_spans": expected,
+            "matching_candidates": matches,
+        }
+    source_compatible = "state_text" not in result or result["state_text"] == state
+    if not source_compatible:
+        common.clear()
+    return {
+        "fields": fields,
+        "source_basis_compatible": source_compatible,
+        "consistent_candidates": sorted(common),
+        "one_candidate_matches_all": len(common) == 1,
+        "scope": "Observed exclusive-end candidates only; no production coordinate inference",
+    }
+
+
+def summarize(document, case=None):
     """Check the fixed smoke values; this is not general semantic validation."""
     if not isinstance(document, dict):
         raise ValueError("Expected a JSON object")
@@ -77,9 +133,10 @@ def summarize(document):
     result = document.get("result") if "result" in document else document
     if not isinstance(result, dict) or not isinstance(result.get("answers"), dict):
         raise ValueError("Missing result.answers object")
+    case = case or load_case("neutral")
     answers = result["answers"]
     checks = {}
-    for name, expected in EXPECTED.items():
+    for name, expected in case["expected"].items():
         answer = answers.get(name)
         present = isinstance(answer, dict) and "value" in answer
         actual = answer.get("value") if present else None
@@ -97,10 +154,10 @@ def summarize(document):
             "expected": expected,
             "actual": actual,
             "present": present,
-            "pass": matches and answer.get("type") == FIELDS[name]["type"],
+            "pass": matches and answer.get("type") == case["fields"][name]["type"],
         }
     complete = result.get("truncated") is False
-    return {
+    summary = {
         "model": result.get("model"),
         "truncated": result.get("truncated"),
         "usage": result.get("usage"),
@@ -109,6 +166,16 @@ def summarize(document):
         "pass": complete and all(check["pass"] for check in checks.values()),
         "scope": "Fixed neutral values only; source offsets and general quality unverified",
     }
+    if "expected_codepoint_spans" in case:
+        diagnostics = anchor_diagnostics(case, answers, result)
+        summary.update(
+            anchor_diagnostics=diagnostics, fixture_sha256=case["fixture_sha256"]
+        )
+        summary["pass"] = summary["pass"] and diagnostics["one_candidate_matches_all"]
+        summary["scope"] = (
+            "One authored RU probe: fixed values and frozen occurrences; not general quality"
+        )
+    return summary
 
 
 def emit(report, token="", account=""):
@@ -126,12 +193,21 @@ def reject_constant(value):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--case", choices=("neutral", "ru-unicode"), default="neutral")
     parser.add_argument("--live", action="store_true", help="Make one billable request")
     args = parser.parse_args()
-    payload = {"model": "clairic", "state": STATE, "fields": FIELDS}
+    case = load_case(args.case)
+    payload = {"model": "clairic", "state": case["state"], "fields": case["fields"]}
     if not args.live:
         emit(
-            {"mode": "dry-run", "attempts": 0, "request": payload, "expected": EXPECTED}
+            {
+                "mode": "dry-run",
+                "case": args.case,
+                "attempts": 0,
+                "request": payload,
+                "expected": case["expected"],
+                "fixture_sha256": case.get("fixture_sha256"),
+            }
         )
         return 0
 
@@ -160,7 +236,7 @@ def main():
         method="POST",
     )
     started = time.monotonic()
-    report = {"mode": "live", "attempts": 0, "retries": 0}
+    report = {"mode": "live", "case": args.case, "attempts": 0, "retries": 0}
     exit_code = 3
     try:
         with total_deadline(30):
@@ -174,7 +250,7 @@ def main():
                 raw = response.read(MAX_BODY + 1)
             if len(raw) > MAX_BODY:
                 raise ValueError("Response exceeds 1 MiB")
-            report.update(summarize(json.loads(raw, parse_constant=reject_constant)))
+            report.update(summarize(json.loads(raw, parse_constant=reject_constant), case))
             exit_code = 0 if report["pass"] else 1
     except DeadlineUnavailable:
         report.update(
