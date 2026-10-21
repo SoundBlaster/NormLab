@@ -12,9 +12,9 @@ Clairic SDK, Mellea, HTTP или prompts. Это отдельная явно в�
 потребителя; она не встроена в generic client, smoke scorer или hosted pipeline.
 Источник и provider captures не изменяются. Новых API calls нет.
 
-Текущий набор правил `quote-boundaries/v3` (v2 ограничил ASCII defaults;
-v3 дополнительно проверяет cross-delimiter nesting после review).
-Исторические v1/v2 и их результаты сохранены ниже:
+Текущий набор правил `quote-boundaries/v4`: numeric-unit suffix guard и
+отмена общего запрета вложенности в source по уточнению пользователя.
+ASCII остаётся explicit opt-in. Исторические v1/v2/v3 и evidence сохранены ниже:
 
 | Rule ID                          | Delimiters | Действие                                                                                                               |
 | -------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -43,15 +43,22 @@ provider остаётся обязанностью caller, наблюдение 
 1. Valid integer bounds и точное `source[start:end] == raw.value`.
 2. Длина raw value больше1, ровно одна closing quote, без opening quote в value.
 3. Непосредственно перед raw start находится matching opening quote.
-4. В source поддержанные delimiters образуют flat, balanced, unescaped пары;
-   нужная пара точно совпадает с `start-1` и `end-1`. Вложенные/непарные конструкции
-   вызывают abstention; включая enclosure/overlap другой quotation style.
-   Отдельная непересекающаяся пара другого типа не мешает, но неоднозначная
-   структура другого типа вызывает review. Prototype намеренно не пытается
-   «восстановить» неясный контекст.
-5. Content не пуст/whitespace-only, не содержит других поддержанных quote marks.
-   Для ASCII numeric prefix перед предполагаемой opening quote вызывает review:
-   два измерения `12" and 24"` нельзя автоматически объявлять цитатой.
+4. Выбранный тип delimiters образует balanced, unescaped пары; нужная пара
+   совпадает с `start-1` и `end-1`. Вложенность в source разрешена: `«outer «x»»`
+   и `«outer "x"»` не блокируют извлечение `x`. Пары другого типа не проверяются.
+   При неоднозначном pairing одинаковых ASCII marks остаётся review, например
+   `"outer «middle "x"»"`. Это ограничение parser, не общий запрет вложенности.
+5. Content не пуст/whitespace-only и не содержит других поддержанных quote marks.
+   Существующая проверка numeric prefix перед предполагаемой opening ASCII quote
+   сохранена, чтобы не принять `12" and 24"` за цитату.
+6. Если raw оканчивается decimal digit + `"`, `'`, `′` или `″` (между ними
+   разрешён whitespace), символ сохраняется и возвращается
+   `review: possible_numeric_unit_suffix`. Например: `12"`, `5'`, `55°45'30"`,
+   `12″`, `5′`, `12.5"`, `−12,5"`. Проверка действует до opt-in/correction и
+   не решает, дюймы это, футы, угловые минуты или секунды. `"12"` с raw `12"`
+   тоже требует review; смысл не угадывается. Отдельного trimming rule для
+   apostrophe/primes нет. Числа словами этот guard не распознаёт, поэтому
+   ASCII default restriction остаётся.
 
 Тогда `derived.value = raw.value[:-1]`, `derived.start = raw.start`,
 `derived.end = raw.end - 1`. Это source-preserving изменение диапазона: отрицания,
@@ -175,6 +182,26 @@ positive controls и неоднозначную внешнюю структур�
 остались32/36,0 false corrections и4 positive abstentions. v1/v2 evidence и
 provider captures не переписаны. Новых API calls и hosted integration нет.
 Новый CI после push считается отдельно; прежний head был6/6 SUCCESS.
+
+## Уточнение пользовательского контракта: v4
+
+После v3 пользователь уточнил: правило относится к одной непарной кавычке
+**в извлечённой строке**, а не к отсутствию вложенности во всём source.
+Cross-delimiter ban был дополнительным ограничением реализации, а не исходным
+требованием. v4 снимает этот ban, разрешает balanced guillemet nesting и добавляет
+отдельное исключение для numeric unit suffix. Raw/span/source guards сохранены.
+
+[Новый offline report](evidence/quote-normalization-v4-2026-10-21.json)
+разделяет targeted checks нового контракта и replay старого fixture.
+На неизменённом frozen36 scorer выдаёт **31/36**, один `false_correction` N09
+и четыре ASCII abstentions: N09 требовал запретить `«outer «x»»`, теперь этот
+конкретный запрет снят по решению пользователя. Это несовпадение со старым
+контрактом явно сохранено, не исправлено переписыванием labels. Оно не является
+измеренной частотой ошибок нового контракта. Предыдущие 32/36 относятся к v2/v3.
+
+**52 offline tests прошли** на Python3.14.8, включая numeric suffix/default/explicit
+modes, Unicode digits, source nesting, ambiguous pairing и старые capture replay.
+Новых API calls, runtime integration, model quality claims или deployment нет.
 
 ## Дальнейший gate
 

@@ -145,48 +145,66 @@ class QuoteNormalizationTests(unittest.TestCase):
     def test_literal_closer_without_opening(self):
         self.assertEqual(self.normalize("literal x»", "x»").status, "review")
 
-    def test_nested_and_mixed_quotes_abstain(self):
-        for source, value in [("«outer «x»»", "x»"), ('«x"»', 'x"»')]:
-            with self.subTest(source=source):
-                self.assertEqual(self.normalize(source, value).status, "review")
+    def test_mixed_quotes_in_extracted_content_abstain(self):
+        self.assertEqual(self.normalize('«x"»', 'x"»').status, "review")
 
-    def test_cross_delimiter_enclosing_quotes_abstain(self):
-        for source, value in [('«outer "x"»', 'x"'), ('"outer «x»"', "x»")]:
-            for rules in (None, ALL_RULE_IDS):
-                with self.subTest(source=source, rules=rules):
-                    result = self.normalize(source, value, rules=rules)
-                    self.assertEqual(result.status, "review")
-                    self.assertIsNone(result.derived)
-                    self.assertEqual(result.raw.value, value)
-                    self.assertEqual(result.applied_rules, ())
-
-    def test_deep_cross_style_nesting_abstains(self):
+    def test_nesting_in_source_does_not_block_local_quote(self):
         for source, value in [
+            ('«outer "x"»', 'x"'),
+            ('"outer «x»"', "x»"),
+            ("«outer «x»»", "x»"),
             ('«outer "middle «x»"»', "x»"),
-            ('"outer «middle "x"»"', 'x"'),
         ]:
             with self.subTest(source=source):
-                self.assertEqual(
-                    self.normalize(source, value, rules=ALL_RULE_IDS).status, "review"
-                )
+                result = self.normalize(source, value, rules=ALL_RULE_IDS)
+                self.assertEqual(result.status, "applied")
+                self.assertEqual(result.derived.value, "x")
+                self.assertEqual(result.raw.value, value)
+                self.assertEqual(result.derived.start, result.raw.start)
 
-    def test_disjoint_other_style_quotes_are_allowed(self):
+    def test_same_ascii_delimiters_with_ambiguous_pairing_abstain(self):
+        result = self.normalize('"outer «middle "x"»"', 'x"', rules=ALL_RULE_IDS)
+        self.assertEqual(result.status, "review")
+        self.assertEqual(result.findings, ("ambiguous_source_quote_structure",))
+
+    def test_other_quote_style_does_not_block_local_pair(self):
         for source, value in [
             ('"ok" then «x»', "x»"),
             ('«ok» then "x"', 'x"'),
             ('«x» then "ok"', "x»"),
+            ('"open then «x»', "x»"),
+            ('«open then "x"', 'x"'),
         ]:
             with self.subTest(source=source):
                 self.assertEqual(
                     self.normalize(source, value, rules=ALL_RULE_IDS).status, "applied"
                 )
 
-    def test_ambiguous_other_style_abstains(self):
-        for source, value in [('"open then «x»', "x»"), ('«open then "x"', 'x"')]:
-            with self.subTest(source=source):
-                self.assertEqual(
-                    self.normalize(source, value, rules=ALL_RULE_IDS).status, "review"
-                )
+    def test_numeric_unit_suffix_is_preserved_even_with_ascii_opt_in(self):
+        for value in [
+            '12"',
+            "5'",
+            "55°45'30\"",
+            "12″",
+            "5′",
+            '12.5"',
+            '−12,5"',
+            '12 "',
+            '١٢"',
+            '１２"',
+        ]:
+            for rules in (DEFAULT_RULE_IDS, ALL_RULE_IDS):
+                with self.subTest(value=value, rules=rules):
+                    result = self.normalize(value, value, rules=rules)
+                    self.assertEqual(result.status, "review")
+                    self.assertEqual(result.findings, ("possible_numeric_unit_suffix",))
+                    self.assertIsNone(result.derived)
+                    self.assertEqual(result.raw.value, value)
+
+    def test_quoted_number_abstains_instead_of_guessing_unit(self):
+        result = self.normalize('"12"', '12"', rules=ALL_RULE_IDS)
+        self.assertEqual(result.findings, ("possible_numeric_unit_suffix",))
+        self.assertIsNone(result.derived)
 
     def test_unbalanced_source_abstains(self):
         self.assertEqual(self.normalize("«x» and «open", "x»").status, "review")
@@ -281,14 +299,17 @@ class QuoteNormalizationTests(unittest.TestCase):
             ascii_case = row["case"] in ("ablation-ascii-quotes", "ablation-both")
             self.assertEqual(row["derived_value_matches"], 2 if ascii_case else 6)
 
-    def test_new_safety_cases_have_no_default_false_corrections(self):
+    def test_legacy_safety_expectations_expose_contract_change(self):
         from quote_rule_validation import evaluate
 
         report = evaluate()
         self.assertEqual(report["case_count"], 36)
-        self.assertEqual(report["false_corrections"], 0)
+        self.assertEqual(report["false_corrections"], 1)
+        self.assertEqual(
+            [r["id"] for r in report["rows"] if r["false_correction"]], ["N09"]
+        )
         self.assertEqual(report["positive_abstentions"], 4)
-        self.assertEqual(report["exact_expectations_met"], 32)
+        self.assertEqual(report["exact_expectations_met"], 31)
 
     def test_original_v1_failures_remain_in_evidence(self):
         path = ROOT / "docs/evidence/quote-rules-new-cases-baseline-v1-2026-10-21.json"

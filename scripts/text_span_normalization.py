@@ -4,7 +4,7 @@ import hashlib
 from dataclasses import dataclass
 from typing import Literal
 
-RULESET_VERSION = "quote-boundaries/v3"
+RULESET_VERSION = "quote-boundaries/v4"
 
 
 @dataclass(frozen=True)
@@ -44,29 +44,33 @@ class NormalizationResult:
     supporting_quote_span: tuple[int, int] | None = None
 
 
-def _flat_pairs(source, rule):
-    """Conservative grammar: balanced, unescaped, unnested selected delimiters."""
+def _quote_pairs(source, rule):
+    """Match the selected style, permitting balanced nesting in the source."""
     if any("\\" + mark in source for mark in (rule.opening, rule.closing)):
         return None
     pairs = []
-    opening = None
+    openings = []
     for index, char in enumerate(source):
         if rule.opening == rule.closing and char == rule.opening:
-            if opening is None:
-                opening = index
+            if openings:
+                pairs.append((openings.pop(), index))
             else:
-                pairs.append((opening, index))
-                opening = None
+                openings.append(index)
         elif char == rule.opening:
-            if opening is not None:
-                return None
-            opening = index
+            openings.append(index)
         elif char == rule.closing:
-            if opening is None:
+            if not openings:
                 return None
-            pairs.append((opening, index))
-            opening = None
-    return pairs if opening is None else None
+            pairs.append((openings.pop(), index))
+    return pairs if not openings else None
+
+
+def _possible_numeric_unit(value):
+    """Preserve digit + quote/prime; do not infer which measurement it denotes."""
+    if not value or value[-1] not in ('"', "'", "′", "″"):
+        return False
+    prefix = value[:-1].rstrip()
+    return bool(prefix) and prefix[-1].isdecimal()
 
 
 def normalize_span(
@@ -77,7 +81,7 @@ def normalize_span(
     target: str,
     enabled_rules: tuple[str, ...] = DEFAULT_RULE_IDS,
 ) -> NormalizationResult:
-    """Derive inner quote content only when the source proves a flat quote pair.
+    """Derive inner quote content only when the source confirms the local quote pair.
 
     Caller must establish the coordinate system. Confidence is not transferred
     to the derived span; technical normalization is not semantic acceptance.
@@ -117,6 +121,8 @@ def normalize_span(
         return result("review", "raw_source_mismatch")
     if target != "inner_content":
         return result("unchanged", "rule_not_for_requested_target", raw)
+    if _possible_numeric_unit(raw.value):
+        return result("review", "possible_numeric_unit_suffix")
     if (
         raw.value.endswith('"')
         and "single-trailing-ascii-quote/v1" not in enabled_rules
@@ -142,20 +148,9 @@ def normalize_span(
         prefix = source[: raw.start - 1].rstrip()
         if rule.opening == '"' and prefix and prefix[-1].isdigit():
             return result("review", "possible_numeric_unit_quote")
-        pairs = _flat_pairs(source, rule)
+        pairs = _quote_pairs(source, rule)
         if pairs is None or (raw.start - 1, raw.end - 1) not in pairs:
             return result("review", "ambiguous_source_quote_structure")
-        for other_rule in RULES:
-            if other_rule.id == rule.id:
-                continue
-            other_pairs = _flat_pairs(source, other_rule)
-            if other_pairs is None:
-                return result("review", "ambiguous_other_quote_structure")
-            if any(
-                left <= raw.end - 1 and raw.start - 1 <= right
-                for left, right in other_pairs
-            ):
-                return result("review", "cross_delimiter_quote_pair_overlap")
         derived = TextSpan(content, raw.start, raw.end - 1)
         return result(
             "applied",
