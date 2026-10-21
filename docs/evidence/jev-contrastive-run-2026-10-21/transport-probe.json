@@ -1,0 +1,15 @@
+{
+  "schema": "normlab.credential-free-tls-probe/v1",
+  "atUtc": "2026-10-21T13:25:13.634343+00:00",
+  "host": "hub.coreinfra.ai",
+  "port": 443,
+  "httpRequests": 0,
+  "inferenceRequests": 0,
+  "credentialsAccessed": false,
+  "scope": "Single credential-free TLS handshake after stopped inference series; cannot establish root cause of the earlier unknown outcome.",
+  "peerAddress": "46.182.24.250",
+  "status": "tls-completed",
+  "tlsVersion": "TLSv1.3",
+  "cipher": "TLS_AES_256_GCM_SHA384",
+  "elapsedSeconds": 1.406
+}

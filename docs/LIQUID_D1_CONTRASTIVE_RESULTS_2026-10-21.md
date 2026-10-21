@@ -122,3 +122,8 @@ Offline checks подтверждают согласованность сохр�
 authenticity, semantic gold, billing или SDK/bridge compatibility. Новых app
 tests, installs, builds, deployments или merge не выполнялось. CI/review —
 отдельные проверки текущего PR head.
+
+Отдельно пользователь запросил [тот же набор для Jev через CoreInfra](JEV_ULTRA_CONTRASTIVE_COMPARISON_2026-10-21.md).
+Этот arm остановился на первой сетевой попытке: 0 labels, 11 not-executed.
+Результаты Ultra и его capture остались неизменными; сравнение качества с Jev
+пока не измерено.

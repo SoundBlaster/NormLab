@@ -2,7 +2,9 @@
 
 Дата: 2026-10-21. Ledger: [#70](https://github.com/SoundBlaster/NormLab/issues/70).
 Пользователь прямо запросил Jev для более полного сравнения. Новый bounded arm
-фиксируется до inference; результаты пока pending.
+зафиксирован до inference в `c60b27c`. Серия остановлена после первой попытки:
+unknown network outcome, 0 ответов модели, 11 not-executed. Полное сравнение
+семантического качества пока невозможно.
 
 ## Что сравниваем
 
@@ -59,3 +61,53 @@ confidence отдельно от P(selected), returned model, request ID, usage 
 independent human gold, не holdout или доля безошибочных разборов дела. Старые
 Jev/Ultra серии не добавляются к denominator. Порог confidence, production route,
 UI и автоматическая маршрутизация по этому сравнению не меняются.
+
+## Наблюдённый результат
+
+| Показатель            | Jev / CoreInfra | Ultra / Liquid, ранее |
+| --------------------- | --------------- | --------------------- |
+| Planned               | 12              | 12                    |
+| Attempted             | 1               | 12                    |
+| Completed             | 0               | 12                    |
+| Unknown outcome       | 1               | 0                     |
+| Not-executed          | 11              | 0                     |
+| Retries               | 0               | 0                     |
+| Candidate agreement   | Не измерено     | 10/12                 |
+| Полностью верные пары | Не измерено     | 4/6                   |
+
+Первый P01a («Я должен был оплатить парковку», correct obligation candidate)
+завершился за 6.554 s со статусом `unknown`; HTTP status, response и usage
+не получены. Серия целиком — 6.555 s. В driver эта категория объединяет
+network/TLS/timeout errors без сохранения конкретного exception type/message,
+поэтому точная причина этой попытки неизвестна. Остальные 11 не отправлены.
+Unknown не означает неверную label, review, отказ Jev или нулевую accuracy.
+Стоимость и usage неизвестны, возможность обработки запроса на стороне сервиса
+не исключена. Исходный capture не перезапускался и не перезаписывался.
+
+После остановки выполнен **один credential-free TLS handshake**, без ключа,
+HTTP и inference: `hub.coreinfra.ai` доступен по TLS 1.3, handshake 1.406 s.
+Это проверка текущей transport reachability, не доказательство причины прошлого
+сбоя, доступности authenticated API или качества модели.
+
+- [Capture](evidence/jev-contrastive-run-2026-10-21/report.json).
+- [Analysis](evidence/jev-contrastive-run-2026-10-21/analysis.json).
+- [Offline verification](evidence/jev-contrastive-run-2026-10-21/verification.json).
+- [TLS probe](evidence/jev-contrastive-run-2026-10-21/transport-probe.json).
+
+Проверены frozen Git plan/driver/helper/tasks/references/baseline hashes,
+точное равенство отправленного state/questions с Ultra, request digest,
+один unknown и неизменный not-executed suffix, null usage/grades и отсутствие
+credentials. Все offline checks прошли, без HTTP. Новых Ultra/Luna запросов,
+app tests, installs, builds, deploy или merge не было.
+
+## Следующий запуск — предложение, не исполнение
+
+Поскольку frozen rule запрещает продолжение после первого unknown, оставшиеся
+11 attempts не используются как неявное разрешение на restart. Предложение:
+те же 12 tasks, максимум **16 новых попыток**, из них до четырёх transport retries,
+не больше одного повтора на job; 30 s/attempt и 360 s/series. Повтор только после
+network/TLS/timeout unknown, никогда после полученной label; HTTP/protocol/model
+ошибки останавливают серию. Сохранить все attempts и ограниченный backoff.
+Повтор unknown может повторно тарифицироваться. Нужны отдельное разрешение и
+новый pre-inference freeze; driver должен сохранить безопасный exception type
+без credentials. Эта серия и её unknown останутся отдельным evidence.

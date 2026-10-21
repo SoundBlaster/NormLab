@@ -1,0 +1,15 @@
+{
+  "schema": "normlab.jev-contrastive-verification/v1",
+  "httpAttemptsDuringVerification": 0,
+  "captureSha256": "5616ad27fe63572fe16aba4dbe59b9c3dff73e17e621b10b59d7b8a2d1d9d85d",
+  "checks": {
+    "frozenPlanDriverHelperTasksReferencesBaselineHashes": true,
+    "attemptedWireTaskMatchesUltraExceptModel": true,
+    "attemptedRequestDigest": true,
+    "oneUnknownAndElevenNotExecuted": true,
+    "stopOnFirstUnknownRespected": true,
+    "missingUsageAndScoresRemainNull": true,
+    "noCredentialInCapture": true
+  },
+  "scope": "Offline consistency; no Jev semantic verdict,billing evidence or full12-call comparison."
+}
