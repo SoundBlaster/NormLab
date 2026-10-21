@@ -1,7 +1,8 @@
 # Liquid contrastive controls v1
 
 Prepared at `ee0cee9`; subsequently authorized for twelve attempts by the user.
-Actual driver is frozen before inference; results pending. See the
+Actual driver frozen at `ab7be2d` before inference; twelve attempts completed.
+See the [results](../../../docs/LIQUID_D1_CONTRASTIVE_RESULTS_2026-10-21.md),
 [protocol](../../../docs/LIQUID_D1_CONTRASTIVE_PLAN_2026-10-21.md) and
 [ledger #70](https://github.com/SoundBlaster/NormLab/issues/70).
 

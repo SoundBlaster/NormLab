@@ -1,0 +1,16 @@
+{
+  "schema": "normlab.liquid-contrastive-verification/v1",
+  "httpAttemptsDuringVerification": 0,
+  "captureSha256": "5dc010ff27804a915c2e607320222d263cab68dc7f43686bdb893e8ac44967ca",
+  "checks": {
+    "frozenCommitPlanDriverHelperTaskReferenceHashes": true,
+    "exactWireStateQuestions": true,
+    "all12Http200Completed": true,
+    "perCallAndSeriesCaps": true,
+    "schemaDistributionLabelsConfidenceUsage": true,
+    "storedAndRecomputedGradesAgree": true,
+    "pairAndErrorDenominators": true,
+    "credentialsExcludedFromCapture": true
+  },
+  "scope": "Offline consistency only, not semantic gold, provider authenticity, billing, SDK integration or whole-pipeline quality."
+}

@@ -3,7 +3,9 @@
 Дата: 2026-10-21. Ledger: [#70](https://github.com/SoundBlaster/NormLab/issues/70).
 Подготовка сохранена в commit `ee0cee9`. Пользователь отдельно разрешил
 12 запросов с предложенными caps: «Делай, разрешаю». Authorization и actual
-driver фиксируются отдельным commit до inference. Результаты пока pending.
+driver зафиксированы в `ab7be2d` до inference. Серия завершена: 12/12 HTTP 200;
+10/12 candidate agreement и 4/6 полностью верных пар.
+См. [результаты и evidence](LIQUID_D1_CONTRASTIVE_RESULTS_2026-10-21.md).
 
 ## Зачем следующая серия
 
