@@ -1,0 +1,35 @@
+{
+  "schema": "normlab.claim-origin-references/v1",
+  "holdoutEligible": false,
+  "independentHumanGold": false,
+  "records": [
+    {
+      "id": "S01",
+      "expectedAnswer": "letter_1",
+      "status": "candidate-not-independent-human-gold",
+      "basis": "Exact original v2 compatible claim claimant,source/quote unchanged",
+      "sourceRecord": "R029",
+      "sourceClaim": "A01"
+    },
+    {
+      "id": "S03",
+      "expectedAnswer": "narrator",
+      "status": "candidate-not-independent-human-gold",
+      "basis": "Exact original v2 compatible claim claimant,source/quote unchanged",
+      "sourceRecord": "R009",
+      "sourceClaim": "A01"
+    },
+    {
+      "id": "B01a",
+      "expectedAnswer": "compatible",
+      "status": "candidate-not-independent-human-gold",
+      "basis": "Exact historical P04 baseline task/reference,model route now directTypeSafe"
+    },
+    {
+      "id": "B01b",
+      "expectedAnswer": "incompatible",
+      "status": "candidate-not-independent-human-gold",
+      "basis": "Exact historical P04 baseline task/reference,model route now directTypeSafe"
+    }
+  ]
+}

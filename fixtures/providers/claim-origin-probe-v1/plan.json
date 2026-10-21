@@ -1,0 +1,148 @@
+{
+  "schema": "normlab.claim-origin-plan/v1",
+  "status": "authorized-frozen",
+  "ledger": "https://github.com/SoundBlaster/NormLab/issues/70",
+  "authorization": {
+    "source": "Direct human request to perform the narrow attribution check; implementation scope bounded below before inference",
+    "date": "2026-10-21",
+    "scope": "Direct user requested narrowcheck and proposed nativeTypeSafe route;bounded6main/max8attempts,2network retries,max1perjob. Four narrowcalls(two targets,two arms) plus two fresh nativeJev overall baselines. Limits unchanged.",
+    "humanInstructionTranslation": "Ok, perform the check; direct TypeSafe API suggested"
+  },
+  "hypothesis": "Source-only question identifies original letter attribution and narrator countercontrol;field-only comparison to candidate claimant can expose shared failure. Fresh nativeJev overall baselines control gateway change.",
+  "sourceCount": 2,
+  "taskCount": 4,
+  "expectedLabelsNeverSent": true,
+  "tasks": [
+    {
+      "id": "S01",
+      "caseId": "C015",
+      "originRecord": "R029",
+      "originClaim": "A01",
+      "taskPath": "fixtures/providers/claim-origin-probe-v1/tasks/S01.json",
+      "taskSha256": "80493825f77e8eda79a119cf3bb82c06e2a37d524cc696fa007845cb63a09628"
+    },
+    {
+      "id": "S03",
+      "caseId": "C005",
+      "originRecord": "R009",
+      "originClaim": "A01",
+      "taskPath": "fixtures/providers/claim-origin-probe-v1/tasks/S03.json",
+      "taskSha256": "163a16d9540a8307f8f4146906343b664e024396fc70b5da19e649cdd0add73f"
+    },
+    {
+      "id": "B01a",
+      "caseId": "C015",
+      "kind": "native-overall-baseline",
+      "originGitRef": "09fc8c0",
+      "originPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P04a.json",
+      "taskPath": "fixtures/providers/claim-origin-probe-v1/tasks/B01a.json",
+      "taskSha256": "52e340c1e16bdf5af3f976047c3e1a7f4744500f4e9ea52bb64733f63d6bce72"
+    },
+    {
+      "id": "B01b",
+      "caseId": "C015",
+      "kind": "native-overall-baseline",
+      "originGitRef": "09fc8c0",
+      "originPath": "fixtures/providers/liquid-contrastive-controls-v1/tasks/P04b.json",
+      "taskPath": "fixtures/providers/claim-origin-probe-v1/tasks/B01b.json",
+      "taskSha256": "df182d37fc921d1ae4baec27b57370b4cba59921f09d991ec866339895a756aa"
+    }
+  ],
+  "references": {
+    "path": "fixtures/providers/claim-origin-probe-v1/reviewer-only.json",
+    "sha256": "3eae1ebaa6acb07d1af02c90c05711bdb7319dcca22b5b20d6677242e5fa751a"
+  },
+  "arms": {
+    "ultra": {
+      "model": "d1-ultra",
+      "endpoint": "https://api.liquid.ai/decisions/v1/systemone",
+      "credential": "hidden stdin only"
+    },
+    "jev": {
+      "model": "jev-1.13.0",
+      "endpoint": "https://api.typesafe.ai/v1/systemone",
+      "credential": "TYPESAFE_API_KEY environment only"
+    }
+  },
+  "order": [
+    {
+      "job": "JB01a",
+      "arm": "jev",
+      "task": "B01a"
+    },
+    {
+      "job": "JB01b",
+      "arm": "jev",
+      "task": "B01b"
+    },
+    {
+      "job": "U01",
+      "arm": "ultra",
+      "task": "S01"
+    },
+    {
+      "job": "J01",
+      "arm": "jev",
+      "task": "S01"
+    },
+    {
+      "job": "J03",
+      "arm": "jev",
+      "task": "S03"
+    },
+    {
+      "job": "U03",
+      "arm": "ultra",
+      "task": "S03"
+    }
+  ],
+  "caps": {
+    "plannedJobs": 6,
+    "maxAttempts": 8,
+    "maxNetworkRetries": 2,
+    "maxRetriesPerJob": 1,
+    "backoffSeconds": 1,
+    "perAttemptSeconds": 30,
+    "seriesSeconds": 360,
+    "maxResponseBytes": 1048576,
+    "continueAfterNetworkUnknown": true,
+    "stopOn": "HTTP/protocol/model failure or globalattempt/retry/deadline cap;never retry after a valid label"
+  },
+  "bindings": [
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/sources.json",
+      "sha256": "030f957560600a9694ba47347f527423a095f036580b4d383ea7c56f0dec7b5c"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/candidates.json",
+      "sha256": "0c4201478b51a8f1b2cde7d1eabb699e4d8b4def482fc9f70a37746a53ce76dd"
+    },
+    {
+      "path": "fixtures/parking-pilot/stage1-audit-v2/reviewer-only.json",
+      "sha256": "766c315a77e0cb24533609a9272b770cb8d0c516a33ad112839889998e370f91"
+    },
+    {
+      "path": "scripts/clairic_smoke.py",
+      "sha256": "f983e41ba4d7f94dd2c1e84915e64a50ae3a6ee1b5f34a9273a969c82000f4b4"
+    }
+  ],
+  "inferenceContract": "model + exacttaskstate/questions only. Narrowtasks exclude candidateClaims/claimant;baseline tasks retain their original typedcandidate by design.",
+  "comparisonLimits": "Two exposed authored sources,two targetspans and two nativebaselinevariants,not independent human gold. Narrow inputprojection+question is a tacticbundle. NativeJev overall controls separate gatewaychange from tactic on originaltext;one sample cannot establish causality.",
+  "guardPolicy": {
+    "narrator_or_letter_match": "field_consistent",
+    "narrator_or_letter_mismatch": "field_mismatch",
+    "other_indeterminate_or_operational": "field_review",
+    "doesNotAcceptWholeMarkup": true,
+    "doesNotEstablishRealWorldTruth": true,
+    "productionIntegrated": false
+  },
+  "driverPath": "docs/evidence/claim-origin-probe-2026-10-21/driver.py",
+  "driverSha256": "ccd09061fb180641c8c49fdd088e205b38e7895c3bee7d81703ca2af3771748e",
+  "narrowTaskCount": 2,
+  "baselineTaskCount": 2,
+  "providerMonetaryLimits": "NativeTypeSafe andLiquid ceilings unverified;CoreInfraUSD4 cap not transferred. Request-count cap fixed at8.",
+  "questionIds": {
+    "narrow": "claim_origin",
+    "baseline": "overall"
+  }
+}
