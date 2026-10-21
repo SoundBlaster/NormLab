@@ -45,7 +45,7 @@ python3 scripts/clairic_smoke.py --live
 unset CF_API_TOKEN CF_ACCOUNT_ID
 ```
 
-Скрипт делает один HTTP attempt, без retries и redirects, с socket timeout 30 s
+Скрипт делает один HTTP attempt, без retries и redirects, с socket timeout 30 s и общим deadline 30 s
 и ограничением ответа 1 MiB. `--live` может расходовать средства Cloudflare;
 этот инструмент не устанавливает денежный лимит аккаунта. Использовать только
 после согласования запуска и account budget. Provider может считать несколько
@@ -103,3 +103,13 @@ Workers AI endpoint. Credential передан процессу в памяти;
 Источники, проверены 2026-10-20:
 [Clairic model/API reference](https://developers.cloudflare.com/workers-ai/models/clairic/),
 [Workers AI REST API](https://developers.cloudflare.com/workers-ai/get-started/rest-api/).
+
+## Review: total deadline
+
+Socket timeout ограничивает отдельные операции, но не trickling response.
+Теперь live CLI дополнительно использует POSIX ITIMER_REAL/SIGALRM вокруг
+open/read/parse; timer и прежний handler восстанавливаются в finally.
+Live mode вне main thread, без POSIX timer или при уже активном timer отклоняется
+до запроса. Dry-run остаётся portable. Deadline interruption оставляет outcome/usage
+unknown, не делает retry и не доказывает отмену серверного inference.
+Offline test имитирует регулярные короткие чтения без HTTP и проверяет общий cap.

@@ -5,10 +5,13 @@ import hashlib
 import json
 import os
 import re
+import signal
 import socket
+import threading
 import time
 import urllib.error
 import urllib.request
+from contextlib import contextmanager
 from pathlib import Path
 
 STATE = (
@@ -32,6 +35,33 @@ EXPECTED = {
     "purchase_order": None,
 }
 MAX_BODY = 1024 * 1024
+
+
+class DeadlineUnavailable(RuntimeError):
+    """Refuse live execution when a total deadline cannot be installed safely."""
+
+
+@contextmanager
+def total_deadline(seconds):
+    """Bound the synchronous CLI operation, including trickling response reads."""
+    if (
+        not hasattr(signal, "setitimer")
+        or threading.current_thread() is not threading.main_thread()
+    ):
+        raise DeadlineUnavailable("Live mode requires POSIX timers on the main thread")
+    if seconds <= 0 or signal.getitimer(signal.ITIMER_REAL) != (0.0, 0.0):
+        raise DeadlineUnavailable("Invalid deadline or existing process timer")
+
+    def expired(signum, frame):
+        raise TimeoutError("Total live-request deadline exceeded")
+
+    previous = signal.signal(signal.SIGALRM, expired)
+    try:
+        signal.setitimer(signal.ITIMER_REAL, seconds)
+        yield
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -206,20 +236,26 @@ def main():
         method="POST",
     )
     started = time.monotonic()
-    report = {"mode": "live", "case": args.case, "attempts": 1, "retries": 0}
+    report = {"mode": "live", "case": args.case, "attempts": 0, "retries": 0}
     exit_code = 3
     try:
-        with urllib.request.build_opener(NoRedirect()).open(
-            request, timeout=30
-        ) as response:
-            report.update(
-                http_status=response.status, cf_ray=response.headers.get("cf-ray")
-            )
-            raw = response.read(MAX_BODY + 1)
-        if len(raw) > MAX_BODY:
-            raise ValueError("Response exceeds 1 MiB")
-        report.update(summarize(json.loads(raw, parse_constant=reject_constant), case))
-        exit_code = 0 if report["pass"] else 1
+        with total_deadline(30):
+            report["attempts"] = 1
+            with urllib.request.build_opener(NoRedirect()).open(
+                request, timeout=30
+            ) as response:
+                report.update(
+                    http_status=response.status, cf_ray=response.headers.get("cf-ray")
+                )
+                raw = response.read(MAX_BODY + 1)
+            if len(raw) > MAX_BODY:
+                raise ValueError("Response exceeds 1 MiB")
+            report.update(summarize(json.loads(raw, parse_constant=reject_constant), case))
+            exit_code = 0 if report["pass"] else 1
+    except DeadlineUnavailable:
+        report.update(
+            error="Total deadline unavailable; no request sent", usage="not_started"
+        )
     except urllib.error.HTTPError as exc:
         report.update(
             http_status=exc.code,
