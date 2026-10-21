@@ -16,3 +16,9 @@ export {
   type NarrativeContext,
   type VehicleHypothesis,
 } from '../../../../shared/parking-context.js';
+export {
+  parkingJournalSchema,
+  type ParkingJournal,
+  type ParkingJournalEvent,
+} from '../../../../shared/parking-journal.js';
+export { inferenceFailureMessage } from '../../../../shared/inference-failure.js';

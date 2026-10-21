@@ -110,12 +110,45 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+.parking-journal {
+  display: grid;
+  gap: var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+.parking-journal > li {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(0, 4fr);
+  gap: var(--space-4);
+  border-top: 1px solid var(--color-line);
+  padding-top: var(--space-4);
+}
+.parking-journal time {
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}
+.parking-journal p {
+  margin-block: var(--space-3);
+}
+.parking-journal-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--space-3);
+  font-size: var(--text-small);
+}
+.parking-journal-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
 @media (max-width: 1200px) {
   .parking-statement-list {
     grid-template-columns: 1fr;
   }
 }
 @media (max-width: 680px) {
+  .parking-journal > li {
+    grid-template-columns: 1fr;
+  }
   .parking-review {
     gap: var(--space-4);
   }

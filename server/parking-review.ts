@@ -36,6 +36,8 @@ import {
   vehicleHypothesisSchema,
 } from '../shared/parking-context.js';
 import { reviseReviewMetadata } from './parking-review-metadata.js';
+import { extractionJournal, revisionJournal, saveParkingRun } from './parking-journal.js';
+import type { ParkingRun } from '../shared/parking-journal.js';
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex');
 export class ParkingReviewError extends Error {
@@ -64,12 +66,17 @@ const updateInput = z
   })
   .strict();
 const extractInput = z
-  .object({ draftId: z.string().uuid(), expectedRevisionId: z.string().uuid() })
+  .object({
+    draftId: z.string().uuid(),
+    expectedRevisionId: z.string().uuid(),
+    replaceStatements: z.boolean().optional(),
+  })
   .strict();
 
 export class ParkingReview {
   private readonly root: string;
   private extracting = false;
+  private activeRunId?: string;
   constructor(
     dataDir: string,
     private readonly extractor?: ParkingExtractor | null,
@@ -93,7 +100,7 @@ export class ParkingReview {
   private expected(id: string, revision: string) {
     const draft = this.current(id);
     if (draft.revisionId !== revision)
-      throw new ParkingReviewError('Черновик изменился. Обновите страницу.');
+      throw new ParkingReviewError('Черновик изменился. Обновите страницу.', 409);
     return draft;
   }
   private save(draft: ReviewDraft) {
@@ -119,6 +126,14 @@ export class ParkingReview {
       createdAt: new Date().toISOString(),
     });
   }
+  private history(id: string): ReviewDraft[] {
+    return readdirSync(this.folder(id))
+      .filter((name) => name.endsWith('.json') && name !== 'current.json')
+      .map((name) =>
+        reviewDraftSchema.parse(JSON.parse(readFileSync(join(this.folder(id), name), 'utf8'))),
+      )
+      .sort((a, b) => b.revision - a.revision);
+  }
   async handle(method: string, path: string, body?: unknown) {
     if (method === 'GET' && path === '/api/parking/bootstrap') {
       const drafts = readdirSync(this.root, { withFileTypes: true })
@@ -143,12 +158,19 @@ export class ParkingReview {
     }
     if (method === 'GET' && path.startsWith('/api/parking/history/')) {
       const id = z.string().uuid().parse(path.slice('/api/parking/history/'.length));
-      return readdirSync(this.folder(id))
-        .filter((name) => name.endsWith('.json') && name !== 'current.json')
-        .map((name) =>
-          reviewDraftSchema.parse(JSON.parse(readFileSync(join(this.folder(id), name), 'utf8'))),
-        )
-        .sort((a, b) => b.revision - a.revision);
+      return this.history(id);
+    }
+    if (method === 'GET' && path.startsWith('/api/parking/journal/')) {
+      const id = z.string().uuid().parse(path.slice('/api/parking/journal/'.length));
+      this.current(id);
+      const events = [
+        ...revisionJournal(this.history(id)),
+        ...extractionJournal(this.folder(id), this.activeRunId),
+      ]
+        .map((event, order) => ({ event, order }))
+        .sort((a, b) => b.event.at.localeCompare(a.event.at) || b.order - a.order)
+        .map(({ event }) => event);
+      return { events: events.slice(0, 100), total: events.length };
     }
     if (method === 'POST' && path === '/api/parking/drafts') {
       const input = createInput.parse(body);
@@ -263,6 +285,10 @@ export class ParkingReview {
       const input = extractInput.parse(body);
       const draft = this.expected(input.draftId, input.expectedRevisionId);
       if (this.extracting) throw new ParkingReviewError('Извлечение уже выполняется.');
+      if (draft.statements.length && !input.replaceStatements)
+        throw new ParkingReviewError(
+          'Подтвердите замену текущей разметки новым авторазбором. Прежняя ревизия останется в истории.',
+        );
       if (
         this.extractor === null ||
         (!this.extractor && !existsSync(resolve('.tools/parking-evaluation/bin/python')))
@@ -281,14 +307,26 @@ export class ParkingReview {
         throw new ParkingReviewError(
           'Сначала сохраните и подтвердите контекст парковочного эпизода.',
         );
-      this.extracting = true;
-      const folder = join(this.folder(draft.draftId), `extraction-${randomUUID()}`);
+      const runId = randomUUID();
+      const run = { runId, revisionId: draft.revisionId, startedAt: new Date().toISOString() };
+      const folder = join(this.folder(draft.draftId), `extraction-${runId}`);
       mkdirSync(folder, { mode: 0o700 });
       writeFileSync(
         join(folder, 'input.json'),
         JSON.stringify({ narrative: draft.narrative, sourceDigest: draft.sourceDigest }),
         { mode: 0o600 },
       );
+      saveParkingRun(folder, { ...run, status: 'running' });
+      // A missing final record is explicitly displayed as unknown, never as success.
+      const finish = (outcome: ParkingRun) => {
+        try {
+          saveParkingRun(folder, outcome);
+        } catch {
+          /* Leave the durable start visible as an interrupted/unknown run. */
+        }
+      };
+      this.extracting = true;
+      this.activeRunId = runId;
       try {
         let raw: unknown;
         if (this.extractor) {
@@ -331,7 +369,7 @@ export class ParkingReview {
             throw new ParkingReviewError('Extractor вернул неверную цитату.');
         }
         this.expected(input.draftId, input.expectedRevisionId);
-        return this.revise(draft, {
+        const saved = this.revise(draft, {
           originalExtraction: raw,
           statements: result.statements,
           hypotheses: metadata.hypotheses.map((item) => ({
@@ -341,14 +379,39 @@ export class ParkingReview {
           checklist: { ...emptyReviewChecklist },
           status: 'draft',
         });
+        finish({
+          ...run,
+          status: 'completed',
+          finishedAt: new Date().toISOString(),
+          statementCount: result.statements.length,
+        });
+        return saved;
       } catch (error) {
+        const finishedAt = new Date().toISOString();
+        if (error instanceof ParkingReviewError && error.status === 409) {
+          finish({ ...run, status: 'conflict', finishedAt });
+          throw error;
+        }
+        const failure =
+          error instanceof InferenceAccessError
+            ? error.failure
+            : {
+                code: 'invalid_response' as const,
+                provider: 'gateway' as const,
+                stage: 'extraction' as const,
+              };
+        finish({ ...run, status: 'failed', finishedAt, failure });
         if (error instanceof ParkingReviewError) throw error;
+        const unknown = ['network', 'timeout', 'unavailable'].includes(failure.code)
+          ? ' Исход запроса не подтверждён: сервис мог выполнить его и списать средства. Повтор запустит весь разбор заново.'
+          : '';
         throw new ParkingReviewError(
-          `${error instanceof InferenceAccessError ? `${inferenceFailureMessage(error.failure)} ` : ''}Извлечение не завершено; прежняя ревизия сохранена. Ручная разметка доступна.`,
+          `${inferenceFailureMessage(failure)}${unknown} Извлечение не завершено; прежняя ревизия сохранена. Ручная разметка доступна.`,
           503,
         );
       } finally {
         this.extracting = false;
+        this.activeRunId = undefined;
       }
     }
     return undefined;

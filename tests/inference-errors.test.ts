@@ -19,6 +19,7 @@ test('provider HTTP failures keep safe status and discard body, URL and credenti
   for (const [status, code] of [
     [401, 'authentication'],
     [403, 'authentication'],
+    [402, 'quota'],
     [404, 'endpoint'],
     [405, 'endpoint'],
     [429, 'rate_limit'],
