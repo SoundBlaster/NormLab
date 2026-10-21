@@ -124,6 +124,8 @@ tests, installs, builds, deployments или merge не выполнялось. C
 отдельные проверки текущего PR head.
 
 Отдельно пользователь запросил [тот же набор для Jev через CoreInfra](JEV_ULTRA_CONTRASTIVE_COMPARISON_2026-10-21.md).
-Этот arm остановился на первой сетевой попытке: 0 labels, 11 not-executed.
-Результаты Ultra и его capture остались неизменными; сравнение качества с Jev
-пока не измерено.
+Первый arm остановился на первой сетевой попытке. Позднее отдельно разрешённые
+retry и suffix обработали все 12 jobs: 10 Jev labels и два transport unknown.
+На одинаковых десяти полученных inputs Jev — 8/10, Ultra — 9/10 candidate
+agreement. Это не полный 12-label score или общий ranking; результаты Ultra
+и его capture остались неизменными.
