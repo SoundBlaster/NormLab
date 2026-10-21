@@ -261,6 +261,19 @@ See [frontend architecture](client/ARCHITECTURE.md).
 - [ ] Внести ключи через скрытый terminal prompt и провести один synthetic сквозной запуск.
 - [ ] Оценить новый pipeline на фиксированном корпусе отдельно от прежних baseline и целей 50%/80%.
 
+### Hosted inference — сбой и восстановление, proposal 2026-10-21
+
+[Sequence diagrams «до / после»](docs/HOSTED_INFERENCE_RECOVERY.md),
+ledger [#172](https://github.com/SoundBlaster/NormLab/issues/172).
+Текущее поведение сверено с кодом; checkpoints и explicit resume ниже — proposal,
+не возможности действующего UI. Закрытый evaluation harness не переоткрывается.
+
+- [x] Сохранить две sequence diagrams, политику ошибок и карту исходников.
+- [ ] Отдельно согласовать минимальный job/checkpoint contract и UI states.
+- [ ] По отдельному поручению реализовать durable этапы, безопасные bounded retries
+      и explicit resume с сохранением source/config bindings, caps и unknown outcomes.
+      Обязательные этапы не пропускать; fallback provider требует явной policy.
+
 ### Hosted inference — поставщик API
 
 - [x] Настраивать API base для Responses/System One на сервере; сохранять path prefix.

@@ -4,6 +4,12 @@ Prepared 2026-10-07. Code/configuration readiness is separate from deployment,
 provider-account availability, regional support and extraction quality. No live
 keys were read or installed and no paid inference was run during preparation.
 
+## Failure and recovery reference
+
+[Sequence diagrams: current behavior and proposed recovery](HOSTED_INFERENCE_RECOVERY.md)
+record the no-retry hosted path and the proposed checkpoint/resume flow. The latter
+is not implemented; evaluation resume is a separate contract.
+
 ## Runtime
 
 The container image now contains native TypeScript adapters for
@@ -35,13 +41,13 @@ The dedicated host directory `/srv/0al/secrets/normlab-inference` belongs to roo
 with mode `0700`. Files belong to UID/GID `1000:1000` with mode `0400` (read-only
 Compose bind mounts preserve host ownership/mode). No values go into `.env`.
 
-| Credential | Host file | Container file | Consumers |
-| --- | --- | --- | --- |
-| OpenAI API key | `/srv/0al/secrets/normlab-inference/openai-api-key` | `/run/secrets/normlab_openai_api_key` | Gateway only |
+| Credential                      | Host file                                              | Container file                           | Consumers                             |
+| ------------------------------- | ------------------------------------------------------ | ---------------------------------------- | ------------------------------------- |
+| OpenAI API key                  | `/srv/0al/secrets/normlab-inference/openai-api-key`    | `/run/secrets/normlab_openai_api_key`    | Gateway only                          |
 | Optional separate Decisions key | `/srv/0al/secrets/normlab-inference/decisions-api-key` | `/run/secrets/normlab_decisions_api_key` | Gateway only, explicit optional mount |
-| TypeSafe API key | `/srv/0al/secrets/normlab-inference/typesafe-api-key` | `/run/secrets/normlab_typesafe_api_key` | Gateway only, TypeSafe overlay |
-| Internal random token | `/srv/0al/secrets/normlab-inference/gateway-token` | `/run/secrets/normlab_inference_token` | NormLab and gateway |
-| Existing operator password | `/srv/0al/secrets/normlab-operator-password` | `/run/secrets/normlab_operator_password` | NormLab only |
+| TypeSafe API key                | `/srv/0al/secrets/normlab-inference/typesafe-api-key`  | `/run/secrets/normlab_typesafe_api_key`  | Gateway only, TypeSafe overlay        |
+| Internal random token           | `/srv/0al/secrets/normlab-inference/gateway-token`     | `/run/secrets/normlab_inference_token`   | NormLab and gateway                   |
+| Existing operator password      | `/srv/0al/secrets/normlab-operator-password`           | `/run/secrets/normlab_operator_password` | NormLab only                          |
 
 `NORMLAB_OPENAI_API_KEY_FILE`, `NORMLAB_TYPESAFE_API_KEY_FILE` and
 `NORMLAB_INFERENCE_TOKEN_FILE` contain the corresponding container paths.
@@ -56,10 +62,10 @@ own outbound Bearer header. Registry/GitHub credentials have no role here.
 
 ## Provider addresses (operator configuration)
 
-| Setting in gateway and egress | Default API base | Fixed resource |
-| --- | --- | --- |
-| `NORMLAB_OPENAI_BASE_URL` | `https://api.openai.com/v1` | `/responses`, optional `/decisions` |
-| `NORMLAB_TYPESAFE_BASE_URL` | `https://api.typesafe.ai/v1` | `/systemone` |
+| Setting in gateway and egress | Default API base             | Fixed resource                      |
+| ----------------------------- | ---------------------------- | ----------------------------------- |
+| `NORMLAB_OPENAI_BASE_URL`     | `https://api.openai.com/v1`  | `/responses`, optional `/decisions` |
+| `NORMLAB_TYPESAFE_BASE_URL`   | `https://api.typesafe.ai/v1` | `/systemone`                        |
 
 An API base includes its complete path prefix; an optional trailing slash is
 removed. The CoreInfra application API base supplied by the operator
@@ -140,14 +146,14 @@ a live health check. Unknown failures retain the generic extraction message.
 
 ## Exact network paths and enforcement
 
-| Source | Destination | Allowed operation |
-| --- | --- | --- |
-| Authenticated browser | `https://managed.specgraph.tech/normlab/api/parking/extract` | Existing POST, operator authentication + Origin + CSRF |
-| NormLab | `http://normlab-inference-gateway:4318/v1/extract` | Authenticated POST with narrative and source digest only |
-| Gateway | `http://normlab-inference-egress:4319` | CONNECT to the validated Responses/Decisions/System One DNS authorities on port 443 |
-| Gateway via TLS tunnel | Configured full Responses endpoint (or base + `/responses`) | POST for discovery and optionally classification |
-| Gateway via TLS tunnel | Configured full Decisions endpoint (or base + `/decisions`) | POST for optional Decisions Choice classification |
-| Gateway via TLS tunnel | Configured full System One endpoint (or base + `/systemone`) | POST for optional Jev classification |
+| Source                 | Destination                                                  | Allowed operation                                                                   |
+| ---------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Authenticated browser  | `https://managed.specgraph.tech/normlab/api/parking/extract` | Existing POST, operator authentication + Origin + CSRF                              |
+| NormLab                | `http://normlab-inference-gateway:4318/v1/extract`           | Authenticated POST with narrative and source digest only                            |
+| Gateway                | `http://normlab-inference-egress:4319`                       | CONNECT to the validated Responses/Decisions/System One DNS authorities on port 443 |
+| Gateway via TLS tunnel | Configured full Responses endpoint (or base + `/responses`)  | POST for discovery and optionally classification                                    |
+| Gateway via TLS tunnel | Configured full Decisions endpoint (or base + `/decisions`)  | POST for optional Decisions Choice classification                                   |
+| Gateway via TLS tunnel | Configured full System One endpoint (or base + `/systemone`) | POST for optional Jev classification                                                |
 
 NormLab joins the existing `normlab-private` ingress network and the new
 `inference-private` network; both are internal. Gateway joins only
