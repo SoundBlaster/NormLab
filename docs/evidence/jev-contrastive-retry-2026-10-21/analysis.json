@@ -1,0 +1,277 @@
+{
+  "schema": "normlab.jev-ultra-retry-analysis/v1",
+  "captureSha256": "7f48eee5e78c072c27f3ebd299087c546c70aaebaa337e4c2becf50d12d23151",
+  "planSha256": "219b515b0a5e2ecfb5b046c7ebc0d880567b7ace383c60ce58d566a048645526",
+  "ultraCaptureSha256": "5dc010ff27804a915c2e607320222d263cab68dc7f43686bdb893e8ac44967ca",
+  "status": "operationally-incomplete",
+  "requestedModel": "jev-1.13.0",
+  "authorizedMaxAttempts": 16,
+  "plannedJobs": 12,
+  "httpAttempts": 8,
+  "networkRetries": 2,
+  "attemptOutcomes": {
+    "completed": 5,
+    "unknown": 3
+  },
+  "jobOutcomes": {
+    "completed": 5,
+    "unknown": 1,
+    "not-executed": 6
+  },
+  "candidateAgreementCompleted": {
+    "count": 4,
+    "denominator": 5
+  },
+  "pairedUltraAgreementSameCompletedInputs": {
+    "count": 5,
+    "denominator": 5
+  },
+  "completedJobCoverage": {
+    "count": 5,
+    "denominator": 12
+  },
+  "completePairAgreement": {
+    "count": 1,
+    "denominator": 2,
+    "plannedPairs": 6
+  },
+  "firstAttemptAnswers": {
+    "completed": 4,
+    "candidateAgreement": 4
+  },
+  "recoveredAnswers": {
+    "completed": 1,
+    "candidateAgreement": 0
+  },
+  "knownUsageAllAttempts": {
+    "input_tokens": 9580,
+    "output_tokens": 224
+  },
+  "unknownUsageAttempts": 3,
+  "apiCostUSD": null,
+  "billingVerified": false,
+  "falseAcceptanceCompleted": {
+    "ids": [],
+    "completedReferenceDenominator": 2,
+    "plannedReferenceDenominator": 5
+  },
+  "falseRejectionCompleted": {
+    "ids": ["P02a"],
+    "completedReferenceDenominator": 3,
+    "plannedReferenceDenominator": 6
+  },
+  "ambiguousOverdetermination": null,
+  "elapsedSeconds": 29.345,
+  "pairs": [
+    {
+      "id": "P01",
+      "family": "obligation",
+      "jevPairComplete": true,
+      "jevPairPass": true,
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["compatible", "incompatible"],
+      "jevStatuses": ["completed", "completed"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "ultraPairPass": true
+    },
+    {
+      "id": "P02",
+      "family": "hypothetical",
+      "jevPairComplete": true,
+      "jevPairPass": false,
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["incompatible", "incompatible"],
+      "jevStatuses": ["completed", "completed"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "ultraPairPass": true
+    },
+    {
+      "id": "P03",
+      "family": "payer",
+      "jevPairComplete": false,
+      "jevPairPass": null,
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": ["compatible", null],
+      "jevStatuses": ["completed", "unknown"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "ultraPairPass": true
+    },
+    {
+      "id": "P04",
+      "family": "claimant",
+      "jevPairComplete": false,
+      "jevPairPass": null,
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": [null, null],
+      "jevStatuses": ["not-executed", "not-executed"],
+      "ultraLabels": ["compatible", "compatible"],
+      "ultraPairPass": false
+    },
+    {
+      "id": "P05",
+      "family": "explicit-unknown",
+      "jevPairComplete": false,
+      "jevPairPass": null,
+      "expectedLabels": ["compatible", "incompatible"],
+      "jevLabels": [null, null],
+      "jevStatuses": ["not-executed", "not-executed"],
+      "ultraLabels": ["compatible", "incompatible"],
+      "ultraPairPass": true
+    },
+    {
+      "id": "P06",
+      "family": "location-ambiguity",
+      "jevPairComplete": false,
+      "jevPairPass": null,
+      "expectedLabels": ["compatible", "indeterminate"],
+      "jevLabels": [null, null],
+      "jevStatuses": ["not-executed", "not-executed"],
+      "ultraLabels": ["compatible", "compatible"],
+      "ultraPairPass": false
+    }
+  ],
+  "rows": [
+    {
+      "id": "P01a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": true,
+      "jevConfidence": 0.49,
+      "jevSelectedProbability": 0.66,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P01b",
+      "expected": "incompatible",
+      "jevStatus": "completed",
+      "jevLabel": "incompatible",
+      "jevMatches": true,
+      "jevConfidence": 0.97,
+      "jevSelectedProbability": 0.98,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P02b",
+      "expected": "incompatible",
+      "jevStatus": "completed",
+      "jevLabel": "incompatible",
+      "jevMatches": true,
+      "jevConfidence": 0.95,
+      "jevSelectedProbability": 0.97,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P02a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "incompatible",
+      "jevMatches": false,
+      "jevConfidence": 0.28,
+      "jevSelectedProbability": 0.52,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P03a",
+      "expected": "compatible",
+      "jevStatus": "completed",
+      "jevLabel": "compatible",
+      "jevMatches": true,
+      "jevConfidence": 0.86,
+      "jevSelectedProbability": 0.91,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P03b",
+      "expected": "incompatible",
+      "jevStatus": "unknown",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P04b",
+      "expected": "incompatible",
+      "jevStatus": "not-executed",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "ultraLabel": "compatible",
+      "ultraMatches": false
+    },
+    {
+      "id": "P04a",
+      "expected": "compatible",
+      "jevStatus": "not-executed",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P05a",
+      "expected": "compatible",
+      "jevStatus": "not-executed",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P05b",
+      "expected": "incompatible",
+      "jevStatus": "not-executed",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "ultraLabel": "incompatible",
+      "ultraMatches": true
+    },
+    {
+      "id": "P06b",
+      "expected": "indeterminate",
+      "jevStatus": "not-executed",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "ultraLabel": "compatible",
+      "ultraMatches": false
+    },
+    {
+      "id": "P06a",
+      "expected": "compatible",
+      "jevStatus": "not-executed",
+      "jevLabel": null,
+      "jevMatches": null,
+      "jevConfidence": null,
+      "jevSelectedProbability": null,
+      "ultraLabel": "compatible",
+      "ultraMatches": true
+    }
+  ],
+  "historicalStoppedAttempt": {
+    "includedInScore": false,
+    "attempts": 1,
+    "unknownUsageAttempts": 1
+  },
+  "populationAccuracy": null,
+  "modelRanking": null,
+  "referenceStatus": "candidate-not-independent-human-gold",
+  "confidenceThresholdTuned": false,
+  "unusedAttemptCapDoesNotOverrideStoppingRule": true
+}

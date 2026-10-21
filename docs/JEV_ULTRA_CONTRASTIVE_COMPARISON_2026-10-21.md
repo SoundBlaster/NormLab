@@ -129,4 +129,42 @@ unknown останавливают серию. Возможность повто
 сохраняется в Git. Capture пишет отдельный attempt log и итог каждого job;
 учитываются все usage/unknown outcomes, отдельно ответы с первой попытки
 и после retry. Для ошибки сохраняется безопасный exception type и reason type,
-без текста, потенциально содержащего credentials. Результаты пока pending.
+без текста, потенциально содержащего credentials.
+
+### Первый retry-сегмент
+
+Frozen commit `1c5bef2`: 8 attempts, 2 retries, 29.345 s. Получены 5 labels,
+4/5 совпали с candidate references; Ultra на тех же пяти tasks — 5/5. Четыре
+ответа с первой попытки верны, один восстановленный ответ ошибочен: P02a
+«Допустим, парковка была оплачена», faithful hypothetical candidate отвергнут
+как incompatible. Это не показывает, что retry вызвал semantic ошибку:
+ответа первой попытки нет. Полностью получены две пары: obligation верна,
+hypothetical неверна из-за ложного отклонения supported candidate.
+
+P02a первый раз получил URLError с reason SSLEOFError, затем ответ. P03b
+получил тот же TLS EOF дважды; сработало правило остановки этого сегмента.
+Итого 3 unknown attempt outcomes, один финальный unknown job и 6 not-executed.
+Known usage пяти ответов — 9 580 input/224 output; usage трёх unknown неизвестен,
+стоимость null. Ключ и body в диагностические exception fields не попали.
+
+Сохранены [capture](evidence/jev-contrastive-retry-2026-10-21/report.json),
+[analysis](evidence/jev-contrastive-retry-2026-10-21/analysis.json) и
+[offline verification](evidence/jev-contrastive-retry-2026-10-21/verification.json).
+Frozen inputs/driver/baselines, все attempt requests, retry caps, schema и
+grades проверены offline без HTTP. Результат остаётся частичным.
+
+### Продолжение в оставшемся лимите
+
+Человеческое разрешение охватывает 12 jobs/16 новых attempts и 4 network retries,
+максимум один на job; лимит не исчерпан. После сохранения первого сегмента
+готовится **отдельный continuation protocol до новых отправок**, без изменения
+его capture: только ещё не отправленные P04b/a, P05a/b, P06b/a, максимум
+8 attempts и 2 retries. Сумма двух сегментов не превысит исходные 16/4.
+Никаких новых попыток уже завершённых jobs или исчерпавшего retry P03b.
+
+В этой версии после unrecovered network unknown job сохраняется unknown и
+выполняются остальные jobs; HTTP/protocol/model failures всё ещё останавливают
+сегмент. Это **post-observation design amendment**, а не выполнение прежнего
+stop-on-unrecovered протокола без отклонений. Его влияние на coverage раскрывается
+в итоговом сравнении. Время двух сегментов, backoff и все попытки вместе
+ограничены исходными 360 s; новые sources/prompts/reference labels не вводятся.
