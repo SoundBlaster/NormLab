@@ -101,3 +101,10 @@ retry/fallback, смены модели или новой фоновой оче�
 
 Следующий шаг: review первого среза, затем Job/Checkpoint contract и частичный
 результат в той же Issue #179. Невыполненные acceptance остаются открытыми.
+
+## Gateway: контракт отдельного этапа
+
+The next recovery slice uses the existing gateway's
+[single-stage RPC contract](HOSTED_STAGE_PROTOCOL.md). This prepares discovery and
+classification checkpoint boundaries; durable app jobs and the Continue UI are
+still pending and are not implemented by the journal or the gateway contract.

@@ -8,6 +8,7 @@ import { InferenceProviders } from './inference-providers.js';
 import { MAX_INFERENCE_RESPONSE_BYTES } from './inference-http.js';
 import { InferenceAccessError } from './inference-errors.js';
 import { extractionInput, runHostedExtraction } from './hosted-extraction.js';
+import { checkedHostedStage, hostedProfile, runHostedStage } from './hosted-stages.js';
 
 /** Explicit route: no reliance on Node's bundled fetch sharing undici's global dispatcher. */
 export function proxiedFetch(proxy: string): typeof fetch {
@@ -42,8 +43,11 @@ export function createInferenceGateway(
       send(401, { error: 'Authentication required.' });
       return;
     }
-    // Exact RPC route. No URL, model, schema, headers or tools accepted from the caller.
-    if (req.method !== 'POST' || req.url !== '/v1/extract') {
+    // Exact RPC routes. No URL, model, schema, headers or tools accepted from the caller.
+    if (
+      req.method !== 'POST' ||
+      !['/v1/extract', '/v1/profile', '/v1/stage'].includes(req.url ?? '')
+    ) {
       send(404, { error: 'Unknown inference route.' });
       return;
     }
@@ -55,7 +59,7 @@ export function createInferenceGateway(
       windowStart = Date.now();
       requests = 0;
     }
-    if (requests >= config.requestsPerHour) {
+    if (req.url !== '/v1/profile' && requests >= config.requestsPerHour) {
       send(429, { error: 'Inference hourly limit reached.' });
       return;
     }
@@ -83,20 +87,36 @@ export function createInferenceGateway(
       }
       let input: unknown;
       try {
-        input = extractionInput.parse(
-          JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(Buffer.concat(chunks))),
-        );
+        input = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(Buffer.concat(chunks)));
+        if (req.url === '/v1/profile') {
+          if (
+            !input ||
+            Array.isArray(input) ||
+            typeof input !== 'object' ||
+            Object.keys(input).length
+          )
+            throw new Error('Expected empty profile input.');
+          send(200, hostedProfile(config));
+          return;
+        }
+        input = req.url === '/v1/stage' ? checkedHostedStage(input) : extractionInput.parse(input);
       } catch {
         send(400, { error: 'Invalid extraction input.' });
         return;
       }
+      if (
+        req.url === '/v1/stage' &&
+        checkedHostedStage(input).configDigest !== hostedProfile(config).configDigest
+      ) {
+        send(409, { error: 'Inference configuration changed. Start a new job.' });
+        return;
+      }
       requests++;
-      const result = await runHostedExtraction(
-        input,
-        providers,
-        config.classifier,
-        AbortSignal.any([controller.signal, AbortSignal.timeout(300000)]),
-      );
+      const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(300000)]);
+      const result =
+        req.url === '/v1/stage'
+          ? await runHostedStage(checkedHostedStage(input), providers, config, signal)
+          : await runHostedExtraction(input, providers, config.classifier, signal);
       if (Buffer.byteLength(JSON.stringify(result)) > MAX_INFERENCE_RESPONSE_BYTES)
         throw new Error('Result too large.');
       send(200, result);
