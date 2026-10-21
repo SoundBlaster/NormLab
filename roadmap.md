@@ -464,6 +464,12 @@ occurrence/offset semantics; Summarize — только вспомогатель
 
 ### Proposal: Clairic как extractor — 2026-10-20
 
+Архитектурная идея после pilot go/no-go и отдельного разрешения:
+[независимый Python module с внутренними микромодулями](docs/CLAIRIC_PYTHON_MODULE_PROPOSAL.md).
+Предлагаются отдельные types, transport port/HTTP adapter, codec, client и
+evidence checks; domain policies и binding остаются в NormLab. Один package,
+без обязательной зависимости от Mellea; реализация и публикация пока не начаты.
+
 Связанный [offline-прототип правил output normalization](docs/CLAIRIC_OUTPUT_NORMALIZATION_2026-10-21.md):
 raw/derived spans и versioned quote rules проверены на известных captures;
 это post-hoc evidence, не рост качества модели или включение policy в приложение.
@@ -535,6 +541,11 @@ matched control. Эти тексты уже видены в development, не я
       attempts, retries, времени и расходов, stopping rule и capture/replay.
       Старое разрешение на другой эксперимент автоматически не переносится.
       Использовать существующий harness без нового инфраструктурного этапа.
+      Для пилота достаточно минимального sync application adapter и необходимых
+      parsing/source guards внутри harness. Создание reusable package, async API,
+      dependency-enforcement matrix и neutral portability suite не являются
+      prerequisites: это отдельная задача только после pilot go/no-go и разрешения
+      разработки по [module proposal](docs/CLAIRIC_PYTHON_MODULE_PROPOSAL.md#7-этапы-и-критерии-review).
 
 **Результат и go/no-go.** Для каждого кейса сравнить полноту извлечения, точность
 anchors, polarity/modality, speaker/subject/episode binding, необоснованное
