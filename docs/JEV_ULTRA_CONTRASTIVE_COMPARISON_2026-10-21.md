@@ -168,3 +168,33 @@ grades проверены offline без HTTP. Результат остаётс
 stop-on-unrecovered протокола без отклонений. Его влияние на coverage раскрывается
 в итоговом сравнении. Время двух сегментов, backoff и все попытки вместе
 ограничены исходными 360 s; новые sources/prompts/reference labels не вводятся.
+
+**Статус continuation: не исполнено.** Пока сохранялся retry-сегмент и
+готовился amendment, первоначальное 360-секундное execution window истекло.
+Никаких дополнительных запросов после восьмой попытки не отправлено.
+Оставшиеся восемь attempts не используются для неявного сброса deadline.
+Для шести неотправленных jobs нужен новый явно разрешённый execution window;
+16 aggregate attempts и четыре retries не должны увеличиваться. Draft amendment
+выше — предложение, не утверждение об исполнении или новом разрешении.
+
+### Текущий сопоставимый semantic результат
+
+| Job                   | Expected     | Jev          | Ultra        |
+| --------------------- | ------------ | ------------ | ------------ |
+| P01a, obligation      | compatible   | compatible   | compatible   |
+| P01b, ошибочно actual | incompatible | incompatible | incompatible |
+| P02a, hypothetical    | compatible   | incompatible | compatible   |
+| P02b, ошибочно actual | incompatible | incompatible | incompatible |
+| P03a, платил друг     | compatible   | compatible   | compatible   |
+
+Только на этих пяти полученных inputs Jev — **4/5**, Ultra — **5/5**. Это
+условный ранний prefix при нестабильном транспорте, а не полное или независимое
+сравнение точности моделей. P03b не имеет label; P04/P05/P06 не оценены Jev.
+Из полностью полученных пар Jev прошёл 1/2, Ultra 2/2. Ранее Ultra на всех
+шести парах дал 4/6, на 12 candidates — 10/12; эти denominators не смешиваются.
+
+Подтверждённая новая semantic проблема Jev — ложное отклонение корректной
+hypothetical-разметки. Отдельная operational проблема — три SSLEOFError attempt
+outcomes в новой серии. Все они остаются неизвестными по usage/billing; вместе
+с первой stopped-серией сохранены четыре unknown attempts, ни один не принят
+за semantic ошибку. Смена provider/default или confidence routing не выполнялась.
