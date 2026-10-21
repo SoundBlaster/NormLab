@@ -1,0 +1,15 @@
+{
+  "schema": "normlab.liquid-hard-controls-verification/v1",
+  "httpAttemptsDuringVerification": 0,
+  "captureSha256": "1164d1d42773d904c3edb7eaac88b6bba658ef3333c1449c437f1c0d4a2b340b",
+  "checks": {
+    "frozenPlanDriverTaskHashes": true,
+    "exactWireStateQuestions": true,
+    "all8Http200AndCompleted": true,
+    "perCallAndSeriesCaps": true,
+    "schemaDistributionAndStoredGrades": true,
+    "historicalReferenceJoin": true,
+    "keyAndAuthorizationExclusion": true
+  },
+  "scope": "Offline consistency verification, not provider authenticity, calibrated confidence, billing verification, semantic gold or SDK integration."
+}
