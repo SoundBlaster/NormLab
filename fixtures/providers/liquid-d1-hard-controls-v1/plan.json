@@ -1,0 +1,117 @@
+{
+  "schema": "normlab.liquid-hard-controls-plan/v1",
+  "ledger": "https://github.com/SoundBlaster/NormLab/issues/70",
+  "status": "authorized-frozen",
+  "authorizedAttempts": 8,
+  "endpoint": "https://api.liquid.ai/decisions/v1/systemone",
+  "model": "d1-ultra",
+  "transport": "direct-HTTP; not SDK/bridge integration evidence",
+  "hypothesis": "D1 Ultra distinguishes incompatible typed stance from a source-matching quote and preserves supported denial/unknown plus ambiguity review without changing historical tasks. Compare effect of the same old instruction clarification.",
+  "scope": "Selected-claim verification, not extraction, legal truth, holdout or model ranking. Eight task variants, four controls, three authored source texts. Candidate references not independent human gold.",
+  "proposedCaps": {
+    "plannedJobs": 8,
+    "httpAttempts": 8,
+    "retries": 0,
+    "perRequestDeadlineSeconds": 30,
+    "seriesDeadlineSeconds": 300,
+    "maxResponseBytes": 1048576,
+    "stopOn": "first operational/protocol/unknown outcome or model/task drift; semantic mismatches do not stop series",
+    "externalMonetaryCap": "not verified; CoreInfra cap not transferred"
+  },
+  "order": ["T01A", "T01B", "T02B", "T02A", "T03A", "T03B", "T04B", "T04A"],
+  "references": {
+    "path": "fixtures/providers/bridge-semantic-probe-v1/reviewer-only.json",
+    "sha256": "98a2ba8d3a8d86af7f262cd44f189369e892e5a418a53c0f02dfd94da9081024",
+    "status": "candidate-not-independent-human-gold"
+  },
+  "historicalReports": [
+    "docs/BRIDGE_SEMANTIC_PROBE_2026-10-18.md",
+    "docs/JEV_QUOTE_AUTHORITY_RETRY_2026-10-18.md"
+  ],
+  "comparability": "A matches historical submitted state/questions; B matches frozen old clarification tasks. Only provider/model changes for the new arm. Historical comparisons are noncontemporaneous and use a different transport; no new Jev/Luna calls are included.",
+  "tasks": [
+    {
+      "id": "T01A",
+      "control": "T01",
+      "variant": "A",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T01A.json",
+      "taskSha256": "9f5d8dc6e2e5da8cb67bfe099e2ad87b5127ae313470898b43191106e6385462",
+      "stateQuestionsSha256": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8",
+      "expectedAnswer": "incompatible"
+    },
+    {
+      "id": "T01B",
+      "control": "T01",
+      "variant": "B",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T01B.json",
+      "taskSha256": "118ccc9790088b0f1597f8f578ffc59549ea6fe68713904dc66447eb5c94edbd",
+      "stateQuestionsSha256": "29c12050e80c0c4be60e73b935c6886edaf9f10c08ed82bb1bc1225d06fc4d0f",
+      "expectedAnswer": "incompatible"
+    },
+    {
+      "id": "T02A",
+      "control": "T02",
+      "variant": "A",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T02A.json",
+      "taskSha256": "dcdb993c47b80e2642d64aa823b2bd0d244f4fe577e97df07d8f1372849fc03a",
+      "stateQuestionsSha256": "ddf28672d2ed7ba978b8aef09c8342e0930933ff0ac48bfa29419efc89a388de",
+      "expectedAnswer": "compatible"
+    },
+    {
+      "id": "T02B",
+      "control": "T02",
+      "variant": "B",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T02B.json",
+      "taskSha256": "8016c9175d1c79ad3f48473019f46532fe42c60b83a5f4da7194e5d1a37e40b4",
+      "stateQuestionsSha256": "9ec830d9341318fb92b05ce2322bdcbedd53f226ae65c6e4c1d490ed3a15d3ad",
+      "expectedAnswer": "compatible"
+    },
+    {
+      "id": "T03A",
+      "control": "T03",
+      "variant": "A",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T03A.json",
+      "taskSha256": "d0665ce392b56a5845e95740fb64fb5f57e72846795e2b9b222b43f60944b1a4",
+      "stateQuestionsSha256": "ccd321b4626ada1d1b6c962cc270226a998997a6742574cde289b9c8e8ae2e09",
+      "expectedAnswer": "compatible"
+    },
+    {
+      "id": "T03B",
+      "control": "T03",
+      "variant": "B",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T03B.json",
+      "taskSha256": "3f0ab66dec4da0678a52772c21875668409917f80e397b04e3c24b6d1a79c27c",
+      "stateQuestionsSha256": "498594f6295f0b8216f80e419405fd95e3f53d27c045cbb0bdd2c2ca5997bda1",
+      "expectedAnswer": "compatible"
+    },
+    {
+      "id": "T04A",
+      "control": "T04",
+      "variant": "A",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T04A.json",
+      "taskSha256": "0bdb002c11de9c9215fadc7363f8b3cd6469bfaa0b525be7ac6a1d7794c197e9",
+      "stateQuestionsSha256": "14ec018001f8a6d95d80c1076dbb56185824f64aa5c8d2749adba69c853d126f",
+      "expectedAnswer": "indeterminate"
+    },
+    {
+      "id": "T04B",
+      "control": "T04",
+      "variant": "B",
+      "taskPath": "fixtures/providers/jev-quote-authority-v1/tasks/T04B.json",
+      "taskSha256": "970cf8b9a55d124c9a0fbaba9e33a1580011a644374fbd748ba2e0e372792053",
+      "stateQuestionsSha256": "f00616724c525de930fa4f16d5d8466eaeb0ef0706fab9808d689a2b082305f3",
+      "expectedAnswer": "indeterminate"
+    }
+  ],
+  "authorization": {
+    "source": "Direct human reply approving eight requests: original plus clarified wording",
+    "date": "2026-10-21",
+    "httpAttempts": 8,
+    "retries": 0,
+    "perRequestDeadlineSeconds": 30,
+    "seriesDeadlineSeconds": 300,
+    "otherProviderCalls": 0
+  },
+  "driverPath": "docs/evidence/liquid-d1-hard-controls-2026-10-21/driver.py",
+  "driverSha256": "60dedc96b172da55b0bbcfad70fe7fc43154d60e02b370063bcb0c95f1e7f297"
+}
