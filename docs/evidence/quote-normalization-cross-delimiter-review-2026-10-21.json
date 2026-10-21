@@ -1,0 +1,82 @@
+{
+  "schema": "normlab.quote-rule-review-fix/v1",
+  "ruleset_version": "quote-boundaries/v3",
+  "rule_source_sha256": "fda115a2fc83ea2680d6e6f4a2cc327503eaa00e827398f53dc02faa294b9db7",
+  "review_thread": "PRRT_kwDOU6kvz86uhykl",
+  "previous_head": "3566d66db84d49beb60fd5f0a9d9c76d81503746",
+  "baseline_reproduction": "Both cross-style enclosing pairs applied at previous head with explicit ALL_RULE_IDS; fixed version abstains.",
+  "checks": [
+    {
+      "id": "ascii_inside_guillemet",
+      "source": "«outer \"x\"»",
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "x\"",
+          "start": 8,
+          "end": 10
+        },
+        "derived": null,
+        "source_sha256": "8320a7de7a7489b4a28ff13d22e508844276a53f05d5d61c129a8864a722d22d",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v3",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["cross_delimiter_quote_pair_overlap"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "id": "guillemet_inside_ascii",
+      "source": "\"outer «x»\"",
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "x»",
+          "start": 8,
+          "end": 10
+        },
+        "derived": null,
+        "source_sha256": "9329e7cea8ad48e809ba90e7a83cc682458b79a9b4e89e2655a3b983c6418b78",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v3",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["cross_delimiter_quote_pair_overlap"],
+        "supporting_quote_span": null
+      }
+    },
+    {
+      "id": "deep_mixed",
+      "source": "«outer \"middle «x»\"»",
+      "result": {
+        "status": "review",
+        "raw": {
+          "value": "x»",
+          "start": 16,
+          "end": 18
+        },
+        "derived": null,
+        "source_sha256": "15229d775e1f068df466859330988c1ce5bc28266295a1770fc631cbf468a188",
+        "coordinate_system": "code_points",
+        "target": "inner_content",
+        "ruleset_version": "quote-boundaries/v3",
+        "enabled_rules": ["single-trailing-guillemet/v1", "single-trailing-ascii-quote/v1"],
+        "applied_rules": [],
+        "findings": ["ambiguous_source_quote_structure"],
+        "supporting_quote_span": null
+      }
+    }
+  ],
+  "frozen36_summary": {
+    "fixture_sha256": "f399585d3160338873e5198a7bb43df0a2ce0ebe1cc615531f212b218438e3c3",
+    "case_count": 36,
+    "exact_expectations_met": 32,
+    "false_corrections": 0,
+    "positive_abstentions": 4
+  },
+  "http_attempts": 0,
+  "scope": "Targeted review regressions and existing synthetic set only. Historical v1/v2 reports and captures unchanged."
+}

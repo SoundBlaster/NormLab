@@ -1,0 +1,1035 @@
+{
+  "schema": "normlab.quote-normalization-v2-replay/v1",
+  "ruleset_version": "quote-boundaries/v2",
+  "http_attempts": 0,
+  "default_enabled_rules": ["single-trailing-guillemet/v1"],
+  "default_rows": [
+    {
+      "case": "ru-unicode",
+      "capture": "clairic-ru-unicode-smoke-2026-10-20.json",
+      "capture_sha256": "e5c15559941a28e3adb2145d0a13d7c90b1b1326f6db493cd63607a07932df5c",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-original",
+      "capture": "clairic-ablation-original-2026-10-20.json",
+      "capture_sha256": "f5d489189049c0d9fe2191f02cbea31b4656a36a6e672bae2320fafbca7a730f",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-unicode-clean",
+      "capture": "clairic-ablation-unicode-clean-2026-10-20.json",
+      "capture_sha256": "e0813aa5ac989bd95e27fc3f3e1c94dc30ccb1b3b360e59267c6db53a0421167",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [39, 64],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [39, 63],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [89, 108],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [89, 107],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [134, 153],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [134, 152],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе»",
+          "raw_span": [9, 14],
+          "derived_value": "кафе",
+          "derived_span": [9, 13],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [112, 117],
+          "derived_value": "11:00",
+          "derived_span": [112, 117],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-ascii-quotes",
+      "capture": "clairic-ablation-ascii-quotes-2026-10-20.json",
+      "capture_sha256": "24146a335349eb929d7732959d364c08cf73813120a1c209ba865ed36fccb38d",
+      "raw_value_matches": 2,
+      "derived_value_matches": 2,
+      "derived_anchor_matches": 1,
+      "fields": {
+        "anna_statement": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "Я не оплачивала парковку\"",
+          "raw_span": [42, 67],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "boris_statement": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [92, 111],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "viktor_statement": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [137, 156],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "unicode_marker": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "кафе́\"",
+          "raw_span": [11, 17],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-both",
+      "capture": "clairic-ablation-both-2026-10-20.json",
+      "capture_sha256": "4cffdf384110aaed6d367c8d7445da6b00694f0c3df9118248e009f52d152136",
+      "raw_value_matches": 2,
+      "derived_value_matches": 2,
+      "derived_anchor_matches": 1,
+      "fields": {
+        "anna_statement": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "Я не оплачивала парковку\"",
+          "raw_span": [39, 64],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "boris_statement": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [89, 108],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "viktor_statement": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [134, 153],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "unicode_marker": {
+          "status": "review",
+          "rules": [],
+          "raw_value": "кафе\"",
+          "raw_span": [9, 14],
+          "derived_value": null,
+          "derived_span": null,
+          "derived_matches_expected": false,
+          "derived_anchor_matches_expected": false
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [112, 117],
+          "derived_value": "11:00",
+          "derived_span": [112, 117],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "linebreak-original",
+      "capture": "clairic-linebreak-original-2026-10-20.json",
+      "capture_sha256": "fb5c799c8ed0088434680e66f757ce30c08d653df87070439481963133e64fab",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "linebreak-sentences",
+      "capture": "clairic-linebreak-sentences-2026-10-20.json",
+      "capture_sha256": "e12cb986aed396f4281899882501e0cb43ae53f16c894ab64ea696e0f16bf8b5",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "quote-inner",
+      "capture": "clairic-quote-inner-2026-10-20.json",
+      "capture_sha256": "8534d76fb34b51172e23e8374b7131e4360c037598b741b7e413431f28c79bae",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    }
+  ],
+  "explicit_known_quotation_rows": [
+    {
+      "case": "ru-unicode",
+      "capture": "clairic-ru-unicode-smoke-2026-10-20.json",
+      "capture_sha256": "e5c15559941a28e3adb2145d0a13d7c90b1b1326f6db493cd63607a07932df5c",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-original",
+      "capture": "clairic-ablation-original-2026-10-20.json",
+      "capture_sha256": "f5d489189049c0d9fe2191f02cbea31b4656a36a6e672bae2320fafbca7a730f",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-unicode-clean",
+      "capture": "clairic-ablation-unicode-clean-2026-10-20.json",
+      "capture_sha256": "e0813aa5ac989bd95e27fc3f3e1c94dc30ccb1b3b360e59267c6db53a0421167",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [39, 64],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [39, 63],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [89, 108],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [89, 107],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [134, 153],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [134, 152],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе»",
+          "raw_span": [9, 14],
+          "derived_value": "кафе",
+          "derived_span": [9, 13],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [112, 117],
+          "derived_value": "11:00",
+          "derived_span": [112, 117],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-ascii-quotes",
+      "capture": "clairic-ablation-ascii-quotes-2026-10-20.json",
+      "capture_sha256": "24146a335349eb929d7732959d364c08cf73813120a1c209ba865ed36fccb38d",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "Я не оплачивала парковку\"",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "кафе́\"",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "ablation-both",
+      "capture": "clairic-ablation-both-2026-10-20.json",
+      "capture_sha256": "4cffdf384110aaed6d367c8d7445da6b00694f0c3df9118248e009f52d152136",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "Я не оплачивала парковку\"",
+          "raw_span": [39, 64],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [39, 63],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [89, 108],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [89, 107],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "Я оплатил парковку\"",
+          "raw_span": [134, 153],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [134, 152],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-ascii-quote/v1"],
+          "raw_value": "кафе\"",
+          "raw_span": [9, 14],
+          "derived_value": "кафе",
+          "derived_span": [9, 13],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [112, 117],
+          "derived_value": "11:00",
+          "derived_span": [112, 117],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "linebreak-original",
+      "capture": "clairic-linebreak-original-2026-10-20.json",
+      "capture_sha256": "fb5c799c8ed0088434680e66f757ce30c08d653df87070439481963133e64fab",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "linebreak-sentences",
+      "capture": "clairic-linebreak-sentences-2026-10-20.json",
+      "capture_sha256": "e12cb986aed396f4281899882501e0cb43ae53f16c894ab64ea696e0f16bf8b5",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    },
+    {
+      "case": "quote-inner",
+      "capture": "clairic-quote-inner-2026-10-20.json",
+      "capture_sha256": "8534d76fb34b51172e23e8374b7131e4360c037598b741b7e413431f28c79bae",
+      "raw_value_matches": 2,
+      "derived_value_matches": 6,
+      "derived_anchor_matches": 5,
+      "fields": {
+        "anna_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я не оплачивала парковку»",
+          "raw_span": [42, 67],
+          "derived_value": "Я не оплачивала парковку",
+          "derived_span": [42, 66],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "boris_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [92, 111],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [92, 110],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_statement": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "Я оплатил парковку»",
+          "raw_span": [137, 156],
+          "derived_value": "Я оплатил парковку",
+          "derived_span": [137, 155],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "unicode_marker": {
+          "status": "applied",
+          "rules": ["single-trailing-guillemet/v1"],
+          "raw_value": "кафе́»",
+          "raw_span": [11, 17],
+          "derived_value": "кафе́",
+          "derived_span": [11, 16],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "viktor_time": {
+          "status": "unchanged",
+          "rules": [],
+          "raw_value": "11:00",
+          "raw_span": [115, 120],
+          "derived_value": "11:00",
+          "derived_span": [115, 120],
+          "derived_matches_expected": true,
+          "derived_anchor_matches_expected": true
+        },
+        "receipt_number": {
+          "status": "null_passthrough",
+          "derived_matches_expected": true
+        }
+      }
+    }
+  ],
+  "scope": "Known development captures only. Explicit ASCII mode assumes caller independently confirms quotation context; it must not be enabled from quote counting or used on ambiguous unit data. No general accuracy claim."
+}
