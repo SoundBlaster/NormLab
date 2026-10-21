@@ -1,8 +1,9 @@
 # D1 Ultra: шесть контрастов разметки
 
 Дата: 2026-10-21. Ledger: [#70](https://github.com/SoundBlaster/NormLab/issues/70).
-**Подготовка, без новых API-запросов.** Отдельное разрешение и freeze execution
-driver до inference ещё требуются.
+Подготовка сохранена в commit `ee0cee9`. Пользователь отдельно разрешил
+12 запросов с предложенными caps: «Делай, разрешаю». Authorization и actual
+driver фиксируются отдельным commit до inference. Результаты пока pending.
 
 ## Зачем следующая серия
 
@@ -80,11 +81,13 @@ P05a и P06b повторяют старые T03/T04: это regression sentinel
   не переносится. Usage, поле API cost и estimate отмечаются раздельно;
   фактическое списание без billing evidence остаётся неизвестным.
 
-`authorizedAttempts=0`: прошлое разрешение на восемь запросов исчерпано.
-После отдельного разрешения нужно сохранить actual driver и его hash вместе
-с неизменными inputs в Git до первого вызова. Этот packet не содержит live
-runner и сам не запускает inference; добавлять provider SDK или framework ради
-этой серии не требуется.
+При подготовке `authorizedAttempts=0`; прошлое разрешение на восемь запросов
+исчерпано. Новое разрешение относится только к этим 12 tasks и указанным caps.
+Actual [driver](evidence/liquid-contrastive-run-2026-10-21/driver.py), его hash
+и hash общей deadline/redirect utility связаны plan и сохраняются в Git
+до первого вызова. Driver не перезаписывает capture и отказывается запускаться
+из грязного checkout или с optimized Python. Ключ поступает через скрытый stdin.
+Это одноразовый direct-HTTP diagnostic, без нового provider SDK или framework.
 
 ## Что измеряем и какое решение принимаем
 
@@ -119,6 +122,7 @@ primary route и реальные пользовательские решени�
 - Для каждой пары подтверждён один изменённый claim field, все quotes/offsets
   сверены с оригиналом; reference labels отсутствуют в wire task.
 - Исторические файлы не изменены, hashes и локальные links проверены.
-- Авторизация, runtime freeze и результаты явно pending; 0 live requests.
-- После review packet следующий шаг — отдельно разрешить максимум 12 попыток
-  в указанных caps, затем freeze actual driver и выполнить серию.
+- На этапе подготовки авторизация, runtime freeze и результаты явно pending;
+  0 live requests. Эта историческая проверка сохранена в `preparation.json`.
+- После отдельного разрешения — freeze actual driver с сохранением исходных
+  tasks/references, затем максимум 12 attempts и offline сверка результатов.

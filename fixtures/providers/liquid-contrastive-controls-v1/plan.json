@@ -1,6 +1,6 @@
 {
   "schema": "normlab.liquid-contrastive-plan/v1",
-  "status": "prepared-not-authorized",
+  "status": "authorized-frozen",
   "ledger": "https://github.com/SoundBlaster/NormLab/issues/70",
   "model": "d1-ultra",
   "endpoint": "https://api.liquid.ai/decisions/v1/systemone",
@@ -10,9 +10,11 @@
   "taskCount": 12,
   "sourceSplit": "previously exposed authored diagnostic-development; no holdout",
   "authorization": {
-    "status": "pending-separate-bounded-user-grant",
-    "authorizedAttempts": 0,
-    "previousEightAttemptGrantExhausted": true
+    "status": "authorized",
+    "authorizedAttempts": 12,
+    "previousEightAttemptGrantExhausted": true,
+    "source": "Direct human reply: proceed, authorized, after explicit proposed12-call caps",
+    "date": "2026-10-21"
   },
   "proposedCaps": {
     "plannedJobs": 12,
@@ -287,6 +289,10 @@
     {
       "path": "fixtures/providers/bridge-semantic-probe-v1/policy.json",
       "sha256": "74baecc35104f8894c59bc984d1cda95450bf7f65f53788f7d8ee3b94c5e4363"
+    },
+    {
+      "path": "scripts/clairic_smoke.py",
+      "sha256": "f983e41ba4d7f94dd2c1e84915e64a50ae3a6ee1b5f34a9273a969c82000f4b4"
     }
   ],
   "references": {
@@ -313,5 +319,17 @@
     "modelRanking": null
   },
   "resultStatus": "not-executed",
-  "observedAttempts": 0
+  "observedAttempts": 0,
+  "driverPath": "docs/evidence/liquid-contrastive-run-2026-10-21/driver.py",
+  "driverSha256": "7d1419ae7ca3f5f4b42c90bc2b6b0c77510e32d9800dfd3faa5baa736fcdd277",
+  "executionAuthorizationCaps": {
+    "plannedJobs": 12,
+    "maxHttpAttempts": 12,
+    "retries": 0,
+    "perRequestDeadlineSeconds": 30,
+    "seriesDeadlineSeconds": 360,
+    "maxResponseBytes": 1048576,
+    "stopOn": "first operational, protocol, unknown outcome, model/task drift or exhausted cap; semantic mismatches do not stop",
+    "externalMonetaryCap": "Liquid ceiling unverified; CoreInfra ceiling not transferred"
+  }
 }
