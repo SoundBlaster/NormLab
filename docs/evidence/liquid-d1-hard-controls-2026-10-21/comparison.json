@@ -1,0 +1,241 @@
+{
+  "schema": "normlab.liquid-hard-controls-comparison/v1",
+  "referenceStatus": "candidate-not-independent-human-gold",
+  "populationAccuracy": null,
+  "modelRanking": null,
+  "currentCaptureSha256": "1164d1d42773d904c3edb7eaac88b6bba658ef3333c1449c437f1c0d4a2b340b",
+  "planSha256": "b94e54d0cd2d9a2adadff1ee198659546484ab980d9961ba2af22f2e14bc169a",
+  "historicalObservationsSha256": "0f300fdf110173aaaee98e3311c81bac50ac32434072f5469ba70a04377a945e",
+  "currentTransport": "direct-http",
+  "historicalTransport": "SDK/bridge through CoreInfra",
+  "historicalComparisonIsFreshMatchedRun": false,
+  "variants": {
+    "A": {
+      "planned": 4,
+      "completed": 4,
+      "candidateAgreement": 3,
+      "falseAcceptanceOnT01": false,
+      "incorrectDeterminationOnT04": true,
+      "labels": {
+        "T01": "incompatible",
+        "T02": "compatible",
+        "T03": "compatible",
+        "T04": "compatible"
+      }
+    },
+    "B": {
+      "planned": 4,
+      "completed": 4,
+      "candidateAgreement": 3,
+      "falseAcceptanceOnT01": false,
+      "incorrectDeterminationOnT04": true,
+      "labels": {
+        "T01": "incompatible",
+        "T02": "compatible",
+        "T03": "compatible",
+        "T04": "compatible"
+      }
+    }
+  },
+  "changedLabelsWithinUltra": [],
+  "knownUsage": {
+    "input_tokens": 10304,
+    "output_tokens": 0
+  },
+  "apiReportedCostSum": 0.000432768,
+  "apiCostCurrencyVerified": false,
+  "estimatedInputCostUSD": 0.00043276800000000004,
+  "billingVerified": false,
+  "rows": [
+    {
+      "job": "T01A",
+      "control": "T01",
+      "variant": "A",
+      "expectedLabel": "incompatible",
+      "actualLabel": "incompatible",
+      "expectedPolicy": "reject",
+      "actualPolicy": "reject",
+      "candidateMatches": true,
+      "nativeConfidence": 0.5709935442786045,
+      "selectedLabelProbability": 0.7139956961857363,
+      "usage": {
+        "input_tokens": 1192,
+        "output_tokens": 0,
+        "cost": 5.0064e-5
+      },
+      "latencySeconds": 1.005
+    },
+    {
+      "job": "T01B",
+      "control": "T01",
+      "variant": "B",
+      "expectedLabel": "incompatible",
+      "actualLabel": "incompatible",
+      "expectedPolicy": "reject",
+      "actualPolicy": "reject",
+      "candidateMatches": true,
+      "nativeConfidence": 0.5684765357051864,
+      "selectedLabelProbability": 0.7123176904701243,
+      "usage": {
+        "input_tokens": 1300,
+        "output_tokens": 0,
+        "cost": 5.46e-5
+      },
+      "latencySeconds": 0.851
+    },
+    {
+      "job": "T02A",
+      "control": "T02",
+      "variant": "A",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.9075420820437865,
+      "selectedLabelProbability": 0.938361388029191,
+      "usage": {
+        "input_tokens": 1192,
+        "output_tokens": 0,
+        "cost": 5.0064e-5
+      },
+      "latencySeconds": 0.908
+    },
+    {
+      "job": "T02B",
+      "control": "T02",
+      "variant": "B",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.890170623927824,
+      "selectedLabelProbability": 0.9267804159518827,
+      "usage": {
+        "input_tokens": 1300,
+        "output_tokens": 0,
+        "cost": 5.46e-5
+      },
+      "latencySeconds": 0.907
+    },
+    {
+      "job": "T03A",
+      "control": "T03",
+      "variant": "A",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.7031277654718768,
+      "selectedLabelProbability": 0.8020851769812511,
+      "usage": {
+        "input_tokens": 1197,
+        "output_tokens": 0,
+        "cost": 5.0274e-5
+      },
+      "latencySeconds": 0.938
+    },
+    {
+      "job": "T03B",
+      "control": "T03",
+      "variant": "B",
+      "expectedLabel": "compatible",
+      "actualLabel": "compatible",
+      "expectedPolicy": "accept",
+      "actualPolicy": "accept",
+      "candidateMatches": true,
+      "nativeConfidence": 0.7779482296644737,
+      "selectedLabelProbability": 0.8519654864429825,
+      "usage": {
+        "input_tokens": 1305,
+        "output_tokens": 0,
+        "cost": 5.481e-5
+      },
+      "latencySeconds": 0.892
+    },
+    {
+      "job": "T04A",
+      "control": "T04",
+      "variant": "A",
+      "expectedLabel": "indeterminate",
+      "actualLabel": "compatible",
+      "expectedPolicy": "review",
+      "actualPolicy": "accept",
+      "candidateMatches": false,
+      "nativeConfidence": 0.3950226890998869,
+      "selectedLabelProbability": 0.5966817927332579,
+      "usage": {
+        "input_tokens": 1355,
+        "output_tokens": 0,
+        "cost": 5.691e-5
+      },
+      "latencySeconds": 0.915
+    },
+    {
+      "job": "T04B",
+      "control": "T04",
+      "variant": "B",
+      "expectedLabel": "indeterminate",
+      "actualLabel": "compatible",
+      "expectedPolicy": "review",
+      "actualPolicy": "accept",
+      "candidateMatches": false,
+      "nativeConfidence": 0.4384570262548577,
+      "selectedLabelProbability": 0.6256380175032384,
+      "usage": {
+        "input_tokens": 1463,
+        "output_tokens": 0,
+        "cost": 6.1446e-5
+      },
+      "latencySeconds": 0.869
+    }
+  ],
+  "historicalComparison": [
+    {
+      "control": "T01",
+      "expectedLabel": "incompatible",
+      "historicalBaselineLabels": {
+        "coreinfra-jev": "compatible",
+        "coreinfra-decisions": "incompatible",
+        "coreinfra-responses": "incompatible"
+      },
+      "ultraA": "incompatible",
+      "ultraB": "incompatible"
+    },
+    {
+      "control": "T02",
+      "expectedLabel": "compatible",
+      "historicalBaselineLabels": {
+        "coreinfra-jev": "compatible",
+        "coreinfra-decisions": "compatible",
+        "coreinfra-responses": "compatible"
+      },
+      "ultraA": "compatible",
+      "ultraB": "compatible"
+    },
+    {
+      "control": "T03",
+      "expectedLabel": "compatible",
+      "historicalBaselineLabels": {
+        "coreinfra-jev": "compatible",
+        "coreinfra-decisions": "compatible",
+        "coreinfra-responses": "compatible"
+      },
+      "ultraA": "compatible",
+      "ultraB": "compatible"
+    },
+    {
+      "control": "T04",
+      "expectedLabel": "indeterminate",
+      "historicalBaselineLabels": {
+        "coreinfra-jev": "compatible",
+        "coreinfra-decisions": "incompatible",
+        "coreinfra-responses": "indeterminate"
+      },
+      "ultraA": "compatible",
+      "ultraB": "compatible"
+    }
+  ]
+}
