@@ -1,0 +1,121 @@
+{
+  "schema": "normlab.liquid-choice-smoke/v1",
+  "protocolCommit": "ab3c216",
+  "fixtureSha256": "f9ac5c54a501d06a3607e933c4b74dd69354bb11254ff5ffce08d4b809224ea9",
+  "endpoint": "https://api.liquid.ai/decisions/v1/systemone",
+  "requestedModel": "d1-ultra",
+  "attempts": 1,
+  "retries": 0,
+  "caps": {
+    "httpAttempts": 1,
+    "retries": 0,
+    "totalDeadlineSeconds": 30,
+    "maxResponseBytes": 1048576
+  },
+  "transport": "direct-urllib-not-Jev4Mellea",
+  "costUSD": null,
+  "priceInputUSDPerMillionFromAnnouncement": 0.042,
+  "billingVerified": false,
+  "httpStatus": 200,
+  "usage": {
+    "input_tokens": 608,
+    "output_tokens": 0,
+    "cost": 2.5536e-5
+  },
+  "response": {
+    "model": "d1-ultra",
+    "answers": {
+      "anna_payment": {
+        "type": "choice",
+        "choice": "denied",
+        "probabilities": {
+          "asserted": 0.001622661769268046,
+          "denied": 0.9937420721822601,
+          "unknown": 0.001976892687059679,
+          "unsupported": 0.0026583733614121904
+        },
+        "confidence": 0.9916560962430134
+      },
+      "boris_payment": {
+        "type": "choice",
+        "choice": "unknown",
+        "probabilities": {
+          "asserted": 0.0004977802181750722,
+          "denied": 0.002188779645351239,
+          "unknown": 0.9968156599182987,
+          "unsupported": 0.0004977802181750722
+        },
+        "confidence": 0.9957542132243983
+      },
+      "viktor_payment": {
+        "type": "choice",
+        "choice": "unsupported",
+        "probabilities": {
+          "asserted": 0.0015396134654690698,
+          "denied": 0.003072948306467241,
+          "unknown": 0.004791865028191403,
+          "unsupported": 0.9905955731998723
+        },
+        "confidence": 0.9874607642664964
+      }
+    },
+    "usage": {
+      "input_tokens": 608,
+      "output_tokens": 0,
+      "cost": 2.5536e-5
+    }
+  },
+  "checks": {
+    "anna_payment": {
+      "expected": "denied",
+      "actual": "denied",
+      "candidateMatches": true,
+      "protocolValid": true,
+      "confidence": 0.9916560962430134,
+      "probabilities": {
+        "asserted": 0.001622661769268046,
+        "denied": 0.9937420721822601,
+        "unknown": 0.001976892687059679,
+        "unsupported": 0.0026583733614121904
+      }
+    },
+    "boris_payment": {
+      "expected": "unknown",
+      "actual": "unknown",
+      "candidateMatches": true,
+      "protocolValid": true,
+      "confidence": 0.9957542132243983,
+      "probabilities": {
+        "asserted": 0.0004977802181750722,
+        "denied": 0.002188779645351239,
+        "unknown": 0.9968156599182987,
+        "unsupported": 0.0004977802181750722
+      }
+    },
+    "viktor_payment": {
+      "expected": "unsupported",
+      "actual": "unsupported",
+      "candidateMatches": true,
+      "protocolValid": true,
+      "confidence": 0.9874607642664964,
+      "probabilities": {
+        "asserted": 0.0015396134654690698,
+        "denied": 0.003072948306467241,
+        "unknown": 0.004791865028191403,
+        "unsupported": 0.9905955731998723
+      }
+    }
+  },
+  "candidateAgreement": {
+    "matched": 3,
+    "total": 3
+  },
+  "scope": "One authored RU narrative and three related questions, not independent gold/general accuracy or SDK integration evidence.",
+  "providerRequestId": null,
+  "usageValid": true,
+  "returnedModel": "d1-ultra",
+  "protocolValid": true,
+  "estimatedInputCostUSD": 2.5536e-5,
+  "outcome": "completed",
+  "elapsedSeconds": 1.124
+}
