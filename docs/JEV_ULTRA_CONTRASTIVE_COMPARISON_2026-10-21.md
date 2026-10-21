@@ -111,3 +111,22 @@ network/TLS/timeout unknown, никогда после полученной labe
 Повтор unknown может повторно тарифицироваться. Нужны отдельное разрешение и
 новый pre-inference freeze; driver должен сохранить безопасный exception type
 без credentials. Эта серия и её unknown останутся отдельным evidence.
+
+## Повторная серия разрешена
+
+После описанного предложения и отдельной проверки хаба пользователь ответил:
+«Повтори». Новая серия ограничена теми же 12 jobs, максимум 16 **новых** attempts,
+до четырёх network-unknown retries суммарно и не больше одного на job. Backoff
+1 s, 30 s/attempt, 360 s/series. После валидной label повтор не делается, даже
+если она не совпадает с reference. HTTP/protocol/model errors или unrecovered
+unknown останавливают серию. Возможность повторного billing unknown была
+раскрыта при предложении. Первая остановленная попытка не стирается и не
+вычитается из фактического расхода; она вне нового лимита и semantic score.
+
+[Новый plan](../fixtures/providers/jev-contrastive-retry-v1/plan.json) фиксирует
+тот же task/reference/order, Ultra baseline, прежний stopped capture и actual
+[driver](evidence/jev-contrastive-retry-2026-10-21/driver.py). До inference всё
+сохраняется в Git. Capture пишет отдельный attempt log и итог каждого job;
+учитываются все usage/unknown outcomes, отдельно ответы с первой попытки
+и после retry. Для ошибки сохраняется безопасный exception type и reason type,
+без текста, потенциально содержащего credentials. Результаты пока pending.
