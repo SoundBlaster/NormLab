@@ -49,6 +49,7 @@ def offline(monkeypatch):
         "openai",
         "coreinfra-jev",
         "coreinfra-decisions",
+        "liquid-d1-ultra",
         "openai-responses",
         "coreinfra-responses",
     ],
@@ -202,7 +203,8 @@ def test_invalid_capability_or_policy_fails_before_output_credentials_or_dispatc
 
 
 @pytest.mark.parametrize(
-    "preset", ["coreinfra-jev", "coreinfra-decisions", "coreinfra-responses"]
+    "preset",
+    ["coreinfra-jev", "coreinfra-decisions", "coreinfra-responses", "liquid-d1-ultra"],
 )
 @pytest.mark.parametrize("failure", [401, 429, "transport", "protocol"])
 def test_errors_remain_operational_without_retry_or_fallback(tmp_path, preset, failure):
@@ -255,7 +257,14 @@ def test_direct_evaluate_retains_bound_task_and_raises_operational_error():
 
 
 @pytest.mark.parametrize(
-    "preset", [None, "coreinfra-jev", "coreinfra-decisions", "coreinfra-responses"]
+    "preset",
+    [
+        None,
+        "coreinfra-jev",
+        "coreinfra-decisions",
+        "coreinfra-responses",
+        "liquid-d1-ultra",
+    ],
 )
 def test_cli_dry_run_needs_no_sdk_or_credentials(preset):
     process = subprocess.run(
@@ -280,15 +289,13 @@ def test_cli_dry_run_needs_no_sdk_or_credentials(preset):
     assert plan["evaluationMethod"] == "CategoricalRequirement.evaluate"
     if preset is None:
         config = plan["provider"]
-        assert config["id"] == "coreinfra-responses"
-        assert config["api_format"] == "openai-responses"
-        assert config["model"] == "gpt-6-luna"
-        assert config["reasoning_effort"] == "low"
-        assert config["max_output_tokens"] == 1024
-        assert config["key_env"] == "COREINFRA_API_KEY"
-        assert (
-            config["endpoint_url"] == "https://hub.coreinfra.ai/openai/api/v1/responses"
-        )
+        assert config["id"] == "liquid-d1-ultra"
+        assert config["api_format"] == "typesafe-systemone"
+        assert config["model"] == "d1-ultra"
+        assert "reasoning_effort" not in config
+        assert "max_output_tokens" not in config
+        assert config["key_env"] == "LIQUID_API_KEY"
+        assert config["endpoint_url"] == "https://api.liquid.ai/decisions/v1/systemone"
 
 
 @pytest.mark.parametrize(

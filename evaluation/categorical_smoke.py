@@ -1,4 +1,4 @@
-"""Choice task + explicit policy; ordinary Luna Low, live execution opt-in."""
+"""Choice task + explicit policy; Liquid D1 Ultra, live execution opt-in."""
 
 import argparse
 import json
@@ -23,7 +23,7 @@ def main():
     source.add_argument(
         "--provider",
         choices=(*NATIVE_PRESETS, *RESPONSES_PRESETS),
-        help="Default: coreinfra-responses (ordinary Luna Low). Native routes are opt-in.",
+        help="Default: liquid-d1-ultra. Other native/Responses routes are explicit.",
     )
     source.add_argument("--config", type=Path)
     parser.add_argument("--endpoint-url")
@@ -49,7 +49,7 @@ def main():
             args.config is None or isinstance(document, dict),
             "Public config object required",
         )
-        preset = args.provider or "coreinfra-responses"
+        preset = args.provider or "liquid-d1-ultra"
         responses = (
             (
                 isinstance(document, dict)
@@ -78,7 +78,7 @@ def main():
                 "Generation settings require Responses",
             )
             config = native_configuration(
-                preset if preset in NATIVE_PRESETS else "coreinfra-jev", **options
+                preset if preset in NATIVE_PRESETS else "liquid-d1-ultra", **options
             )
         data = validate_task(read_json(args.input))
         policy = validate_policy(data, read_json(args.policy))

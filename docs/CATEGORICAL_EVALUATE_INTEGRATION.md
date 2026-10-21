@@ -61,15 +61,16 @@ This is not a judgment about a fine or an independent human-gold annotation.
 
 ## SDK-free dry-run
 
-As of 2026-10-19, the default current categorical route is **ordinary Luna Low
-through CoreInfra Responses**. Native Jev and Decisions require an explicit
-provider or config. This is a provisional engineering choice; see
+As of 2026-10-21, the default current categorical route is **Liquid D1 Ultra**,
+using its own System One endpoint and `LIQUID_API_KEY` for opt-in live execution.
+Jev, Decisions and ordinary Luna Responses require an explicit provider or config.
+This is a provisional engineering choice; see
 [primary verifier](PRIMARY_VERIFIER.md) for evidence and remaining quality gates.
 
 From the repository root:
 
 ```bash
-# Primary route: ordinary Luna Low, no provider flag needed.
+# Primary route: D1 Ultra, no provider flag needed.
 python3 -B -S evaluation/categorical_smoke.py fixtures/providers/stage1-choice.json \
   --policy fixtures/providers/choice-policy.json --max-calls 1
 

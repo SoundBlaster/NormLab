@@ -46,7 +46,7 @@ jobs:
       - name: Verify installed dependency compatibility
         run: python -m pip check
       - name: Check current SDK, previous bridge/captures and Mellea hooks without inference
-        run: python -m pytest evaluation/test_provider_runtime.py evaluation/test_responses_runtime.py evaluation/test_categorical_runtime.py evaluation/test_provider_smoke.py evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_adapter_compatibility.py -q
+        run: python -m pytest evaluation/test_provider_runtime.py evaluation/test_responses_runtime.py evaluation/test_categorical_runtime.py evaluation/test_liquid_runtime.py evaluation/test_provider_smoke.py evaluation/test_proxyapi_provider.py evaluation/test_verifier_capture.py evaluation/test_harness_v2.py evaluation/test_adapter_compatibility.py -q
       - name: Check Clairic total deadline without inference
         run: python -m unittest discover -s scripts -p 'test_clairic_deadline.py'
       - name: Check frozen Stage 1 SDK contracts with a mock-only version-gate probe
