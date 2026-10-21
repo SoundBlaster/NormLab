@@ -1,10 +1,13 @@
 # Jev и D1 Ultra: те же шесть контрастов
 
 Дата: 2026-10-21. Ledger: [#70](https://github.com/SoundBlaster/NormLab/issues/70).
-Пользователь прямо запросил Jev для более полного сравнения. Новый bounded arm
-зафиксирован до inference в `c60b27c`. Серия остановлена после первой попытки:
-unknown network outcome, 0 ответов модели, 11 not-executed. Полное сравнение
-семантического качества пока невозможно.
+Пользователь прямо запросил Jev для более полного сравнения. Первый arm
+`c60b27c` остановился без ответа. Затем retry-сегмент `1c5bef2` и отдельно
+разрешённый suffix `2c62302` обработали все 12 jobs: **16 attempts, 4 retries,
+10 labels и 2 unknown jobs**. На одинаковых десяти inputs Jev — **8/10**,
+Ultra — **9/10** candidate agreement. На четырёх полностью полученных парах —
+2/4 и 3/4 соответственно. Это частичная semantic coverage, не общая accuracy.
+Ниже сохранены протокол, промежуточные результаты и amendments.
 
 ## Что сравниваем
 
@@ -62,7 +65,7 @@ independent human gold, не holdout или доля безошибочных р
 Jev/Ultra серии не добавляются к denominator. Порог confidence, production route,
 UI и автоматическая маршрутизация по этому сравнению не меняются.
 
-## Наблюдённый результат
+## Наблюдённый результат первой серии без retries
 
 | Показатель            | Jev / CoreInfra | Ultra / Liquid, ранее |
 | --------------------- | --------------- | --------------------- |
@@ -198,3 +201,91 @@ hypothetical-разметки. Отдельная operational проблема �
 outcomes в новой серии. Все они остаются неизвестными по usage/billing; вместе
 с первой stopped-серией сохранены четыре unknown attempts, ни один не принят
 за semantic ошибку. Смена provider/default или confidence routing не выполнялась.
+
+## Итог после отдельно разрешённого suffix
+
+Пользователь явно разрешил новое окно 360 s только для шести неотправленных
+jobs, максимум 8 attempts/2 retries, aggregate 16/4 без увеличения, без повторов
+завершённых jobs и P03b. До отправки сохранены [plan](../fixtures/providers/jev-contrastive-suffix-v1/plan.json)
+и [driver](evidence/jev-contrastive-suffix-2026-10-21/driver.py) в `2c62302`.
+В suffix после unrecovered network unknown разрешено выполнять следующий job;
+это согласованный post-observation amendment, не исходный stopping rule.
+
+Suffix: 8 attempts, 2 retries, 30.526 s, 5 completed/1 unknown. После retry
+восстановились P04a и P05b; P06b получил SSLEOFError при уже исчерпанном retry
+cap и сохранился unknown, после него P06a был выполнен. Последующие semantic
+ответы не отбирались по правильности: валидная label никогда не повторялась.
+
+| Контраст                                | Expected a / b             | Jev a / b                      | Ultra a / b               | Сравнение пары                       |
+| --------------------------------------- | -------------------------- | ------------------------------ | ------------------------- | ------------------------------------ |
+| Обязанность / actual                    | compatible / incompatible  | compatible / incompatible      | compatible / incompatible | Оба верны                            |
+| Гипотеза / actual                       | compatible / incompatible  | incompatible / incompatible    | compatible / incompatible | Jev ложное отклонение                |
+| Друг-плательщик / рассказчик            | compatible / incompatible  | compatible / unknown transport | compatible / incompatible | Jev неполно                          |
+| Автор письма / рассказчик               | compatible / incompatible  | compatible / compatible        | compatible / compatible   | Оба приняли подмену                  |
+| Explicit unknown / asserted             | compatible / incompatible  | compatible / incompatible      | compatible / incompatible | Оба верны                            |
+| Raw standing / parking placement при ПП | compatible / indeterminate | compatible / unknown transport | compatible / compatible   | Jev неполно; Ultra overdetermination |
+
+`unknown transport` означает отсутствие ответа, а не модельную label
+`indeterminate`. Jev не дал ответа на P03b и P06b. Для одинакового denominator
+исключаются **обеими** сторонами только эти два inputs: Jev 8/10, Ultra 9/10.
+Полные Ultra counts 10/12 и 4/6 сохранены отдельно. Сравнимы четыре полные пары:
+Jev 2/4, Ultra 3/4; две неполные пары Jev не получают ошибочный semantic score.
+
+### Все полученные Jev labels и evidence fields
+
+| Job  | Expected      | Jev          | Native confidence | P(selected) | Job attempts |
+| ---- | ------------- | ------------ | ----------------- | ----------- | ------------ |
+| P01a | compatible    | compatible   | 0.49              | 0.66        | 1            |
+| P01b | incompatible  | incompatible | 0.97              | 0.98        | 1            |
+| P02a | compatible    | incompatible | 0.28              | 0.52        | 2            |
+| P02b | incompatible  | incompatible | 0.95              | 0.97        | 1            |
+| P03a | compatible    | compatible   | 0.86              | 0.91        | 1            |
+| P03b | incompatible  | Нет ответа   | null              | null        | 2            |
+| P04a | compatible    | compatible   | 0.64              | 0.76        | 2            |
+| P04b | incompatible  | compatible   | 0.46              | 0.64        | 1            |
+| P05a | compatible    | compatible   | 0.69              | 0.79        | 1            |
+| P05b | incompatible  | incompatible | 0.66              | 0.77        | 2            |
+| P06a | compatible    | compatible   | 0.69              | 0.79        | 1            |
+| P06b | indeterminate | Нет ответа   | null              | null        | 1            |
+
+Среди completed references: false acceptance 1/4 incompatible (P04b),
+false rejection 1/6 compatible (P02a). На indeterminate reference ответа нет:
+overdetermination Jev здесь не измерена. Семь ответов с первой попытки — 6/7
+совпадений; три recovered — 2/3. Recovery не означает semantic correctness.
+
+### Transport, ресурсы и границы
+
+- В рамках retry + suffix: **16/16 attempts, 4/4 retries**, все 12 jobs attempted;
+  10 completed, 2 final unknown, 0 not-executed.
+- 6 unknown attempt outcomes с SSLEOFError, usage неизвестен. Из четырёх retries
+  три восстановили ответ; повтор P03b тоже завершился unknown.
+- Known usage 10 ответов: **19 164 input / 442 output tokens**. Это нижняя
+  граница полного usage с учётом шести unknown attempts. Cost/billing null,
+  к Jev не применяется Liquid price estimate.
+- Первая отдельная no-retry серия — ещё один unknown attempt вне нового cap.
+  Он сохраняется отдельно: всего в истории этих Jev arms 17 attempts и 7
+  unknown attempt usages. Semantic score из него не пополняется.
+- Execution durations двух retry windows: 29.345 s и 30.526 s. Это не общий
+  wall-clock всех подготовки/review/разрешений и не чистая latency модели.
+- Старые captures/references не менялись. Новых Ultra/Luna calls, confidence
+  thresholds, provider/default/UI changes, deployments или merge не было.
+
+Последовательные provider runs, retries, отсутствие двух ответов и amendment
+мешают трактовать разницу как model ranking или оценку общей точности.
+Практическая находка — общая ошибка attribution плюс отдельная ошибка Jev на
+поддержанной гипотезе; TLS-отказы учитываются в availability, не в semantics.
+Следующий research-кандидат остаётся узкой проверкой автора утверждения перед
+overall evaluation. Для дальнейшего inference текущий cap полностью исчерпан.
+
+### Итоговое evidence
+
+- [Suffix capture](evidence/jev-contrastive-suffix-2026-10-21/report.json).
+- [Combined analysis](evidence/jev-contrastive-suffix-2026-10-21/analysis.json):
+  12 rows, все шесть пар, matched denominators, attempt/retry/resource counts.
+- [Suffix/combined offline verification](evidence/jev-contrastive-suffix-2026-10-21/verification.json).
+
+Проверены pre-inference commit/plan/driver/helper/task/reference/baseline и prior
+capture hashes, exact requests versus Ultra кроме model, JSON schemas,
+distributions/grades, attempt order, per-job/global caps, отсутствие повторов
+после label, first/recovered counts и unknown usage. Все checks offline,
+0 HTTP. Это не independent human gold, billing или SDK integration check.

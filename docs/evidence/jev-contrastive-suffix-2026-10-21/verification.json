@@ -1,0 +1,17 @@
+{
+  "schema": "normlab.jev-suffix-verification/v1",
+  "httpAttemptsDuringVerification": 0,
+  "suffixCaptureSha256": "bad985d05edecad64df9eec7e296ef0910805c73c768daa27f01dc992ad4054c",
+  "checks": {
+    "frozenPlanDriverHelperOriginalTasksReferencesAndBaselines": true,
+    "onlyPreviouslyNotExecutedSixJobsDispatched": true,
+    "exactAllSuffixStateQuestionsVersusUltraExceptModel": true,
+    "allAttemptSchemasDistributionsGradesAndRequestDigests": true,
+    "global16Attempts4RetriesAndMaxOnePerJob": true,
+    "noRetryAfterSemanticAnswer": true,
+    "twoWindowsAndDisclosedContinuationAmendment": true,
+    "all12FinalJobsAndUnknownsPreserved": true,
+    "matchedInputPairAndResourceDenominators": true
+  },
+  "scope": "Offline consistency;not semantic gold,billing,full12-label accuracy or model ranking."
+}
