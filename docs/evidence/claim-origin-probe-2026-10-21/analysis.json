@@ -1,0 +1,210 @@
+{
+  "schema": "normlab.claim-origin-analysis/v1",
+  "captureSha256": "58bcb3280feb7049f41201749a25ad4a9fcfc3a519b4c8ef285cce4895eea018",
+  "planSha256": "ca1850ceb8c39ad802cae84d73fece81eee466865bea56e3567e813092b06e57",
+  "status": "completed-diagnostic",
+  "attempts": 6,
+  "retries": 0,
+  "elapsedSeconds": 5.747,
+  "nativeJevBaseline": {
+    "agreement": 1,
+    "denominator": 2,
+    "wrongClaimantAccepted": true
+  },
+  "narrow": {
+    "jev": {
+      "agreement": 2,
+      "denominator": 2
+    },
+    "ultra": {
+      "agreement": 2,
+      "denominator": 2
+    }
+  },
+  "sourceCount": 2,
+  "narrowTargetCount": 2,
+  "referenceStatus": "candidate-not-independent-human-gold",
+  "populationAccuracy": null,
+  "modelRanking": null,
+  "rows": [
+    {
+      "job": "JB01a",
+      "task": "B01a",
+      "arm": "jev",
+      "expected": "compatible",
+      "actual": "compatible",
+      "matches": true,
+      "confidence": 0.33,
+      "selectedProbability": 0.55,
+      "usage": {
+        "input_tokens": 1889,
+        "output_tokens": 43
+      },
+      "latencySeconds": 1.166
+    },
+    {
+      "job": "JB01b",
+      "task": "B01b",
+      "arm": "jev",
+      "expected": "incompatible",
+      "actual": "compatible",
+      "matches": false,
+      "confidence": 0.3,
+      "selectedProbability": 0.53,
+      "usage": {
+        "input_tokens": 1889,
+        "output_tokens": 43
+      },
+      "latencySeconds": 0.83
+    },
+    {
+      "job": "U01",
+      "task": "S01",
+      "arm": "ultra",
+      "expected": "letter_1",
+      "actual": "letter_1",
+      "matches": true,
+      "confidence": 0.945557012346636,
+      "selectedProbability": 0.959167759259977,
+      "usage": {
+        "input_tokens": 300,
+        "output_tokens": 0,
+        "cost": 1.26e-5
+      },
+      "latencySeconds": 1.207
+    },
+    {
+      "job": "J01",
+      "task": "S01",
+      "arm": "jev",
+      "expected": "letter_1",
+      "actual": "letter_1",
+      "matches": true,
+      "confidence": 0.99,
+      "selectedProbability": 0.99,
+      "usage": {
+        "input_tokens": 634,
+        "output_tokens": 54
+      },
+      "latencySeconds": 0.859
+    },
+    {
+      "job": "J03",
+      "task": "S03",
+      "arm": "jev",
+      "expected": "narrator",
+      "actual": "narrator",
+      "matches": true,
+      "confidence": 1.0,
+      "selectedProbability": 1.0,
+      "usage": {
+        "input_tokens": 643,
+        "output_tokens": 54
+      },
+      "latencySeconds": 0.783
+    },
+    {
+      "job": "U03",
+      "task": "S03",
+      "arm": "ultra",
+      "expected": "narrator",
+      "actual": "narrator",
+      "matches": true,
+      "confidence": 0.95061981233099,
+      "selectedProbability": 0.9629648592482425,
+      "usage": {
+        "input_tokens": 298,
+        "output_tokens": 0,
+        "cost": 1.2516e-5
+      },
+      "latencySeconds": 0.878
+    }
+  ],
+  "knownUsageByProvider": {
+    "jev": {
+      "input_tokens": 5055,
+      "output_tokens": 194
+    },
+    "ultra": {
+      "input_tokens": 598,
+      "output_tokens": 0
+    }
+  },
+  "apiReportedLiquidCostSum": 2.5116e-5,
+  "nativeTypeSafeCostUSD": null,
+  "apiCostCurrencyVerified": false,
+  "billingVerified": false,
+  "guardReplay": [
+    {
+      "arm": "jev",
+      "candidate": "R029",
+      "task": "S01",
+      "predictedOrigin": "letter_1",
+      "candidateClaimant": "letter_1",
+      "actualProposal": "field_consistent",
+      "expectedProposal": "field_consistent",
+      "wholeMarkupAccepted": false,
+      "independentModelCall": false
+    },
+    {
+      "arm": "jev",
+      "candidate": "R030",
+      "task": "S01",
+      "predictedOrigin": "letter_1",
+      "candidateClaimant": "narrator",
+      "actualProposal": "field_mismatch",
+      "expectedProposal": "field_mismatch",
+      "wholeMarkupAccepted": false,
+      "independentModelCall": false
+    },
+    {
+      "arm": "jev",
+      "candidate": "R009/A01",
+      "task": "S03",
+      "predictedOrigin": "narrator",
+      "candidateClaimant": "narrator",
+      "actualProposal": "field_consistent",
+      "expectedProposal": "field_consistent",
+      "wholeMarkupAccepted": false,
+      "independentModelCall": false
+    },
+    {
+      "arm": "ultra",
+      "candidate": "R029",
+      "task": "S01",
+      "predictedOrigin": "letter_1",
+      "candidateClaimant": "letter_1",
+      "actualProposal": "field_consistent",
+      "expectedProposal": "field_consistent",
+      "wholeMarkupAccepted": false,
+      "independentModelCall": false
+    },
+    {
+      "arm": "ultra",
+      "candidate": "R030",
+      "task": "S01",
+      "predictedOrigin": "letter_1",
+      "candidateClaimant": "narrator",
+      "actualProposal": "field_mismatch",
+      "expectedProposal": "field_mismatch",
+      "wholeMarkupAccepted": false,
+      "independentModelCall": false
+    },
+    {
+      "arm": "ultra",
+      "candidate": "R009/A01",
+      "task": "S03",
+      "predictedOrigin": "narrator",
+      "candidateClaimant": "narrator",
+      "actualProposal": "field_consistent",
+      "expectedProposal": "field_consistent",
+      "wholeMarkupAccepted": false,
+      "independentModelCall": false
+    }
+  ],
+  "guardIsFieldOnlyProposal": true,
+  "guardDoesNotAcceptWholeMarkup": true,
+  "productionIntegrated": false,
+  "causalTacticEffectEstablished": false,
+  "conclusion": "Native overall still accepts wrong claimant;source-only query distinguishes original letter claim and narrator countercontrol on both providers."
+}

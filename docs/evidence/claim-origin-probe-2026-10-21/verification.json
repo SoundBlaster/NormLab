@@ -1,0 +1,17 @@
+{
+  "schema": "normlab.claim-origin-verification/v1",
+  "httpAttemptsDuringVerification": 0,
+  "captureSha256": "58bcb3280feb7049f41201749a25ad4a9fcfc3a519b4c8ef285cce4895eea018",
+  "checks": {
+    "frozenCommitPlanDriverHelperInputsReferences": true,
+    "exactRequestObjectsAndDigests": true,
+    "all6Http200NoRetries": true,
+    "perAttemptAndSeriesCaps": true,
+    "schemaDistributionsLabelsConfidenceUsage": true,
+    "baselineAndNarrowGradesSeparate": true,
+    "narrowCandidateClaimantExcluded": true,
+    "fieldOnlyReplayNoWholeMarkupAcceptance": true,
+    "credentialExclusion": true
+  },
+  "scope": "Offline consistency only;not independent gold,calibration,billing or production integration."
+}

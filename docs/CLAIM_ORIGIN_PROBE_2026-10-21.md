@@ -3,7 +3,9 @@
 Дата: 2026-10-21. Ledger: [#70](https://github.com/SoundBlaster/NormLab/issues/70).
 Пользователь поручил выполнить узкую проверку и предложил прямой TypeSafe API.
 Выбран bounded diagnostic: 6 main jobs, максимум 8 attempts. Protocol, inputs,
-references и actual driver фиксируются до inference; результаты пока pending.
+references и actual driver зафиксированы до inference в `99c4b14`.
+Серия завершена: 6/6 HTTP 200 с первой попытки; baseline native Jev 1/2,
+narrow origin Jev 2/2 и Ultra 2/2. Ниже — полные результаты и ограничения.
 
 ## Гипотеза и controls
 
@@ -96,3 +98,75 @@ route, нельзя объявить narrow tactic причиной улучше
 проходят у arm, и field proposal для исходной пары не отвергает faithful claimant
 и обнаруживает mutant. Даже такой результат не разрешает production adoption:
 следующий шаг — review и более широкий набор sources/unknown origins.
+
+## Результаты
+
+| Job   | Задача                                        | Expected     | Actual     | Native confidence | P(selected) | Latency, s |
+| ----- | --------------------------------------------- | ------------ | ---------- | ----------------- | ----------- | ---------- |
+| JB01a | Native Jev, overall: faithful letter claimant | compatible   | compatible | 0.33              | 0.55        | 1.166      |
+| JB01b | Native Jev, overall: wrong narrator claimant  | incompatible | compatible | 0.30              | 0.53        | 0.830      |
+| U01   | Ultra, source письма S01                      | letter_1     | letter_1   | 0.9456            | 0.9592      | 1.207      |
+| J01   | Native Jev, source письма S01                 | letter_1     | letter_1   | 0.99              | 0.99        | 0.859      |
+| J03   | Native Jev, утверждение рассказчика S03       | narrator     | narrator   | 1.00              | 1.00        | 0.783      |
+| U03   | Ultra, утверждение рассказчика S03            | narrator     | narrator   | 0.9506            | 0.9630      | 0.878      |
+
+Прямой TypeSafe endpoint работает в этих четырёх запросах, без transport errors.
+При этом общая проверка опять принимает wrong claimant: обход CoreInfra сам
+по себе **не устранил наблюдаемую semantic ошибку** на исходном примере.
+Это не доказывает общую ненадёжность/надёжность любого gateway и не аттестует
+идентичность внутренних backend prompts при совпадающем returned model.
+
+Узкий source-only вопрос дал оба правильных origin у каждого arm. В narrator
+control присутствует письмо, но selected assertion остаётся за рассказчиком:
+always-letter response исключён этими двумя наблюдениями. Это положительный
+diagnostic result на выбранном наборе, не оценка accuracy на новых текстах.
+
+### Field-only replay
+
+Из origin answer, без дополнительных model calls, для **каждой** модели:
+
+| Source/target | Candidate          | Claimant | Proposal         |
+| ------------- | ------------------ | -------- | ---------------- |
+| S01           | R029, faithful     | letter_1 | field_consistent |
+| S01           | R030, mutant       | narrator | field_mismatch   |
+| S03           | R009/A01, faithful | narrator | field_consistent |
+
+Replay совпал с тремя локальными ожиданиями для каждого arm. Это производные
+assignments двух ответов, не три новые независимые задачи или измерение repair
+accuracy. `field_mismatch` следует рассматривать как основание для review,
+а не автоматическую истину: на текстах с явным endorsement или несколькими
+источниками одной proposition однозначный Choice может быть недостаточен.
+`field_consistent` не принимает остальные поля или весь case.
+
+### Operations и ресурсы
+
+- 6 planned/attempted/completed, 0 retries/failures/unknown/not-executed.
+  Общая серия — 5.747 s. Новых CoreInfra вызовов нет.
+- Native TypeSafe: 4 HTTP 200, returned `jev-1.13.0`, **5 055 input / 194 output**.
+  Из них overall baseline 3 778/86; narrow 1 277/108.
+- Liquid: 2 HTTP 200, returned `d1-ultra`, **598 input / 0 output**;
+  сумма API `usage.cost` **0.000025116**. Currency semantics и billing не
+  подтверждены. Native TypeSafe cost не предоставлен; total cost остаётся null.
+- Token counts разных моделей/форматов не дают сравнения стоимости. Встраивание
+  narrow stage перед overall добавляет calls; экономия pipeline не измерялась.
+- Confidence и P(selected) — разные native fields, не calibrated correctness.
+  Значение 1.0 не является гарантией истинности source или разметки.
+- Использованы 6 из максимум 8 attempts; серия закончена. Неиспользованные
+  две attempts не считаются разрешением на новые targets или semantic reruns.
+
+## Evidence и следующий шаг
+
+[Capture](evidence/claim-origin-probe-2026-10-21/report.json),
+[analysis/field replay](evidence/claim-origin-probe-2026-10-21/analysis.json),
+[offline verification](evidence/claim-origin-probe-2026-10-21/verification.json).
+Проверены frozen plan/driver/helper/source/task/reference hashes и Git commit,
+exact request objects/digests, все HTTP/model/schema/distribution/grade/usage
+поля, caps, исключение candidate claimant из narrow input, field-only policy
+и отсутствие credentials. Пересчёт прошёл без HTTP-запросов.
+
+Production/default/runtime не менялись, app tests/build/deploy не выполнялись.
+Следующий шаг — review, затем подготовка controls на nested quotation,
+несколько поддержанных origins/endorsement и неизвестный origin перед выбором
+контракта runtime gate. Такой новый paid run ещё не выполнялся. Текущая тактика
+даёт способ поймать конкретный shared defect, но не обосновывает общее
+улучшение качества pipeline или автоматический reject всех source mismatches.
