@@ -148,10 +148,17 @@ alone does not reproduce that compatibility layer.
 
 ## Direct categorical evaluation
 
-The primary current categorical CLI route is ordinary **CoreInfra Luna Low
-Responses**; Jev and Decisions remain explicit experimental selections. See
+The primary current categorical CLI route is **Liquid D1 Ultra** at
+`https://api.liquid.ai/decisions/v1/systemone`, using `LIQUID_API_KEY` only for
+explicit live execution. Its `liquid-d1-ultra` preset belongs to the current
+runtime and reuses System One Choice serialization; historical presets stay pinned.
+Jev, Decisions and ordinary Luna Responses remain explicit selections. See
 [primary verifier and operator profile](PRIMARY_VERIFIER.md). An explicit
 `--config` continues to select its own API family, endpoint and model.
+
+The public [D1 configuration](../fixtures/providers/liquid-d1-ultra-config.json)
+contains the credential environment variable name only. This selects the Python
+evaluation route; the hosted TypeScript gateway below has a separate configuration.
 
 `evaluation/categorical_smoke.py` connects native TypeSafe/OpenAI Choice and
 ordinary Responses through the released 0.9.0 `CategoricalRequirement.evaluate()`

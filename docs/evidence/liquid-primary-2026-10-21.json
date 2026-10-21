@@ -1,0 +1,165 @@
+{
+  "schema": "normlab.liquid-primary-verification/v1",
+  "date": "2026-10-21",
+  "baseCommit": "400b56c5303b434948918f59c76b3be8009ccae0",
+  "scope": "current Python categorical evaluation CLI; no hosted or historical default migration",
+  "defaultPreset": "liquid-d1-ultra",
+  "endpoint": "https://api.liquid.ai/decisions/v1/systemone",
+  "model": "d1-ultra",
+  "keyEnvironmentName": "LIQUID_API_KEY",
+  "adapterVersion": "0.9.0",
+  "offlineProviderContractTests": {
+    "passed": 208,
+    "seconds": 2.92,
+    "files": [
+      "evaluation/test_provider_runtime.py",
+      "evaluation/test_responses_runtime.py",
+      "evaluation/test_categorical_runtime.py",
+      "evaluation/test_liquid_runtime.py",
+      "evaluation/test_provider_smoke.py",
+      "evaluation/test_proxyapi_provider.py",
+      "evaluation/test_verifier_capture.py",
+      "evaluation/test_harness_v2.py",
+      "evaluation/test_adapter_compatibility.py"
+    ]
+  },
+  "capturedLiquidChoiceReplay": {
+    "jobs": ["U01", "U03"],
+    "capture": "docs/evidence/claim-origin-probe-2026-10-21/report.json",
+    "transport": "httpx2.MockTransport; real sockets/default HTTP transports denied",
+    "preserved": [
+      "exact request payload",
+      "endpoint/model",
+      "label",
+      "confidence",
+      "probabilities",
+      "input/output token usage"
+    ],
+    "requestId": "null in original capture; not invented"
+  },
+  "apiReportedCost": "not exposed by current normalized SDK result; monetary total remains unknown",
+  "realProviderKeyVariablesRemoved": true,
+  "inferenceCalls": 0,
+  "dependencyInstall": false,
+  "applicationBuild": false,
+  "deployment": false,
+  "semanticQualityClaim": false,
+  "sdkFreePlans": {
+    "default": {
+      "provider": {
+        "schema": "normlab.provider-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "liquid-d1-ultra",
+        "api_format": "typesafe-systemone",
+        "endpoint_url": "https://api.liquid.ai/decisions/v1/systemone",
+        "model": "d1-ultra",
+        "key_env": "LIQUID_API_KEY",
+        "timeout": 10.0
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    },
+    "liquid-d1-ultra": {
+      "provider": {
+        "schema": "normlab.provider-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "liquid-d1-ultra",
+        "api_format": "typesafe-systemone",
+        "endpoint_url": "https://api.liquid.ai/decisions/v1/systemone",
+        "model": "d1-ultra",
+        "key_env": "LIQUID_API_KEY",
+        "timeout": 10.0
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    },
+    "coreinfra-jev": {
+      "provider": {
+        "schema": "normlab.provider-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "coreinfra-jev",
+        "api_format": "typesafe-systemone",
+        "endpoint_url": "https://hub.coreinfra.ai/typesafe/api/v1/systemone",
+        "model": "jev-1.13.0",
+        "key_env": "COREINFRA_API_KEY",
+        "timeout": 10.0
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    },
+    "coreinfra-decisions": {
+      "provider": {
+        "schema": "normlab.provider-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "coreinfra-decisions",
+        "api_format": "openai-decisions",
+        "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/decisions",
+        "model": "gpt-6-luna",
+        "key_env": "COREINFRA_API_KEY",
+        "timeout": 10.0
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    },
+    "coreinfra-responses": {
+      "provider": {
+        "schema": "normlab.responses-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "coreinfra-responses",
+        "api_format": "openai-responses",
+        "endpoint_url": "https://hub.coreinfra.ai/openai/api/v1/responses",
+        "model": "gpt-6-luna",
+        "key_env": "COREINFRA_API_KEY",
+        "timeout": 10.0,
+        "reasoning_effort": "low",
+        "max_output_tokens": 1024
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    },
+    "typesafe": {
+      "provider": {
+        "schema": "normlab.provider-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "typesafe",
+        "api_format": "typesafe-systemone",
+        "endpoint_url": "https://api.typesafe.ai/v1/systemone",
+        "model": "jev-1.13.0",
+        "key_env": "TYPESAFE_API_KEY",
+        "timeout": 10.0
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    },
+    "openai": {
+      "provider": {
+        "schema": "normlab.provider-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "openai",
+        "api_format": "openai-decisions",
+        "endpoint_url": "https://api.openai.com/v1/decisions",
+        "model": "gpt-6-luna",
+        "key_env": "OPENAI_API_KEY",
+        "timeout": 10.0
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    },
+    "openai-responses": {
+      "provider": {
+        "schema": "normlab.responses-config/v1",
+        "adapter_version": "0.9.0",
+        "id": "openai-responses",
+        "api_format": "openai-responses",
+        "endpoint_url": "https://api.openai.com/v1/responses",
+        "model": "gpt-6-luna",
+        "key_env": "OPENAI_API_KEY",
+        "timeout": 10.0,
+        "reasoning_effort": "low",
+        "max_output_tokens": 1024
+      },
+      "calls": 0,
+      "semanticTaskDigest": "dedfab0c194443cb8523dfb05e614918981f15e45c03cbd0cf8c8f3eb76373e8"
+    }
+  }
+}

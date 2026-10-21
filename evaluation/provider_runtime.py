@@ -4,11 +4,20 @@ import importlib.metadata
 from dataclasses import asdict, dataclass
 
 from provider_config import FORMATS as FORMATS
-from provider_config import PRESETS as PRESETS
+from provider_config import PRESETS as HISTORICAL_PRESETS
 from provider_config import SCHEMA, ProviderConfig, credential, require
 from provider_config import configuration as historical_configuration
 
 ADAPTER_VERSION = "0.9.0"
+PRESETS = {
+    **HISTORICAL_PRESETS,
+    "liquid-d1-ultra": (
+        "typesafe-systemone",
+        "https://api.liquid.ai/decisions/v1/systemone",
+        "d1-ultra",
+        "LIQUID_API_KEY",
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -19,6 +28,17 @@ class RuntimeProviderConfig(ProviderConfig):
 
 def configuration(preset="typesafe", *, document=None, **overrides):
     """Reuse public validation without altering historical metadata or source pins."""
+    if document is None:
+        require(preset in PRESETS, "Unknown provider preset")
+        api_format, endpoint_url, model, key_env = PRESETS[preset]
+        document = {
+            "schema": SCHEMA,
+            "id": preset,
+            "api_format": api_format,
+            "endpoint_url": endpoint_url,
+            "model": model,
+            "key_env": key_env,
+        }
     value = historical_configuration(preset, document=document, **overrides)
     return RuntimeProviderConfig(**asdict(value))
 
