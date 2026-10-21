@@ -51,9 +51,25 @@ export function hostedStageTransport(
       true,
     );
   return {
-    profile: async (signal) => hostedProfileSchema.parse(await post('/v1/profile', {}, signal)),
+    profile: async (signal) => {
+      const profile = hostedProfileSchema.safeParse(await post('/v1/profile', {}, signal));
+      if (!profile.success)
+        throw new InferenceAccessError({
+          provider: 'gateway',
+          stage: 'extraction',
+          code: 'invalid_response',
+        });
+      return profile.data;
+    },
     execute: async (input, signal) => {
-      const result = hostedStageResultSchema.parse(await post('/v1/stage', input, signal));
+      const parsed = hostedStageResultSchema.safeParse(await post('/v1/stage', input, signal));
+      if (!parsed.success)
+        throw new InferenceAccessError({
+          provider: 'gateway',
+          stage: input.stage,
+          code: 'invalid_response',
+        });
+      const result = parsed.data;
       if (
         result.inputDigest !== hostedStageDigest(input) ||
         result.configDigest !== input.configDigest ||

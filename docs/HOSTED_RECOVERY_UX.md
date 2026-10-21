@@ -102,9 +102,16 @@ retry/fallback, смены модели или новой фоновой оче�
 Следующий шаг: review первого среза, затем Job/Checkpoint contract и частичный
 результат в той же Issue #179. Невыполненные acceptance остаются открытыми.
 
+## Реализованное продолжение в исходниках
+
+[Задания и checkpoints](HOSTED_CHECKPOINT_JOBS.md) добавляют app-owned background
+работу, частичные pending proposals, explicit Continue, unknown acknowledgement и
+revision conflict. Это не deployment evidence; см. отдельные ограничения и
+verification в контракте. Исторические границы первого среза выше сохранены.
+
 ## Gateway: контракт отдельного этапа
 
 The next recovery slice uses the existing gateway's
 [single-stage RPC contract](HOSTED_STAGE_PROTOCOL.md). This prepares discovery and
-classification checkpoint boundaries; durable app jobs and the Continue UI are
-still pending and are not implemented by the journal or the gateway contract.
+classification checkpoint boundaries. Durable app jobs and the Continue UI are
+implemented separately in the [app owner contract](HOSTED_CHECKPOINT_JOBS.md).

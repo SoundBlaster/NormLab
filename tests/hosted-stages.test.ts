@@ -294,3 +294,20 @@ test('transport rejects wrong reply source/config/stage/input binding without re
     assert.equal(calls, 1);
   }
 });
+
+test('malformed stage/profile replies use safe protocol failure, not storage diagnostics', async () => {
+  const client = hostedStageTransport('http://gateway', token, async () =>
+    json({ unexpected: 'private response' }),
+  );
+  for (const call of [
+    () => client.profile(signal()),
+    () => client.execute(discoveryInput(), signal()),
+  ])
+    await assert.rejects(
+      call(),
+      (error: unknown) =>
+        error instanceof InferenceAccessError &&
+        error.failure.code === 'invalid_response' &&
+        !error.message.includes('private response'),
+    );
+});

@@ -265,22 +265,25 @@ See [frontend architecture](client/ARCHITECTURE.md).
 
 [Sequence diagrams «до / после»](docs/HOSTED_INFERENCE_RECOVERY.md),
 ledger [#172](https://github.com/SoundBlaster/NormLab/issues/172).
-Текущее поведение сверено с кодом; checkpoints и explicit resume ниже — proposal,
-не возможности действующего UI. Закрытый evaluation harness не переоткрывается.
+Исходные диаграммы сохранены как историческое описание/proposal; актуальная
+app-owned последовательность — в [контракте checkpoints](docs/HOSTED_CHECKPOINT_JOBS.md).
+Закрытый evaluation harness не переоткрывается. Source implementation и deployment
+проверяются отдельно; текущее состояние — в ledger #179.
 
 Пользователь подтвердил partial results, продолжение на сервере после закрытия
 вкладки, explicit resume и журнал внутри разбора. Текущая продуктовая работа —
 [implementation #179](https://github.com/SoundBlaster/NormLab/issues/179),
 [UX contract и этапы](docs/HOSTED_RECOVERY_UX.md). Первый срез добавляет постоянный
 журнал действий/сбоев, явные причины ошибок и подтверждение замены разметки;
-Job/Checkpoint и частичные результаты остаются следующим срезом. D1/Jev research
-не блокирует эту задачу.
+Следующий срез реализует background Job/Checkpoint, частичные pending proposals,
+explicit Continue и конфликты ревизий через существующий gateway. D1/Jev research
+не блокирует эту задачу. Single-stage RPC: [PR #181](https://github.com/SoundBlaster/NormLab/pull/181).
 
 - [x] Сохранить две sequence diagrams, политику ошибок и карту исходников.
-- [ ] Отдельно согласовать минимальный job/checkpoint contract и UI states.
-- [ ] По отдельному поручению реализовать durable этапы, безопасные bounded retries
-      и explicit resume с сохранением source/config bindings, caps и unknown outcomes.
-      Обязательные этапы не пропускать; fallback provider требует явной policy.
+- [x] Согласовать минимальный job/checkpoint contract и UI states.
+- [ ] Довести реализацию durable этапов и explicit resume через CI/review/merge:
+      source/config bindings, caps, unknown acknowledgement, защита ручных правок.
+      Automatic retries и fallback не входят в этот срез; обязательные этапы не пропускаются.
 
 ### Hosted inference — поставщик API
 

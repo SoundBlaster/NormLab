@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { inferenceFailureSchema } from './inference-failure.js';
+import { jobReasonSchema } from './parking-job.js';
 
 const runBase = z.object({
   runId: z.string().uuid(),
@@ -33,6 +34,17 @@ const eventBase = z.object({
   runId: z.string().uuid().optional(),
 });
 export const parkingJournalEventSchema = z.discriminatedUnion('kind', [
+  eventBase
+    .extend({
+      kind: z.literal('job-progress'),
+      action: z.enum(['started', 'resumed', 'checkpoint', 'paused', 'conflict', 'completed']),
+      stage: z.enum(['discovery', 'classification']).optional(),
+      reason: jobReasonSchema.optional(),
+      failure: inferenceFailureSchema.optional(),
+      completedBatches: z.number().int().min(0).max(32),
+      unknowns: z.number().int().min(0).max(99),
+    })
+    .strict(),
   eventBase
     .extend({
       kind: z.enum(['draft-created', 'review-saved', 'review-completed', 'model-applied']),
