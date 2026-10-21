@@ -1,5 +1,8 @@
 # Узкая проверка источника утверждения
 
+См. также [единый отчёт Jev и D1 с вопросами, ожиданиями и ответами](JEV_D1_COMPARISON_2026-10-21.md):
+12 вариантов общей проверки, два узких вопроса и контроль прямого TypeSafe API.
+
 Дата: 2026-10-21. Ledger: [#70](https://github.com/SoundBlaster/NormLab/issues/70).
 Пользователь поручил выполнить узкую проверку и предложил прямой TypeSafe API.
 Выбран bounded diagnostic: 6 main jobs, максимум 8 attempts. Protocol, inputs,
