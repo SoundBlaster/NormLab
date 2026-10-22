@@ -77,8 +77,73 @@ export const legalOutcomeLabels = {
 } as const;
 export type LegalOutcome = keyof typeof legalOutcomeLabels;
 
-/** A finite fragment evaluator, not a determination of liability or a Lean certificate. */
-export function evaluateParkingFragment(input: LegalInput) {
+const conditionIdSchema = z.string().refine((id) => manifest.conditions.some((c) => c.id === id));
+const outcomeSchema = z.enum([
+  'conflict',
+  'unsupported',
+  'incomplete',
+  'fragment-refuted',
+  'fragment-matched',
+]);
+export const legalResultSchema = z.strictObject({
+  outcome: outcomeSchema,
+  conflicts: z.array(conditionIdSchema).max(9),
+  unsupported: z.array(conditionIdSchema).max(9),
+  refuted: z.array(conditionIdSchema).max(9),
+  missing: z.array(z.string()).max(14),
+  candidateFine: z.number().int().min(0).max(1000000).nullable(),
+  sanctionComparison: z.enum([
+    'not-mentioned',
+    'not-computable',
+    'draft-match',
+    'draft-difference',
+  ]),
+  branches: z
+    .array(
+      z.strictObject({
+        conditionId: conditionIdSchema,
+        assumedState: z.enum(['established', 'refuted']),
+        outcome: outcomeSchema,
+      }),
+    )
+    .max(2),
+  normativeStatus: z.literal('research-draft'),
+  liability: z.literal('not-assessed'),
+  proof: z.literal('none'),
+});
+export type LegalResult = z.infer<typeof legalResultSchema>;
+
+export const parkingVerificationSchema = z
+  .strictObject({
+    profile: z.literal('parking-fragment-poc/v1'),
+    status: z.enum(['verified', 'inconclusive', 'rejected']),
+    engine: z.literal('lean-kernel'),
+    version: z.string().nullable(),
+    inputDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    resultDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    packageDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    profileDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    statementDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    toolchainDigest: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .nullable(),
+    axioms: z.array(z.string()).max(16),
+    reason: z.string().max(2048),
+    durationMs: z.number().int().nonnegative(),
+  })
+  .refine(
+    (v) =>
+      v.status !== 'verified' ||
+      (v.version?.includes('version 4.30.0') &&
+        v.toolchainDigest !== null &&
+        v.axioms.every((axiom) => axiom === 'propext')),
+    'Verified parking proof requires the pinned toolchain and audited axioms.',
+  );
+export type ParkingVerification = z.infer<typeof parkingVerificationSchema>;
+
+/** Producer only. Independent model verification is attached to the assessment. */
+export function evaluateParkingFragment(input: LegalInput): LegalResult {
   const { findings, claimedFine } = input;
   const byId = new Map(findings.map((f) => [f.conditionId, f.state]));
   const ids = (state: LegalFinding['state']) =>
@@ -147,9 +212,8 @@ export function evaluateParkingFragment(input: LegalInput) {
     proof: 'none' as const,
   };
 }
-export type LegalResult = ReturnType<typeof evaluateParkingFragment>;
 export type LegalAssessment = {
-  schema: 'normlab.parking-legal-assessment/v1';
+  schema: 'normlab.parking-legal-assessment/v1' | 'normlab.parking-legal-assessment/v2';
   id: string;
   sequence: number;
   createdAt: string;
@@ -158,6 +222,9 @@ export type LegalAssessment = {
   input: LegalInput;
   package: typeof manifest;
   result: LegalResult | null;
+  verification?: ParkingVerification | null;
+  /** Derived on read against the running profile; never stored in the immutable receipt. */
+  readonly verifiedByPreviousProfile?: boolean;
 };
 export type LegalWorkspace = {
   package: typeof manifest;

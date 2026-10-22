@@ -174,7 +174,11 @@ export class ParkingReview {
       const input = legalInputSchema.parse(body);
       const draft = this.expected(input.draftId, input.expectedRevisionId);
       try {
-        return this.legal.submit(this.folder(input.draftId), draft, input);
+        return await this.legal.submit(
+          this.folder(input.draftId),
+          () => this.expected(input.draftId, draft.revisionId),
+          input,
+        );
       } catch (error) {
         if (error instanceof ParkingLegalError)
           throw new ParkingReviewError(error.message, error.status);

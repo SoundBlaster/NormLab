@@ -1,0 +1,4 @@
+# Preserve fetched source bytes, including original line endings and whitespace.
+docs/sources/moscow-parking/2026-10-22/*-original.* -text -diff
+# Extracted text is a hashed evidence artifact, not authored application code.
+docs/sources/moscow-parking/2026-10-22/*-text.txt -text whitespace=-blank-at-eol,-blank-at-eof

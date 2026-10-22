@@ -1,0 +1,359 @@
+{
+  "format": "normlab.parking-source-research/v1",
+  "id": "moscow-parking-source-snapshot-2026-10-22",
+  "status": "research-snapshot",
+  "collectedOn": "2026-10-22",
+  "runtimeManifest": {
+    "path": "../../../../norms/moscow-parking/manifest.json",
+    "sha256": "a0105be3e93c3fb38306228fc8e549ad597a1345b19088ea6bb1a9516d39cd77",
+    "updatedByThisSnapshot": false
+  },
+  "readiness": {
+    "currentLawVerified": false,
+    "liabilityModelComplete": false,
+    "proof": "none",
+    "semanticExpertReview": "pending"
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "title": "КоАП города Москвы; копия на mos.ru с изменениями на 24.12.2025",
+      "evidenceClass": "consolidated-copy",
+      "retrieval": {
+        "requestedUrl": "https://www.mos.ru/upload/documents/files/2207/ZakongorodaMoskviot21noyabrya2007g45.pdf",
+        "resolvedUrl": "https://www.mos.ru/upload/documents/files/2207/ZakongorodaMoskviot21noyabrya2007g45.pdf",
+        "retrievedAt": "2026-10-22T18:28:25.879283+00:00",
+        "mediaType": "application/pdf",
+        "httpStatus": 200
+      },
+      "original": {
+        "path": "S01-original.pdf",
+        "bytes": 2755986,
+        "sha256": "cdd768bb7d3357d917cd090b451836bd33faa65ea818d7e5cd1b73b3cdc0fde9"
+      },
+      "text": {
+        "path": "S01-text.txt",
+        "bytes": 14628,
+        "sha256": "0f28578b755dab62b8c7b5a54f99d3b65d6cabc88e6249be3047c5c22158008e",
+        "method": "pypdf 6.10.0; selected PDF pages 49–50; text order preserved",
+        "completeDocument": false
+      },
+      "limitation": "Неполная цепочка первичных публикаций; актуальность на дату события не подтверждена."
+    },
+    {
+      "id": "S02",
+      "title": "Закон Москвы от 29.01.2025 № 6; Вестник Москвы № 8, февраль 2025",
+      "evidenceClass": "primary-publication",
+      "retrieval": {
+        "requestedUrl": "https://vestnikmoscow.mos.ru/wp-content/uploads/2025/02/zhurnal-vestnik-moskvy-%E2%84%96-8.pdf",
+        "resolvedUrl": "https://vestnikmoscow.mos.ru/wp-content/uploads/2025/02/zhurnal-vestnik-moskvy-%E2%84%96-8.pdf",
+        "retrievedAt": "2026-10-22T18:28:26.863898+00:00",
+        "mediaType": "application/pdf",
+        "httpStatus": 200
+      },
+      "original": {
+        "path": "S02-original.pdf",
+        "bytes": 3803261,
+        "sha256": "b4df72c6dd005c8623ff794c357abdcb6aaa24eba038d57a1f28a8fe55d83d50"
+      },
+      "text": {
+        "path": "S02-text.txt",
+        "bytes": 5699,
+        "sha256": "14d76b841c63f1564bcb3817250a4f4d63442ba4e127e5344645f76b2295089a",
+        "method": "pypdf 6.10.0; selected PDF pages 6 and 65; text order preserved",
+        "completeDocument": false
+      },
+      "limitation": "На PDF с. 6 нет отдельного положения о вступлении закона № 6 в силу. Статья 2 сверху страницы относится к закону № 4. Дата выхода выпуска 11.02.2025 из выходных данных не доказывает дату первого официального опубликования закона."
+    },
+    {
+      "id": "S04",
+      "title": "Приказ Дептранса от 24.07.2023 № 61-02-391/23, приложение 2",
+      "evidenceClass": "historical-act",
+      "retrieval": {
+        "requestedUrl": "https://parking.mos.ru/upload/iblock/93d/xqfjxc1l1ao3042gt4qbcszasb2mf1ir.pdf",
+        "resolvedUrl": "https://parking.mos.ru/upload/iblock/93d/xqfjxc1l1ao3042gt4qbcszasb2mf1ir.pdf",
+        "retrievedAt": "2026-10-22T18:28:27.380392+00:00",
+        "mediaType": "application/pdf",
+        "httpStatus": 200
+      },
+      "original": {
+        "path": "S04-original.pdf",
+        "bytes": 9020487,
+        "sha256": "a468cafed71a120375da4e82859e6ceca71b7c7c01e4703abfcb1a8973ba5093"
+      },
+      "text": {
+        "path": "S04-text.txt",
+        "bytes": 3146,
+        "sha256": "4ab75f9054eb8666604edb59b1f109c90059c31bbd7475f05e75ea6fbc773237",
+        "method": "manual transcription from rendered PDF pages 8–10; whitespace and list dash normalized; selected clauses only; no OCR",
+        "completeDocument": false
+      },
+      "limitation": "Историческая редакция 2023 года; пункт 2.6(1).3 заменён S12. Актуальная редакция прочих положений требует цепочки изменений."
+    },
+    {
+      "id": "S06",
+      "title": "Официальный каталог правовых документов АМПП",
+      "evidenceClass": "discovery-index",
+      "retrieval": {
+        "requestedUrl": "https://parking.mos.ru/extra/docs/",
+        "resolvedUrl": "https://parking.mos.ru/extra/docs/",
+        "retrievedAt": "2026-10-22T18:28:26.421034+00:00",
+        "mediaType": "text/html",
+        "httpStatus": 200
+      },
+      "original": {
+        "path": "S06-original.html",
+        "bytes": 510362,
+        "sha256": "e02559479d1029e24af37d0673f7f078606e9cfe453f772e04b992997a3af9e9"
+      },
+      "text": {
+        "path": "S06-text.txt",
+        "bytes": 1280,
+        "sha256": "0950bbe152f56e62857e6b1b4bd2b5f8e6a421fad8c9204fd4fbce6ead871568",
+        "method": "HTMLParser; selected anchor labels and hrefs; whitespace collapsed",
+        "completeDocument": false
+      },
+      "limitation": "Каталог не является нормой и не подтверждает полноту цепочки изменений."
+    },
+    {
+      "id": "S07",
+      "title": "АМПП: правила и тарифы",
+      "evidenceClass": "official-guidance",
+      "retrieval": {
+        "requestedUrl": "https://parking.mos.ru/parking/street/rules/",
+        "resolvedUrl": "https://parking.mos.ru/parking/street/rules/",
+        "retrievedAt": "2026-10-22T18:28:26.108912+00:00",
+        "mediaType": "text/html",
+        "httpStatus": 200
+      },
+      "original": {
+        "path": "S07-original.html",
+        "bytes": 127804,
+        "sha256": "f9f2d9c7992c14dbcd985d4976b4dd9387e5913bec6508bbb917993319336be6"
+      },
+      "text": {
+        "path": "S07-text.txt",
+        "bytes": 11567,
+        "sha256": "516396d43d00e891235234516a8b47126c2da3eacfa6bfabbb0774e4ec5a22f3",
+        "method": "HTMLParser; text nodes excluding script/style; line breaks at block elements; whitespace collapsed",
+        "completeDocument": false
+      },
+      "limitation": "Разъяснение, а не нормативный акт. Тарифы и календарь автоматически не импортируются."
+    },
+    {
+      "id": "S12",
+      "title": "Приказ Дептранса от 14.02.2025 № 61-02-69/25",
+      "evidenceClass": "amending-act",
+      "retrieval": {
+        "requestedUrl": "https://parking.mos.ru/upload/iblock/b06/j1zbnqeogt96o9wp98e2xwjvkg8g6mol.pdf",
+        "resolvedUrl": "https://parking.mos.ru/upload/iblock/b06/j1zbnqeogt96o9wp98e2xwjvkg8g6mol.pdf",
+        "retrievedAt": "2026-10-22T18:32:49.328908+00:00",
+        "mediaType": "application/pdf",
+        "httpStatus": 200
+      },
+      "original": {
+        "path": "S12-original.pdf",
+        "bytes": 1306015,
+        "sha256": "59e3493d602264d921b7fea7ae26574e8e6517569a964648831ab7512db9172a"
+      },
+      "text": {
+        "path": "S12-text.txt",
+        "bytes": 1037,
+        "sha256": "f1a7ff1f5df076a847002fd22a6209dfa111b9ad793f87638b6e4599363d48b4",
+        "method": "manual transcription from rendered PDF pages 1–2; whitespace normalized; selected clauses only; no OCR",
+        "completeDocument": false
+      },
+      "limitation": "Подтверждает замену одного пункта с 15.02.2025, не всю актуальную редакцию правил и не правовой эффект произвольного исправления."
+    }
+  ],
+  "fragments": [
+    {
+      "id": "F01",
+      "sourceId": "S01",
+      "locator": {
+        "pdfPages": [50],
+        "printedPages": ["50"],
+        "provision": "часть 2 статьи 8.14, диспозиция"
+      },
+      "textRange": {
+        "start": 5056,
+        "end": 5136,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "2. Неуплата за размещение транспортного средства на платной городской парковке -"
+    },
+    {
+      "id": "F02",
+      "sourceId": "S01",
+      "locator": {
+        "pdfPages": [50],
+        "printedPages": ["50"],
+        "provision": "часть 2 статьи 8.14, санкция"
+      },
+      "textRange": {
+        "start": 5273,
+        "end": 5418,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "влечет наложение административного штрафа на граждан и должностных лиц в размере пяти тысяч рублей; на\nюридических лиц - пятидесяти тысяч рублей."
+    },
+    {
+      "id": "F03",
+      "sourceId": "S01",
+      "locator": {
+        "pdfPages": [50],
+        "printedPages": ["50"],
+        "provision": "примечание к статье 8.14"
+      },
+      "textRange": {
+        "start": 5681,
+        "end": 6290,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "Примечание. Под городской парковкой в настоящей статье следует понимать объект благоустройства города\nМосквы, представляющий собой специально обозначенное, обустроенное и оборудованное место, являющееся частью\nавтомобильной дороги и (или) примыкающее к проезжей части и (или) тротуару, обочине, эстакаде или мосту либо\nявляющееся частью подэстакадных или подмостовых пространств, площадей и иных объектов улично-дорожной сети,\nнаходящихся в собственности города Москвы, и предназначенное для организованной стоянки транспортных средств\nна платной основе или без взимания платы по решению Правительства Москвы."
+    },
+    {
+      "id": "F04",
+      "sourceId": "S02",
+      "locator": {
+        "pdfPages": [6],
+        "printedPages": ["5"],
+        "provision": "Закон от 29.01.2025 № 6, единственное изменение"
+      },
+      "textRange": {
+        "start": 1045,
+        "end": 1260,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "Абзац второй части 2 статьи 8.14 изложить в следующей редакции:\n«влечет наложение административного штрафа на граждан и должностных лиц в размере пяти тысяч рублей; \n \nна юридических лиц – пятидесяти тысяч рублей.»."
+    },
+    {
+      "id": "F05",
+      "sourceId": "S02",
+      "locator": {
+        "pdfPages": [65],
+        "printedPages": ["64"],
+        "provision": "выходные данные выпуска"
+      },
+      "textRange": {
+        "start": 3101,
+        "end": 3131,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "Дата выхода в свет: 11.02.2025"
+    },
+    {
+      "id": "F06",
+      "sourceId": "S04",
+      "locator": {
+        "pdfPages": [8],
+        "printedPages": ["4"],
+        "provision": "приложение 2, пункт 2.4, вводная строка"
+      },
+      "textRange": {
+        "start": 75,
+        "end": 185,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "2.4. Пользователь обязан в течение пяти минут с момента въезда на парковочное место начать парковочную сессию:"
+    },
+    {
+      "id": "F07",
+      "sourceId": "S04",
+      "locator": {
+        "pdfPages": [10],
+        "printedPages": ["6"],
+        "provision": "приложение 2, пункт 2.6(1).3; историческая редакция"
+      },
+      "textRange": {
+        "start": 1271,
+        "end": 1751,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "2.6(1).3. Изменение отдельных параметров завершенной парковочной сессии, определенное в пунктах 2.6(1).1 и 2.6(1).2 Правил, является дополнительной функцией, доступной для редактирования не более трех парковочных сессий в календарном месяце для одного пользователя с помощью мобильного приложения, и не считается неуплатой за размещение транспортного средства на платной городской парковке, влекущей административную ответственность в соответствии с действующим законодательством."
+    },
+    {
+      "id": "F08",
+      "sourceId": "S07",
+      "locator": {
+        "heading": "Время на оплату парковки – 5 минут"
+      },
+      "textRange": {
+        "start": 2146,
+        "end": 2365,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "Время на оплату парковки – 5 минут\nДля всех зон время, в течение которого необходимо оплатить парковку, составляет 5 минут. Покинуть\nместо парковки также необходимо в течение 5 минут после завершения парковочной сессии."
+    },
+    {
+      "id": "F09",
+      "sourceId": "S07",
+      "locator": {
+        "heading": "Как исправить ошибки, допущенные при оплате парковки?"
+      },
+      "textRange": {
+        "start": 3033,
+        "end": 3876,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "Как исправить ошибки, допущенные при оплате парковки?\nВ приложении «Парковки России» вы можете:\nИзменить время начала парковки, если не запустили ее вовремя;\nПродлить истекшую парковку;\nИзменить номер автомобиля и/или парковочной зоны, если ошиблись в номере автомобиля или парковочной зоны при оплате.\nКакие условия важно соблюдать:\nИсправить завершенную парковку можно только до 23:59 текущих суток;\nИсправить завершенную парковку можно только 1 раз: либо изменить начало, либо продлить, либо исправить номер машины и/или парковочной зоны. Если вы припарковались несколько раз за день, вы можете исправить каждую парковку по 1 разу;\nПродлить можно только ту парковку, время которой истекло самостоятельно (без досрочного завершения). На изменение времени начала парковки, номера автомобиля и парковочной зоны это условие не распространяется."
+    },
+    {
+      "id": "F10",
+      "sourceId": "S12",
+      "locator": {
+        "pdfPages": [1, 2],
+        "printedPages": ["1", "2"],
+        "provision": "пункт 1, новая редакция пункта 2.6(1).3 приложения 11"
+      },
+      "textRange": {
+        "start": 109,
+        "end": 525,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "2.6(1).3. Изменение отдельных параметров завершенной парковочной сессии, определенное в пунктах 2.6(1).1 и 2.6(1).2 Правил, является дополнительной функцией, доступной для редактирования пользователем с помощью мобильного приложения, и не считается неуплатой за размещение транспортного средства на платной городской парковке, влекущей административную ответственность в соответствии с действующим законодательством."
+    },
+    {
+      "id": "F11",
+      "sourceId": "S12",
+      "locator": {
+        "pdfPages": [2],
+        "printedPages": ["2"],
+        "provision": "пункт 3, вступление в силу"
+      },
+      "textRange": {
+        "start": 549,
+        "end": 605,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "3. Настоящий приказ вступает в силу с 15 февраля 2025 г."
+    },
+    {
+      "id": "F12",
+      "sourceId": "S04",
+      "locator": {
+        "pdfPages": [9],
+        "printedPages": ["5"],
+        "provision": "приложение 2, пункт 2.4.1"
+      },
+      "textRange": {
+        "start": 248,
+        "end": 1181,
+        "unit": "unicode-code-points",
+        "endExclusive": true
+      },
+      "quote": "2.4.1. Путем внесения платы за размещение транспортного средства на платной городской парковке одним из способов, указанных в пункте 2.3.1 Правил, за исключением следующих случаев:\n- размещение транспортного средства осуществляется бесплатно в соответствии с настоящими Правилами и иными приказами Департамента транспорта и развития дорожно-транспортной инфраструктуры города Москвы (далее — Департамент транспорта);\n- внесена годовая резидентная плата за пользование парковочными местами платных городских парковок в соответствии с дефисом первым строки 4 таблицы, а также если внесена плата за льготное размещение транспортного средства, предоставляемого в рамках услуги каршеринг, в соответствии с дефисом первым строки 6 таблицы независимо от времени въезда на парковочное место;\n- внесена плата за размещение одного транспортного средства на парковочном месте платной городской парковки в соответствии со строками 2 и 3 таблицы."
+    }
+  ]
+}
