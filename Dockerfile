@@ -25,6 +25,7 @@ RUN curl -fsSL https://elan.lean-lang.org/elan-init.sh \
     && su node -s /bin/sh -c 'lean --version | grep -F "version 4.30.0"'
 
 COPY --chown=node:node . .
+ARG NORMLAB_BUILD_REVISION
 RUN npm run build \
     && mkdir -p /var/lib/normlab \
     && chown node:node /var/lib/normlab

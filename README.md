@@ -68,6 +68,22 @@ npm run build
 npm start
 ```
 
+В меню на desktop и под навигацией на mobile показаны время сборки UI (UTC)
+и короткий commit SHA; полный SHA доступен в подсказке. В dev-режиме подпись
+«Разработка» показывает время запуска dev-сервера. Без переданного commit
+интерфейс честно сообщает «commit неизвестен».
+
+GitHub передаёт SHA автоматически при публикации образа. Для собственной сборки
+можно явно задать `NORMLAB_BUILD_REVISION` (полный SHA):
+
+```sh
+NORMLAB_BUILD_REVISION="$(git rev-parse HEAD)" npm run build
+NORMLAB_BUILD_REVISION="$(git rev-parse HEAD)" docker compose build
+```
+
+Используйте SHA для чистого checkout: он обозначает исходники сборки. Метаданные
+встраиваются во frontend при сборке; перезапуск контейнера их не меняет.
+
 Lean устанавливается через [официальный elan](https://lean-lang.org/install/manual/). Если elan уже установлен:
 
 ```sh

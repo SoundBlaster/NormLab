@@ -4,6 +4,7 @@ services:
       context: .
       args:
         VITE_BASE_PATH: ${NORMLAB_VITE_BASE_PATH:-/}
+        NORMLAB_BUILD_REVISION: ${NORMLAB_BUILD_REVISION:-}
     image: normlab-normlab:latest
     init: true
     restart: unless-stopped
