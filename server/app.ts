@@ -88,6 +88,7 @@ const snapshotRequest = z
 export async function createApp(options: {
   dataDir: string;
   production?: boolean;
+  assetsDir?: string;
   web?: boolean;
   publicOrigin?: string;
   operatorAuth?: { username: string; password: string };
@@ -312,7 +313,7 @@ export async function createApp(options: {
         vite.middlewares(req, res);
         return;
       }
-      const directory = resolve('dist');
+      const directory = resolve(options.assetsDir ?? 'dist');
       const relative = decodeURIComponent(path).replace(/^\/+/, '');
       let file = resolve(directory, relative || 'index.html');
       if (!isWithinDirectory(directory, file)) throw new HttpError(404, 'Файл не найден.');

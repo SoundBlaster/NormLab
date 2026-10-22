@@ -6,11 +6,16 @@ import {
   evaluateParkingFragment,
   legalInputSchema,
   parkingNormDraft,
+  parkingVerificationSchema,
   type LegalAssessment,
 } from '../shared/parking-legal.js';
 import { reviewDraftMetadata, type ReviewDraft } from '../shared/parking-review.js';
 import { reviewMetadataIssues } from '../shared/parking-context.js';
 import type { ParkingJournalEvent } from '../shared/parking-journal.js';
+import { digest } from './hash.js';
+import { parkingNormDigest, verifyParkingCalculation } from './parking-verifier.js';
+
+export { parkingNormDigest } from './parking-verifier.js';
 
 export class ParkingLegalError extends Error {
   constructor(
@@ -21,10 +26,9 @@ export class ParkingLegalError extends Error {
   }
 }
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
-export const parkingNormDigest = hash(parkingNormDraft);
 const savedSchema = z
   .object({
-    schema: z.literal('normlab.parking-legal-assessment/v1'),
+    schema: z.enum(['normlab.parking-legal-assessment/v1', 'normlab.parking-legal-assessment/v2']),
     id: z.string().uuid(),
     sequence: z.number().int().positive(),
     createdAt: z.string().datetime(),
@@ -33,11 +37,22 @@ const savedSchema = z
     input: legalInputSchema,
     package: z.unknown(),
     result: z.unknown().nullable(),
+    verification: parkingVerificationSchema.nullable().optional(),
   })
-  .strict();
+  .strict()
+  .refine(
+    (value) =>
+      value.schema !== 'normlab.parking-legal-assessment/v2' ||
+      (value.input.action === 'calculate'
+        ? value.verification != null
+        : value.verification === null),
+    'Assessment v2 must record the verification outcome for calculations.',
+  );
 
 /** Each write is its own immutable request receipt; retries use the same requestId. */
 export class ParkingLegal {
+  constructor(private readonly verify = verifyParkingCalculation) {}
+
   history(folder: string): LegalAssessment[] {
     const root = join(folder, 'legal');
     if (!existsSync(root)) return [];
@@ -51,7 +66,14 @@ export class ParkingLegal {
           hash(value.package) !== value.input.packageDigest ||
           value.input.packageDigest !== parkingNormDigest ||
           hash(value.result) !==
-            hash(value.input.action === 'calculate' ? evaluateParkingFragment(value.input) : null)
+            hash(
+              value.input.action === 'calculate' ? evaluateParkingFragment(value.input) : null,
+            ) ||
+          (value.verification &&
+            (value.result === null ||
+              value.verification.inputDigest !== digest(value.input) ||
+              value.verification.resultDigest !== digest(value.result) ||
+              value.verification.packageDigest !== value.input.packageDigest))
         )
           throw new ParkingLegalError(
             'Не удалось проверить сохранённый расчёт. История не изменена.',
@@ -80,48 +102,59 @@ export class ParkingLegal {
     }));
   }
 
-  submit(folder: string, draft: ReviewDraft, body: unknown) {
+  async submit(folder: string, currentDraft: () => ReviewDraft, body: unknown) {
     const input = legalInputSchema.parse(body);
-    if (input.draftId !== draft.draftId || input.expectedRevisionId !== draft.revisionId)
-      throw new ParkingLegalError('Разметка изменилась. Обновите её перед расчётом.', 409);
-    if (input.packageDigest !== parkingNormDigest)
-      throw new ParkingLegalError('Пакет изменился. Обновите страницу.', 409);
-    const metadata = reviewDraftMetadata(draft);
-    if (
-      draft.status !== 'reviewed' ||
-      reviewMetadataIssues(metadata.context, metadata.hypotheses).length ||
-      !draft.statements.length ||
-      draft.statements.some((s) => s.decision === 'pending') ||
-      !Object.values(draft.checklist).every(Boolean)
-    )
-      throw new ParkingLegalError('Сначала завершите проверку текста и метаданных.');
-    const confirmed = draft.statements.filter((s) => s.decision === 'confirmed');
-    if (!confirmed.some((s) => s.aboutEpisode === input.episode))
-      throw new ParkingLegalError('Выберите эпизод с подтверждёнными утверждениями.');
-    for (const finding of input.findings) {
+    const check = () => {
+      const draft = currentDraft();
+      if (input.draftId !== draft.draftId || input.expectedRevisionId !== draft.revisionId)
+        throw new ParkingLegalError('Разметка изменилась. Обновите её перед расчётом.', 409);
+      if (input.packageDigest !== parkingNormDigest)
+        throw new ParkingLegalError('Пакет изменился. Обновите страницу.', 409);
+      const metadata = reviewDraftMetadata(draft);
       if (
-        finding.statementIds.some(
-          (id) => !confirmed.some((s) => s.id === id && s.aboutEpisode === input.episode),
-        )
+        draft.status !== 'reviewed' ||
+        reviewMetadataIssues(metadata.context, metadata.hypotheses).length ||
+        !draft.statements.length ||
+        draft.statements.some((s) => s.decision === 'pending') ||
+        !Object.values(draft.checklist).every(Boolean)
       )
+        throw new ParkingLegalError('Сначала завершите проверку текста и метаданных.');
+      const confirmed = draft.statements.filter((s) => s.decision === 'confirmed');
+      if (!confirmed.some((s) => s.aboutEpisode === input.episode))
+        throw new ParkingLegalError('Выберите эпизод с подтверждёнными утверждениями.');
+      for (const finding of input.findings) {
+        if (
+          finding.statementIds.some(
+            (id) => !confirmed.some((s) => s.id === id && s.aboutEpisode === input.episode),
+          )
+        )
+          throw new ParkingLegalError(
+            'Основание должно ссылаться на подтверждённое утверждение выбранного эпизода.',
+          );
+      }
+      const records = this.history(folder);
+      const repeated = records.find((record) => record.id === input.requestId);
+      if (repeated) {
+        if (hash(repeated.input) !== hash(input))
+          throw new ParkingLegalError('ID запроса уже использован с другими входами.', 409);
+        return { draft, records, repeated };
+      }
+      if ((records[0]?.id ?? null) !== input.expectedAssessmentId)
         throw new ParkingLegalError(
-          'Основание должно ссылаться на подтверждённое утверждение выбранного эпизода.',
+          'Обстоятельства изменились в другой вкладке. Обновите их перед сохранением.',
+          409,
         );
-    }
-    const records = this.history(folder);
-    const repeated = records.find((record) => record.id === input.requestId);
-    if (repeated) {
-      if (hash(repeated.input) !== hash(input))
-        throw new ParkingLegalError('ID запроса уже использован с другими входами.', 409);
-      return repeated;
-    }
-    if ((records[0]?.id ?? null) !== input.expectedAssessmentId)
-      throw new ParkingLegalError(
-        'Обстоятельства изменились в другой вкладке. Обновите их перед сохранением.',
-        409,
-      );
+      return { draft, records, repeated: undefined };
+    };
+    const initial = check();
+    if (initial.repeated) return initial.repeated;
+    const result = input.action === 'calculate' ? evaluateParkingFragment(input) : null;
+    const verification = result ? await this.verify(input, result) : null;
+    // Lean yields to other requests. Recheck the draft and optimistic head before writing.
+    const { draft, records, repeated } = check();
+    if (repeated) return repeated;
     const record: LegalAssessment = {
-      schema: 'normlab.parking-legal-assessment/v1',
+      schema: 'normlab.parking-legal-assessment/v2',
       id: input.requestId,
       sequence: (records[0]?.sequence ?? 0) + 1,
       createdAt: new Date().toISOString(),
@@ -129,7 +162,8 @@ export class ParkingLegal {
       sourceDigest: draft.sourceDigest,
       input,
       package: parkingNormDraft,
-      result: input.action === 'calculate' ? evaluateParkingFragment(input) : null,
+      result,
+      verification,
     };
     const root = join(folder, 'legal');
     mkdirSync(root, { recursive: true, mode: 0o700 });

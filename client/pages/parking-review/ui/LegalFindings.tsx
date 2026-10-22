@@ -140,7 +140,7 @@ export function LegalFindings({
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-NormLab-Token': token },
         body: JSON.stringify(input),
-        signal: AbortSignal.timeout(15000),
+        signal: AbortSignal.timeout(60000),
       });
       const body = await response.json();
       if (!response.ok) {
@@ -171,10 +171,9 @@ export function LegalFindings({
         title="Юридические обстоятельства и расчёт"
         description="После проверки текста отдельно установите обстоятельства одного эпизода — модель не принимает эти решения за вас."
       />
-      <Notice tone="warning">
-        Исследовательский пакет: ч. 2 ст. 8.14 КоАП города Москвы. Применимая редакция и общие
-        условия ответственности ещё не зафиксированы. Вычисляется только draft-фрагмент; это не
-        установленная ответственность и не проверка Lean.
+      <Notice>
+        PoC: упрощённая модель ч. 2 ст. 8.14 КоАП города Москвы. Вы подтверждаете обстоятельства,
+        приложение рассчитывает результат, Lean проверяет соблюдение правил этой модели.
       </Notice>
       {blocked && (
         <Notice tone="warning">
@@ -260,7 +259,11 @@ export function LegalFindings({
                   aria-busy={busy}
                   onClick={() => void submit('calculate')}
                 >
-                  {busy ? 'Сохраняем…' : 'Рассчитать фрагмент нормы'}
+                  {busy
+                    ? pending?.action === 'calculate'
+                      ? 'Расчёт и проверка Lean…'
+                      : 'Сохраняем…'
+                    : 'Рассчитать и проверить в Lean'}
                 </Button>
                 {pending && !busy && (
                   <Button disabled={blocked} onClick={() => void submit(pending.action)}>

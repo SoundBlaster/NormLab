@@ -40,10 +40,36 @@ export function LegalResultView({
       {result && (
         <>
           <h3>{legalOutcomeLabels[result.outcome]}</h3>
-          <p>
-            Draft-расчёт по выбранным человеком входам. Ответственность не установлена; применимость
-            редакции на дату события не подтверждена.
-          </p>
+          <Notice
+            tone={!stale && record.verification?.status === 'verified' ? 'success' : 'warning'}
+          >
+            <strong>
+              {stale && record.verification
+                ? 'Проверка Lean относится к прежним входам'
+                : record.verification?.status === 'verified'
+                  ? 'Lean проверил правила модели PoC'
+                  : record.verification?.status === 'rejected'
+                    ? 'Lean обнаружил несоответствие модели'
+                    : 'Проверка модели в Lean не выполнена'}
+            </strong>
+            {' · '}
+            {record.verification?.reason ??
+              'У этого сохранённого расчёта ещё нет проверки Lean. Выполните новый расчёт.'}
+          </Notice>
+          {record.verification && (
+            <Disclosure summary="Что именно проверено">
+              <p>
+                Результат, списки причин, санкция-кандидат и условные ветви для сохранённых решений
+                человека. Профиль: {record.verification.profile}.
+              </p>
+              <p>
+                Lean: {record.verification.version ?? 'недоступен'}. Проверка относится к
+                сохранённым входам{stale ? ', а не к текущим изменениям' : ''}.
+              </p>
+              <p>Модель получает состояния обстоятельств; достоверность фабулы не проверяется.</p>
+            </Disclosure>
+          )}
+          <p>Результат упрощённой модели по выбранным человеком обстоятельствам.</p>
           {(['conflicts', 'unsupported', 'refuted', 'missing'] as const).map(
             (key) =>
               result[key].length > 0 && (

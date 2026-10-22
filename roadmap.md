@@ -158,6 +158,15 @@ review остаются открытыми. Runtime manifest и история �
 - [ ] Закрыть normative lock parking fragment по официальным публикациям и релевантным изменениям.
 - [ ] Добавить rule provenance bindings и раскрытие первоисточников в результате/UI.
 
+**Lean для парковочного PoC — 2026-10-22:** [#195](https://github.com/SoundBlaster/NormLab/issues/195),
+[профиль и evidence](docs/PARKING_LEAN_POC.md). Независимая Lean relation проверяет
+конкретный draft-результат, причины, санкцию и ветви; четыре общих theorem
+фиксируют ключевые ограничения. Пять сюжетов дали 10/10 `verified` расчётов,
+шесть испорченных кандидатов отвергнуты; выполнена локальная проверка UI W05.
+Для PoC юридическая экспертиза и нормативный lock вынесены за scope, модель
+остаётся явно упрощённой. Следующий ход — review/merge и обновление демо;
+универсальный framework не расширяется.
+
 ### Parking baseline evidence — 2026-10-04
 
 [Первый ограниченный прогон](docs/PARKING_BASELINE_2026-10-04.md) выполнен: 0/4 принятых proposals. Обнаружены schema/ref/source проблемы, неполный link vocabulary в prompt, provider error и timeout. AI readiness gate остаётся открытым.
