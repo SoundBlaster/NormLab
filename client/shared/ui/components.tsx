@@ -9,7 +9,7 @@ export function Button({
   className,
   type = 'button',
   ...props
-}: ComponentProps<'button'> & { variant?: 'primary' | 'secondary' | 'quiet' }) {
+}: ComponentProps<'button'> & { variant?: 'primary' | 'secondary' | 'quiet' | 'success' }) {
   return (
     <button
       {...props}

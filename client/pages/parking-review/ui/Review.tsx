@@ -63,6 +63,7 @@ export function ParkingReview({ token }: { token: string }) {
   const [busy, setBusy] = useState(false);
   const inFlight = useRef(false);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [finishState, setFinishState] = useState<'idle' | 'saving' | 'error'>('idle');
   const [dirty, setDirty] = useState(false);
   const [reviewDirty, setReviewDirty] = useState(false);
   const [error, setError] = useState('');
@@ -114,6 +115,7 @@ export function ParkingReview({ token }: { token: string }) {
     setError('');
     setNotice('');
     setSaveState('idle');
+    setFinishState('idle');
   }
   useEffect(() => {
     let active = true;
@@ -242,6 +244,7 @@ export function ParkingReview({ token }: { token: string }) {
   ) {
     if (!draft || historical || newStatement || !canPersistReview(draft, content)) return;
     setSaveState('saving');
+    if (finishReview) setFinishState('saving');
     try {
       const result = await request<ReviewDraft>(
         '/api/parking/review',
@@ -276,6 +279,7 @@ export function ParkingReview({ token }: { token: string }) {
           },
       );
       setSaveState('saved');
+      setFinishState('idle');
       setNotice(
         finishReview
           ? 'Проверка человеком сохранена. Правовой расчёт ещё не выполнен.'
@@ -283,6 +287,7 @@ export function ParkingReview({ token }: { token: string }) {
       );
     } catch (failure) {
       setSaveState('error');
+      if (finishReview) setFinishState('error');
       throw failure;
     }
   }
@@ -378,6 +383,11 @@ export function ParkingReview({ token }: { token: string }) {
   const savedMetadata = draft ? reviewDraftMetadata(draft) : undefined;
   const contextPendingSave =
     !!savedMetadata && JSON.stringify(context) !== JSON.stringify(savedMetadata.context);
+  const reviewCompleted =
+    draft?.status === 'reviewed' &&
+    !localChanges &&
+    saveState !== 'error' &&
+    metadataIssues.length === 0;
   return (
     <section className="parking-review" aria-label="Проверка утверждений парковочного пилота">
       <Notice className="stale-note" tone="warning">
@@ -964,9 +974,15 @@ export function ParkingReview({ token }: { token: string }) {
                 {saveState === 'error' ? 'Повторить сохранение' : 'Сохранить сейчас'}
               </Button>
               <Button
+                variant={reviewCompleted ? 'success' : 'primary'}
+                aria-busy={finishState === 'saving'}
+                aria-live="polite"
+                aria-atomic="true"
                 disabled={
+                  reviewCompleted ||
                   busy ||
                   historical ||
+                  narrative !== draft.narrative ||
                   dirty ||
                   reviewDirty ||
                   saveState === 'error' ||
@@ -981,7 +997,17 @@ export function ParkingReview({ token }: { token: string }) {
                 }
                 onClick={() => void act(() => save(true))}
               >
-                Завершить проверку
+                {finishState === 'saving' ? (
+                  'Завершаем проверку…'
+                ) : reviewCompleted ? (
+                  <>
+                    <span aria-hidden="true">✓&nbsp;</span>Проверка завершена
+                  </>
+                ) : finishState === 'error' ? (
+                  'Завершение не подтверждено'
+                ) : (
+                  'Завершить проверку'
+                )}
               </Button>
             </Actions>
           </Panel>
