@@ -13,7 +13,11 @@ import { reviewDraftMetadata, type ReviewDraft } from '../shared/parking-review.
 import { reviewMetadataIssues } from '../shared/parking-context.js';
 import type { ParkingJournalEvent } from '../shared/parking-journal.js';
 import { digest } from './hash.js';
-import { parkingNormDigest, verifyParkingCalculation } from './parking-verifier.js';
+import {
+  parkingNormDigest,
+  parkingProfileDigest,
+  verifyParkingCalculation,
+} from './parking-verifier.js';
 
 export { parkingNormDigest } from './parking-verifier.js';
 
@@ -53,6 +57,13 @@ const savedSchema = z
 export class ParkingLegal {
   constructor(private readonly verify = verifyParkingCalculation) {}
 
+  private view(record: LegalAssessment): LegalAssessment {
+    return record.verification?.status === 'verified' &&
+      record.verification.profileDigest !== parkingProfileDigest
+      ? { ...record, verifiedByPreviousProfile: true }
+      : record;
+  }
+
   history(folder: string): LegalAssessment[] {
     const root = join(folder, 'legal');
     if (!existsSync(root)) return [];
@@ -79,7 +90,7 @@ export class ParkingLegal {
             'Не удалось проверить сохранённый расчёт. История не изменена.',
             409,
           );
-        return value as LegalAssessment;
+        return this.view(value as LegalAssessment);
       })
       .sort((a, b) => b.sequence - a.sequence);
   }
@@ -171,6 +182,6 @@ export class ParkingLegal {
       flag: 'wx',
       mode: 0o600,
     });
-    return record;
+    return this.view(record);
   }
 }

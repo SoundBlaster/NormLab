@@ -18,6 +18,7 @@ import {
 import { emptyNarrativeContext } from '../shared/parking-context.js';
 import { reviewDraftSchema } from '../shared/parking-review.js';
 import { parkingFixture, parkingStories } from './parking-legal-fixture.js';
+import { discoverLean } from '../server/verifier.js';
 
 const summary = (result: LegalResult) => ({
   outcome: result.outcome,
@@ -207,12 +208,46 @@ test('Lean independently rejects forged classification, fine, reasons, compariso
       r.branches.pop();
     },
   ]);
+  mutations.push(
+    [
+      branchInput,
+      (r) => {
+        r.branches[1].outcome = 'fragment-matched';
+      },
+    ],
+    [
+      parkingFixture(4).input,
+      (r) => {
+        [r.unsupported, r.refuted] = [r.refuted, r.unsupported];
+      },
+    ],
+  );
   for (const [input, mutate] of mutations) {
     const result = evaluateParkingFragment(input);
     mutate(result);
     const proof = await verifyParkingCalculation(input, result);
     assert.equal(proof.status, 'rejected', JSON.stringify(proof));
     assert.match(proof.reason, /Lean отверг/);
+  }
+});
+
+test('pinned Lean false-proposition diagnostic retains the rejection classification format', async () => {
+  const lean = await discoverLean();
+  assert.ok(lean.available && lean.binary, 'Pinned Lean is required for the diagnostic regression');
+  const folder = mkdtempSync(join(tmpdir(), 'parking-lean-diagnostic-'));
+  try {
+    const path = join(folder, 'False.lean');
+    writeFileSync(path, 'example : False := by decide +kernel\n');
+    await assert.rejects(
+      promisify(execFile)(lean.binary, ['-M512', '-T200000', path], { timeout: 20000 }),
+      (error: unknown) => {
+        assert.ok(error && typeof error === 'object' && 'stdout' in error);
+        assert.match(String(error.stdout), /proved that the proposition[\s\S]*is false/);
+        return true;
+      },
+    );
+  } finally {
+    rmSync(folder, { recursive: true, force: true });
   }
 });
 

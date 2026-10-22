@@ -5,7 +5,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ParkingLegal } from '../server/parking-legal.js';
-import { constructParkingStatement } from '../server/parking-verifier.js';
+import { constructParkingStatement, parkingProfileDigest } from '../server/parking-verifier.js';
 import { evaluateParkingFragment } from '../shared/parking-legal.js';
 import { parkingFixture, inconclusiveParkingProof } from './parking-legal-fixture.js';
 
@@ -85,6 +85,39 @@ test('edits and concurrent saves during Lean cannot publish a stale assessment',
       release();
       await assert.rejects(pending, /измени/);
       assert.equal(api.history(folder).length, change === 'draft' ? 0 : 1);
+    } finally {
+      rmSync(folder, { recursive: true, force: true });
+    }
+  }
+});
+
+test('history marks previous verified profiles without changing immutable receipts or retries', async () => {
+  for (const previous of [false, true]) {
+    const folder = mkdtempSync(join(tmpdir(), 'parking-proof-profile-'));
+    try {
+      let calls = 0;
+      const api = new ParkingLegal(async (i, r) => {
+        calls++;
+        return {
+          ...inconclusiveParkingProof(i, r),
+          status: 'verified',
+          version: 'Lean (version 4.30.0, mocked)',
+          profileDigest: previous ? 'f'.repeat(64) : parkingProfileDigest,
+          toolchainDigest: '2'.repeat(64),
+          axioms: ['propext'],
+        };
+      });
+      const { input, draft } = parkingFixture();
+      const record = await api.submit(folder, () => draft, input);
+      const path = join(folder, 'legal', `${record.id}.json`);
+      const original = readFileSync(path, 'utf8');
+      assert.equal(record.verifiedByPreviousProfile, previous ? true : undefined);
+      assert.equal(record.verification?.status, 'verified');
+      assert.ok(!Object.hasOwn(JSON.parse(original), 'verifiedByPreviousProfile'));
+      assert.deepEqual(api.history(folder), [record]);
+      assert.deepEqual(await api.submit(folder, () => draft, input), record);
+      assert.equal(calls, 1);
+      assert.equal(readFileSync(path, 'utf8'), original);
     } finally {
       rmSync(folder, { recursive: true, force: true });
     }

@@ -223,6 +223,8 @@ export type LegalAssessment = {
   package: typeof manifest;
   result: LegalResult | null;
   verification?: ParkingVerification | null;
+  /** Derived on read against the running profile; never stored in the immutable receipt. */
+  readonly verifiedByPreviousProfile?: boolean;
 };
 export type LegalWorkspace = {
   package: typeof manifest;
