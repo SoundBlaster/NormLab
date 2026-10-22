@@ -1,0 +1,179 @@
+{
+  "schema": "normlab.demo-live-preflight/v1",
+  "observed_at": "2026-10-22T06:06:43.189319+00:00",
+  "kind": "read-only-live-inventory-and-compose-render",
+  "url": "https://managed.specgraph.tech/normlab/",
+  "runtime": {
+    "container": "normlab-staging-normlab-1",
+    "project": "normlab-staging",
+    "working_directory": "/srv/0al/platform",
+    "compose_files": [
+      {
+        "path": "/srv/0al/platform/docker-compose.normlab-staging.example.yml",
+        "sha256": "1f7a7b3e481cbb541296b22e52677909570ddef6228e0a19dd1430b2222521ec"
+      }
+    ],
+    "runtime_env_file": "/etc/0al/normlab-staging.env",
+    "compose_version": "2.40.3+ds1-0ubuntu1",
+    "image_ref": "ghcr.io/soundblaster/normlab@sha256:17e394175ba6c32ea096fab13f338a7341544e813a7cb414e60e6cff3e2256b2",
+    "source_revision": null,
+    "started_at": "2026-10-06T05:39:11.346263008Z",
+    "health": "healthy",
+    "inference_mode_environment": "unset",
+    "operator_auth_enabled": true,
+    "provider_credential_env_names": [],
+    "mounts": [
+      {
+        "type": "volume",
+        "name": "normlab-staging_normlab-data",
+        "source": "/var/lib/docker/volumes/normlab-staging_normlab-data/_data",
+        "destination": "/var/lib/normlab",
+        "read_only": false
+      },
+      {
+        "type": "bind",
+        "name": null,
+        "source": "/srv/0al/secrets/normlab-operator-password",
+        "destination": "/run/secrets/normlab_operator_password",
+        "read_only": true
+      }
+    ],
+    "networks": ["platform-managed-normlab"],
+    "published_host_ports": [],
+    "all_running_containers": [
+      {
+        "name": "normlab-staging-normlab-1",
+        "health": "healthy"
+      },
+      {
+        "name": "platform-managed-production-managed-operation-ingress-1",
+        "health": "healthy"
+      },
+      {
+        "name": "platform-managed-production-managed-operation-service-1",
+        "health": "healthy"
+      },
+      {
+        "name": "platform-managed-production-specspace-state-service-1",
+        "health": "healthy"
+      },
+      {
+        "name": "platform-managed-production-specspace-state-postgres-1",
+        "health": "healthy"
+      },
+      {
+        "name": "platform-managed-production-managed-operation-postgres-1",
+        "health": "healthy"
+      }
+    ]
+  },
+  "credentials": {
+    "inference_directory_exists": false,
+    "inference_gateway_running": false,
+    "scope": "Inspected the supported NormLab secret directory, application environment variable names and mount metadata; no claim about unrelated server files."
+  },
+  "render": {
+    "services": ["normlab"],
+    "target_image": "ghcr.io/soundblaster/normlab@sha256:21315695312d53fb19ce73f07de529cb8a79527c4d41b75ee3cdaf6e7f1fca68",
+    "changed_service_fields": ["image"],
+    "nonservice_topology_unchanged": {
+      "name": true,
+      "volumes": true,
+      "secrets": true,
+      "networks": true
+    },
+    "current_compose_environment_matches_running_container": true,
+    "mismatched_environment_names": [],
+    "image_only": true,
+    "inference_activation": false
+  },
+  "headroom": {
+    "root_disk_free_bytes": 40656957440,
+    "memory_available_bytes": 3054759936,
+    "app_memory_limit_bytes": 2147483648,
+    "app_nano_cpus": 1000000000,
+    "scope": "Point-in-time capacity only; image layer download and backup sizes not yet measured."
+  },
+  "automation": {
+    "candidate_local_update_configs": [],
+    "scanned_locations": [
+      "/etc/cron.d",
+      "/etc/cron.daily",
+      "/var/spool/cron/crontabs",
+      "/etc/systemd/system"
+    ],
+    "scope": "No matching local cron/direct systemd configuration found; does not audit external orchestrators, vendor units or remote CI secrets."
+  },
+  "deployment_performed": false,
+  "image_layers_pulled": false,
+  "provider_calls": 0,
+  "secret_values_recorded": false,
+  "http_checks": {
+    "kind": "existing-version-public-http-check",
+    "results": [
+      {
+        "path": "/normlab/health",
+        "authenticated": false,
+        "status": 200,
+        "content_type": "application/json; charset=utf-8"
+      },
+      {
+        "path": "/normlab/",
+        "authenticated": false,
+        "status": 401,
+        "content_type": "text/plain; charset=utf-8"
+      },
+      {
+        "path": "/normlab/",
+        "authenticated": true,
+        "status": 200,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "kind": "frontend_script",
+        "authenticated": true,
+        "status": 200,
+        "content_type": "text/javascript"
+      },
+      {
+        "path": "/normlab/api/bootstrap",
+        "authenticated": true,
+        "status": 200,
+        "content_type": "application/json; charset=utf-8"
+      }
+    ]
+  },
+  "registry": {
+    "checked_on": "2026-10-22",
+    "target_manifest_accessible": false,
+    "error_category": "authentication",
+    "target_image_already_local": false,
+    "pull_performed": false,
+    "local_gh_cli_has_read_packages_scope": false,
+    "package_visibility_verified": false
+  },
+  "ssh": {
+    "existing_identity_accepted": true,
+    "local_identity_name": "0al-platform-canary",
+    "unlocked_by_operator": true,
+    "multiplexed_session_used": true,
+    "new_connections_intermittently_closed_before_authentication": true,
+    "disconnect_cause_verified": false
+  },
+  "http_check_limits": {
+    "authenticated_internal_direct_http_status": 403,
+    "authenticated_internal_direct_http_with_public_host_status": 403,
+    "public_https_checks_pass": true,
+    "scope": "Direct internal HTTP requests did not reproduce the ingress request context. The cause of the 403 was not diagnosed; public HTTPS authentication and bootstrap succeeded. No auth setting was changed."
+  },
+  "apply_gate": {
+    "ready_to_apply": false,
+    "remaining": [
+      "Approve the concrete image-only rollout after review.",
+      "Authorize VPS registry pull and download the pinned image; confirm expected digest and available headroom.",
+      "Recheck single app owner and idleness, then create and verify a private quiescent backup before recreation."
+    ],
+    "inference_activation_included": false,
+    "automation_installation_included": false
+  }
+}

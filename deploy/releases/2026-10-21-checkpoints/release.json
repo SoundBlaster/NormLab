@@ -24,7 +24,11 @@
     "url": "https://managed.specgraph.tech/normlab/",
     "project_name": "normlab-staging",
     "volume_hint": "normlab-staging_normlab-data",
-    "live_inventory_verified": false
+    "live_inventory_verified": true,
+    "live_inventory_receipt": "live-preflight.json",
+    "live_inventory_observed_at": "2026-10-22T06:06:43.189319+00:00",
+    "previous_image_ref": "ghcr.io/soundblaster/normlab@sha256:17e394175ba6c32ea096fab13f338a7341544e813a7cb414e60e6cff3e2256b2",
+    "ready_to_apply": false
   },
   "runtime_gate": {
     "one_app_owner": true,
@@ -34,5 +38,5 @@
     "inference_activation_included": false,
     "provider_or_key_changes_included": false
   },
-  "scope": "Prepared image-only update. No deployment, registry pull, secret installation or paid inference has been performed."
+  "scope": "Prepared image-only update, with read-only VPS inventory and image-only Compose render verified. No deployment, image layer pull, secret installation or paid inference has been performed. Registry authorization, rollout approval and apply-time idle/backup checks remain pending."
 }
