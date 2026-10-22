@@ -1,0 +1,53 @@
+{
+  "schema": "normlab.demo-update-validation/v1",
+  "date": "2026-10-21",
+  "kind": "offline-compose-render-only",
+  "compose_version": "Docker Compose version v5.5.1",
+  "platform_commit": "00de155b8bccd7e751d21d7df43c9b0e81a6e7d8",
+  "platform_file_sha256": {
+    "docker-compose.normlab-staging.example.yml": "1f7a7b3e481cbb541296b22e52677909570ddef6228e0a19dd1430b2222521ec",
+    "docker-compose.normlab-inference.example.yml": "65e1f2b51ef98bb77c663e63f64d765aceedbcaa21542fb21718355c7748d55e",
+    "docker-compose.normlab-typesafe.example.yml": "1c69df63a13079904d99ab1120280d3f2cf4fb1405a73e5251bcf1f6e416ac66"
+  },
+  "profiles": [
+    {
+      "profile": "base",
+      "result": "pass",
+      "services": ["normlab"],
+      "same_pinned_image": true,
+      "published_host_ports": 0,
+      "volume": "normlab-staging_normlab-data"
+    },
+    {
+      "profile": "gateway-openai",
+      "result": "pass",
+      "services": ["normlab", "normlab-inference-gateway", "normlab-inference-egress"],
+      "same_pinned_image": true,
+      "published_host_ports": 0,
+      "volume": "normlab-staging_normlab-data"
+    },
+    {
+      "profile": "gateway-decisions",
+      "result": "pass",
+      "services": ["normlab", "normlab-inference-gateway", "normlab-inference-egress"],
+      "same_pinned_image": true,
+      "published_host_ports": 0,
+      "volume": "normlab-staging_normlab-data"
+    },
+    {
+      "profile": "gateway-typesafe",
+      "result": "pass",
+      "services": ["normlab", "normlab-inference-gateway", "normlab-inference-egress"],
+      "same_pinned_image": true,
+      "published_host_ports": 0,
+      "volume": "normlab-staging_normlab-data"
+    }
+  ],
+  "image_lock_matches_publication_artifact": true,
+  "provider_calls": 0,
+  "daemon_or_registry_pull_performed": false,
+  "live_runtime_inventory_verified": false,
+  "deployment_performed": false,
+  "limits": "Synthetic operator secret path; provider secret paths are references only. Rendering does not establish mounts,credentials,networks or registry access on VPS.",
+  "artifact_archive_digest_verified": true
+}
