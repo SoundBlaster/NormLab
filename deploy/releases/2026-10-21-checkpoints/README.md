@@ -208,6 +208,14 @@ next_compose config --images
 next_compose pull "${SERVICES[@]}"
 ```
 
+Keep the release directory and this complete Compose invocation as the selected
+deployment configuration for subsequent operations. The second env file is the
+authoritative image override; this recipe deliberately leaves the original
+runtime env untouched. Running a later `up` with only the original env file
+would select the previous image again. The same applies to an eventual automated
+deploy job: it must pass the selected release override explicitly. For rollback,
+the function in section 5 substitutes the captured old-image override.
+
 Verify rendered images equal the pinned digest for every selected NormLab
 service, the data mount is unchanged and no helper publishes a host port. Compare
 all other settings with the inspected configuration in a private file if needed;
