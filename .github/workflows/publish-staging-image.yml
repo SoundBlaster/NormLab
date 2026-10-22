@@ -34,10 +34,12 @@ jobs:
       - name: Build and publish private NormLab image
         env:
           IMAGE_TAG: ghcr.io/soundblaster/normlab:${{ github.sha }}
+          SOURCE_COMMIT: ${{ github.sha }}
         run: |
           docker buildx build \
             --platform linux/amd64 \
             --build-arg VITE_BASE_PATH=/normlab/ \
+            --build-arg NORMLAB_BUILD_REVISION="$SOURCE_COMMIT" \
             --provenance=true \
             --sbom=true \
             --tag "$IMAGE_TAG" \

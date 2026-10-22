@@ -5,6 +5,7 @@ import { Logo } from '@/shared/ui';
 import { Lab } from '@/pages/reform-lab';
 import { ParkingReview } from '@/pages/parking-review';
 import { WorkspacePage } from '@/pages/workspace';
+import { BuildInfo } from './BuildInfo';
 type Tab = 'lab' | 'parking' | 'workspace' | 'bundles' | 'comparison' | 'history';
 const tabs: { id: Tab; label: string; symbol: string }[] = [
   { id: 'lab', label: 'Реформа A/B/C', symbol: '⇄' },
@@ -86,10 +87,8 @@ export function App() {
           </span>
           <strong>Проверяемая модель</strong>
           <p>Каждый вывод связан с конкретными входами и редакцией норм.</p>
-          <span className="sidebar-version">
-            LOCAL LAB <span>v0.1.0</span>
-          </span>
         </div>
+        <BuildInfo />
       </aside>
       <div className="main-shell">
         <header className="topbar">
