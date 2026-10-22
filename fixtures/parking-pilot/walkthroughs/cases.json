@@ -1,0 +1,660 @@
+{
+  "format": "normlab.parking-walkthroughs/v1",
+  "status": "synthetic-manual-walkthrough-plan",
+  "createdOn": "2026-10-22",
+  "baseRuntimeCommit": "d52c71fa13b0b6afcdac7ca79dfc26b22c58f82d",
+  "runtimeManifestSHA256": "a0105be3e93c3fb38306228fc8e549ad597a1345b19088ea6bb1a9516d39cd77",
+  "sourcePack": "../../../docs/sources/moscow-parking/2026-10-22/manifest.json",
+  "notAnApiRequest": true,
+  "notHumanGold": true,
+  "inferenceRun": false,
+  "browserWalkthroughRun": false,
+  "rules": [
+    "All literal claims start as proposals and need human confirmation.",
+    "reviewPlan is a proposed set of explicit human decisions; do not prefill established in UI.",
+    "reviewer-supplied-assumption is additional synthetic input, never an extraction from silence.",
+    "Apply correction findingChanges by conditionId and coordinateChanges by key; preserve other fields.",
+    "After a change save the new human revision and explicitly recalculate; old result is not current.",
+    "Use real confirmed statement UUIDs from the chosen local draft if linking assertions; none are fabricated here."
+  ],
+  "cases": [
+    {
+      "id": "W01",
+      "title": "Забыл оплатить",
+      "inspiredBy": ["P01", "P11-A"],
+      "text": "1 октября 2026 года с 10:00 до 10:40 я, Алексей, оставил свой личный легковой автомобиль на платной городской уличной парковке в Москве, в учебной зоне М-101. Забыл оплатить: сессию так и не запустил. В письме указали штраф 3 000 рублей.",
+      "literalClaims": [
+        "личный легковой автомобиль",
+        "с 10:00 до 10:40",
+        "в Москве, в учебной зоне М-101",
+        "Забыл оплатить: сессию так и не запустил.",
+        "В письме указали штраф 3 000 рублей."
+      ],
+      "mustAsk": [
+        "Отвечает ли место понятию городской парковки и был ли весь интервал платным?",
+        "Не оплатил ли кто-то другой за это ТС и эпизод?",
+        "Были ли ошибки/исправления, заявленные разрешения/льготы, сбой или спор об ответственности?"
+      ],
+      "reviewPlan": {
+        "coordinates": {
+          "episode": "Эпизод 1",
+          "vehicle": "ТС 1 — личный легковой автомобиль",
+          "participant": "Участник 1 (Алексей, только для прохождения примера)",
+          "eventDate": "2026-10-01",
+          "location": "Москва, учебная зона М-101; реальный адрес не заявлен",
+          "timeInterval": "10:00–10:40 Europe/Moscow"
+        },
+        "claimedFine": 3000,
+        "findings": [
+          {
+            "conditionId": "inMoscow",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил, что Москва относится к выбранному эпизоду."
+          },
+          {
+            "conditionId": "cityParking",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: это городская парковка по примечанию к ст. 8.14; принадлежность реального объекта не проверялась."
+          },
+          {
+            "conditionId": "placement",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил размещение выбранного ТС в указанном эпизоде."
+          },
+          {
+            "conditionId": "paidRegime",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: платный режим действовал весь интервал; тариф и календарь реального места не проверялись."
+          },
+          {
+            "conditionId": "personalCar",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил физическое лицо и личный легковой автомобиль; ответственность лица из этого не выводится."
+          },
+          {
+            "conditionId": "simplePayment",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: поздней оплаты, ошибок, исправления и спорного продления не было. Это не вывод из молчания фабулы."
+          },
+          {
+            "conditionId": "noPrivilege",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: нет заявленного разрешения, льготы или специального тарифа. Полная проверка исключений не выполнена."
+          },
+          {
+            "conditionId": "noSpecialCircumstances",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: сбоя, вынужденной остановки и спора об ответственности не заявлено. Это не установление вины."
+          },
+          {
+            "conditionId": "noPayment",
+            "state": "established",
+            "basis": "reviewer-decision",
+            "rationale": "Reviewer отдельно установил в учебном сценарии: никто не оплатил это ТС и интервал; одной незапущенной автором сессии для этого недостаточно."
+          }
+        ]
+      },
+      "expectedDraft": {
+        "outcome": "fragment-matched",
+        "candidateFine": 5000,
+        "sanctionComparison": "draft-difference",
+        "branches": [],
+        "liability": "not-assessed",
+        "proof": "none",
+        "observed": false
+      },
+      "correction": {
+        "instruction": "Учебное развитие: родственник предъявил успешный платёж за правильное ТС/зону, вовремя и на весь интервал. Reviewer явно отвергает прежнее обобщение «никто не оплатил», сохраняя исходное утверждение и причину решения. После пересчёта кандидат исчезает.",
+        "findingChanges": [
+          {
+            "conditionId": "noPayment",
+            "state": "refuted",
+            "basis": "reviewer-decision",
+            "rationale": "По дополнительным учебным сведениям reviewer установил успешную своевременную оплату правильного ТС/зоны за весь интервал; прежняя неуплата отвергнута."
+          }
+        ],
+        "expectedAfterRecalculate": {
+          "outcome": "fragment-refuted",
+          "candidateFine": null,
+          "sanctionComparison": "not-computable",
+          "branches": [],
+          "liability": "not-assessed",
+          "proof": "none",
+          "observed": false
+        }
+      }
+    },
+    {
+      "id": "W02",
+      "title": "Оплатил через две минуты",
+      "inspiredBy": ["P02"],
+      "text": "1 октября 2026 года я, Мария, оставила свой личный легковой автомобиль на городской парковке Москвы в учебной зоне М-102 с 11:00 до 11:30. В 11:02 успешно оплатила парковку с 11:00 до 12:00 для этой машины и именно этой зоны. В 11:30 уехала.",
+      "literalClaims": [
+        "личный легковой автомобиль",
+        "с 11:00 до 11:30",
+        "В 11:02 успешно оплатила парковку с 11:00 до 12:00 для этой машины и именно этой зоны.",
+        "В 11:30 уехала."
+      ],
+      "mustAsk": [
+        "Платный режим, отсутствие сложностей оплаты, льгот и особых обстоятельств требуют отдельных ответов.",
+        "Является ли это сообщение о платеже подтверждённым человеком, а не только предложением LLM?"
+      ],
+      "reviewPlan": {
+        "coordinates": {
+          "episode": "Эпизод 1",
+          "vehicle": "ТС 1 — личный легковой автомобиль",
+          "participant": "Участник 1 (Мария, только для прохождения примера)",
+          "eventDate": "2026-10-01",
+          "location": "Москва, учебная зона М-102; реальный адрес не заявлен",
+          "timeInterval": "11:00–11:30 Europe/Moscow"
+        },
+        "claimedFine": null,
+        "findings": [
+          {
+            "conditionId": "inMoscow",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил, что Москва относится к выбранному эпизоду."
+          },
+          {
+            "conditionId": "cityParking",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: это городская парковка по примечанию к ст. 8.14; принадлежность реального объекта не проверялась."
+          },
+          {
+            "conditionId": "placement",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил размещение выбранного ТС в указанном эпизоде."
+          },
+          {
+            "conditionId": "paidRegime",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: платный режим действовал весь интервал; тариф и календарь реального места не проверялись."
+          },
+          {
+            "conditionId": "personalCar",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил физическое лицо и личный легковой автомобиль; ответственность лица из этого не выводится."
+          },
+          {
+            "conditionId": "simplePayment",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: поздней оплаты, ошибок, исправления и спорного продления не было. Это не вывод из молчания фабулы."
+          },
+          {
+            "conditionId": "noPrivilege",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: нет заявленного разрешения, льготы или специального тарифа. Полная проверка исключений не выполнена."
+          },
+          {
+            "conditionId": "noSpecialCircumstances",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: сбоя, вынужденной остановки и спора об ответственности не заявлено. Это не установление вины."
+          },
+          {
+            "conditionId": "noPayment",
+            "state": "refuted",
+            "basis": "reviewer-decision",
+            "rationale": "Reviewer подтвердил заявленный успешный платёж в 11:02 за правильное ТС и зону, с покрытием 11:00–12:00. Интерпретация своевременности ограничена research-draft пакетом."
+          }
+        ]
+      },
+      "expectedDraft": {
+        "outcome": "fragment-refuted",
+        "candidateFine": null,
+        "sanctionComparison": "not-mentioned",
+        "branches": [],
+        "liability": "not-assessed",
+        "proof": "none",
+        "observed": false
+      },
+      "correction": {
+        "instruction": "При ручной проверке оказалось, что квитанция относится к другому ТС. Сохранить исходное сообщение; отвергнуть его привязку к выбранному ТС. Отметить сложность оплаты и неизвестность оплаты нужного ТС.",
+        "findingChanges": [
+          {
+            "conditionId": "simplePayment",
+            "state": "refuted",
+            "basis": "reviewer-decision",
+            "rationale": "Reviewer обнаружил ошибочную привязку платежа к другому ТС."
+          },
+          {
+            "conditionId": "noPayment",
+            "state": "not-established",
+            "basis": "reviewer-decision",
+            "rationale": "Оплата нужного ТС не установлена; чужая квитанция не доказывает ни корректную оплату, ни отсутствие всех иных платежей."
+          }
+        ],
+        "expectedAfterRecalculate": {
+          "outcome": "unsupported",
+          "candidateFine": null,
+          "sanctionComparison": "not-mentioned",
+          "branches": [],
+          "liability": "not-assessed",
+          "proof": "none",
+          "observed": false
+        }
+      }
+    },
+    {
+      "id": "W03",
+      "title": "Не помню, оплатил ли",
+      "inspiredBy": ["P03"],
+      "text": "Припарковался в платной зоне Москвы. Не помню, оплатил ли.",
+      "literalClaims": ["Припарковался в платной зоне Москвы.", "Не помню, оплатил ли."],
+      "mustAsk": [
+        "Какое ТС, кто участник, дата, точное место и интервал?",
+        "Это городская парковка и действовал ли платный режим именно в этот интервал?",
+        "Была ли оплата, ошибки/исправления, льготы или особые обстоятельства?"
+      ],
+      "hypotheses": [
+        "ТС — отдельная гипотеза по слову «припарковался». До ответа человека не добавлять установленный личный легковой автомобиль."
+      ],
+      "reviewPlan": {
+        "coordinates": {
+          "episode": "Эпизод 1",
+          "vehicle": "",
+          "participant": "Рассказчик (Участник 1)",
+          "eventDate": "",
+          "location": "Москва; точное место неизвестно",
+          "timeInterval": ""
+        },
+        "claimedFine": null,
+        "findings": [
+          {
+            "conditionId": "inMoscow",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Москва явно названа для выбранного эпизода."
+          },
+          {
+            "conditionId": "cityParking",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          },
+          {
+            "conditionId": "placement",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          },
+          {
+            "conditionId": "paidRegime",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          },
+          {
+            "conditionId": "personalCar",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          },
+          {
+            "conditionId": "simplePayment",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          },
+          {
+            "conditionId": "noPrivilege",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          },
+          {
+            "conditionId": "noSpecialCircumstances",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          },
+          {
+            "conditionId": "noPayment",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "Фабула не устанавливает это обстоятельство; требуется отдельный ответ человека."
+          }
+        ]
+      },
+      "expectedDraft": {
+        "outcome": "incomplete",
+        "candidateFine": null,
+        "sanctionComparison": "not-mentioned",
+        "branches": [],
+        "liability": "not-assessed",
+        "proof": "none",
+        "observed": false
+      },
+      "correction": {
+        "instruction": "Учебные ответы: выбран личный легковой автомобиль, физическое лицо, место по примечанию, дата/интервал; платность и границы пилота подтверждены отдельно. Оплата остаётся неизвестной. Изменения не превращают ветви в факты.",
+        "findingChanges": [
+          {
+            "conditionId": "inMoscow",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Дополнительный учебный ответ человека; отсутствует в исходной краткой фабуле."
+          },
+          {
+            "conditionId": "cityParking",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: это городская парковка по примечанию к ст. 8.14; принадлежность реального объекта не проверялась."
+          },
+          {
+            "conditionId": "placement",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Дополнительный учебный ответ человека; отсутствует в исходной краткой фабуле."
+          },
+          {
+            "conditionId": "paidRegime",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: платный режим действовал весь интервал; тариф и календарь реального места не проверялись."
+          },
+          {
+            "conditionId": "personalCar",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Дополнительный учебный ответ человека; отсутствует в исходной краткой фабуле."
+          },
+          {
+            "conditionId": "simplePayment",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: поздней оплаты, ошибок, исправления и спорного продления не было. Это не вывод из молчания фабулы."
+          },
+          {
+            "conditionId": "noPrivilege",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: нет заявленного разрешения, льготы или специального тарифа. Полная проверка исключений не выполнена."
+          },
+          {
+            "conditionId": "noSpecialCircumstances",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: сбоя, вынужденной остановки и спора об ответственности не заявлено. Это не установление вины."
+          },
+          {
+            "conditionId": "noPayment",
+            "state": "not-established",
+            "basis": "reviewer-decision",
+            "rationale": "После остальных уточнений человек по-прежнему не знает, была ли успешная оплата нужного ТС/зоны за весь интервал."
+          }
+        ],
+        "expectedAfterRecalculate": {
+          "outcome": "incomplete",
+          "candidateFine": null,
+          "sanctionComparison": "not-mentioned",
+          "branches": [
+            {
+              "conditionId": "noPayment",
+              "assumedState": "established",
+              "outcome": "fragment-matched"
+            },
+            {
+              "conditionId": "noPayment",
+              "assumedState": "refuted",
+              "outcome": "fragment-refuted"
+            }
+          ],
+          "liability": "not-assessed",
+          "proof": "none",
+          "observed": false
+        },
+        "coordinateChanges": {
+          "episode": "Эпизод 1",
+          "vehicle": "ТС 1 — личный легковой автомобиль",
+          "participant": "Участник 1 (Рассказчик, только для прохождения примера)",
+          "eventDate": "2026-10-01",
+          "location": "Москва, учебная зона М-103; реальный адрес не заявлен",
+          "timeInterval": "13:00–13:30 Europe/Moscow"
+        }
+      }
+    },
+    {
+      "id": "W04",
+      "title": "Я оплатил, уведомление говорит обратное",
+      "inspiredBy": ["P09"],
+      "text": "1 октября 2026 года с 16:00 до 16:30 мой личный легковой автомобиль стоял на городской парковке Москвы в учебной зоне М-109. В 16:02 я успешно оплатил именно эту машину и зону с 16:00 до 17:00. Но в уведомлении про тот же эпизод написано: «Оплата отсутствует».",
+      "literalClaims": [
+        "В 16:02 я успешно оплатил именно эту машину и зону с 16:00 до 17:00.",
+        "в уведомлении про тот же эпизод написано: «Оплата отсутствует»"
+      ],
+      "mustAsk": [
+        "Сохранить автора и уведомление как разные источники утверждений.",
+        "Совпадают ли ТС, зона и эпизод; какой поддержке reviewer доверяет и почему?",
+        "Отдельно подтвердить платный интервал и остальные границы пилота."
+      ],
+      "reviewPlan": {
+        "coordinates": {
+          "episode": "Эпизод 1",
+          "vehicle": "ТС 1 — личный легковой автомобиль",
+          "participant": "Участник 1 (Рассказчик, только для прохождения примера)",
+          "eventDate": "2026-10-01",
+          "location": "Москва, учебная зона М-109; реальный адрес не заявлен",
+          "timeInterval": "16:00–16:30 Europe/Moscow"
+        },
+        "claimedFine": null,
+        "findings": [
+          {
+            "conditionId": "inMoscow",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил, что Москва относится к выбранному эпизоду."
+          },
+          {
+            "conditionId": "cityParking",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: это городская парковка по примечанию к ст. 8.14; принадлежность реального объекта не проверялась."
+          },
+          {
+            "conditionId": "placement",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил размещение выбранного ТС в указанном эпизоде."
+          },
+          {
+            "conditionId": "paidRegime",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: платный режим действовал весь интервал; тариф и календарь реального места не проверялись."
+          },
+          {
+            "conditionId": "personalCar",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил физическое лицо и личный легковой автомобиль; ответственность лица из этого не выводится."
+          },
+          {
+            "conditionId": "simplePayment",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: поздней оплаты, ошибок, исправления и спорного продления не было. Это не вывод из молчания фабулы."
+          },
+          {
+            "conditionId": "noPrivilege",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: нет заявленного разрешения, льготы или специального тарифа. Полная проверка исключений не выполнена."
+          },
+          {
+            "conditionId": "noSpecialCircumstances",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Reviewer отдельно сообщил: сбоя, вынужденной остановки и спора об ответственности не заявлено. Это не установление вины."
+          },
+          {
+            "conditionId": "noPayment",
+            "state": "conflict",
+            "basis": "reviewer-decision",
+            "rationale": "Сохранены два противоположных сообщения об оплате одного эпизода; reviewer пока не разрешил их. Уведомление не получает автоматический приоритет."
+          }
+        ]
+      },
+      "expectedDraft": {
+        "outcome": "conflict",
+        "candidateFine": null,
+        "sanctionComparison": "not-mentioned",
+        "branches": [],
+        "liability": "not-assessed",
+        "proof": "none",
+        "observed": false
+      },
+      "correction": {
+        "instruction": "Учебная ручная проверка: reviewer проверил совпадение ТС/зоны/времени в квитанции, подтвердил успешную своевременную оплату и отверг сообщение об отсутствии оплаты. Оба исходных утверждения сохраняются; выбор и основание фиксируются.",
+        "findingChanges": [
+          {
+            "conditionId": "noPayment",
+            "state": "refuted",
+            "basis": "reviewer-decision",
+            "rationale": "Reviewer предпочёл подтверждённый в учебной проверке успешный своевременный платёж правильного ТС/зоны за весь интервал и явно отверг противоположное сообщение уведомления."
+          }
+        ],
+        "expectedAfterRecalculate": {
+          "outcome": "fragment-refuted",
+          "candidateFine": null,
+          "sanctionComparison": "not-mentioned",
+          "branches": [],
+          "liability": "not-assessed",
+          "proof": "none",
+          "observed": false
+        }
+      }
+    },
+    {
+      "id": "W05",
+      "title": "Оплатил другой номер и исправил вечером",
+      "inspiredBy": ["P04"],
+      "text": "1 октября 2026 года с 12:00 до 12:30 мой личный легковой автомобиль был на городской парковке Москвы в учебной зоне М-104. В 12:02 оплата прошла, но я выбрал номер другого своего автомобиля. В 18:00 исправил номер в завершённой сессии, приложение написало: «Изменение сохранено».",
+      "literalClaims": [
+        "я выбрал номер другого своего автомобиля",
+        "В 18:00 исправил номер в завершённой сессии",
+        "«Изменение сохранено»"
+      ],
+      "mustAsk": [
+        "Не объединять два ТС. Сохранить исходный платёж и исправление отдельно.",
+        "Сообщение приложения не устанавливает правовой эффект исправления."
+      ],
+      "reviewPlan": {
+        "coordinates": {
+          "episode": "Эпизод 1",
+          "vehicle": "ТС 1 — личный легковой автомобиль",
+          "participant": "Участник 1 (Рассказчик, только для прохождения примера)",
+          "eventDate": "2026-10-01",
+          "location": "Москва, учебная зона М-104; реальный адрес не заявлен",
+          "timeInterval": "12:00–12:30 Europe/Moscow"
+        },
+        "claimedFine": null,
+        "findings": [
+          {
+            "conditionId": "inMoscow",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил, что Москва относится к выбранному эпизоду."
+          },
+          {
+            "conditionId": "cityParking",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: это городская парковка по примечанию к ст. 8.14; принадлежность реального объекта не проверялась."
+          },
+          {
+            "conditionId": "placement",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил размещение выбранного ТС в указанном эпизоде."
+          },
+          {
+            "conditionId": "paidRegime",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Учебное дополнение reviewer: платный режим действовал весь интервал; тариф и календарь реального места не проверялись."
+          },
+          {
+            "conditionId": "personalCar",
+            "state": "established",
+            "basis": "confirmed-literal-claim",
+            "rationale": "Человек подтвердил физическое лицо и личный легковой автомобиль; ответственность лица из этого не выводится."
+          },
+          {
+            "conditionId": "simplePayment",
+            "state": "refuted",
+            "basis": "confirmed-literal-claim",
+            "rationale": "В тексте прямо названы ошибка номера ТС и последующее исправление."
+          },
+          {
+            "conditionId": "noPrivilege",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "В фабуле нет ответа; не предполагаем отсутствие по молчанию. Выход за scope уже установлен по simplePayment."
+          },
+          {
+            "conditionId": "noSpecialCircumstances",
+            "state": "not-established",
+            "basis": "unknown",
+            "rationale": "В фабуле нет ответа; не предполагаем отсутствие по молчанию. Выход за scope уже установлен по simplePayment."
+          },
+          {
+            "conditionId": "noPayment",
+            "state": "not-established",
+            "basis": "reviewer-decision",
+            "rationale": "Оплата правильного ТС в требуемом интервале не установлена. Ошибочная оплата и исправление не решают этот вопрос автоматически."
+          }
+        ]
+      },
+      "expectedDraft": {
+        "outcome": "unsupported",
+        "candidateFine": null,
+        "sanctionComparison": "not-mentioned",
+        "branches": [],
+        "liability": "not-assessed",
+        "proof": "none",
+        "observed": false
+      },
+      "correction": {
+        "instruction": "Reviewer получил недостающие ответы: разрешений/льгот/спецтарифа, сбоя, вынужденной остановки и спора об ответственности не заявлено. Подтверждает эти две границы отдельно. Ошибка и исправление остаются установленными: simplePayment=refuted; noPayment остаётся not-established. Даже после уточнений результат unsupported.",
+        "findingChanges": [
+          {
+            "conditionId": "noPrivilege",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Дополнительный учебный ответ человека: разрешений, льгот и специального тарифа не заявлено."
+          },
+          {
+            "conditionId": "noSpecialCircumstances",
+            "state": "established",
+            "basis": "reviewer-supplied-assumption",
+            "rationale": "Дополнительный учебный ответ человека: сбоя, вынужденной остановки и спора об ответственности не заявлено; общая часть не проверена."
+          }
+        ],
+        "expectedAfterRecalculate": {
+          "outcome": "unsupported",
+          "candidateFine": null,
+          "sanctionComparison": "not-mentioned",
+          "branches": [],
+          "liability": "not-assessed",
+          "proof": "none",
+          "observed": false
+        }
+      }
+    }
+  ]
+}
