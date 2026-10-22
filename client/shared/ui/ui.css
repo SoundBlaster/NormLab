@@ -158,6 +158,15 @@ textarea.ui-control,
   background: var(--surface-action-disabled);
   border-color: var(--color-border-disabled);
 }
+.ui-button[data-variant='success'] {
+  color: var(--color-success);
+  background: var(--surface-success);
+  border-color: var(--color-border);
+}
+.ui-button[data-variant='success']:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--color-focus);
+}
 .ui-button:focus-visible,
 .ui-control:focus-visible,
 .ui-check input:focus-visible {

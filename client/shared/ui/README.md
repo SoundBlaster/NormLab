@@ -16,7 +16,7 @@
 | `Field`                       | Подпись и native control внутри семантического label                           |
 | `Input`, `Select`, `Textarea` | Контролируемые поля; value, события, ref и aria props передаются без изменения |
 | `CheckField`                  | Checkbox с подписью и стандартными размерами                                   |
-| `Button`                      | primary, secondary, quiet; по умолчанию type=button, submit задаётся явно      |
+| `Button`                      | primary, secondary, quiet, success; type=button по умолчанию                   |
 | `Status`                      | neutral, success, warning, danger; цвет дополняет текст статуса                |
 | `Actions`, `Quote`            | Группа действий и цитата источника                                             |
 | `Notice`, `Disclosure`        | Сообщение с тоном и раскрываемый блок с общей индикацией состояния             |
