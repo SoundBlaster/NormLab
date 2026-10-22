@@ -35,6 +35,9 @@ const eventBase = z.object({
 });
 export const parkingJournalEventSchema = z.discriminatedUnion('kind', [
   eventBase
+    .extend({ kind: z.literal('legal-assessment'), action: z.enum(['saved', 'calculated']) })
+    .strict(),
+  eventBase
     .extend({
       kind: z.literal('job-progress'),
       action: z.enum(['started', 'resumed', 'checkpoint', 'paused', 'conflict', 'completed']),

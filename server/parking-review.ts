@@ -40,6 +40,8 @@ import { extractionJournal, revisionJournal, saveParkingRun } from './parking-jo
 import type { ParkingRun } from '../shared/parking-journal.js';
 import { ParkingJobs } from './parking-jobs.js';
 import { parkingJobInputSchema } from '../shared/parking-job.js';
+import { ParkingLegal, ParkingLegalError } from './parking-legal.js';
+import { legalInputSchema } from '../shared/parking-legal.js';
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex');
 export class ParkingReviewError extends Error {
@@ -80,6 +82,7 @@ export class ParkingReview {
   private extracting = false;
   private activeRunId?: string;
   private readonly jobs: ParkingJobs;
+  private readonly legal = new ParkingLegal();
   constructor(
     dataDir: string,
     private readonly extractor?: ParkingExtractor | null,
@@ -162,6 +165,22 @@ export class ParkingReview {
       .sort((a, b) => b.revision - a.revision);
   }
   async handle(method: string, path: string, body?: unknown) {
+    if (method === 'GET' && path.startsWith('/api/parking/legal/')) {
+      const id = z.string().uuid().parse(path.slice('/api/parking/legal/'.length));
+      this.current(id);
+      return this.legal.workspace(this.folder(id));
+    }
+    if (method === 'POST' && path === '/api/parking/legal') {
+      const input = legalInputSchema.parse(body);
+      const draft = this.expected(input.draftId, input.expectedRevisionId);
+      try {
+        return this.legal.submit(this.folder(input.draftId), draft, input);
+      } catch (error) {
+        if (error instanceof ParkingLegalError)
+          throw new ParkingReviewError(error.message, error.status);
+        throw error;
+      }
+    }
     if (method === 'GET' && path === '/api/parking/bootstrap') {
       const drafts = readdirSync(this.root, { withFileTypes: true })
         .filter((entry) => entry.isDirectory())
@@ -192,6 +211,7 @@ export class ParkingReview {
       const id = z.string().uuid().parse(path.slice('/api/parking/journal/'.length));
       this.current(id);
       const events = [
+        ...this.legal.journal(this.folder(id)),
         ...revisionJournal(this.history(id)),
         ...extractionJournal(this.folder(id), this.activeRunId),
         ...(this.jobs?.journal(id) ?? []),

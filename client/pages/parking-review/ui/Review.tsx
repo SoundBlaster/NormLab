@@ -30,6 +30,7 @@ import { HypothesisEditor } from './HypothesisEditor.js';
 import { NewStatementEditor, type StatementSource } from './NewStatementEditor.js';
 import { Journal } from './Journal.js';
 import { Job } from './Job.js';
+import { LegalFindings } from './LegalFindings.js';
 import { reviewReferences, hasStatementChoices } from '../model/statement-fields.js';
 import { canPersistReview, type ReviewContent } from '../model/review-persistence.js';
 import './review.css';
@@ -73,6 +74,7 @@ export function ParkingReview({ token }: { token: string }) {
   const [discardApproved, setDiscardApproved] = useState(false);
   const [jobRefresh, setJobRefresh] = useState(0);
   const [jobRunning, setJobRunning] = useState(false);
+  const [legalRefresh, setLegalRefresh] = useState(0);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   async function request<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
     const response = await fetch(
@@ -1011,9 +1013,16 @@ export function ParkingReview({ token }: { token: string }) {
               </Button>
             </Actions>
           </Panel>
+          <LegalFindings
+            key={draft.revisionId}
+            draft={draft}
+            token={token}
+            blocked={!reviewCompleted || localChanges || busy || jobRunning || historical}
+            onSaved={() => setLegalRefresh((value) => value + 1)}
+          />
           <Panel>
             <SectionHeading
-              step="05"
+              step="06"
               title="История проверки"
               description="Каждая сохранённая ревизия остаётся доступна для просмотра."
             />
@@ -1043,6 +1052,7 @@ export function ParkingReview({ token }: { token: string }) {
             </Actions>
           </Panel>
           <Journal
+            key={`${draft.draftId}:${legalRefresh}`}
             draftId={draft.draftId}
             revisionId={draft.revisionId}
             busy={busy || jobRunning}
