@@ -31,11 +31,13 @@ export function LegalFindings({
   token,
   blocked,
   onSaved,
+  onUnsavedChange,
 }: {
   draft: ReviewDraft;
   token: string;
   blocked: boolean;
   onSaved: () => void;
+  onUnsavedChange: (unsaved: boolean) => void;
 }) {
   const [workspace, setWorkspace] = useState<LegalWorkspace>();
   const [coordinates, setCoordinates] = useState(emptyCoordinates);
@@ -49,6 +51,12 @@ export function LegalFindings({
   const [refresh, setRefresh] = useState(0);
   const [loading, setLoading] = useState(true);
   const inFlight = useRef(false);
+  useEffect(() => {
+    onUnsavedChange(dirty || busy || !!pending);
+  }, [dirty, busy, pending, onUnsavedChange]);
+  useEffect(() => {
+    return () => onUnsavedChange(false);
+  }, [onUnsavedChange]);
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
@@ -259,22 +267,6 @@ export function LegalFindings({
                     Повторить тот же запрос
                   </Button>
                 )}
-                {!pending && !busy && !loading && (
-                  <Button
-                    variant="quiet"
-                    onClick={() => {
-                      if (
-                        !dirty ||
-                        window.confirm(
-                          'Загрузить сохранённые решения и отменить локальные правки обстоятельств?',
-                        )
-                      )
-                        setRefresh((v) => v + 1);
-                    }}
-                  >
-                    Обновить сохранённые решения
-                  </Button>
-                )}
               </Actions>
               {pending && !busy && (
                 <Notice tone="warning">
@@ -284,6 +276,26 @@ export function LegalFindings({
               )}
             </>
           )}
+          <Actions>
+            {!pending && !busy && !loading && (
+              <Button
+                variant="quiet"
+                onClick={() => {
+                  if (
+                    !dirty ||
+                    window.confirm(
+                      'Загрузить сохранённые решения и отменить локальные правки обстоятельств?',
+                    )
+                  )
+                    setRefresh((v) => v + 1);
+                }}
+              >
+                {dirty
+                  ? 'Отменить несохранённые правки обстоятельств'
+                  : 'Обновить сохранённые решения'}
+              </Button>
+            )}
+          </Actions>
           <LegalResultView
             record={record}
             workspace={workspace}

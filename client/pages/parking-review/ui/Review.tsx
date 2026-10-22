@@ -61,7 +61,10 @@ export function ParkingReview({ token }: { token: string }) {
   const [hypotheses, setHypotheses] = useState<VehicleHypothesis[]>([]);
   const [metadataPendingSave, setMetadataPendingSave] = useState(false);
   const [checklist, setChecklist] = useState({ ...emptyReviewChecklist });
-  const [busy, setBusy] = useState(false);
+  const [working, setBusy] = useState(false);
+  const [legalUnsaved, setLegalUnsaved] = useState(false);
+  // Freeze upstream edits/navigation, but leave the legal editor able to save or discard.
+  const busy = working || legalUnsaved;
   const inFlight = useRef(false);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [finishState, setFinishState] = useState<'idle' | 'saving' | 'error'>('idle');
@@ -98,6 +101,7 @@ export function ParkingReview({ token }: { token: string }) {
     return result;
   }
   function open(item: ReviewDraft) {
+    if (legalUnsaved) return;
     setDraft(item);
     setStatements(item.statements);
     const metadata = reviewDraftMetadata(item);
@@ -159,6 +163,7 @@ export function ParkingReview({ token }: { token: string }) {
       draft?.draftId === latest.draftId &&
       latest.revision > draft.revision &&
       !inFlight.current &&
+      !legalUnsaved &&
       !localChanges &&
       !historical &&
       saveState !== 'error'
@@ -166,7 +171,7 @@ export function ParkingReview({ token }: { token: string }) {
       open(latest);
   }
   async function act(action: () => Promise<void>) {
-    if (inFlight.current) return;
+    if (inFlight.current || legalUnsaved) return;
     inFlight.current = true;
     setBusy(true);
     setError('');
@@ -244,7 +249,8 @@ export function ParkingReview({ token }: { token: string }) {
     finishReview: boolean,
     content: ReviewContent = { statements, context, hypotheses, checklist },
   ) {
-    if (!draft || historical || newStatement || !canPersistReview(draft, content)) return;
+    if (!draft || legalUnsaved || historical || newStatement || !canPersistReview(draft, content))
+      return;
     setSaveState('saving');
     if (finishReview) setFinishState('saving');
     try {
@@ -399,6 +405,13 @@ export function ParkingReview({ token }: { token: string }) {
       {error && (
         <Notice tone="danger" role="alert">
           {error}
+        </Notice>
+      )}
+      {legalUnsaved && (
+        <Notice tone="warning" role="status">
+          Есть несохранённые юридические решения или неподтверждённый запрос. Перед сменой
+          черновика, ревизии или разметки сохраните их либо явно отмените правки в разделе
+          «Юридические обстоятельства и расчёт».
         </Notice>
       )}
       <Notice tone="success" role="status" aria-live="polite">
@@ -698,7 +711,7 @@ export function ParkingReview({ token }: { token: string }) {
                   })
                 }
               >
-                {busy ? 'Выполняется…' : 'Запустить авторазбор с начала'}
+                {working ? 'Выполняется…' : 'Запустить авторазбор с начала'}
               </Button>
               <Button
                 variant="secondary"
@@ -1017,7 +1030,8 @@ export function ParkingReview({ token }: { token: string }) {
             key={draft.revisionId}
             draft={draft}
             token={token}
-            blocked={!reviewCompleted || localChanges || busy || jobRunning || historical}
+            blocked={!reviewCompleted || localChanges || working || jobRunning || historical}
+            onUnsavedChange={setLegalUnsaved}
             onSaved={() => setLegalRefresh((value) => value + 1)}
           />
           <Panel>
@@ -1055,7 +1069,7 @@ export function ParkingReview({ token }: { token: string }) {
             key={`${draft.draftId}:${legalRefresh}`}
             draftId={draft.draftId}
             revisionId={draft.revisionId}
-            busy={busy || jobRunning}
+            busy={working || jobRunning}
           />
         </>
       )}
