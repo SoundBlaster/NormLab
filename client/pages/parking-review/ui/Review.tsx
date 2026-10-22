@@ -383,7 +383,11 @@ export function ParkingReview({ token }: { token: string }) {
   const savedMetadata = draft ? reviewDraftMetadata(draft) : undefined;
   const contextPendingSave =
     !!savedMetadata && JSON.stringify(context) !== JSON.stringify(savedMetadata.context);
-  const reviewCompleted = draft?.status === 'reviewed' && !localChanges && saveState !== 'error';
+  const reviewCompleted =
+    draft?.status === 'reviewed' &&
+    !localChanges &&
+    saveState !== 'error' &&
+    metadataIssues.length === 0;
   return (
     <section className="parking-review" aria-label="Проверка утверждений парковочного пилота">
       <Notice className="stale-note" tone="warning">
