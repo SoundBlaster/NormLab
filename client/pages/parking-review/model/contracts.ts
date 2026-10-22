@@ -23,3 +23,14 @@ export {
 } from '../../../../shared/parking-journal.js';
 export { inferenceFailureMessage } from '../../../../shared/inference-failure.js';
 export { parkingJobSchema, type ParkingJob } from '../../../../shared/parking-job.js';
+export {
+  emptyLegalFindings,
+  legalInputSchema,
+  legalOutcomeLabels,
+  legalStateLabels,
+  legalStates,
+  type LegalFinding,
+  type LegalInput,
+  type LegalAssessment,
+  type LegalWorkspace,
+} from '../../../../shared/parking-legal.js';

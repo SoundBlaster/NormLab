@@ -10,6 +10,10 @@ import {
 
 export function journalMessage(event: ParkingJournalEvent): string {
   switch (event.kind) {
+    case 'legal-assessment':
+      return event.action === 'calculated'
+        ? 'Сохранены юридические обстоятельства и draft-расчёт фрагмента нормы. Ответственность не установлена.'
+        : 'Сохранены отдельные решения человека по юридическим обстоятельствам.';
     case 'job-progress': {
       const labels = {
         started: 'Запущен поэтапный разбор.',
@@ -97,7 +101,7 @@ export function Journal({
   return (
     <Panel aria-label="Журнал действий и ошибок">
       <SectionHeading
-        step="06"
+        step="07"
         title="Журнал действий и ошибок"
         description="Запуски, изменения разметки и сбои сохраняются вместе с разбором."
       />
