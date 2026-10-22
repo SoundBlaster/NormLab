@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { registerHooks } from 'node:module';
+import { register } from 'node:module';
 import test from 'node:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -11,15 +11,18 @@ import {
 } from '../shared/parking-legal.js';
 
 // CSS is supplied by Vite in the app; this render-only test needs no stylesheet loader.
-const hooks = registerHooks({
-  load(url, context, nextLoad) {
+// Use an async loader: Node 22 synchronous hooks cannot delegate every tsx/CJS load.
+register(
+  'data:text/javascript,' +
+    encodeURIComponent(`
+  export async function load(url, context, nextLoad) {
     return url.endsWith('.css')
       ? { format: 'module', source: '', shortCircuit: true }
       : nextLoad(url, context);
-  },
-});
+  }
+`),
+);
 const { LegalResultView } = await import('../client/pages/parking-review/ui/LegalResultView.js');
-hooks.deregister();
 
 function render(status: 'verified' | 'rejected', previous = false, stale = false) {
   const { input } = parkingFixture();
