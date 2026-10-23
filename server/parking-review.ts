@@ -42,6 +42,8 @@ import { ParkingJobs } from './parking-jobs.js';
 import { parkingJobInputSchema } from '../shared/parking-job.js';
 import { ParkingLegal, ParkingLegalError } from './parking-legal.js';
 import { legalInputSchema } from '../shared/parking-legal.js';
+import { contextProposalSchema } from '../shared/parking-context-proposal.js';
+import { contextProposalJournal, latestContextProposal } from './parking-context-journal.js';
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex');
 export class ParkingReviewError extends Error {
@@ -193,6 +195,7 @@ export class ParkingReview {
       return {
         drafts,
         externalInference: Boolean(this.extractor),
+        contextProposalAvailable: Boolean(this.extractor?.context),
         stagedInference: this.jobs.available,
         extractorAvailable:
           Boolean(this.extractor) ||
@@ -218,6 +221,7 @@ export class ParkingReview {
         ...this.legal.journal(this.folder(id)),
         ...revisionJournal(this.history(id)),
         ...extractionJournal(this.folder(id), this.activeRunId),
+        ...contextProposalJournal(this.folder(id), this.activeRunId),
         ...(this.jobs?.journal(id) ?? []),
       ]
         .map((event, order) => ({ event, order }))
@@ -229,6 +233,80 @@ export class ParkingReview {
       const id = z.string().uuid().parse(path.slice('/api/parking/job/'.length));
       const job = this.jobs?.latest(id) ?? null;
       return { job, draft: this.current(id) };
+    }
+    if (method === 'GET' && path.startsWith('/api/parking/context/')) {
+      const id = z.string().uuid().parse(path.slice('/api/parking/context/'.length));
+      const draft = this.current(id);
+      return latestContextProposal(this.folder(id), draft.revisionId, draft.sourceDigest);
+    }
+    if (method === 'POST' && path === '/api/parking/context') {
+      const input = extractInput.omit({ replaceStatements: true }).parse(body);
+      const draft = this.expected(input.draftId, input.expectedRevisionId);
+      if (!this.extractor?.context)
+        throw new ParkingReviewError(
+          'Предложение контекста моделью не настроено. Можно выбрать контекст вручную.',
+        );
+      if (this.extracting || this.jobs.busy)
+        throw new ParkingReviewError('Сначала дождитесь текущего разбора.');
+      if (draft.narrative.length > HOSTED_MAX_NARRATIVE)
+        throw new ParkingReviewError(`Модель принимает текст до ${HOSTED_MAX_NARRATIVE} символов.`);
+      const runId = randomUUID();
+      const run = { runId, revisionId: draft.revisionId, startedAt: new Date().toISOString() };
+      const folder = join(this.folder(draft.draftId), `context-proposal-${runId}`);
+      mkdirSync(folder, { mode: 0o700 });
+      saveParkingRun(folder, { ...run, status: 'running' });
+      this.extracting = true;
+      this.activeRunId = runId;
+      try {
+        const result = contextProposalSchema.parse(
+          await this.extractor.context({
+            narrative: draft.narrative,
+            sourceDigest: draft.sourceDigest,
+          }),
+        );
+        if (result.sourceDigest !== draft.sourceDigest) throw new Error('Context source mismatch.');
+        writeFileSync(join(folder, 'proposal.json'), JSON.stringify(result), {
+          flag: 'wx',
+          mode: 0o600,
+        });
+        this.expected(draft.draftId, draft.revisionId);
+        saveParkingRun(folder, {
+          ...run,
+          status: 'completed',
+          finishedAt: new Date().toISOString(),
+          statementCount: 0,
+        });
+        return result;
+      } catch (error) {
+        const finishedAt = new Date().toISOString();
+        const conflict = error instanceof ParkingReviewError && error.status === 409;
+        const failure =
+          error instanceof InferenceAccessError
+            ? error.failure
+            : {
+                provider: 'gateway' as const,
+                stage: 'context' as const,
+                code: 'invalid_response' as const,
+              };
+        try {
+          saveParkingRun(
+            folder,
+            conflict
+              ? { ...run, status: 'conflict', finishedAt }
+              : { ...run, status: 'failed', finishedAt, failure },
+          );
+        } catch {
+          /* Durable start remains an explicitly interrupted run. */
+        }
+        if (conflict) throw error;
+        throw new ParkingReviewError(
+          `${inferenceFailureMessage(failure)} Предложение контекста не получено. Исход запроса мог остаться неизвестным; автоматического повтора нет. Можно выбрать контекст вручную.`,
+          503,
+        );
+      } finally {
+        this.extracting = false;
+        this.activeRunId = undefined;
+      }
     }
     if (method === 'POST' && path === '/api/parking/jobs') {
       const input = parkingJobInputSchema.parse(body);
