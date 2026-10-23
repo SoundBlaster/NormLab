@@ -9,6 +9,7 @@ import { MAX_INFERENCE_RESPONSE_BYTES } from './inference-http.js';
 import { InferenceAccessError } from './inference-errors.js';
 import { extractionInput, runHostedExtraction } from './hosted-extraction.js';
 import { checkedHostedStage, hostedProfile, runHostedStage } from './hosted-stages.js';
+import { checkedContextInput, proposeNarrativeContext } from './context-proposal.js';
 
 /** Explicit route: no reliance on Node's bundled fetch sharing undici's global dispatcher. */
 export function proxiedFetch(proxy: string): typeof fetch {
@@ -46,7 +47,7 @@ export function createInferenceGateway(
     // Exact RPC routes. No URL, model, schema, headers or tools accepted from the caller.
     if (
       req.method !== 'POST' ||
-      !['/v1/extract', '/v1/profile', '/v1/stage'].includes(req.url ?? '')
+      !['/v1/extract', '/v1/profile', '/v1/stage', '/v1/context'].includes(req.url ?? '')
     ) {
       send(404, { error: 'Unknown inference route.' });
       return;
@@ -99,7 +100,12 @@ export function createInferenceGateway(
           send(200, hostedProfile(config));
           return;
         }
-        input = req.url === '/v1/stage' ? checkedHostedStage(input) : extractionInput.parse(input);
+        input =
+          req.url === '/v1/stage'
+            ? checkedHostedStage(input)
+            : req.url === '/v1/context'
+              ? checkedContextInput(input)
+              : extractionInput.parse(input);
       } catch {
         send(400, { error: 'Invalid extraction input.' });
         return;
@@ -114,9 +120,11 @@ export function createInferenceGateway(
       requests++;
       const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(300000)]);
       const result =
-        req.url === '/v1/stage'
-          ? await runHostedStage(checkedHostedStage(input), providers, config, signal)
-          : await runHostedExtraction(input, providers, config.classifier, signal);
+        req.url === '/v1/context'
+          ? await proposeNarrativeContext(input, providers, config, signal)
+          : req.url === '/v1/stage'
+            ? await runHostedStage(checkedHostedStage(input), providers, config, signal)
+            : await runHostedExtraction(input, providers, config.classifier, signal);
       if (Buffer.byteLength(JSON.stringify(result)) > MAX_INFERENCE_RESPONSE_BYTES)
         throw new Error('Result too large.');
       send(200, result);

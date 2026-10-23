@@ -35,7 +35,7 @@ export function ContextEditor({
 }: Props) {
   return (
     <fieldset className="parking-context" disabled={disabled}>
-      <legend>Классификация вручную</legend>
+      <legend>Проверьте тему и характер обращения</legend>
       <div className="parking-fields">
         <Field label="Тема обращения">
           <Select

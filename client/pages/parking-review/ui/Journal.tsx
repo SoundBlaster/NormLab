@@ -10,6 +10,20 @@ import {
 
 export function journalMessage(event: ParkingJournalEvent): string {
   switch (event.kind) {
+    case 'context-proposal': {
+      const labels = {
+        started: 'Запрошено предложение контекста по тексту.',
+        running: 'Модель определяет тему и характер обращения.',
+        completed: 'Получено предложение контекста. Требуется подтверждение человеком.',
+        conflict: 'Контекст или разметка изменились во время запроса. Предложение не применено.',
+        interrupted:
+          'Нет подтверждённого завершения определения контекста. Возможна оплата без ответа; автоматического повтора нет.',
+        failed: 'Не удалось получить предложение контекста. Можно выбрать его вручную.',
+      };
+      return (
+        labels[event.action] + (event.failure ? ` ${inferenceFailureMessage(event.failure)}` : '')
+      );
+    }
     case 'legal-assessment':
       return event.action === 'calculated'
         ? 'Сохранены юридические обстоятельства и draft-расчёт фрагмента нормы. Ответственность не установлена.'
@@ -26,7 +40,7 @@ export function journalMessage(event: ParkingJournalEvent): string {
       return `${labels[event.action]} Сохранено batch: ${event.completedBatches}.${event.unknowns ? ` Исход ${event.unknowns} попыток неизвестен; возможна оплата без полученного ответа.` : ''}${event.failure ? ` ${inferenceFailureMessage(event.failure)}` : ''}`;
     }
     case 'draft-created':
-      return 'Создан черновик.';
+      return 'Текст сохранён в черновике. Модель ещё не запускалась.';
     case 'review-saved':
       return 'Сохранены изменения разметки или решения проверяющего.';
     case 'review-completed':
@@ -62,7 +76,12 @@ export function Journal({
   const [refresh, setRefresh] = useState(0);
   const [loading, setLoading] = useState(false);
   const journal = saved?.draftId === draftId ? saved.journal : undefined;
-  const running = journal?.events.some((event) => event.kind === 'extraction-running') ?? false;
+  const running =
+    journal?.events.some(
+      (event) =>
+        event.kind === 'extraction-running' ||
+        (event.kind === 'context-proposal' && event.action === 'running'),
+    ) ?? false;
   useEffect(() => {
     const controller = new AbortController();
     let requesting = false;
@@ -144,7 +163,7 @@ export function Journal({
                           <dd>{event.runId}</dd>
                         </>
                       )}
-                      {'durationMs' in event && (
+                      {'durationMs' in event && event.durationMs !== undefined && (
                         <>
                           <dt>Длительность</dt>
                           <dd>{(event.durationMs / 1000).toFixed(1)} с</dd>

@@ -31,6 +31,9 @@ import { NewStatementEditor, type StatementSource } from './NewStatementEditor.j
 import { Journal } from './Journal.js';
 import { Job } from './Job.js';
 import { LegalFindings } from './LegalFindings.js';
+import { AutoAnalysis } from './AutoAnalysis.js';
+import { ContextProposal } from './ContextProposal.js';
+import { autoAnalysisBlocker } from '../model/auto-analysis.js';
 import { reviewReferences, hasStatementChoices } from '../model/statement-fields.js';
 import { canPersistReview, type ReviewContent } from '../model/review-persistence.js';
 import './review.css';
@@ -47,6 +50,7 @@ type Bootstrap = {
   extractorAvailable: boolean;
   externalInference: boolean;
   stagedInference?: boolean;
+  contextProposalAvailable?: boolean;
   cases: { id: string; narrative: string }[];
 };
 export function ParkingReview({ token }: { token: string }) {
@@ -62,9 +66,10 @@ export function ParkingReview({ token }: { token: string }) {
   const [metadataPendingSave, setMetadataPendingSave] = useState(false);
   const [checklist, setChecklist] = useState({ ...emptyReviewChecklist });
   const [working, setBusy] = useState(false);
+  const [contextWorking, setContextWorking] = useState(false);
   const [legalUnsaved, setLegalUnsaved] = useState(false);
   // Freeze upstream edits/navigation, but leave the legal editor able to save or discard.
-  const busy = working || legalUnsaved;
+  const busy = working || contextWorking || legalUnsaved;
   const inFlight = useRef(false);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [finishState, setFinishState] = useState<'idle' | 'saving' | 'error'>('idle');
@@ -79,6 +84,7 @@ export function ParkingReview({ token }: { token: string }) {
   const [jobRunning, setJobRunning] = useState(false);
   const [legalRefresh, setLegalRefresh] = useState(0);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
+  const contextRef = useRef<HTMLElement>(null);
   async function request<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
     const response = await fetch(
       apiUrl(path),
@@ -396,11 +402,51 @@ export function ParkingReview({ token }: { token: string }) {
     !localChanges &&
     saveState !== 'error' &&
     metadataIssues.length === 0;
+  const startBlocker = autoAnalysisBlocker({
+    working: working || contextWorking,
+    legalUnsaved,
+    historical,
+    narrativeChanged: !!draft && narrative !== draft.narrative,
+    addingStatement: !!newStatement,
+    saveError: saveState === 'error',
+    unsaved: dirty || reviewDirty || metadataPendingSave,
+    jobRunning,
+    extractorAvailable: data?.extractorAvailable === true,
+    contextProposalAvailable: data?.contextProposalAvailable === true,
+    context,
+    hasStatements: statements.length > 0,
+    replaceApproved,
+  });
+  function startAutoAnalysis() {
+    if (!draft || startBlocker) return;
+    void act(async () => {
+      if (data?.stagedInference) {
+        await request('/api/parking/jobs', {
+          draftId: draft.draftId,
+          expectedRevisionId: draft.revisionId,
+          replaceStatements: replaceApproved,
+        });
+        setJobRefresh((n) => n + 1);
+        setJobRunning(true);
+        setReplaceApproved(false);
+        setNotice('Задание запущено на сервере. Предложения появятся по мере сохранения этапов.');
+        return;
+      }
+      const result = await request<ReviewDraft>('/api/parking/extract', {
+        draftId: draft.draftId,
+        expectedRevisionId: draft.revisionId,
+        replaceStatements: replaceApproved,
+      });
+      await load();
+      open(result);
+      setNotice('Предложение модели сохранено. Проверьте все утверждения и пропуски.');
+    });
+  }
   return (
     <section className="parking-review" aria-label="Проверка утверждений парковочного пилота">
       <Notice className="stale-note" tone="warning">
-        Эксперимент извлечения. Утверждения требуют проверки человеком. Решение по КоАП здесь не
-        рассчитывается.
+        Проверьте предложения модели, затем перейдите к юридическим обстоятельствам для расчёта
+        пилотного нормативного фрагмента.
       </Notice>
       {error && (
         <Notice tone="danger" role="alert">
@@ -520,6 +566,10 @@ export function ParkingReview({ token }: { token: string }) {
               });
               await load();
               open(result);
+              setNotice(
+                'Текст сохранён. Авторазбор ещё не запущен: сначала получите предложение контекста или выберите его вручную в разделе 02.',
+              );
+              contextRef.current?.scrollIntoView({ block: 'start' });
             })
           }
         >
@@ -528,12 +578,33 @@ export function ParkingReview({ token }: { token: string }) {
       </Panel>
       {draft && (
         <>
-          <Panel>
+          <Panel ref={contextRef} tabIndex={-1} aria-label="Контекст обращения">
             <SectionHeading
               step="02"
               title="Контекст обращения"
               description="Выберите тему всего текста. Контекст направляет разбор, но не устанавливает обстоятельства события."
             />
+            {data?.contextProposalAvailable && (
+              <ContextProposal
+                draft={draft}
+                token={token}
+                blocked={
+                  working ||
+                  legalUnsaved ||
+                  localChanges ||
+                  historical ||
+                  saveState === 'error' ||
+                  jobRunning
+                }
+                onWorking={setContextWorking}
+                onUse={(suggestion) => {
+                  changeContext(suggestion);
+                  setNotice(
+                    'Предложение перенесено в форму. Проверьте поля, дождитесь сохранения и нажмите «Подтвердить контекст».',
+                  );
+                }}
+              />
+            )}
             {draft.schema === 'normlab.parking-review/v1' && (
               <Notice tone="warning">
                 В этой ревизии контекст и гипотезы ещё не проверялись. Исходная ревизия сохранена в
@@ -580,8 +651,8 @@ export function ParkingReview({ token }: { token: string }) {
           <Panel>
             <SectionHeading
               step="03"
-              title={`Источник · ревизия ${draft.revision}`}
-              description="Получите предложения модели или выделите цитату и добавьте утверждение вручную."
+              title={`Разбор текста · ревизия ${draft.revision}`}
+              description="Сначала получите предложения модели. Ниже можно дополнить разбор вручную."
             />
             <Status
               className="parking-review-state"
@@ -625,6 +696,39 @@ export function ParkingReview({ token }: { token: string }) {
                 сохранённый источник.
               </Notice>
             )}
+            <AutoAnalysis
+              blocker={startBlocker}
+              repeat={statements.length > 0 || draft.originalExtraction !== null}
+              hasStatements={statements.length > 0}
+              replaceApproved={replaceApproved}
+              replacementDisabled={busy || historical}
+              working={working}
+              staged={data?.stagedInference === true}
+              onReplace={setReplaceApproved}
+              onContext={() => {
+                contextRef.current?.scrollIntoView({ block: 'start' });
+                contextRef.current?.focus({ preventScroll: true });
+              }}
+              onStart={startAutoAnalysis}
+            />
+            {data?.stagedInference && (
+              <Job
+                draft={draft}
+                token={token}
+                blocked={
+                  busy ||
+                  saveState === 'error' ||
+                  localChanges ||
+                  historical ||
+                  context.decision !== 'confirmed' ||
+                  narrativeRoute(context) !== 'parking-review'
+                }
+                refresh={jobRefresh}
+                onDraft={acceptJobDraft}
+                onRunning={setJobRunning}
+              />
+            )}
+            <h3>Ручное добавление утверждений</h3>
             <Field label="Выделите фрагмент для нового утверждения">
               <Textarea
                 ref={sourceRef}
@@ -669,51 +773,6 @@ export function ParkingReview({ token }: { token: string }) {
                 Предложить гипотезу о ТС из выделенного
               </Button>
               <Button
-                disabled={
-                  busy ||
-                  dirty ||
-                  reviewDirty ||
-                  historical ||
-                  narrative !== draft.narrative ||
-                  !!newStatement ||
-                  !data?.extractorAvailable ||
-                  jobRunning ||
-                  (statements.length > 0 && !replaceApproved) ||
-                  context.decision !== 'confirmed' ||
-                  narrativeRoute(context) !== 'parking-review'
-                }
-                onClick={() =>
-                  void act(async () => {
-                    if (data?.stagedInference) {
-                      await request('/api/parking/jobs', {
-                        draftId: draft.draftId,
-                        expectedRevisionId: draft.revisionId,
-                        replaceStatements: replaceApproved,
-                      });
-                      setJobRefresh((n) => n + 1);
-                      setJobRunning(true);
-                      setReplaceApproved(false);
-                      setNotice(
-                        'Задание запущено на сервере. Предложения появятся по мере сохранения этапов.',
-                      );
-                      return;
-                    }
-                    const result = await request<ReviewDraft>('/api/parking/extract', {
-                      draftId: draft.draftId,
-                      expectedRevisionId: draft.revisionId,
-                      replaceStatements: replaceApproved,
-                    });
-                    await load();
-                    open(result);
-                    setNotice(
-                      'Предложение модели сохранено. Проверьте все утверждения и пропуски.',
-                    );
-                  })
-                }
-              >
-                {working ? 'Выполняется…' : 'Запустить авторазбор с начала'}
-              </Button>
-              <Button
                 variant="secondary"
                 disabled={dirty || reviewDirty || busy}
                 onClick={exportDraft}
@@ -721,40 +780,6 @@ export function ParkingReview({ token }: { token: string }) {
                 Скачать сохранённую ревизию
               </Button>
             </Actions>
-            {statements.length > 0 && (
-              <CheckField
-                checked={replaceApproved}
-                disabled={busy || historical}
-                onChange={(e) => setReplaceApproved(e.target.checked)}
-              >
-                Разрешаю новому авторазбору заменить текущую разметку. Прежняя ревизия останется в
-                истории.
-              </CheckField>
-            )}
-            <p className="parking-help">
-              Новый запуск повторяет все этапы и может потребовать оплаты. При сбое можно продолжить
-              ручную разметку
-              {data?.stagedInference
-                ? ' или продолжить с сохранённых этапов по кнопке.'
-                : '; сохранённые этапы пока не переиспользуются.'}
-            </p>
-            {data?.stagedInference && (
-              <Job
-                draft={draft}
-                token={token}
-                blocked={
-                  busy ||
-                  saveState === 'error' ||
-                  localChanges ||
-                  historical ||
-                  context.decision !== 'confirmed' ||
-                  narrativeRoute(context) !== 'parking-review'
-                }
-                refresh={jobRefresh}
-                onDraft={acceptJobDraft}
-                onRunning={setJobRunning}
-              />
-            )}
             {newStatement && (
               <NewStatementEditor
                 source={newStatement}
@@ -1069,7 +1094,7 @@ export function ParkingReview({ token }: { token: string }) {
             key={`${draft.draftId}:${legalRefresh}`}
             draftId={draft.draftId}
             revisionId={draft.revisionId}
-            busy={working || jobRunning}
+            busy={working || contextWorking || jobRunning}
           />
         </>
       )}

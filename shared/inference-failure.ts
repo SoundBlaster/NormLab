@@ -15,7 +15,7 @@ export const inferenceFailureSchema = z
       'rejected',
     ]),
     provider: z.enum(['openai', 'typesafe', 'openai-decisions', 'gateway']),
-    stage: z.enum(['discovery', 'classification', 'extraction']),
+    stage: z.enum(['discovery', 'classification', 'extraction', 'context']),
     httpStatus: z.number().int().min(400).max(599).optional(),
   })
   .strict();
@@ -29,6 +29,7 @@ export function inferenceFailureMessage(failure: InferenceFailure): string {
     gateway: 'Сервис инференса NormLab',
   }[failure.provider];
   const stage = {
+    context: 'определение контекста',
     discovery: 'выделение фрагментов',
     classification: 'классификация утверждений',
     extraction: 'разбор фабулы',

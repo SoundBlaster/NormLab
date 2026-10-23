@@ -7,11 +7,15 @@ import {
 } from '../shared/hosted-stage.js';
 import { hostedStageDigest } from './hosted-stages.js';
 import { InferenceAccessError } from './inference-errors.js';
+import { contextProposalSchema } from '../shared/parking-context-proposal.js';
 
 export type ParkingExtractor = ((input: {
   narrative: string;
   sourceDigest: string;
-}) => Promise<unknown>) & { stages?: HostedStageTransport };
+}) => Promise<unknown>) & {
+  stages?: HostedStageTransport;
+  context?: (input: { narrative: string; sourceDigest: string }) => Promise<unknown>;
+};
 export function configuredParkingExtractor(
   env: NodeJS.ProcessEnv,
 ): ParkingExtractor | null | undefined {
@@ -30,6 +34,27 @@ export function configuredParkingExtractor(
       true,
     );
   extractor.stages = hostedStageTransport(config.url!, config.token!);
+  extractor.context = async (input) => {
+    const result = contextProposalSchema.safeParse(
+      await inferencePost(
+        `${config.url}/v1/context`,
+        config.token!,
+        input,
+        AbortSignal.timeout(150000),
+        fetch,
+        150000,
+        { provider: 'gateway', stage: 'context' },
+        true,
+      ),
+    );
+    if (!result.success || result.data.sourceDigest !== input.sourceDigest)
+      throw new InferenceAccessError({
+        provider: 'gateway',
+        stage: 'context',
+        code: 'invalid_response',
+      });
+    return result.data;
+  };
   return extractor;
 }
 
