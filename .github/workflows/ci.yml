@@ -185,6 +185,9 @@ jobs:
       - name: Verify Lean toolchain
         run: lean --version
 
+      - name: Check isolated relation proofs and print axiom dependencies
+        run: lean -DwarningAsError=true lean/Relations.lean
+
       - name: Run domain and API tests
         run: npm test
 
