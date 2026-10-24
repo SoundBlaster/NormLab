@@ -33,7 +33,7 @@
     "test:architecture": "tsx --test tests/steiger-braces-guard.test.ts tests/fsd-boundaries.test.ts"
   },
   "dependencies": {
-    "react": "19.3.0",
+    "react": "19.3.1",
     "react-dom": "19.3.0",
     "undici": "8.11.2",
     "zod": "4.6.7"
