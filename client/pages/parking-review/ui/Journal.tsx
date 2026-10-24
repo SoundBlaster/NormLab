@@ -10,6 +10,20 @@ import {
 
 export function journalMessage(event: ParkingJournalEvent): string {
   switch (event.kind) {
+    case 'legal-proposal': {
+      const labels = {
+        started: 'Запрошены кандидаты юридических обстоятельств.',
+        running: 'Модель связывает проверенные утверждения с условиями нормы.',
+        completed: 'Кандидаты подготовлены. Каждое решение требует одобрения человеком.',
+        conflict: 'Разбор или решения изменились во время запроса. Кандидаты не применены.',
+        interrupted:
+          'Подготовка кандидатов не завершена. Возможна оплата без ответа; автоматического повтора нет.',
+        failed: 'Не удалось подготовить кандидатов. Можно заполнить обстоятельства вручную.',
+      };
+      return (
+        labels[event.action] + (event.failure ? ` ${inferenceFailureMessage(event.failure)}` : '')
+      );
+    }
     case 'context-proposal': {
       const labels = {
         started: 'Запрошено предложение контекста по тексту.',
@@ -80,7 +94,9 @@ export function Journal({
     journal?.events.some(
       (event) =>
         event.kind === 'extraction-running' ||
-        (event.kind === 'context-proposal' && event.action === 'running'),
+        (['context-proposal', 'legal-proposal'].includes(event.kind) &&
+          'action' in event &&
+          event.action === 'running'),
     ) ?? false;
   useEffect(() => {
     const controller = new AbortController();

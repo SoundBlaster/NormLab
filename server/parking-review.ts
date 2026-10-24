@@ -44,6 +44,19 @@ import { ParkingLegal, ParkingLegalError } from './parking-legal.js';
 import { legalInputSchema } from '../shared/parking-legal.js';
 import { contextProposalSchema } from '../shared/parking-context-proposal.js';
 import { contextProposalJournal, latestContextProposal } from './parking-context-journal.js';
+import {
+  legalProposalMatches,
+  legalProposalRequestSchema,
+  legalProposalSchema,
+  savedLegalProposalSchema,
+} from '../shared/parking-legal-proposal.js';
+import {
+  legalProposalInputForDraft,
+  legalProposalJournal,
+  legalProposalsForDraft,
+  ParkingLegalProposalError,
+} from './parking-legal-proposals.js';
+import { digest as objectDigest } from './hash.js';
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex');
 export class ParkingReviewError extends Error {
@@ -166,7 +179,112 @@ export class ParkingReview {
       )
       .sort((a, b) => b.revision - a.revision);
   }
+  private async proposeLegal(body: unknown) {
+    const request = legalProposalRequestSchema.parse(body);
+    const propose = this.extractor?.legalProposal;
+    if (!propose)
+      throw new ParkingReviewError(
+        'Предложение юридических обстоятельств моделью не настроено. Можно заполнить их вручную.',
+      );
+    if (this.extracting || this.jobs.busy)
+      throw new ParkingReviewError('Сначала дождитесь текущего разбора.');
+    const check = () => {
+      const draft = this.expected(request.draftId, request.expectedRevisionId);
+      const input = legalProposalInputForDraft(draft, request.episode);
+      const head = this.legal.history(this.folder(draft.draftId))[0]?.id ?? null;
+      if (head !== request.expectedAssessmentId)
+        throw new ParkingReviewError(
+          'Обстоятельства изменились в другой вкладке. Обновите их перед запросом предложения.',
+          409,
+        );
+      return input;
+    };
+    const input = check();
+    const serialized = JSON.stringify(input);
+    if (Buffer.byteLength(serialized, 'utf8') > 128000)
+      throw new ParkingReviewError(
+        'Подтверждённые утверждения эпизода превышают предел 128000 байт.',
+      );
+    const runId = randomUUID();
+    const run = { runId, revisionId: input.revisionId, startedAt: new Date().toISOString() };
+    const folder = join(this.folder(input.draftId), `legal-proposal-${runId}`);
+    mkdirSync(folder, { mode: 0o700 });
+    writeFileSync(join(folder, 'input.json'), serialized, { flag: 'wx', mode: 0o600 });
+    saveParkingRun(folder, { ...run, status: 'running' });
+    this.extracting = true;
+    this.activeRunId = runId;
+    try {
+      const result = legalProposalSchema.parse(await propose(input));
+      if (!legalProposalMatches(input, result) || result.inputDigest !== objectDigest(input))
+        throw new Error('Legal proposal binding mismatch.');
+      const saved = savedLegalProposalSchema.parse({ ...result, proposalId: runId });
+      writeFileSync(join(folder, 'proposal.json'), JSON.stringify(saved), {
+        flag: 'wx',
+        mode: 0o600,
+      });
+      if (objectDigest(check()) !== objectDigest(input))
+        throw new ParkingReviewError('Входы предложения изменились. Обновите страницу.', 409);
+      saveParkingRun(folder, {
+        ...run,
+        status: 'completed',
+        finishedAt: new Date().toISOString(),
+        statementCount: input.statements.length,
+      });
+      return saved;
+    } catch (error) {
+      const finishedAt = new Date().toISOString();
+      const conflict =
+        (error instanceof ParkingReviewError ||
+          error instanceof ParkingLegalError ||
+          error instanceof ParkingLegalProposalError) &&
+        error.status === 409;
+      const failure =
+        error instanceof InferenceAccessError
+          ? { ...error.failure, stage: 'legal-proposal' as const }
+          : {
+              provider: 'gateway' as const,
+              stage: 'legal-proposal' as const,
+              code: 'invalid_response' as const,
+            };
+      try {
+        saveParkingRun(
+          folder,
+          conflict
+            ? { ...run, status: 'conflict', finishedAt }
+            : { ...run, status: 'failed', finishedAt, failure },
+        );
+      } catch {
+        /* The durable start remains visible as an interrupted run. */
+      }
+      if (conflict) throw error;
+      throw new ParkingReviewError(
+        `${inferenceFailureMessage(failure)} Предложение обстоятельств не получено. Исход запроса мог остаться неизвестным; автоматического повтора нет. Можно заполнить обстоятельства вручную.`,
+        503,
+      );
+    } finally {
+      this.extracting = false;
+      this.activeRunId = undefined;
+    }
+  }
   async handle(method: string, path: string, body?: unknown) {
+    if (
+      (method === 'GET' && path.startsWith('/api/parking/legal-proposals/')) ||
+      (method === 'POST' && path === '/api/parking/legal-proposals')
+    ) {
+      try {
+        if (method === 'POST') return await this.proposeLegal(body);
+        const id = z.string().uuid().parse(path.slice('/api/parking/legal-proposals/'.length));
+        const draft = this.current(id);
+        return {
+          available: Boolean(this.extractor?.legalProposal),
+          proposals: legalProposalsForDraft(this.folder(id), draft),
+        };
+      } catch (error) {
+        if (error instanceof ParkingLegalProposalError || error instanceof ParkingLegalError)
+          throw new ParkingReviewError(error.message, error.status);
+        throw error;
+      }
+    }
     if (method === 'GET' && path.startsWith('/api/parking/legal/')) {
       const id = z.string().uuid().parse(path.slice('/api/parking/legal/'.length));
       this.current(id);
@@ -222,6 +340,7 @@ export class ParkingReview {
         ...revisionJournal(this.history(id)),
         ...extractionJournal(this.folder(id), this.activeRunId),
         ...contextProposalJournal(this.folder(id), this.activeRunId),
+        ...legalProposalJournal(this.folder(id), this.activeRunId),
         ...(this.jobs?.journal(id) ?? []),
       ]
         .map((event, order) => ({ event, order }))

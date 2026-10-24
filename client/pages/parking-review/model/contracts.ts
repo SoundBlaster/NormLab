@@ -38,3 +38,9 @@ export {
   type LegalAssessment,
   type LegalWorkspace,
 } from '../../../../shared/parking-legal.js';
+export {
+  legalCoordinateKeys,
+  savedLegalProposalSchema,
+  type LegalCoordinateKey,
+  type SavedLegalProposal,
+} from '../../../../shared/parking-legal-proposal.js';

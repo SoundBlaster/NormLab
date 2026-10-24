@@ -18,6 +18,7 @@ import {
   parkingProfileDigest,
   verifyParkingCalculation,
 } from './parking-verifier.js';
+import { legalProposalForDraft, ParkingLegalProposalError } from './parking-legal-proposals.js';
 
 export { parkingNormDigest } from './parking-verifier.js';
 
@@ -142,6 +143,25 @@ export class ParkingLegal {
           throw new ParkingLegalError(
             'Основание должно ссылаться на подтверждённое утверждение выбранного эпизода.',
           );
+      }
+      const proposalIds = new Set<string>();
+      if (input.coordinateProposalId) proposalIds.add(input.coordinateProposalId);
+      for (const finding of input.findings)
+        if (finding.proposalId) proposalIds.add(finding.proposalId);
+      for (const proposalId of proposalIds) {
+        try {
+          const proposal = legalProposalForDraft(folder, draft, proposalId, input.episode);
+          for (const finding of input.findings)
+            if (
+              finding.proposalId === proposalId &&
+              !proposal.suggestion.findings.some((item) => item.conditionId === finding.conditionId)
+            )
+              throw new ParkingLegalProposalError('В предложении отсутствует выбранное условие.');
+        } catch (error) {
+          if (error instanceof ParkingLegalProposalError)
+            throw new ParkingLegalError(error.message, error.status);
+          throw error;
+        }
       }
       const records = this.history(folder);
       const repeated = records.find((record) => record.id === input.requestId);
