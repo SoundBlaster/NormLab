@@ -8,6 +8,13 @@ import {
 import { hostedStageDigest } from './hosted-stages.js';
 import { InferenceAccessError } from './inference-errors.js';
 import { contextProposalSchema } from '../shared/parking-context-proposal.js';
+import {
+  legalProposalInputSchema,
+  legalProposalMatches,
+  legalProposalSchema,
+  type LegalProposalInput,
+} from '../shared/parking-legal-proposal.js';
+import { digest } from './hash.js';
 
 export type ParkingExtractor = ((input: {
   narrative: string;
@@ -15,6 +22,7 @@ export type ParkingExtractor = ((input: {
 }) => Promise<unknown>) & {
   stages?: HostedStageTransport;
   context?: (input: { narrative: string; sourceDigest: string }) => Promise<unknown>;
+  legalProposal?: (input: LegalProposalInput) => Promise<unknown>;
 };
 export function configuredParkingExtractor(
   env: NodeJS.ProcessEnv,
@@ -51,6 +59,32 @@ export function configuredParkingExtractor(
       throw new InferenceAccessError({
         provider: 'gateway',
         stage: 'context',
+        code: 'invalid_response',
+      });
+    return result.data;
+  };
+  extractor.legalProposal = async (rawInput) => {
+    const input = legalProposalInputSchema.parse(rawInput);
+    const result = legalProposalSchema.safeParse(
+      await inferencePost(
+        `${config.url}/v1/legal-proposal`,
+        config.token!,
+        input,
+        AbortSignal.timeout(150000),
+        fetch,
+        150000,
+        { provider: 'gateway', stage: 'legal-proposal' },
+        true,
+      ),
+    );
+    if (
+      !result.success ||
+      !legalProposalMatches(input, result.data) ||
+      result.data.inputDigest !== digest(input)
+    )
+      throw new InferenceAccessError({
+        provider: 'gateway',
+        stage: 'legal-proposal',
         code: 'invalid_response',
       });
     return result.data;

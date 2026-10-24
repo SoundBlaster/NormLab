@@ -4,6 +4,8 @@ import { Actions, Button, Disclosure, Notice, Panel, SectionHeading } from '@/sh
 import {
   emptyLegalFindings,
   legalInputSchema,
+  legalCoordinateKeys,
+  type SavedLegalProposal,
   legalOutcomeLabels,
   type LegalAssessment,
   type LegalFinding,
@@ -14,6 +16,8 @@ import {
 import { legalValidationIssues } from '../model/legal-validation.js';
 
 import { LegalActionFeedback } from './LegalActionFeedback.js';
+import { LegalProposals } from './LegalProposals.js';
+import { LegalCandidate } from './LegalCandidate.js';
 import { LegalFindingEditor } from './LegalFindingEditor.js';
 import { LegalResultView } from './LegalResultView.js';
 
@@ -44,6 +48,9 @@ export function LegalFindings({
   const [workspace, setWorkspace] = useState<LegalWorkspace>();
   const [coordinates, setCoordinates] = useState(emptyCoordinates);
   const [findings, setFindings] = useState(emptyLegalFindings);
+  const [proposal, setProposal] = useState<SavedLegalProposal>();
+  const [coordinateProposalId, setCoordinateProposalId] = useState<string>();
+  const [proposing, setProposing] = useState(false);
   const [claimedFine, setClaimedFine] = useState('');
   const [record, setRecord] = useState<LegalAssessment>();
   const [dirty, setDirty] = useState(false);
@@ -67,8 +74,8 @@ export function LegalFindings({
       feedback.scrollIntoView({ block: 'start' });
   }, [feedbackVersion]);
   useEffect(() => {
-    onUnsavedChange(dirty || busy || !!pending);
-  }, [dirty, busy, pending, onUnsavedChange]);
+    onUnsavedChange(dirty || busy || proposing || !!pending);
+  }, [dirty, busy, proposing, pending, onUnsavedChange]);
   useEffect(() => {
     return () => onUnsavedChange(false);
   }, [onUnsavedChange]);
@@ -101,6 +108,7 @@ export function LegalFindings({
               }
             : emptyCoordinates,
         );
+        setCoordinateProposalId(saved?.input.coordinateProposalId);
         setFindings(saved?.input.findings ?? emptyLegalFindings());
         setClaimedFine(saved?.input.claimedFine == null ? '' : String(saved.input.claimedFine));
         setDirty(false);
@@ -118,11 +126,19 @@ export function LegalFindings({
   }, [draft.draftId, draft.revisionId, refresh]);
   const confirmed = draft.statements.filter((s) => s.decision === 'confirmed');
   const episodes = [...new Set(confirmed.map((s) => s.aboutEpisode))];
-  const disabled = blocked || busy || loading || !!pending || !workspace;
+  const disabled = blocked || busy || proposing || loading || !!pending || !workspace;
+  const activeProposal =
+    proposal?.revisionId === draft.revisionId &&
+    proposal.episode === coordinates.episode &&
+    proposal.packageDigest === workspace?.packageDigest
+      ? proposal
+      : undefined;
+  const scopeApproved = !!activeProposal && coordinateProposalId === activeProposal.proposalId;
   function makeInput(attempt: Pick<LegalInput, 'action' | 'requestId'>): LegalInput {
     return {
       ...coordinates,
       findings,
+      ...(coordinateProposalId ? { coordinateProposalId } : {}),
       claimedFine: claimedFine === '' ? null : Number(claimedFine),
       draftId: draft.draftId,
       expectedRevisionId: draft.revisionId,
@@ -150,7 +166,7 @@ export function LegalFindings({
         ([key, value]) => coordinates[key as keyof LegalCoordinates] === value,
       )
     )
-      return;
+      return true;
     const hasDecisions = findings.some(
       (finding) =>
         finding.state !== 'unreviewed' || finding.rationale || finding.statementIds.length,
@@ -161,17 +177,32 @@ export function LegalFindings({
         'Изменение эпизода, участника, ТС, места или времени сбросит все введённые решения, основания и ссылки на утверждения. Продолжить?',
       )
     )
-      return;
+      return false;
+    if (next.episode !== coordinates.episode) {
+      setCoordinateProposalId(undefined);
+      setProposal(undefined);
+    }
     setCoordinates(next);
     setFindings(emptyLegalFindings());
     setDirty(true);
     setValidationAttempt(undefined);
     setError('');
     if (hasDecisions)
-      setResetNotice('Координаты изменены. Укажите решения, основания и ссылки заново.');
+      setResetNotice('Координаты изменены. Проверьте решения, основания и ссылки заново.');
+    return true;
+  }
+  function acceptCoordinates(candidate: SavedLegalProposal) {
+    if (disabled || candidate !== activeProposal) return;
+    const next = { ...coordinates };
+    for (const key of legalCoordinateKeys) next[key] = candidate.suggestion.coordinates[key].value;
+    if (changeCoordinates(next)) {
+      setCoordinateProposalId(candidate.proposalId);
+      setDirty(true);
+      setError('');
+    }
   }
   async function submit(action: LegalInput['action']) {
-    if (inFlight.current || blocked || loading || !workspace) return;
+    if (inFlight.current || proposing || blocked || loading || !workspace) return;
     let input: LegalInput;
     try {
       if (pending) input = pending;
@@ -235,7 +266,7 @@ export function LegalFindings({
       <SectionHeading
         step="05"
         title="Юридические обстоятельства и расчёт"
-        description="После проверки текста отдельно установите обстоятельства одного эпизода — модель не принимает эти решения за вас."
+        description="Выберите эпизод и получите подготовленные кандидаты. Проверьте основания и одобрите каждое решение перед расчётом."
       />
       <Notice>
         PoC: упрощённая модель ч. 2 ст. 8.14 КоАП города Москвы. Вы подтверждаете обстоятельства,
@@ -289,6 +320,7 @@ export function LegalFindings({
             <>
               <LegalScopeEditor
                 coordinates={coordinates}
+                compact
                 episodes={episodes}
                 claimedFine={claimedFine}
                 disabled={disabled}
@@ -300,21 +332,68 @@ export function LegalFindings({
                   setError('');
                 }}
               />
+              <LegalProposals
+                key={`${draft.draftId}:${draft.revisionId}:${coordinates.episode}`}
+                draft={draft}
+                token={token}
+                episode={coordinates.episode}
+                expectedAssessmentId={workspace.assessments[0]?.id ?? null}
+                packageDigest={workspace.packageDigest}
+                disabled={disabled}
+                statements={confirmed.filter((item) => item.aboutEpisode === coordinates.episode)}
+                coordinateProposalId={coordinateProposalId}
+                onAcceptCoordinates={acceptCoordinates}
+                onProposal={setProposal}
+                onWorking={setProposing}
+                onRecorded={onSaved}
+              />
+              {activeProposal && !scopeApproved && (
+                <Notice>
+                  Сначала проверьте и примите предложенные координаты эпизода. Затем одобрите каждое
+                  обстоятельство отдельно.
+                </Notice>
+              )}
               {resetNotice && <Notice tone="warning">{resetNotice}</Notice>}
               <div className="parking-statement-list">
-                {workspace.package.conditions.map((condition) => (
-                  <LegalFindingEditor
-                    key={condition.id}
-                    condition={condition}
-                    finding={findings.find((f) => f.conditionId === condition.id)!}
-                    statements={confirmed.filter(
-                      (item) => item.aboutEpisode === coordinates.episode,
-                    )}
-                    disabled={disabled || !coordinates.episode}
-                    issues={issues}
-                    onChange={(patch) => change(condition.id, patch)}
-                  />
-                ))}
+                {workspace.package.conditions.map((condition) => {
+                  const finding = findings.find((item) => item.conditionId === condition.id)!;
+                  const candidate = activeProposal?.suggestion.findings.find(
+                    (item) => item.conditionId === condition.id,
+                  );
+                  const statements = confirmed.filter(
+                    (item) => item.aboutEpisode === coordinates.episode,
+                  );
+                  return candidate && activeProposal ? (
+                    <LegalCandidate
+                      key={condition.id}
+                      condition={condition}
+                      candidate={candidate}
+                      finding={finding}
+                      proposalId={activeProposal.proposalId}
+                      statements={statements}
+                      disabled={disabled}
+                      acceptDisabled={!scopeApproved}
+                      issues={issues}
+                      onAccept={() =>
+                        change(condition.id, {
+                          ...candidate,
+                          proposalId: activeProposal.proposalId,
+                        })
+                      }
+                      onChange={(patch) => change(condition.id, patch)}
+                    />
+                  ) : (
+                    <LegalFindingEditor
+                      key={condition.id}
+                      condition={condition}
+                      finding={finding}
+                      statements={statements}
+                      disabled={disabled || !coordinates.episode}
+                      issues={issues}
+                      onChange={(patch) => change(condition.id, patch)}
+                    />
+                  );
+                })}
               </div>
               <Actions>
                 <Button variant="secondary" disabled={disabled} onClick={() => void submit('save')}>
@@ -355,7 +434,7 @@ export function LegalFindings({
             </>
           )}
           <Actions>
-            {!pending && !busy && !loading && (
+            {!pending && !busy && !proposing && !loading && (
               <Button
                 variant="quiet"
                 onClick={() => {

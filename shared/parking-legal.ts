@@ -22,6 +22,8 @@ export const legalFindingSchema = z
     state: z.enum(legalStates),
     rationale: z.string().trim().max(2048),
     statementIds: z.array(z.string().uuid()).max(256),
+    /** Source candidate, which the human may amend; not automatic acceptance. */
+    proposalId: z.string().uuid().optional(),
   })
   .strict()
   .superRefine((finding, ctx) => {
@@ -60,6 +62,7 @@ export const legalInputSchema = z
     location: z.string().trim().max(512),
     timeInterval: z.string().trim().max(512),
     claimedFine: z.number().int().min(0).max(1000000).nullable(),
+    coordinateProposalId: z.string().uuid().optional(),
     findings: z.array(legalFindingSchema).length(manifest.conditions.length),
   })
   .strict()

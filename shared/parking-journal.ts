@@ -36,6 +36,14 @@ const eventBase = z.object({
 export const parkingJournalEventSchema = z.discriminatedUnion('kind', [
   eventBase
     .extend({
+      kind: z.literal('legal-proposal'),
+      action: z.enum(['started', 'running', 'completed', 'failed', 'conflict', 'interrupted']),
+      durationMs: z.number().nonnegative().optional(),
+      failure: inferenceFailureSchema.optional(),
+    })
+    .strict(),
+  eventBase
+    .extend({
       kind: z.literal('context-proposal'),
       action: z.enum(['started', 'running', 'completed', 'failed', 'conflict', 'interrupted']),
       durationMs: z.number().nonnegative().optional(),

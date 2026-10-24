@@ -15,7 +15,7 @@ export const inferenceFailureSchema = z
       'rejected',
     ]),
     provider: z.enum(['openai', 'typesafe', 'openai-decisions', 'gateway']),
-    stage: z.enum(['discovery', 'classification', 'extraction', 'context']),
+    stage: z.enum(['discovery', 'classification', 'extraction', 'context', 'legal-proposal']),
     httpStatus: z.number().int().min(400).max(599).optional(),
   })
   .strict();
@@ -30,6 +30,7 @@ export function inferenceFailureMessage(failure: InferenceFailure): string {
   }[failure.provider];
   const stage = {
     context: 'определение контекста',
+    'legal-proposal': 'подготовка юридических обстоятельств',
     discovery: 'выделение фрагментов',
     classification: 'классификация утверждений',
     extraction: 'разбор фабулы',
