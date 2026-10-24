@@ -190,6 +190,8 @@ jobs:
           RELATIONS_BUILD_DIR="$(mktemp -d "$RUNNER_TEMP/normlab-relations.XXXXXX")"
           lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/Relations.olean" lean/Relations.lean
           LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckRelations.lean
+          LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/StateRelations.olean" lean/StateRelations.lean
+          LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckStateRelations.lean
 
       - name: Run domain and API tests
         run: npm test
