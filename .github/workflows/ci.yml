@@ -185,8 +185,11 @@ jobs:
       - name: Verify Lean toolchain
         run: lean --version
 
-      - name: Check isolated relation proofs and print axiom dependencies
-        run: lean -DwarningAsError=true lean/Relations.lean
+      - name: Check isolated relation proofs and enforce axiom allowlist
+        run: |
+          RELATIONS_BUILD_DIR="$(mktemp -d "$RUNNER_TEMP/normlab-relations.XXXXXX")"
+          lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/Relations.olean" lean/Relations.lean
+          LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckRelations.lean
 
       - name: Run domain and API tests
         run: npm test

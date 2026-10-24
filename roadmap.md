@@ -135,12 +135,15 @@ ledger [#203](https://github.com/SoundBlaster/NormLab/issues/203).
 Последовательность результатов:
 
 1. **R1 — Relations:** [изолированный Lean-модуль](lean/Relations.lean), typed
-   ground Horn rules, soundness и непустая контрмодель для неподдержанного вывода.
+   ground Horn rules, soundness/completeness, monotonicity, общая схема сохранения
+   участников и непустая контрмодель для неподдержанного вывода; CI axiom allowlist.
    Код и локальные proof checks подготовлены; review/CI отражаются в Issue.
-2. **R2 — States:** конечное множество signed relations, точные membership laws
+2. **R2 — States:** конечное множество базовых signed facts, отдельное derived
+   closure при фиксированных rules, вычислимое равенство, точные membership laws
    `Added` / `Removed`, roundtrip и preservation. Непустые переходы и контрпримеры
    к лишним/пропущенным изменениям проверяют содержательность контракта.
-   Планируется после R1.
+   Явный trace в `Type` и его support связываются с `Derivable`; сохранение вывода
+   после удаления требует сохранившейся цепочки оснований. Планируется после R1.
 3. **R3 — Human-action bridge:** основания переходов, участие человека и
    бездействие с явными условиями; согласование слоёв. Планируется после R2.
 4. **R4 — Parking pilot:** применить ядро к одному эпизоду, сопоставить
