@@ -124,6 +124,46 @@ Task IDs сохранены при изменении приоритетов: н
 
 ## Ближайший рабочий срез
 
+### Формальное ядро отношений — 2026-10-24
+
+[Основания и план](docs/RELATIONAL_FOUNDATIONS.md),
+ledger [#203](https://github.com/SoundBlaster/NormLab/issues/203).
+Согласованы Entity / Action / Role / Relation / State / Condition / Rule,
+Последствие как точный `diff` двух State и отдельное обоснование связи с
+человеческим действием/бездействием. Первый предметный пилот нового ядра — парковка.
+
+Последовательность результатов:
+
+1. **R1 — Relations:** [изолированный Lean-модуль](lean/Relations.lean), typed
+   ground Horn rules, soundness/completeness, monotonicity, общая схема сохранения
+   участников и непустая контрмодель для неподдержанного вывода; CI axiom allowlist.
+   Код и локальные proof checks подготовлены; review/CI отражаются в Issue.
+2. **R2 — States:** конечное множество базовых signed facts, отдельное derived
+   closure при фиксированных rules, вычислимое равенство, точные membership laws
+   `Added` / `Removed`, roundtrip и preservation. Непустые переходы и контрпримеры
+   к лишним/пропущенным изменениям проверяют содержательность контракта.
+   Явный trace в `Type` и его support связываются с `Derivable`; сохранение вывода
+   после удаления требует сохранившейся цепочки оснований. Планируется после R1.
+3. **R3 — Human-action bridge:** основания переходов, участие человека и
+   бездействие с явными условиями; согласование слоёв. Планируется после R2.
+4. **R4 — Parking pilot:** применить ядро к одному эпизоду, сопоставить
+   «оплачено», «неизвестно» и «нарушение установлено» с существующими findings.
+   Передавать в Lean идентификаторы участников, ТС и эпизода вместо одной лишь
+   проверки наличия координат; проверить их сохранение, включая разных водителя
+   и собственника, и конкретные State/diff/переходы.
+
+R1 не меняет существующий parking runtime и не объявляет реализованными State/diff,
+action attribution или полный нормативный движок. Следующий самостоятельный
+результат после review R1 — минимальный State/diff с доказуемыми переходами.
+
+Уточнение после [статьи Anthropic / Theorem](https://www.anthropic.com/research/formal-verification):
+фиксировать смысл specification до генерации proofs, проверять непустые допустимые
+сценарии и чувствительность к намеренным подменам, переиспользовать общие lemmas.
+[План переноса](docs/RELATIONAL_FOUNDATIONS.md#перенос-подхода-anthropic--theorem--2026-10-24)
+входит в R2–R4; опубликованные результаты авторов не являются evidence нашего пилота.
+
+### Текущие продуктовые направления
+
 **M1 завершён для текущего synthetic fixture и локальной конфигурации; NL-503 закрыт в объявленных transfer границах. NL-504 завершён в границах локального delivery.** Подтверждены hosted CI на текущем `main`, Compose runbook/backup/restore, release-notes draft и synthetic versioned migration upgrade/rollback path. Ограничения: GitHub не даёт включить branch protection для текущего private repository plan; migration-specific тесты для будущей реальной schema version появятся вместе с этой миграцией. Незавершённый client-side draft остаётся отдельным UX-вопросом, не gate переносимости NL-503.
 
 Подключение юридических обстоятельств: [задача #190](https://github.com/SoundBlaster/NormLab/issues/190), [контракт пакета и draft-расчёта](docs/PARKING_LEGAL_FINDINGS.md). Пилот — ч. 2 ст. 8.14 КоАП города Москвы; общая часть КоАП РФ — отдельная зависимость. Нормативный lock, полная ответственность и Lean verification парковочной нормы пока не выполнены.
