@@ -192,6 +192,8 @@ jobs:
           LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckRelations.lean
           LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/StateRelations.olean" lean/StateRelations.lean
           LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckStateRelations.lean
+          LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/DerivationTraces.olean" lean/DerivationTraces.lean
+          LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckDerivationTraces.lean
 
       - name: Run domain and API tests
         run: npm test
