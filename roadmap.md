@@ -137,13 +137,17 @@ ledger [#203](https://github.com/SoundBlaster/NormLab/issues/203).
 1. **R1 — Relations:** [изолированный Lean-модуль](lean/Relations.lean), typed
    ground Horn rules, soundness/completeness, monotonicity, общая схема сохранения
    участников и непустая контрмодель для неподдержанного вывода; CI axiom allowlist.
-   Код и локальные proof checks подготовлены; review/CI отражаются в Issue.
-2. **R2 — States:** конечное множество базовых signed facts, отдельное derived
-   closure при фиксированных rules, вычислимое равенство, точные membership laws
-   `Added` / `Removed`, roundtrip и preservation. Непустые переходы и контрпримеры
-   к лишним/пропущенным изменениям проверяют содержательность контракта.
-   Явный trace в `Type` и его support связываются с `Derivable`; сохранение вывода
-   после удаления требует сохранившейся цепочки оснований. Планируется после R1.
+   Влит в [PR #204](https://github.com/SoundBlaster/NormLab/pull/204); evidence в Issue.
+2. **R2 — States:**
+   - **R2a:** [#221](https://github.com/SoundBlaster/NormLab/issues/221),
+     [StateRelations](lean/StateRelations.lean): конечное множество базовых signed
+     facts, вычислимое равенство literals, точные membership laws `Added` / `Removed`,
+     roundtrip и сохранение незатронутого membership. Непустые переходы и
+     контрпример к лишним изменениям проверяют содержательность контракта.
+     Derived closure при фиксированных rules остаётся отдельным представлением.
+   - **R2b:** явный trace в `Type`, его support и связь с `Derivable`.
+     Сохранение вывода после удаления требует сохранившейся цепочки оснований;
+     альтернативное основание может сохранить вывод. Планируется после R2a.
 3. **R3 — Human-action bridge:** основания переходов, участие человека и
    бездействие с явными условиями; согласование слоёв. Планируется после R2.
 4. **R4 — Parking pilot:** применить ядро к одному эпизоду, сопоставить
@@ -152,9 +156,9 @@ ledger [#203](https://github.com/SoundBlaster/NormLab/issues/203).
    проверки наличия координат; проверить их сохранение, включая разных водителя
    и собственника, и конкретные State/diff/переходы.
 
-R1 не меняет существующий parking runtime и не объявляет реализованными State/diff,
-action attribution или полный нормативный движок. Следующий самостоятельный
-результат после review R1 — минимальный State/diff с доказуемыми переходами.
+R1/R2a изолированы от существующего parking runtime. Следующий самостоятельный
+результат — R2b, объяснимый derivation trace и сохранение вывода при удалении
+незатронутых оснований; затем action attribution и parking bridge.
 
 Уточнение после [статьи Anthropic / Theorem](https://www.anthropic.com/research/formal-verification):
 фиксировать смысл specification до генерации proofs, проверять непустые допустимые
