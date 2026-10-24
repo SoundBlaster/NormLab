@@ -15,6 +15,8 @@ import {
 } from '../model/contracts.js';
 import { legalValidationIssues } from '../model/legal-validation.js';
 
+import { LegalClarifications } from './LegalClarifications.js';
+import type { ClarificationPreview } from '../model/legal-clarifications.js';
 import { LegalActionFeedback } from './LegalActionFeedback.js';
 import { LegalProposals } from './LegalProposals.js';
 import { LegalCandidate } from './LegalCandidate.js';
@@ -50,6 +52,10 @@ export function LegalFindings({
   const [findings, setFindings] = useState(emptyLegalFindings);
   const [proposal, setProposal] = useState<SavedLegalProposal>();
   const [coordinateProposalId, setCoordinateProposalId] = useState<string>();
+  const [clarificationDirty, setClarificationDirty] = useState(false);
+  const [clarificationEpoch, setClarificationEpoch] = useState(0);
+  const [feedbackOrigin, setFeedbackOrigin] = useState<'actions' | 'clarifications'>('actions');
+  const clarificationFeedbackRef = useRef<HTMLDivElement>(null);
   const [proposing, setProposing] = useState(false);
   const [claimedFine, setClaimedFine] = useState('');
   const [record, setRecord] = useState<LegalAssessment>();
@@ -66,16 +72,17 @@ export function LegalFindings({
   const feedbackRef = useRef<HTMLDivElement>(null);
   const inFlight = useRef(false);
   useEffect(() => {
-    if (!feedbackVersion || !feedbackRef.current) return;
-    const feedback = feedbackRef.current;
+    const target = feedbackOrigin === 'clarifications' ? clarificationFeedbackRef : feedbackRef;
+    if (!feedbackVersion || !target.current) return;
+    const feedback = target.current;
     feedback.focus({ preventScroll: true });
     const bounds = feedback.getBoundingClientRect();
     if (bounds.top < 0 || bounds.bottom > window.innerHeight)
       feedback.scrollIntoView({ block: 'start' });
-  }, [feedbackVersion]);
+  }, [feedbackVersion, feedbackOrigin]);
   useEffect(() => {
-    onUnsavedChange(dirty || busy || proposing || !!pending);
-  }, [dirty, busy, proposing, pending, onUnsavedChange]);
+    onUnsavedChange(dirty || busy || proposing || clarificationDirty || !!pending);
+  }, [dirty, busy, proposing, clarificationDirty, pending, onUnsavedChange]);
   useEffect(() => {
     return () => onUnsavedChange(false);
   }, [onUnsavedChange]);
@@ -133,6 +140,8 @@ export function LegalFindings({
     proposal.packageDigest === workspace?.packageDigest
       ? proposal
       : undefined;
+  const clarificationValues = { ...coordinates, findings };
+  const editorDisabled = disabled || clarificationDirty;
   const scopeApproved = !!activeProposal && coordinateProposalId === activeProposal.proposalId;
   function makeInput(attempt: Pick<LegalInput, 'action' | 'requestId'>): LegalInput {
     return {
@@ -201,14 +210,44 @@ export function LegalFindings({
       setError('');
     }
   }
-  async function submit(action: LegalInput['action']) {
+  function confirmClarifications(preview: ClarificationPreview) {
+    if (disabled || inFlight.current) return;
+    if (preview.baseline !== JSON.stringify(clarificationValues)) {
+      setError('Обстоятельства изменились. Заново подготовьте уточнения.');
+      setFeedbackOrigin('clarifications');
+      setFeedbackVersion((value) => value + 1);
+      return;
+    }
+    const input = {
+      ...makeInput({ action: 'save', requestId: crypto.randomUUID() }),
+      ...preview.values,
+    };
+    const { findings: nextFindings, ...nextCoordinates } = preview.values;
+    setCoordinates(nextCoordinates);
+    setFindings(nextFindings);
+    setDirty(true);
+    setClarificationDirty(false);
+    setClarificationEpoch((value) => value + 1);
+    setResetNotice(
+      preview.resetConditionIds.length
+        ? 'Координаты уточнены. Прежние решения сброшены; сохранены только подтверждённые сейчас ответы.'
+        : '',
+    );
+    void submit('save', input, 'clarifications');
+  }
+  async function submit(
+    action: LegalInput['action'],
+    replacement?: LegalInput,
+    origin: 'actions' | 'clarifications' = 'actions',
+  ) {
     if (inFlight.current || proposing || blocked || loading || !workspace) return;
+    setFeedbackOrigin(origin);
     let input: LegalInput;
     try {
       if (pending) input = pending;
       else {
-        const attempt = { action, requestId: crypto.randomUUID() };
-        const parsed = legalInputSchema.safeParse(makeInput(attempt));
+        const attempt = { action, requestId: replacement?.requestId ?? crypto.randomUUID() };
+        const parsed = legalInputSchema.safeParse(replacement ?? makeInput(attempt));
         if (!parsed.success) {
           setValidationAttempt(attempt);
           setError('');
@@ -323,7 +362,7 @@ export function LegalFindings({
                 compact
                 episodes={episodes}
                 claimedFine={claimedFine}
-                disabled={disabled}
+                disabled={editorDisabled}
                 issues={issues}
                 onChange={changeCoordinates}
                 onFineChange={(next) => {
@@ -339,7 +378,7 @@ export function LegalFindings({
                 episode={coordinates.episode}
                 expectedAssessmentId={workspace.assessments[0]?.id ?? null}
                 packageDigest={workspace.packageDigest}
-                disabled={disabled}
+                disabled={editorDisabled}
                 statements={confirmed.filter((item) => item.aboutEpisode === coordinates.episode)}
                 coordinateProposalId={coordinateProposalId}
                 onAcceptCoordinates={acceptCoordinates}
@@ -371,7 +410,7 @@ export function LegalFindings({
                       finding={finding}
                       proposalId={activeProposal.proposalId}
                       statements={statements}
-                      disabled={disabled}
+                      disabled={editorDisabled}
                       acceptDisabled={!scopeApproved}
                       issues={issues}
                       onAccept={() =>
@@ -388,19 +427,30 @@ export function LegalFindings({
                       condition={condition}
                       finding={finding}
                       statements={statements}
-                      disabled={disabled || !coordinates.episode}
+                      disabled={editorDisabled || !coordinates.episode}
                       issues={issues}
                       onChange={(patch) => change(condition.id, patch)}
                     />
                   );
                 })}
               </div>
+              {clarificationDirty && (
+                <Notice>
+                  Сначала проверьте и подтвердите{' '}
+                  <a href="#parking-legal-clarifications">подготовленные ответы ниже</a> либо
+                  отмените их, чтобы вернуться к редакторам.
+                </Notice>
+              )}
               <Actions>
-                <Button variant="secondary" disabled={disabled} onClick={() => void submit('save')}>
+                <Button
+                  variant="secondary"
+                  disabled={editorDisabled}
+                  onClick={() => void submit('save')}
+                >
                   {busy && pending?.action === 'save' ? 'Сохраняем…' : 'Сохранить обстоятельства'}
                 </Button>
                 <Button
-                  disabled={disabled}
+                  disabled={editorDisabled}
                   aria-busy={busy}
                   onClick={() => void submit('calculate')}
                 >
@@ -411,20 +461,25 @@ export function LegalFindings({
                     : 'Рассчитать и проверить в Lean'}
                 </Button>
                 {pending && !busy && (
-                  <Button disabled={blocked} onClick={() => void submit(pending.action)}>
+                  <Button
+                    disabled={blocked || clarificationDirty}
+                    onClick={() => void submit(pending.action)}
+                  >
                     Повторить тот же запрос
                   </Button>
                 )}
               </Actions>
-              <LegalActionFeedback
-                error={error}
-                issues={issues}
-                validationAttempted={!!validationAttempt}
-                busy={busy}
-                action={pending?.action ?? validationAttempt?.action}
-                record={!dirty && !pending ? record : undefined}
-                feedbackRef={feedbackRef}
-              />
+              {feedbackOrigin === 'actions' && (
+                <LegalActionFeedback
+                  error={error}
+                  issues={issues}
+                  validationAttempted={!!validationAttempt}
+                  busy={busy}
+                  action={pending?.action ?? validationAttempt?.action}
+                  record={!dirty && !pending ? record : undefined}
+                  feedbackRef={feedbackRef}
+                />
+              )}
               {pending && !busy && (
                 <Notice tone="warning">
                   Ответ не получен. Сохранение могло выполниться. Повтор использует прежний ID и не
@@ -434,7 +489,7 @@ export function LegalFindings({
             </>
           )}
           <Actions>
-            {!pending && !busy && !proposing && !loading && (
+            {!pending && !busy && !proposing && !loading && !clarificationDirty && (
               <Button
                 variant="quiet"
                 onClick={() => {
@@ -458,6 +513,53 @@ export function LegalFindings({
             workspace={workspace}
             stale={dirty || blocked || !!pending}
           />
+          {!blocked && (
+            <>
+              <LegalClarifications
+                key={`${draft.revisionId}:${workspace.packageDigest}:${workspace.assessments[0]?.id ?? ''}:${clarificationEpoch}`}
+                values={clarificationValues}
+                conditions={workspace.package.conditions}
+                statements={confirmed.filter((item) => item.aboutEpisode === coordinates.episode)}
+                disabled={disabled}
+                onDirty={setClarificationDirty}
+                onConfirm={confirmClarifications}
+              />
+              {feedbackOrigin === 'clarifications' && (
+                <>
+                  <LegalActionFeedback
+                    error={error}
+                    issues={issues}
+                    validationAttempted={!!validationAttempt}
+                    busy={busy}
+                    action={pending?.action ?? validationAttempt?.action}
+                    record={!dirty && !pending ? record : undefined}
+                    feedbackRef={clarificationFeedbackRef}
+                  />
+                  {pending && !busy && (
+                    <>
+                      <Notice tone="warning">
+                        Сохранение могло выполниться. Повтор использует тот же ID; новые ответы пока
+                        не применяйте.
+                      </Notice>
+                      <Button
+                        onClick={() => void submit(pending.action, undefined, 'clarifications')}
+                      >
+                        Повторить сохранение с тем же ID
+                      </Button>
+                    </>
+                  )}
+                  {!dirty && !pending && !busy && record && !record.result && (
+                    <Button
+                      disabled={disabled || clarificationDirty}
+                      onClick={() => void submit('calculate', undefined, 'clarifications')}
+                    >
+                      Пересчитать и проверить в Lean
+                    </Button>
+                  )}
+                </>
+              )}
+            </>
+          )}
           <Disclosure summary={`История юридических решений · ${workspace.assessments.length}`}>
             {workspace.assessments.map((item) => (
               <Disclosure
