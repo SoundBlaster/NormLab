@@ -173,6 +173,9 @@ textarea.ui-control,
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
 }
+.ui-control[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
 .ui-actions {
   display: flex;
   align-items: center;
