@@ -11,7 +11,9 @@ import {
   type LegalWorkspace,
   type ReviewDraft,
 } from '../model/contracts.js';
+import { legalValidationIssues } from '../model/legal-validation.js';
 
+import { LegalActionFeedback } from './LegalActionFeedback.js';
 import { LegalFindingEditor } from './LegalFindingEditor.js';
 import { LegalResultView } from './LegalResultView.js';
 
@@ -50,7 +52,20 @@ export function LegalFindings({
   const [error, setError] = useState('');
   const [refresh, setRefresh] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [validationAttempt, setValidationAttempt] =
+    useState<Pick<LegalInput, 'action' | 'requestId'>>();
+  const [resetNotice, setResetNotice] = useState('');
+  const [feedbackVersion, setFeedbackVersion] = useState(0);
+  const feedbackRef = useRef<HTMLDivElement>(null);
   const inFlight = useRef(false);
+  useEffect(() => {
+    if (!feedbackVersion || !feedbackRef.current) return;
+    const feedback = feedbackRef.current;
+    feedback.focus({ preventScroll: true });
+    const bounds = feedback.getBoundingClientRect();
+    if (bounds.top < 0 || bounds.bottom > window.innerHeight)
+      feedback.scrollIntoView({ block: 'start' });
+  }, [feedbackVersion]);
   useEffect(() => {
     onUnsavedChange(dirty || busy || !!pending);
   }, [dirty, busy, pending, onUnsavedChange]);
@@ -90,6 +105,8 @@ export function LegalFindings({
         setClaimedFine(saved?.input.claimedFine == null ? '' : String(saved.input.claimedFine));
         setDirty(false);
         setError('');
+        setValidationAttempt(undefined);
+        setResetNotice('');
       })
       .catch((e: unknown) => {
         if (!controller.signal.aborted) setError(e instanceof Error ? e.message : String(e));
@@ -102,39 +119,86 @@ export function LegalFindings({
   const confirmed = draft.statements.filter((s) => s.decision === 'confirmed');
   const episodes = [...new Set(confirmed.map((s) => s.aboutEpisode))];
   const disabled = blocked || busy || loading || !!pending || !workspace;
+  function makeInput(attempt: Pick<LegalInput, 'action' | 'requestId'>): LegalInput {
+    return {
+      ...coordinates,
+      findings,
+      claimedFine: claimedFine === '' ? null : Number(claimedFine),
+      draftId: draft.draftId,
+      expectedRevisionId: draft.revisionId,
+      expectedAssessmentId: workspace?.assessments[0]?.id ?? null,
+      packageDigest: workspace?.packageDigest ?? '',
+      ...attempt,
+    };
+  }
+  // Revalidate the same local attempt as fields are corrected; no request is sent here.
+  const validation = validationAttempt && legalInputSchema.safeParse(makeInput(validationAttempt));
+  const issues =
+    validation && !validation.success && workspace
+      ? legalValidationIssues(validation.error.issues, findings, workspace.package.conditions)
+      : [];
   const change = (conditionId: string, patch: Partial<LegalFinding>) => {
     setFindings((items) =>
       items.map((item) => (item.conditionId === conditionId ? { ...item, ...patch } : item)),
     );
     setDirty(true);
+    setError('');
   };
+  function changeCoordinates(next: LegalCoordinates) {
+    if (
+      Object.entries(next).every(
+        ([key, value]) => coordinates[key as keyof LegalCoordinates] === value,
+      )
+    )
+      return;
+    const hasDecisions = findings.some(
+      (finding) =>
+        finding.state !== 'unreviewed' || finding.rationale || finding.statementIds.length,
+    );
+    if (
+      hasDecisions &&
+      !window.confirm(
+        'Изменение эпизода, участника, ТС, места или времени сбросит все введённые решения, основания и ссылки на утверждения. Продолжить?',
+      )
+    )
+      return;
+    setCoordinates(next);
+    setFindings(emptyLegalFindings());
+    setDirty(true);
+    setValidationAttempt(undefined);
+    setError('');
+    if (hasDecisions)
+      setResetNotice('Координаты изменены. Укажите решения, основания и ссылки заново.');
+  }
   async function submit(action: LegalInput['action']) {
     if (inFlight.current || blocked || loading || !workspace) return;
     let input: LegalInput;
     try {
-      input =
-        pending ??
-        legalInputSchema.parse({
-          ...coordinates,
-          findings,
-          claimedFine: claimedFine === '' ? null : Number(claimedFine),
-          draftId: draft.draftId,
-          expectedRevisionId: draft.revisionId,
-          expectedAssessmentId: workspace.assessments[0]?.id ?? null,
-          requestId: crypto.randomUUID(),
-          packageDigest: workspace.packageDigest,
-          action,
-        });
+      if (pending) input = pending;
+      else {
+        const attempt = { action, requestId: crypto.randomUUID() };
+        const parsed = legalInputSchema.safeParse(makeInput(attempt));
+        if (!parsed.success) {
+          setValidationAttempt(attempt);
+          setError('');
+          setFeedbackVersion((value) => value + 1);
+          return;
+        }
+        input = parsed.data;
+      }
     } catch {
       setError(
-        'Выберите эпизод. Пустые сведения сохраняются как пробелы. Каждое рассмотренное обстоятельство требует основания; сумма должна быть целым неотрицательным числом.',
+        'Не удалось подготовить запрос. Введённые данные сохранены в форме; попробуйте ещё раз.',
       );
+      setFeedbackVersion((value) => value + 1);
       return;
     }
     inFlight.current = true;
     setBusy(true);
     setError('');
+    setValidationAttempt(undefined);
     setPending(input);
+    setFeedbackVersion((value) => value + 1);
     try {
       const response = await fetch(apiUrl('/api/parking/legal'), {
         method: 'POST',
@@ -142,12 +206,13 @@ export function LegalFindings({
         body: JSON.stringify(input),
         signal: AbortSignal.timeout(60000),
       });
-      const body = await response.json();
+      const body = await response.json().catch(() => null);
       if (!response.ok) {
         // A known rejection did not publish a record. Unknown transport outcomes keep the ID.
         if (response.status >= 400 && response.status < 500) setPending(undefined);
-        throw new Error(body.error ?? 'Сохранение не подтверждено.');
+        throw new Error(body?.error ?? `Сервер отклонил запрос (HTTP ${response.status}).`);
       }
+      if (!body) throw new Error('Сервер вернул нечитаемый ответ. Сохранение не подтверждено.');
       const saved = body as LegalAssessment;
       setRecord(saved);
       setDirty(false);
@@ -162,6 +227,7 @@ export function LegalFindings({
     } finally {
       inFlight.current = false;
       setBusy(false);
+      setFeedbackVersion((value) => value + 1);
     }
   }
   return (
@@ -181,7 +247,7 @@ export function LegalFindings({
           истории и не переносятся на новую ревизию.
         </Notice>
       )}
-      {error && (
+      {error && (!workspace || blocked) && (
         <Notice tone="danger" role="alert">
           {error}
         </Notice>
@@ -226,16 +292,15 @@ export function LegalFindings({
                 episodes={episodes}
                 claimedFine={claimedFine}
                 disabled={disabled}
-                onChange={(next) => {
-                  setCoordinates(next);
-                  setFindings(emptyLegalFindings());
-                  setDirty(true);
-                }}
+                issues={issues}
+                onChange={changeCoordinates}
                 onFineChange={(next) => {
                   setClaimedFine(next);
                   setDirty(true);
+                  setError('');
                 }}
               />
+              {resetNotice && <Notice tone="warning">{resetNotice}</Notice>}
               <div className="parking-statement-list">
                 {workspace.package.conditions.map((condition) => (
                   <LegalFindingEditor
@@ -246,13 +311,14 @@ export function LegalFindings({
                       (item) => item.aboutEpisode === coordinates.episode,
                     )}
                     disabled={disabled || !coordinates.episode}
+                    issues={issues}
                     onChange={(patch) => change(condition.id, patch)}
                   />
                 ))}
               </div>
               <Actions>
                 <Button variant="secondary" disabled={disabled} onClick={() => void submit('save')}>
-                  Сохранить обстоятельства
+                  {busy && pending?.action === 'save' ? 'Сохраняем…' : 'Сохранить обстоятельства'}
                 </Button>
                 <Button
                   disabled={disabled}
@@ -271,6 +337,15 @@ export function LegalFindings({
                   </Button>
                 )}
               </Actions>
+              <LegalActionFeedback
+                error={error}
+                issues={issues}
+                validationAttempted={!!validationAttempt}
+                busy={busy}
+                action={pending?.action ?? validationAttempt?.action}
+                record={!dirty && !pending ? record : undefined}
+                feedbackRef={feedbackRef}
+              />
               {pending && !busy && (
                 <Notice tone="warning">
                   Ответ не получен. Сохранение могло выполниться. Повтор использует прежний ID и не
