@@ -85,6 +85,10 @@ export function ParkingReview({ token }: { token: string }) {
   const [legalRefresh, setLegalRefresh] = useState(0);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   const contextRef = useRef<HTMLElement>(null);
+  function captureSourceSelection() {
+    const input = sourceRef.current;
+    if (input) setSelection({ start: input.selectionStart, end: input.selectionEnd });
+  }
   async function request<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
     const response = await fetch(
       apiUrl(path),
@@ -736,10 +740,8 @@ export function ParkingReview({ token }: { token: string }) {
                 disabled={busy}
                 rows={4}
                 value={draft.narrative}
-                onSelect={() => {
-                  const input = sourceRef.current;
-                  if (input) setSelection({ start: input.selectionStart, end: input.selectionEnd });
-                }}
+                onSelect={captureSourceSelection}
+                onKeyUp={captureSourceSelection}
               />
             </Field>
             <Actions>
