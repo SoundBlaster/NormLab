@@ -4,18 +4,28 @@ import EventTransitions
 open Lean Elab Command in
 run_cmd do
   let required : List Name := [
-    `NormLabEvents.RecordedTransition.roundtrip,
-    `NormLabEvents.RecordedTransition.added_iff,
-    `NormLabEvents.RecordedTransition.removed_iff,
-    `NormLabEvents.RecordedTransition.reinterpret_event,
-    `NormLabEvents.RecordedTransition.reinterpret_states,
-    `NormLabEvents.RecordedTransition.reinterpret_consequence,
-    `NormLabEvents.RecordedTransition.different_event_is_not_reinterpretation,
+    `NormLabEvents.RecordedEvent.roundtrip,
+    `NormLabEvents.RecordedEvent.added_iff,
+    `NormLabEvents.RecordedEvent.removed_iff,
+    `NormLabEvents.Interpretation.same_observations,
+    `NormLabEvents.Interpretation.same_consequence,
+    `NormLabEvents.Interpretation.context_key,
+    `NormLabEvents.RegisteredEvent.same_id_same_record,
+    `NormLabEvents.RegisteredEvent.same_id_same_key,
+    `NormLabEvents.RegisteredEvent.same_id_same_observations,
+    `NormLabEvents.RegisteredEvent.missing_record_rejected,
+    `NormLabEvents.CausalHypothesis.no_self,
+    `NormLabEvents.CausalHypothesis.no_backwards_start,
+    `NormLabEvents.CausalHypothesis.ordered_endpoints,
     `NormLabEvents.Witness.hurricane_changes_state,
     `NormLabEvents.Witness.agent_changes_state,
     `NormLabEvents.Witness.car_changes_state,
     `NormLabEvents.Witness.alternative_roles_same_observations,
-    `NormLabEvents.Witness.predecessor_is_a_separate_event]
+    `NormLabEvents.Witness.overlapping_cause_accepted,
+    `NormLabEvents.Witness.self_cause_rejected,
+    `NormLabEvents.Witness.ghost_record_rejected,
+    `NormLabEvents.Witness.changed_observations_rejected,
+    `NormLabEvents.Witness.missing_event_rejected]
   for name in required do
     let info ← getConstInfo name
     unless info.isTheorem do

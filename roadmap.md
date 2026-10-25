@@ -156,12 +156,16 @@ ledger [#203](https://github.com/SoundBlaster/NormLab/issues/203).
    [EventTransitions](lean/EventTransitions.lean),
    [ActionAttribution](lean/ActionAttribution.lean), [контракт](docs/ACTION_ATTRIBUTION.md).
    Actor — любая Entity, включая ураган, AI-агент, машину или сообщество. Общий
-   Context не требует человека; версии ролей сохраняют наблюдения и diff того же
-   события. HumanContext с humanAnchor и явной атрибуцией — отдельный слой. Два
+   RecordedEvent не требует человека; Interpretation event не имеет собственных
+   состояний. В одном EventRegistry одинаковый ID означает одну запись. HumanContext
+   привязан к зарегистрированной записи, её интерпретации и humanAnchor. Два
    человеческих профиля связывают
    действие/бездействие, R2b certificate и append-only State/diff; unknown,
    противоположная поддержка и подмена контекста не принимаются. Это ограниченный
-   срез для следующего парковочного пилота; CI/review статус хранится в Issue.
+   срез для следующего парковочного пилота. Сквозной owner-omission → car-motion
+   witness связывает профили через ограниченную причинную гипотезу без переноса
+   breach на движение; self-link и обратное начало исключены, перекрытие допустимо.
+   CI/review статус хранится в Issue.
 4. **R4 — Parking pilot:** применить ядро к одному эпизоду, сопоставить
    «оплачено», «неизвестно» и «нарушение установлено» с существующими findings.
    Передавать в Lean идентификаторы участников, ТС и эпизода вместо одной лишь
