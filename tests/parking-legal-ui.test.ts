@@ -63,7 +63,7 @@ test('previous profiles and stale inputs cannot render green Lean verification',
 
 test('rejected candidate and sanction are inside a closed disclosure below the failure heading', () => {
   const html = render('rejected');
-  assert.match(html, /<h3>Расчёт отклонён проверкой Lean<\/h3>/);
+  assert.match(html, /<h3>Расчёт отклонён проверкой<\/h3>/);
   assert.match(html, /data-tone="danger"/);
   assert.doesNotMatch(html, /data-tone="success"/);
   const details = html.match(

@@ -116,9 +116,31 @@ export const legalResultSchema = z.strictObject({
 });
 export type LegalResult = z.infer<typeof legalResultSchema>;
 
+export const parkingScopeBindingSchema = z.strictObject({
+  schema: z.literal('normlab.parking-scope-binding/v1'),
+  action: z.literal('record-reviewed-findings'),
+  draftId: z.string().uuid(),
+  revisionId: z.string().uuid(),
+  assessmentId: z.string().uuid(),
+  sourceDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  sourceRevisionDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  sourceStatementsDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  findingsDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  scope: z.strictObject({
+    episode: legalInputSchema.shape.episode,
+    participant: legalInputSchema.shape.participant,
+    vehicle: legalInputSchema.shape.vehicle,
+    eventDate: legalInputSchema.shape.eventDate,
+    location: legalInputSchema.shape.location,
+    timeInterval: legalInputSchema.shape.timeInterval,
+  }),
+  statementIds: z.array(z.string().uuid()).max(256),
+});
+export type ParkingScopeBinding = z.infer<typeof parkingScopeBindingSchema>;
+
 export const parkingVerificationSchema = z
   .strictObject({
-    profile: z.literal('parking-fragment-poc/v1'),
+    profile: z.enum(['parking-fragment-poc/v1', 'parking-fragment-poc/v2']),
     status: z.enum(['verified', 'inconclusive', 'rejected']),
     engine: z.literal('lean-kernel'),
     version: z.string().nullable(),
@@ -134,14 +156,24 @@ export const parkingVerificationSchema = z
     axioms: z.array(z.string()).max(16),
     reason: z.string().max(2048),
     durationMs: z.number().int().nonnegative(),
+    binding: parkingScopeBindingSchema.optional(),
   })
   .refine(
     (v) =>
       v.status !== 'verified' ||
       (v.version?.includes('version 4.30.0') &&
         v.toolchainDigest !== null &&
-        v.axioms.every((axiom) => axiom === 'propext')),
+        v.axioms.every(
+          (axiom) =>
+            axiom === 'propext' ||
+            (v.profile === 'parking-fragment-poc/v2' && axiom === 'Quot.sound'),
+        ) &&
+        (v.profile !== 'parking-fragment-poc/v2' || v.binding !== undefined)),
     'Verified parking proof requires the pinned toolchain and audited axioms.',
+  )
+  .refine(
+    (v) => v.profile !== 'parking-fragment-poc/v1' || v.binding === undefined,
+    'Legacy verification cannot claim a reviewed-episode binding.',
   );
 export type ParkingVerification = z.infer<typeof parkingVerificationSchema>;
 
