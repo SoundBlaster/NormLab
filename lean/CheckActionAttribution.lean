@@ -4,6 +4,7 @@ import ActionAttribution
 open Lean Elab Command in
 run_cmd do
   let required : List Name := [
+    `NormLabActionAttribution.humanCandidate_context,
     `NormLabActionAttribution.contextOf_literal,
     `NormLabActionAttribution.literal_context_injective,
     `NormLabActionAttribution.certificate_uses_facts,
@@ -38,6 +39,7 @@ run_cmd do
     `NormLabActionAttribution.Witness.self_action_accepted,
     `NormLabActionAttribution.Witness.attribution_cannot_be_skipped,
     `NormLabActionAttribution.Witness.scope_substitution_rejected,
+    `NormLabActionAttribution.Witness.event_interpretation_substitution_rejected,
     `NormLabActionAttribution.Witness.unknown_is_not_omission,
     `NormLabActionAttribution.Witness.conflict_is_not_omission,
     `NormLabActionAttribution.Witness.missing_conditions_rejected,
@@ -45,7 +47,8 @@ run_cmd do
     `NormLabActionAttribution.Witness.unrelated_rule_cannot_bypass,
     `NormLabActionAttribution.Witness.nonempty_exact_effect,
     `NormLabActionAttribution.Witness.unrelated_conflict_retained,
-    `NormLabActionAttribution.Witness.output_is_not_derived_closure]
+    `NormLabActionAttribution.Witness.output_is_not_derived_closure,
+    `NormLabActionAttribution.Witness.general_event_without_human_profile]
   for name in required do
     let info ← getConstInfo name
     unless info.isTheorem do

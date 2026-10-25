@@ -152,10 +152,13 @@ ledger [#203](https://github.com/SoundBlaster/NormLab/issues/203).
      при её потере; witness различает альтернативный вывод и невыводимость
      после удаления обоих оснований. Proof search и source provenance остаются
      за пределами среза; текущий review/CI статус хранится в Issue.
-3. **R3 — Actor attribution:** [#225](https://github.com/SoundBlaster/NormLab/issues/225),
+3. **R3 — Events / actor attribution:** [#225](https://github.com/SoundBlaster/NormLab/issues/225),
+   [EventTransitions](lean/EventTransitions.lean),
    [ActionAttribution](lean/ActionAttribution.lean), [контракт](docs/ACTION_ATTRIBUTION.md).
-   Actor — любая Entity, включая абстрактное сообщество; humanAnchor — отдельное
-   человеческое основание, связанное явной атрибуцией. Два профиля связывают
+   Actor — любая Entity, включая ураган, AI-агент, машину или сообщество. Общий
+   Context не требует человека; версии ролей сохраняют наблюдения и diff того же
+   события. HumanContext с humanAnchor и явной атрибуцией — отдельный слой. Два
+   человеческих профиля связывают
    действие/бездействие, R2b certificate и append-only State/diff; unknown,
    противоположная поддержка и подмена контекста не принимаются. Это ограниченный
    срез для следующего парковочного пилота; CI/review статус хранится в Issue.

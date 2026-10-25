@@ -1,4 +1,5 @@
 import DerivationTraces
+import EventTransitions
 
 -- R3: bounded formal attribution under explicitly supplied facts and rules.
 -- No legal defaults, real-world causality oracle or parking runtime adapter.
@@ -6,32 +7,31 @@ namespace NormLabActionAttribution
 
 open NormLabRelations NormLabStateRelations NormLabDerivationTraces
 
-structure Universe where
-  Entity : Type
+structure Universe extends NormLabEvents.Universe where
   IsHuman : Entity → Prop
-  Episode : Type
-  Action : Type
 
 abbrev Human (u : Universe) := { entity : u.Entity // u.IsHuman entity }
 
--- Actor is a role of any entity, including an abstract community. HumanAnchor
--- is a separate participant used by this bounded human-grounding profile.
-structure Context (u : Universe) where
-  actor : u.Entity
+-- General Context has no human requirement. Only this selected attribution
+-- profile extends it with a human anchor; event and interpretation IDs remain bound.
+abbrev Context (u : Universe) := NormLabEvents.Context u.toUniverse
+structure HumanContext (u : Universe) extends NormLabEvents.Context u.toUniverse where
   humanAnchor : Human u
-  target : u.Entity
-  instrument : Option u.Entity
-  episode : u.Episode
-  action : u.Action
-  start : Nat
-  finish : Nat
+
+-- This constructs a candidate human interpretation, not a successful check or
+-- a responsibility judgement. It preserves the general event/role context.
+def humanCandidate {u : Universe} (context : Context u) (anchor : Human u) : HumanContext u :=
+  ⟨context, anchor⟩
+
+@[simp] theorem humanCandidate_context {u : Universe} (context : Context u) (anchor : Human u) :
+    (humanCandidate context anchor).toContext = context := rfl
 
 inductive Kind where
   | action | omission
   deriving DecidableEq
 
 inductive SortId where
-  | human | entity | instrument | episode | action | time
+  | human | entity | instrument | episode | action | time | eventId | interpretationId
 
 inductive Predicate where
   | attributed | performed | required | deadlineElapsed | capable | exception
@@ -44,31 +44,34 @@ def Entity (u : Universe) : SortId → Type
   | .instrument => Option u.Entity
   | .episode => u.Episode
   | .action => u.Action
-  | .time => Nat
+  | .time | .eventId | .interpretationId => Nat
 
 def signature (u : Universe) : Signature :=
   { SortId := SortId, Entity := Entity u, Predicate := Predicate,
-    arity := fun _ => [.entity, .human, .entity, .instrument, .episode, .action, .time, .time] }
+    arity := fun _ => [.entity, .human, .entity, .instrument, .episode, .action, .time, .time, .eventId, .interpretationId] }
 
-def arguments {u : Universe} (ctx : Context u) :
-    Args (signature u) [.entity, .human, .entity, .instrument, .episode, .action, .time, .time] :=
+def arguments {u : Universe} (ctx : HumanContext u) :
+    Args (signature u) [.entity, .human, .entity, .instrument, .episode, .action, .time, .time, .eventId, .interpretationId] :=
   .cons ctx.actor (.cons ctx.humanAnchor (.cons ctx.target (.cons ctx.instrument (.cons ctx.episode
-    (.cons ctx.action (.cons ctx.start (.cons ctx.finish .nil)))))))
+    (.cons ctx.action (.cons ctx.start (.cons ctx.finish
+      (.cons ctx.eventId (.cons ctx.interpretationId .nil)))))))))
 
 def literal {u : Universe} (predicate : Predicate) (polarity : Polarity)
-    (ctx : Context u) : Literal (signature u) := ⟨polarity, ⟨predicate, arguments ctx⟩⟩
+    (ctx : HumanContext u) : Literal (signature u) := ⟨polarity, ⟨predicate, arguments ctx⟩⟩
 
-def contextOf {u : Universe} (value : Literal (signature u)) : Context u :=
+def contextOf {u : Universe} (value : Literal (signature u)) : HumanContext u :=
   match value.atom.args with
   | .cons actor (.cons humanAnchor (.cons target (.cons instrument (.cons episode
-      (.cons action (.cons start (.cons finish .nil))))))) =>
-      ⟨actor, humanAnchor, target, instrument, episode, action, start, finish⟩
+      (.cons action (.cons start (.cons finish (.cons eventId (.cons interpretationId .nil))))))))) =>
+      {actor := actor, humanAnchor := humanAnchor, target := target, instrument := instrument,
+        episode := episode, action := action, start := start, finish := finish,
+        eventId := eventId, interpretationId := interpretationId}
 
 @[simp] theorem contextOf_literal {u : Universe} (p : Predicate) (s : Polarity)
-    (ctx : Context u) : contextOf (literal p s ctx) = ctx := by cases ctx; rfl
+    (ctx : HumanContext u) : contextOf (literal p s ctx) = ctx := by cases ctx; rfl
 
 theorem literal_context_injective {u : Universe} {p q : Predicate} {s t : Polarity}
-    {a b : Context u} (same : literal p s a = literal q t b) : a = b := by
+    {a b : HumanContext u} (same : literal p s a = literal q t b) : a = b := by
   simpa only [contextOf_literal] using congrArg contextOf same
 
 def opposite {sig : Signature} (value : Literal sig) : Literal sig :=
@@ -78,7 +81,7 @@ def opposite {sig : Signature} (value : Literal sig) : Literal sig :=
 
 -- Performed/non-performance describe the selected human anchor's contribution;
 -- attributed is the explicit model relation connecting it to the actor.
-def grounds {u : Universe} (kind : Kind) (ctx : Context u) : List (Literal (signature u)) :=
+def grounds {u : Universe} (kind : Kind) (ctx : HumanContext u) : List (Literal (signature u)) :=
   match kind with
   | .action => [literal .attributed .positive ctx, literal .performed .positive ctx]
   | .omission => [literal .attributed .positive ctx,
@@ -86,27 +89,27 @@ def grounds {u : Universe} (kind : Kind) (ctx : Context u) : List (Literal (sign
       literal .capable .positive ctx, literal .exception .negative ctx,
       literal .performed .negative ctx]
 
-def eligible {u : Universe} (kind : Kind) (ctx : Context u) : Literal (signature u) :=
+def eligible {u : Universe} (kind : Kind) (ctx : HumanContext u) : Literal (signature u) :=
   literal (match kind with | .action => .actionGrounded | .omission => .omissionGrounded)
     .positive ctx
 
-def effect {u : Universe} (kind : Kind) (ctx : Context u) : Literal (signature u) :=
+def effect {u : Universe} (kind : Kind) (ctx : HumanContext u) : Literal (signature u) :=
   literal (match kind with | .action => .relationActive | .omission => .breachRecorded)
     .positive ctx
 
-def profileRule {u : Universe} (kind : Kind) (ctx : Context u) : GroundRule (signature u) :=
+def profileRule {u : Universe} (kind : Kind) (ctx : HumanContext u) : GroundRule (signature u) :=
   ⟨grounds kind ctx, eligible kind ctx⟩
 
 -- The caller cannot substitute an unrelated tree or use an input eligibility
 -- fact as a shortcut. This tree always cites every selected profile premise.
-def certificate {u : Universe} (kind : Kind) (ctx : Context u) : Tree (signature u) :=
+def certificate {u : Universe} (kind : Kind) (ctx : HumanContext u) : Tree (signature u) :=
   .step (profileRule kind ctx) ((grounds kind ctx).map Tree.fact)
 
-theorem certificate_uses_facts {u : Universe} (kind : Kind) (ctx : Context u) :
+theorem certificate_uses_facts {u : Universe} (kind : Kind) (ctx : HumanContext u) :
     (certificate kind ctx).usedFacts = grounds kind ctx := by
   cases kind <;> simp [certificate, grounds, Tree.usedFacts]
 
-theorem certificate_uses_rule {u : Universe} (kind : Kind) (ctx : Context u) :
+theorem certificate_uses_rule {u : Universe} (kind : Kind) (ctx : HumanContext u) :
     (certificate kind ctx).usedRules = [profileRule kind ctx] := by
   cases kind <;> simp [certificate, grounds, Tree.usedRules]
 
@@ -122,13 +125,13 @@ theorem clear_iff (facts : List (Literal (signature u))) (value : Literal (signa
   simp [clear]
 
 def check (facts : List (Literal (signature u))) (catalog : List (GroundRule (signature u)))
-    (kind : Kind) (ctx : Context u) : Bool :=
+    (kind : Kind) (ctx : HumanContext u) : Bool :=
   decide (ctx.start ≤ ctx.finish) && (grounds kind ctx).all (clear facts) &&
     !(decide (opposite (effect kind ctx) ∈ facts)) &&
     Tree.verify facts catalog (eligible kind ctx) (certificate kind ctx)
 
 theorem check_iff (facts : List (Literal (signature u)))
-    (catalog : List (GroundRule (signature u))) (kind : Kind) (ctx : Context u) :
+    (catalog : List (GroundRule (signature u))) (kind : Kind) (ctx : HumanContext u) :
     check facts catalog kind ctx = true ↔
       ctx.start ≤ ctx.finish ∧
       (∀ value ∈ grounds kind ctx, value ∈ facts ∧ opposite value ∉ facts) ∧
@@ -137,13 +140,13 @@ theorem check_iff (facts : List (Literal (signature u)))
   simp [check, List.all_eq_true, clear_iff, and_assoc]
 
 theorem checked_provenance {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : HumanContext u}
     (accepted : check facts catalog kind ctx = true) :
     Derivable facts catalog (eligible kind ctx) :=
   Tree.verify_sound ((check_iff _ _ _ _).mp accepted).2.2.2
 
 theorem checked_rule_authorized {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : HumanContext u}
     (accepted : check facts catalog kind ctx = true) : profileRule kind ctx ∈ catalog := by
   have checked := ((check_iff _ _ _ _).mp accepted).2.2.2
   have valid := ((Tree.verify_iff _ _ _ _).mp checked).2
@@ -152,33 +155,33 @@ theorem checked_rule_authorized {facts : List (Literal (signature u))}
   exact Tree.valid_uses_rules valid used
 
 theorem checked_action_has_performance {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {ctx : HumanContext u}
     (accepted : check facts catalog .action ctx = true) :
     literal .performed .positive ctx ∈ facts ∧ literal .performed .negative ctx ∉ facts := by
   exact ((check_iff _ _ _ _).mp accepted).2.1 _ (by simp [grounds])
 
 theorem checked_actor_attributed {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : HumanContext u}
     (accepted : check facts catalog kind ctx = true) :
     literal .attributed .positive ctx ∈ facts ∧ literal .attributed .negative ctx ∉ facts := by
   apply ((check_iff _ _ _ _).mp accepted).2.1
   cases kind <;> simp [grounds]
 
 theorem unattributed_actor_rejected {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : HumanContext u}
     (missing : literal .attributed .positive ctx ∉ facts) : check facts catalog kind ctx = false := by
   cases accepted : check facts catalog kind ctx with
   | false => rfl
   | true => exact False.elim (missing (checked_actor_attributed accepted).1)
 
 theorem checked_omission_has_nonperformance {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {ctx : HumanContext u}
     (accepted : check facts catalog .omission ctx = true) :
     literal .performed .negative ctx ∈ facts ∧ literal .performed .positive ctx ∉ facts := by
   exact ((check_iff _ _ _ _).mp accepted).2.1 _ (by simp [grounds])
 
 theorem checked_omission_conditions {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {ctx : HumanContext u}
     (accepted : check facts catalog .omission ctx = true) :
     literal .required .positive ctx ∈ facts ∧ literal .deadlineElapsed .positive ctx ∈ facts ∧
     literal .capable .positive ctx ∈ facts ∧ literal .exception .negative ctx ∈ facts ∧
@@ -188,7 +191,7 @@ theorem checked_omission_conditions {facts : List (Literal (signature u))}
     (supported _ (by simp [grounds])).1, supported _ (by simp [grounds])⟩
 
 theorem checked_has_scoped_fact {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : HumanContext u}
     (accepted : check facts catalog kind ctx = true) :
     ∃ value ∈ facts, contextOf value = ctx := by
   cases kind with
@@ -197,14 +200,14 @@ theorem checked_has_scoped_fact {facts : List (Literal (signature u))}
 
 -- A schema-level identity result, not just a single wrong-person witness.
 theorem checked_scope_preserved {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx original : Context u}
+    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx original : HumanContext u}
     (allInScope : ∀ value ∈ facts, contextOf value = original)
     (accepted : check facts catalog kind ctx = true) : ctx = original := by
   obtain ⟨value, member, same⟩ := checked_has_scoped_fact accepted
   exact same.symm.trans (allInScope value member)
 
 theorem unknown_nonperformance_rejected {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {ctx : HumanContext u}
     (missing : literal .performed .negative ctx ∉ facts) :
     check facts catalog .omission ctx = false := by
   cases accepted : check facts catalog .omission ctx with
@@ -212,7 +215,7 @@ theorem unknown_nonperformance_rejected {facts : List (Literal (signature u))}
   | true => exact False.elim (missing (checked_omission_has_nonperformance accepted).1)
 
 theorem opposed_nonperformance_rejected {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {ctx : HumanContext u}
     (performed : literal .performed .positive ctx ∈ facts) :
     check facts catalog .omission ctx = false := by
   cases accepted : check facts catalog .omission ctx with
@@ -220,7 +223,7 @@ theorem opposed_nonperformance_rejected {facts : List (Literal (signature u))}
   | true => exact False.elim ((checked_omission_has_nonperformance accepted).2 performed)
 
 theorem unauthorized_profile_rejected {facts : List (Literal (signature u))}
-    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : Context u}
+    {catalog : List (GroundRule (signature u))} {kind : Kind} {ctx : HumanContext u}
     (missing : profileRule kind ctx ∉ catalog) : check facts catalog kind ctx = false := by
   cases accepted : check facts catalog kind ctx with
   | false => rfl
@@ -230,22 +233,22 @@ def before (facts : List (Literal (signature u))) : StateRelations (signature u)
   FiniteState.ofList facts
 
 -- An explicit append-only profile effect, not insertion of the whole closure.
-def after (facts : List (Literal (signature u))) (kind : Kind) (ctx : Context u) :
+def after (facts : List (Literal (signature u))) (kind : Kind) (ctx : HumanContext u) :
     StateRelations (signature u) := (before facts).union (FiniteState.ofList [effect kind ctx])
 
-def consequence (facts : List (Literal (signature u))) (kind : Kind) (ctx : Context u) :
+def consequence (facts : List (Literal (signature u))) (kind : Kind) (ctx : HumanContext u) :
     Delta (Literal (signature u)) := Delta.between (before facts) (after facts kind ctx)
 
-theorem mem_after (facts : List (Literal (signature u))) (kind : Kind) (ctx : Context u)
+theorem mem_after (facts : List (Literal (signature u))) (kind : Kind) (ctx : HumanContext u)
     (value : Literal (signature u)) :
     value ∈ after facts kind ctx ↔ value ∈ facts ∨ value = effect kind ctx := by
   simp [after, before]
 
-theorem frame {facts : List (Literal (signature u))} {kind : Kind} {ctx : Context u}
+theorem frame {facts : List (Literal (signature u))} {kind : Kind} {ctx : HumanContext u}
     (value : Literal (signature u)) (untouched : value ≠ effect kind ctx) :
     value ∈ after facts kind ctx ↔ value ∈ facts := by simp [mem_after, untouched]
 
-theorem exact_added (facts : List (Literal (signature u))) (kind : Kind) (ctx : Context u)
+theorem exact_added (facts : List (Literal (signature u))) (kind : Kind) (ctx : HumanContext u)
     (value : Literal (signature u)) :
     value ∈ (consequence facts kind ctx).added ↔
       value = effect kind ctx ∧ value ∉ facts := by
@@ -257,7 +260,7 @@ theorem exact_added (facts : List (Literal (signature u))) (kind : Kind) (ctx : 
   · rintro ⟨same, absent⟩
     exact ⟨Or.inr same, absent⟩
 
-theorem nothing_removed (facts : List (Literal (signature u))) (kind : Kind) (ctx : Context u) :
+theorem nothing_removed (facts : List (Literal (signature u))) (kind : Kind) (ctx : HumanContext u) :
     (consequence facts kind ctx).removed = FiniteState.empty := by
   apply FiniteState.ext
   intro value
@@ -268,7 +271,7 @@ theorem nothing_removed (facts : List (Literal (signature u))) (kind : Kind) (ct
   · intro impossible; cases impossible
 
 theorem consequence_roundtrip (facts : List (Literal (signature u))) (kind : Kind)
-    (ctx : Context u) :
+    (ctx : HumanContext u) :
     Delta.apply (before facts) (consequence facts kind ctx) = after facts kind ctx :=
   Delta.roundtrip _ _
 
@@ -276,18 +279,18 @@ theorem consequence_roundtrip (facts : List (Literal (signature u))) (kind : Kin
 -- and delta are computed methods; callers cannot attach arbitrary output edits.
 structure GroundedTransition (u : Universe) [DecidableEq (Literal (signature u))] where
   kind : Kind
-  context : Context u
+  context : HumanContext u
   facts : List (Literal (signature u))
   catalog : List (GroundRule (signature u))
   accepted : check facts catalog kind context = true
 
 def propose (facts : List (Literal (signature u))) (catalog : List (GroundRule (signature u)))
-    (kind : Kind) (ctx : Context u) : Option (GroundedTransition u) :=
+    (kind : Kind) (ctx : HumanContext u) : Option (GroundedTransition u) :=
   if accepted : check facts catalog kind ctx = true then
     some ⟨kind, ctx, facts, catalog, accepted⟩ else none
 
 theorem propose_isSome_iff (facts : List (Literal (signature u)))
-    (catalog : List (GroundRule (signature u))) (kind : Kind) (ctx : Context u) :
+    (catalog : List (GroundRule (signature u))) (kind : Kind) (ctx : HumanContext u) :
     (propose facts catalog kind ctx).isSome = true ↔ check facts catalog kind ctx = true := by
   unfold propose
   split <;> simp_all
@@ -354,15 +357,16 @@ private instance : ∀ sort, DecidableEq ((signature model).Entity sort) := by
   | instrument => exact inferInstanceAs (DecidableEq (Option EntityId))
   | episode => exact inferInstanceAs (DecidableEq Nat)
   | action => exact inferInstanceAs (DecidableEq ActionId)
-  | time => exact inferInstanceAs (DecidableEq Nat)
+  | time | eventId | interpretationId => exact inferInstanceAs (DecidableEq Nat)
 
-def ctx : Context model :=
+def ctx : HumanContext model :=
   { actor := EntityId.alice, humanAnchor := ⟨EntityId.alice, Or.inl rfl⟩,
     target := EntityId.place, instrument := some EntityId.vehicle,
-    episode := (1 : Nat), action := ActionId.placeObject, start := 10, finish := 20 }
-def abstractCtx : Context model := { ctx with actor := EntityId.community }
-def omissionCtx : Context model := { abstractCtx with action := ActionId.pay }
-def selfCtx : Context model :=
+    episode := (1 : Nat), action := ActionId.placeObject, start := 10, finish := 20,
+    eventId := 1, interpretationId := 1 }
+def abstractCtx : HumanContext model := { ctx with actor := EntityId.community }
+def omissionCtx : HumanContext model := { abstractCtx with action := ActionId.pay }
+def selfCtx : HumanContext model :=
   { ctx with target := EntityId.alice, instrument := none, action := ActionId.selfCare }
 def actionFacts := grounds .action ctx
 def abstractFacts := grounds .action abstractCtx
@@ -420,6 +424,15 @@ theorem scope_substitution_rejected :
     List.map_cons, List.map_nil, List.attach_cons, List.attach_nil, List.all_cons, List.all_nil]
   decide
 
+theorem event_interpretation_substitution_rejected :
+    check actionFacts [profileRule .action {ctx with eventId := 2}]
+      .action {ctx with eventId := 2} = false ∧
+    check actionFacts [profileRule .action {ctx with interpretationId := 2}]
+      .action {ctx with interpretationId := 2} = false := by
+  simp only [check, certificate, profileRule, grounds, Tree.verify, Tree.check, Tree.conclusion,
+    List.map_cons, List.map_nil, List.attach_cons, List.attach_nil, List.all_cons, List.all_nil]
+  decide
+
 def unknownFacts := remove omissionFacts (FiniteState.ofList [literal .performed .negative omissionCtx])
 
 theorem unknown_is_not_omission : check unknownFacts omissionCatalog .omission omissionCtx = false := by
@@ -467,7 +480,7 @@ theorem nonempty_exact_effect :
     exact ⟨rfl, by decide⟩
   · exact nothing_removed _ _ _
 
-def otherCtx : Context model := {ctx with actor := EntityId.bob, episode := (99 : Nat)}
+def otherCtx : HumanContext model := {ctx with actor := EntityId.bob, episode := (99 : Nat)}
 def unrelatedConflict :=
   [literal .performed .positive otherCtx, literal .performed .negative otherCtx]
 def withUnrelatedConflict := actionFacts ++ unrelatedConflict
@@ -486,6 +499,16 @@ theorem output_is_not_derived_closure :
     eligible .action ctx ∉ after actionFacts .action ctx := by
   rw [mem_after]
   decide
+
+def noHumans : Universe :=
+  { toUniverse := NormLabEvents.Witness.model, IsHuman := fun _ => False }
+
+-- A concrete physical event remains representable even in a model with no
+-- possible human-attribution context. No fabricated anchor is necessary.
+theorem general_event_without_human_profile :
+    Nonempty (NormLabEvents.RecordedTransition noHumans.toUniverse NormLabEvents.Witness.WorldFact) ∧
+    ¬ Nonempty (HumanContext noHumans) :=
+  ⟨⟨NormLabEvents.Witness.car⟩, fun ⟨context⟩ => context.humanAnchor.property⟩
 
 end Witness
 
