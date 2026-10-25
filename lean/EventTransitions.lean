@@ -82,6 +82,99 @@ structure EventRegistry (u : Universe) (Fact : Type) where
   lookup : Nat → Option (RecordedEvent u Fact)
   key_matches : ∀ id event, lookup id = some event → event.key.eventId = id
 
+namespace EventRegistry
+
+variable {u : Universe} {Fact : Type}
+
+private def lookupRecords (records : List (RecordedEvent u Fact)) (id : Nat) :
+    Option (RecordedEvent u Fact) :=
+  match records with
+  | [] => none
+  | first :: rest => if first.key.eventId = id then some first else lookupRecords rest id
+
+private theorem lookupRecords_key (records : List (RecordedEvent u Fact)) :
+    ∀ id event, lookupRecords records id = some event → event.key.eventId = id := by
+  induction records with
+  | nil => intro id event found; cases found
+  | cons first rest ih =>
+    intro id event found
+    by_cases same : first.key.eventId = id
+    · simp only [lookupRecords, if_pos same] at found
+      cases found
+      exact same
+    · simp only [lookupRecords, if_neg same] at found
+      exact ih id event found
+
+private theorem lookupRecords_member (records : List (RecordedEvent u Fact)) :
+    ∀ (_ : (records.map (fun event => event.key.eventId)).Nodup) (event : RecordedEvent u Fact),
+      event ∈ records → lookupRecords records event.key.eventId = some event := by
+  induction records with
+  | nil => intro unique event member; cases member
+  | cons first rest ih =>
+    intro unique event member
+    have unique' : first.key.eventId ∉ rest.map (fun event => event.key.eventId) ∧
+        (rest.map (fun event => event.key.eventId)).Nodup := by
+      simpa only [List.map_cons, List.nodup_cons] using unique
+    rcases List.mem_cons.mp member with same | member
+    · subst event
+      simp [lookupRecords]
+    · have different : first.key.eventId ≠ event.key.eventId := by
+        intro same
+        exact unique'.1 (List.mem_map.mpr ⟨event, member, same.symm⟩)
+      rw [lookupRecords, if_neg different]
+      exact ih unique'.2 event member
+
+private theorem lookupRecords_only_members (records : List (RecordedEvent u Fact)) :
+    ∀ id event, lookupRecords records id = some event → event ∈ records := by
+  induction records with
+  | nil => intro id event found; cases found
+  | cons first rest ih =>
+    intro id event found
+    by_cases same : first.key.eventId = id
+    · simp only [lookupRecords, if_pos same] at found
+      cases found
+      exact List.mem_cons.mpr (Or.inl rfl)
+    · simp only [lookupRecords, if_neg same] at found
+      exact List.mem_cons.mpr (Or.inr (ih id event found))
+
+-- The proof requirement excludes duplicate IDs even when their other fields
+-- differ. No first/last-write-wins constructor is exposed.
+def ofList (records : List (RecordedEvent u Fact))
+    (_unique : (records.map (fun event => event.key.eventId)).Nodup) : EventRegistry u Fact :=
+  ⟨lookupRecords records, lookupRecords_key records⟩
+
+theorem ofList_lookup (records : List (RecordedEvent u Fact))
+    (unique : (records.map (fun event => event.key.eventId)).Nodup)
+    (event : RecordedEvent u Fact) (member : event ∈ records) :
+    (ofList records unique).lookup event.key.eventId = some event :=
+  lookupRecords_member records unique event member
+
+theorem ofList_lookup_iff (records : List (RecordedEvent u Fact))
+    (unique : (records.map (fun event => event.key.eventId)).Nodup)
+    (id : Nat) (event : RecordedEvent u Fact) :
+    (ofList records unique).lookup id = some event ↔ event ∈ records ∧ event.key.eventId = id := by
+  constructor
+  · intro found
+    exact ⟨lookupRecords_only_members records id event found, lookupRecords_key records id event found⟩
+  · rintro ⟨member, same⟩
+    rw [← same]
+    exact ofList_lookup records unique event member
+
+def ofList? (records : List (RecordedEvent u Fact)) : Option (EventRegistry u Fact) :=
+  if unique : (records.map (fun event => event.key.eventId)).Nodup then
+    some (ofList records unique) else none
+
+theorem ofList?_isSome_iff (records : List (RecordedEvent u Fact)) :
+    (ofList? records).isSome = true ↔ (records.map (fun event => event.key.eventId)).Nodup := by
+  unfold ofList?
+  split <;> simp_all
+
+theorem ofList?_duplicate_rejected (records : List (RecordedEvent u Fact))
+    (duplicate : ¬ (records.map (fun event => event.key.eventId)).Nodup) :
+    ofList? records = none := by simp [ofList?, duplicate]
+
+end EventRegistry
+
 structure RegisteredEvent {u : Universe} {Fact : Type} (registry : EventRegistry u Fact) where
   record : RecordedEvent u Fact
   present : registry.lookup record.key.eventId = some record
@@ -182,26 +275,8 @@ def ownerView : Interpretation car :=
   ⟨⟨2, EntityId.owner, EntityId.parkingPlace, some EntityId.car⟩⟩
 def unsecuredView : Interpretation unsecured := ⟨⟨3, EntityId.owner, EntityId.car, none⟩⟩
 
-def registry : EventRegistry model WorldFact where
-  lookup id := match id with
-    | 1 => some hurricane
-    | 2 => some aiAgent
-    | 3 => some car
-    | 4 => some unsecured
-    | _ => none
-  key_matches := by
-    intro id event present
-    cases id with
-    | zero => cases present
-    | succ id => cases id with
-      | zero => cases present; rfl
-      | succ id => cases id with
-        | zero => cases present; rfl
-        | succ id => cases id with
-          | zero => cases present; rfl
-          | succ id => cases id with
-            | zero => cases present; rfl
-            | succ id => cases present
+def registry : EventRegistry model WorldFact :=
+  EventRegistry.ofList [hurricane, aiAgent, car, unsecured] (by decide)
 
 def registeredCar : RegisteredEvent registry := ⟨car, rfl⟩
 def registeredUnsecured : RegisteredEvent registry := ⟨unsecured, rfl⟩

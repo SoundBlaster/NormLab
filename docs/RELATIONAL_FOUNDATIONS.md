@@ -417,6 +417,8 @@ LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD
 LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckEventTransitions.lean
 LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/ActionAttribution.olean" lean/ActionAttribution.lean
 LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckActionAttribution.lean
+LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/ParkingAttribution.olean" lean/ParkingAttribution.lean
+LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckParkingAttribution.lean
 ```
 
 На локальном Mac перед artifact-producing командами применяется `tb5-build-cache`;
@@ -575,3 +577,12 @@ axiom declarations в namespace ядра и зависимости его тео
 
 Эти работы дают понятия и методы; данный документ не утверждает совместимость
 контрактов NormLab с указанными онтологиями или полную реализацию этих систем.
+
+### R4: подготовленный вход парковки
+
+[#227](https://github.com/SoundBlaster/NormLab/issues/227) добавляет конечный реестр
+с отказом при duplicate eventId, явные Unbound-имена схематического профиля и
+[ParkingAttribution](PARKING_ATTRIBUTION.md). Вход принимает RegisteredEvent и его
+Interpretation; результат обязательно GroundedTransition registry. Gate запрещает
+прямой выбор unbound API парковочным модулем. Связь с findings текущего runtime
+остаётся следующим отдельным результатом R4.

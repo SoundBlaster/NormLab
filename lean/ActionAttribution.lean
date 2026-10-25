@@ -279,47 +279,47 @@ theorem consequence_roundtrip (facts : List (Literal (signature u))) (kind : Kin
     Delta.apply (before facts) (consequence facts kind ctx) = after facts kind ctx :=
   Delta.roundtrip _ _
 
--- Only a checked input can inhabit GroundedTransition. After-state, certificate
+-- Only a checked input can inhabit UnboundTransition. After-state, certificate
 -- and delta are computed methods; callers cannot attach arbitrary output edits.
-structure GroundedTransition (u : Universe) [DecidableEq (Literal (signature u))] where
+structure UnboundTransition (u : Universe) [DecidableEq (Literal (signature u))] where
   kind : Kind
   context : Scope u
   facts : List (Literal (signature u))
   catalog : List (GroundRule (signature u))
   accepted : check facts catalog kind context = true
 
-def propose (facts : List (Literal (signature u))) (catalog : List (GroundRule (signature u)))
-    (kind : Kind) (ctx : Scope u) : Option (GroundedTransition u) :=
+def proposeUnbound (facts : List (Literal (signature u))) (catalog : List (GroundRule (signature u)))
+    (kind : Kind) (ctx : Scope u) : Option (UnboundTransition u) :=
   if accepted : check facts catalog kind ctx = true then
     some ⟨kind, ctx, facts, catalog, accepted⟩ else none
 
-theorem propose_isSome_iff (facts : List (Literal (signature u)))
+theorem proposeUnbound_isSome_iff (facts : List (Literal (signature u)))
     (catalog : List (GroundRule (signature u))) (kind : Kind) (ctx : Scope u) :
-    (propose facts catalog kind ctx).isSome = true ↔ check facts catalog kind ctx = true := by
-  unfold propose
+    (proposeUnbound facts catalog kind ctx).isSome = true ↔ check facts catalog kind ctx = true := by
+  unfold proposeUnbound
   split <;> simp_all
 
-namespace GroundedTransition
+namespace UnboundTransition
 
-def before (transition : GroundedTransition u) := NormLabActionAttribution.Profile.before transition.facts
-def after (transition : GroundedTransition u) :=
+def before (transition : UnboundTransition u) := NormLabActionAttribution.Profile.before transition.facts
+def after (transition : UnboundTransition u) :=
   NormLabActionAttribution.Profile.after transition.facts transition.kind transition.context
-def consequence (transition : GroundedTransition u) :=
+def consequence (transition : UnboundTransition u) :=
   NormLabActionAttribution.Profile.consequence transition.facts transition.kind transition.context
-def certificate (transition : GroundedTransition u) :=
+def certificate (transition : UnboundTransition u) :=
   NormLabActionAttribution.Profile.certificate transition.kind transition.context
 
-theorem provenance (transition : GroundedTransition u) :
+theorem provenance (transition : UnboundTransition u) :
     Derivable transition.facts transition.catalog (eligible transition.kind transition.context) :=
   checked_provenance transition.accepted
 
-theorem roundtrip (transition : GroundedTransition u) :
+theorem roundtrip (transition : UnboundTransition u) :
     Delta.apply transition.before transition.consequence = transition.after :=
   consequence_roundtrip _ _ _
 
 -- Every newly introduced state fact is tied to the very same actor/context,
 -- an explicit attribution fact, and the checked grounding derivation.
-theorem added_has_grounds (transition : GroundedTransition u)
+theorem added_has_grounds (transition : UnboundTransition u)
     (value : Literal (signature u)) (added : value ∈ transition.consequence.added) :
     value = effect transition.kind transition.context ∧
     literal .attributed .positive transition.context ∈ transition.facts ∧
@@ -327,7 +327,7 @@ theorem added_has_grounds (transition : GroundedTransition u)
   ⟨((exact_added _ _ _ _).mp added).1,
     (checked_actor_attributed transition.accepted).1, transition.provenance⟩
 
-end GroundedTransition
+end UnboundTransition
 
 end Check
 
@@ -579,7 +579,7 @@ theorem propose_isSome_iff (facts : List (Literal (Profile.signature u)))
 
 namespace GroundedTransition
 
-def profile (transition : GroundedTransition (u := u) registry) : Profile.GroundedTransition u :=
+def profile (transition : GroundedTransition (u := u) registry) : Profile.UnboundTransition u :=
   ⟨transition.kind, transition.context.scope, transition.facts, transition.catalog, transition.accepted⟩
 def before (transition : GroundedTransition (u := u) registry) := transition.profile.before
 def after (transition : GroundedTransition (u := u) registry) := transition.profile.after
@@ -664,7 +664,7 @@ theorem breach_not_transferred_to_motion :
 
 theorem omission_adds_its_own_breach :
     Profile.literal .breachRecorded .positive context.scope ∈ transition.consequence.added := by
-  rw [GroundedTransition.consequence, Profile.GroundedTransition.consequence, Profile.exact_added]
+  rw [GroundedTransition.consequence, Profile.UnboundTransition.consequence, Profile.exact_added]
   exact ⟨rfl, by decide⟩
 
 -- One shared universe and registry: actual owner omission proposal, asserted
