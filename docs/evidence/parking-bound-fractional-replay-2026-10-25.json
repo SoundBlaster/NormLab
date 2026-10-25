@@ -1,0 +1,50 @@
+{
+  "schema": "normlab.parking-bound-replay/v1",
+  "createdAt": "2026-10-25T15:29:03.220Z",
+  "inference": false,
+  "source": {
+    "schema": "normlab.parking-review/v1",
+    "fileSHA256": "fdc23bec5c1bc81eaeef6d461ae342cfd7f37b4d645798a099503bf75c25fd44",
+    "digest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+    "statements": 2
+  },
+  "inputDigest": "9a23478b31d41f3bd8b2b3b9a77e8674f1240c4805295004283e03edd3114684",
+  "resultDigest": "42d5f648a1ed5bf1e09f76f625dc9ab2d8de1038a38a150758229706f331759e",
+  "bindingDigest": "02e05e526053d0c6740e087cedc1f99a57776688bd4fa65d132116b10834ec47",
+  "citedStatements": 2,
+  "expectedOutcome": "conflict",
+  "actualOutcome": "conflict",
+  "verification": {
+    "profile": "parking-fragment-poc/v2",
+    "status": "verified",
+    "engine": "lean-kernel",
+    "version": "Lean (version 4.30.0, arm64-apple-darwin24.6.0, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+    "inputDigest": "9a23478b31d41f3bd8b2b3b9a77e8674f1240c4805295004283e03edd3114684",
+    "resultDigest": "42d5f648a1ed5bf1e09f76f625dc9ab2d8de1038a38a150758229706f331759e",
+    "packageDigest": "5a67c64d818f8417c530ff82c75e2f90f1fd98abc4c7aa416adca74bb712797a",
+    "profileDigest": "6b8f605b937f3737105f5188e0f6413856850d0c35b749e2c624bb2065921d7d",
+    "statementDigest": "d7fc36953899df5cf71eb1848f9c94975e0c22e8b896e5a2fd20a0b3d1718163",
+    "toolchainDigest": "66ee7fade8bf78b24b871435c8134291888ecfa8f5e4f8d6b81a79ef9babdfac",
+    "axioms": ["propext", "Quot.sound"],
+    "reason": "Lean проверил расчёт модели PoC и привязку сохранённых обстоятельств к ревизии, участнику, ТС, эпизоду и подтверждённым ссылкам.",
+    "durationMs": 7982
+  },
+  "receiptReplayed": true,
+  "sourceUnchanged": true,
+  "compatibilityProbe": {
+    "source": "derived manual fixture from the saved review; not a model response",
+    "originalExtraction": {
+      "confidence": 0.95,
+      "decisions": {
+        "p_yes": 0.92
+      },
+      "calls": [
+        {
+          "confidence": 0.875
+        }
+      ]
+    },
+    "keyOrderStable": true,
+    "changedValueChangesDigest": true
+  }
+}

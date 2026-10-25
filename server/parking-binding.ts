@@ -10,6 +10,24 @@ import {
 import { reviewMetadataIssues } from '../shared/parking-context.js';
 import { digest } from './hash.js';
 
+// Archived extraction is arbitrary persisted JSON, including finite fractional
+// confidence/probability values. The norm IR encoder intentionally has a more
+// restrictive number domain, so it is not used for the complete revision.
+function canonicalRevision(value: unknown): string {
+  if (value === null || typeof value === 'string' || typeof value === 'boolean')
+    return JSON.stringify(value);
+  if (typeof value === 'number' && Number.isFinite(value)) return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalRevision).join(',')}]`;
+  if (typeof value === 'object' && value !== null)
+    return `{${Object.entries(value)
+      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+      .map(([key, item]) => `${JSON.stringify(key)}:${canonicalRevision(item)}`)
+      .join(',')}}`;
+  throw new Error('Revision contains a value outside persisted JSON');
+}
+const revisionDigest = (draft: ReviewDraft) =>
+  createHash('sha256').update(canonicalRevision(draft)).digest('hex');
+
 /** Lossless UTF-16 code-unit identity. Only bounded hexadecimal digits enter Lean. */
 function token(value: string): string {
   let encoded = '0x1';
@@ -63,7 +81,7 @@ export function parkingBindingReceipt(
     revisionId: input.expectedRevisionId,
     assessmentId: input.requestId,
     sourceDigest: draft.sourceDigest,
-    sourceRevisionDigest: digest(draft),
+    sourceRevisionDigest: revisionDigest(draft),
     sourceStatementsDigest: digest(draft.statements),
     findingsDigest: digest(input.findings),
     scope: {
@@ -101,7 +119,7 @@ export function constructParkingBinding(input: LegalInput, draft: ReviewDraft) {
 def boundSource : Source := {
   draft := ${token(draft.draftId)}
   revision := ${token(draft.revisionId)}
-  revisionDigest := ${token(digest(draft))}
+  revisionDigest := ${token(revisionDigest(draft))}
   reviewed := ${draft.status === 'reviewed'}
   statements := [${sourceRows.join(',\n')}]
 }
