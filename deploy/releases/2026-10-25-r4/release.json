@@ -1,0 +1,115 @@
+{
+  "schema": "normlab.r4-staging-deployment/v1",
+  "sourceCommit": "da5cd7e298867db9cb2361aeb261acb630157bff",
+  "publishedImage": "ghcr.io/soundblaster/normlab@sha256:aaac76ded9c5ed7ef338ff77362095ba64634c73d5035d560f69e09e39ed967b",
+  "previousImage": "ghcr.io/soundblaster/normlab@sha256:9b397d4dcf8e3620334f6917517c742e5bf2f7097162658c0e2fe9392549539c",
+  "publicationRun": "https://github.com/SoundBlaster/NormLab/actions/runs/40232134163",
+  "url": "https://managed.specgraph.tech/normlab/",
+  "backup": {
+    "bytes": 88319,
+    "sha256": "548f7771ae01c82a4f197d5bff097d51adb2ae5d13b330faa8b3951a16d02292",
+    "quiescent": true,
+    "serverCopyRetained": true
+  },
+  "normlabServicesHealthy": 3,
+  "neighborsHealthy": 5,
+  "neighborContainerIDsUnchanged": true,
+  "dataVolumePreserved": true,
+  "cpuLimit": 1,
+  "containerMemoryBytes": 2147483648,
+  "freeDiskAfterBytes": 1883033600,
+  "httpAndData": {
+    "httpChecks": [
+      {
+        "path": "/normlab/health",
+        "authenticated": false,
+        "status": 200,
+        "contentType": "application/json; charset=utf-8"
+      },
+      {
+        "path": "/normlab/",
+        "authenticated": false,
+        "status": 401,
+        "contentType": "text/plain; charset=utf-8"
+      },
+      {
+        "path": "/normlab/",
+        "authenticated": true,
+        "status": 200,
+        "contentType": "text/html; charset=utf-8"
+      },
+      {
+        "path": "/normlab/assets/index-Chaau89Z.js",
+        "authenticated": true,
+        "status": 200,
+        "contentType": "text/javascript"
+      },
+      {
+        "path": "/normlab/api/bootstrap",
+        "authenticated": true,
+        "status": 200,
+        "contentType": "application/json; charset=utf-8"
+      },
+      {
+        "path": "/normlab/api/parking/bootstrap",
+        "authenticated": true,
+        "status": 200,
+        "contentType": "application/json; charset=utf-8"
+      }
+    ],
+    "sourceRevisionInAsset": true,
+    "newOperatorNoticeInAsset": true,
+    "parkingDraftCount": 7,
+    "archivedNonSQLiteFilesUnchanged": 189,
+    "secretsPrinted": false,
+    "providerCalls": 0
+  },
+  "gatewayProfile": {
+    "protocol": "normlab.hosted-stage/v1",
+    "discoveryModel": "gpt-6-luna",
+    "classificationModel": "gpt-6-luna",
+    "configDigest": "32f32675b553a9add8b4b331731d247c2d93f9642ca2e574fa67dc93d0cec48e"
+  },
+  "proofAcceptance": {
+    "schema": "normlab.r4-staging-proof-acceptance/v1",
+    "at": "2026-10-25T20:57:04.498Z",
+    "kind": "read-only archived-case verifier measurement; not HTTP submission",
+    "profileDigest": "729df795af974e921e57405ee86bfbb77879a992b6ffac34a5b80690ffba5885",
+    "attempts": 3,
+    "providerCalls": 0,
+    "configuredLeanMemoryMB": 1024,
+    "sourceFileSHA256": "89458e42b4f54bffbd4dd6bc26b1d3560683712dfeb8aa7420d54fb979111350",
+    "sourceUnchanged": true,
+    "expectedOutcome": "fragment-refuted",
+    "runs": [
+      {
+        "kind": "single",
+        "status": "verified",
+        "durationIncludesQueueMs": 15347,
+        "profile": "parking-fragment-poc/v2",
+        "bindingSchema": "normlab.parking-scope-binding/v2",
+        "reason": "Lean \u043f\u0440\u043e\u0432\u0435\u0440\u0438\u043b \u0440\u0430\u0441\u0447\u0451\u0442 PoC, \u0438\u0434\u0435\u043d\u0442\u0438\u0447\u043d\u043e\u0441\u0442\u044c \u0440\u0435\u0432\u0438\u0437\u0438\u0438, \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0445 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u043e\u0432 \u0438 \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u043d\u043e\u0441\u0442\u044c \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0445 \u0441\u0441\u044b\u043b\u043e\u043a \u044d\u043f\u0438\u0437\u043e\u0434\u0443. \u0421\u043c\u044b\u0441\u043b \u0441\u0441\u044b\u043b\u043e\u043a \u0438 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435 \u0443\u0447\u0430\u0441\u0442\u043d\u0438\u043a\u0430/\u0422\u0421 \u0442\u0435\u043a\u0441\u0442\u0443 \u043d\u0435 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u043b\u0438\u0441\u044c."
+      },
+      {
+        "kind": "concurrent first",
+        "status": "verified",
+        "durationIncludesQueueMs": 19230,
+        "profile": "parking-fragment-poc/v2",
+        "bindingSchema": "normlab.parking-scope-binding/v2",
+        "reason": "Lean \u043f\u0440\u043e\u0432\u0435\u0440\u0438\u043b \u0440\u0430\u0441\u0447\u0451\u0442 PoC, \u0438\u0434\u0435\u043d\u0442\u0438\u0447\u043d\u043e\u0441\u0442\u044c \u0440\u0435\u0432\u0438\u0437\u0438\u0438, \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0445 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u043e\u0432 \u0438 \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u043d\u043e\u0441\u0442\u044c \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0445 \u0441\u0441\u044b\u043b\u043e\u043a \u044d\u043f\u0438\u0437\u043e\u0434\u0443. \u0421\u043c\u044b\u0441\u043b \u0441\u0441\u044b\u043b\u043e\u043a \u0438 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435 \u0443\u0447\u0430\u0441\u0442\u043d\u0438\u043a\u0430/\u0422\u0421 \u0442\u0435\u043a\u0441\u0442\u0443 \u043d\u0435 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u043b\u0438\u0441\u044c."
+      },
+      {
+        "kind": "concurrent waiting",
+        "status": "verified",
+        "durationIncludesQueueMs": 34291,
+        "profile": "parking-fragment-poc/v2",
+        "bindingSchema": "normlab.parking-scope-binding/v2",
+        "reason": "Lean \u043f\u0440\u043e\u0432\u0435\u0440\u0438\u043b \u0440\u0430\u0441\u0447\u0451\u0442 PoC, \u0438\u0434\u0435\u043d\u0442\u0438\u0447\u043d\u043e\u0441\u0442\u044c \u0440\u0435\u0432\u0438\u0437\u0438\u0438, \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0445 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u043e\u0432 \u0438 \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u043d\u043e\u0441\u0442\u044c \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0445 \u0441\u0441\u044b\u043b\u043e\u043a \u044d\u043f\u0438\u0437\u043e\u0434\u0443. \u0421\u043c\u044b\u0441\u043b \u0441\u0441\u044b\u043b\u043e\u043a \u0438 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435 \u0443\u0447\u0430\u0441\u0442\u043d\u0438\u043a\u0430/\u0422\u0421 \u0442\u0435\u043a\u0441\u0442\u0443 \u043d\u0435 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u043b\u0438\u0441\u044c."
+      }
+    ],
+    "caseEditsPersisted": false
+  },
+  "providerCalls": 0,
+  "secretValuesRecorded": false,
+  "browserWorkflowVerified": false
+}
