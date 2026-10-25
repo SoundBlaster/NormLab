@@ -44,10 +44,10 @@ run_cmd do
     `NormLabActionAttribution.Profile.exact_added,
     `NormLabActionAttribution.Profile.nothing_removed,
     `NormLabActionAttribution.Profile.consequence_roundtrip,
-    `NormLabActionAttribution.Profile.propose_isSome_iff,
-    `NormLabActionAttribution.Profile.GroundedTransition.provenance,
-    `NormLabActionAttribution.Profile.GroundedTransition.roundtrip,
-    `NormLabActionAttribution.Profile.GroundedTransition.added_has_grounds,
+    `NormLabActionAttribution.Profile.proposeUnbound_isSome_iff,
+    `NormLabActionAttribution.Profile.UnboundTransition.provenance,
+    `NormLabActionAttribution.Profile.UnboundTransition.roundtrip,
+    `NormLabActionAttribution.Profile.UnboundTransition.added_has_grounds,
     `NormLabActionAttribution.Profile.Witness.direct_action_accepted,
     `NormLabActionAttribution.Profile.Witness.abstract_actor_accepted,
     `NormLabActionAttribution.Profile.Witness.abstract_actor_is_not_human,
@@ -70,6 +70,10 @@ run_cmd do
     unless info.isTheorem do
       throwError "Required attribution theorem is missing or has changed kind: {name}"
   let env ← getEnv
+  for ambiguous in [`NormLabActionAttribution.Profile.propose,
+      `NormLabActionAttribution.Profile.GroundedTransition] do
+    if env.contains ambiguous then
+      throwError "Ambiguous unbound API alias must not be reintroduced: {ambiguous}"
   let mut checked := 0
   let mut theorems := 0
   for (name, info) in env.constants.toList do

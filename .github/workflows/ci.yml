@@ -198,6 +198,8 @@ jobs:
           LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckEventTransitions.lean
           LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/ActionAttribution.olean" lean/ActionAttribution.lean
           LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckActionAttribution.lean
+          LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/ParkingAttribution.olean" lean/ParkingAttribution.lean
+          LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckParkingAttribution.lean
 
       - name: Run domain and API tests
         run: npm test

@@ -4,6 +4,10 @@ import EventTransitions
 open Lean Elab Command in
 run_cmd do
   let required : List Name := [
+    `NormLabEvents.EventRegistry.ofList_lookup,
+    `NormLabEvents.EventRegistry.ofList_lookup_iff,
+    `NormLabEvents.EventRegistry.ofList?_isSome_iff,
+    `NormLabEvents.EventRegistry.ofList?_duplicate_rejected,
     `NormLabEvents.RecordedEvent.roundtrip,
     `NormLabEvents.RecordedEvent.added_iff,
     `NormLabEvents.RecordedEvent.removed_iff,

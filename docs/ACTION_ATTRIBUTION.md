@@ -78,7 +78,7 @@
 кандидат. Произвольный Context или незарегистрированный номер передать вместо
 записи нельзя; кандидат сам по себе ещё не является успешной проверкой.
 
-Низкоуровневые `Profile.Scope`, `Profile.check` и `Profile.GroundedTransition`
+Низкоуровневые `Profile.Scope`, `Profile.check` и `Profile.UnboundTransition`
 проверяют только переданные логические основания. Они намеренно отделены от
 публичных `check`, `propose` и `GroundedTransition registry`, которым требуется
 HumanContext с доказанной регистрацией. Формирование согласованных фактов для
@@ -169,13 +169,20 @@ parking runtime integration остаются за пределами R3.
 
 ## Проверки
 
-Lean 4.30.0, `-DwarningAsError=true`. Event gate требует 22 named results;
+Lean 4.30.0, `-DwarningAsError=true`. Event gate требует 26 named results;
 attribution gate — 61 named results. Gates обходят все определения соответствующих
 namespaces, включая private/generated, и допускают только `[propext, Quot.sound]`.
 Нет custom axioms, sorryAx, Classical.choice или native-decide trust extension.
 
 [Команды воспроизведения](RELATIONAL_FOUNDATIONS.md#воспроизведение) и CI
-компилируют пять модулей и запускают пять gates. Локальные artifacts/logs
+компилируют шесть модулей и запускают шесть gates, включая подготовку R4. Локальные artifacts/logs
 размещены на проверенном TB5. Hosted CI/review учитываются по точному SHA;
 старые результаты не подтверждают новую ревизию. Demo пока использует прежний
 evaluator; платные вызовы и деплой в этот срез не входят.
+
+## Подготовка R4
+
+Непривязанные propose/transition переименованы с явными Unbound-именами, без
+compatibility aliases. Добавлены конечный EventRegistry.ofList / ofList? и
+[парковочный bound entrypoint](PARKING_ATTRIBUTION.md), сохраняющий регистрацию
+результата. Runtime/UI ещё не подключены к этому входу.
