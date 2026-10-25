@@ -39,6 +39,24 @@ const runtimeSources = runtimeModules.map((name) => ({
 }));
 const runtimeCore = runtimeSources.map(({ source }) => source).join('\n');
 const execute = promisify(execFile);
+// One active parking proof and one waiter per server process. Waiting does not
+// consume the proof's 20-second execution budget; excess work is explicit busy.
+let queuedProofs = 0;
+let proofTail = Promise.resolve();
+async function acquireProofSlot(): Promise<(() => void) | undefined> {
+  if (queuedProofs >= 2) return undefined;
+  queuedProofs++;
+  const previous = proofTail;
+  let release = () => {};
+  proofTail = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await previous;
+  return () => {
+    queuedProofs--;
+    release();
+  };
+}
 export const parkingNormDigest = createHash('sha256')
   .update(JSON.stringify(parkingNormDraft))
   .digest('hex');
@@ -87,6 +105,7 @@ const bindingAuditedNames = [
   'scope_checked',
   'snapshot_checked',
   'supports_checked',
+  'uncited_checked',
 ].map((name) => `NormLabParkingRuntime.${name}`);
 
 export const parkingProfileDigest = digest({
@@ -228,14 +247,12 @@ export async function verifyParkingCalculation(
       'Входы, результат или привязка к исходной ревизии не соответствуют proof profile. Lean не запускался.',
     );
   }
-  const lean = await discoverLean();
-  base.version = lean.version;
-  if (!lean.available || !lean.binary)
+  const release = await acquireProofSlot();
+  if (!release)
     return finish(
       'inconclusive',
-      'Lean 4.30.0 недоступен. Draft-расчёт сохранён без проверки модели.',
+      'Очередь парковочных проверок Lean заполнена. Расчёт сохранён без проверки; повторите её позже.',
     );
-  base.toolchainDigest = digest({ lean: lean.digest, profile: parkingProfileDigest });
   const configuredMemory = Number(process.env.NORMLAB_LEAN_MEMORY_MB ?? 512);
   const memory =
     Number.isInteger(configuredMemory) && configuredMemory >= 512 && configuredMemory <= 4096
@@ -244,6 +261,14 @@ export async function verifyParkingCalculation(
   let directory: string | undefined;
   let checkingCandidate = false;
   try {
+    const lean = await discoverLean();
+    base.version = lean.version;
+    if (!lean.available || !lean.binary)
+      return finish(
+        'inconclusive',
+        'Lean 4.30.0 недоступен. Draft-расчёт сохранён без проверки модели.',
+      );
+    base.toolchainDigest = digest({ lean: lean.digest, profile: parkingProfileDigest });
     directory = await mkdtemp(join(tmpdir(), 'normlab-parking-proof-'));
     const deadline = Date.now() + 20000;
     const environment = {
@@ -318,7 +343,7 @@ export async function verifyParkingCalculation(
     return finish(
       'verified',
       bound
-        ? 'Lean проверил расчёт модели PoC и привязку сохранённых обстоятельств к ревизии, участнику, ТС, эпизоду и подтверждённым ссылкам.'
+        ? 'Lean проверил расчёт PoC, идентичность ревизии, сохранение выбранных идентификаторов и принадлежность указанных ссылок эпизоду. Смысл ссылок и соответствие участника/ТС тексту не проверялись.'
         : 'Lean проверил результат, причины, сумму и условные ветви по модели PoC.',
     );
   } catch (error) {
@@ -332,6 +357,10 @@ export async function verifyParkingCalculation(
           'Lean не завершил проверку в пределах ресурсов. Draft-расчёт сохранён.',
         );
   } finally {
-    if (directory) await rm(directory, { recursive: true, force: true });
+    try {
+      if (directory) await rm(directory, { recursive: true, force: true });
+    } finally {
+      release();
+    }
   }
 }

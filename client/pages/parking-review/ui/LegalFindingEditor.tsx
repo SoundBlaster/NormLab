@@ -2,6 +2,7 @@ import { CheckField, Disclosure, Field, Notice, Select, Textarea } from '@/share
 import {
   legalStates,
   legalStateLabels,
+  isUncitedLegalFinding,
   type LegalFinding,
   type LegalWorkspace,
   type ReviewStatement,
@@ -55,6 +56,11 @@ export function LegalFindingEditor({
       {stateError && (
         <Notice tone="danger" id={`${fieldId('state')}-error`}>
           {stateError}
+        </Notice>
+      )}
+      {isUncitedLegalFinding(finding) && (
+        <Notice tone="warning">
+          Решение оператора без ссылки на источник. Запишите своё основание ниже.
         </Notice>
       )}
       <Field

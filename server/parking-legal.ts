@@ -5,6 +5,7 @@ import { z } from 'zod';
 import {
   evaluateParkingFragment,
   legalInputSchema,
+  storedLegalInputSchema,
   parkingNormDraft,
   parkingVerificationSchema,
   type LegalAssessment,
@@ -19,8 +20,7 @@ import {
   verifyParkingCalculation,
 } from './parking-verifier.js';
 import { legalProposalForDraft, ParkingLegalProposalError } from './parking-legal-proposals.js';
-import { parkingBindingReceipt } from './parking-binding.js';
-import { reviewDraftSchema } from '../shared/parking-review.js';
+import { parkingBindingIdentity } from './parking-binding.js';
 
 export { parkingNormDigest } from './parking-verifier.js';
 
@@ -41,7 +41,7 @@ const savedSchema = z
     createdAt: z.string().datetime(),
     actor: z.literal('human-operator'),
     sourceDigest: z.string().regex(/^[a-f0-9]{64}$/),
-    input: legalInputSchema,
+    input: storedLegalInputSchema,
     package: z.unknown(),
     result: z.unknown().nullable(),
     verification: parkingVerificationSchema.nullable().optional(),
@@ -98,15 +98,16 @@ export class ParkingLegal {
           value.verification.binding
         ) {
           try {
-            const source = reviewDraftSchema.parse(
-              JSON.parse(
-                readFileSync(join(folder, `${value.input.expectedRevisionId}.json`), 'utf8'),
-              ),
-            );
+            // History checks immutable identity, not today's admission policy.
+            const source = JSON.parse(
+              readFileSync(join(folder, `${value.input.expectedRevisionId}.json`), 'utf8'),
+            ) as ReviewDraft;
             if (
               value.sourceDigest !== source.sourceDigest ||
               digest(value.verification.binding) !==
-                digest(parkingBindingReceipt(value.input, source))
+                digest(
+                  parkingBindingIdentity(value.input, source, value.verification.binding.schema),
+                )
             )
               throw new ParkingLegalError(
                 'Привязка сохранённого расчёта к исходной ревизии изменилась.',

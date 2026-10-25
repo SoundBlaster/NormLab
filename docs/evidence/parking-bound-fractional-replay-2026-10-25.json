@@ -1,6 +1,6 @@
 {
   "schema": "normlab.parking-bound-replay/v1",
-  "createdAt": "2026-10-25T15:29:03.220Z",
+  "createdAt": "2026-10-25T19:25:47.527Z",
   "inference": false,
   "source": {
     "schema": "normlab.parking-review/v1",
@@ -10,7 +10,7 @@
   },
   "inputDigest": "9a23478b31d41f3bd8b2b3b9a77e8674f1240c4805295004283e03edd3114684",
   "resultDigest": "42d5f648a1ed5bf1e09f76f625dc9ab2d8de1038a38a150758229706f331759e",
-  "bindingDigest": "02e05e526053d0c6740e087cedc1f99a57776688bd4fa65d132116b10834ec47",
+  "bindingDigest": "f162ae4b3217f836c419afa2501b14aba888a1fea66071f187ef08d4dc1840e8",
   "citedStatements": 2,
   "expectedOutcome": "conflict",
   "actualOutcome": "conflict",
@@ -22,12 +22,12 @@
     "inputDigest": "9a23478b31d41f3bd8b2b3b9a77e8674f1240c4805295004283e03edd3114684",
     "resultDigest": "42d5f648a1ed5bf1e09f76f625dc9ab2d8de1038a38a150758229706f331759e",
     "packageDigest": "5a67c64d818f8417c530ff82c75e2f90f1fd98abc4c7aa416adca74bb712797a",
-    "profileDigest": "6b8f605b937f3737105f5188e0f6413856850d0c35b749e2c624bb2065921d7d",
-    "statementDigest": "d7fc36953899df5cf71eb1848f9c94975e0c22e8b896e5a2fd20a0b3d1718163",
-    "toolchainDigest": "66ee7fade8bf78b24b871435c8134291888ecfa8f5e4f8d6b81a79ef9babdfac",
+    "profileDigest": "729df795af974e921e57405ee86bfbb77879a992b6ffac34a5b80690ffba5885",
+    "statementDigest": "a1a9573bba6b7a4577d71ac01dad0282c9ccafa2c3b6ccf53f26658fdc6ff422",
+    "toolchainDigest": "f922d22bb4b45eb0fe03040cd893c3fd46e79345735ed9f010f2d05d005c2e2a",
     "axioms": ["propext", "Quot.sound"],
-    "reason": "Lean проверил расчёт модели PoC и привязку сохранённых обстоятельств к ревизии, участнику, ТС, эпизоду и подтверждённым ссылкам.",
-    "durationMs": 7982
+    "reason": "Lean проверил расчёт PoC, идентичность ревизии, сохранение выбранных идентификаторов и принадлежность указанных ссылок эпизоду. Смысл ссылок и соответствие участника/ТС тексту не проверялись.",
+    "durationMs": 3666
   },
   "receiptReplayed": true,
   "sourceUnchanged": true,

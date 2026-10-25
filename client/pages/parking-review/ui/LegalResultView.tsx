@@ -2,6 +2,7 @@ import { Disclosure, Notice, Status } from '@/shared/ui';
 import {
   legalOutcomeLabels,
   legalStateLabels,
+  isUncitedLegalFinding,
   type LegalAssessment,
   type LegalWorkspace,
 } from '../model/contracts.js';
@@ -25,6 +26,7 @@ export function LegalResultView({
   const result = record?.result;
   const rejected = record?.verification?.status === 'rejected';
   const previousProfile = record?.verifiedByPreviousProfile === true;
+  const uncited = record?.input.findings.filter(isUncitedLegalFinding) ?? [];
   return (
     <div aria-live="polite" className="parking-legal-result">
       {record && !stale && (
@@ -66,6 +68,21 @@ export function LegalResultView({
               : (record.verification?.reason ??
                 'У этого сохранённого расчёта ещё нет проверки Lean. Выполните новый расчёт.')}
           </Notice>
+          {uncited.length > 0 && (
+            <Notice tone="warning">
+              <strong>Решения оператора без ссылок на источники:</strong>
+              <ul>
+                {uncited.map((finding) => (
+                  <li key={finding.conditionId}>
+                    {workspace.package.conditions.find(
+                      (condition) => condition.id === finding.conditionId,
+                    )?.label ?? finding.conditionId}
+                  </li>
+                ))}
+              </ul>
+              Lean проверяет расчёт по этим решениям, а не их доказанность исходным текстом.
+            </Notice>
+          )}
           {record.verification && (
             <Disclosure summary="Что именно проверено">
               <p>
@@ -81,8 +98,8 @@ export function LegalResultView({
                 <>
                   <p>
                     {record.verification.status === 'verified'
-                      ? 'Проверена привязка сохранённых обстоятельств'
-                      : 'Переданная на проверку привязка обстоятельств'}
+                      ? 'Проверено сохранение выбранных идентификаторов'
+                      : 'Переданные на проверку идентификаторы'}
                     : эпизод «{record.verification.binding.scope.episode}», участник «
                     {record.verification.binding.scope.participant || 'не указан'}», ТС «
                     {record.verification.binding.scope.vehicle || 'не указано'}».
@@ -90,6 +107,11 @@ export function LegalResultView({
                   <p>
                     Подтверждённых ссылок: {record.verification.binding.statementIds.length}.
                     Ревизия: {record.verification.binding.revisionId}.
+                  </p>
+                  <p>
+                    Участник и ТС не сверяются с исходным текстом. Для указанных ссылок проверены
+                    подтверждение человеком и принадлежность эпизоду; соответствие условию нормы и
+                    полярность не проверяются автоматически.
                   </p>
                 </>
               )}

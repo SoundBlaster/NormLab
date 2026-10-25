@@ -44,6 +44,14 @@ structure Request where
   findings : List FindingRow
   claimedFine : Option Nat
 
+-- Explicit operator decisions may come from outside the quoted text. Their
+-- absence of citations is recorded, never promoted into source-backed evidence.
+def uncitedConditions (request : Request) : List NormLabParking.Condition :=
+  request.findings.filterMap fun row => match row.state with
+    | .established | .refuted | .conflict =>
+      if row.supports.isEmpty then some row.condition else none
+    | _ => none
+
 -- Empty strings encode to 1; all other UTF-16 strings have a larger token.
 -- These coordinates are uninterpreted identities, not parsed dates/durations.
 def normInput (request : Request) : NormLabParking.Input where

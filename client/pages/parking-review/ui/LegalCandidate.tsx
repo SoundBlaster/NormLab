@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Disclosure, Notice, Quote, Status } from '@/shared/ui';
 import {
   legalStateLabels,
+  isUncitedLegalFinding,
   type LegalFinding,
   type LegalWorkspace,
   type ReviewStatement,
@@ -53,6 +54,11 @@ export function LegalCandidate({
       <p>
         {candidate.rationale || 'Модель не предложила основание. Уточните обстоятельство вручную.'}
       </p>
+      {isUncitedLegalFinding(candidate) && (
+        <Notice tone="warning">
+          Предложение без ссылки на источник. Его смысловую обоснованность нужно проверить вручную.
+        </Notice>
+      )}
       {proposedSources.length > 0 && (
         <Disclosure summary={`Источники предложения · ${proposedSources.length}`}>
           {proposedSources.map((statement) => (
@@ -72,6 +78,9 @@ export function LegalCandidate({
           <strong>В расчёт сейчас: {legalStateLabels[finding.state]}</strong>
         </p>
         <p>{finding.rationale || 'Основание пока не указано.'}</p>
+        {isUncitedLegalFinding(finding) && (
+          <Notice tone="warning">Решение оператора без ссылки на источник.</Notice>
+        )}
         {currentSources.length > 0 && (
           <Disclosure summary={`Ссылки текущего решения · ${currentSources.length}`}>
             {currentSources.map((statement) => (

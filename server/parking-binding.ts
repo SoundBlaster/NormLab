@@ -1,6 +1,10 @@
 import type { LegalInput, ParkingScopeBinding } from '../shared/parking-legal.js';
 import { createHash } from 'node:crypto';
-import { parkingNormDraft, parkingScopeBindingSchema } from '../shared/parking-legal.js';
+import {
+  isUncitedLegalFinding,
+  parkingNormDraft,
+  parkingScopeBindingSchema,
+} from '../shared/parking-legal.js';
 import {
   reviewDraftSchema,
   reviewDraftMetadata,
@@ -74,9 +78,19 @@ export function parkingBindingReceipt(
         'Parking binding source reference belongs to another episode or review state',
       );
   }
-  return parkingScopeBindingSchema.parse({
-    schema: 'normlab.parking-scope-binding/v1',
-    action: 'record-reviewed-findings',
+  return parkingScopeBindingSchema.parse(
+    parkingBindingIdentity(input, draft, 'normlab.parking-scope-binding/v2'),
+  );
+}
+
+/** Versioned identity projections: no current review/quotation/metadata policy. */
+export function parkingBindingIdentity(
+  input: LegalInput,
+  draft: ReviewDraft,
+  schema: ParkingScopeBinding['schema'],
+): ParkingScopeBinding {
+  const identity = {
+    action: 'record-reviewed-findings' as const,
     draftId: input.draftId,
     revisionId: input.expectedRevisionId,
     assessmentId: input.requestId,
@@ -92,8 +106,21 @@ export function parkingBindingReceipt(
       location: input.location,
       timeInterval: input.timeInterval,
     },
-    statementIds: ids,
-  });
+    statementIds: [...new Set(input.findings.flatMap((finding) => finding.statementIds))].sort(),
+  };
+  return schema === 'normlab.parking-scope-binding/v1'
+    ? { ...identity, schema }
+    : {
+        ...identity,
+        schema,
+        uncitedConditions: parkingNormDraft.conditions
+          .filter(({ id }) =>
+            input.findings.some(
+              (finding) => finding.conditionId === id && isUncitedLegalFinding(finding),
+            ),
+          )
+          .map(({ id }) => id),
+      };
 }
 
 const stateTokens = {
@@ -149,6 +176,7 @@ theorem snapshot_checked (result) (accepted : NormLabParkingAttribution.propose 
 theorem supports_checked (row) (member : row ∈ boundRequest.findings) (id) (cited : id ∈ row.supports) :
     ∃ statement ∈ boundSource.statements, statement.id = id ∧ statement.episode = boundRequest.scope.episode ∧ statement.confirmed = true :=
   supports_scoped _ _ binding_checked row member id cited
+theorem uncited_checked : uncitedConditions boundRequest = [${(binding.schema === 'normlab.parking-scope-binding/v2' ? binding.uncitedConditions : []).map((id) => `.${id}`).join(', ')}] := by decide +kernel
 end NormLabParkingRuntime
 `;
   return { binding, statement };

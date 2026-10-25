@@ -33,6 +33,7 @@ export {
   legalOutcomeLabels,
   legalStateLabels,
   legalStates,
+  isUncitedLegalFinding,
   type LegalFinding,
   type LegalInput,
   type LegalAssessment,
