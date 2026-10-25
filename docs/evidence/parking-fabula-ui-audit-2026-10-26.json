@@ -1,0 +1,57 @@
+{
+  "schema": "normlab.parking-fabula-ui-audit/v1",
+  "date": "2026-10-26",
+  "kind": "local synthetic fixture of real LegalResultView; not provider inference or full/deployed workflow",
+  "browserCalls": 15,
+  "ceiling": 15,
+  "screenshotsInspected": 3,
+  "failedCalls": 0,
+  "providerCalls": 0,
+  "desktop": {
+    "viewport": {
+      "width": 1280,
+      "height": 960
+    },
+    "horizontalOverflow": false,
+    "fabulaOpen": true,
+    "technicalClosed": true,
+    "cardWidths": [320.6640625, 320.6640625, 320.6640625],
+    "cardY": [327.0625, 327.0625, 327.0625],
+    "actorUnknown": true,
+    "physicalDiffUnavailable": true,
+    "relationHypothesis": true,
+    "screenshot": "parking-fabula-desktop-2026-10-26.png"
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "horizontalOverflow": false,
+    "panelWidth": 324,
+    "cardX": [33, 33, 33],
+    "cardY": [552.1328125, 681.1328125, 831.1328125],
+    "screenshot": "parking-fabula-mobile-2026-10-26.png"
+  },
+  "mixedLegacyFixture": {
+    "staleShown": true,
+    "placement": "refuted",
+    "paidRegime": "not-established",
+    "noPayment": "conflict",
+    "statusesPreservedInDOM": true,
+    "relationStillHypothesis": true,
+    "fabulaHasNoLeanVerifiedBadge": true,
+    "legacyTechnicalFallbackVisible": true,
+    "inventedOperatorProjection": false,
+    "screenshot": "parking-fabula-mixed-2026-10-26.png"
+  },
+  "keyboard": "Focused technical summary closed with Enter; fresh targeted AX snapshot retained active summary and omitted fallback content",
+  "cleanup": "temporary fixtures removed; task-owned preview server stopped",
+  "limits": [
+    "No physical event, obligation, actor role or causal chain is newly verified by Lean",
+    "default fixture uses synthetic operator inputs; mixed/legacy variant is a renderer fixture, not an archived API receipt",
+    "prerequisite status labels checked in DOM; their nested disclosure not clicked",
+    "console tool not separately queried; fresh navigation/click reports showed no errors",
+    "no local test cases or suites; no production state changed"
+  ]
+}

@@ -6,17 +6,23 @@ import {
   type LegalAssessment,
   type LegalWorkspace,
 } from '../model/contracts.js';
+import { LegalFabulaView } from './LegalFabulaView.js';
+
+type OntologyProps = { record: LegalAssessment; workspace: LegalWorkspace; stale: boolean };
+
+export function LegalOntologyView(props: OntologyProps) {
+  return (
+    <div className="parking-ontology-views">
+      <Disclosure summary="Фабула: сущности, событие и возможные отношения">
+        <LegalFabulaView {...props} />
+      </Disclosure>
+      <OperatorOntologyView {...props} />
+    </div>
+  );
+}
 
 /** Read-only explanation of the record-reviewed-findings projection, not a new inference. */
-export function LegalOntologyView({
-  record,
-  workspace,
-  stale,
-}: {
-  record: LegalAssessment;
-  workspace: LegalWorkspace;
-  stale: boolean;
-}) {
+function OperatorOntologyView({ record, workspace, stale }: OntologyProps) {
   const verification = record.verification;
   const binding = verification?.binding;
   const label = (id: string) =>
@@ -30,7 +36,7 @@ export function LegalOntologyView({
   const added = 1 + states + supports.size;
   const verified = verification?.status === 'verified';
   return (
-    <Disclosure summary="Как этот расчёт представлен в онтологии">
+    <Disclosure summary="Технический слой: как оператор зафиксировал разбор">
       {!binding ? (
         <Notice tone="neutral">
           В этой квитанции онтологическая привязка не сохранена. Новый расчёт текущей моделью

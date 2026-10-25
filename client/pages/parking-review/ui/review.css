@@ -219,6 +219,12 @@
   gap: var(--space-4);
   margin-block-start: var(--space-4);
 }
+.parking-ontology > .ui-status {
+  justify-self: start;
+}
+.parking-ontology-flow[data-hypothesis] li:not(:last-child)::after {
+  content: '⇢';
+}
 .parking-ontology > p,
 .parking-ontology h4 {
   margin: 0;
@@ -289,5 +295,8 @@
     inset: auto auto -22px 50%;
     content: '↓';
     transform: translateX(-50%);
+  }
+  .parking-ontology-flow[data-hypothesis] li:not(:last-child)::after {
+    content: '⇣';
   }
 }
