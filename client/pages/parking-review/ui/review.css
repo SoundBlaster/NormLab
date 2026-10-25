@@ -213,3 +213,81 @@
   margin-block: var(--space-4);
   overflow-wrap: anywhere;
 }
+
+.parking-ontology {
+  display: grid;
+  gap: var(--space-4);
+  margin-block-start: var(--space-4);
+}
+.parking-ontology > p,
+.parking-ontology h4 {
+  margin: 0;
+}
+.parking-ontology-roles {
+  display: grid;
+  grid-template-columns: minmax(10rem, auto) minmax(0, 1fr);
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+.parking-ontology-roles dt {
+  color: var(--color-muted);
+}
+.parking-ontology-roles dd {
+  min-width: 0;
+  margin: 0;
+}
+.parking-ontology-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.parking-ontology-flow li {
+  position: relative;
+  min-width: 0;
+  padding: var(--space-3);
+  background: var(--surface-inset);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-group);
+}
+.parking-ontology-flow li:not(:last-child)::after {
+  position: absolute;
+  inset: 50% -20px auto auto;
+  color: var(--color-muted);
+  content: '→';
+  transform: translateY(-50%);
+}
+.parking-ontology-flow p {
+  margin-block: var(--space-2);
+}
+.parking-ontology-flow code {
+  font-size: var(--text-small);
+}
+.parking-ontology-findings {
+  display: grid;
+  gap: var(--space-3);
+  padding-inline-start: var(--space-5);
+}
+.parking-ontology-findings li > span,
+.parking-ontology-findings li > small {
+  display: block;
+}
+@media (max-width: 680px) {
+  .parking-ontology-roles,
+  .parking-ontology-flow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .parking-ontology-roles {
+    gap: var(--space-1);
+  }
+  .parking-ontology-roles dt:not(:first-child) {
+    margin-block-start: var(--space-2);
+  }
+  .parking-ontology-flow li:not(:last-child)::after {
+    inset: auto auto -22px 50%;
+    content: '↓';
+    transform: translateX(-50%);
+  }
+}
