@@ -419,6 +419,9 @@ LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD
 LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckActionAttribution.lean
 LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/ParkingAttribution.olean" lean/ParkingAttribution.lean
 LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckParkingAttribution.lean
+LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/Parking.olean" lean/Parking.lean
+LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true -o "$RELATIONS_BUILD_DIR/ParkingRuntime.olean" lean/ParkingRuntime.lean
+LEAN_PATH="$RELATIONS_BUILD_DIR" lean -DwarningAsError=true lean/CheckParkingRuntime.lean
 ```
 
 На локальном Mac перед artifact-producing командами применяется `tb5-build-cache`;
@@ -584,5 +587,7 @@ axiom declarations в namespace ядра и зависимости его тео
 с отказом при duplicate eventId, явные Unbound-имена схематического профиля и
 [ParkingAttribution](PARKING_ATTRIBUTION.md). Вход принимает RegisteredEvent и его
 Interpretation; результат обязательно GroundedTransition registry. Gate запрещает
-прямой выбор unbound API парковочным модулем. Связь с findings текущего runtime
-остаётся следующим отдельным результатом R4.
+прямой выбор unbound API парковочным модулем. Связь с findings текущего runtime реализуется в [#229](https://github.com/SoundBlaster/NormLab/issues/229):
+оператор фиксирует снимок разметки; bound-результат сохраняет scope, исходную
+ревизию и подтверждённые ссылки. Это не автоматическая атрибуция нарушения водителю.
+[Протокол и evidence](PARKING_ATTRIBUTION.md#replay-сохранённого-эпизода).

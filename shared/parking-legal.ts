@@ -16,23 +16,30 @@ export const legalStateLabels: Record<(typeof legalStates)[number], string> = {
   'not-established': 'Не установлено',
   conflict: 'Противоречие',
 };
-export const legalFindingSchema = z
+// Stored wire format is separate from admission policy. Tightening the latter
+// must not retroactively invalidate immutable assessment receipts.
+const storedLegalFindingSchema = z
   .object({
-    conditionId: z.string().refine((id) => manifest.conditions.some((c) => c.id === id)),
+    conditionId: z.string().min(1).max(128),
     state: z.enum(legalStates),
     rationale: z.string().trim().max(2048),
     statementIds: z.array(z.string().uuid()).max(256),
     /** Source candidate, which the human may amend; not automatic acceptance. */
     proposalId: z.string().uuid().optional(),
   })
-  .strict()
-  .superRefine((finding, ctx) => {
-    if (finding.state !== 'unreviewed' && !finding.rationale)
-      ctx.addIssue({ code: 'custom', message: 'Укажите основание решения.', path: ['rationale'] });
-    if (new Set(finding.statementIds).size !== finding.statementIds.length)
-      ctx.addIssue({ code: 'custom', message: 'Повторяются ссылки на утверждения.' });
-  });
+  .strict();
+export const legalFindingSchema = storedLegalFindingSchema.superRefine((finding, ctx) => {
+  if (!manifest.conditions.some((condition) => condition.id === finding.conditionId))
+    ctx.addIssue({ code: 'custom', message: 'Неизвестное условие нормы.', path: ['conditionId'] });
+  if (finding.state !== 'unreviewed' && !finding.rationale)
+    ctx.addIssue({ code: 'custom', message: 'Укажите основание решения.', path: ['rationale'] });
+  if (new Set(finding.statementIds).size !== finding.statementIds.length)
+    ctx.addIssue({ code: 'custom', message: 'Повторяются ссылки на утверждения.' });
+});
 export type LegalFinding = z.infer<typeof legalFindingSchema>;
+/** An operator-selected definitive state, with no quoted source references. */
+export const isUncitedLegalFinding = (finding: LegalFinding): boolean =>
+  ['established', 'refuted', 'conflict'].includes(finding.state) && !finding.statementIds.length;
 export const emptyLegalFindings = (): LegalFinding[] =>
   manifest.conditions.map((c) => ({
     conditionId: c.id,
@@ -40,7 +47,8 @@ export const emptyLegalFindings = (): LegalFinding[] =>
     rationale: '',
     statementIds: [],
   }));
-export const legalInputSchema = z
+/** Frozen stored assessment v1/v2 wire format; no current finding admission policy. */
+export const storedLegalInputSchema = z
   .object({
     draftId: z.string().uuid(),
     expectedRevisionId: z.string().uuid(),
@@ -63,9 +71,11 @@ export const legalInputSchema = z
     timeInterval: z.string().trim().max(512),
     claimedFine: z.number().int().min(0).max(1000000).nullable(),
     coordinateProposalId: z.string().uuid().optional(),
-    findings: z.array(legalFindingSchema).length(manifest.conditions.length),
+    findings: z.array(storedLegalFindingSchema).length(9),
   })
-  .strict()
+  .strict();
+export const legalInputSchema = storedLegalInputSchema
+  .extend({ findings: z.array(legalFindingSchema).length(manifest.conditions.length) })
   .superRefine((input, ctx) => {
     if (new Set(input.findings.map((f) => f.conditionId)).size !== manifest.conditions.length)
       ctx.addIssue({ code: 'custom', message: 'Нужен один finding для каждого условия.' });
@@ -116,9 +126,41 @@ export const legalResultSchema = z.strictObject({
 });
 export type LegalResult = z.infer<typeof legalResultSchema>;
 
+const parkingScopeBindingFields = {
+  action: z.literal('record-reviewed-findings'),
+  draftId: z.string().uuid(),
+  revisionId: z.string().uuid(),
+  assessmentId: z.string().uuid(),
+  sourceDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  sourceRevisionDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  sourceStatementsDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  findingsDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  scope: z.strictObject({
+    episode: legalInputSchema.shape.episode,
+    participant: legalInputSchema.shape.participant,
+    vehicle: legalInputSchema.shape.vehicle,
+    eventDate: legalInputSchema.shape.eventDate,
+    location: legalInputSchema.shape.location,
+    timeInterval: legalInputSchema.shape.timeInterval,
+  }),
+  statementIds: z.array(z.string().uuid()).max(256),
+};
+export const parkingScopeBindingSchema = z.discriminatedUnion('schema', [
+  z.strictObject({
+    ...parkingScopeBindingFields,
+    schema: z.literal('normlab.parking-scope-binding/v1'),
+  }),
+  z.strictObject({
+    ...parkingScopeBindingFields,
+    schema: z.literal('normlab.parking-scope-binding/v2'),
+    uncitedConditions: z.array(conditionIdSchema).max(9),
+  }),
+]);
+export type ParkingScopeBinding = z.infer<typeof parkingScopeBindingSchema>;
+
 export const parkingVerificationSchema = z
   .strictObject({
-    profile: z.literal('parking-fragment-poc/v1'),
+    profile: z.enum(['parking-fragment-poc/v1', 'parking-fragment-poc/v2']),
     status: z.enum(['verified', 'inconclusive', 'rejected']),
     engine: z.literal('lean-kernel'),
     version: z.string().nullable(),
@@ -134,14 +176,24 @@ export const parkingVerificationSchema = z
     axioms: z.array(z.string()).max(16),
     reason: z.string().max(2048),
     durationMs: z.number().int().nonnegative(),
+    binding: parkingScopeBindingSchema.optional(),
   })
   .refine(
     (v) =>
       v.status !== 'verified' ||
       (v.version?.includes('version 4.30.0') &&
         v.toolchainDigest !== null &&
-        v.axioms.every((axiom) => axiom === 'propext')),
+        v.axioms.every(
+          (axiom) =>
+            axiom === 'propext' ||
+            (v.profile === 'parking-fragment-poc/v2' && axiom === 'Quot.sound'),
+        ) &&
+        (v.profile !== 'parking-fragment-poc/v2' || v.binding !== undefined)),
     'Verified parking proof requires the pinned toolchain and audited axioms.',
+  )
+  .refine(
+    (v) => v.profile !== 'parking-fragment-poc/v1' || v.binding === undefined,
+    'Legacy verification cannot claim a reviewed-episode binding.',
   );
 export type ParkingVerification = z.infer<typeof parkingVerificationSchema>;
 

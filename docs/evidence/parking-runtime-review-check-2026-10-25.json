@@ -1,0 +1,64 @@
+{
+  "schema": "normlab.parking-runtime-review-check/v1",
+  "createdAt": "2026-10-25T19:24:06.043Z",
+  "inference": false,
+  "profileDigest": "729df795af974e921e57405ee86bfbb77879a992b6ffac34a5b80690ffba5885",
+  "sourceFileSHA256": "e51cfa9baaa8a6314cb4d7002367427aafbcc2b1fc7e868e4e096f656e50fe01",
+  "sourceUnchanged": true,
+  "historicalBindingV1Readable": true,
+  "historicalReceiptMarkedPreviousProfile": true,
+  "proofExecutionDeadlineMs": 20000,
+  "queueCapacity": {
+    "active": 1,
+    "waiting": 1
+  },
+  "observedPeakChildProcesses": 1,
+  "samplingIntervalMs": 20,
+  "cases": [
+    {
+      "kind": "saved conflict with references",
+      "expectedStatus": "verified",
+      "actualStatus": "verified",
+      "durationIncludesQueueMs": 5941,
+      "outcome": "conflict",
+      "bindingSchema": "normlab.parking-scope-binding/v2",
+      "uncitedConditions": [],
+      "receiptReplayed": true,
+      "reason": "Lean проверил расчёт PoC, идентичность ревизии, сохранение выбранных идентификаторов и принадлежность указанных ссылок эпизоду. Смысл ссылок и соответствие участника/ТС тексту не проверялись."
+    },
+    {
+      "kind": "synthetic operator assertions without references",
+      "expectedStatus": "verified",
+      "actualStatus": "verified",
+      "durationIncludesQueueMs": 9565,
+      "outcome": "fragment-matched",
+      "bindingSchema": "normlab.parking-scope-binding/v2",
+      "uncitedConditions": [
+        "inMoscow",
+        "cityParking",
+        "placement",
+        "paidRegime",
+        "personalCar",
+        "simplePayment",
+        "noPrivilege",
+        "noSpecialCircumstances",
+        "noPayment"
+      ],
+      "receiptReplayed": true,
+      "reason": "Lean проверил расчёт PoC, идентичность ревизии, сохранение выбранных идентификаторов и принадлежность указанных ссылок эпизоду. Смысл ссылок и соответствие участника/ТС тексту не проверялись."
+    },
+    {
+      "kind": "excess concurrent request",
+      "expectedStatus": "inconclusive",
+      "actualStatus": "inconclusive",
+      "durationIncludesQueueMs": 2,
+      "outcome": "conflict",
+      "bindingSchema": "normlab.parking-scope-binding/v2",
+      "uncitedConditions": [],
+      "receiptReplayed": false,
+      "reason": "Очередь парковочных проверок Lean заполнена. Расчёт сохранён без проверки; повторите её позже."
+    }
+  ],
+  "limitations": "Mac replay; no one-core VPS benchmark. Uncited states are synthetic operator decisions, not evidence-based adjudication. No browser or deployment validation.",
+  "tamperedArchiveRejected": true
+}

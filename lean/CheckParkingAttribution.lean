@@ -7,6 +7,7 @@ run_cmd do
     `NormLabParkingAttribution.propose_isSome_iff,
     `NormLabParkingAttribution.accepted_record,
     `NormLabParkingAttribution.accepted_scope,
+    `NormLabParkingAttribution.accepted_context,
     `NormLabParkingAttribution.Witness.omission_accepted,
     `NormLabParkingAttribution.Witness.driver_not_owner,
     `NormLabParkingAttribution.Witness.unknown_rejected,

@@ -1,0 +1,34 @@
+{
+  "schema": "normlab.parking-bound-replay/v1",
+  "createdAt": "2026-10-25T19:25:24.734Z",
+  "inference": false,
+  "source": {
+    "schema": "normlab.parking-review/v1",
+    "fileSHA256": "e51cfa9baaa8a6314cb4d7002367427aafbcc2b1fc7e868e4e096f656e50fe01",
+    "digest": "db5ec016a9c8a03952b501e73545ba8198cbdfe0e8b43255835bfd60098111cd",
+    "statements": 2
+  },
+  "inputDigest": "02331d35b437b74ceb89d152728fd139e369dc2710952f7a096c217aa0bb8b6c",
+  "resultDigest": "42d5f648a1ed5bf1e09f76f625dc9ab2d8de1038a38a150758229706f331759e",
+  "bindingDigest": "ef71cb0950260d9d1b8b8351db288ff145450a9715ddeed3db5e5413c380ddc6",
+  "citedStatements": 2,
+  "expectedOutcome": "conflict",
+  "actualOutcome": "conflict",
+  "verification": {
+    "profile": "parking-fragment-poc/v2",
+    "status": "verified",
+    "engine": "lean-kernel",
+    "version": "Lean (version 4.30.0, arm64-apple-darwin24.6.0, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+    "inputDigest": "02331d35b437b74ceb89d152728fd139e369dc2710952f7a096c217aa0bb8b6c",
+    "resultDigest": "42d5f648a1ed5bf1e09f76f625dc9ab2d8de1038a38a150758229706f331759e",
+    "packageDigest": "5a67c64d818f8417c530ff82c75e2f90f1fd98abc4c7aa416adca74bb712797a",
+    "profileDigest": "729df795af974e921e57405ee86bfbb77879a992b6ffac34a5b80690ffba5885",
+    "statementDigest": "2ba992f5147ae3fe9e577d06fb5774bf01253efb5ad0fbf1fc057a9fb858881e",
+    "toolchainDigest": "f922d22bb4b45eb0fe03040cd893c3fd46e79345735ed9f010f2d05d005c2e2a",
+    "axioms": ["propext", "Quot.sound"],
+    "reason": "Lean проверил расчёт PoC, идентичность ревизии, сохранение выбранных идентификаторов и принадлежность указанных ссылок эпизоду. Смысл ссылок и соответствие участника/ТС тексту не проверялись.",
+    "durationMs": 7856
+  },
+  "receiptReplayed": true,
+  "sourceUnchanged": true
+}

@@ -5,6 +5,7 @@ import { z } from 'zod';
 import {
   evaluateParkingFragment,
   legalInputSchema,
+  storedLegalInputSchema,
   parkingNormDraft,
   parkingVerificationSchema,
   type LegalAssessment,
@@ -19,6 +20,7 @@ import {
   verifyParkingCalculation,
 } from './parking-verifier.js';
 import { legalProposalForDraft, ParkingLegalProposalError } from './parking-legal-proposals.js';
+import { parkingBindingIdentity } from './parking-binding.js';
 
 export { parkingNormDigest } from './parking-verifier.js';
 
@@ -39,7 +41,7 @@ const savedSchema = z
     createdAt: z.string().datetime(),
     actor: z.literal('human-operator'),
     sourceDigest: z.string().regex(/^[a-f0-9]{64}$/),
-    input: legalInputSchema,
+    input: storedLegalInputSchema,
     package: z.unknown(),
     result: z.unknown().nullable(),
     verification: parkingVerificationSchema.nullable().optional(),
@@ -91,6 +93,33 @@ export class ParkingLegal {
             'Не удалось проверить сохранённый расчёт. История не изменена.',
             409,
           );
+        if (
+          value.verification?.profile === 'parking-fragment-poc/v2' &&
+          value.verification.binding
+        ) {
+          try {
+            // History checks immutable identity, not today's admission policy.
+            const source = JSON.parse(
+              readFileSync(join(folder, `${value.input.expectedRevisionId}.json`), 'utf8'),
+            ) as ReviewDraft;
+            if (
+              value.sourceDigest !== source.sourceDigest ||
+              digest(value.verification.binding) !==
+                digest(
+                  parkingBindingIdentity(value.input, source, value.verification.binding.schema),
+                )
+            )
+              throw new ParkingLegalError(
+                'Привязка сохранённого расчёта к исходной ревизии изменилась.',
+                409,
+              );
+          } catch {
+            throw new ParkingLegalError(
+              'Привязка сохранённого расчёта к исходной ревизии изменилась или недоступна.',
+              409,
+            );
+          }
+        }
         return this.view(value as LegalAssessment);
       })
       .sort((a, b) => b.sequence - a.sequence);
@@ -180,7 +209,7 @@ export class ParkingLegal {
     const initial = check();
     if (initial.repeated) return initial.repeated;
     const result = input.action === 'calculate' ? evaluateParkingFragment(input) : null;
-    const verification = result ? await this.verify(input, result) : null;
+    const verification = result ? await this.verify(input, result, initial.draft) : null;
     // Lean yields to other requests. Recheck the draft and optimistic head before writing.
     const { draft, records, repeated } = check();
     if (repeated) return repeated;

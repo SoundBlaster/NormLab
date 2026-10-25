@@ -175,7 +175,7 @@ namespaces, включая private/generated, и допускают только
 Нет custom axioms, sorryAx, Classical.choice или native-decide trust extension.
 
 [Команды воспроизведения](RELATIONAL_FOUNDATIONS.md#воспроизведение) и CI
-компилируют шесть модулей и запускают шесть gates, включая подготовку R4. Локальные artifacts/logs
+компилируют ядро и парковочные расширения, включая runtime-привязку R4. Локальные artifacts/logs
 размещены на проверенном TB5. Hosted CI/review учитываются по точному SHA;
 старые результаты не подтверждают новую ревизию. Demo пока использует прежний
 evaluator; платные вызовы и деплой в этот срез не входят.

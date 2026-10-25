@@ -49,6 +49,14 @@ theorem accepted_scope (input : Input (u := u) registry)
     result.context.scope.toEventKey = input.event.record.key := by
   rw [HumanContext.scope_key, accepted_record input result accepted]
 
+theorem accepted_context (input : Input (u := u) registry)
+    (result : GroundedTransition (u := u) registry) (accepted : propose input = some result) :
+    result.context = input.context := by
+  unfold propose NormLabActionAttribution.propose at accepted
+  split at accepted
+  · cases accepted; rfl
+  · cases accepted
+
 end Entry
 
 namespace Witness
