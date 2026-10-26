@@ -9,7 +9,7 @@ import type { ParkingJournalEvent } from '../shared/parking-journal.js';
 import { ParkingLegalError } from './parking-legal.js';
 import { digest } from './hash.js';
 
-/** Surface proposal only: neither the speaker nor selected participant is used as the actor. */
+/** Surface proposal only: first-person references stay scoped to their statement's speaker. */
 function candidates(folder: string, record: LegalAssessment) {
   const draft = reviewDraftSchema.parse(
     JSON.parse(readFileSync(join(folder, `${record.input.expectedRevisionId}.json`), 'utf8')),
@@ -52,7 +52,8 @@ function candidates(folder: string, record: LegalAssessment) {
         quote: statement.quote,
         startOffset: statement.startOffset,
         endOffset: statement.endOffset,
-        method: 'explicit-first-person/v1' as const,
+        method: 'explicit-first-person/v2' as const,
+        ...(statement.speaker === undefined ? {} : { speaker: statement.speaker }),
       };
       const id = digest({ revision: draft.revisionId, assessment: record.id, ...value });
       if (!proposals.some((candidate) => candidate.id === id)) proposals.push({ id, ...value });
@@ -105,7 +106,9 @@ export function fabulaSource(folder: string, record: LegalAssessment) {
       !sourceStatement ||
       sourceStatement.quote !== candidate.quote ||
       sourceStatement.startOffset !== candidate.startOffset ||
-      sourceStatement.endOffset !== candidate.endOffset
+      sourceStatement.endOffset !== candidate.endOffset ||
+      (candidate.method === 'explicit-first-person/v2' &&
+        candidate.speaker !== sourceStatement.speaker)
     )
       throw new ParkingLegalError('Интерпретация относится к другому источнику.', 409);
     // Historical decisions keep their original proposal, independent of future proposal rules.

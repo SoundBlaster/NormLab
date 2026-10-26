@@ -29,6 +29,7 @@ export {
 export { parkingJobSchema, type ParkingJob } from '../../../../shared/parking-job.js';
 export {
   fabulaSourceSchema,
+  fabulaActorLabel,
   type FabulaSource,
   type FabulaActorInput,
   type FabulaActorCandidate,

@@ -2,17 +2,23 @@ import { z } from 'zod';
 
 const uuid = z.string().uuid();
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
-export const fabulaActorCandidateSchema = z
-  .object({
-    id: hash,
-    statementId: uuid,
-    label: z.string().min(1).max(128),
-    quote: z.string().min(1).max(4096),
-    startOffset: z.number().int().nonnegative(),
-    endOffset: z.number().int().positive(),
-    method: z.literal('explicit-first-person/v1'),
-  })
-  .strict();
+const actorCandidate = z.object({
+  id: hash,
+  statementId: uuid,
+  label: z.string().min(1).max(128),
+  quote: z.string().min(1).max(4096),
+  startOffset: z.number().int().nonnegative(),
+  endOffset: z.number().int().positive(),
+});
+export const fabulaActorCandidateSchema = z.discriminatedUnion('method', [
+  actorCandidate.extend({ method: z.literal('explicit-first-person/v1') }).strict(),
+  actorCandidate
+    .extend({
+      method: z.literal('explicit-first-person/v2'),
+      speaker: z.string().trim().min(1).max(128).optional(),
+    })
+    .strict(),
+]);
 export const fabulaActorInputSchema = z
   .object({
     requestId: uuid,
@@ -49,3 +55,14 @@ export const fabulaSourceSchema = z
 export type FabulaActorInput = z.infer<typeof fabulaActorInputSchema>;
 export type FabulaActorCandidate = z.infer<typeof fabulaActorCandidateSchema>;
 export type FabulaSource = z.infer<typeof fabulaSourceSchema>;
+
+/** First-person deixis belongs to its source; missing provenance never identifies a narrator. */
+export function fabulaActorLabel(candidate: FabulaActorCandidate): string {
+  if (!/^[Яя]$/.test(candidate.label)) return candidate.label;
+  if (candidate.method === 'explicit-first-person/v1')
+    return 'Автор высказывания («я») · источник не сохранён';
+  if (candidate.speaker === 'narrator') return 'Рассказчик («я»)';
+  return candidate.speaker
+    ? `Автор источника «${candidate.speaker}» («я»)`
+    : 'Автор высказывания («я») · источник не указан';
+}

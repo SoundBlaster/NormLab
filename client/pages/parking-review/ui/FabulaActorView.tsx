@@ -3,6 +3,7 @@ import { apiUrl } from '@/shared/api';
 import { Actions, Button, Disclosure, Notice, Quote, Status } from '@/shared/ui';
 import {
   fabulaSourceSchema,
+  fabulaActorLabel,
   type FabulaActorInput,
   type FabulaSource,
   type LegalAssessment,
@@ -137,7 +138,7 @@ export function FabulaActorView({
           {source.candidates.map((candidate) => {
             const decision = source.decisions.find((value) => value.candidate.id === candidate.id);
             const status = decision?.input.decision;
-            const label = /^[Яя]$/.test(candidate.label) ? 'Рассказчик («я»)' : candidate.label;
+            const label = fabulaActorLabel(candidate);
             return (
               <div key={candidate.id} className="parking-fabula-candidate">
                 <p>
@@ -159,6 +160,11 @@ export function FabulaActorView({
                       : 'Кандидат по тексту · не подтверждён'}
                 </Status>
                 <Quote>{candidate.quote}</Quote>
+                {candidate.method === 'explicit-first-person/v2' && (
+                  <p className="parking-help">
+                    Источник сообщения: {candidate.speaker ?? 'не указан'}.
+                  </p>
+                )}
                 {token && (
                   <Actions>
                     {(['confirmed', 'rejected'] as const).map((choice) => (
