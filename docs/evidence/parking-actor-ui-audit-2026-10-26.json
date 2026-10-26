@@ -1,0 +1,58 @@
+{
+  "schema": "normlab.parking-actor-ui-audit/v1",
+  "date": "2026-10-26",
+  "kind": "Synthetic local legacy-shaped LegalResultView receipt, actual new HTTP source/actor API and durable decision storage; not full application or deployed workflow",
+  "browserCalls": 15,
+  "ceiling": 15,
+  "screenshotsInspected": 2,
+  "failedToolCalls": 0,
+  "fixtureStartupIssue": "First navigation received 403 Host through the temporary Vite proxy; corrected temporary changeOrigin forwarding and restarted the task-owned dev server. No product auth change. One recovery navigation.",
+  "verified": {
+    "candidate": "Алексей from exact P01 first-person placement sentence; initial status pending",
+    "explicitConfirmation": "Clicked Confirm actor in actual rendered UI; POST persisted a decision; inline success and confirmed status observed",
+    "persistence": "Switched to the other fixture and back (unmount/remount); fresh API load displayed confirmed role",
+    "noActor": "Passive vehicle-placement sentence with unknown performer produced no candidate and no confirmation button; full source remained available in disclosure DOM",
+    "desktop": {
+      "viewport": [1280, 960],
+      "noCandidatePanelRect": {
+        "x": 129,
+        "width": 1022,
+        "height": 304.640625
+      },
+      "horizontalOverflow": false,
+      "screenshot": "parking-actor-desktop-2026-10-26.png"
+    },
+    "mobile": {
+      "viewport": [390, 844],
+      "confirmedPanelScreenshot": "parking-actor-mobile-2026-10-26.png",
+      "inspected": "Candidate, exact quotation, saved role label and action buttons remain readable in element screenshot; mobile document overflow not separately measured"
+    },
+    "sourceRevisionUnchanged": true,
+    "legalReceiptUnchanged": true,
+    "savedActorDecisions": 1,
+    "providerCalls": 0,
+    "leanCalls": 0,
+    "productionWrites": 0
+  },
+  "limits": [
+    "Narrow explicit-first-person/v1 source rule, not general actor extraction; speech/conditionals/irony still require human review",
+    "Only candidates linked by placement-finding references to confirmed asserted source statements in the chosen episode are generated",
+    "Synthetic legacy receipt has no Lean proof; remaining findings are synthetic operator choices, not newly extracted facts",
+    "Fixture uses shared primitives and panel but omits app-global typography; screenshots verify component layout, not whole-app visual parity",
+    "Full narrative text checked in DOM; its disclosure not clicked within budget",
+    "Reject/change/unknown-network outcome, concurrent tabs, stale/invalid request paths and final console query not browser-exercised",
+    "No local test suites or new tests; TypeScript, lint and production build are separate checks"
+  ],
+  "preservedFixtureArtifacts": [
+    {
+      "named": true,
+      "sourceRevisionSHA256": "68572d67c8a4a5de2f068f83b3bbfaa1da322a5118c6d924fe065a6af93e1470",
+      "receiptSHA256": "cd4feeff053dc5cffdf2403c5b09cdd85d04401034470ba9855609d5b611d210"
+    },
+    {
+      "named": false,
+      "sourceRevisionSHA256": "57cef7ec01a4ee9a93710112c447da35df9fe7601203cb38adf7297b2159d8d4",
+      "receiptSHA256": "fa992795e381273fae444abf39b06caffcdce0f71abf922730d0fcc353006173"
+    }
+  ]
+}

@@ -8,7 +8,13 @@ import {
 } from '../model/contracts.js';
 import { LegalFabulaView } from './LegalFabulaView.js';
 
-type OntologyProps = { record: LegalAssessment; workspace: LegalWorkspace; stale: boolean };
+type OntologyProps = {
+  record: LegalAssessment;
+  workspace: LegalWorkspace;
+  stale: boolean;
+  token?: string;
+  onRecorded?: () => void;
+};
 
 export function LegalOntologyView(props: OntologyProps) {
   return (

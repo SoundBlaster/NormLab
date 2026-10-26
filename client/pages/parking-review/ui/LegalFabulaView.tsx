@@ -7,16 +7,21 @@ import {
   type LegalAssessment,
   type LegalWorkspace,
 } from '../model/contracts.js';
+import { FabulaActorView } from './FabulaActorView.js';
 
 /** An explicitly tentative reading of saved findings; not a new legal/Lean inference. */
 export function LegalFabulaView({
   record,
   workspace,
   stale,
+  token,
+  onRecorded,
 }: {
   record: LegalAssessment;
   workspace: LegalWorkspace;
   stale: boolean;
+  token?: string;
+  onRecorded?: () => void;
 }) {
   const finding = (id: string) => record.input.findings.find((value) => value.conditionId === id);
   const state = (id: string) => legalStateLabels[finding(id)?.state ?? 'unreviewed'];
@@ -46,9 +51,14 @@ export function LegalFabulaView({
             .filter(Boolean)
             .join(' · ')}
         </dd>
-        <dt>Актор размещения</dt>
-        <dd>Не установлен: роль выбранного участника отдельно не подтверждена.</dd>
       </dl>
+      <FabulaActorView
+        key={record.id}
+        record={record}
+        stale={stale}
+        token={token}
+        onRecorded={onRecorded}
+      />
       <h4>Предполагаемый переход по фабуле</h4>
       <ol
         className="parking-ontology-flow"
@@ -62,7 +72,7 @@ export function LegalFabulaView({
         <li>
           <strong>Событие · размещение ТС</strong>
           <p>Решение человека: {state('placement')}.</p>
-          <small>Кто или что привело ТС в это состояние — требуется уточнить.</small>
+          <small>Кандидаты исполнителя, цитаты и решения об их роли показаны выше.</small>
         </li>
         <li>
           <strong>Кандидат State в эпизоде</strong>

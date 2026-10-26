@@ -8,6 +8,19 @@
 .parking-review-state {
   justify-self: start;
 }
+.parking-fabula-actor,
+.parking-fabula-candidate {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.parking-fabula-candidate {
+  padding-block: var(--space-3);
+  border-block-start: 1px solid var(--color-border-subtle);
+}
+.parking-fabula-candidate > .ui-status {
+  justify-self: start;
+}
 .parking-job,
 .parking-auto-analysis {
   display: grid;

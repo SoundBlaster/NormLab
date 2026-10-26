@@ -509,9 +509,11 @@ export function LegalFindings({
             )}
           </Actions>
           <LegalResultView
+            token={token}
+            onRecorded={onSaved}
             record={record}
             workspace={workspace}
-            stale={dirty || blocked || !!pending}
+            stale={dirty || blocked || busy || proposing || clarificationDirty || !!pending}
           />
           {!blocked && (
             <>

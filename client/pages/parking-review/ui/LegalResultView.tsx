@@ -19,10 +19,14 @@ export function LegalResultView({
   record,
   workspace,
   stale,
+  token,
+  onRecorded,
 }: {
   record?: LegalAssessment;
   workspace: LegalWorkspace;
   stale: boolean;
+  token?: string;
+  onRecorded?: () => void;
 }) {
   const result = record?.result;
   const rejected = record?.verification?.status === 'rejected';
@@ -122,7 +126,13 @@ export function LegalResultView({
               )}
             </Disclosure>
           )}
-          <LegalOntologyView record={record} workspace={workspace} stale={stale} />
+          <LegalOntologyView
+            record={record}
+            workspace={workspace}
+            stale={stale}
+            token={token}
+            onRecorded={onRecorded}
+          />
           {rejected ? (
             <Disclosure summary="Показать отвергнутый draft-расчёт">
               <h4>{legalOutcomeLabels[result.outcome]}</h4>
