@@ -57,6 +57,8 @@ import {
   ParkingLegalProposalError,
 } from './parking-legal-proposals.js';
 import { digest as objectDigest } from './hash.js';
+import { fabulaActorInputSchema } from '../shared/parking-fabula.js';
+import { fabulaSource, saveFabulaActor, fabulaActorJournal } from './parking-fabula.js';
 
 const digest = (text: string) => createHash('sha256').update(text).digest('hex');
 export class ParkingReviewError extends Error {
@@ -268,6 +270,34 @@ export class ParkingReview {
   }
   async handle(method: string, path: string, body?: unknown) {
     if (
+      (method === 'GET' && path.startsWith('/api/parking/fabula/')) ||
+      (method === 'POST' && path === '/api/parking/fabula')
+    ) {
+      try {
+        const input = method === 'POST' ? fabulaActorInputSchema.parse(body) : undefined;
+        const [draftId, assessmentId] = input
+          ? [input.draftId, input.assessmentId]
+          : z
+              .tuple([z.string().uuid(), z.string().uuid()])
+              .parse(path.slice('/api/parking/fabula/'.length).split('/'));
+        const folder = this.folder(draftId);
+        const records = this.legal.history(folder);
+        const record = records.find((value) => value.id === assessmentId);
+        if (!record) throw new ParkingReviewError('Сохранённый расчёт не найден.', 404);
+        return input
+          ? saveFabulaActor(folder, record, input, () => {
+              this.expected(draftId, input.expectedRevisionId);
+              if (records[0]?.id !== assessmentId)
+                throw new ParkingReviewError('Расчёт изменился. Обновите интерпретацию.', 409);
+            })
+          : fabulaSource(folder, record);
+      } catch (error) {
+        if (error instanceof ParkingLegalError)
+          throw new ParkingReviewError(error.message, error.status);
+        throw error;
+      }
+    }
+    if (
       (method === 'GET' && path.startsWith('/api/parking/legal-proposals/')) ||
       (method === 'POST' && path === '/api/parking/legal-proposals')
     ) {
@@ -337,6 +367,7 @@ export class ParkingReview {
       this.current(id);
       const events = [
         ...this.legal.journal(this.folder(id)),
+        ...fabulaActorJournal(this.folder(id)),
         ...revisionJournal(this.history(id)),
         ...extractionJournal(this.folder(id), this.activeRunId),
         ...contextProposalJournal(this.folder(id), this.activeRunId),

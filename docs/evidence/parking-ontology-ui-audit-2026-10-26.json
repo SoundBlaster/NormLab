@@ -1,0 +1,38 @@
+{
+  "schema": "normlab.parking-ontology-ui-audit/v1",
+  "date": "2026-10-26",
+  "kind": "local synthetic fixture of the real LegalResultView; not a full application or deployed workflow",
+  "browserCalls": 15,
+  "ceiling": 15,
+  "screenshotsInspected": 2,
+  "failedScreenshotAttempts": 2,
+  "fullSnapshotsRead": 0,
+  "targetedAXSnapshotRead": true,
+  "providerCalls": 0,
+  "mutations": "opened/collapsed read-only fixture disclosures, resized viewport; temporary fixture files removed and task-owned dev server stopped",
+  "desktop": {
+    "viewportWidth": 1403,
+    "screenshot": "parking-ontology-desktop-2026-10-26.png",
+    "observed": "three horizontal cards with arrows; initial closed/HMR DOM measurement discarded"
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "horizontalOverflow": false,
+    "panelWidth": 324,
+    "cardX": [33, 33, 33],
+    "cardY": [559.1328125, 688.1328125, 838.1328125],
+    "cardHeights": [105, 126, 105],
+    "screenshot": "parking-ontology-mobile-2026-10-26.png"
+  },
+  "keyboard": "focused summary closed with Enter; fresh AX snapshot retains active summary and omits ontology headings/cards",
+  "finding": "existing warning nested ul inside p; changed to inline labels and br; subsequent DOM p ul count = 0",
+  "limits": [
+    "legacy receipt fallback is source-reviewed, not browser-exercised",
+    "stale/rejected variants not browser-exercised",
+    "final console not recollected after the DOM fix within the 15-call limit",
+    "synthetic operator decisions, no legal semantic or inference accuracy claim"
+  ]
+}

@@ -6,6 +6,7 @@ import {
   type LegalAssessment,
   type LegalWorkspace,
 } from '../model/contracts.js';
+import { LegalOntologyView } from './LegalOntologyView.js';
 
 const coordinateLabels: Record<string, string> = {
   participant: 'Участник',
@@ -18,10 +19,14 @@ export function LegalResultView({
   record,
   workspace,
   stale,
+  token,
+  onRecorded,
 }: {
   record?: LegalAssessment;
   workspace: LegalWorkspace;
   stale: boolean;
+  token?: string;
+  onRecorded?: () => void;
 }) {
   const result = record?.result;
   const rejected = record?.verification?.status === 'rejected';
@@ -70,16 +75,17 @@ export function LegalResultView({
           </Notice>
           {uncited.length > 0 && (
             <Notice tone="warning">
-              <strong>Решения оператора без ссылок на источники:</strong>
-              <ul>
-                {uncited.map((finding) => (
-                  <li key={finding.conditionId}>
-                    {workspace.package.conditions.find(
+              <strong>Решения оператора без ссылок на источники:</strong>{' '}
+              {uncited
+                .map(
+                  (finding) =>
+                    workspace.package.conditions.find(
                       (condition) => condition.id === finding.conditionId,
-                    )?.label ?? finding.conditionId}
-                  </li>
-                ))}
-              </ul>
+                    )?.label ?? finding.conditionId,
+                )
+                .join(' · ')}
+              .
+              <br />
               Lean проверяет расчёт по этим решениям, а не их доказанность исходным текстом.
             </Notice>
           )}
@@ -120,6 +126,13 @@ export function LegalResultView({
               )}
             </Disclosure>
           )}
+          <LegalOntologyView
+            record={record}
+            workspace={workspace}
+            stale={stale}
+            token={token}
+            onRecorded={onRecorded}
+          />
           {rejected ? (
             <Disclosure summary="Показать отвергнутый draft-расчёт">
               <h4>{legalOutcomeLabels[result.outcome]}</h4>

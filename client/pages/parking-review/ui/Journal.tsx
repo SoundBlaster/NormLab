@@ -10,6 +10,10 @@ import {
 
 export function journalMessage(event: ParkingJournalEvent): string {
   switch (event.kind) {
+    case 'actor-interpretation':
+      return event.decision === 'confirmed'
+        ? 'Подтверждена роль актора по фабуле. Расчёт нормы не изменён.'
+        : 'Отклонён кандидат актора по фабуле. Расчёт нормы не изменён.';
     case 'legal-proposal': {
       const labels = {
         started: 'Запрошены кандидаты юридических обстоятельств.',

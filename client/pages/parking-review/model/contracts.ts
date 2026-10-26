@@ -28,6 +28,13 @@ export {
 } from '../../../../shared/parking-context-proposal.js';
 export { parkingJobSchema, type ParkingJob } from '../../../../shared/parking-job.js';
 export {
+  fabulaSourceSchema,
+  fabulaActorLabel,
+  type FabulaSource,
+  type FabulaActorInput,
+  type FabulaActorCandidate,
+} from '../../../../shared/parking-fabula.js';
+export {
   emptyLegalFindings,
   legalInputSchema,
   legalOutcomeLabels,
