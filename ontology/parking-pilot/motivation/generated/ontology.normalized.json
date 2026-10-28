@@ -1,0 +1,171 @@
+{
+  "classes" : [
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Operator-supplied scope for a reported parking action or omission. This bridge does not establish an occurrence or physical observations.",
+      "extends" : "sg:DomainEntity",
+      "fields" : [
+        {
+          "id" : "contributionKey",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "id" : "description",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "fqid" : "nlmot:ParkingContribution",
+      "id" : "ParkingContribution",
+      "implements" : [
+
+      ],
+      "kind" : "DomainEntity",
+      "lifecycle" : "ContributionScopeReview",
+      "uri" : "ontology://normlab.parking-motivation/0.1.0/classes/ParkingContribution"
+    },
+    {
+      "aliases" : [
+
+      ],
+      "central" : false,
+      "description" : "Review the supplied contribution scope without establishing its physical occurrence or motive.",
+      "extends" : "sg:Command",
+      "fqid" : "nlmot:ReviewContributionScope",
+      "id" : "ReviewContributionScope",
+      "implements" : [
+
+      ],
+      "kind" : "Command",
+      "uri" : "ontology://normlab.parking-motivation/0.1.0/classes/ReviewContributionScope"
+    }
+  ],
+  "diagnostics" : [
+
+  ],
+  "id" : "normlab.parking-motivation",
+  "imports" : [
+    {
+      "id" : "normlab.case-core",
+      "namespace" : "nlcase",
+      "version" : "0.1.0"
+    },
+    {
+      "id" : "normlab.parking",
+      "namespace" : "nlpark",
+      "version" : "0.1.0"
+    },
+    {
+      "id" : "org.0al.events.core",
+      "namespace" : "eventcore",
+      "version" : "0.2.0"
+    },
+    {
+      "id" : "org.0al.motivation.core",
+      "namespace" : "motivcore",
+      "version" : "0.1.0"
+    },
+    {
+      "id" : "specgraph.foundation",
+      "namespace" : "sg",
+      "version" : "0.1.0"
+    }
+  ],
+  "namespace" : "nlmot",
+  "policies" : [
+    {
+      "appliesTo" : [
+        "nlmot:ParkingContribution"
+      ],
+      "enforceability" : "manual",
+      "extends" : "sg:Policy",
+      "fqid" : "nlmot:ExplicitConsumerBoundary",
+      "id" : "ExplicitConsumerBoundary",
+      "text" : "Generated object schemas do not implement graph policies. normlab.parking-motivation-proposal/v1 is a narrower optional source-extraction envelope, not an extension of eventcore instance profiles or Lean. Exact quotes and selected identifiers establish structural anchoring only, not relevance, authenticity or factual truth. Review and operator authority require separate application decisions."
+    },
+    {
+      "appliesTo" : [
+        "nlmot:ParkingContribution"
+      ],
+      "enforceability" : "manual",
+      "extends" : "sg:Policy",
+      "fqid" : "nlmot:ScopedSourceProposal",
+      "id" : "ScopedSourceProposal",
+      "text" : "Reuse motivcore Motive and MotivationHypothesis. Each hypothesis selects this contribution's view; a resolved actor role is reached from that view, not from the quote speaker. An unresolved actor stays unresolved. Narrative sources alone do not authorize RecordedEvent, physical StateSnapshot or Delta creation. Unknown change is not an empty diff."
+    },
+    {
+      "appliesTo" : [
+        "nlmot:ParkingContribution"
+      ],
+      "enforceability" : "manual",
+      "extends" : "sg:Policy",
+      "fqid" : "nlmot:SeparateMotiveAndConsequence",
+      "id" : "SeparateMotiveAndConsequence",
+      "text" : "Any Entity may be actor, including AI, machine, community and natural phenomenon, without intention. Own change and downstream hypothesized consequence remain distinct. An omission has its own view, and any downstream effect needs a separate causal hypothesis; do not select a movement view merely to obtain a nonempty Delta. Motive proposals do not update legal findings or imply liability, permission or sanction."
+    }
+  ],
+  "protocols" : [
+
+  ],
+  "relations" : [
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Selected source episode; labels do not merge episodes.",
+      "domain" : "nlmot:ParkingContribution",
+      "fqid" : "nlmot:contributionEpisode",
+      "id" : "contributionEpisode",
+      "range" : "nlcase:Episode",
+      "uri" : "ontology://normlab.parking-motivation/0.1.0/relations/contributionEpisode"
+    },
+    {
+      "cardinality" : {
+        "max" : "*",
+        "min" : 0
+      },
+      "description" : "Optional generic hypothesis whose hypothesisView must equal the selected contributionView. No local Motive subclass or duplicate truth state.",
+      "domain" : "nlmot:ParkingContribution",
+      "fqid" : "nlmot:contributionMotivation",
+      "id" : "contributionMotivation",
+      "range" : "motivcore:MotivationHypothesis",
+      "uri" : "ontology://normlab.parking-motivation/0.1.0/relations/contributionMotivation"
+    },
+    {
+      "cardinality" : {
+        "max" : 1,
+        "min" : 1
+      },
+      "description" : "Source-only view, with unknown physical states preserved.",
+      "domain" : "nlmot:ParkingContribution",
+      "fqid" : "nlmot:contributionView",
+      "id" : "contributionView",
+      "range" : "eventcore:InterpretationCandidate",
+      "uri" : "ontology://normlab.parking-motivation/0.1.0/relations/contributionView"
+    }
+  ],
+  "sourceDigest" : "sha256:79758af190dcedcdd1834d1f20341c2ded3ef90b9a32dee77c4697a9b0b077fa",
+  "stateMachines" : [
+    {
+      "fqid" : "nlmot:ContributionScopeReview",
+      "id" : "ContributionScopeReview",
+      "states" : [
+        "proposed",
+        "reviewed"
+      ],
+      "transitions" : [
+        {
+          "command" : "nlmot:ReviewContributionScope",
+          "from" : "proposed",
+          "to" : "reviewed"
+        }
+      ]
+    }
+  ],
+  "version" : "0.1.0"
+}

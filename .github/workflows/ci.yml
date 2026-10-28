@@ -176,6 +176,12 @@ jobs:
       - name: Check TypeScript types
         run: npm run check
 
+      - name: Check optional parking motivation artifacts and authored development set
+        run: |
+          npm run parking:motivation:check
+          npm run parking:motivation -- export "$RUNNER_TEMP/parking-motivation-plan"
+          python -B -S evaluation/check_parking_motivation_plan.py "$RUNNER_TEMP/parking-motivation-plan"
+
       - name: Install pinned Lean toolchain
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
