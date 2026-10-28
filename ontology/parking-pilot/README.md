@@ -83,4 +83,3 @@ The separate [motivation package](motivation/README.md) adds an opt-in draft
 bridge to generic motives and source-only contribution candidates. Its
 [development protocol](../../docs/PARKING_MOTIVATION.md) and 24 authored cases
 are independent of the frozen legacy artifacts described above.
-
