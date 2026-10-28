@@ -1,0 +1,82 @@
+{
+  "schema": "normlab.parking-ontology-deployment/v1",
+  "operationsIssue": "https://github.com/SoundBlaster/NormLab/issues/236",
+  "sourceCommit": "e8041c937f28d3644d4df3680db5d81f0cff8ace",
+  "implementationPR": "https://github.com/SoundBlaster/NormLab/pull/235",
+  "url": "https://managed.specgraph.tech/normlab/",
+  "mainCI": "https://github.com/SoundBlaster/NormLab/actions/runs/40311738943",
+  "publication": "https://github.com/SoundBlaster/NormLab/actions/runs/40311739013",
+  "image": "ghcr.io/soundblaster/normlab@sha256:ecf74c1b818c351b513a700a34810887f64eb84e284e7ff9ae8d6bbc0dfa7de3",
+  "previousImage": "ghcr.io/soundblaster/normlab@sha256:aaac76ded9c5ed7ef338ff77362095ba64634c73d5035d560f69e09e39ed967b",
+  "imageLock": {
+    "artifactId": 12645640247,
+    "archiveSha256": "11feb6e9d047e448f592957de27307b137b78b4cf10d45261d4d1109563dbdd5",
+    "checksumVerified": true,
+    "anonymousImagePull": true,
+    "architecture": "amd64",
+    "sourceHashesMatched": 6,
+    "builtAndServedRevisionMatched": true,
+    "separateAttestationVerification": false
+  },
+  "backup": {
+    "quiescentAt": "2026-10-26T12:02:37Z",
+    "bytes": 100471,
+    "files": 204,
+    "sha256": "7ab198ea8868ce56d2f6a494a4ea3a5af0537800d0403186b24bfb6ddb21b49e",
+    "fileChecksumsVerified": true,
+    "privateServerCopyRetained": true,
+    "rollbackConfigurationAndImagesRetained": true
+  },
+  "runtime": {
+    "allThreeServicesHealthyAt": "2026-10-26T12:03:03Z",
+    "normlabServicesHealthy": 3,
+    "activeNeighborsHealthy": 5,
+    "allNeighborIdentitiesAndStartTimesUnchanged": true,
+    "environmentMountsNetworksPortsUnchanged": true,
+    "onlyComposeImageSelectionsChanged": true,
+    "activeImageOverride": "/srv/0al/releases/normlab/2026-10-26-ontology-e8041c9/image.env",
+    "dataVolume": "normlab-staging_normlab-data"
+  },
+  "verification": {
+    "at": "2026-10-26T12:06:04Z",
+    "publicHealthHTTP": 200,
+    "unauthenticatedUIAndAPIHTTP": 401,
+    "authenticatedHTMLAssetsAndBootstrapsHTTP": 200,
+    "externalMacHealthHTTP": 200,
+    "externalMacUnauthenticatedUIHTTP": 401,
+    "servedJS": "/normlab/assets/index-CjtCtW1L.js",
+    "servedCSS": "/normlab/assets/index-0mA2wtmb.css",
+    "servedActorMethodV2": true,
+    "drafts": 8,
+    "archiveAPICountsUnchanged": true,
+    "archivedNonSQLiteFilesUnchanged": 201,
+    "sqliteLogicalSnapshotUnchanged": true,
+    "sqliteTables": 7,
+    "sqliteQuickCheck": "ok",
+    "newFabulaGETs": 12,
+    "actorCandidateEntriesAcrossSavedReceipts": 10,
+    "savedActorDecisions": 0,
+    "browserWorkflowVerified": false,
+    "providerCalls": 0,
+    "leanProofCalls": 0,
+    "caseOrActorWrites": 0
+  },
+  "gatewayProfile": {
+    "http": 200,
+    "protocol": "normlab.hosted-stage/v1",
+    "configDigest": "32f32675b553a9add8b4b331731d247c2d93f9642ca2e574fa67dc93d0cec48e",
+    "discoveryModel": "gpt-6-luna",
+    "classificationModel": "gpt-6-luna",
+    "classifier": "openai"
+  },
+  "capacity": {
+    "freeBeforeBytes": 1874235392,
+    "evictedUnreferencedCacheImage": "ghcr.io/soundblaster/normlab@sha256:17e394175ba6c32ea096fab13f338a7341544e813a7cb414e60e6cff3e2256b2",
+    "cacheManifestReachabilityVerified": true,
+    "freeAfterEvictionBytes": 6326251520,
+    "freeAfterVerificationBytes": 2043383808,
+    "broadPrune": false,
+    "volumeDeletion": false
+  },
+  "secretValuesRecorded": false
+}
