@@ -23,8 +23,6 @@ type Toolchain = {
   available: boolean;
   version: string | null;
   binary: string | null;
-  /** SHA-256 of the resolved Lean binary itself; pins prebuilt parking artifacts. */
-  binaryDigest: string | null;
   digest: string | null;
 };
 let discovery: Promise<Toolchain> | undefined;
@@ -47,13 +45,7 @@ export function discoverLean(): Promise<Toolchain> {
         timeout: 10000,
       });
       if (!version.includes('version 4.30.0'))
-        return {
-          available: false,
-          version: version.trim(),
-          binary: null,
-          binaryDigest: null,
-          digest: null,
-        };
+        return { available: false, version: version.trim(), binary: null, digest: null };
       const { stdout: prefix } = await execute(launcher, ['--print-prefix'], {
         cwd: root,
         timeout: 10000,
@@ -64,7 +56,6 @@ export function discoverLean(): Promise<Toolchain> {
         available: true,
         version: version.trim(),
         binary,
-        binaryDigest: hash,
         digest: digest({
           version: version.trim(),
           binary: hash,
@@ -78,7 +69,7 @@ export function discoverLean(): Promise<Toolchain> {
         }),
       };
     } catch {
-      return { available: false, version: null, binary: null, binaryDigest: null, digest: null };
+      return { available: false, version: null, binary: null, digest: null };
     }
   })();
   return discovery;

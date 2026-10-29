@@ -18,14 +18,25 @@ import { discoverLean } from '../server/verifier.js';
 const run = promisify(execFile);
 const boundCase = `
   import { createHash } from 'node:crypto';
+  import { readFileSync, writeFileSync } from 'node:fs';
+  // The whole server module graph must load whatever state the artifacts are in.
+  import './server/app.ts';
   import { parkingFixture } from './tests/parking-legal-fixture.ts';
   import { evaluateParkingFragment } from './shared/parking-legal.ts';
   import { parkingRuntimeArtifacts, verifyParkingCalculation } from './server/parking-verifier.ts';
   const { input, draft: seed } = parkingFixture();
   // The binding requires the SHA-256 of the raw source text.
   const draft = { ...seed, sourceDigest: createHash('sha256').update(seed.narrative).digest('hex') };
-  const verification = await verifyParkingCalculation(input, evaluateParkingFragment(input), draft);
-  console.log(JSON.stringify({ mode: parkingRuntimeArtifacts.mode, verification }));
+  const verify = () => verifyParkingCalculation(input, evaluateParkingFragment(input), draft);
+  const verification = await verify();
+  // Optionally change the Lean launcher in place (same size) and verify again in this process.
+  const replace = process.env.NORMLAB_TEST_REPLACE_LEAN;
+  let replaced = null;
+  if (replace) {
+    writeFileSync(replace, readFileSync(replace, 'utf8').replace('# rev-a', '# rev-b'));
+    replaced = await verify();
+  }
+  console.log(JSON.stringify({ mode: parkingRuntimeArtifacts.mode, verification, replaced }));
 `;
 
 test('bound proofs import pinned prebuilt runtime artifacts and compile only the case', async () => {
@@ -44,6 +55,7 @@ test('bound proofs import pinned prebuilt runtime artifacts and compile only the
     writeFileSync(
       wrapper,
       `#!/bin/sh
+# rev-a
 if [ "$1" = "--print-prefix" ]; then echo '${join(folder, 'toolchain')}'; exit 0; fi
 printf '%s\\n' "$*" >> '${calls}'
 exec '${lean.binary}' "$@"
@@ -68,9 +80,17 @@ exec '${lean.binary}' "$@"
         ['--import', 'tsx', '--input-type=module', '-e', boundCase],
         { env: { ...env, NORMLAB_PARKING_LEAN_RUNTIME_DIR: directory, ...extra }, timeout: 60000 },
       );
+      type Receipt = {
+        status: string;
+        profile: string;
+        profileDigest: string;
+        toolchainDigest: string;
+        reason: string;
+      };
       return JSON.parse(stdout) as {
         mode: string;
-        verification: { status: string; profile: string; profileDigest: string; reason: string };
+        verification: Receipt;
+        replaced: Receipt | null;
       };
     };
 
@@ -96,6 +116,25 @@ exec '${lean.binary}' "$@"
     assert.deepEqual(compiles(), [], 'mismatched artifacts must not reach Lean');
     // Receipts pin the manifest digests, so they are equal for the same manifest.
     assert.equal(mismatch.verification.profileDigest, prebuilt.verification.profileDigest);
+
+    // Lean changes after the first request of the same process: the next
+    // request rehashes it, refuses the artifacts and records the new identity.
+    const swapped = await verify(runtime, { NORMLAB_TEST_REPLACE_LEAN: wrapper });
+    assert.equal(swapped.verification.status, 'verified', swapped.verification.reason);
+    assert.equal(swapped.replaced?.status, 'inconclusive');
+    assert.match(swapped.replaced.reason, /другой сборкой Lean/);
+    assert.notEqual(swapped.replaced.toolchainDigest, swapped.verification.toolchainDigest);
+    assert.equal(compiles().length, 1, 'only the first request reaches Lean');
+    writeFileSync(wrapper, readFileSync(wrapper, 'utf8').replace('# rev-b', '# rev-a'));
+
+    // An unreadable manifest (here a directory) disables bound proofs, not the server.
+    const unreadable = join(folder, 'unreadable');
+    mkdirSync(join(unreadable, 'manifest.json'), { recursive: true });
+    const blocked = await verify(unreadable);
+    assert.equal(blocked.mode, 'invalid');
+    assert.equal(blocked.verification.status, 'inconclusive');
+    assert.match(blocked.verification.reason, /Manifest предсобранных модулей Lean недоступен/);
+    assert.deepEqual(compiles(), []);
 
     // Real binary differs from the wrapper the manifest was built with.
     const otherLean = await verify(runtime, { LEAN_BIN: lean.binary });

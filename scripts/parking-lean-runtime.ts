@@ -8,6 +8,7 @@ import { promisify } from 'node:util';
 import {
   compileParkingRuntime,
   parkingLeanEnvironment,
+  parkingLeanToolchain,
   parkingRuntimeGates,
   parkingRuntimeManifestSchema,
   parkingRuntimeSourceIdentity,
@@ -20,7 +21,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const index = process.argv.indexOf('--output');
 const output = resolve(index < 0 ? join(root, '.lean-runtime') : process.argv[index + 1]);
 const lean = await discoverLean();
-if (!lean.available || !lean.binary || !lean.binaryDigest || !lean.version)
+if (!lean.available || !lean.binary || !lean.version)
   throw new Error('Pinned Lean 4.30.0 is required to build parking runtime artifacts');
 const work = mkdtempSync(join(tmpdir(), 'normlab-parking-runtime-'));
 try {
@@ -45,7 +46,7 @@ try {
   const identity = parkingRuntimeSourceIdentity();
   const manifest = parkingRuntimeManifestSchema.parse({
     schema: 'normlab.parking-lean-runtime/v1',
-    lean: { version: lean.version, binaryDigest: lean.binaryDigest },
+    lean: { version: lean.version, toolchain: await parkingLeanToolchain(lean.binary) },
     modules: identity.modules.map((module) => ({
       ...module,
       oleanDigest: createHash('sha256')
