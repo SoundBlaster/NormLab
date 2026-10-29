@@ -76,3 +76,10 @@ rtk proxy swift build --package-path /Users/egor/Development/GitHub/0AL/Ontology
 Следующий шаг — структурированные reference graphs и baseline extraction по consumer contract.
 
 Consumer contract v1 подготовлен в [документации](../../docs/PARKING_EXTRACTION_CONTRACT.md): strict model envelope, ограниченный scalar vocabulary и graph validation. Runtime/model integration пока отсутствует.
+
+## Optional motivation extension
+
+The separate [motivation package](motivation/README.md) adds an opt-in draft
+bridge to generic motives and source-only contribution candidates. Its
+[development protocol](../../docs/PARKING_MOTIVATION.md) and 24 authored cases
+are independent of the frozen legacy artifacts described above.

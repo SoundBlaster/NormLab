@@ -1,0 +1,96 @@
+{
+  "formatVersion": 1,
+  "status": "draft-optional-source-only",
+  "compiler": {
+    "repository": "https://github.com/0al-spec/Ontology",
+    "release": "0.1.1",
+    "commit": "21e4cb32ed042e629e72b708b8b086fb32d4cebc",
+    "target": "typescript"
+  },
+  "inputs": [
+    {
+      "path": "ontology/parking-pilot/motivation/package.yaml",
+      "sha256": "79758af190dcedcdd1834d1f20341c2ded3ef90b9a32dee77c4697a9b0b077fa"
+    },
+    {
+      "path": "ontology/parking-pilot/case-core.yaml",
+      "sha256": "cf7cb77b3d576921c9d7222a6c6a13fa0a50137cae75adfcfc120a38415597f4"
+    },
+    {
+      "path": "ontology/parking-pilot/parking.yaml",
+      "sha256": "4760d2199e544601aa7f7fd27b9ee542b2d2324d5622b8c5fe1ef8e8356b9f3e"
+    },
+    {
+      "path": "ontology/parking-pilot/generated/case-core/ontology.normalized.json",
+      "sha256": "c683225822bc9bc41c60b3a2c93f2542938e3982c3cfdb98b576851b8c3d6962"
+    },
+    {
+      "path": "ontology/parking-pilot/generated/parking/ontology.normalized.json",
+      "sha256": "580b643a80448bb8d21a8889a3ff1a9e3214128c3c73af8b0abfc2d409d33ebc"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/upstream/LICENSE",
+      "sha256": "75ca81d10f36d440b7a04a580c1ba8a13849b9c071f37dfc6cae43721be1d943"
+    }
+  ],
+  "upstream": [
+    {
+      "path": "ontology/parking-pilot/motivation/upstream/events-core.normalized.json",
+      "sha256": "e6c932ad8c492d168b63dbe112335c270d88ff758e016f3502031aefe9dea916",
+      "packageId": "org.0al.events.core",
+      "version": "0.2.0",
+      "sourceDigest": "sha256:92a3245fc9acd15748fd1fa3cfb8e4fdc8fda429a5fd6cffd7a97bc13f2f359e",
+      "upstreamPath": "SPECS/ontology/packages/events-core/versions/0.2.0/generated/ontology.normalized.json"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/upstream/motivation-core.normalized.json",
+      "sha256": "25da040f4bd0b014014b1ed996250cd4c17a64503355f6f558917bec9ddd1fe9",
+      "packageId": "org.0al.motivation.core",
+      "version": "0.1.0",
+      "sourceDigest": "sha256:3061eca33ddc2296c2c292695d98daf6697e92fb582da544bc1d5107721ae955",
+      "upstreamPath": "SPECS/ontology/packages/motivation-core/generated/ontology.normalized.json"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "ontology/parking-pilot/motivation/generated/ontology.normalized.json",
+      "sha256": "882b6acb921371b113a148cd44d9df0e44a32643ff633fe9af69f9c5454d52d8"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/policies.ts",
+      "sha256": "ef009534c1f5f1c06f4bd408961a6c03cb3766551f054e9e794388a05e16baee"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/protocols.ts",
+      "sha256": "c4697e6b4087559079d834476a766e589307d1cf0422037bfb5042d714d4ecbc"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/refs.ts",
+      "sha256": "38fb1dd37fd13c19d08e95f23dcb5a9d9d38fffabc5a525ce05524bded013b77"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/registry.ts",
+      "sha256": "e62215a28996aa6a5aa8dc44d69d1f9ea3392f9e54c7bcdf78ea561a13e3107e"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/relations.ts",
+      "sha256": "023c2019c180946533bd512dddaca0244ed46bb7623307af7064e84248ee6c9e"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/schemas.ts",
+      "sha256": "d4b3daec597496d51eebc517afc5c77313b39f1a1c25baa50821bb89fd3c0651"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/state-machines.ts",
+      "sha256": "a3349a97e6215dd1d4d30f724f4d74dbfe76d68e7f266d80ad02d82f8acc7165"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/types.ts",
+      "sha256": "0e0ca165d9a9762fa635e7120dbf5602708041108fadf6a9808b31c6b34b48b6"
+    },
+    {
+      "path": "ontology/parking-pilot/motivation/generated/validators.ts",
+      "sha256": "7e48cee3e66304282f99cf282ec646e23e25346ab8f383d01eaf355540a353f4"
+    }
+  ]
+}

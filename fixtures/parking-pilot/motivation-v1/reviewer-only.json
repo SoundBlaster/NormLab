@@ -1,0 +1,1031 @@
+{
+  "schema": "normlab.parking-motivation-reference/v1",
+  "status": "authored-development-not-independent-gold",
+  "cases": [
+    {
+      "id": "M01",
+      "tags": [
+        "explicit",
+        "omission",
+        "sanction-separate"
+      ],
+      "reviewerNote": "Объяснение неоплаты не устанавливает вину или законность штрафа.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "omission",
+            "motive": {
+              "summary": "Желание сэкономить деньги"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Я не оплатил парковку, потому что хотел сэкономить деньги",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Хотел сэкономить деньги",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M02",
+      "tags": [
+        "absent",
+        "no-invented-reason"
+      ],
+      "reviewerNote": "Не достраивать экономию из одного факта неоплаты.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Хотел сэкономить деньги",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "requires_review"
+      }
+    },
+    {
+      "id": "M03",
+      "tags": [
+        "unknown",
+        "uncertainty"
+      ],
+      "reviewerNote": "Явно неизвестная причина остаётся вопросом.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [],
+        "questions": [
+          "Причина неоплаты остаётся неизвестной: есть ли у Алексея дополнительные сведения?"
+        ]
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Хотел сэкономить деньги",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "requires_review"
+      }
+    },
+    {
+      "id": "M04",
+      "tags": [
+        "denied",
+        "independent-negative-support"
+      ],
+      "reviewerNote": "Отрицание мотива не становится альтернативным положительным мотивом.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "omission",
+            "motive": {
+              "summary": "Желание сэкономить деньги"
+            },
+            "positiveSupport": [],
+            "negativeSupport": [
+              {
+                "quote": "Не из экономии я не оплатил парковку.",
+                "speakerId": "alex"
+              }
+            ]
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Хотел сэкономить деньги",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M05",
+      "tags": [
+        "conflict",
+        "multiple-speakers"
+      ],
+      "reviewerNote": "Обе стороны сохраняются; выбор победителя не входит в extraction.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "omission",
+            "motive": {
+              "summary": "Экономия денег"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Не заплатил, чтобы сэкономить.",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": [
+              {
+                "quote": "Алексей не экономил: он не оплатил из-за заблокированного телефона.",
+                "speakerId": "maria"
+              }
+            ]
+          },
+          {
+            "id": "h2",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "omission",
+            "motive": {
+              "summary": "Заблокированный телефон"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Алексей не экономил: он не оплатил из-за заблокированного телефона.",
+                "speakerId": "maria"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Экономия денег",
+          "claimedSourceSupport": "contested"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M06",
+      "tags": [
+        "multiple-motives",
+        "urgency"
+      ],
+      "reviewerNote": "Два мотива могут сосуществовать без исключительной причинности.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Ребёнку стало плохо"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Я остановился здесь, потому что ребёнку стало плохо",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": []
+          },
+          {
+            "id": "h2",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Тяжёлые сумки"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Выбрал именно это место ещё и из-за тяжёлых сумок.",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Ребёнку стало плохо",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M07",
+      "tags": [
+        "goal-vs-consequence",
+        "failed-goal"
+      ],
+      "reviewerNote": "Желаемое состояние не объявлять достигнутым.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Желание успеть купить лекарство"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Поставил машину здесь, чтобы успеть купить лекарство.",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Он уже купил лекарство до парковки",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M08",
+      "tags": [
+        "intention-vs-performance",
+        "no-omission-inference"
+      ],
+      "reviewerNote": "У предоставленного действия решения мотив не назван; не создавать мотив совершённой неоплаты.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Хотел сэкономить и поэтому фактически не оплатил",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M09",
+      "tags": [
+        "owner-vs-driver",
+        "actor-swap"
+      ],
+      "reviewerNote": "Мотив водителя не переносится собственнику.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Тяжёлые пакеты"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Я выбрала это место из-за тяжёлых пакетов",
+                "speakerId": "anna"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a2",
+          "reason": "Тяжёлые пакеты",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M10",
+      "tags": [
+        "payer-vs-driver",
+        "multiple-contributions"
+      ],
+      "reviewerNote": "Действия размещения и оплаты имеют разные мотивировки.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Начинавшееся совещание"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Анна оставила машину возле офиса, потому что начиналось совещание.",
+                "speakerId": "narrator"
+              }
+            ],
+            "negativeSupport": []
+          },
+          {
+            "id": "h2",
+            "episodeId": "e1",
+            "contributionId": "c2",
+            "actorId": "a2",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Желание помочь сестре"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Борис дистанционно оплатил парковку, чтобы помочь сестре.",
+                "speakerId": "narrator"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c2",
+          "actorId": "a2",
+          "reason": "Начиналось совещание",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M11",
+      "tags": [
+        "episode-swap",
+        "same-vehicle"
+      ],
+      "reviewerNote": "Совпадение машины не объединяет мотивы двух эпизодов.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Поездка ребёнка к врачу"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Утром Алексей оставил автомобиль у больницы, потому что вёз ребёнка к врачу.",
+                "speakerId": "narrator"
+              }
+            ],
+            "negativeSupport": []
+          },
+          {
+            "id": "h2",
+            "episodeId": "e2",
+            "contributionId": "c2",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Опоздание на сеанс"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Вечером он оставил тот же автомобиль у кинотеатра, потому что опаздывал на сеанс.",
+                "speakerId": "narrator"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e2",
+          "contributionId": "c2",
+          "actorId": "a1",
+          "reason": "Вёз ребёнка к врачу",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M12",
+      "tags": [
+        "vehicle-scope",
+        "actor-swap"
+      ],
+      "reviewerNote": "Одна площадка не позволяет перенести причину между машинами.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Разгрузка продуктов"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Анна припарковала красную машину, потому что разгружала продукты.",
+                "speakerId": "narrator"
+              }
+            ],
+            "negativeSupport": []
+          },
+          {
+            "id": "h2",
+            "episodeId": "e1",
+            "contributionId": "c2",
+            "actorId": "a2",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Необходимость забрать документы"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Борис припарковал синюю машину рядом: ему нужно было забрать документы.",
+                "speakerId": "narrator"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c2",
+          "actorId": "a2",
+          "reason": "Разгрузка продуктов",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M13",
+      "tags": [
+        "quoted-i",
+        "source-speaker"
+      ],
+      "reviewerNote": "Я принадлежит автору письма, не рассказчику.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Ожидание эвакуатора"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Я оставил машину у ворот, потому что ждал эвакуатор.",
+                "speakerId": "letter_1"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a2",
+          "reason": "Ждал эвакуатор",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M14",
+      "tags": [
+        "unresolved-actor",
+        "anonymous-source"
+      ],
+      "reviewerNote": "Не создавать личность из безличной формулировки.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": null,
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Поломка"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Машину оставили здесь из-за поломки.",
+                "speakerId": "anonymous"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": null,
+          "reason": "Поломка",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M15",
+      "tags": [
+        "nonhuman-ai",
+        "no-intention-required"
+      ],
+      "reviewerNote": "Диспетчер — источник побуждения, а мотив приписан действию AI.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Команда диспетчера освободить полосу"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Причина выбора: команда диспетчера освободить полосу.",
+                "speakerId": "log"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Команда диспетчера освободить полосу",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M16",
+      "tags": [
+        "abstract-community",
+        "collective-actor"
+      ],
+      "reviewerNote": "Абстрактный коллектив не сводится автоматически к физлицу.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Опасное движение у детской площадки"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Въезд закрываем из-за опасного движения у детской площадки.",
+                "speakerId": "minutes"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Опасное движение у детской площадки",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M17",
+      "tags": [
+        "machine-actor",
+        "physical-prompting-reason"
+      ],
+      "reviewerNote": "Широкий мотив не требует сознания; это не доказанная физическая причинность.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Уклон площадки"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Машина покатилась из-за уклона площадки.",
+                "speakerId": "technical"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Уклон площадки",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M18",
+      "tags": [
+        "natural-actor",
+        "broad-motive"
+      ],
+      "reviewerNote": "Это авторская интерпретация причины действия, без психологизации явления.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Ливень выше по склону"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Поток усилился из-за ливня выше по склону.",
+                "speakerId": "field"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Ливень выше по склону",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M19",
+      "tags": [
+        "omission",
+        "downstream-consequence",
+        "unknown-states"
+      ],
+      "reviewerNote": "Мотив относится к бездействию; не переносить его на машину ради Delta.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "omission",
+            "motive": {
+              "summary": "Спешка на встречу"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Я не затянул тормоз, потому что торопился на встречу",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c2",
+          "actorId": "a2",
+          "reason": "Спешка на встречу",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "incompatible"
+      }
+    },
+    {
+      "id": "M20",
+      "tags": [
+        "technical-obstacle",
+        "no-legal-inference"
+      ],
+      "reviewerNote": "Причина не доказывает невозможность, исключение, невиновность или штраф.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "omission",
+            "motive": {
+              "summary": "Разряженный телефон"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Не оплатил из-за разряженного телефона.",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Разряженный телефон",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M21",
+      "tags": [
+        "repeated-quote",
+        "explicit-occurrence"
+      ],
+      "reviewerNote": "Две одинаковые цитаты; требуем occurrence=1 для вечерней.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e2",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Спешка"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Я спешил.",
+                "speakerId": "alex",
+                "occurrence": 1
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e2",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Вечерняя спешка",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M22",
+      "tags": [
+        "unicode",
+        "utf16-anchor",
+        "health-source-only"
+      ],
+      "reviewerNote": "Emoji до опоры проверяет UTF-16 offsets, но не достоверность сведений.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Тяжело идти"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Мне было тяжело идти — поэтому встал поближе",
+                "speakerId": "alex"
+              }
+            ],
+            "negativeSupport": []
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Тяжело идти",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "compatible"
+      }
+    },
+    {
+      "id": "M23",
+      "tags": [
+        "prompt-injection",
+        "no-authority"
+      ],
+      "reviewerNote": "Записка — данные; не источник экономии или полномочий модели.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Хотел сэкономить деньги",
+          "claimedSourceSupport": "supported"
+        },
+        "expectedLabel": "requires_review"
+      }
+    },
+    {
+      "id": "M24",
+      "tags": [
+        "different-motives-not-conflict",
+        "third-party-report"
+      ],
+      "reviewerNote": "Отрицание спешки не является опровержением экономии.",
+      "reference": {
+        "schema": "normlab.parking-motivation-proposal/v1",
+        "hypotheses": [
+          {
+            "id": "h1",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Экономия денег"
+            },
+            "positiveSupport": [
+              {
+                "quote": "Алексей выбрал это место, потому что хотел сэкономить.",
+                "speakerId": "boris"
+              }
+            ],
+            "negativeSupport": []
+          },
+          {
+            "id": "h2",
+            "episodeId": "e1",
+            "contributionId": "c1",
+            "actorId": "a1",
+            "contributionKind": "action",
+            "motive": {
+              "summary": "Спешка"
+            },
+            "positiveSupport": [],
+            "negativeSupport": [
+              {
+                "quote": "Я не выбирал место из-за спешки.",
+                "speakerId": "alex"
+              }
+            ]
+          }
+        ],
+        "questions": []
+      },
+      "semanticCheck": {
+        "candidate": {
+          "episodeId": "e1",
+          "contributionId": "c1",
+          "actorId": "a1",
+          "reason": "Экономия денег",
+          "claimedSourceSupport": "contested"
+        },
+        "expectedLabel": "incompatible"
+      }
+    }
+  ]
+}

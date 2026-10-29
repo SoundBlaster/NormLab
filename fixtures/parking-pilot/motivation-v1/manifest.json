@@ -1,0 +1,43 @@
+{
+  "schema": "normlab.parking-motivation-dataset/v1",
+  "version": "1.0.0",
+  "caseIds": [
+    "M01",
+    "M02",
+    "M03",
+    "M04",
+    "M05",
+    "M06",
+    "M07",
+    "M08",
+    "M09",
+    "M10",
+    "M11",
+    "M12",
+    "M13",
+    "M14",
+    "M15",
+    "M16",
+    "M17",
+    "M18",
+    "M19",
+    "M20",
+    "M21",
+    "M22",
+    "M23",
+    "M24"
+  ],
+  "authorship": "same-agent-authored-development-reference",
+  "independentAdjudication": false,
+  "liveInferencePerformed": false,
+  "files": [
+    {
+      "path": "inputs.json",
+      "sha256": "f259df8828545184b1596d4ecbd5790dad7f7401010ae4be6e76e9539f9fcc2d"
+    },
+    {
+      "path": "reviewer-only.json",
+      "sha256": "5d1ba3f53e5727ad766646aafcfa9f34a0c811766d3febe5cb1238602cb341d8"
+    }
+  ]
+}
