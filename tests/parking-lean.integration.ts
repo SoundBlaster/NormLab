@@ -99,6 +99,9 @@ test('five stories and corrections pass real HTTP review/calculation/Lean and im
         'verified',
         before.verification?.reason ?? 'Missing proof',
       );
+      assert.equal(before.verification?.profile, 'parking-fragment-poc/v2');
+      assert.equal(before.verification?.binding?.schema, 'normlab.parking-scope-binding/v2');
+      assert.ok(Array.isArray(before.verification?.binding?.uncitedConditions));
       const changes = new Map(story.correction.findingChanges.map((f) => [f.conditionId, f]));
       input = legalInputSchema.parse({
         ...input,
@@ -121,6 +124,9 @@ test('five stories and corrections pass real HTTP review/calculation/Lean and im
         'verified',
         after.verification?.reason ?? 'Missing proof',
       );
+      assert.equal(after.verification?.profile, 'parking-fragment-poc/v2');
+      assert.equal(after.verification?.binding?.schema, 'normlab.parking-scope-binding/v2');
+      assert.ok(Array.isArray(after.verification?.binding?.uncitedConditions));
       assert.deepEqual(await post('/api/parking/legal', input), after);
       const workspace = (await (
         await fetch(`${origin}/api/parking/legal/${draft.draftId}`)

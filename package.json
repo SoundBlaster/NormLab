@@ -25,6 +25,7 @@
     "schemas:write": "tsx scripts/export-contracts.ts",
     "schemas:check": "tsx scripts/export-contracts.ts --check",
     "parking:replay:bound": "tsx scripts/parking-bound-replay.ts",
+    "parking:runtime:build": "tsx scripts/parking-lean-runtime.ts",
     "parking:references:check": "tsx scripts/check-parking-references.ts",
     "parking:baseline": "tsx scripts/parking-baseline.ts",
     "parking:evaluate": "tsx scripts/parking-evaluate.ts",

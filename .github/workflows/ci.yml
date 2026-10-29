@@ -213,6 +213,9 @@ jobs:
       - name: Check candidate parking reference graphs
         run: npm run parking:references:check
 
+      - name: Prebuild pinned parking Lean runtime artifacts
+        run: npm run parking:runtime:build -- --output .lean-runtime
+
       - name: Run Lean proof integration tests
         run: npm run test:lean
 
