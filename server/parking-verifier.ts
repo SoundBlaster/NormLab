@@ -1,11 +1,12 @@
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { existsSync, readFileSync } from 'node:fs';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { z } from 'zod';
 import {
   legalInputSchema,
   legalResultSchema,
@@ -31,14 +32,147 @@ const runtimeModules = [
   'Parking',
   'ParkingRuntime',
 ];
-// Snapshot fixed local sources. Each is compiled separately in the private
-// request directory; the case imports only artifacts built from this snapshot.
+// Snapshot fixed local sources. The case imports only artifacts built from
+// this snapshot: prebuilt in the image or compiled in the private request directory.
 const runtimeSources = runtimeModules.map((name) => ({
   name,
   source: readFileSync(join(root, `lean/${name}.lean`), 'utf8'),
 }));
 const runtimeCore = runtimeSources.map(({ source }) => source).join('\n');
+/** Axiom/boundary gates the image build runs against the exact prebuilt artifacts. */
+export const parkingRuntimeGates = [
+  'CheckRelations',
+  'CheckStateRelations',
+  'CheckDerivationTraces',
+  'CheckEventTransitions',
+  'CheckActionAttribution',
+  'CheckParkingAttribution',
+  'CheckParkingRuntime',
+];
 const execute = promisify(execFile);
+const sha256 = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex');
+
+export function parkingLeanMemory(): number {
+  const configured = Number(process.env.NORMLAB_LEAN_MEMORY_MB ?? 512);
+  return Number.isInteger(configured) && configured >= 512 && configured <= 4096 ? configured : 512;
+}
+export const parkingLeanEnvironment = (directory: string) => ({
+  PATH: '/usr/bin:/bin',
+  TMPDIR: directory,
+  LANG: 'en_US.UTF-8',
+  LEAN_PATH: directory,
+});
+
+/** Compiles the fixed runtime chain into `directory`; user text never enters these modules. */
+export async function compileParkingRuntime(
+  binary: string,
+  directory: string,
+  remaining: () => number,
+): Promise<void> {
+  for (const module of runtimeSources) {
+    const source = join(directory, `${module.name}.lean`);
+    await writeFile(source, module.source, { mode: 0o600 });
+    const compiled = await execute(
+      binary,
+      [
+        '-DwarningAsError=true',
+        `-M${parkingLeanMemory()}`,
+        '-T200000',
+        '-o',
+        join(directory, `${module.name}.olean`),
+        source,
+      ],
+      {
+        cwd: directory,
+        env: parkingLeanEnvironment(directory),
+        timeout: remaining(),
+        maxBuffer: 128 * 1024,
+      },
+    );
+    if (compiled.stderr.trim() || compiled.stdout.includes('warning:'))
+      throw new Error('Parking runtime module compilation did not pass');
+  }
+}
+
+const shaSchema = z.string().regex(/^[a-f0-9]{64}$/);
+export const parkingRuntimeManifestSchema = z.strictObject({
+  schema: z.literal('normlab.parking-lean-runtime/v1'),
+  lean: z.strictObject({ version: z.string(), binaryDigest: shaSchema }),
+  modules: z.array(
+    z.strictObject({ name: z.string(), sourceDigest: shaSchema, oleanDigest: shaSchema }),
+  ),
+  gates: z.array(z.strictObject({ name: z.string(), sourceDigest: shaSchema })),
+});
+export type ParkingRuntimeManifest = z.infer<typeof parkingRuntimeManifestSchema>;
+export const parkingRuntimeSourceIdentity = () => ({
+  modules: runtimeSources.map(({ name, source }) => ({ name, sourceDigest: sha256(source) })),
+  gates: parkingRuntimeGates.map((name) => ({
+    name,
+    sourceDigest: sha256(readFileSync(join(root, `lean/${name}.lean`), 'utf8')),
+  })),
+});
+
+/**
+ * Immutable artifacts built with the image (`npm run parking:runtime:build`).
+ * No manifest: per-request compilation. A manifest that does not match the
+ * snapshotted sources/gates is never trusted and never silently bypassed.
+ */
+type RuntimeArtifacts =
+  | { mode: 'compile' }
+  | { mode: 'prebuilt'; directory: string; manifest: ParkingRuntimeManifest }
+  | { mode: 'invalid'; directory: string; manifestDigest: string };
+function loadRuntimeArtifacts(): RuntimeArtifacts {
+  const directory = resolve(
+    process.env.NORMLAB_PARKING_LEAN_RUNTIME_DIR ?? join(root, '.lean-runtime'),
+  );
+  const path = join(directory, 'manifest.json');
+  if (!existsSync(path)) return { mode: 'compile' };
+  const raw = readFileSync(path);
+  const invalid = { mode: 'invalid', directory, manifestDigest: sha256(raw) } as const;
+  try {
+    const manifest = parkingRuntimeManifestSchema.parse(JSON.parse(raw.toString('utf8')));
+    const expected = parkingRuntimeSourceIdentity();
+    const sources = {
+      modules: manifest.modules.map(({ name, sourceDigest }) => ({ name, sourceDigest })),
+      gates: manifest.gates,
+    };
+    return digest(sources) === digest(expected)
+      ? { mode: 'prebuilt', directory, manifest }
+      : invalid;
+  } catch {
+    return invalid;
+  }
+}
+const runtimeArtifacts = loadRuntimeArtifacts();
+/** Diagnostic view of how bound proofs obtain the fixed runtime modules. */
+export const parkingRuntimeArtifacts = {
+  mode: runtimeArtifacts.mode,
+  directory: runtimeArtifacts.mode === 'compile' ? null : runtimeArtifacts.directory,
+} as const;
+
+/** Reads verified bytes once and writes exactly those bytes into the private request directory. */
+async function installPrebuiltRuntime(
+  artifacts: Extract<RuntimeArtifacts, { mode: 'prebuilt' }>,
+  binaryDigest: string | null,
+  version: string | null,
+  directory: string,
+): Promise<string | undefined> {
+  const { manifest } = artifacts;
+  if (manifest.lean.binaryDigest !== binaryDigest || manifest.lean.version !== version)
+    return 'Предсобранные модули Lean построены другой сборкой Lean. Расчёт сохранён без проверки.';
+  for (const module of manifest.modules) {
+    let bytes: Buffer;
+    try {
+      bytes = await readFile(join(artifacts.directory, `${module.name}.olean`));
+    } catch {
+      return `Предсобранный модуль Lean ${module.name} недоступен. Расчёт сохранён без проверки.`;
+    }
+    if (sha256(bytes) !== module.oleanDigest)
+      return `Хэш предсобранного модуля Lean ${module.name} не совпадает с закреплённым. Расчёт сохранён без проверки.`;
+    await writeFile(join(directory, `${module.name}.olean`), bytes, { mode: 0o600 });
+  }
+  return undefined;
+}
 // One active parking proof and one waiter per server process. Waiting does not
 // consume the proof's 20-second execution budget; excess work is explicit busy.
 let queuedProofs = 0;
@@ -122,6 +256,13 @@ export const parkingProfileDigest = digest({
   verifier: readFileSync(join(root, 'server/parking-verifier.ts'), 'utf8'),
   contracts: readFileSync(join(root, 'shared/parking-legal.ts'), 'utf8'),
   package: parkingNormDraft,
+  // Receipts pin the exact prebuilt .olean digests (or their absence/rejection).
+  runtimeArtifacts:
+    runtimeArtifacts.mode === 'prebuilt'
+      ? runtimeArtifacts.manifest
+      : runtimeArtifacts.mode === 'invalid'
+        ? { invalidManifest: runtimeArtifacts.manifestDigest }
+        : null,
 });
 
 function conditionToken(id: string): string {
@@ -253,11 +394,7 @@ export async function verifyParkingCalculation(
       'inconclusive',
       'Очередь парковочных проверок Lean заполнена. Расчёт сохранён без проверки; повторите её позже.',
     );
-  const configuredMemory = Number(process.env.NORMLAB_LEAN_MEMORY_MB ?? 512);
-  const memory =
-    Number.isInteger(configuredMemory) && configuredMemory >= 512 && configuredMemory <= 4096
-      ? configuredMemory
-      : 512;
+  const memory = parkingLeanMemory();
   let directory: string | undefined;
   let checkingCandidate = false;
   try {
@@ -271,37 +408,26 @@ export async function verifyParkingCalculation(
     base.toolchainDigest = digest({ lean: lean.digest, profile: parkingProfileDigest });
     directory = await mkdtemp(join(tmpdir(), 'normlab-parking-proof-'));
     const deadline = Date.now() + 20000;
-    const environment = {
-      PATH: '/usr/bin:/bin',
-      TMPDIR: directory,
-      LANG: 'en_US.UTF-8',
-      LEAN_PATH: directory,
-    };
+    const environment = parkingLeanEnvironment(directory);
     const remaining = () => {
       const milliseconds = deadline - Date.now();
       if (milliseconds <= 0) throw new Error('Parking proof deadline exceeded');
       return milliseconds;
     };
-    if (bound) {
-      for (const module of runtimeSources) {
-        const source = join(directory, `${module.name}.lean`);
-        await writeFile(source, module.source, { mode: 0o600 });
-        const compiled = await execute(
-          lean.binary,
-          [
-            '-DwarningAsError=true',
-            `-M${memory}`,
-            '-T200000',
-            '-o',
-            join(directory, `${module.name}.olean`),
-            source,
-          ],
-          { cwd: directory, env: environment, timeout: remaining(), maxBuffer: 128 * 1024 },
-        );
-        if (compiled.stderr.trim() || compiled.stdout.includes('warning:'))
-          throw new Error('Parking runtime module compilation did not pass');
-      }
-    }
+    if (bound && runtimeArtifacts.mode === 'invalid')
+      return finish(
+        'inconclusive',
+        'Предсобранные модули Lean не соответствуют исходникам runtime. Расчёт сохранён без проверки.',
+      );
+    if (bound && runtimeArtifacts.mode === 'prebuilt') {
+      const problem = await installPrebuiltRuntime(
+        runtimeArtifacts,
+        lean.binaryDigest,
+        lean.version,
+        directory,
+      );
+      if (problem) return finish('inconclusive', problem);
+    } else if (bound) await compileParkingRuntime(lean.binary, directory, remaining);
     const file = join(directory, 'ParkingCase.lean');
     await writeFile(file, `${bound ? 'import ParkingRuntime' : core}\n${statement}`, {
       mode: 0o600,

@@ -30,6 +30,13 @@ RUN npm run build \
     && mkdir -p /var/lib/normlab \
     && chown node:node /var/lib/normlab
 
+# Fixed parking Lean runtime: compiled once with the verifier's flags, gated, and
+# pinned by SHA-256 in manifest.json. -M only caps memory; the .olean bytes are identical.
+RUN su node -s /bin/sh -c 'cd /app && NORMLAB_LEAN_MEMORY_MB=1024 npm run parking:runtime:build -- --output /tmp/normlab-lean-runtime' \
+    && mv /tmp/normlab-lean-runtime /app/.lean-runtime \
+    && chown -R root:root /app/.lean-runtime \
+    && chmod -R a=rX /app/.lean-runtime
+
 USER node
 EXPOSE 4317
 VOLUME ["/var/lib/normlab"]
