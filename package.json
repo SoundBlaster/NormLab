@@ -43,7 +43,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@feature-sliced/steiger-plugin": "0.8.0",
+    "@feature-sliced/steiger-plugin": "0.8.2",
     "@types/node": "^26.6.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
